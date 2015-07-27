@@ -13,15 +13,15 @@
 		72D86DEF1B65D94D004B72D0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 72D86DED1B65D94D004B72D0 /* LaunchScreen.xib */; };
 		72D86DFB1B65D94D004B72D0 /* GetOnTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86DFA1B65D94D004B72D0 /* GetOnTripTests.swift */; };
 		72D86E051B65E809004B72D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72D86E041B65E809004B72D0 /* Main.storyboard */; };
-		72D86E071B65E825004B72D0 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E061B65E825004B72D0 /* ImageLoader.swift */; };
-		72D86E0D1B65E850004B72D0 /* NearbyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E0A1B65E850004B72D0 /* NearbyTableViewController.swift */; };
-		72D86E0E1B65E850004B72D0 /* SightTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E0B1B65E850004B72D0 /* SightTopicsViewController.swift */; };
-		72D86E0F1B65E850004B72D0 /* TopicDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E0C1B65E850004B72D0 /* TopicDetailViewController.swift */; };
-		72D86E121B65E866004B72D0 /* NearbyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E101B65E866004B72D0 /* NearbyTableViewCell.swift */; };
-		72D86E131B65E866004B72D0 /* SightHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E111B65E866004B72D0 /* SightHeaderView.swift */; };
-		72D86E191B65E885004B72D0 /* NearbySight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E161B65E885004B72D0 /* NearbySight.swift */; };
-		72D86E1A1B65E885004B72D0 /* NearbyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E171B65E885004B72D0 /* NearbyRequest.swift */; };
-		72D86E1B1B65E885004B72D0 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E181B65E885004B72D0 /* Topic.swift */; };
+		72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E1C1B65F00E004B72D0 /* ImageLoader.swift */; };
+		72D86E211B65F033004B72D0 /* NearbyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E1E1B65F032004B72D0 /* NearbyTableViewController.swift */; };
+		72D86E221B65F033004B72D0 /* SightTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E1F1B65F032004B72D0 /* SightTopicsViewController.swift */; };
+		72D86E231B65F033004B72D0 /* TopicDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E201B65F033004B72D0 /* TopicDetailViewController.swift */; };
+		72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E241B65F03D004B72D0 /* NearbyTableViewCell.swift */; };
+		72D86E271B65F03D004B72D0 /* SightHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E251B65F03D004B72D0 /* SightHeaderView.swift */; };
+		72D86E2B1B65F045004B72D0 /* NearbySight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E281B65F045004B72D0 /* NearbySight.swift */; };
+		72D86E2C1B65F045004B72D0 /* NearbyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E291B65F045004B72D0 /* NearbyRequest.swift */; };
+		72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E2A1B65F045004B72D0 /* Topic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,15 +45,15 @@
 		72D86DF91B65D94D004B72D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72D86DFA1B65D94D004B72D0 /* GetOnTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetOnTripTests.swift; sourceTree = "<group>"; };
 		72D86E041B65E809004B72D0 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		72D86E061B65E825004B72D0 /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageLoader.swift; path = ../../GetOnTrip1/GetOnTrip/ImageLoader.swift; sourceTree = "<group>"; };
-		72D86E0A1B65E850004B72D0 /* NearbyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NearbyTableViewController.swift; path = ../../GetOnTrip1/GetOnTrip/NearbyTableViewController.swift; sourceTree = "<group>"; };
-		72D86E0B1B65E850004B72D0 /* SightTopicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SightTopicsViewController.swift; path = ../../GetOnTrip1/GetOnTrip/SightTopicsViewController.swift; sourceTree = "<group>"; };
-		72D86E0C1B65E850004B72D0 /* TopicDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopicDetailViewController.swift; path = ../../GetOnTrip1/GetOnTrip/TopicDetailViewController.swift; sourceTree = "<group>"; };
-		72D86E101B65E866004B72D0 /* NearbyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NearbyTableViewCell.swift; path = ../../GetOnTrip1/GetOnTrip/NearbyTableViewCell.swift; sourceTree = "<group>"; };
-		72D86E111B65E866004B72D0 /* SightHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SightHeaderView.swift; path = ../../GetOnTrip1/GetOnTrip/SightHeaderView.swift; sourceTree = "<group>"; };
-		72D86E161B65E885004B72D0 /* NearbySight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NearbySight.swift; path = ../../GetOnTrip1/GetOnTrip/NearbySight.swift; sourceTree = "<group>"; };
-		72D86E171B65E885004B72D0 /* NearbyRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NearbyRequest.swift; path = ../../GetOnTrip1/GetOnTrip/NearbyRequest.swift; sourceTree = "<group>"; };
-		72D86E181B65E885004B72D0 /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Topic.swift; path = ../../GetOnTrip1/GetOnTrip/Topic.swift; sourceTree = "<group>"; };
+		72D86E1C1B65F00E004B72D0 /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		72D86E1E1B65F032004B72D0 /* NearbyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyTableViewController.swift; sourceTree = "<group>"; };
+		72D86E1F1B65F032004B72D0 /* SightTopicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightTopicsViewController.swift; sourceTree = "<group>"; };
+		72D86E201B65F033004B72D0 /* TopicDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailViewController.swift; sourceTree = "<group>"; };
+		72D86E241B65F03D004B72D0 /* NearbyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyTableViewCell.swift; sourceTree = "<group>"; };
+		72D86E251B65F03D004B72D0 /* SightHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightHeaderView.swift; sourceTree = "<group>"; };
+		72D86E281B65F045004B72D0 /* NearbySight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbySight.swift; sourceTree = "<group>"; };
+		72D86E291B65F045004B72D0 /* NearbyRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyRequest.swift; sourceTree = "<group>"; };
+		72D86E2A1B65F045004B72D0 /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +137,7 @@
 		72D86E081B65E82B004B72D0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				72D86E061B65E825004B72D0 /* ImageLoader.swift */,
+				72D86E1C1B65F00E004B72D0 /* ImageLoader.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -145,9 +145,9 @@
 		72D86E091B65E844004B72D0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				72D86E0A1B65E850004B72D0 /* NearbyTableViewController.swift */,
-				72D86E0B1B65E850004B72D0 /* SightTopicsViewController.swift */,
-				72D86E0C1B65E850004B72D0 /* TopicDetailViewController.swift */,
+				72D86E1E1B65F032004B72D0 /* NearbyTableViewController.swift */,
+				72D86E1F1B65F032004B72D0 /* SightTopicsViewController.swift */,
+				72D86E201B65F033004B72D0 /* TopicDetailViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -155,8 +155,8 @@
 		72D86E141B65E86A004B72D0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				72D86E101B65E866004B72D0 /* NearbyTableViewCell.swift */,
-				72D86E111B65E866004B72D0 /* SightHeaderView.swift */,
+				72D86E241B65F03D004B72D0 /* NearbyTableViewCell.swift */,
+				72D86E251B65F03D004B72D0 /* SightHeaderView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -164,9 +164,9 @@
 		72D86E151B65E871004B72D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				72D86E161B65E885004B72D0 /* NearbySight.swift */,
-				72D86E171B65E885004B72D0 /* NearbyRequest.swift */,
-				72D86E181B65E885004B72D0 /* Topic.swift */,
+				72D86E281B65F045004B72D0 /* NearbySight.swift */,
+				72D86E291B65F045004B72D0 /* NearbyRequest.swift */,
+				72D86E2A1B65F045004B72D0 /* Topic.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -272,16 +272,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
-				72D86E0F1B65E850004B72D0 /* TopicDetailViewController.swift in Sources */,
-				72D86E1B1B65E885004B72D0 /* Topic.swift in Sources */,
+				72D86E231B65F033004B72D0 /* TopicDetailViewController.swift in Sources */,
+				72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */,
 				72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */,
-				72D86E191B65E885004B72D0 /* NearbySight.swift in Sources */,
-				72D86E1A1B65E885004B72D0 /* NearbyRequest.swift in Sources */,
-				72D86E131B65E866004B72D0 /* SightHeaderView.swift in Sources */,
-				72D86E0D1B65E850004B72D0 /* NearbyTableViewController.swift in Sources */,
-				72D86E121B65E866004B72D0 /* NearbyTableViewCell.swift in Sources */,
-				72D86E071B65E825004B72D0 /* ImageLoader.swift in Sources */,
-				72D86E0E1B65E850004B72D0 /* SightTopicsViewController.swift in Sources */,
+				72D86E2B1B65F045004B72D0 /* NearbySight.swift in Sources */,
+				72D86E2C1B65F045004B72D0 /* NearbyRequest.swift in Sources */,
+				72D86E271B65F03D004B72D0 /* SightHeaderView.swift in Sources */,
+				72D86E211B65F033004B72D0 /* NearbyTableViewController.swift in Sources */,
+				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,
+				72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */,
+				72D86E221B65F033004B72D0 /* SightTopicsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +471,7 @@
 				72D86E001B65D94D004B72D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		72D86E011B65D94D004B72D0 /* Build configuration list for PBXNativeTarget "GetOnTripTests" */ = {
 			isa = XCConfigurationList;
@@ -479,6 +480,7 @@
 				72D86E031B65D94D004B72D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
