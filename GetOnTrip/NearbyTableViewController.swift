@@ -11,7 +11,7 @@ import UIKit
 class NearbyTableViewController: UITableViewController {
     
     //MARK: Model and variables
-    
+     
     var nearSights = [NearbySight]()
     
     var lastSuccessRequest: NearbyRequest?
