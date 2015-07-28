@@ -23,7 +23,7 @@ class NearbySight {
     var imageUrl:String?
     
     //景点距离
-    var distance:Int?
+    var distance:String?
     
     //描述
     var desc:String?
@@ -32,10 +32,11 @@ class NearbySight {
     var city: String?
     
     //话题
-    var topics = [Topic]()
+    var topics: Array<Topic>
     
-    init(sightid:Int, name:String){
+    init(sightid:Int, name:String, topics:Array<Topic>){
         self.sightid = sightid
         self.name = name
+        self.topics = topics
     }
 }

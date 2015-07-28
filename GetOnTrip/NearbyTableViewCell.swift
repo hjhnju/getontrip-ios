@@ -15,6 +15,9 @@ class NearbyTableViewCell: UITableViewCell {
     @IBOutlet weak var topicImageView: UIImageView!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet var desc: UILabel!
+    @IBOutlet var scan: UILabel!
+    @IBOutlet var favorites: UILabel!
     
     var topicImage: UIImage? {
         didSet{
@@ -25,8 +28,10 @@ class NearbyTableViewCell: UITableViewCell {
     var topicImageUrl:String? {
         didSet{
             if let url = topicImageUrl {
-                ImageLoader.sharedLoader.imageForUrl(url) { (image:UIImage?, url:String) in
-                    self.topicImage = image
+                if url != "" {
+                    ImageLoader.sharedLoader.imageForUrl(url) { (image:UIImage?, url:String) in
+                        self.topicImage = image
+                    }
                 }
             }
             if self.topicImage == nil {
@@ -47,6 +52,30 @@ class NearbyTableViewCell: UITableViewCell {
         didSet {
             if let newTitle = subtitle {
                 self.subtitleLabel.text = newTitle
+            }
+        }
+    }
+    
+    var favoritesValue:String? {
+        didSet {
+            if let newFavorites = favoritesValue {
+                self.favorites.text = newFavorites
+            }
+        }
+    }
+    
+    var descValue:String? {
+        didSet {
+            if let newValue = descValue {
+                self.desc.text = newValue
+            }
+        }
+    }
+    
+    var scanValue:String? {
+        didSet {
+            if let newValue = scanValue {
+                self.scan.text = newValue
             }
         }
     }

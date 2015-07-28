@@ -23,16 +23,25 @@ class Topic :Printable{
     //图片
     var imageUrl:String?
     
+    //收藏
+    var favorites:String?
+    
+    //浏览
+    var scan:String?
+    
     var description:String {
         get{
             return "Topic(\(topicid)"
         }
+        set{
+            newValue
+        }
     }
+    var desc:String?
 
     init(topicid:Int, title: String, subtitle: String){
         self.topicid = topicid
         self.title = title
         self.subtitle = subtitle
     }
-    
 }

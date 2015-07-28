@@ -16,6 +16,10 @@ class NearbyTableViewController: UITableViewController {
     
     var lastSuccessRequest: NearbyRequest?
     
+    var activity:UIActivityIndicatorView!
+    
+    var scrollLock:Bool = false
+    
     private struct StoryBoard {
         static let CellReuseIdentifier = "NearbyTableViewCell"
         static let SectionHeaderReuseIdentifier = "SightHeaderView"
@@ -42,23 +46,19 @@ class NearbyTableViewController: UITableViewController {
 
     @IBAction func refreshByControl(sender: UIRefreshControl) {
         sender.beginRefreshing()
-        
         //获取数据更新tableview
         if lastSuccessRequest == nil {
             lastSuccessRequest = NearbyRequest(gps:10, count:3)
         }
         lastSuccessRequest!.fetchModels { (sights:[NearbySight]) -> Void in
-            //调用的是异步API，需回到主线程执行
-            dispatch_sync(dispatch_get_main_queue()) { () -> Void in
-                if sights.count > 0 {
-                    self.nearSights = sights
-                    self.tableView.reloadData()
-                    sender.endRefreshing()
-                }
+            if sights.count > 0 {
+                self.nearSights = sights
+                self.tableView.reloadData()
+                sender.endRefreshing()
             }
         }
     }
-    
+
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -78,6 +78,9 @@ class NearbyTableViewController: UITableViewController {
         cell.topicImageUrl = sight.topics[indexPath.row].imageUrl
         cell.subtitle = sight.topics[indexPath.row].subtitle
         cell.title = sight.topics[indexPath.row].title
+        cell.favoritesValue = sight.topics[indexPath.row].favorites
+        cell.descValue = sight.topics[indexPath.row].desc
+        cell.scanValue = sight.topics[indexPath.row].scan
         return cell
     }
     
@@ -86,7 +89,14 @@ class NearbyTableViewController: UITableViewController {
         let headerViewCell = tableView.dequeueReusableCellWithIdentifier(StoryBoard.SectionHeaderReuseIdentifier) as! SightHeaderView
         headerViewCell.sightName = nearSights[section].name
         headerViewCell.sightImageUrl = nearSights[section].imageUrl
-        
+        headerViewCell.distanceValue = nearSights[section].distance
+        headerViewCell.cityValue = nearSights[section].city
+        headerViewCell.descValue = nearSights[section].desc
+        //判断当前section是否为最后一个，如果是那么为该section添加footer
+        if section == self.nearSights.count - 1{
+            loadMore()
+        }
+
         return headerViewCell
     }
     
@@ -96,6 +106,19 @@ class NearbyTableViewController: UITableViewController {
             scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
         } else if scrollView.contentOffset.y >= tableView.sectionHeaderHeight {
             scrollView.contentInset = UIEdgeInsetsMake(-tableView.sectionHeaderHeight, 0, 0, 0);
+        }
+        //如果滚动到最底部，那么需要追加内容
+        //取出tableview得当前位置
+        var offset = self.tableView.contentOffset
+        //得到窗体的高度，固定不变，不同iphone会有变化
+        var frame = self.tableView.frame
+        //self.tableView.contentSize.height 该值是tableview的大小，会越来越大，翻一屏就会怎么一个屏幕的高度
+        //如果tableview得当前位置 = tableview大小 - tableview的当前位置的高度，说明已经到达底部，开始触发加载事件
+        if offset.y == self.tableView.contentSize.height - frame.size.height{
+            if self.scrollLock == false{
+                self.scrollLock = true
+                loadMoreAction()
+            }
         }
     }
     
@@ -124,6 +147,43 @@ class NearbyTableViewController: UITableViewController {
                     tdvc.topic = sender as? Topic
                 }
             default:break
+            }
+        }
+    }
+    
+    //MARK custom funcs
+    
+    //加载更多按钮，为tableFooterView创建加载元素
+    func loadMore(){
+        var tableFooterView:UIView = UIView()
+        tableFooterView.frame = CGRectMake(0, 0, self.tableView.bounds.size.width, 44)
+        tableFooterView.backgroundColor = UIColor.whiteColor()
+        self.tableView.tableFooterView = tableFooterView
+        activity = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        activity.frame = CGRectMake(0, 0, self.tableView.bounds.width, 44)
+        tableFooterView.addSubview(activity)
+    }
+    //触发加载更多事件
+    func loadMoreAction(){
+        activity.startAnimating()
+        var request = NearbyRequest(gps:10, count:3)
+        request.fetchModels { (sights:[NearbySight]) -> Void in
+            if sights.count > 0 {
+                sleep(1)
+                self.nearSights = self.nearSights + sights
+                self.activity.stopAnimating()
+                self.tableView.tableFooterView = nil
+                self.tableView.reloadData()
+                self.scrollLock = false
+            }
+        }
+    }
+    //为全局的景点赋值
+    func loadData(){
+        var request = NearbyRequest(gps:10, count:3)
+        request.fetchModels { (sights:[NearbySight]) -> Void in
+            if sights.count > 0 {
+                self.nearSights = self.nearSights + sights
             }
         }
     }
