@@ -12,7 +12,9 @@ class SightHeaderView: UITableViewCell {
     
     
     @IBOutlet weak var headerImageView: UIImageView!
-    
+    @IBOutlet var distance: UILabel!
+    @IBOutlet var city: UILabel!
+    @IBOutlet var desc: UILabel!
     @IBOutlet weak var sightLabel: UILabel!
     
     var sightImage:UIImage? {
@@ -23,10 +25,12 @@ class SightHeaderView: UITableViewCell {
     
     var sightImageUrl:String? {
         didSet{
-            if let url = sightImageUrl {
-                ImageLoader.sharedLoader.imageForUrl(url) { (image:UIImage?, url:String) in
-                    self.sightImage = image
-                }
+            if let url = sightImageUrl{
+                if url != "" {
+                    ImageLoader.sharedLoader.imageForUrl(url) { (image:UIImage?, url:String) in
+                        self.sightImage = image
+                    }
+                } 
             }
             if self.sightImage == nil {
                 self.sightImage = UIImage(named: "default-sight")
@@ -43,6 +47,28 @@ class SightHeaderView: UITableViewCell {
     }
     
     override func awakeFromNib() {
-        self.sightLabel.layer.cornerRadius = 5
+        self.sightLabel.layer.cornerRadius = 10
+    }
+    
+    var distanceValue:String? {
+        didSet {
+            if let value = distanceValue {
+                self.distance.text = value
+            }
+        }
+    }
+    var cityValue:String? {
+        didSet {
+            if let value = cityValue {
+                self.city.text = value
+            }
+        }
+    }
+    var descValue:String? {
+        didSet {
+            if let value = descValue {
+                self.desc.text = value
+            }
+        }
     }
 }

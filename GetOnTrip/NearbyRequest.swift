@@ -7,38 +7,64 @@
 //
 
 import Foundation
+import Alamofire
 
 class NearbyRequest {
     
     init(gps:Int, count:Int){
-        
+
     }
     
     // 异步API，参数为回调函数
     // 返回NearbyModel的列表，e.g 附近3个景点
     //
     func fetchModels(handler: [NearbySight] -> Void){
-        let qos = Int(QOS_CLASS_USER_INITIATED.value)
-        dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
-            //mock
-            var result = [NearbySight]()
-            let beginIndex = Int(arc4random_uniform(123) % 100)
-            let endIndex = beginIndex + 1
-            for i in beginIndex...endIndex {
-                var sight = NearbySight(sightid:i,name: "sight\(i)")
-                sight.topics.append(Topic(topicid:i+100, title:"sight\(i)-话题\(i+100)", subtitle:"sight\(i)-副标题"))
-                sight.topics.append(Topic(topicid:i+200, title:"sight\(i)-话题\(i+200)", subtitle:"sight\(i)-副标题"))
-                result.append(sight)
+        Alamofire.request(.GET, "http://alex.ichajia.com/phpinfo.php").responseJSON { _, _, data, _ in
+            var scenics:[NearbySight] = []
+            var topics:[Topic] = []
+            var json = data as! NSDictionary
+            for (key, value) in json{
+                topics = []
+                for(key, valueInside) in value["topic"] as! NSDictionary{
+                    var topic = Topic(
+                        topicid: valueInside["id"] as! Int,
+                        title: valueInside["title"] as! String,
+                        subtitle: valueInside["subtitle"] as! String
+                    )
+                    if let favorites = valueInside["collect"] as? String{
+                        topic.favorites = favorites
+                    }
+                    if let scan = valueInside["scan"] as? String{
+                        topic.scan = scan
+                    }
+                    if let desc = valueInside["brief"] as? String{
+                        topic.desc = desc
+                    }
+                    if let image = valueInside["image"] as? String{
+                        topic.imageUrl = image
+                    }
+                    topics.append(topic)
+                }
+                var sight = NearbySight(
+                    sightid: value["id"] as! Int,
+                    name: value["name"] as! String,
+                    topics: topics
+                )
+                if let distance = value["distance"] as? String{
+                    sight.distance = distance
+                }
+                if let city = value["address"] as? String{
+                    sight.city = city
+                }
+                if let desc = value["brief"] as? String{
+                    sight.desc = desc
+                }
+                if let image = value["image"] as? String{
+                    sight.imageUrl = image
+                }
+                scenics.append(sight)
             }
-            handler(result)
-        }
-    }
-    
-    class func generateData(success: Success, fail: Fail){
-        let qos = Int(QOS_CLASS_USER_INITIATED.value)
-        dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
-            var tznetwork = TZNetWork()
-            tznetwork.JSON(NetWork.HTTPMethod.GET, "http://alex.ichajia.com/phpinfo.php", nil, success, fail)
+            handler(scenics)
         }
     }
 }

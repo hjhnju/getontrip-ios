@@ -44,11 +44,13 @@ class MenuViewController: UIViewController {
         self.sideViewController = storyboard.instantiateViewControllerWithIdentifier("SlideBarID") as! SideViewController
         //添加导航栏按钮
         
-        
         //初始化导航栏
         var navigation = UINavigationController(rootViewController:storyboardMain)
-        self.mainViewController = navigation
+        navigation.navigationBar.barTintColor = UIColor.blackColor()
         storyboardMain.navigationItem.leftBarButtonItem = NavigationItemView.CreateLeftItem(self)
+        storyboardMain.navigationItem.rightBarButtonItem = NavigationItemView.CreateRightItem(self)
+        self.mainViewController = navigation
+        
         
         //初始状态时是关闭状态
         self.drawerState = ICSDrawerControllerState.MenuControllerStateClosing
@@ -58,6 +60,10 @@ class MenuViewController: UIViewController {
         self.view.addGestureRecognizer(self.panGestureRecognizer)
         
         
+    }
+    //状态栏变为白色
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent;
     }
     
     //实现窗体出现时的函数
@@ -158,11 +164,18 @@ class MenuViewController: UIViewController {
     func tapGestureRecognized(tapGestureRecognizer : UITapGestureRecognizer){
         self.didClose()
     }
-    func tappedButton(button : UIButton){
+    
+    func tappedButtonSlide(button : UIButton){
         if (self.drawerState == ICSDrawerControllerState.MenuControllerStateOpening){
             self.didClose()
         }else{
             self.didOpen()
         }
+    }
+    
+    func tappedButtonSearch(button : UIButton){
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        var searchController = storyboard.instantiateViewControllerWithIdentifier("SearchID") as! SearchViewController
+        self.presentViewController(searchController, animated: false, completion: nil)
     }
 }

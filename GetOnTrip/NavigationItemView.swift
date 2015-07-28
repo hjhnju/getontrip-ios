@@ -13,7 +13,18 @@ class NavigationItemView: UIView {
         var image  = UIImage(named:"hamburger.png")
         var button  =  UIButton.buttonWithType(UIButtonType.System) as? UIButton
         button!.frame =  CGRectMake(0, 0, 44.0, 44.0)
-        button!.addTarget(controller,action:"tappedButton:",forControlEvents:UIControlEvents.TouchUpInside)
+        button!.addTarget(controller,action:"tappedButtonSlide:",forControlEvents:UIControlEvents.TouchUpInside)
+        button!.setImage(image,forState:UIControlState.Normal)
+        var barButton =  UIBarButtonItem(customView: button!)
+        
+        return barButton
+    }
+
+    class func CreateRightItem(controller: MenuViewController) ->UIBarButtonItem {
+        var image  = UIImage(named:"hamburger.png")
+        var button  =  UIButton.buttonWithType(UIButtonType.System) as? UIButton
+        button!.frame =  CGRectMake(UIScreen.mainScreen().bounds.width-44, 0, 44.0, 44.0)
+        button!.addTarget(controller,action:"tappedButtonSearch:",forControlEvents:UIControlEvents.TouchUpInside)
         button!.setImage(image,forState:UIControlState.Normal)
         var barButton =  UIBarButtonItem(customView: button!)
         
