@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import CoreLocation
 
-class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate {
+class NearbyTableViewController: UITableViewController {
     
     //MARK: Model and variables
     
@@ -21,19 +20,26 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     var scrollLock:Bool = false
     
+    var locationManager: CLLocationManager!
+    
+    var curLocation: CLLocation?
+
     private struct StoryBoard {
         static let CellReuseIdentifier = "NearbyTableViewCell"
         static let SectionHeaderReuseIdentifier = "SightHeaderView"
     }
     
-    var locationManager: CLLocationManager!
-    
-    var curLocation: CLLocation?
-    
     // MARK: - View Controller Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        refresh()
+        
+        //移除底部空Cell
+        tableView.tableFooterView = UIView(frame:CGRectZero)
+        //tableView.backgroundColor = UIColor.lightGrayColor()
+        tableView.separatorColor      = UIColor.grayColor()
+        tableView.sectionHeaderHeight = CGFloat(165)
         
         //初始化定位服务
         self.locationManager = CLLocationManager()
@@ -41,33 +47,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         self.locationManager.distanceFilter = 1000.0 //设备至少移动1000米，才通知委托更新
         self.locationManager.requestWhenInUseAuthorization()
-        
-        //移除底部空Cell
-        tableView.tableFooterView = UIView(frame:CGRectZero)
-        //tableView.backgroundColor = UIColor.lightGrayColor()
-        tableView.separatorColor      = UIColor.grayColor()
-        tableView.sectionHeaderHeight = CGFloat(165)
-    }
-    
-    private func refresh(){
-        if let refresh = refreshControl {
-            refreshByControl(refresh)
-        }
-    }
-
-    @IBAction func refreshByControl(sender: UIRefreshControl) {
-        sender.beginRefreshing()
-        //获取数据更新tableview
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = NearbyRequest(curLocation:self.curLocation, page:1)
-        }
-        lastSuccessRequest!.fetchModels { (sights:[NearbySight]) -> Void in
-            if sights.count > 0 {
-                self.nearSights = sights
-                self.tableView.reloadData()
-                sender.endRefreshing()
-            }
-        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -84,20 +63,41 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.locationManager.stopUpdatingLocation()
     }
     
+    private func refresh(){
+        if let refresh = refreshControl {
+            refreshByControl(refresh)
+        }
+    }
+    
+    @IBAction func refreshByControl(sender: UIRefreshControl) {
+        sender.beginRefreshing()
+        //获取数据更新tableview
+        if lastSuccessRequest == nil {
+            lastSuccessRequest = NearbyRequest(gps:10, count:3)
+        }
+        lastSuccessRequest!.fetchModels { (sights:[NearbySight]) -> Void in
+            if sights.count > 0 {
+                self.nearSights = sights
+                self.tableView.reloadData()
+                sender.endRefreshing()
+            }
+        }
+    }
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return nearSights.count
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //Tells the data source to return the number of rows in a given section of a table view. (required)
         return nearSights[section].topics.count
     }
-
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoard.CellReuseIdentifier, forIndexPath: indexPath) as! NearbyTableViewCell
-    
+        
         // Configure the cell...
         let sight = nearSights[indexPath.section]
         cell.topicImageUrl = sight.topics[indexPath.row].imageUrl
@@ -121,7 +121,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         if section == self.nearSights.count - 1{
             loadMore()
         }
-
+        
         return headerViewCell
     }
     
@@ -152,9 +152,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
         var topic = self.nearSights[indexPath.section].topics[indexPath.row]
-    
+        
         self.performSegueWithIdentifier("TopicDetailViewSegue", sender: topic)
-    
+        
     }
     
     // MARK: Segues
@@ -176,18 +176,57 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         }
     }
     
+    //MARK: custom funcs
+    
+    //加载更多按钮，为tableFooterView创建加载元素
+    func loadMore(){
+        var tableFooterView:UIView = UIView()
+        tableFooterView.frame = CGRectMake(0, 0, self.tableView.bounds.size.width, 44)
+        tableFooterView.backgroundColor = UIColor.whiteColor()
+        self.tableView.tableFooterView = tableFooterView
+        activity = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        activity.frame = CGRectMake(0, 0, self.tableView.bounds.width, 44)
+        tableFooterView.addSubview(activity)
+    }
+    //触发加载更多事件
+    func loadMoreAction(){
+        activity.startAnimating()
+        var request = NearbyRequest(gps:10, count:3)
+        request.fetchModels { (sights:[NearbySight]) -> Void in
+            if sights.count > 0 {
+                sleep(1)
+                self.nearSights = self.nearSights + sights
+                self.activity.stopAnimating()
+                self.tableView.tableFooterView = nil
+                self.tableView.reloadData()
+                self.scrollLock = false
+            }
+        }
+    }
+    //为全局的景点赋值
+    func loadData(){
+        var request = NearbyRequest(gps:10, count:3)
+        request.fetchModels { (sights:[NearbySight]) -> Void in
+            if sights.count > 0 {
+                self.nearSights = self.nearSights + sights
+            }
+        }
+    }
+    
     // MARK: CCLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         self.curLocation = locations.last as? CLLocation
-        NSLog("notice:location=%@", self.curLocation?.description ?? "nil")
+        NSLog("notice:location.latitude=%@", self.curLocation?.description ?? "nil")
         
         refresh()
     }
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        
         NSLog("error:%@", error.localizedDescription)
         
         refresh()
     }
+
 }
