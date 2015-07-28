@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		20395BC71B67819200CBBFB7 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20395BC61B67819200CBBFB7 /* SearchViewController.swift */; };
+		20395BCC1B679FA500CBBFB7 /* FindTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20395BCB1B679FA500CBBFB7 /* FindTableViewController.swift */; };
+		20395BCE1B679FBE00CBBFB7 /* SubjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20395BCD1B679FBE00CBBFB7 /* SubjectTableViewController.swift */; };
 		204449591B6607ED0028BE77 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204449581B6607ED0028BE77 /* MenuViewController.swift */; };
 		2044495B1B6609B50028BE77 /* SideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2044495A1B6609B50028BE77 /* SideViewController.swift */; };
 		2044495D1B660BED0028BE77 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2044495C1B660BED0028BE77 /* MainViewController.swift */; };
@@ -55,6 +57,8 @@
 
 /* Begin PBXFileReference section */
 		20395BC61B67819200CBBFB7 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		20395BCB1B679FA500CBBFB7 /* FindTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindTableViewController.swift; sourceTree = "<group>"; };
+		20395BCD1B679FBE00CBBFB7 /* SubjectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectTableViewController.swift; sourceTree = "<group>"; };
 		204449581B6607ED0028BE77 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		2044495A1B6609B50028BE77 /* SideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideViewController.swift; sourceTree = "<group>"; };
 		2044495C1B660BED0028BE77 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -187,6 +191,8 @@
 				72D86E1F1B65F032004B72D0 /* SightTopicsViewController.swift */,
 				72D86E201B65F033004B72D0 /* TopicDetailViewController.swift */,
 				20395BC61B67819200CBBFB7 /* SearchViewController.swift */,
+				20395BCB1B679FA500CBBFB7 /* FindTableViewController.swift */,
+				20395BCD1B679FBE00CBBFB7 /* SubjectTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -312,8 +318,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20395BCE1B679FBE00CBBFB7 /* SubjectTableViewController.swift in Sources */,
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
 				72D86E231B65F033004B72D0 /* TopicDetailViewController.swift in Sources */,
+				20395BCC1B679FA500CBBFB7 /* FindTableViewController.swift in Sources */,
 				72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */,
 				72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */,
 				72D86E2B1B65F045004B72D0 /* NearbySight.swift in Sources */,
