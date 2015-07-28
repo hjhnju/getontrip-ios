@@ -7,11 +7,28 @@
 //
 
 import Foundation
+import CoreLocation
 
 class NearbyRequest {
     
-    init(gps:Int, count:Int){
+    var curLocation:CLLocation?
+    
+    var cityId:Int?
+    
+    var pageSize:Int = 3
+    
+    var page:Int
+    
+    init(curLocation:CLLocation?, page:Int){
         
+        self.curLocation = curLocation
+        self.cityId = 0 //北京cityid
+        self.page = page
+    }
+    
+    init(cityId:Int, page:Int){
+        self.cityId = cityId
+        self.page = page
     }
     
     // 异步API，参数为回调函数

@@ -22,6 +22,7 @@
 		72D86E2B1B65F045004B72D0 /* NearbySight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E281B65F045004B72D0 /* NearbySight.swift */; };
 		72D86E2C1B65F045004B72D0 /* NearbyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E291B65F045004B72D0 /* NearbyRequest.swift */; };
 		72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E2A1B65F045004B72D0 /* Topic.swift */; };
+		72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72D86E331B678D51004B72D0 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		72D86E281B65F045004B72D0 /* NearbySight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbySight.swift; sourceTree = "<group>"; };
 		72D86E291B65F045004B72D0 /* NearbyRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyRequest.swift; sourceTree = "<group>"; };
 		72D86E2A1B65F045004B72D0 /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
+		72D86E331B678D51004B72D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +80,7 @@
 		72D86DD61B65D94D004B72D0 = {
 			isa = PBXGroup;
 			children = (
+				72D86E331B678D51004B72D0 /* CoreLocation.framework */,
 				72D86DE11B65D94D004B72D0 /* GetOnTrip */,
 				72D86DF71B65D94D004B72D0 /* GetOnTripTests */,
 				72D86DE01B65D94D004B72D0 /* Products */,

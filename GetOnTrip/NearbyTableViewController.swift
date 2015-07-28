@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-class NearbyTableViewController: UITableViewController {
+class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate {
     
     //MARK: Model and variables
     
@@ -21,11 +22,21 @@ class NearbyTableViewController: UITableViewController {
         static let SectionHeaderReuseIdentifier = "SightHeaderView"
     }
     
+    var locationManager: CLLocationManager!
+    
+    var curLocation: CLLocation?
+    
     // MARK: - View Controller Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        refresh()
+        
+        //初始化定位服务
+        self.locationManager = CLLocationManager()
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        self.locationManager.distanceFilter = 1000.0 //设备至少移动1000米，才通知委托更新
+        self.locationManager.requestWhenInUseAuthorization()
         
         //移除底部空Cell
         tableView.tableFooterView = UIView(frame:CGRectZero)
@@ -45,7 +56,7 @@ class NearbyTableViewController: UITableViewController {
         
         //获取数据更新tableview
         if lastSuccessRequest == nil {
-            lastSuccessRequest = NearbyRequest(gps:10, count:3)
+            lastSuccessRequest = NearbyRequest(curLocation:self.curLocation, page:1)
         }
         lastSuccessRequest!.fetchModels { (sights:[NearbySight]) -> Void in
             //调用的是异步API，需回到主线程执行
@@ -57,6 +68,20 @@ class NearbyTableViewController: UITableViewController {
                 }
             }
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //开始定位
+        self.locationManager.startUpdatingLocation()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        //停止定位
+        self.locationManager.stopUpdatingLocation()
     }
     
     // MARK: - Table view data source
@@ -126,5 +151,20 @@ class NearbyTableViewController: UITableViewController {
             default:break
             }
         }
+    }
+    
+    // MARK: CCLocationManagerDelegate
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        self.curLocation = locations.last as? CLLocation
+        NSLog("notice:location=%@", self.curLocation?.description ?? "nil")
+        
+        refresh()
+    }
+    
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        NSLog("error:%@", error.localizedDescription)
+        
+        refresh()
     }
 }
