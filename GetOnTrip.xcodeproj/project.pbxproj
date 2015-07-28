@@ -14,6 +14,17 @@
 		2044495B1B6609B50028BE77 /* SideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2044495A1B6609B50028BE77 /* SideViewController.swift */; };
 		2044495D1B660BED0028BE77 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2044495C1B660BED0028BE77 /* MainViewController.swift */; };
 		20904D4A1B6618CD002F40A2 /* NavigationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20904D491B6618CD002F40A2 /* NavigationItemView.swift */; };
+		7223E9A81B67B47800AE8825 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E99D1B67B47800AE8825 /* Alamofire.swift */; };
+		7223E9A91B67B47800AE8825 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E99E1B67B47800AE8825 /* Download.swift */; };
+		7223E9AA1B67B47800AE8825 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7223E99F1B67B47800AE8825 /* Info.plist */; };
+		7223E9AB1B67B47800AE8825 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E9A01B67B47800AE8825 /* Manager.swift */; };
+		7223E9AC1B67B47800AE8825 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E9A11B67B47800AE8825 /* MultipartFormData.swift */; };
+		7223E9AD1B67B47800AE8825 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E9A21B67B47800AE8825 /* ParameterEncoding.swift */; };
+		7223E9AE1B67B47800AE8825 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E9A31B67B47800AE8825 /* Request.swift */; };
+		7223E9AF1B67B47800AE8825 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E9A41B67B47800AE8825 /* ResponseSerialization.swift */; };
+		7223E9B01B67B47800AE8825 /* ServerTrustPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E9A51B67B47800AE8825 /* ServerTrustPolicy.swift */; };
+		7223E9B11B67B47800AE8825 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E9A61B67B47800AE8825 /* Upload.swift */; };
+		7223E9B21B67B47800AE8825 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223E9A71B67B47800AE8825 /* Validation.swift */; };
 		72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86DE41B65D94D004B72D0 /* AppDelegate.swift */; };
 		72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86DE61B65D94D004B72D0 /* ViewController.swift */; };
 		72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72D86DEB1B65D94D004B72D0 /* Images.xcassets */; };
@@ -63,6 +74,18 @@
 		2044495A1B6609B50028BE77 /* SideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideViewController.swift; sourceTree = "<group>"; };
 		2044495C1B660BED0028BE77 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		20904D491B6618CD002F40A2 /* NavigationItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationItemView.swift; sourceTree = "<group>"; };
+		7223E99C1B67B47800AE8825 /* Alamofire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alamofire.h; sourceTree = "<group>"; };
+		7223E99D1B67B47800AE8825 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
+		7223E99E1B67B47800AE8825 /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
+		7223E99F1B67B47800AE8825 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7223E9A01B67B47800AE8825 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		7223E9A11B67B47800AE8825 /* MultipartFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipartFormData.swift; sourceTree = "<group>"; };
+		7223E9A21B67B47800AE8825 /* ParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
+		7223E9A31B67B47800AE8825 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		7223E9A41B67B47800AE8825 /* ResponseSerialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseSerialization.swift; sourceTree = "<group>"; };
+		7223E9A51B67B47800AE8825 /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTrustPolicy.swift; sourceTree = "<group>"; };
+		7223E9A61B67B47800AE8825 /* Upload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
+		7223E9A71B67B47800AE8825 /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		72D86DDF1B65D94D004B72D0 /* GetOnTrip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetOnTrip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D86DE31B65D94D004B72D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72D86DE41B65D94D004B72D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +135,25 @@
 				2044495C1B660BED0028BE77 /* MainViewController.swift */,
 			);
 			name = Slide;
+			sourceTree = "<group>";
+		};
+		7223E99B1B67B47800AE8825 /* Alamofire */ = {
+			isa = PBXGroup;
+			children = (
+				7223E99C1B67B47800AE8825 /* Alamofire.h */,
+				7223E99D1B67B47800AE8825 /* Alamofire.swift */,
+				7223E99E1B67B47800AE8825 /* Download.swift */,
+				7223E99F1B67B47800AE8825 /* Info.plist */,
+				7223E9A01B67B47800AE8825 /* Manager.swift */,
+				7223E9A11B67B47800AE8825 /* MultipartFormData.swift */,
+				7223E9A21B67B47800AE8825 /* ParameterEncoding.swift */,
+				7223E9A31B67B47800AE8825 /* Request.swift */,
+				7223E9A41B67B47800AE8825 /* ResponseSerialization.swift */,
+				7223E9A51B67B47800AE8825 /* ServerTrustPolicy.swift */,
+				7223E9A61B67B47800AE8825 /* Upload.swift */,
+				7223E9A71B67B47800AE8825 /* Validation.swift */,
+			);
+			path = Alamofire;
 			sourceTree = "<group>";
 		};
 		72D86DD61B65D94D004B72D0 = {
@@ -178,6 +220,7 @@
 		72D86E081B65E82B004B72D0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				7223E99B1B67B47800AE8825 /* Alamofire */,
 				72D86E1C1B65F00E004B72D0 /* ImageLoader.swift */,
 			);
 			name = Common;
@@ -298,6 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7223E9AA1B67B47800AE8825 /* Info.plist in Resources */,
 				72D86E051B65E809004B72D0 /* Main.storyboard in Resources */,
 				72D86DEF1B65D94D004B72D0 /* LaunchScreen.xib in Resources */,
 				72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */,
@@ -318,19 +362,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7223E9AD1B67B47800AE8825 /* ParameterEncoding.swift in Sources */,
+				7223E9AE1B67B47800AE8825 /* Request.swift in Sources */,
 				20395BCE1B679FBE00CBBFB7 /* SubjectTableViewController.swift in Sources */,
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
 				72D86E231B65F033004B72D0 /* TopicDetailViewController.swift in Sources */,
+				7223E9B01B67B47800AE8825 /* ServerTrustPolicy.swift in Sources */,
+				7223E9B21B67B47800AE8825 /* Validation.swift in Sources */,
 				20395BCC1B679FA500CBBFB7 /* FindTableViewController.swift in Sources */,
+				7223E9AB1B67B47800AE8825 /* Manager.swift in Sources */,
 				72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */,
+				7223E9B11B67B47800AE8825 /* Upload.swift in Sources */,
 				72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */,
 				72D86E2B1B65F045004B72D0 /* NearbySight.swift in Sources */,
 				72D86E2C1B65F045004B72D0 /* NearbyRequest.swift in Sources */,
+				7223E9A81B67B47800AE8825 /* Alamofire.swift in Sources */,
+				7223E9A91B67B47800AE8825 /* Download.swift in Sources */,
+				7223E9AF1B67B47800AE8825 /* ResponseSerialization.swift in Sources */,
 				72D86E271B65F03D004B72D0 /* SightHeaderView.swift in Sources */,
 				20904D4A1B6618CD002F40A2 /* NavigationItemView.swift in Sources */,
 				2044495D1B660BED0028BE77 /* MainViewController.swift in Sources */,
 				204449591B6607ED0028BE77 /* MenuViewController.swift in Sources */,
 				20395BC71B67819200CBBFB7 /* SearchViewController.swift in Sources */,
+				7223E9AC1B67B47800AE8825 /* MultipartFormData.swift in Sources */,
 				72D86E211B65F033004B72D0 /* NearbyTableViewController.swift in Sources */,
 				2044495B1B6609B50028BE77 /* SideViewController.swift in Sources */,
 				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,

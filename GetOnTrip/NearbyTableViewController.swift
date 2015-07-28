@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-class NearbyTableViewController: UITableViewController {
+class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate {
     
     //MARK: Model and variables
     
@@ -73,7 +74,7 @@ class NearbyTableViewController: UITableViewController {
         sender.beginRefreshing()
         //获取数据更新tableview
         if lastSuccessRequest == nil {
-            lastSuccessRequest = NearbyRequest(gps:10, count:3)
+            lastSuccessRequest = NearbyRequest(curLocation:self.curLocation, page:1)
         }
         lastSuccessRequest!.fetchModels { (sights:[NearbySight]) -> Void in
             if sights.count > 0 {
@@ -176,7 +177,7 @@ class NearbyTableViewController: UITableViewController {
         }
     }
     
-    //MARK: custom funcs
+    //MARK: Custom funcs
     
     //加载更多按钮，为tableFooterView创建加载元素
     func loadMore(){
@@ -191,7 +192,7 @@ class NearbyTableViewController: UITableViewController {
     //触发加载更多事件
     func loadMoreAction(){
         activity.startAnimating()
-        var request = NearbyRequest(gps:10, count:3)
+        var request = NearbyRequest(curLocation:self.curLocation, page:1)
         request.fetchModels { (sights:[NearbySight]) -> Void in
             if sights.count > 0 {
                 sleep(1)
@@ -205,7 +206,7 @@ class NearbyTableViewController: UITableViewController {
     }
     //为全局的景点赋值
     func loadData(){
-        var request = NearbyRequest(gps:10, count:3)
+        var request = NearbyRequest(curLocation:self.curLocation, page:1)
         request.fetchModels { (sights:[NearbySight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = self.nearSights + sights

@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreLocation
-import Alamofire
 
 class NearbyRequest {
     
@@ -36,7 +35,7 @@ class NearbyRequest {
     // 返回NearbyModel的列表，e.g 附近3个景点
     //
     func fetchModels(handler: [NearbySight] -> Void){
-        Alamofire.request(.GET, "http://alex.ichajia.com/phpinfo.php").responseJSON { _, _, data, _ in
+        request(.GET, "http://alex.ichajia.com/phpinfo.php").responseJSON { _, _, data, _ in
             var scenics:[NearbySight] = []
             var topics:[Topic] = []
             var json = data as! NSDictionary
