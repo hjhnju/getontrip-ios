@@ -33,4 +33,12 @@ class NearbyRequest {
             handler(result)
         }
     }
+    
+    class func generateData(success: Success, fail: Fail){
+        let qos = Int(QOS_CLASS_USER_INITIATED.value)
+        dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
+            var tznetwork = TZNetWork()
+            tznetwork.JSON(NetWork.HTTPMethod.GET, "http://alex.ichajia.com/phpinfo.php", nil, success, fail)
+        }
+    }
 }
