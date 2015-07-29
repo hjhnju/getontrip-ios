@@ -56,10 +56,10 @@ class NearbyTableViewCell: UITableViewCell {
         }
     }
     
-    var favoritesValue:String? {
+    var favoritesValue:Int? {
         didSet {
             if let newFavorites = favoritesValue {
-                self.favorites.text = newFavorites
+                self.favorites.text = "\(newFavorites)"
             }
         }
     }
@@ -72,10 +72,10 @@ class NearbyTableViewCell: UITableViewCell {
         }
     }
     
-    var scanValue:String? {
+    var scanValue:Int? {
         didSet {
             if let newValue = scanValue {
-                self.scan.text = newValue
+                self.scan.text = "\(newValue)"
             }
         }
     }

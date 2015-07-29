@@ -34,8 +34,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        refresh()
-        
         //移除底部空Cell
         tableView.tableFooterView = UIView(frame:CGRectZero)
         //tableView.backgroundColor = UIColor.lightGrayColor()
@@ -69,7 +67,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             refreshByControl(refresh)
         }
     }
-    
+
     @IBAction func refreshByControl(sender: UIRefreshControl) {
         sender.beginRefreshing()
         //获取数据更新tableview
@@ -77,6 +75,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             lastSuccessRequest = NearbyRequest(curLocation:self.curLocation, page:1)
         }
         lastSuccessRequest!.fetchModels { (sights:[NearbySight]) -> Void in
+            
             if sights.count > 0 {
                 self.nearSights = sights
                 self.tableView.reloadData()
@@ -201,15 +200,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                 self.tableView.tableFooterView = nil
                 self.tableView.reloadData()
                 self.scrollLock = false
-            }
-        }
-    }
-    //为全局的景点赋值
-    func loadData(){
-        var request = NearbyRequest(curLocation:self.curLocation, page:1)
-        request.fetchModels { (sights:[NearbySight]) -> Void in
-            if sights.count > 0 {
-                self.nearSights = self.nearSights + sights
             }
         }
     }

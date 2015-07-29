@@ -48,7 +48,11 @@ class SightHeaderView: UITableViewCell {
     
     override func awakeFromNib() {
         self.sightLabel.layer.cornerRadius = 10
+        self.sightLabel.layer.borderWidth = 2
+        self.sightLabel.layer.masksToBounds = true
+        self.sightLabel.layer.borderColor = UIColor.yellowColor() as! CGColorRef
     }
+
     
     var distanceValue:String? {
         didSet {
