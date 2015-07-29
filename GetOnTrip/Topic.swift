@@ -24,10 +24,10 @@ class Topic :Printable{
     var imageUrl:String?
     
     //收藏
-    var favorites:String?
+    var favorites:Int?
     
     //浏览
-    var scan:String?
+    var scan:Int?
     
     var description:String {
         get{

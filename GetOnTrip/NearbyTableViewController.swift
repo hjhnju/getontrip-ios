@@ -204,15 +204,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             }
         }
     }
-    //为全局的景点赋值
-    func loadData(){
-        var request = NearbyRequest(curLocation:self.curLocation, page:1)
-        request.fetchModels { (sights:[NearbySight]) -> Void in
-            if sights.count > 0 {
-                self.nearSights = self.nearSights + sights
-            }
-        }
-    }
     
     // MARK: CCLocationManagerDelegate
     
