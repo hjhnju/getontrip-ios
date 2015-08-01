@@ -16,6 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //统一navbar颜色样式
+        UINavigationBar.appearance().tintColor = SceneColor.lightYellow
+        UINavigationBar.appearance().barTintColor = SceneColor.black
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.yellow]
+        //NavController的status bar也显示为UIStatusBarStyle.LightContent
+        UINavigationBar.appearance().barStyle = UIBarStyle.Black
+        
         return true
     }
 

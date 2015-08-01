@@ -9,5 +9,9 @@
 import UIKit
 
 class MenuViewController: UIViewController {
-
+    
+    //MASK: Properties
+    
+    var slideDelegate: SlideMenuViewControllerDelegate?
+    
 }

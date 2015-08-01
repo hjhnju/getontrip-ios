@@ -28,13 +28,15 @@ protocol SlideMenuViewControllerDelegate {
     
     func dismissMenu() -> Void
     
-    //是否打开SlideMenu
+    //SlideMenu是否打开状态
     func isOpening() -> Bool
 }
 
 struct SlideMenuOptions {
     //拉伸的宽度
-    static var kICSDrawerControllerDrawerDepth : CGFloat = 290.0
+    static let DrawerWidth: CGFloat = UIScreen.mainScreen().bounds.width * 0.75
+    //高度
+    static let DrawerHeight: CGFloat = UIScreen.mainScreen().bounds.height
     //定义侧边栏距离左边的距离，浮点型
     static var kICSDrawerControllerLeftViewInitialOffset : CGFloat  = 60.0
 }
@@ -66,10 +68,12 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
         //初始化侧边栏和主体控制器
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        //TODO:处理登陆状态
         self.sideViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MenuViewId) as! MenuViewController
         
         self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewId) as! MasterViewController
-            
+        
+        self.sideViewController.slideDelegate = self
         self.masterViewController.slideDelegate = self
         
         //添加用户拖动事件
@@ -98,6 +102,8 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
             self.addChildViewController(sideViewController)
             self.view.insertSubview(sideViewController.view, atIndex: 0)
         }
+        //限制宽度
+        self.sideViewController.view.frame = CGRect(x: 0, y: 0, width: SlideMenuOptions.DrawerWidth, height: SlideMenuOptions.DrawerHeight)
         
         if (self.masterViewController.view.superview == nil){
             self.addChildViewController(masterViewController)
@@ -117,9 +123,7 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
         
         //用户对视图操控的状态。
         var state = sender.state;
-        
         var location = sender.locationInView(self.masterViewController.view)
-        
         var velocity = sender.velocityInView(self.masterViewController.view)
         
         switch (state) {
@@ -133,9 +137,9 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
                 if (self.slideMenuState == SlideMenuState.Closing){
                     c.origin.x = location.x - self.panGestureStartLocation.x;
                 }
-            }else if (sender.translationInView(self.view).x > -SlideMenuOptions.kICSDrawerControllerDrawerDepth){
+            }else if (sender.translationInView(self.view).x > -SlideMenuOptions.DrawerWidth){
                 if (self.slideMenuState == SlideMenuState.Opening){
-                    c.origin.x = panGestureRecognizer.translationInView(self.masterViewController.view).x + SlideMenuOptions.kICSDrawerControllerDrawerDepth
+                    c.origin.x = panGestureRecognizer.translationInView(self.masterViewController.view).x + SlideMenuOptions.DrawerWidth
                 }
             }
             self.masterViewController.view.frame = c ;
@@ -146,7 +150,7 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
             if (location.x - self.panGestureStartLocation.x > SlideMenuOptions.kICSDrawerControllerLeftViewInitialOffset){
                 self.didOpen()
             }else {
-                if  (c.origin.x < (SlideMenuOptions.kICSDrawerControllerDrawerDepth - 40)){
+                if  (c.origin.x < (SlideMenuOptions.DrawerWidth - 40)){
                     self.didClose()
                 }else {
                     self.didOpen()
@@ -161,16 +165,15 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
     //打开侧边栏
     func didOpen(){
         
-        //首先得到主窗体的尺寸
+        //设置主窗体的结束位置
         var mainSize = self.masterViewController.view.frame
-        
-        //设置主窗体的起始位置，加上制定的数值
-        mainSize.origin.x = SlideMenuOptions.kICSDrawerControllerDrawerDepth
+        mainSize.origin.x = SlideMenuOptions.DrawerWidth
+        //动效
         UIView.animateWithDuration(0.7,
-            delay:0,
-            usingSpringWithDamping:1,
-            initialSpringVelocity:1.0,
-            options:UIViewAnimationOptions.AllowUserInteraction,
+            delay: 0,
+            usingSpringWithDamping: 1,
+            initialSpringVelocity: 1.0,
+            options: UIViewAnimationOptions.AllowUserInteraction,
             animations:{ self.masterViewController.view.frame = mainSize; },
             completion: { (finished: Bool) -> Void in }
         )

@@ -28,6 +28,10 @@ class MasterViewController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //统一navbar颜色样式
+        self.navigationBar.tintColor    = SceneColor.lightYellow
+        self.navigationBar.barTintColor = SceneColor.black
+        self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.yellow]
         
         //初始化蒙板
         maskView = UIView(frame: view.bounds)
@@ -54,6 +58,12 @@ class MasterViewController: UINavigationController {
         if sender.state == .Ended {
             slideDelegate?.dismissMenu()
         }
+    }
+    
+    //MASK: Unwind Segues
+    
+    @IBAction func backingPrepareForSegue(segue: UIStoryboardSegue){
+        //self.slideMenuState = SlideMenuState.Closing
     }
 
 }
