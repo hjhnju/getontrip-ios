@@ -12,6 +12,7 @@ import UIKit
 struct StoryBoardIdentifier {
     static let MainNavViewId = "MainNavViewID"
     static let MenuViewId    = "MenuViewID"
+    static let LoginMenuViewId = "LoginMenuViewID"
     static let MenuCellId    = "MenuCellID"
     
     //segues
