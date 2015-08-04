@@ -32,6 +32,7 @@ class MasterViewController: UINavigationController {
         self.navigationBar.tintColor    = SceneColor.lightYellow
         self.navigationBar.barTintColor = SceneColor.black
         self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.yellow]
+        //TODO:remove 1px border
         
         //初始化蒙板
         maskView = UIView(frame: view.bounds)

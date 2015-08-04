@@ -12,11 +12,11 @@ import UIKit
 struct StoryBoardIdentifier {
     static let MainNavViewId = "MainNavViewID"
     static let MenuViewId    = "MenuViewID"
-    static let LoginMenuViewId = "LoginMenuViewID"
     static let MenuCellId    = "MenuCellID"
     
     //segues
     static let ShowFavSegue  = "ShowFavSegue"
+    static let ShowTopicDetailSegue = "ShowTopicDetailSegue"
 }
 
 
@@ -24,6 +24,7 @@ struct SceneColor {
     static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
     static let yellow = UIColor.yellowColor()
     static let black  = UIColor.blackColor()
+    static let lightBlack = UIColor(hex: 0x1C1C1C, alpha:1)
 }
 
 extension UIColor {

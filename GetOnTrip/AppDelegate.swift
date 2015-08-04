@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //NavController的status bar也显示为UIStatusBarStyle.LightContent
         UINavigationBar.appearance().barStyle = UIBarStyle.Black
         
+        //UILabel.appearance().font = UIFont(name: "Helvetica Neue Bold", size: 14)
+        
         return true
     }
 

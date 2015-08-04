@@ -23,7 +23,22 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     var locationManager: CLLocationManager!
     
-    var curLocation: CLLocation?
+    //存储属性，保存最近有效定位。作为默认请求数据的参数（//TODO:缓存）
+    var lastEffectLocation: CLLocation?
+    
+    //当前定位
+    var curLocation: CLLocation? {
+        get {
+            return self.lastEffectLocation
+        }
+        set {
+            if let newLocation = newValue {
+                self.lastEffectLocation = newLocation
+            }
+            //无论是否有位置信息，均更新数据
+            refresh()
+        }
+    }
 
     private struct StoryBoard {
         static let CellReuseIdentifier = "NearbyTableViewCell"
@@ -36,7 +51,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         super.viewDidLoad()
         //移除底部空Cell
         tableView.tableFooterView = UIView(frame:CGRectZero)
-        //tableView.backgroundColor = UIColor.lightGrayColor()
         tableView.separatorColor      = UIColor.grayColor()
         tableView.sectionHeaderHeight = CGFloat(165)
         
@@ -48,38 +62,40 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.locationManager.requestWhenInUseAuthorization()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //开始定位
-        self.locationManager.startUpdatingLocation()
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        refreshByControl(refreshControl!)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        //停止定位
-        self.locationManager.stopUpdatingLocation()
-    }
-    
-    private func refresh(){
-        if let refresh = refreshControl {
-            refreshByControl(refresh)
-        }
     }
 
     @IBAction func refreshByControl(sender: UIRefreshControl) {
-        sender.beginRefreshing()
+        
+        self.refreshControl?.beginRefreshing()
+        
+        //开始定位
+        println("开始定位")
+        self.locationManager.startUpdatingLocation()
+    }
+    
+    private func refresh() {
+        NSLog("notice:refreshing nearby data.")
+        
         //获取数据更新tableview
         if lastSuccessRequest == nil {
             lastSuccessRequest = NearbyRequest(curLocation:self.curLocation, page:1)
         }
         lastSuccessRequest!.fetchModels { (sights:[NearbySight]) -> Void in
-            
             if sights.count > 0 {
                 self.nearSights = sights
                 self.tableView.reloadData()
-                sender.endRefreshing()
+                self.refreshControl?.endRefreshing()
+                
+                //结束定位
+                println("结束定位")
+                self.locationManager.stopUpdatingLocation()
             }
         }
     }
@@ -167,7 +183,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         }
         if let identifier = segue.identifier {
             switch identifier{
-            case "TopicDetailViewSegue":
+            case StoryBoardIdentifier.ShowTopicDetailSegue:
                 if let tdvc = destination as? TopicDetailViewController {
                     tdvc.topic = sender as? Topic
                 }
@@ -188,6 +204,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         activity.frame = CGRectMake(0, 0, self.tableView.bounds.width, 44)
         tableFooterView.addSubview(activity)
     }
+    
     //触发加载更多事件
     func loadMoreAction(){
         activity.startAnimating()
@@ -207,17 +224,17 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     // MARK: CCLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        self.curLocation = locations.last as? CLLocation
-        NSLog("notice:location.latitude=%@", self.curLocation?.description ?? "nil")
+        let newLocation = locations.last as? CLLocation
+        NSLog("notice:location.latitude=%@", newLocation?.description ?? "nil")
         
-        refresh()
+        self.curLocation = newLocation
     }
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         
         NSLog("error:%@", error.localizedDescription)
         
-        refresh()
+        self.curLocation = nil
     }
 
 }
