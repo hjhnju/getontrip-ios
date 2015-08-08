@@ -22,7 +22,5 @@ class TopicDetailViewController: UIViewController {
             self.titleLabel?.text = "话题id=\(t.topicid)"
         }
     }
-    
-    
 
 }

@@ -49,6 +49,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        println("self=\(self)")
         //移除底部空Cell
         tableView.tableFooterView = UIView(frame:CGRectZero)
         tableView.separatorColor      = UIColor.grayColor()
@@ -60,11 +61,12 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         self.locationManager.distanceFilter = 1000.0 //设备至少移动1000米，才通知委托更新
         self.locationManager.requestWhenInUseAuthorization()
+        
+        refreshByControl(refreshControl!)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        refreshByControl(refreshControl!)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -76,7 +78,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.refreshControl?.beginRefreshing()
         
         //开始定位
-        println("开始定位")
+        //println("开始定位")
         self.locationManager.startUpdatingLocation()
     }
     
@@ -94,7 +96,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                 self.refreshControl?.endRefreshing()
                 
                 //结束定位
-                println("结束定位")
+                //println("结束定位")
                 self.locationManager.stopUpdatingLocation()
             }
         }
@@ -169,28 +171,10 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
         var topic = self.nearSights[indexPath.section].topics[indexPath.row]
         
-        self.performSegueWithIdentifier("TopicDetailViewSegue", sender: topic)
+        self.performSegueWithIdentifier(StoryBoardIdentifier.ShowTopicDetailSegue, sender: topic)
         
     }
     
-    // MARK: Segues
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        var destination = segue.destinationViewController as? UIViewController
-        if let navCon = destination as? UINavigationController{
-            destination = navCon.visibleViewController
-        }
-        if let identifier = segue.identifier {
-            switch identifier{
-            case StoryBoardIdentifier.ShowTopicDetailSegue:
-                if let tdvc = destination as? TopicDetailViewController {
-                    tdvc.topic = sender as? Topic
-                }
-            default:break
-            }
-        }
-    }
     
     //MARK: Custom funcs
     
@@ -225,7 +209,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         let newLocation = locations.last as? CLLocation
-        NSLog("notice:location.latitude=%@", newLocation?.description ?? "nil")
+        //NSLog("notice:location.latitude=%@", newLocation?.description ?? "nil")
         
         self.curLocation = newLocation
     }
@@ -236,5 +220,23 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         self.curLocation = nil
     }
-
+    
+    // MARK: Segues
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        var destination = segue.destinationViewController as? UIViewController
+        if let navCon = destination as? UINavigationController{
+            destination = navCon.visibleViewController
+        }
+        if let identifier = segue.identifier {
+            switch identifier{
+            case StoryBoardIdentifier.ShowTopicDetailSegue:
+                if let tdvc = destination as? TopicDetailViewController {
+                    tdvc.topic = sender as? Topic
+                }
+            default:break
+            }
+        }
+    }
 }

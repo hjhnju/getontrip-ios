@@ -49,11 +49,14 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    var view1: UIView = UIView()
+    weak var view1: UIView!
     
     var view2: UIView = UIView()
     
     var view3: UIView = UIView()
+    
+    // `searchController` is set when the search button is clicked.
+    var searchController: UISearchController!
     
     //MASK: View Life Circle
     
@@ -72,6 +75,14 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.delegate = self
         scrollView.bounces = false
+        
+        //初始化views
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        let controller1 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.NearbyControllerID) as! UIViewController
+        addChildViewController(controller1)
+        view1 = controller1.view
+        scrollView.addSubview(view1)
+        scrollView.bringSubviewToFront(view1)
     }
     
     override func viewDidLayoutSubviews() {
@@ -83,10 +94,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
 
         self.scrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds/2)
         
-        view1.backgroundColor = UIColor.blueColor()
         view1.frame = CGRectMake(0, 0, wBounds, hBounds)
-        self.scrollView.addSubview(view1)
-        self.scrollView.bringSubviewToFront(view1)
         
         view2.backgroundColor = UIColor.orangeColor()
         view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
@@ -98,18 +106,17 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         self.scrollView.addSubview(view3)
         self.scrollView.bringSubviewToFront(view3)
         
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         //default select
         if selectedItem == nil{
             selectedItem = item1
         }
     }
 
-    
     //MASK: Actions
     
     @IBAction func showMenu(sender: UIBarButtonItem) {
@@ -130,15 +137,43 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         scrollView.contentOffset.x = containView.bounds.width * selectedIndex
     }
     
+    @IBAction func searchButtonClicked(button: UIBarButtonItem) {
+        // Create the search results view controller and use it for the UISearchController.
+        let searchResultsController = storyboard!.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.SearchResultsViewControllerID) as! SearchResultsViewController
+        
+        // Create the search controller and make it perform the results updating.
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController.searchResultsUpdater = searchResultsController
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+        //UI setting
+        let imgView   = UIImageView(image: UIImage(named: "search-bg")!)
+        imgView.frame = searchController.view.bounds
+        searchController.view.addSubview(imgView)
+        searchController.view.sendSubviewToBack(imgView)
+        //searchController.searchBar.searchBarStyle = UISearchBarStyle.Minimal
+        searchController.searchBar.barStyle = UIBarStyle.Black
+        //searchController.searchBar.setSearchFieldBackgroundImage(UIImage(named: "search-field")!, forState: UIControlState.Normal)
+        //searchController.searchBar.setImage(UIImage(named: "search-icon")!, forSearchBarIcon: UISearchBarIcon.Search, state: UIControlState.Normal)
+        searchController.searchBar.tintColor = UIColor.grayColor()
+        let textField = searchController.searchBar.valueForKey("searchField") as? UITextField
+        textField?.textColor = UIColor.whiteColor()
+        searchController.searchBar.becomeFirstResponder()
+        searchController.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
+        
+        // Present the view controller.
+        presentViewController(searchController, animated: true, completion: nil)
+    }
+
+    
     //MASK: Delegates
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
+        //TODO: animation on slideView
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         var xOffset: CGFloat = scrollView.contentOffset.x
-        println("xOffset=\(xOffset)")
         if (xOffset < 1.0) {
             selectedItem = item1
         } else if (xOffset < containView.bounds.width + 1) {

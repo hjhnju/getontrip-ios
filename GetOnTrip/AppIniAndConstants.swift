@@ -9,16 +9,29 @@
 import Foundation
 import UIKit
 
+struct AppIni {
+    static let BaseUri = "http://123.57.46.229:8301"
+    static let BaseImageUri = "http://123.57.46.229:8301/Pic"
+}
+
 struct StoryBoardIdentifier {
+    
+    //menu
     static let MainNavViewId = "MainNavViewID"
     static let MenuViewId    = "MenuViewID"
     static let MenuCellId    = "MenuCellID"
     
+    //man page
+    static let NearbyControllerID = "NearbyControllerID"
+    static let SearchResultsCell  = "SearchResultsCell"
+    static let SearchResultsViewControllerID = "SearchResultsViewControllerID"
+    
     //segues
     static let ShowFavSegue  = "ShowFavSegue"
     static let ShowTopicDetailSegue = "ShowTopicDetailSegue"
+    static let ShowSightTopicsSegue = "ShowSightTopicsSegue"
+    static let ShowCitySightsSegue = "ShowCitySightsSegue"
 }
-
 
 struct SceneColor {
     static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
