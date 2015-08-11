@@ -20,6 +20,8 @@ class MasterViewController: UINavigationController {
     //用户拖动视图
     var tapGestureRecognizer: UITapGestureRecognizer!
     
+    var panGestureRecognizer: UIPanGestureRecognizer?
+    
     //MASK: View Life Cycle
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -43,6 +45,10 @@ class MasterViewController: UINavigationController {
         //初始化手势
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureHandler:")
         self.maskView.addGestureRecognizer(tapGestureRecognizer)
+        
+        if let pan = panGestureRecognizer {
+            self.maskView.addGestureRecognizer(pan)
+        }
         
         refreshMask()
     }

@@ -80,7 +80,8 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
         //添加用户拖动事件
         self.panGestureRecognizer = UIPanGestureRecognizer()
         self.panGestureRecognizer.addTarget(self, action:"panGestureRecognized:")
-        self.view.addGestureRecognizer(self.panGestureRecognizer)
+        self.sideViewController.view.addGestureRecognizer(self.panGestureRecognizer)
+        self.masterViewController.panGestureRecognizer = self.panGestureRecognizer
         
     }
     
