@@ -13,11 +13,16 @@ class NearbyTableViewCell: UITableViewCell {
     // MASK: Outlets
 
     @IBOutlet weak var topicImageView: UIImageView!
+    
     @IBOutlet weak var subtitleLabel: UILabel!
+    
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet var desc: UILabel!
-    @IBOutlet var scan: UILabel!
-    @IBOutlet var favorites: UILabel!
+    
+    @IBOutlet var descLabel: UILabel!
+    
+    @IBOutlet var visitsLabel: UILabel!
+    
+    @IBOutlet var favoritesLabel: UILabel!
     
     var topicImage: UIImage? {
         didSet{
@@ -56,26 +61,26 @@ class NearbyTableViewCell: UITableViewCell {
         }
     }
     
-    var favoritesValue:Int? {
+    var favorites:Int? {
         didSet {
-            if let newFavorites = favoritesValue {
-                self.favorites.text = "\(newFavorites)"
+            if let newFavorites = favorites {
+                self.favoritesLabel.text = "\(newFavorites)"
             }
         }
     }
     
-    var descValue:String? {
+    var desc:String? {
         didSet {
-            if let newValue = descValue {
-                self.desc.text = newValue
+            if let newValue = desc {
+                self.descLabel.text = newValue
             }
         }
     }
     
-    var scanValue:Int? {
+    var visits:Int? {
         didSet {
-            if let newValue = scanValue {
-                self.scan.text = "\(newValue)"
+            if let newValue = visits {
+                self.visitsLabel.text = "\(newValue)"
             }
         }
     }

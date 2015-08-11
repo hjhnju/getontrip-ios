@@ -13,7 +13,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     //MARK: Model and variables
     
-    var nearSights = [NearbySight]()
+    var nearSights = [Sight]()
     
     var lastSuccessRequest: NearbyRequest?
     
@@ -39,21 +39,18 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             refresh()
         }
     }
-
-    private struct StoryBoard {
-        static let CellReuseIdentifier = "NearbyTableViewCell"
-        static let SectionHeaderReuseIdentifier = "SightHeaderView"
-    }
     
     // MARK: - View Controller Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("self=\(self)")
         //移除底部空Cell
-        tableView.tableFooterView = UIView(frame:CGRectZero)
+        tableView.tableFooterView     = UIView(frame: CGRectZero)
         tableView.separatorColor      = UIColor.grayColor()
         tableView.sectionHeaderHeight = CGFloat(165)
+        tableView.sectionFooterHeight = CGFloat(12)
+        tableView.rowHeight = CGFloat(117)
+        tableView.backgroundColor = UIColor.clearColor()
         
         //初始化定位服务
         self.locationManager = CLLocationManager()
@@ -87,9 +84,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         //获取数据更新tableview
         if lastSuccessRequest == nil {
-            lastSuccessRequest = NearbyRequest(curLocation:self.curLocation, page:1)
+            lastSuccessRequest = NearbyRequest(curLocation:self.curLocation)
         }
-        lastSuccessRequest!.fetchModels { (sights:[NearbySight]) -> Void in
+        lastSuccessRequest!.fetchModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = sights
                 self.tableView.reloadData()
@@ -114,33 +111,41 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoard.CellReuseIdentifier, forIndexPath: indexPath) as! NearbyTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.NearbyTableViewCellID, forIndexPath: indexPath) as! NearbyTableViewCell
         
         // Configure the cell...
         let sight = nearSights[indexPath.section]
         cell.topicImageUrl = sight.topics[indexPath.row].imageUrl
         cell.subtitle = sight.topics[indexPath.row].subtitle
         cell.title = sight.topics[indexPath.row].title
-        cell.favoritesValue = sight.topics[indexPath.row].favorites
-        cell.descValue = sight.topics[indexPath.row].desc
-        cell.scanValue = sight.topics[indexPath.row].scan
+        cell.favorites = sight.topics[indexPath.row].favorites
+        cell.desc = sight.topics[indexPath.row].desc
+        cell.visits = sight.topics[indexPath.row].visits
+        cell.backgroundColor = SceneColor.lightBlack
         return cell
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerViewCell = tableView.dequeueReusableCellWithIdentifier(StoryBoard.SectionHeaderReuseIdentifier) as! SightHeaderView
+        let headerViewCell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.NearbyHeaderViewID) as! SightHeaderView
         headerViewCell.sightName = nearSights[section].name
         headerViewCell.sightImageUrl = nearSights[section].imageUrl
         headerViewCell.distanceValue = nearSights[section].distance
         headerViewCell.cityValue = nearSights[section].city
         headerViewCell.descValue = nearSights[section].desc
+        headerViewCell.backgroundColor = SceneColor.lightBlack
+        
         //判断当前section是否为最后一个，如果是那么为该section添加footer
         if section == self.nearSights.count - 1{
             loadMore()
         }
-        
         return headerViewCell
+    }
+    
+    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView(frame: CGRectMake(0, 0, tableView.frame.width, 8))
+        footerView.backgroundColor = SceneColor.lightBlack
+        return footerView
     }
     
     //解决：去掉UItableview headerview黏性(sticky)
@@ -181,10 +186,10 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     //加载更多按钮，为tableFooterView创建加载元素
     func loadMore(){
         var tableFooterView:UIView = UIView()
-        tableFooterView.frame = CGRectMake(0, 0, self.tableView.bounds.size.width, 44)
+        tableFooterView.frame           = CGRectMake(0, 0, self.tableView.bounds.size.width, 44)
         tableFooterView.backgroundColor = UIColor.whiteColor()
-        self.tableView.tableFooterView = tableFooterView
-        activity = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        self.tableView.tableFooterView  = tableFooterView
+        activity       = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         activity.frame = CGRectMake(0, 0, self.tableView.bounds.width, 44)
         tableFooterView.addSubview(activity)
     }
@@ -192,8 +197,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     //触发加载更多事件
     func loadMoreAction(){
         activity.startAnimating()
-        var request = NearbyRequest(curLocation:self.curLocation, page:1)
-        request.fetchModels { (sights:[NearbySight]) -> Void in
+        self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 sleep(1)
                 self.nearSights = self.nearSights + sights
@@ -238,5 +242,10 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             default:break
             }
         }
+    }
+    
+    
+    @IBAction func showSightView(sender: UIButton) {
+        performSegueWithIdentifier(StoryBoardIdentifier.ShowSightTopicsSegue, sender: sender)
     }
 }

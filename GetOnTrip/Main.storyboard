@@ -438,7 +438,7 @@
                                                 <constraint firstAttribute="width" constant="516" id="Zqy-T6-IzA"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -452,7 +452,7 @@
                                                 <constraint firstAttribute="width" constant="516" id="pEu-yC-KIH"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -499,30 +499,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vai-D8-fuF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="666" y="-1533"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="MCN-QS-KNX">
-            <objects>
-                <viewController id="SJo-ek-rlK" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="fJN-Ef-Lb4"/>
-                        <viewControllerLayoutGuide type="bottom" id="KGT-5i-kNN"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="B3B-Rl-3Zm">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <searchBar contentMode="redraw" fixedFrame="YES" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="Z0f-WH-TCh">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sdu-4w-jdO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="910" y="-673"/>
         </scene>
     </scenes>
     <resources>

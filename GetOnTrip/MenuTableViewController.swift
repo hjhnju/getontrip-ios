@@ -70,7 +70,7 @@ class MenuTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.MenuCellId, forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.MenuCellID, forIndexPath: indexPath) as! UITableViewCell
         
         var text = menuData[indexPath.row]!["text"]!
         var image = UIImage(named: menuData[indexPath.row]!["icon"]!)

@@ -9,17 +9,27 @@
 import Foundation
 import UIKit
 
-struct AppIni {
+class AppIniOnline {
+    static let BaseUri = "http://123.57.67.165:8301"
+}
+
+class AppIniDev {
     static let BaseUri = "http://123.57.46.229:8301"
-    static let BaseImageUri = "http://123.57.46.229:8301/Pic"
+}
+
+class AppIni:AppIniOnline {
 }
 
 struct StoryBoardIdentifier {
     
     //menu
-    static let MainNavViewId = "MainNavViewID"
-    static let MenuViewId    = "MenuViewID"
-    static let MenuCellId    = "MenuCellID"
+    static let MainNavViewID = "MainNavViewID"
+    static let MenuViewID    = "MenuViewID"
+    static let MenuCellID    = "MenuCellID"
+    
+    //nearby
+    static let NearbyTableViewCellID = "NearbyTableViewCellID"
+    static let NearbyHeaderViewID    = "NearbyHeaderViewID"
     
     //man page
     static let NearbyControllerID = "NearbyControllerID"

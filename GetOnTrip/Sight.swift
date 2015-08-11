@@ -1,5 +1,5 @@
 //
-//  SightAndTopTopic.swift
+//  Sight.swift
 //  Smashtag
 //
 //  Created by 何俊华 on 15/7/22.
@@ -11,7 +11,7 @@ import Foundation
 /*
 包含一个section的数据：景点介绍 ＋ 2个话题
 */
-class NearbySight {
+class Sight {
     
     //景点id
     var sightid:Int
@@ -29,14 +29,22 @@ class NearbySight {
     var desc:String?
     
     //城市
-    var city: String?
+    var city: String? {
+        didSet {
+            if city != nil {
+                city = "All" + city!
+            }
+        }
+    }
+    
+    //城市id
+    var cityId: Int?
     
     //话题
-    var topics: Array<Topic>
+    var topics = [Topic]()
     
-    init(sightid:Int, name:String, topics:Array<Topic>){
+    init(sightid:Int, name:String){
         self.sightid = sightid
         self.name = name
-        self.topics = topics
     }
 }

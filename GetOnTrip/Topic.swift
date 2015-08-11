@@ -27,21 +27,23 @@ class Topic :Printable{
     var favorites:Int?
     
     //浏览
-    var scan:Int?
+    var visits:Int?
     
-    var description:String {
-        get{
-            return "Topic(\(topicid)"
-        }
-        set{
-            newValue
-        }
-    }
+    //描述
     var desc:String?
+    
+    //来自
+    var from:String?
 
     init(topicid:Int, title: String, subtitle: String){
         self.topicid = topicid
         self.title = title
         self.subtitle = subtitle
+    }
+    
+    var description:String {
+        get{
+            return "Topic(\(topicid)"
+        }
     }
 }

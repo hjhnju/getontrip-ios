@@ -16,6 +16,7 @@ class SightHeaderView: UITableViewCell {
     @IBOutlet var city: UILabel!
     @IBOutlet var desc: UILabel!
     @IBOutlet weak var sightLabel: UILabel!
+    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     
     var sightImage:UIImage? {
         didSet {
@@ -47,10 +48,11 @@ class SightHeaderView: UITableViewCell {
     }
     
     override func awakeFromNib() {
-        self.sightLabel.layer.cornerRadius = 10
-        self.sightLabel.layer.borderWidth = 2
+        self.sightLabel.layer.cornerRadius = 5
+        self.sightLabel.layer.borderWidth = CGFloat(2)
         self.sightLabel.layer.masksToBounds = true
         self.sightLabel.layer.borderColor = UIColor.yellowColor() as! CGColorRef
+        self.sightLabel.resizeWidthToFit(self.widthConstraint)
     }
 
     

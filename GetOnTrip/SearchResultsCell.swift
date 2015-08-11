@@ -19,27 +19,19 @@ class SearchResultsCell: UITableViewCell {
     
     var resultImage:UIImage? {
         didSet{
-            if resultImage != nil {
-                self.resultImageView.image = resultImage
-            } else {
-                self.resultImageView.image = UIImage(named: "default-topic")
-            }
+            self.resultImageView.image = resultImage ?? UIImage(named: "default-topic")
         }
     }
     
     var resultTitle:String? {
         didSet{
-            if resultTitle != nil {
-                resultTitleLabel.text = resultTitle
-            }
+            resultTitleLabel.text = resultTitle ?? ""
         }
     }
     
     var resultDesc:String? {
         didSet{
-            if resultDesc != nil {
-                resultDescLabel.text = resultDesc
-            }
+            resultDescLabel.text = resultDesc ?? ""
         }
     }
     

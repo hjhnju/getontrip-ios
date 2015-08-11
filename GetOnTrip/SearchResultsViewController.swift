@@ -20,6 +20,8 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
     
     var titleMap = ["sight":"景点", "city":"城市", "topic":"话题", "theme":"主题"]
     
+    var sectionTypes = ["sight", "city", "topic", "theme"]
+    
     var scrollLock:Bool = false
     
     var filterString: String? {
@@ -30,11 +32,8 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
                 }
                 self.resultData.removeAll(keepCapacity: true)
                 self.sectionTitle.removeAll(keepCapacity: true)
-                HttpRequest.ajax(AppIni.BaseUri, path: "/search", post: ["query":query], handler: {(respData: JSON) -> Void in
-                    for (index, item) in enumerate(respData) {
-                        println("index=\(index), item=\(item)")
-                    }
-                    for section in ["sight", "city", "topic", "theme"] {
+                HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: ["query":query], handler: {(respData: JSON) -> Void in
+                    for section in self.sectionTypes {
                         let secRows = respData[section].arrayValue
                         if secRows.count > 0 {
                             var rows = [Dictionary<String, JSON>]()
@@ -65,8 +64,6 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
     // MARK: UITableViewDataSource
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        println("sections=\(resultData.count)")
-        println(resultData)
         return resultData.count
     }
     
@@ -96,7 +93,7 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         cell.resultImageUrl = resultData[indexPath.section][indexPath.row]["image"]?.stringValue
         cell.resultTitle = resultData[indexPath.section][indexPath.row]["name"]?.stringValue
         cell.resultDesc  = resultData[indexPath.section][indexPath.row]["desc"]?.stringValue
-        cell.resultType  = resultData[indexPath.section][indexPath.row]["type"]?.stringValue
+        cell.resultType  = self.sectionTypes[indexPath.section]
         cell.resultId  = resultData[indexPath.section][indexPath.row]["id"]?.intValue
         return cell
     }

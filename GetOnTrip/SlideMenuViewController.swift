@@ -70,9 +70,9 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
         
         //TODO:处理登陆状态
         //self.sideViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MenuViewId) as! MenuViewController
-        self.sideViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MenuViewId) as! MenuViewController
+        self.sideViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MenuViewID) as! MenuViewController
         
-        self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewId) as! MasterViewController
+        self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewID) as! MasterViewController
         
         self.sideViewController.slideDelegate = self
         self.masterViewController.slideDelegate = self
