@@ -30,11 +30,9 @@ class MasterViewController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //统一navbar颜色样式
-        self.navigationBar.tintColor    = SceneColor.lightYellow
-        self.navigationBar.barTintColor = SceneColor.black
-        self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.yellow]
-        //TODO:remove 1px border
+        refreshBar()
         
         //初始化蒙板
         maskView = UIView(frame: view.bounds)
@@ -51,6 +49,13 @@ class MasterViewController: UINavigationController {
         }
         
         refreshMask()
+    }
+    
+    func refreshBar(){
+        self.navigationBar.barTintColor = SceneColor.black
+        self.navigationBar.tintColor    = SceneColor.lightYellow
+        self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
+        //TODO:remove 1px border
     }
     
     //更新蒙板状态

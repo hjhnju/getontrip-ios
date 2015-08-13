@@ -68,6 +68,8 @@ class NearbyRequest {
                         topic.visits = it["visit"].intValue
                         topic.imageUrl = AppIni.BaseUri + it["image"].stringValue
                         topic.from = it["from"].stringValue
+                        topic.sight = name
+                        topic.distance = sight.distance
                         sight.topics.append(topic)
                     }
                     sights.append(sight)

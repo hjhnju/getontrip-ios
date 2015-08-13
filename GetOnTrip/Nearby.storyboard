@@ -168,7 +168,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6r-4o-KTY">
-                                            <rect key="frame" x="149" y="22.5" width="443" height="16.5"/>
+                                            <rect key="frame" x="149" y="22" width="443" height="16.5"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -179,8 +179,12 @@
                                             <color key="textColor" red="0.61176470589999998" green="0.61176470589999998" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="favorite" translatesAutoresizingMaskIntoConstraints="NO" id="mxj-oq-Hcx" userLabel="favicon">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="favorite-yellow" translatesAutoresizingMaskIntoConstraints="NO" id="mxj-oq-Hcx" userLabel="favicon">
                                             <rect key="frame" x="149" y="99" width="8" height="6"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="6" id="Wfp-Fm-0iX"/>
+                                                <constraint firstAttribute="width" constant="8" id="Yrt-pS-ttZ"/>
+                                            </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="114" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eq4-P8-RKb" userLabel="favorites">
                                             <rect key="frame" x="159" y="96" width="16" height="11"/>
@@ -262,44 +266,6 @@
             </objects>
             <point key="canvasLocation" x="2310" y="-911"/>
         </scene>
-        <!--Topic Detail View Controller-->
-        <scene sceneID="MUt-OA-KHB">
-            <objects>
-                <viewController id="Bjw-wR-RQA" customClass="TopicDetailViewController" customModule="GetOnTrip" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="9Lh-Fo-vdm"/>
-                        <viewControllerLayoutGuide type="bottom" id="a2t-AX-fb5"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="IVF-gI-6mj">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="话题详情页" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Odr-Mh-hIX">
-                                <rect key="frame" x="257" y="289" width="86" height="22"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="86" id="xUD-fh-QUH"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Odr-Mh-hIX" firstAttribute="centerY" secondItem="IVF-gI-6mj" secondAttribute="centerY" id="Qa5-Kc-1dk"/>
-                            <constraint firstItem="Odr-Mh-hIX" firstAttribute="top" secondItem="9Lh-Fo-vdm" secondAttribute="bottom" constant="225" id="SZM-Mu-vRi"/>
-                            <constraint firstItem="Odr-Mh-hIX" firstAttribute="centerX" secondItem="IVF-gI-6mj" secondAttribute="centerX" id="aE9-AW-9ST"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="pYu-qL-VU8"/>
-                    <connections>
-                        <outlet property="titleLabel" destination="Odr-Mh-hIX" id="VAZ-4A-X93"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EuH-t5-fcV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2226" y="-152"/>
-        </scene>
         <!--城市-->
         <scene sceneID="HEU-CN-yNI">
             <objects>
@@ -369,20 +335,23 @@
         <!--Navigation Controller-->
         <scene sceneID="1on-7s-b3V">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hn3-pR-kAd" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="hn3-pR-kAd" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rmK-v0-LNJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="ihI-0J-5a2">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
-                        <segue destination="Bjw-wR-RQA" kind="relationship" relationship="rootViewController" id="Usu-wU-PaV"/>
+                        <segue destination="2TA-Wa-Y5F" kind="relationship" relationship="rootViewController" id="svX-xh-O8f"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xtf-RI-5Cr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1470" y="-162"/>
+            <point key="canvasLocation" x="2310" y="-122"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xsd-cG-SdX">
@@ -436,12 +405,91 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OiI-Gg-FWw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1470" y="-961"/>
+            <point key="canvasLocation" x="1470" y="-911"/>
+        </scene>
+        <!--Topic Detail View Controller-->
+        <scene sceneID="Mfs-pZ-HQY">
+            <objects>
+                <viewController storyboardIdentifier="TopicDetailViewControllerID" id="2TA-Wa-Y5F" customClass="TopicDetailViewController" customModule="GetOnTrip" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0Cf-dj-TBu"/>
+                        <viewControllerLayoutGuide type="bottom" id="yRa-Yg-TW2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="81Z-Sc-pJc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FxI-2j-Iaa">
+                                <rect key="frame" x="0.0" y="-44" width="600" height="644"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="180" id="72I-Rl-S2g"/>
+                                    <constraint firstAttribute="height" constant="180" id="FgY-q7-W0c"/>
+                                    <constraint firstAttribute="height" constant="136" id="HlK-fI-k6z"/>
+                                    <constraint firstAttribute="height" constant="136" id="cN3-7e-OWM"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="72I-Rl-S2g"/>
+                                        <exclude reference="cN3-7e-OWM"/>
+                                        <exclude reference="FgY-q7-W0c"/>
+                                        <exclude reference="HlK-fI-k6z"/>
+                                    </mask>
+                                </variation>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FxI-2j-Iaa" firstAttribute="leading" secondItem="81Z-Sc-pJc" secondAttribute="leading" id="9PC-fx-tXb"/>
+                            <constraint firstAttribute="bottom" secondItem="FxI-2j-Iaa" secondAttribute="bottom" id="PJQ-fB-jhJ"/>
+                            <constraint firstAttribute="trailing" secondItem="FxI-2j-Iaa" secondAttribute="trailing" id="dYc-Gx-Zse"/>
+                            <constraint firstItem="FxI-2j-Iaa" firstAttribute="top" secondItem="81Z-Sc-pJc" secondAttribute="top" constant="-44" id="heO-wJ-ZAd"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="9df-Kh-kQe" userLabel="comments">
+                            <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Fys-Te-BGS"/>
+                        <barButtonItem image="favorite" id="G1o-Sa-biM" userLabel="favorite">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="doFavorite:" destination="2TA-Wa-Y5F" id="VZ6-07-3QM"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="28" style="plain" systemItem="fixedSpace" id="Hcf-ma-1Kw"/>
+                        <barButtonItem image="share" id="57K-Qe-iDH" userLabel="share">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="doSharing:" destination="2TA-Wa-Y5F" id="yd5-EN-HGd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="28" style="plain" systemItem="fixedSpace" id="NS9-rQ-hH4"/>
+                        <barButtonItem image="comment" id="60a-Zm-0Xk" userLabel="comment">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="doComment:" destination="2TA-Wa-Y5F" id="ooO-pn-fbK"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="hLk-ES-T0z"/>
+                    <connections>
+                        <outlet property="navItem" destination="hLk-ES-T0z" id="PXJ-hs-thu"/>
+                        <outlet property="showCommentCountButton" destination="9df-Kh-kQe" id="Bre-bc-9pD"/>
+                        <outlet property="webView" destination="FxI-2j-Iaa" id="phU-Bg-Psq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nXt-Tg-CO1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3116" y="-122"/>
         </scene>
     </scenes>
     <resources>
+        <image name="comment" width="30" height="26"/>
         <image name="default-sight" width="414" height="166"/>
         <image name="eye" width="11" height="5"/>
-        <image name="favorite" width="8" height="6"/>
+        <image name="favorite" width="30" height="26"/>
+        <image name="favorite-yellow" width="8" height="6"/>
+        <image name="share" width="29" height="29"/>
     </resources>
 </document>

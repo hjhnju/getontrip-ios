@@ -34,6 +34,14 @@ class Topic :Printable{
     
     //来自
     var from:String?
+    
+    //景点名
+    var sight:String?
+    
+    //距离
+    var distance:String?
+    
+    var commentCount:Int?
 
     init(topicid:Int, title: String, subtitle: String){
         self.topicid = topicid

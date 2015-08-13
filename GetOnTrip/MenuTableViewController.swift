@@ -15,7 +15,7 @@ class MenuTableViewController: UITableViewController {
     var menuData:[Int: Dictionary<String, String>] = [
         0: ["text":"切换城市", "icon":"locating"],
         1: ["text":"首页", "icon":"locating"],
-        2: ["text":"我的收藏", "icon":"myfav", "segue":StoryBoardIdentifier.ShowFavSegue],
+        2: ["text":"我的收藏", "icon":"favorite", "segue":StoryBoardIdentifier.ShowFavSegue],
         3: ["text":"消息",  "icon":"locating"],
         4: ["text":"设置",  "icon":"locating"],
         5: ["text":"反馈",  "icon":"locating"],

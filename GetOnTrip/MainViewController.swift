@@ -62,6 +62,9 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //back button
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
+
         //颜色
         toolbar.barTintColor = SceneColor.lightBlack
         toolbar.tintColor = UIColor.whiteColor()

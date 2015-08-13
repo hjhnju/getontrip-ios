@@ -30,7 +30,7 @@ struct StoryBoardIdentifier {
     //nearby
     static let NearbyTableViewCellID = "NearbyTableViewCellID"
     static let NearbyHeaderViewID    = "NearbyHeaderViewID"
-    
+    static let TopicDetailViewControllerID = "TopicDetailViewControllerID"
     //man page
     static let NearbyControllerID = "NearbyControllerID"
     static let SearchResultsCell  = "SearchResultsCell"
@@ -48,6 +48,8 @@ struct SceneColor {
     static let yellow = UIColor.yellowColor()
     static let black  = UIColor.blackColor()
     static let lightBlack = UIColor(hex: 0x1C1C1C, alpha:1)
+    static let crystalWhite = UIColor(hex: 0xFFFFFF, alpha:0.4)
+    static let lightGray = UIColor.lightGrayColor()
 }
 
 extension UIColor {
