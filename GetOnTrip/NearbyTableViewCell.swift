@@ -47,15 +47,15 @@ class NearbyTableViewCell: UITableViewCell {
     
     var title:String? {
         didSet {
-            if let newTitle = title {
-                self.titleLabel.text = newTitle
+            if let newValue = title?.trim() {
+                self.titleLabel.attributedText = newValue.getAttributedString(lineSpacing: 4)
             }
         }
     }
     
     var subtitle:String? {
         didSet {
-            if let newTitle = subtitle {
+            if let newTitle = subtitle?.trim() {
                 self.subtitleLabel.text = newTitle
             }
         }
@@ -71,8 +71,8 @@ class NearbyTableViewCell: UITableViewCell {
     
     var desc:String? {
         didSet {
-            if let newValue = desc {
-                self.descLabel.text = newValue
+            if let newValue = desc?.trim() {
+                self.descLabel.attributedText = newValue.getAttributedString(lineSpacing: 4)
             }
         }
     }
@@ -83,6 +83,21 @@ class NearbyTableViewCell: UITableViewCell {
                 self.visitsLabel.text = "\(newValue)"
             }
         }
+    }
+    
+    
+    override func awakeFromNib() {
+        //设置字体和颜色
+        subtitleLabel.textColor = SceneColor.lightGray
+        titleLabel.textColor    = SceneColor.white
+        descLabel.textColor     = SceneColor.lightGray
+        favoritesLabel.textColor = SceneColor.lightGray
+        visitsLabel.textColor   = SceneColor.crystalWhite
+        
+        subtitleLabel.font = UIFont(name: "STHeitiSC-Light", size: 9)
+        titleLabel.font = UIFont(name: "STHeitiSC-Light", size: 14)
+        descLabel.font = UIFont(name: "STHeitiSC-Light", size: 10)
+        
     }
     
 }

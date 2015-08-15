@@ -12,9 +12,9 @@ class SightHeaderView: UITableViewCell {
     
     
     @IBOutlet weak var headerImageView: UIImageView!
-    @IBOutlet var distance: UILabel!
-    @IBOutlet var city: UILabel!
-    @IBOutlet var desc: UILabel!
+    @IBOutlet var distanceLabel: UILabel!
+    @IBOutlet var cityLabel: UILabel!
+    @IBOutlet var descLabel: UILabel!
     @IBOutlet weak var sightLabel: UILabel!
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     
@@ -59,21 +59,23 @@ class SightHeaderView: UITableViewCell {
     var distanceValue:String? {
         didSet {
             if let value = distanceValue {
-                self.distance.text = value
+                self.distanceLabel.text = value
             }
         }
     }
+    
     var cityValue:String? {
         didSet {
             if let value = cityValue {
-                self.city.text = value
+                self.cityLabel.text = value
             }
         }
     }
+    
     var descValue:String? {
         didSet {
             if let value = descValue {
-                self.desc.text = value
+                self.descLabel.attributedText = value.getAttributedString(lineHeightMultiple: 1.1)
             }
         }
     }

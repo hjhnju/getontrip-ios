@@ -13,12 +13,11 @@ class MenuTableViewController: UITableViewController {
     //MASK: Properties
     
     var menuData:[Int: Dictionary<String, String>] = [
-        0: ["text":"切换城市", "icon":"locating"],
-        1: ["text":"首页", "icon":"locating"],
-        2: ["text":"我的收藏", "icon":"favorite", "segue":StoryBoardIdentifier.ShowFavSegue],
-        3: ["text":"消息",  "icon":"locating"],
-        4: ["text":"设置",  "icon":"locating"],
-        5: ["text":"反馈",  "icon":"locating"],
+        0: ["text":"切换城市", "icon":"menu-locate"],
+        1: ["text":"我的收藏", "icon":"menu-favorite", "segue":StoryBoardIdentifier.ShowFavSegue],
+        2: ["text":"消息",  "icon":"menu-msg"],
+        3: ["text":"设置",  "icon":"menu-setting"],
+        4: ["text":"反馈",  "icon":"menu-feedback"],
     ]
     
     //MASK: View Life Cycle

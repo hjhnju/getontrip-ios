@@ -20,8 +20,9 @@ class HttpRequest {
                 let json = JSON(data: data)
                 if json["status"] == 0 {
                     let data = json["data"]
-                    
-                    return handler(data)
+                    if !data.isEmpty {
+                        return handler(data)
+                    }
                 }
             }
             return handler(nil)

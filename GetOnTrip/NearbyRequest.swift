@@ -18,7 +18,8 @@ class NearbyRequest {
     
     var pageSize:Int = 2
     
-    var page:Int = 1
+    //获取当前页的数据
+    var curPage:Int = 1
     
     init(curLocation:CLLocation?){
         
@@ -26,16 +27,20 @@ class NearbyRequest {
     }
     
     func fetchNextPageModels(handler: [Sight] -> Void) {
-        self.page = self.page + 1
+        fetchModels(handler)
+    }
+    
+    func fetchFirstPageModels(handler:[Sight] -> Void) {
+        self.curPage = 1
         fetchModels(handler)
     }
     
     // 异步API，参数为回调函数
     // 返回NearbyModel的列表，e.g 附近3个景点
     //
-    func fetchModels(handler: [Sight] -> Void){
+    private func fetchModels(handler: [Sight] -> Void){
         var post     = [String:String]()
-        post["page"] = String(self.page)
+        post["page"] = String(self.curPage)
         post["pageSize"] = String(self.pageSize)
         if curLocation != nil{
             post["x"] = String(format: "%.f", Double(self.curLocation!.coordinate.latitude))
@@ -47,7 +52,6 @@ class NearbyRequest {
             path: "/api/home",
             post: post,
             handler: {(respData: JSON) -> Void in
-                //println(respData)
                 var sights = [Sight]()
                 for item in respData.arrayValue {
                     let sightId = item["id"].intValue
@@ -73,6 +77,9 @@ class NearbyRequest {
                         sight.topics.append(topic)
                     }
                     sights.append(sight)
+                }
+                if sights.count > 0 {
+                    self.curPage = self.curPage + 1
                 }
                 handler(sights)
             }

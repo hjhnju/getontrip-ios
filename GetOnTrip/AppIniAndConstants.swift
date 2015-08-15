@@ -17,7 +17,7 @@ class AppIniDev {
     static let BaseUri = "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniOnline {
+class AppIni:AppIniDev {
 }
 
 struct StoryBoardIdentifier {
@@ -46,20 +46,15 @@ struct StoryBoardIdentifier {
 struct SceneColor {
     static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
     static let yellow = UIColor.yellowColor()
+    
     static let black  = UIColor.blackColor()
-    static let lightBlack = UIColor(hex: 0x1C1C1C, alpha:1)
+    static let lightBlack = UIColor(hex: 0x2A2D2E, alpha:1)
+    static let lightGray = UIColor(hex: 0x9C9C9C, alpha:1)
+    
+    static let white  = UIColor.whiteColor()
     static let crystalWhite = UIColor(hex: 0xFFFFFF, alpha:0.4)
-    static let lightGray = UIColor.lightGrayColor()
 }
 
-extension UIColor {
-    
-    convenience init(hex: UInt, alpha: CGFloat){
-        self.init(
-            red: CGFloat((hex & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((hex & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(hex & 0x0000FF) / 255.0,
-            alpha: CGFloat(alpha)
-        )
-    }
+struct SceneFont {
+    static let heiti = "STHeitiSC-Light"
 }

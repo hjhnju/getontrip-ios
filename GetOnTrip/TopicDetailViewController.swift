@@ -15,7 +15,6 @@ class TopicDetailViewController: UIViewController {
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var showCommentCountButton: UIBarButtonItem!
     @IBOutlet weak var navItem: UINavigationItem!
-    @IBOutlet weak var backButtonItem: UIBarButtonItem!
     
     var topic:Topic?
     
@@ -38,6 +37,7 @@ class TopicDetailViewController: UIViewController {
         webView.backgroundColor = UIColor.whiteColor()
         webView.scalesPageToFit = true
         webView.dataDetectorTypes = .All
+        webView.scrollView.showsHorizontalScrollIndicator = false
         
         //load html
         loadWebURL()
@@ -47,8 +47,6 @@ class TopicDetailViewController: UIViewController {
         super.viewWillAppear(animated)
         //修改navigationbar
         refreshBar()
-        
-        navItem.leftBarButtonItem = backButtonItem
     }
     
     override func viewWillDisappear(animated: Bool) {

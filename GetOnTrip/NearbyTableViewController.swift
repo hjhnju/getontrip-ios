@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate {
+class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     
     //MARK: Model and variables
     
@@ -17,7 +17,10 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     var lastSuccessRequest: NearbyRequest?
     
-    var activity:UIActivityIndicatorView!
+    //底部加载
+    var activity: UIActivityIndicatorView!
+    
+    var activityLabel: UILabel!
     
     var scrollLock:Bool = false
     
@@ -40,17 +43,38 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         }
     }
     
+    //Animations
+    let customNavigationAnimationController = CustomNavigationAnimationController()
+    let customInteractionController = CustomInteractionController()
+    
     // MARK: - View Controller Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //移除底部空Cell
         tableView.tableFooterView     = UIView(frame: CGRectZero)
-        tableView.separatorColor      = UIColor.grayColor()
-        tableView.sectionHeaderHeight = CGFloat(165)
+        tableView.sectionHeaderHeight = CGFloat(177) //图高+12
         tableView.sectionFooterHeight = CGFloat(12)
-        tableView.rowHeight = CGFloat(117)
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.rowHeight           = CGFloat(117)
+        tableView.separatorColor      = UIColor.grayColor()
+        tableView.backgroundColor     = SceneColor.lightBlack
+        view.backgroundColor = SceneColor.lightBlack
+        
+        //创建footerView, 上拉加载
+        var tableFooterView:UIView      = UIView()
+        tableFooterView.frame           = CGRectMake(0, 0, tableView.bounds.size.width, 60)
+        tableFooterView.backgroundColor = UIColor.clearColor()
+        self.tableView.tableFooterView  = tableFooterView
+        activity       = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        activity.frame = CGRectMake(0, 0, tableView.bounds.size.width, 44)
+        activityLabel = UILabel()
+        activityLabel.frame = CGRectMake(0, 44, tableView.bounds.size.width, 10)
+        activityLabel.font  = UIFont(name: SceneFont.heiti, size: 10)
+        activityLabel.baselineAdjustment = UIBaselineAdjustment.AlignCenters
+        activityLabel.textAlignment = NSTextAlignment.Center
+        activityLabel.textColor = SceneColor.lightGray
+        tableFooterView.addSubview(activity)
+        tableFooterView.addSubview(activityLabel)
         
         //初始化定位服务
         self.locationManager = CLLocationManager()
@@ -60,6 +84,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.locationManager.requestWhenInUseAuthorization()
         
         refreshByControl(refreshControl!)
+        
+        //animation
+        navigationController?.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -69,6 +96,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
     }
+    
+    // MARK: Actions
 
     @IBAction func refreshByControl(sender: UIRefreshControl) {
         
@@ -86,16 +115,49 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         if lastSuccessRequest == nil {
             lastSuccessRequest = NearbyRequest(curLocation:self.curLocation)
         }
-        lastSuccessRequest!.fetchModels { (sights:[Sight]) -> Void in
+        lastSuccessRequest!.fetchFirstPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = sights
                 self.tableView.reloadData()
-                self.refreshControl?.endRefreshing()
                 
-                //结束定位
-                //println("结束定位")
-                self.locationManager.stopUpdatingLocation()
+                var formatter = NSDateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd HH:mm"
+                var dateString = formatter.stringFromDate(NSDate())
+                let message = "最近更新时间:\(dateString)"
+                
+                self.refreshControl?.attributedTitle = NSAttributedString(string: message, attributes: [NSForegroundColorAttributeName:SceneColor.lightGray])
+            } else {
+                self.activityLabel.text = "无法获取附近内容，请检查您的网络"
             }
+            
+            
+            self.refreshControl?.endRefreshing()
+            //结束定位
+            //println("结束定位")
+            self.locationManager.stopUpdatingLocation()
+        }
+    }
+    
+    //底部加载更多
+    func loadMore(){
+        if scrollLock == true {
+            return
+        }
+        
+        scrollLock = true
+        
+        self.activityLabel.text = "正在加载更多内容"
+        activity.startAnimating()
+        self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
+            if sights.count > 0 {
+                self.nearSights = self.nearSights + sights
+                self.tableView.reloadData()
+                self.activityLabel.text = ""
+            } else {
+                self.activityLabel.text = "附近没有更多内容啦"
+            }
+            self.activity.stopAnimating()
+            self.scrollLock = false
         }
     }
     
@@ -121,7 +183,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         cell.favorites = sight.topics[indexPath.row].favorites
         cell.desc = sight.topics[indexPath.row].desc
         cell.visits = sight.topics[indexPath.row].visits
-        cell.backgroundColor = SceneColor.lightBlack
+        cell.backgroundColor = UIColor.clearColor()
         return cell
     }
     
@@ -133,40 +195,32 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         headerViewCell.distanceValue = nearSights[section].distance
         headerViewCell.cityValue = nearSights[section].city
         headerViewCell.descValue = nearSights[section].desc
-        headerViewCell.backgroundColor = SceneColor.lightBlack
-        
-        //判断当前section是否为最后一个，如果是那么为该section添加footer
-        if section == self.nearSights.count - 1{
-            loadMore()
-        }
+        headerViewCell.backgroundColor = UIColor.clearColor()
+
         return headerViewCell
     }
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView(frame: CGRectMake(0, 0, tableView.frame.width, 8))
-        footerView.backgroundColor = SceneColor.lightBlack
+        footerView.backgroundColor = UIColor.clearColor()
+
         return footerView
     }
     
-    //解决：去掉UItableview headerview黏性(sticky)
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y <= tableView.sectionHeaderHeight && scrollView.contentOffset.y >= 0 {
-            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-        } else if scrollView.contentOffset.y >= tableView.sectionHeaderHeight {
+        
+        //解决：去掉UItableview headerview黏性(sticky)
+        var offSet = scrollView.contentOffset
+        if offSet.y <= tableView.sectionHeaderHeight && offSet.y >= 0 {
+            scrollView.contentInset = UIEdgeInsetsMake(-offSet.y, 0, 0, 0);
+        } else if offSet.y >= tableView.sectionHeaderHeight {
             scrollView.contentInset = UIEdgeInsetsMake(-tableView.sectionHeaderHeight, 0, 0, 0);
         }
+        
         //如果滚动到最底部，那么需要追加内容
-        //取出tableview得当前位置
-        var offset = self.tableView.contentOffset
-        //得到窗体的高度，固定不变，不同iphone会有变化
-        var frame = self.tableView.frame
-        //self.tableView.contentSize.height 该值是tableview的大小，会越来越大，翻一屏就会怎么一个屏幕的高度
-        //如果tableview得当前位置 = tableview大小 - tableview的当前位置的高度，说明已经到达底部，开始触发加载事件
-        if offset.y == self.tableView.contentSize.height - frame.size.height{
-            if self.scrollLock == false{
-                self.scrollLock = true
-                loadMoreAction()
-            }
+        let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
+        if yOffSet > 0 && offSet.y > yOffSet {
+            loadMore()
         }
     }
     
@@ -178,35 +232,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         self.performSegueWithIdentifier(StoryBoardIdentifier.ShowTopicDetailSegue, sender: topic)
         
-    }
-    
-    
-    //MARK: Custom funcs
-    
-    //加载更多按钮，为tableFooterView创建加载元素
-    func loadMore(){
-        var tableFooterView:UIView = UIView()
-        tableFooterView.frame           = CGRectMake(0, 0, self.tableView.bounds.size.width, 44)
-        tableFooterView.backgroundColor = UIColor.whiteColor()
-        self.tableView.tableFooterView  = tableFooterView
-        activity       = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        activity.frame = CGRectMake(0, 0, self.tableView.bounds.width, 44)
-        tableFooterView.addSubview(activity)
-    }
-    
-    //触发加载更多事件
-    func loadMoreAction(){
-        activity.startAnimating()
-        self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
-            if sights.count > 0 {
-                sleep(1)
-                self.nearSights = self.nearSights + sights
-                self.activity.stopAnimating()
-                self.tableView.tableFooterView = nil
-                self.tableView.reloadData()
-                self.scrollLock = false
-            }
-        }
     }
     
     // MARK: CCLocationManagerDelegate
@@ -247,5 +272,20 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     @IBAction func showSightView(sender: UIButton) {
         performSegueWithIdentifier(StoryBoardIdentifier.ShowSightTopicsSegue, sender: sender)
+    }
+    
+    // MARK: NavigationDelegate
+    
+    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if operation == .Push {
+            customInteractionController.attachToViewController(toVC)
+        }
+        customNavigationAnimationController.reverse = operation == .Pop
+        return customNavigationAnimationController
+    }
+    
+    func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return customInteractionController.transitionInProgress ? customInteractionController : nil
     }
 }
