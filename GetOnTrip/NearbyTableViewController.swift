@@ -58,7 +58,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         tableView.rowHeight           = CGFloat(117)
         tableView.separatorColor      = UIColor.grayColor()
         tableView.backgroundColor     = SceneColor.lightBlack
-        view.backgroundColor = SceneColor.lightBlack
         
         //创建footerView, 上拉加载
         var tableFooterView:UIView      = UIView()

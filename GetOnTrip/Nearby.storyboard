@@ -43,14 +43,14 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sight's Name " textAlignment="center" lineBreakMode="characterWrap" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aoz-KV-nLP" userLabel="sight">
-                                            <rect key="frame" x="260" y="72" width="80" height="21"/>
+                                            <rect key="frame" x="260" y="68" width="80" height="29"/>
                                             <color key="backgroundColor" red="0.95294117649999999" green="0.99215686270000003" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                                                 <bool key="isElement" value="NO"/>
                                             </accessibility>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="HE8-ba-oNK"/>
+                                                <constraint firstAttribute="height" constant="29" id="HE8-ba-oNK"/>
                                                 <constraint firstAttribute="width" constant="80" id="lac-LD-6df"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
@@ -111,34 +111,20 @@
                                         <constraint firstItem="aoz-KV-nLP" firstAttribute="centerY" secondItem="DNO-9b-Nr9" secondAttribute="centerY" id="Jnd-C5-ERV"/>
                                         <constraint firstItem="z1O-VS-eAa" firstAttribute="bottom" secondItem="DNO-9b-Nr9" secondAttribute="bottom" id="K6w-dQ-4RB"/>
                                         <constraint firstItem="DNO-9b-Nr9" firstAttribute="leading" secondItem="twh-wU-Cus" secondAttribute="leading" id="M6j-2x-ZbH"/>
-                                        <constraint firstItem="aoz-KV-nLP" firstAttribute="leading" secondItem="twh-wU-Cus" secondAttribute="leadingMargin" constant="4" id="OKk-ep-DTu"/>
-                                        <constraint firstItem="Exc-gp-sLW" firstAttribute="centerX" secondItem="Bsh-Zz-BeA" secondAttribute="centerX" id="RAT-lt-0sx"/>
                                         <constraint firstItem="Bsh-Zz-BeA" firstAttribute="trailing" secondItem="DNO-9b-Nr9" secondAttribute="trailing" id="SFN-O4-NjH"/>
                                         <constraint firstItem="Exc-gp-sLW" firstAttribute="trailing" secondItem="twh-wU-Cus" secondAttribute="trailingMargin" id="SMN-XX-7nB"/>
                                         <constraint firstItem="k11-nI-AwX" firstAttribute="trailing" secondItem="Bt5-XI-xf4" secondAttribute="trailing" id="Y7o-Fj-PZ4"/>
-                                        <constraint firstItem="Exc-gp-sLW" firstAttribute="leading" secondItem="z1O-VS-eAa" secondAttribute="leading" id="cj7-QY-kMQ"/>
                                         <constraint firstItem="Bt5-XI-xf4" firstAttribute="trailing" secondItem="R6M-9U-CAP" secondAttribute="trailing" id="fOP-XX-rNT"/>
                                         <constraint firstItem="R6M-9U-CAP" firstAttribute="top" secondItem="DNO-9b-Nr9" secondAttribute="top" id="h4p-xE-a21"/>
                                         <constraint firstItem="R6M-9U-CAP" firstAttribute="trailing" secondItem="DNO-9b-Nr9" secondAttribute="trailing" id="hsD-QE-kBg"/>
                                         <constraint firstItem="z1O-VS-eAa" firstAttribute="leading" secondItem="DNO-9b-Nr9" secondAttribute="leading" constant="8" id="hwA-2k-K6w"/>
                                         <constraint firstItem="z1O-VS-eAa" firstAttribute="trailing" secondItem="DNO-9b-Nr9" secondAttribute="trailing" constant="-8" id="iR3-du-Pgq"/>
                                         <constraint firstAttribute="trailing" secondItem="DNO-9b-Nr9" secondAttribute="trailing" id="jVN-wq-edG"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="aoz-KV-nLP" secondAttribute="trailing" constant="4" id="l8V-fH-UrE"/>
                                         <constraint firstItem="Exc-gp-sLW" firstAttribute="top" secondItem="twh-wU-Cus" secondAttribute="topMargin" id="pmn-Lm-XlA"/>
-                                        <constraint firstItem="Exc-gp-sLW" firstAttribute="trailing" secondItem="z1O-VS-eAa" secondAttribute="trailing" id="sqW-wR-6bJ"/>
                                         <constraint firstItem="Bt5-XI-xf4" firstAttribute="top" secondItem="R6M-9U-CAP" secondAttribute="bottom" id="u1i-Fu-etr"/>
                                         <constraint firstItem="k11-nI-AwX" firstAttribute="top" secondItem="R6M-9U-CAP" secondAttribute="top" id="uYt-vz-BgL"/>
                                         <constraint firstItem="DNO-9b-Nr9" firstAttribute="centerY" secondItem="twh-wU-Cus" secondAttribute="centerY" constant="-5.75" id="w4h-U4-Qee"/>
                                     </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="RAT-lt-0sx"/>
-                                            <exclude reference="cj7-QY-kMQ"/>
-                                            <exclude reference="sqW-wR-6bJ"/>
-                                            <exclude reference="OKk-ep-DTu"/>
-                                            <exclude reference="l8V-fH-UrE"/>
-                                        </mask>
-                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="cityLabel" destination="Bt5-XI-xf4" id="Osc-VA-yzv"/>

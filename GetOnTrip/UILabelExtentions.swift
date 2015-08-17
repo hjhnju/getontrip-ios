@@ -19,7 +19,7 @@ extension UILabel {
         
         if let text = self.text {
             let rect = text.boundingRectWithSize(CGSizeMake(frame.size.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: attributes, context: nil)
-            widthConstraint.constant = rect.width + 5
+            widthConstraint.constant = rect.width
             setNeedsLayout()
         }
     }

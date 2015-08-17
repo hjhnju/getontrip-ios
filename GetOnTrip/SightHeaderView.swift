@@ -43,18 +43,12 @@ class SightHeaderView: UITableViewCell {
         didSet {
             if let name = sightName {
                 sightLabel.text = name
+                sightLabel.resizeWidthToFit(self.widthConstraint)
+                //width最小不小于57
+                self.widthConstraint.constant = max(self.widthConstraint.constant + 20, 57)
             }
         }
     }
-    
-    override func awakeFromNib() {
-        self.sightLabel.layer.cornerRadius = 5
-        self.sightLabel.layer.borderWidth = CGFloat(2)
-        self.sightLabel.layer.masksToBounds = true
-        self.sightLabel.layer.borderColor = UIColor.yellowColor() as! CGColorRef
-        self.sightLabel.resizeWidthToFit(self.widthConstraint)
-    }
-
     
     var distanceValue:String? {
         didSet {
@@ -78,5 +72,16 @@ class SightHeaderView: UITableViewCell {
                 self.descLabel.attributedText = value.getAttributedString(lineHeightMultiple: 1.1)
             }
         }
+    }
+    
+    // MARK: View Life Circle
+    
+    override func awakeFromNib() {
+        sightLabel.layer.cornerRadius = 10
+        sightLabel.layer.borderWidth = CGFloat(2)
+        sightLabel.layer.masksToBounds = true
+        sightLabel.layer.borderColor = UIColor.yellowColor() as! CGColorRef
+        
+        sightLabel.font = UIFont(name: SceneFont.heiti, size: 14)
     }
 }
