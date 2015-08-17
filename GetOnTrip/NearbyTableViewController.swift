@@ -188,7 +188,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
        /*
         * 追加显示内容
         */
-        
         print("\(nearSights.count)" + "     11111111111111111111     " + "\(indexPath)" + "\n")
         if (nearSights.count == indexPath.row - 1) {
             loadMore()

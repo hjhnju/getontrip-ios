@@ -52,6 +52,11 @@
 		72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E2A1B65F045004B72D0 /* Topic.swift */; };
 		72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72D86E331B678D51004B72D0 /* CoreLocation.framework */; };
 		AC108D1794F4387C2A66975C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65908126A0AF65DE76107121 /* libPods.a */; };
+		AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE553BB41B81E8D900C03737 /* GuideViewController.swift */; };
+		AE553BBA1B81EAB700C03737 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB61B81EAB700C03737 /* 1.jpg */; };
+		AE553BBB1B81EAB700C03737 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB71B81EAB700C03737 /* 2.jpg */; };
+		AE553BBC1B81EAB700C03737 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB81B81EAB700C03737 /* 3.jpg */; };
+		AE553BBD1B81EAB700C03737 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB91B81EAB700C03737 /* 4.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +134,12 @@
 		72D86E2A1B65F045004B72D0 /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		72D86E331B678D51004B72D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		97726D23B8E630D4838357FE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		AE553BB01B81E8BA00C03737 /* GetOnTrip-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GetOnTrip-Bridging-Header.h"; sourceTree = "<group>"; };
+		AE553BB41B81E8D900C03737 /* GuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
+		AE553BB61B81EAB700C03737 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
+		AE553BB71B81EAB700C03737 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
+		AE553BB81B81EAB700C03737 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
+		AE553BB91B81EAB700C03737 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
 		F7B4D58CAA793845FCC0F1A4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -236,10 +247,12 @@
 				72D721331B6B99DA005BDE55 /* Nearby */,
 				72D86E091B65E844004B72D0 /* Ucenter */,
 				72D86E081B65E82B004B72D0 /* Common */,
+				AE553BBE1B81EB6300C03737 /* Guide */,
 				72D86E041B65E809004B72D0 /* Main.storyboard */,
 				72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */,
 				72D86DE41B65D94D004B72D0 /* AppDelegate.swift */,
 				72D86DE21B65D94D004B72D0 /* Supporting Files */,
+				AE553BB01B81E8BA00C03737 /* GetOnTrip-Bridging-Header.h */,
 			);
 			path = GetOnTrip;
 			sourceTree = "<group>";
@@ -311,6 +324,18 @@
 				72D86E2A1B65F045004B72D0 /* Topic.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		AE553BBE1B81EB6300C03737 /* Guide */ = {
+			isa = PBXGroup;
+			children = (
+				AE553BB41B81E8D900C03737 /* GuideViewController.swift */,
+				AE553BB61B81EAB700C03737 /* 1.jpg */,
+				AE553BB71B81EAB700C03737 /* 2.jpg */,
+				AE553BB81B81EAB700C03737 /* 3.jpg */,
+				AE553BB91B81EAB700C03737 /* 4.jpg */,
+			);
+			name = Guide;
 			sourceTree = "<group>";
 		};
 		FDE1EB2793573F05036A1ECF /* Pods */ = {
@@ -407,8 +432,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE553BBC1B81EAB700C03737 /* 3.jpg in Resources */,
 				7223E9AA1B67B47800AE8825 /* Info.plist in Resources */,
+				AE553BBD1B81EAB700C03737 /* 4.jpg in Resources */,
+				AE553BBA1B81EAB700C03737 /* 1.jpg in Resources */,
 				72D86E051B65E809004B72D0 /* Main.storyboard in Resources */,
+				AE553BBB1B81EAB700C03737 /* 2.jpg in Resources */,
 				72D86DEF1B65D94D004B72D0 /* LaunchScreen.xib in Resources */,
 				724393671B7045A000F13EA1 /* Nearby.storyboard in Resources */,
 				72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */,
@@ -463,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				721643241B7B30A9009C292C /* TopicDetailViewController.swift in Sources */,
+				AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */,
 				7223E9AD1B67B47800AE8825 /* ParameterEncoding.swift in Sources */,
 				7223E9AE1B67B47800AE8825 /* Request.swift in Sources */,
 				72D7212F1B6B69FF005BDE55 /* MenuTableViewController.swift in Sources */,
@@ -620,11 +650,14 @@
 			baseConfigurationReference = F7B4D58CAA793845FCC0F1A4 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GetOnTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -634,11 +667,13 @@
 			baseConfigurationReference = 97726D23B8E630D4838357FE /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GetOnTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
