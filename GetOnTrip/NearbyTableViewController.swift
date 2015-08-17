@@ -183,6 +183,20 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         cell.desc = sight.topics[indexPath.row].desc
         cell.visits = sight.topics[indexPath.row].visits
         cell.backgroundColor = UIColor.clearColor()
+        
+        
+       /*
+        * 追加显示内容
+        */
+        
+        print("\(nearSights.count)" + "     11111111111111111111     " + "\(indexPath)" + "\n")
+        if (nearSights.count == indexPath.row - 1) {
+            loadMore()
+            print("---------------------------")
+        }
+        
+        
+        
         return cell
     }
     
@@ -206,6 +220,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         return footerView
     }
     
+    /*
+     * 更改追加内容位置
+     */
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         
         //解决：去掉UItableview headerview黏性(sticky)
@@ -216,7 +233,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             scrollView.contentInset = UIEdgeInsetsMake(-tableView.sectionHeaderHeight, 0, 0, 0);
         }
         
-        //如果滚动到最底部，那么需要追加内容
+//        如果滚动到最底部，那么需要追加内容
         let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
         if yOffSet > 0 && offSet.y > yOffSet {
             loadMore()
