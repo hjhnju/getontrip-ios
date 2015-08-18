@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class HttpRequest {
     class func ajax(url: String?, path: String?,post: Dictionary<String, String>, handler: (JSON) -> Void) {

@@ -145,8 +145,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         scrollLock = true
         
-        self.activityLabel.text = "正在加载更多内容"
-        activity.startAnimating()
+//        self.activityLabel.text = "正在加载更多内容"
+//        activity.startAnimating()
         self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = self.nearSights + sights
@@ -155,7 +155,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             } else {
                 self.activityLabel.text = "附近没有更多内容啦"
             }
-            self.activity.stopAnimating()
+//            self.activity.stopAnimating()
             self.scrollLock = false
         }
     }
@@ -176,6 +176,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         // Configure the cell...
         let sight = nearSights[indexPath.section]
+        
         cell.topicImageUrl = sight.topics[indexPath.row].imageUrl
         cell.subtitle = sight.topics[indexPath.row].subtitle
         cell.title = sight.topics[indexPath.row].title
@@ -185,16 +186,13 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         cell.backgroundColor = UIColor.clearColor()
         
         
-       /*
-        * 追加显示内容
-        */
-        print("\(nearSights.count)" + "     11111111111111111111     " + "\(indexPath)" + "\n")
-        if (nearSights.count == indexPath.row - 1) {
-            loadMore()
-            print("---------------------------")
+        // 遍历正在显示的cell如果是最后一行，自行加载数据
+        for tmpcell in tableView.visibleCells()
+        {
+            if (tmpcell as! NearbyTableViewCell != cell) {
+                loadMore()
+            }
         }
-        
-        
         
         return cell
     }
@@ -233,10 +231,10 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         }
         
 //        如果滚动到最底部，那么需要追加内容
-        let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
-        if yOffSet > 0 && offSet.y > yOffSet {
-            loadMore()
-        }
+//        let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
+//        if yOffSet > 0 && offSet.y > yOffSet {
+//            loadMore()
+//        }
     }
     
     //处理列表项的选中事件

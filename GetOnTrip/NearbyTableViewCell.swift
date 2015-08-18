@@ -34,6 +34,7 @@ class NearbyTableViewCell: UITableViewCell {
         didSet{
             if let url = topicImageUrl {
                 if url != "" {
+                    
                     ImageLoader.sharedLoader.imageForUrl(url) { (image:UIImage?, url:String) in
                         self.topicImage = image
                     }

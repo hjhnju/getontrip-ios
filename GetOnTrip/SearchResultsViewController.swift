@@ -48,6 +48,7 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
                     
                     self.tableView.reloadData()
                 })
+                
             }
         }
     }

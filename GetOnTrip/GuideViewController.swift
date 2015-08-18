@@ -132,7 +132,7 @@ class NewFeatureCell: UICollectionViewCell {
     // 图像
     lazy var iconView: UIImageView = {
         return UIImageView()
-        }()
+    }()
     
     // 开始按钮
     lazy var startButton: UIButton = {
