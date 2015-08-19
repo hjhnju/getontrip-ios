@@ -55,6 +55,8 @@
 		AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */; };
 		AED2DE3C1B8426370091D320 /* CyclopaedicLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */; };
 		AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE3E1B842A8F0091D320 /* CyclopaedicRequest.swift */; };
+		AED2DE421B84533A0091D320 /* TopicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE411B84533A0091D320 /* TopicRequest.swift */; };
+		AED2DE441B8460DE0091D320 /* TopicDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE431B8460DE0091D320 /* TopicDetails.swift */; };
 		AEE5D2351B82DD2E00E6D129 /* ChannelRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE5D2341B82DD2E00E6D129 /* ChannelRequest.swift */; };
 		AEE5D2371B82F8FE00E6D129 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE5D2361B82F8FE00E6D129 /* ChannelCell.swift */; };
 /* End PBXBuildFile section */
@@ -137,6 +139,8 @@
 		AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cyclopaedic.swift; sourceTree = "<group>"; };
 		AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicLabel.swift; sourceTree = "<group>"; };
 		AED2DE3E1B842A8F0091D320 /* CyclopaedicRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicRequest.swift; sourceTree = "<group>"; };
+		AED2DE411B84533A0091D320 /* TopicRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicRequest.swift; sourceTree = "<group>"; };
+		AED2DE431B8460DE0091D320 /* TopicDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetails.swift; sourceTree = "<group>"; };
 		AEE5D2341B82DD2E00E6D129 /* ChannelRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelRequest.swift; sourceTree = "<group>"; };
 		AEE5D2361B82F8FE00E6D129 /* ChannelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		F7B4D58CAA793845FCC0F1A4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -306,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				AED2DE3D1B8426420091D320 /* Cyclopaedic(百科) */,
+				AED2DE401B8452CA0091D320 /* Topic(话题详情) */,
 				72D86E281B65F045004B72D0 /* Sight.swift */,
 				72D86E291B65F045004B72D0 /* NearbyRequest.swift */,
 				AEE5D2341B82DD2E00E6D129 /* ChannelRequest.swift */,
@@ -334,6 +339,15 @@
 				AED2DE3E1B842A8F0091D320 /* CyclopaedicRequest.swift */,
 			);
 			name = "Cyclopaedic(百科)";
+			sourceTree = "<group>";
+		};
+		AED2DE401B8452CA0091D320 /* Topic(话题详情) */ = {
+			isa = PBXGroup;
+			children = (
+				AED2DE411B84533A0091D320 /* TopicRequest.swift */,
+				AED2DE431B8460DE0091D320 /* TopicDetails.swift */,
+			);
+			name = "Topic(话题详情)";
 			sourceTree = "<group>";
 		};
 		FDE1EB2793573F05036A1ECF /* Pods */ = {
@@ -524,6 +538,7 @@
 				AED2DE041B832B130091D320 /* TopicView.swift in Sources */,
 				72A5BF351B73AB5F00F3AB26 /* SwiftyJSON.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,
+				AED2DE441B8460DE0091D320 /* TopicDetails.swift in Sources */,
 				721643261B7D80EC009C292C /* CustomNavigationAnimationController.swift in Sources */,
 				AED2DE081B832B370091D320 /* VideoView.swift in Sources */,
 				AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */,
@@ -541,6 +556,7 @@
 				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,
 				72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */,
 				72A5BF301B72391E00F3AB26 /* SearchResultsViewController.swift in Sources */,
+				AED2DE421B84533A0091D320 /* TopicRequest.swift in Sources */,
 				72D86E221B65F033004B72D0 /* SightTopicsViewController.swift in Sources */,
 				72D721291B6A241B005BDE55 /* SlideMenuViewController.swift in Sources */,
 			);

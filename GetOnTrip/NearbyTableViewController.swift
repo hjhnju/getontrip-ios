@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import SSKeychain
+import Alamofire
 
 class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     
@@ -188,6 +189,25 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         cell.desc = sight.topics[indexPath.row].desc
         cell.visits = sight.topics[indexPath.row].visits
         cell.backgroundColor = UIColor.clearColor()
+
+    
+        
+//        var post         = [String: String]()
+//        post["page"]     = String(1)
+//        post["pageSize"] = String(2)
+//        post["sight"]  = String(1)
+////        post["order"]    = String(3)
+////        post["tags"]     = String(nil)
+//        
+//        // 发送网络请求加载数据
+//        HttpRequest.ajax(AppIni.BaseUri,
+////            http://123.57.46.229:8301/api/topic/list?sight=1
+//            path: "/api/topic/list",
+//            post: post,
+//            handler: {(respData: JSON) -> Void in
+//                print("+++++++\(respData)+++++")
+//            }
+//        )
         
         
         // 遍历正在显示的cell如果是最后一行，自行加载数据

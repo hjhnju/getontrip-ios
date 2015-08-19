@@ -1,0 +1,53 @@
+//
+//  TopicDetails.swift
+//  GetOnTrip
+//
+//  Created by 王振坤 on 15/8/19.
+//  Copyright (c) 2015年 Joshua. All rights reserved.
+//
+
+import UIKit
+
+class TopicDetails: NSObject {
+   
+    // 话题详情来源
+    var from: String
+    
+    // 子标题
+    var subtitle: String
+    
+    // id
+    var id: Int
+    
+    // 标题
+    var title: String
+    
+    // 收集？(暂时不知作用)
+    var collect: Int
+    
+    // 图片
+    var image: String
+    
+    // 访问
+    var visit: Int
+    
+    // 描述
+    var desc: String
+    
+    // 标签
+    var tags: Int
+    
+    init(from: String, subtitle: String, id: Int, title: String, collect: Int, image: String, visit: Int, desc: String, tags: Int) {
+        
+        self.from = from
+        self.subtitle = subtitle
+        self.id = id
+        self.title = title
+        self.collect = collect
+        self.image = image
+        self.visit = visit
+        self.desc = desc
+        self.tags = tags
+    }
+    
+}

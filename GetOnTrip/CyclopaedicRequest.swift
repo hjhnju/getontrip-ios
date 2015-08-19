@@ -39,8 +39,8 @@ class CyclopaedicRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: [Cyclopaedic] -> Void) {
         var post         = [String: String]()
-        post["page"]     = String(self.pageSize)
-        post["pageSize"] = String(self.curPage)
+        post["page"]     = String(self.curPage)
+        post["pageSize"] = String(self.pageSize)
         post["sightId"]  = String(self.sightId)
         
         // 发送网络请求加载数据
