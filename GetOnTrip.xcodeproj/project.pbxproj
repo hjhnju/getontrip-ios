@@ -47,18 +47,13 @@
 		AE553BBC1B81EAB700C03737 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB81B81EAB700C03737 /* 3.jpg */; };
 		AE553BBD1B81EAB700C03737 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB91B81EAB700C03737 /* 4.jpg */; };
 		AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */; };
-		AED2DE021B832AF00091D320 /* CyclopaedicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE011B832AF00091D320 /* CyclopaedicView.swift */; };
-		AED2DE041B832B130091D320 /* TopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE031B832B130091D320 /* TopicView.swift */; };
-		AED2DE061B832B2C0091D320 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE051B832B2C0091D320 /* BookViewController.swift */; };
-		AED2DE081B832B370091D320 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE071B832B370091D320 /* VideoView.swift */; };
-		AED2DE381B8354130091D320 /* CyclopaedicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE371B8354130091D320 /* CyclopaedicTableViewCell.swift */; };
 		AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */; };
 		AED2DE3C1B8426370091D320 /* CyclopaedicLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */; };
 		AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE3E1B842A8F0091D320 /* CyclopaedicRequest.swift */; };
 		AED2DE421B84533A0091D320 /* TopicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE411B84533A0091D320 /* TopicRequest.swift */; };
 		AED2DE441B8460DE0091D320 /* TopicDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE431B8460DE0091D320 /* TopicDetails.swift */; };
+		AED2DE461B8468F60091D320 /* TopicDetailListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE451B8468F60091D320 /* TopicDetailListController.swift */; };
 		AEE5D2351B82DD2E00E6D129 /* ChannelRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE5D2341B82DD2E00E6D129 /* ChannelRequest.swift */; };
-		AEE5D2371B82F8FE00E6D129 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE5D2361B82F8FE00E6D129 /* ChannelCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,18 +126,13 @@
 		AE553BB81B81EAB700C03737 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
 		AE553BB91B81EAB700C03737 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
 		AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicViewController.swift; sourceTree = "<group>"; };
-		AED2DE011B832AF00091D320 /* CyclopaedicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicView.swift; sourceTree = "<group>"; };
-		AED2DE031B832B130091D320 /* TopicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicView.swift; sourceTree = "<group>"; };
-		AED2DE051B832B2C0091D320 /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
-		AED2DE071B832B370091D320 /* VideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
-		AED2DE371B8354130091D320 /* CyclopaedicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicTableViewCell.swift; sourceTree = "<group>"; };
 		AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cyclopaedic.swift; sourceTree = "<group>"; };
 		AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicLabel.swift; sourceTree = "<group>"; };
 		AED2DE3E1B842A8F0091D320 /* CyclopaedicRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicRequest.swift; sourceTree = "<group>"; };
 		AED2DE411B84533A0091D320 /* TopicRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicRequest.swift; sourceTree = "<group>"; };
 		AED2DE431B8460DE0091D320 /* TopicDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetails.swift; sourceTree = "<group>"; };
+		AED2DE451B8468F60091D320 /* TopicDetailListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailListController.swift; sourceTree = "<group>"; };
 		AEE5D2341B82DD2E00E6D129 /* ChannelRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelRequest.swift; sourceTree = "<group>"; };
-		AEE5D2361B82F8FE00E6D129 /* ChannelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
 		F7B4D58CAA793845FCC0F1A4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -191,12 +181,12 @@
 		72D721331B6B99DA005BDE55 /* Nearby */ = {
 			isa = PBXGroup;
 			children = (
+				AED2DE471B8469110091D320 /* 附近二级页面 */,
 				72D86E1E1B65F032004B72D0 /* NearbyTableViewController.swift */,
 				72D86E1F1B65F032004B72D0 /* SightTopicsViewController.swift */,
 				721643231B7B30A9009C292C /* TopicDetailViewController.swift */,
 				721643251B7D80EC009C292C /* CustomNavigationAnimationController.swift */,
 				721643271B7D8F39009C292C /* CustomInteractionController.swift */,
-				AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */,
 				72D86E151B65E871004B72D0 /* Model */,
 				72D86E141B65E86A004B72D0 /* View */,
 				724393661B7045A000F13EA1 /* Nearby.storyboard */,
@@ -295,13 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				72D86E241B65F03D004B72D0 /* NearbyTableViewCell.swift */,
-				AED2DE371B8354130091D320 /* CyclopaedicTableViewCell.swift */,
 				72D86E251B65F03D004B72D0 /* SightHeaderView.swift */,
-				AEE5D2361B82F8FE00E6D129 /* ChannelCell.swift */,
-				AED2DE011B832AF00091D320 /* CyclopaedicView.swift */,
-				AED2DE031B832B130091D320 /* TopicView.swift */,
-				AED2DE051B832B2C0091D320 /* BookViewController.swift */,
-				AED2DE071B832B370091D320 /* VideoView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -348,6 +332,15 @@
 				AED2DE431B8460DE0091D320 /* TopicDetails.swift */,
 			);
 			name = "Topic(话题详情)";
+			sourceTree = "<group>";
+		};
+		AED2DE471B8469110091D320 /* 附近二级页面 */ = {
+			isa = PBXGroup;
+			children = (
+				AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */,
+				AED2DE451B8468F60091D320 /* TopicDetailListController.swift */,
+			);
+			name = "附近二级页面";
 			sourceTree = "<group>";
 		};
 		FDE1EB2793573F05036A1ECF /* Pods */ = {
@@ -519,7 +512,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				721643241B7B30A9009C292C /* TopicDetailViewController.swift in Sources */,
-				AED2DE061B832B2C0091D320 /* BookViewController.swift in Sources */,
 				AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */,
 				72D7212F1B6B69FF005BDE55 /* MenuTableViewController.swift in Sources */,
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
@@ -533,24 +525,20 @@
 				721643281B7D8F39009C292C /* CustomInteractionController.swift in Sources */,
 				AED2DE3C1B8426370091D320 /* CyclopaedicLabel.swift in Sources */,
 				72D86E2B1B65F045004B72D0 /* Sight.swift in Sources */,
-				AED2DE021B832AF00091D320 /* CyclopaedicView.swift in Sources */,
+				AED2DE461B8468F60091D320 /* TopicDetailListController.swift in Sources */,
 				72D86E2C1B65F045004B72D0 /* NearbyRequest.swift in Sources */,
-				AED2DE041B832B130091D320 /* TopicView.swift in Sources */,
 				72A5BF351B73AB5F00F3AB26 /* SwiftyJSON.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,
 				AED2DE441B8460DE0091D320 /* TopicDetails.swift in Sources */,
 				721643261B7D80EC009C292C /* CustomNavigationAnimationController.swift in Sources */,
-				AED2DE081B832B370091D320 /* VideoView.swift in Sources */,
 				AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */,
 				AEE5D2351B82DD2E00E6D129 /* ChannelRequest.swift in Sources */,
 				72D86E271B65F03D004B72D0 /* SightHeaderView.swift in Sources */,
 				72D7212B1B6A2FEB005BDE55 /* MainViewController.swift in Sources */,
-				AEE5D2371B82F8FE00E6D129 /* ChannelCell.swift in Sources */,
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColorExtentions.swift in Sources */,
 				72D86E211B65F033004B72D0 /* NearbyTableViewController.swift in Sources */,
 				2044495B1B6609B50028BE77 /* MenuViewController.swift in Sources */,
-				AED2DE381B8354130091D320 /* CyclopaedicTableViewCell.swift in Sources */,
 				72A5BF381B748BE200F3AB26 /* SearchResultsCell.swift in Sources */,
 				AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */,
 				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,

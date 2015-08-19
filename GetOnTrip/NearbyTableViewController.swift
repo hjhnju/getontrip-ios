@@ -172,7 +172,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //Tells the data source to return the number of rows in a given section of a table view. (required)
         return nearSights[section].topics.count
     }
     
@@ -189,25 +188,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         cell.desc = sight.topics[indexPath.row].desc
         cell.visits = sight.topics[indexPath.row].visits
         cell.backgroundColor = UIColor.clearColor()
-
-    
-        
-//        var post         = [String: String]()
-//        post["page"]     = String(1)
-//        post["pageSize"] = String(2)
-//        post["sight"]  = String(1)
-////        post["order"]    = String(3)
-////        post["tags"]     = String(nil)
-//        
-//        // 发送网络请求加载数据
-//        HttpRequest.ajax(AppIni.BaseUri,
-////            http://123.57.46.229:8301/api/topic/list?sight=1
-//            path: "/api/topic/list",
-//            post: post,
-//            handler: {(respData: JSON) -> Void in
-//                print("+++++++\(respData)+++++")
-//            }
-//        )
         
         
         // 遍历正在显示的cell如果是最后一行，自行加载数据
@@ -262,12 +242,12 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
 //        }
     }
     
+    
     //处理列表项的选中事件
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
         var topic = self.nearSights[indexPath.section].topics[indexPath.row]
-        
         
         self.performSegueWithIdentifier(StoryBoardIdentifier.ShowTopicDetailSegue, sender: topic)
         
@@ -291,6 +271,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     // MARK: Segues
     
+    /*
+     * 要获取景点id，在这个方法做的跳转，需要写到这里
+     */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         var destination = segue.destinationViewController as? UIViewController

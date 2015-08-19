@@ -39,19 +39,20 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    // 百科
     @IBOutlet weak var item1: UIButton!
-    
+    // 话题
     @IBOutlet weak var item2: UIButton!
-    
+    // 书籍
     @IBOutlet weak var item3: UIButton!
-    
+    // 视频
     @IBOutlet weak var item4: UIButton!
     
     @IBOutlet weak var containView: UIView!
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    weak var view1: UIView!
+    var view1: UIView = UIView()
     
     var view2: UIView = UIView()
     
@@ -63,6 +64,11 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     var searchController: UISearchController!
     
     //MASK: View Life Circle
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        print("这回传进来了，值是\(sender)....")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,11 +93,11 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         
         //初始化views
         let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        let controller1 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicCyclopaedic) as! UITableViewController
+        let controller1 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! UITableViewController
         addChildViewController(controller1)
-        view1 = controller1.view
-        scrollView.addSubview(view1)
-        scrollView.bringSubviewToFront(view1)
+        view2 = controller1.view
+        scrollView.addSubview(view2)
+        scrollView.bringSubviewToFront(view2)
     }
     
     override func viewDidLayoutSubviews() {
