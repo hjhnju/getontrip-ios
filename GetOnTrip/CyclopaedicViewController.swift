@@ -1,16 +1,15 @@
 //
-//  NearbyTableViewController.swift
+//  CyclopaedicViewController.swift
 //  GetOnTrip
 //
-//  Created by 何俊华 on 15/7/24.
+//  Created by 王振坤 on 15/8/18.
 //  Copyright (c) 2015年 Joshua. All rights reserved.
 //
 
 import UIKit
-import CoreLocation
-import SSKeychain
+import Foundation
 
-class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
+class CyclopaedicViewController: UITableViewController, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     
     //MARK: Model and variables
     
@@ -18,31 +17,14 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     var lastSuccessRequest: NearbyRequest?
     
+    var sightId: Int?
+    
     //底部加载
     var activity: UIActivityIndicatorView!
     
     var activityLabel: UILabel!
     
     var scrollLock:Bool = false
-    
-    var locationManager: CLLocationManager!
-    
-    //存储属性，保存最近有效定位。作为默认请求数据的参数（//TODO:缓存）
-    var lastEffectLocation: CLLocation?
-    
-    //当前定位
-    var curLocation: CLLocation? {
-        get {
-            return self.lastEffectLocation
-        }
-        set {
-            if let newLocation = newValue {
-                self.lastEffectLocation = newLocation
-            }
-            //无论是否有位置信息，均更新数据
-            refresh()
-        }
-    }
     
     //Animations
     let customNavigationAnimationController = CustomNavigationAnimationController()
@@ -76,17 +58,12 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         tableFooterView.addSubview(activity)
         tableFooterView.addSubview(activityLabel)
         
-        //初始化定位服务
-        self.locationManager = CLLocationManager()
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        self.locationManager.distanceFilter = 1000.0 //设备至少移动1000米，才通知委托更新
-        self.locationManager.requestWhenInUseAuthorization()
-        
-        refreshByControl(refreshControl!)
+//        refreshByControl(refreshControl!)
         
         //animation
         navigationController?.delegate = self
+//        lastSuccessRequest?.fetchCyclopaedicPageModels()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -98,26 +75,18 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     }
     
     // MARK: Actions
-
+    
     @IBAction func refreshByControl(sender: UIRefreshControl) {
         
         self.refreshControl?.beginRefreshing()
-        
-        //开始定位
-        //println("开始定位")
-        self.locationManager.startUpdatingLocation()
     }
     
     private func refresh() {
         NSLog("notice:refreshing nearby data.")
         
         //获取数据更新tableview
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = NearbyRequest(curLocation:self.curLocation)
-        }
-        
-        
-        
+
+//        lastSuccessRequest!.fetchCyclopaedicPageModels(<#sightId: Int#>)
         lastSuccessRequest!.fetchFirstPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = sights
@@ -132,12 +101,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             } else {
                 self.activityLabel.text = "无法获取附近内容，请检查您的网络"
             }
-            
+        
             
             self.refreshControl?.endRefreshing()
-            //结束定位
-            //println("结束定位")
-            self.locationManager.stopUpdatingLocation()
         }
     }
     
@@ -149,8 +115,10 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         scrollLock = true
         
-//        self.activityLabel.text = "正在加载更多内容"
-//        activity.startAnimating()
+        //        self.activityLabel.text = "正在加载更多内容"
+        //        activity.startAnimating()
+        
+        
         self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = self.nearSights + sights
@@ -159,7 +127,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             } else {
                 self.activityLabel.text = "附近没有更多内容啦"
             }
-//            self.activity.stopAnimating()
+            //            self.activity.stopAnimating()
             self.scrollLock = false
         }
     }
@@ -189,6 +157,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         cell.visits = sight.topics[indexPath.row].visits
         cell.backgroundColor = UIColor.clearColor()
         
+//        sight.topics[indexPath.row].topicid
         
         // 遍历正在显示的cell如果是最后一行，自行加载数据
         for tmpcell in tableView.visibleCells()
@@ -198,9 +167,20 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             }
         }
         
-        
         return cell
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
@@ -211,20 +191,21 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         headerViewCell.cityValue = nearSights[section].city
         headerViewCell.descValue = nearSights[section].desc
         headerViewCell.backgroundColor = UIColor.clearColor()
-
+        
         return headerViewCell
     }
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView(frame: CGRectMake(0, 0, tableView.frame.width, 8))
         footerView.backgroundColor = UIColor.clearColor()
-
+        
         return footerView
     }
+
     
     /*
-     * 更改追加内容位置
-     */
+    * 更改追加内容位置
+    */
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         
         //解决：去掉UItableview headerview黏性(sticky)
@@ -235,11 +216,11 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             scrollView.contentInset = UIEdgeInsetsMake(-tableView.sectionHeaderHeight, 0, 0, 0);
         }
         
-//        如果滚动到最底部，那么需要追加内容
-//        let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
-//        if yOffSet > 0 && offSet.y > yOffSet {
-//            loadMore()
-//        }
+        //        如果滚动到最底部，那么需要追加内容
+        //        let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
+        //        if yOffSet > 0 && offSet.y > yOffSet {
+        //            loadMore()
+        //        }
     }
     
     //处理列表项的选中事件
@@ -248,26 +229,25 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
         var topic = self.nearSights[indexPath.section].topics[indexPath.row]
         
+//        var post     = [String:String]()
+//        post["topicId"] = String(stringInterpolationSegment: topic.topicid.value)
+//        post["deviceId"] = String("27")
+//        HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic/detail",
+//            post: post,
+//            handler: {(respData: JSON) -> Void in
+//            print("\(respData)")
+//            print("=================")
+//        })
+        
+        
+        
+        
+        
         
         self.performSegueWithIdentifier(StoryBoardIdentifier.ShowTopicDetailSegue, sender: topic)
         
     }
     
-    // MARK: CCLocationManagerDelegate
-    
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        let newLocation = locations.last as? CLLocation
-        //NSLog("notice:location.latitude=%@", newLocation?.description ?? "nil")
-        
-        self.curLocation = newLocation
-    }
-    
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        
-        NSLog("error:%@", error.localizedDescription)
-        
-        self.curLocation = nil
-    }
     
     // MARK: Segues
     
@@ -290,7 +270,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     
     @IBAction func showSightView(sender: UIButton) {
-        
         performSegueWithIdentifier(StoryBoardIdentifier.ShowSightTopicsSegue, sender: sender)
     }
     

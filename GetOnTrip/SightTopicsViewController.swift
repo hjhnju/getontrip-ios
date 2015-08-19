@@ -8,7 +8,176 @@
 //
 
 import UIKit
+import SSKeychain
 
-class SightTopicsViewController: UIViewController {
+class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
+    
+    
+    @IBOutlet weak var toolbar: UIToolbar!
+    
+    let slideHeight:CGFloat = 2
+    
+    var slideView = UIView()
+    
+    var selectedItem:UIButton? {
+        didSet {
+            if let item = selectedItem {
+                let slideX = item.frame.origin.x
+                let slideY = toolbar.frame.height - self.slideHeight
+                let slideWidth = item.frame.width
+                let newFrame   = CGRectMake(slideX, slideY, slideWidth, self.slideHeight)
+                if self.slideView.frame.origin.x != 0 {
+                    UIView.animateWithDuration(0.5, delay: 0,
+                        options: UIViewAnimationOptions.AllowUserInteraction,
+                        animations: { self.slideView.frame = newFrame },
+                        completion: { (finished: Bool) -> Void in }
+                    )
+                } else {
+                    self.slideView.frame = newFrame
+                }
+            }
+        }
+    }
+    
+    @IBOutlet weak var item1: UIButton!
+    
+    @IBOutlet weak var item2: UIButton!
+    
+    @IBOutlet weak var item3: UIButton!
+    
+    @IBOutlet weak var item4: UIButton!
+    
+    @IBOutlet weak var containView: UIView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    weak var view1: UIView!
+    
+    var view2: UIView = UIView()
+    
+    var view3: UIView = UIView()
+    
+    var view4: UIView = UIView()
+    
+    // `searchController` is set when the search button is clicked.
+    var searchController: UISearchController!
+    
+    //MASK: View Life Circle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+
+        //back button
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
+        
+        //颜色
+        toolbar.barTintColor = SceneColor.lightBlack
+        toolbar.tintColor = UIColor.whiteColor()
+        
+        //初始化下划线
+        slideView.backgroundColor = SceneColor.lightYellow
+        toolbar.addSubview(slideView)
+        
+        //初始化scrollview
+        scrollView.pagingEnabled = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.delegate = self
+        scrollView.bounces = false
+        
+        //初始化views
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        let controller1 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicCyclopaedic) as! UITableViewController
+        addChildViewController(controller1)
+        view1 = controller1.view
+        scrollView.addSubview(view1)
+        scrollView.bringSubviewToFront(view1)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        //初始化scrollView, subview's bounds确定后
+        let wBounds = containView.bounds.width
+        let hBounds = containView.bounds.height
+        
+        self.scrollView.contentSize = CGSize(width: wBounds * 4, height: hBounds/2)
+        
+        view1.frame = CGRectMake(0, 0, wBounds, hBounds)
+        
+        view2.backgroundColor = UIColor.orangeColor()
+        view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
+        self.scrollView.addSubview(view2)
+        self.scrollView.bringSubviewToFront(view2)
+        
+        view3.backgroundColor = UIColor.purpleColor()
+        view3.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
+        self.scrollView.addSubview(view3)
+        self.scrollView.bringSubviewToFront(view3)
+        
+        view4.backgroundColor = UIColor.orangeColor()
+        view4.frame = CGRectMake(wBounds * 3, 0, wBounds, hBounds)
+        self.scrollView.addSubview(view4)
+        self.scrollView.bringSubviewToFront(view4)
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //default select
+        if selectedItem == nil{
+            selectedItem = item1
+        }
+    }
+    
+    //MASK: Actions
+    
+    @IBAction func showMenu(sender: UIBarButtonItem) {
+        if let masterNavCon = self.parentViewController as? MasterViewController {
+            masterNavCon.slideDelegate?.displayMenu()
+        }
+    }
+    
+    @IBAction func selectItem(sender: UIButton) {
+        //set select
+        selectedItem = sender
+        //move
+        var selectedIndex: CGFloat = 0
+        if selectedItem == item1 { selectedIndex = 0 }
+        else if selectedItem == item2 { selectedIndex = 1 }
+        else if selectedItem == item3 { selectedIndex = 2 }
+        else if selectedItem == item4 { selectedIndex = 3 }
+        scrollView.contentOffset.x = containView.bounds.width * selectedIndex
+    }
+    
+    // 创建搜索
+    @IBAction func searchButtonClicked(button: UIBarButtonItem) {
+        
+        
+        
+        
+
+    }
+    
+    
+    //MASK: Delegates
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        //TODO: animation on slideView
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        var xOffset: CGFloat = scrollView.contentOffset.x
+        if (xOffset < 1.0) {
+            selectedItem = item1
+        } else if (xOffset < containView.bounds.width + 1) {
+            selectedItem = item2
+        } else if (xOffset < containView.bounds.width * 2 + 1) {
+            selectedItem = item3
+        } else {
+            selectedItem = item4
+        }
+        
+    }
 
 }

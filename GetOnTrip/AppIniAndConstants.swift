@@ -41,6 +41,12 @@ struct StoryBoardIdentifier {
     static let ShowTopicDetailSegue = "ShowTopicDetailSegue"
     static let ShowSightTopicsSegue = "ShowSightTopicsSegue"
     static let ShowCitySightsSegue = "ShowCitySightsSegue"
+    
+    // storyboardID 景点区域
+    static let ScenicCyclopaedic = "ScenicCyclopaedic"
+    static let ScenicTopic       = "ScenicTopic"
+    static let ScenicBook        = "ScenicBook"
+    static let ScenicVideo       = "ScenicVideo"
 }
 
 struct SceneColor {

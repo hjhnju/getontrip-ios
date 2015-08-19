@@ -35,6 +35,8 @@ class NearbyRequest {
         fetchModels(handler)
     }
     
+    
+    
     // 异步API，参数为回调函数
     // 返回NearbyModel的列表，e.g 附近3个景点
     //
@@ -52,6 +54,7 @@ class NearbyRequest {
             path: "/api/home",
             post: post,
             handler: {(respData: JSON) -> Void in
+//                print(respData)
                 var sights = [Sight]()
                 for item in respData.arrayValue {
                     let sightId = item["id"].intValue
