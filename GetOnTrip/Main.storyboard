@@ -338,6 +338,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bgImageView" destination="7EX-79-Vzg" id="Eey-Sr-uJa"/>
                         <outlet property="headButton" destination="w3z-fx-IWf" id="Ify-5h-zYC"/>
                         <outlet property="unloginView" destination="7b7-iP-Ell" id="0k3-vS-4qW"/>
                         <outlet property="welcome" destination="dFu-dE-pQ2" id="ae0-CU-cog"/>

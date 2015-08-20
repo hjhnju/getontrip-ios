@@ -98,6 +98,9 @@ class NearbyTableViewCell: UITableViewCell {
         titleLabel.font = UIFont(name: "STHeitiSC-Light", size: 14)
         descLabel.font = UIFont(name: "STHeitiSC-Light", size: 10)
         
+        topicImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        topicImageView.clipsToBounds = true
+        
     }
     
 }

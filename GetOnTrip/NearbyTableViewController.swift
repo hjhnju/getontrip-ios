@@ -125,6 +125,11 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                 let message = "最近更新时间:\(dateString)"
                 
                 self.refreshControl?.attributedTitle = NSAttributedString(string: message, attributes: [NSForegroundColorAttributeName:SceneColor.lightGray])
+                
+                //设置左侧菜单背景
+                if let smvc = self.navigationController?.parentViewController as? SlideMenuViewController {
+                        smvc.sideViewController.bgImageUrl = self.nearSights[0].imageUrl
+                }
             } else {
                 self.activityLabel.text = "无法获取附近内容，请检查您的网络"
             }

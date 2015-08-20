@@ -83,5 +83,9 @@ class SightHeaderView: UITableViewCell {
         sightLabel.layer.borderColor = UIColor.yellowColor() as! CGColorRef
         
         sightLabel.font = UIFont(name: SceneFont.heiti, size: 14)
+        
+        headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        headerImageView.clipsToBounds = true
+        
     }
 }
