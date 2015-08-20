@@ -7,71 +7,54 @@
 //
 
 import UIKit
+import SDWebImage
 
 class TopicDetailListController: UITableViewController {
     
     // 网络请求，加载数据
     var lastSuccessRequest: TopicRequest?
     
-    var dataSource: NSArray?{
-        didSet {
-            
-        }
-    }
+    var sightId: Int?
     
+    var nearTopics = [TopicDetails]()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
+        refresh()
     }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return nearTopics.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("topicDetailListCell", forIndexPath: indexPath) as! TopicDetailsCell
+        cell.topicModel = nearTopics[indexPath.row]
+
+        return cell
+    }
+    
+    
     
     private func refresh() {
         NSLog("notice:refreshing nearby data.")
         
         //获取数据更新tableview
         if lastSuccessRequest == nil {
-//            lastSuccessRequest = TopicRequest(pageSize: <#Int#>, page: <#Int#>, sightId: <#Int#>, order: <#Int?#>, tags: <#String?#>)
+            lastSuccessRequest = TopicRequest(sightId: sightId!, order: nil, tags: nil)
         }
         
-        
-        
-//        lastSuccessRequest!.fetchFirstPageModels { (sights:[Sight]) -> Void in
-//            if sights.count > 0 {
-//                self.nearSights = sights
-//                self.tableView.reloadData()
-//                
-//                var formatter = NSDateFormatter()
-//                formatter.dateFormat = "yyyy-MM-dd HH:mm"
-//                var dateString = formatter.stringFromDate(NSDate())
-//                let message = "最近更新时间:\(dateString)"
-//                
-//                self.refreshControl?.attributedTitle = NSAttributedString(string: message, attributes: [NSForegroundColorAttributeName:SceneColor.lightGray])
-//            } else {
-//                self.activityLabel.text = "无法获取附近内容，请检查您的网络"
-//            }
-        
+        lastSuccessRequest!.fetchTopicPageModels { (handler: [TopicDetails]) -> Void in
+            print(handler)
+            if handler.count > 0 {
+                self.nearTopics = handler
+                
+                self.tableView.reloadData()
+            }
             
-//            self.refreshControl?.endRefreshing()
-//            //结束定位
-//            //println("结束定位")
-//            self.locationManager.stopUpdatingLocation()
-//        }
+        }
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
-    }
-
 }

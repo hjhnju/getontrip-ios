@@ -28,9 +28,7 @@ class TopicRequest: NSObject {
     var tags: String?
     
     // 初始化方法
-    init(pageSize: Int, page: Int, sightId: Int, order: Int?, tags: String?) {
-        self.pageSize = pageSize
-        self.page = page
+    init(sightId: Int, order: Int?, tags: String?) {
         self.sightId = sightId
         self.order = order
         self.tags = tags
@@ -47,8 +45,8 @@ class TopicRequest: NSObject {
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
         post["sight"]    = String(self.sightId)
-        post["order"]    = String(stringInterpolationSegment: self.order)
-        post["tags"]     = String(stringInterpolationSegment: self.tags)
+//        post["order"]    = String(stringInterpolationSegment: self.order)
+//        post["tags"]     = String(stringInterpolationSegment: self.tags)
         
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIni.BaseUri,
@@ -62,7 +60,7 @@ class TopicRequest: NSObject {
                     let subtitle = item["subtitle"].stringValue
                     let id       = item["id"].intValue
                     let title    = item["title"].stringValue
-                    let collect  = item["collect"].intValue
+                    let collect  = item["collect"].stringValue
                     let image    = item["image"].stringValue
                     let visit    = item["visit"].intValue
                     let desc     = item["desc"].stringValue

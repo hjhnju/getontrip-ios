@@ -41,6 +41,7 @@
 		72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E2A1B65F045004B72D0 /* Topic.swift */; };
 		72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72D86E331B678D51004B72D0 /* CoreLocation.framework */; };
 		A5EE519BF51DAA2DF513E39B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B20DEE60D8019CAB8D9975 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		AE513E381B857D41003DC53D /* TopicDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE513E371B857D41003DC53D /* TopicDetailsCell.swift */; };
 		AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE553BB41B81E8D900C03737 /* GuideViewController.swift */; };
 		AE553BBA1B81EAB700C03737 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB61B81EAB700C03737 /* 1.jpg */; };
 		AE553BBB1B81EAB700C03737 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB71B81EAB700C03737 /* 2.jpg */; };
@@ -48,6 +49,7 @@
 		AE553BBD1B81EAB700C03737 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB91B81EAB700C03737 /* 4.jpg */; };
 		AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */; };
 		AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */; };
+		AE7C571D1B85971F00C5FC59 /* CyclopaedicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */; };
 		AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */; };
 		AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */; };
 		AED2DE3C1B8426370091D320 /* CyclopaedicLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */; };
@@ -121,6 +123,7 @@
 		72D86E331B678D51004B72D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		81B20DEE60D8019CAB8D9975 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97726D23B8E630D4838357FE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		AE513E371B857D41003DC53D /* TopicDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailsCell.swift; sourceTree = "<group>"; };
 		AE553BB01B81E8BA00C03737 /* GetOnTrip-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GetOnTrip-Bridging-Header.h"; sourceTree = "<group>"; };
 		AE553BB41B81E8D900C03737 /* GuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
 		AE553BB61B81EAB700C03737 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
@@ -129,6 +132,7 @@
 		AE553BB91B81EAB700C03737 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
 		AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookRequest.swift; sourceTree = "<group>"; };
 		AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRequest.swift; sourceTree = "<group>"; };
+		AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicCell.swift; sourceTree = "<group>"; };
 		AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicViewController.swift; sourceTree = "<group>"; };
 		AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cyclopaedic.swift; sourceTree = "<group>"; };
 		AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicLabel.swift; sourceTree = "<group>"; };
@@ -185,10 +189,7 @@
 		72D721331B6B99DA005BDE55 /* Nearby */ = {
 			isa = PBXGroup;
 			children = (
-				AED2DE471B8469110091D320 /* 附近二级页面 */,
-				72D86E1E1B65F032004B72D0 /* NearbyTableViewController.swift */,
-				72D86E1F1B65F032004B72D0 /* SightTopicsViewController.swift */,
-				721643231B7B30A9009C292C /* TopicDetailViewController.swift */,
+				AE7C571B1B85938400C5FC59 /* 首页 */,
 				721643251B7D80EC009C292C /* CustomNavigationAnimationController.swift */,
 				721643271B7D8F39009C292C /* CustomInteractionController.swift */,
 				72D86E151B65E871004B72D0 /* Model */,
@@ -288,8 +289,10 @@
 		72D86E141B65E86A004B72D0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				72D86E241B65F03D004B72D0 /* NearbyTableViewCell.swift */,
 				72D86E251B65F03D004B72D0 /* SightHeaderView.swift */,
+				72D86E241B65F03D004B72D0 /* NearbyTableViewCell.swift */,
+				AE513E371B857D41003DC53D /* TopicDetailsCell.swift */,
+				AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -337,6 +340,17 @@
 			name = "Video(视频)";
 			sourceTree = "<group>";
 		};
+		AE7C571B1B85938400C5FC59 /* 首页 */ = {
+			isa = PBXGroup;
+			children = (
+				72D86E1E1B65F032004B72D0 /* NearbyTableViewController.swift */,
+				72D86E1F1B65F032004B72D0 /* SightTopicsViewController.swift */,
+				721643231B7B30A9009C292C /* TopicDetailViewController.swift */,
+				AED2DE471B8469110091D320 /* 附近 */,
+			);
+			name = "首页";
+			sourceTree = "<group>";
+		};
 		AED2DE3D1B8426420091D320 /* Cyclopaedic(百科) */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,13 +370,13 @@
 			name = "Topic(话题详情)";
 			sourceTree = "<group>";
 		};
-		AED2DE471B8469110091D320 /* 附近二级页面 */ = {
+		AED2DE471B8469110091D320 /* 附近 */ = {
 			isa = PBXGroup;
 			children = (
 				AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */,
 				AED2DE451B8468F60091D320 /* TopicDetailListController.swift */,
 			);
-			name = "附近二级页面";
+			name = "附近";
 			sourceTree = "<group>";
 		};
 		FDE1EB2793573F05036A1ECF /* Pods */ = {
@@ -542,6 +556,7 @@
 				AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */,
 				72D7212D1B6A712F005BDE55 /* MasterViewController.swift in Sources */,
 				72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */,
+				AE513E381B857D41003DC53D /* TopicDetailsCell.swift in Sources */,
 				7216432A1B7DB18F009C292C /* StringExtentions.swift in Sources */,
 				72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */,
 				721643281B7D8F39009C292C /* CustomInteractionController.swift in Sources */,
@@ -564,6 +579,7 @@
 				2044495B1B6609B50028BE77 /* MenuViewController.swift in Sources */,
 				72A5BF381B748BE200F3AB26 /* SearchResultsCell.swift in Sources */,
 				AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */,
+				AE7C571D1B85971F00C5FC59 /* CyclopaedicCell.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */,
 				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,
 				72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */,

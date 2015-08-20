@@ -22,8 +22,8 @@ class TopicDetails: NSObject {
     // 标题
     var title: String
     
-    // 收集？(暂时不知作用)
-    var collect: Int
+    // 收集
+    var collect: String
     
     // 图片
     var image: String
@@ -37,7 +37,7 @@ class TopicDetails: NSObject {
     // 标签
     var tags: Int
     
-    init(from: String, subtitle: String, id: Int, title: String, collect: Int, image: String, visit: Int, desc: String, tags: Int) {
+    init(from: String, subtitle: String, id: Int, title: String, collect: String, image: String, visit: Int, desc: String, tags: Int) {
         
         self.from = from
         self.subtitle = subtitle

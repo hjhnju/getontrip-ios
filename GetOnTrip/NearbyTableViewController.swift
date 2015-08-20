@@ -211,6 +211,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         headerViewCell.cityValue = nearSights[section].city
         headerViewCell.descValue = nearSights[section].desc
         headerViewCell.backgroundColor = UIColor.clearColor()
+        headerViewCell.sightId.tag = nearSights[section].sightid
 
         return headerViewCell
     }
@@ -247,7 +248,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     //处理列表项的选中事件
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("选中了这里")
+        
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
         var topic = self.nearSights[indexPath.section].topics[indexPath.row]
         
@@ -279,8 +280,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
      */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-//        var sightTopicsVC = segue.destinat?ionViewController.visibleViewController as! SightTopicsViewController
-//        sightTopicsVC.dataSouce =
+        var sightTopicsVC = segue.destinationViewController.visibleViewController as! SightTopicsViewController
+        var tag = sender!.tag as Int
+        sightTopicsVC.sightId = tag
         
         var destination = segue.destinationViewController as? UIViewController
         if let navCon = destination as? UINavigationController{
@@ -299,7 +301,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     
     @IBAction func showSightView(sender: UIButton) {
-        print("点击了这里")
+        
+        
         performSegueWithIdentifier(StoryBoardIdentifier.ShowSightTopicsSegue, sender: sender)
     }
     

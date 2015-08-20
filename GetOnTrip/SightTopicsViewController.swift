@@ -12,7 +12,7 @@ import SSKeychain
 
 class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
-    var dataSouce: NSArray?
+    var sightId: Int?
     
     @IBOutlet weak var toolbar: UIToolbar!
     
@@ -90,14 +90,21 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         
         //初始化views
         let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        let controller1 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! UITableViewController
+        let controller1 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicCyclopaedicSB) as! CyclopaedicViewController
+        controller1.sightId = sightId
         addChildViewController(controller1)
-        view2 = controller1.view
+        view1 = controller1.view
+        scrollView.addSubview(view1)
+        scrollView.bringSubviewToFront(view1)
+        
+        
+        let story2 = UIStoryboard(name: "Nearby", bundle: nil)
+        let controller2 = story2.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! TopicDetailListController
+        controller2.sightId = sightId
+        addChildViewController(controller2)
+        view2 = controller2.view
         scrollView.addSubview(view2)
         scrollView.bringSubviewToFront(view2)
-        
-        
-        
         
         
         
@@ -117,17 +124,14 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         
         view1.frame = CGRectMake(0, 0, wBounds, hBounds)
         
-        view2.backgroundColor = UIColor.orangeColor()
         view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
         self.scrollView.addSubview(view2)
         self.scrollView.bringSubviewToFront(view2)
         
-        view3.backgroundColor = UIColor.purpleColor()
         view3.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
         self.scrollView.addSubview(view3)
         self.scrollView.bringSubviewToFront(view3)
         
-        view4.backgroundColor = UIColor.orangeColor()
         view4.frame = CGRectMake(wBounds * 3, 0, wBounds, hBounds)
         self.scrollView.addSubview(view4)
         self.scrollView.bringSubviewToFront(view4)

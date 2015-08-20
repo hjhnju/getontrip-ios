@@ -20,14 +20,12 @@ class CyclopaedicRequest: NSObject {
     */
     
     // 请求参数
-    var pageSize:Int
-    var curPage: Int
+    var pageSize:Int = 2
+    var curPage: Int = 1
     var sightId: Int
     
     // 初始化方法
-    init(pageSize: Int, curPage: Int, sightId: Int) {
-        self.pageSize = pageSize
-        self.curPage = curPage
+    init(sightId: Int) {
         self.sightId = sightId
     }
     
@@ -48,7 +46,7 @@ class CyclopaedicRequest: NSObject {
             path: "/api/wiki",
             post: post,
             handler: {(respData: JSON) -> Void in
-            
+                print("+=\(self.sightId)============\(respData)=+")
                 var cyclopaedics = [Cyclopaedic]()
                 for item in respData.arrayValue {
                     // 转换百科元素
