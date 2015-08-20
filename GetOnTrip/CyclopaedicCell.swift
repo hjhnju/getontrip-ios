@@ -22,7 +22,7 @@ class CyclopaedicCell: UITableViewCell {
         didSet {
             self.title.text = cyclopaedicModel!.title
             self.content.text = cyclopaedicModel!.content
-            var imageURL = NSURL(string: AppIniOnline.BaseUri + (cyclopaedicModel!.image))
+            var imageURL = NSURL(string: AppIniDev.BaseUri + (cyclopaedicModel!.image))
             self.iconView?.sd_setImageWithURL(imageURL)
             
         }

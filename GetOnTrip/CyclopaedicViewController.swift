@@ -22,6 +22,7 @@ class CyclopaedicViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
+        
         refresh()
     }
     

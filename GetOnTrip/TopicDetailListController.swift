@@ -26,6 +26,27 @@ class TopicDetailListController: UITableViewController {
         refresh()
     }
     
+    // MARK: 加载数据源方法
+    private func refresh() {
+        NSLog("notice:refreshing nearby data.")
+        
+        // 获取数据更新tableview
+        if lastSuccessRequest == nil {
+            lastSuccessRequest = TopicRequest(sightId: sightId!, order: nil, tags: nil)
+        }
+        
+        lastSuccessRequest!.fetchTopicPageModels { (handler: [TopicDetails]) -> Void in
+            print(handler)
+            if handler.count > 0 {
+                self.nearTopics = handler
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    
+    
+    // MARK: 话题列表页数据源方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return nearTopics.count
     }
@@ -39,22 +60,5 @@ class TopicDetailListController: UITableViewController {
     
     
     
-    private func refresh() {
-        NSLog("notice:refreshing nearby data.")
-        
-        //获取数据更新tableview
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = TopicRequest(sightId: sightId!, order: nil, tags: nil)
-        }
-        
-        lastSuccessRequest!.fetchTopicPageModels { (handler: [TopicDetails]) -> Void in
-            print(handler)
-            if handler.count > 0 {
-                self.nearTopics = handler
-                
-                self.tableView.reloadData()
-            }
-            
-        }
-    }
+    
 }
