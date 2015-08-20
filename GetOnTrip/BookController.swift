@@ -1,23 +1,22 @@
 //
-//  TopicDetailListController.swift
+//  BookController.swift
 //  GetOnTrip
 //
-//  Created by 王振坤 on 15/8/19.
+//  Created by 王振坤 on 15/8/20.
 //  Copyright (c) 2015年 Joshua. All rights reserved.
 //
 
 import UIKit
-import SDWebImage
 
-class TopicDetailListController: UITableViewController {
-    
+class BookController: UITableViewController {
+
     // 网络请求，加载数据
-    var lastSuccessRequest: TopicRequest?
+    var lastSuccessRequest: BookRequest?
     
     var sightId: Int?
     
-    var nearTopics = [TopicDetails]()
-
+    var nearBook = [Book]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,38 +29,39 @@ class TopicDetailListController: UITableViewController {
     private func refresh() {
         NSLog("notice:refreshing nearby data.")
         
-        // 获取数据更新tableview
+//         获取数据更新tableview
         if lastSuccessRequest == nil {
-            lastSuccessRequest = TopicRequest(sightId: sightId!, order: nil, tags: nil)
+            lastSuccessRequest = BookRequest(sightId: sightId!)
         }
         
-        lastSuccessRequest!.fetchTopicPageModels { (handler: [TopicDetails]) -> Void in
-            print(handler)
+        lastSuccessRequest!.fetchBookModels { (handler: [Book]) -> Void in
+            print(handler.count)
+            print("qq================================")
             if handler.count > 0 {
-                self.nearTopics = handler
+                self.nearBook = handler
                 self.tableView.reloadData()
             }
         }
     }
+
     
     
-    
-    // MARK: 话题列表页数据源方法
+    // MARK: 书籍列表页数据源方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nearTopics.count
+        return nearBook.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("topicDetailListCell", forIndexPath: indexPath) as! TopicDetailsCell
-        cell.topicModel = nearTopics[indexPath.row]
-//        self.tableView.reloadData()
+        let cell = tableView.dequeueReusableCellWithIdentifier("BookCell", forIndexPath: indexPath) as! BookCell
+        cell.bookModel = nearBook[indexPath.row]
+print(nearBook[indexPath.row])
+        print("\\\\\\\\\\\\\\\\\\")
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    
-    
-    
+
+
 }

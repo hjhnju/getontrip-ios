@@ -98,8 +98,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         scrollView.bringSubviewToFront(view1)
         
         
-        let story2 = UIStoryboard(name: "Nearby", bundle: nil)
-        let controller2 = story2.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! TopicDetailListController
+        let controller2 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! TopicDetailListController
         controller2.sightId = sightId
         addChildViewController(controller2)
         view2 = controller2.view
@@ -107,8 +106,12 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         scrollView.bringSubviewToFront(view2)
         
         
-        
-        
+        let controller3 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicBookSB) as! BookController
+        controller3.sightId = sightId
+        addChildViewController(controller3)
+        view3 = controller3.view
+        scrollView.addSubview(view3)
+        scrollView.bringSubviewToFront(view3)
         
         
     }

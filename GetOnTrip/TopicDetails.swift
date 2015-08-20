@@ -34,20 +34,21 @@ class TopicDetails: NSObject {
     // 描述
     var desc: String
     
-    // 标签
+    /// 标签
     var tags: Int
     
+    // 初始化
     init(from: String, subtitle: String, id: Int, title: String, collect: String, image: String, visit: Int, desc: String, tags: Int) {
         
-        self.from = from
+        self.from     = from
         self.subtitle = subtitle
-        self.id = id
-        self.title = title
-        self.collect = collect
-        self.image = image
-        self.visit = visit
-        self.desc = desc
-        self.tags = tags
+        self.id       = id
+        self.title    = title
+        self.collect  = collect
+        self.image    = image
+        self.visit    = visit
+        self.desc     = desc
+        self.tags     = tags
     }
     
 }

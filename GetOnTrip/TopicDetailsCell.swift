@@ -28,13 +28,15 @@ class TopicDetailsCell: UITableViewCell {
         didSet {
             
             var imageURL = NSURL(string: AppIniOnline.BaseUri + (topicModel!.image))
-            self.imageView?.sd_setImageWithURL(imageURL)
+            self.iconImage?.sd_setImageWithURL(imageURL)
+//            self.imageView?.contentMode = UIViewContentMode.ScaleAspectFill
 //            self.imageView?.clipsToBounds = true
             self.title.text = topicModel!.title
             self.subtitle.text = topicModel!.subtitle
             self.desc.text = topicModel!.desc
             self.collect.setTitle(topicModel!.collect, forState: UIControlState.Normal)
-            
+            self.imageView?.contentMode = UIViewContentMode.ScaleToFill
+
         }
     }
     override func awakeFromNib() {

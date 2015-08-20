@@ -50,7 +50,10 @@
 		AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */; };
 		AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */; };
 		AE7C571D1B85971F00C5FC59 /* CyclopaedicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */; };
+		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
 		AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */; };
+		AEB9E2941B85DB27007B3ED3 /* BookController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB9E2931B85DB27007B3ED3 /* BookController.swift */; };
+		AEB9E2961B85E272007B3ED3 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB9E2951B85E272007B3ED3 /* Book.swift */; };
 		AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */; };
 		AED2DE3C1B8426370091D320 /* CyclopaedicLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */; };
 		AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE3E1B842A8F0091D320 /* CyclopaedicRequest.swift */; };
@@ -133,7 +136,10 @@
 		AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookRequest.swift; sourceTree = "<group>"; };
 		AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRequest.swift; sourceTree = "<group>"; };
 		AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicCell.swift; sourceTree = "<group>"; };
+		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicViewController.swift; sourceTree = "<group>"; };
+		AEB9E2931B85DB27007B3ED3 /* BookController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookController.swift; sourceTree = "<group>"; };
+		AEB9E2951B85E272007B3ED3 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cyclopaedic.swift; sourceTree = "<group>"; };
 		AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicLabel.swift; sourceTree = "<group>"; };
 		AED2DE3E1B842A8F0091D320 /* CyclopaedicRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicRequest.swift; sourceTree = "<group>"; };
@@ -293,6 +299,7 @@
 				72D86E241B65F03D004B72D0 /* NearbyTableViewCell.swift */,
 				AE513E371B857D41003DC53D /* TopicDetailsCell.swift */,
 				AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */,
+				AE87C2131B85F285004C0998 /* BookCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -328,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */,
+				AEB9E2951B85E272007B3ED3 /* Book.swift */,
 			);
 			name = "Book(书籍)";
 			sourceTree = "<group>";
@@ -375,6 +383,7 @@
 			children = (
 				AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */,
 				AED2DE451B8468F60091D320 /* TopicDetailListController.swift */,
+				AEB9E2931B85DB27007B3ED3 /* BookController.swift */,
 			);
 			name = "附近";
 			sourceTree = "<group>";
@@ -549,6 +558,7 @@
 			files = (
 				721643241B7B30A9009C292C /* TopicDetailViewController.swift in Sources */,
 				AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */,
+				AEB9E2961B85E272007B3ED3 /* Book.swift in Sources */,
 				72D7212F1B6B69FF005BDE55 /* MenuTableViewController.swift in Sources */,
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
 				721642E81B79C01A009C292C /* UILabelExtentions.swift in Sources */,
@@ -569,6 +579,7 @@
 				AED2DE441B8460DE0091D320 /* TopicDetails.swift in Sources */,
 				721643261B7D80EC009C292C /* CustomNavigationAnimationController.swift in Sources */,
 				AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */,
+				AE87C2141B85F285004C0998 /* BookCell.swift in Sources */,
 				AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */,
 				AEE5D2351B82DD2E00E6D129 /* ChannelRequest.swift in Sources */,
 				72D86E271B65F03D004B72D0 /* SightHeaderView.swift in Sources */,
@@ -581,6 +592,7 @@
 				AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */,
 				AE7C571D1B85971F00C5FC59 /* CyclopaedicCell.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */,
+				AEB9E2941B85DB27007B3ED3 /* BookController.swift in Sources */,
 				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,
 				72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */,
 				72A5BF301B72391E00F3AB26 /* SearchResultsViewController.swift in Sources */,

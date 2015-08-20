@@ -24,7 +24,8 @@ class CyclopaedicCell: UITableViewCell {
             self.content.text = cyclopaedicModel!.content
             var imageURL = NSURL(string: AppIniDev.BaseUri + (cyclopaedicModel!.image))
             self.iconView?.sd_setImageWithURL(imageURL)
-            
+//            self.iconView?.contentMode = UIViewContentMode.ScaleAspectFill
+
         }
     }
 
