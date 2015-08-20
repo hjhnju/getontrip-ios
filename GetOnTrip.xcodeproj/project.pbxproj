@@ -52,6 +52,9 @@
 		AE7C571D1B85971F00C5FC59 /* CyclopaedicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
 		AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */; };
+		AEA24B741B863A1100031FB8 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B731B863A1100031FB8 /* Video.swift */; };
+		AEA24B761B863BF300031FB8 /* VideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B751B863BF300031FB8 /* VideoController.swift */; };
+		AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B771B8644D200031FB8 /* VideoCell.swift */; };
 		AEB9E2941B85DB27007B3ED3 /* BookController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB9E2931B85DB27007B3ED3 /* BookController.swift */; };
 		AEB9E2961B85E272007B3ED3 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB9E2951B85E272007B3ED3 /* Book.swift */; };
 		AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */; };
@@ -138,6 +141,9 @@
 		AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicCell.swift; sourceTree = "<group>"; };
 		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicViewController.swift; sourceTree = "<group>"; };
+		AEA24B731B863A1100031FB8 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		AEA24B751B863BF300031FB8 /* VideoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
+		AEA24B771B8644D200031FB8 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		AEB9E2931B85DB27007B3ED3 /* BookController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookController.swift; sourceTree = "<group>"; };
 		AEB9E2951B85E272007B3ED3 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cyclopaedic.swift; sourceTree = "<group>"; };
@@ -300,6 +306,7 @@
 				AE513E371B857D41003DC53D /* TopicDetailsCell.swift */,
 				AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */,
 				AE87C2131B85F285004C0998 /* BookCell.swift */,
+				AEA24B771B8644D200031FB8 /* VideoCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -344,6 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */,
+				AEA24B731B863A1100031FB8 /* Video.swift */,
 			);
 			name = "Video(视频)";
 			sourceTree = "<group>";
@@ -384,6 +392,7 @@
 				AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */,
 				AED2DE451B8468F60091D320 /* TopicDetailListController.swift */,
 				AEB9E2931B85DB27007B3ED3 /* BookController.swift */,
+				AEA24B751B863BF300031FB8 /* VideoController.swift */,
 			);
 			name = "附近";
 			sourceTree = "<group>";
@@ -566,8 +575,10 @@
 				AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */,
 				72D7212D1B6A712F005BDE55 /* MasterViewController.swift in Sources */,
 				72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */,
+				AEA24B761B863BF300031FB8 /* VideoController.swift in Sources */,
 				AE513E381B857D41003DC53D /* TopicDetailsCell.swift in Sources */,
 				7216432A1B7DB18F009C292C /* StringExtentions.swift in Sources */,
+				AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */,
 				72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */,
 				721643281B7D8F39009C292C /* CustomInteractionController.swift in Sources */,
 				AED2DE3C1B8426370091D320 /* CyclopaedicLabel.swift in Sources */,
@@ -585,6 +596,7 @@
 				72D86E271B65F03D004B72D0 /* SightHeaderView.swift in Sources */,
 				72D7212B1B6A2FEB005BDE55 /* MainViewController.swift in Sources */,
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
+				AEA24B741B863A1100031FB8 /* Video.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColorExtentions.swift in Sources */,
 				72D86E211B65F033004B72D0 /* NearbyTableViewController.swift in Sources */,
 				2044495B1B6609B50028BE77 /* MenuViewController.swift in Sources */,

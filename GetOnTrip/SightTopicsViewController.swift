@@ -113,7 +113,12 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(view3)
         scrollView.bringSubviewToFront(view3)
         
-        
+        let controller4 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicVideoSB) as! VideoController
+        controller4.sightId = sightId
+        addChildViewController(controller4)
+        view4 = controller4.view
+        scrollView.addSubview(view4)
+        scrollView.bringSubviewToFront(view4)
     }
     
     override func viewDidLayoutSubviews() {
