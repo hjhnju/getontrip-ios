@@ -21,8 +21,8 @@ class TopicRequest: NSObject {
     */
     
     // 请求参数
-    var pageSize:Int
-    var page: Int
+    var pageSize:Int = 2
+    var page: Int = 1
     var sightId: Int
     var order: Int?
     var tags: String?

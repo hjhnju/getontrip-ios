@@ -46,6 +46,8 @@
 		AE553BBB1B81EAB700C03737 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB71B81EAB700C03737 /* 2.jpg */; };
 		AE553BBC1B81EAB700C03737 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB81B81EAB700C03737 /* 3.jpg */; };
 		AE553BBD1B81EAB700C03737 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB91B81EAB700C03737 /* 4.jpg */; };
+		AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */; };
+		AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */; };
 		AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */; };
 		AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */; };
 		AED2DE3C1B8426370091D320 /* CyclopaedicLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */; };
@@ -125,6 +127,8 @@
 		AE553BB71B81EAB700C03737 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		AE553BB81B81EAB700C03737 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
 		AE553BB91B81EAB700C03737 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
+		AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookRequest.swift; sourceTree = "<group>"; };
+		AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRequest.swift; sourceTree = "<group>"; };
 		AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicViewController.swift; sourceTree = "<group>"; };
 		AED2DE391B838AEC0091D320 /* Cyclopaedic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cyclopaedic.swift; sourceTree = "<group>"; };
 		AED2DE3B1B8426370091D320 /* CyclopaedicLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicLabel.swift; sourceTree = "<group>"; };
@@ -295,6 +299,8 @@
 			children = (
 				AED2DE3D1B8426420091D320 /* Cyclopaedic(百科) */,
 				AED2DE401B8452CA0091D320 /* Topic(话题详情) */,
+				AE6D9FAE1B84AD26009A8A9D /* Book(书籍) */,
+				AE6D9FAF1B84AD69009A8A9D /* Video(视频) */,
 				72D86E281B65F045004B72D0 /* Sight.swift */,
 				72D86E291B65F045004B72D0 /* NearbyRequest.swift */,
 				AEE5D2341B82DD2E00E6D129 /* ChannelRequest.swift */,
@@ -313,6 +319,22 @@
 				AE553BB91B81EAB700C03737 /* 4.jpg */,
 			);
 			name = "Guide(需换图)";
+			sourceTree = "<group>";
+		};
+		AE6D9FAE1B84AD26009A8A9D /* Book(书籍) */ = {
+			isa = PBXGroup;
+			children = (
+				AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */,
+			);
+			name = "Book(书籍)";
+			sourceTree = "<group>";
+		};
+		AE6D9FAF1B84AD69009A8A9D /* Video(视频) */ = {
+			isa = PBXGroup;
+			children = (
+				AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */,
+			);
+			name = "Video(视频)";
 			sourceTree = "<group>";
 		};
 		AED2DE3D1B8426420091D320 /* Cyclopaedic(百科) */ = {
@@ -532,6 +554,7 @@
 				AED2DE441B8460DE0091D320 /* TopicDetails.swift in Sources */,
 				721643261B7D80EC009C292C /* CustomNavigationAnimationController.swift in Sources */,
 				AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */,
+				AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */,
 				AEE5D2351B82DD2E00E6D129 /* ChannelRequest.swift in Sources */,
 				72D86E271B65F03D004B72D0 /* SightHeaderView.swift in Sources */,
 				72D7212B1B6A2FEB005BDE55 /* MainViewController.swift in Sources */,
@@ -541,6 +564,7 @@
 				2044495B1B6609B50028BE77 /* MenuViewController.swift in Sources */,
 				72A5BF381B748BE200F3AB26 /* SearchResultsCell.swift in Sources */,
 				AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */,
+				AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */,
 				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,
 				72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */,
 				72A5BF301B72391E00F3AB26 /* SearchResultsViewController.swift in Sources */,

@@ -320,7 +320,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="传说故宫内有三条密道，一条由乾清宫到西苑，一条是宫后苑到地坛，还有一条是文华殿到朝阳门外十里的一家..." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dha-mC-29W">
                                                     <rect key="frame" x="157" y="38" width="412" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dlg-mI-YPL">
@@ -536,7 +536,7 @@ ISBN：345566743566</string>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="来自：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kL-Y7-0uN">
                                             <rect key="frame" x="130" y="145" width="27" height="11"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iDG-RW-ooO">
@@ -698,32 +698,32 @@ ISBN：345566743566</string>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="历史事件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRI-My-kMW">
-                                            <rect key="frame" x="132" y="88" width="40" height="12"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="历史事件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRI-My-kMW">
+                                            <rect key="frame" x="113.5" y="88" width="40" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="主要景点" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZKE-f3-bA8">
-                                            <rect key="frame" x="281" y="88" width="40" height="12"/>
+                                            <rect key="frame" x="336.5" y="88" width="40" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="|" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pZL-Mo-bNh">
-                                            <rect key="frame" x="375" y="87" width="3" height="12"/>
+                                            <rect key="frame" x="393.5" y="88" width="2.5" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="|" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxU-Qm-5DG">
-                                            <rect key="frame" x="227" y="88" width="3" height="12"/>
+                                            <rect key="frame" x="166.5" y="88" width="77" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="|" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sK2-fj-7xe">
-                                            <rect key="frame" x="88" y="88" width="3" height="12"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="|" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sK2-fj-7xe">
+                                            <rect key="frame" x="76" y="88" width="2.5" height="12"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -732,20 +732,25 @@ ISBN：345566743566</string>
                                     <constraints>
                                         <constraint firstItem="bRg-Uc-290" firstAttribute="top" secondItem="AON-ju-J6Y" secondAttribute="bottom" constant="11" id="1DT-gT-FfS"/>
                                         <constraint firstItem="bRg-Uc-290" firstAttribute="leading" secondItem="M9m-ad-glN" secondAttribute="leading" constant="9" id="4bB-gE-jJ9"/>
+                                        <constraint firstItem="sK2-fj-7xe" firstAttribute="leading" secondItem="Xf3-HS-vac" secondAttribute="trailing" id="7YQ-tm-th3"/>
+                                        <constraint firstItem="9dn-p3-iFL" firstAttribute="leading" secondItem="pzM-e6-zaT" secondAttribute="trailing" constant="10" id="8gK-eD-crR"/>
+                                        <constraint firstItem="KRI-My-kMW" firstAttribute="bottom" secondItem="Xf3-HS-vac" secondAttribute="bottom" id="Av8-3p-9Z5"/>
                                         <constraint firstAttribute="trailing" secondItem="9dn-p3-iFL" secondAttribute="trailing" constant="8" id="DFK-Bi-AVS"/>
-                                        <constraint firstItem="Xf3-HS-vac" firstAttribute="bottom" secondItem="nxU-Qm-5DG" secondAttribute="bottom" id="Elc-Af-hog"/>
-                                        <constraint firstItem="Xf3-HS-vac" firstAttribute="leading" secondItem="M9m-ad-glN" secondAttribute="leading" constant="9" id="Ifk-5j-M3D"/>
+                                        <constraint firstItem="KRI-My-kMW" firstAttribute="bottom" secondItem="pZL-Mo-bNh" secondAttribute="bottom" id="JCX-Ec-6H8"/>
                                         <constraint firstItem="AON-ju-J6Y" firstAttribute="leading" secondItem="M9m-ad-glN" secondAttribute="leading" constant="9" id="JOd-Gh-RZU"/>
+                                        <constraint firstItem="KRI-My-kMW" firstAttribute="bottom" secondItem="pzM-e6-zaT" secondAttribute="bottom" id="Jhg-MU-urt"/>
+                                        <constraint firstItem="KRI-My-kMW" firstAttribute="bottom" secondItem="ZKE-f3-bA8" secondAttribute="bottom" id="LK0-Nx-BGf"/>
                                         <constraint firstItem="9dn-p3-iFL" firstAttribute="leading" secondItem="bRg-Uc-290" secondAttribute="trailing" constant="10" id="MX9-Xh-LcZ"/>
                                         <constraint firstItem="AON-ju-J6Y" firstAttribute="leading" secondItem="M9m-ad-glN" secondAttribute="leading" constant="9" id="T87-Sh-UEd"/>
-                                        <constraint firstItem="Xf3-HS-vac" firstAttribute="bottom" secondItem="KRI-My-kMW" secondAttribute="bottom" id="Vbh-An-8Ui"/>
-                                        <constraint firstItem="Xf3-HS-vac" firstAttribute="bottom" secondItem="9dn-p3-iFL" secondAttribute="bottom" id="adG-tX-dU8"/>
-                                        <constraint firstItem="Xf3-HS-vac" firstAttribute="bottom" secondItem="pzM-e6-zaT" secondAttribute="bottom" id="cgw-b2-Abf"/>
-                                        <constraint firstItem="Xf3-HS-vac" firstAttribute="bottom" secondItem="pZL-Mo-bNh" secondAttribute="bottom" id="eUp-XZ-gAC"/>
-                                        <constraint firstItem="Xf3-HS-vac" firstAttribute="bottom" secondItem="ZKE-f3-bA8" secondAttribute="bottom" id="puv-Pi-fmu"/>
+                                        <constraint firstItem="ZKE-f3-bA8" firstAttribute="width" secondItem="pzM-e6-zaT" secondAttribute="width" id="ZxW-Mi-jg5"/>
+                                        <constraint firstItem="ZKE-f3-bA8" firstAttribute="width" secondItem="Xf3-HS-vac" secondAttribute="width" id="kir-Gv-joK"/>
+                                        <constraint firstItem="KRI-My-kMW" firstAttribute="bottom" secondItem="9dn-p3-iFL" secondAttribute="bottom" id="oJR-vx-rlo"/>
+                                        <constraint firstItem="KRI-My-kMW" firstAttribute="bottom" secondItem="nxU-Qm-5DG" secondAttribute="bottom" id="pvW-Gv-GGK"/>
+                                        <constraint firstItem="ZKE-f3-bA8" firstAttribute="width" secondItem="KRI-My-kMW" secondAttribute="width" id="t88-wk-fXj"/>
+                                        <constraint firstItem="Xf3-HS-vac" firstAttribute="leading" secondItem="M9m-ad-glN" secondAttribute="leading" constant="9" id="tJM-IL-wZw"/>
+                                        <constraint firstItem="KRI-My-kMW" firstAttribute="leading" secondItem="sK2-fj-7xe" secondAttribute="trailing" id="thy-XM-5R3"/>
                                         <constraint firstAttribute="centerY" secondItem="9dn-p3-iFL" secondAttribute="centerY" id="uQo-ni-Rqw"/>
-                                        <constraint firstItem="Xf3-HS-vac" firstAttribute="bottom" secondItem="sK2-fj-7xe" secondAttribute="bottom" id="x04-SF-PJc"/>
-                                        <constraint firstItem="9dn-p3-iFL" firstAttribute="leading" secondItem="pzM-e6-zaT" secondAttribute="trailing" constant="10" id="xzA-S5-GYO"/>
+                                        <constraint firstItem="KRI-My-kMW" firstAttribute="bottom" secondItem="sK2-fj-7xe" secondAttribute="bottom" id="z9r-et-ASW"/>
                                         <constraint firstItem="AON-ju-J6Y" firstAttribute="top" secondItem="9dn-p3-iFL" secondAttribute="top" id="zeu-kv-NPf"/>
                                     </constraints>
                                 </tableViewCellContentView>

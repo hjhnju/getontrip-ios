@@ -12,6 +12,7 @@ import SSKeychain
 
 class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
+    var dataSouce: NSArray?
     
     @IBOutlet weak var toolbar: UIToolbar!
     
@@ -66,10 +67,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     //MASK: View Life Circle
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print("这回传进来了，值是\(sender)....")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -98,6 +95,15 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         view2 = controller1.view
         scrollView.addSubview(view2)
         scrollView.bringSubviewToFront(view2)
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
     
     override func viewDidLayoutSubviews() {

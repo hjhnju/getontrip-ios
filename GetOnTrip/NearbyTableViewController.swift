@@ -14,7 +14,6 @@ import Alamofire
 class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     
     //MARK: Model and variables
-    
     var nearSights = [Sight]()
     
     var lastSuccessRequest: NearbyRequest?
@@ -88,6 +87,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         //animation
         navigationController?.delegate = self
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -222,6 +222,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         return footerView
     }
     
+    
+    
     /*
      * 更改追加内容位置
      */
@@ -245,7 +247,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     //处理列表项的选中事件
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        print("选中了这里")
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
         var topic = self.nearSights[indexPath.section].topics[indexPath.row]
         
@@ -269,12 +271,16 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.curLocation = nil
     }
     
+    
     // MARK: Segues
     
     /*
      * 要获取景点id，在这个方法做的跳转，需要写到这里
      */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+//        var sightTopicsVC = segue.destinat?ionViewController.visibleViewController as! SightTopicsViewController
+//        sightTopicsVC.dataSouce =
         
         var destination = segue.destinationViewController as? UIViewController
         if let navCon = destination as? UINavigationController{
@@ -293,7 +299,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     
     @IBAction func showSightView(sender: UIButton) {
-        
+        print("点击了这里")
         performSegueWithIdentifier(StoryBoardIdentifier.ShowSightTopicsSegue, sender: sender)
     }
     
