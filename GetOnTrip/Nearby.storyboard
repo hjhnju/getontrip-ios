@@ -22,7 +22,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="177"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="42B2BE36-7C09-4BC7-89D3-45FA7C731A09" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AE93AEC6-85C3-49F1-A0F3-247E0A4C97F4" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="city" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="48" translatesAutoresizingMaskIntoConstraints="NO" id="Bt5-XI-xf4">
@@ -597,27 +597,32 @@ ISBN：345566743566</string>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.31372549019607843" green="0.30588235294117649" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="VideoCell" rowHeight="215" id="TIX-WV-Ash" customClass="VideoCell" customModule="GetOnTrip" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="VideoCell" rowHeight="214" id="TIX-WV-Ash" customClass="VideoCell" customModule="GetOnTrip" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TIX-WV-Ash" id="6Of-Sg-d1O">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8wC-Es-zsC">
-                                            <rect key="frame" x="0.0" y="15" width="600" height="200"/>
+                                            <rect key="frame" x="0.0" y="15" width="600" height="199"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3On-69-65t">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="199"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="199" id="e5X-x2-QzX"/>
+                                                    </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iWg-5H-O2Z">
                                                     <rect key="frame" x="558" y="6" width="33" height="14"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="33" id="1Ri-NM-zmJ"/>
                                                         <constraint firstAttribute="height" constant="14" id="DNv-0Y-DSl"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sw-18-iKl">
-                                                    <rect key="frame" x="200" y="86" width="200" height="48"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sw-18-iKl">
+                                                    <rect key="frame" x="198" y="85" width="204" height="48"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="203.5" id="fuu-dj-pGQ"/>
                                                     </constraints>
@@ -628,13 +633,13 @@ ISBN：345566743566</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="合辑：共10集" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="04F-C1-GUt">
-                                                    <rect key="frame" x="272" y="142" width="55.5" height="11"/>
+                                                    <rect key="frame" x="272" y="141" width="55.5" height="11"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6IZ-UV-oJl">
-                                                    <rect key="frame" x="259" y="161" width="82.5" height="27.5"/>
+                                                    <rect key="frame" x="259" y="160" width="83" height="28"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="27.210000000000001" id="Czn-qM-7ej"/>
                                                         <constraint firstAttribute="width" constant="82.310000000000002" id="Lzi-IX-ys0"/>
@@ -646,21 +651,27 @@ ISBN：345566743566</string>
                                                     </state>
                                                 </button>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.23529411764705882" green="0.20000000000000001" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
+                                                <constraint firstItem="3On-69-65t" firstAttribute="top" secondItem="8wC-Es-zsC" secondAttribute="top" id="1f3-Xf-WDg"/>
                                                 <constraint firstAttribute="bottom" secondItem="3On-69-65t" secondAttribute="bottom" id="7Cd-Aw-uoP"/>
                                                 <constraint firstAttribute="trailing" secondItem="iWg-5H-O2Z" secondAttribute="trailing" constant="9" id="7Nj-pa-alc"/>
-                                                <constraint firstAttribute="trailing" secondItem="3On-69-65t" secondAttribute="trailing" id="KnQ-RG-pIK"/>
                                                 <constraint firstItem="6IZ-UV-oJl" firstAttribute="top" secondItem="04F-C1-GUt" secondAttribute="bottom" constant="8" id="MaE-El-UbN"/>
                                                 <constraint firstAttribute="centerX" secondItem="04F-C1-GUt" secondAttribute="centerX" id="Nsp-V1-ld9"/>
+                                                <constraint firstItem="3On-69-65t" firstAttribute="leading" secondItem="8wC-Es-zsC" secondAttribute="leading" id="QHh-Lq-N2d"/>
                                                 <constraint firstAttribute="centerY" secondItem="5sw-18-iKl" secondAttribute="centerY" constant="-10" id="SgM-AY-9lw"/>
-                                                <constraint firstItem="3On-69-65t" firstAttribute="top" secondItem="8wC-Es-zsC" secondAttribute="top" id="a4n-ln-Bu7"/>
                                                 <constraint firstAttribute="centerX" secondItem="6IZ-UV-oJl" secondAttribute="centerX" id="b4X-qz-Pax"/>
                                                 <constraint firstItem="04F-C1-GUt" firstAttribute="top" secondItem="5sw-18-iKl" secondAttribute="bottom" constant="8" id="ece-36-ZN0"/>
-                                                <constraint firstItem="3On-69-65t" firstAttribute="leading" secondItem="8wC-Es-zsC" secondAttribute="leading" id="vBA-kX-TYe"/>
+                                                <constraint firstAttribute="trailing" secondItem="3On-69-65t" secondAttribute="trailing" id="lxb-oe-Mwp"/>
+                                                <constraint firstAttribute="height" constant="199" id="ouI-h1-eA2"/>
                                                 <constraint firstAttribute="centerX" secondItem="5sw-18-iKl" secondAttribute="centerX" id="vqQ-Qi-kSX"/>
                                                 <constraint firstItem="iWg-5H-O2Z" firstAttribute="top" secondItem="8wC-Es-zsC" secondAttribute="top" constant="6" id="vxt-RJ-lkv"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="7Cd-Aw-uoP"/>
+                                                </mask>
+                                            </variation>
                                         </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -670,6 +681,11 @@ ISBN：345566743566</string>
                                         <constraint firstItem="8wC-Es-zsC" firstAttribute="top" secondItem="6Of-Sg-d1O" secondAttribute="top" constant="15" id="mKw-12-fro"/>
                                         <constraint firstAttribute="bottom" secondItem="8wC-Es-zsC" secondAttribute="bottom" id="t70-zy-kJG"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="t70-zy-kJG"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -1290,7 +1306,7 @@ ISBN：345566743566</string>
         </scene>
     </scenes>
     <resources>
-        <image name="42B2BE36-7C09-4BC7-89D3-45FA7C731A09" width="414" height="166">
+        <image name="AE93AEC6-85C3-49F1-A0F3-247E0A4C97F4" width="414" height="166">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

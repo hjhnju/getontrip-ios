@@ -34,6 +34,7 @@ class VideoCell: UITableViewCell {
     func touchUpInsideWatch(sender: AnyObject) {
         print("正在跳转请稍候")
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -42,6 +43,15 @@ class VideoCell: UITableViewCell {
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
         watchBtn.addTarget(self, action: "touchUpInsideWatch:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        // 毛玻璃
+        let groundGlass = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
+        groundGlass.frame = self.iconView.frame
+        groundGlass.alpha = 0.8
+        for v in self.iconView.subviews {
+            v.removeFromSuperview()
+        }
+        self.iconView.addSubview(groundGlass)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
