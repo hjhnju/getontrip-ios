@@ -24,12 +24,8 @@ class BookCell: UITableViewCell {
     
     var bookModel: Book? {
         didSet {
-//            let iconURL = NSURL(string: AppIniDev.BaseUri + (bookModel!.image))
-//            self.iconView.sd_setImageWithURL(iconURL)
-            var imageURL = NSURL(string: AppIniOnline.BaseUri + (bookModel!.image))
-            print(imageURL)
-            print("\n\n\n")
-            self.iconView?.sd_setImageWithURL(imageURL)
+            
+            self.iconView?.sd_setImageWithURL(NSURL(string: bookModel!.image))
             self.content_desc.text = bookModel?.content_desc
             var bookInfo = "作者：" + bookModel!.author + "\n出版社：" + bookModel!.press + "\n页数：" + bookModel!.pages + "\nISBN：" + bookModel!.isbn
             self.bookInfo.text = bookInfo

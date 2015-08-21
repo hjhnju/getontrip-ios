@@ -20,7 +20,7 @@ class BookController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.rowHeight = 172
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
         refresh()
     }
@@ -35,8 +35,7 @@ class BookController: UITableViewController {
         }
         
         lastSuccessRequest!.fetchBookModels { (handler: [Book]) -> Void in
-            print(handler.count)
-            print("qq================================")
+            
             if handler.count > 0 {
                 self.nearBook = handler
                 self.tableView.reloadData()
@@ -54,8 +53,7 @@ class BookController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("BookCell", forIndexPath: indexPath) as! BookCell
         cell.bookModel = nearBook[indexPath.row]
-print(nearBook[indexPath.row])
-        print("\\\\\\\\\\\\\\\\\\")
+
         return cell
     }
     

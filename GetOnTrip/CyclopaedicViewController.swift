@@ -55,9 +55,6 @@ class CyclopaedicViewController: UITableViewController {
                 self.nearCyclopaedic = handler
                 
                 self.tableView.reloadData()
-                print("\n\n")
-                print(self.nearCyclopaedic)
-                print("\n\n")
             }
         }
         

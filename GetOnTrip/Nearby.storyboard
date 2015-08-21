@@ -22,7 +22,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="177"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="239CB950-FEF3-41B0-ADC8-550DD919B0CA" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="6C65991F-8A2D-4D44-9132-737AC81FDF33" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="city" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="48" translatesAutoresizingMaskIntoConstraints="NO" id="Bt5-XI-xf4">
@@ -463,11 +463,11 @@ ISBN：345566743566</string>
                                         <constraint firstAttribute="centerY" secondItem="jX4-SX-1Bn" secondAttribute="centerY" constant="0.25" id="tCb-xu-Utx"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.25490196078431371" green="0.26666666666666666" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="bookInfo" destination="lIT-r3-6zc" id="aM3-Mt-7JN"/>
                                     <outlet property="content_desc" destination="Zyo-S4-Mp4" id="ujZ-F6-bev"/>
-                                    <outlet property="iconView" destination="jX4-SX-1Bn" id="R5W-j9-2N0"/>
+                                    <outlet property="iconView" destination="jX4-SX-1Bn" id="dJ8-fj-gPo"/>
                                     <outlet property="price_jd" destination="uUV-D2-XI1" id="0Ck-MN-1Wf"/>
                                     <outlet property="price_mart" destination="Axs-ZE-Pnk" id="J4W-S7-33Z"/>
                                     <outlet property="title" destination="YDH-Ky-QjB" id="KY0-cV-KKz"/>
@@ -581,8 +581,11 @@ ISBN：345566743566</string>
                                                         <constraint firstAttribute="height" constant="14" id="DNv-0Y-DSl"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sw-18-iKl">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sw-18-iKl">
                                                     <rect key="frame" x="200" y="86" width="200" height="48"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="203.5" id="fuu-dj-pGQ"/>
+                                                    </constraints>
                                                     <string key="text">纪录片
 世界遗产在北京之故宫</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -628,7 +631,7 @@ ISBN：345566743566</string>
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.30196078431372547" green="0.25882352941176473" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="8wC-Es-zsC" firstAttribute="leading" secondItem="6Of-Sg-d1O" secondAttribute="leading" id="eer-bX-cGi"/>
                                         <constraint firstAttribute="trailing" secondItem="8wC-Es-zsC" secondAttribute="trailing" id="fNq-kx-faa"/>
@@ -636,6 +639,7 @@ ISBN：345566743566</string>
                                         <constraint firstAttribute="bottom" secondItem="8wC-Es-zsC" secondAttribute="bottom" id="t70-zy-kJG"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="iconView" destination="3On-69-65t" id="Fz7-nh-JXT"/>
                                     <outlet property="id" destination="04F-C1-GUt" id="3uC-bh-aM6"/>
@@ -1225,7 +1229,7 @@ ISBN：345566743566</string>
         </scene>
     </scenes>
     <resources>
-        <image name="239CB950-FEF3-41B0-ADC8-550DD919B0CA" width="414" height="166">
+        <image name="6C65991F-8A2D-4D44-9132-737AC81FDF33" width="414" height="166">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

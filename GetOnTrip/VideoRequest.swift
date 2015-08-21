@@ -42,12 +42,11 @@ class VideoRequest: NSObject {
         post["sightId"]  = String(self.sightId)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIniDev.BaseUri,
+        HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/video",
             post: post,
             handler: {(respData: JSON) -> Void in
 
-//                for item in respData.arrayValue {
                     var videos = [Video]()
                     for it in respData.arrayValue {
                         // 转换视频属性

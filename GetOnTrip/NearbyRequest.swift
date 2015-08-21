@@ -54,7 +54,7 @@ class NearbyRequest {
             path: "/api/home",
             post: post,
             handler: {(respData: JSON) -> Void in
-//                print(respData)
+
                 var sights = [Sight]()
                 for item in respData.arrayValue {
                     let sightId = item["id"].intValue

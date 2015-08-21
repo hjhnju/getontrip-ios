@@ -46,7 +46,8 @@ class BookRequest: NSObject {
             path: "/api/book",
             post: post,
             handler: {(respData: JSON) -> Void in
-                print(respData)
+
+                
                 for item in respData.arrayValue {
                     var books = [Book]()
                     for it in respData.arrayValue {
@@ -65,7 +66,7 @@ class BookRequest: NSObject {
                         let pages = it["pages"].stringValue
                         let image = it["image"].stringValue
                         let totalNum = it["totalNum"].stringValue
-                        
+
                         let bookM = Book(create_time: create_time, author: author, content_desc: content_desc, price_mart: price_mart, id: id, press: press, price_jd: price_jd, title: title, url: url, isbn: isbn, status: status, pages: pages, image: image, totalNum: totalNum)
                         books.append(bookM)
                     }

@@ -20,7 +20,7 @@ class VideoController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView.rowHeight = 215
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
         refresh()
     }
@@ -35,7 +35,7 @@ class VideoController: UITableViewController {
         }
         
         lastSuccessRequest!.fetchVideoModels { (handler: [Video]) -> Void in
-            print(handler.count)
+
             if handler.count > 0 {
                 self.nearVideo = handler
                 self.tableView.reloadData()
@@ -52,9 +52,8 @@ class VideoController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("VideoCell", forIndexPath: indexPath) as! VideoCell
-//        cell.bookModel = nearBook[indexPath.row]
-//        print(nearBook[indexPath.row])
-        print("\\\\\\\\\\\\\\\\\\")
+        cell.videoModel = nearVideo[indexPath.row]
+
         return cell
     }
     
