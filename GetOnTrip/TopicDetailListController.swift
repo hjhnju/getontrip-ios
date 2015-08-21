@@ -36,7 +36,7 @@ class TopicDetailListController: UITableViewController {
         }
         
         lastSuccessRequest!.fetchTopicPageModels { (handler: [TopicDetails]) -> Void in
-            print(handler)
+//            print(handler)
             if handler.count > 0 {
                 self.nearTopics = handler
                 self.tableView.reloadData()

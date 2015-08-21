@@ -42,11 +42,11 @@ class CyclopaedicRequest: NSObject {
         post["sightId"]  = String(self.sightId)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
+        HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/wiki",
             post: post,
             handler: {(respData: JSON) -> Void in
-                print(respData)
+                
                 var cyclopaedics = [Cyclopaedic]()
                 for item in respData.arrayValue {
                     // 转换百科元素

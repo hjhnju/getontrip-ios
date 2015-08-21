@@ -43,7 +43,6 @@ class GuideViewController: UICollectionViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        print(self.collectionView?.frame)
         // 设置布局
         layout.itemSize = view.bounds.size
         layout.minimumInteritemSpacing = 0
@@ -117,7 +116,7 @@ class NewFeatureCell: UICollectionViewCell {
         UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 10, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
             self.startButton.transform = CGAffineTransformIdentity
             }, completion: { (_) -> Void in
-                print("OK")
+//                print("OK")
                 self.startButton.userInteractionEnabled = true
         })
     }

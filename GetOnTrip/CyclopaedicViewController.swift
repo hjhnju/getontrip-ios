@@ -18,13 +18,13 @@ class CyclopaedicViewController: UITableViewController {
     
     var nearCyclopaedic = [Cyclopaedic]()
     
+    var cellIdentifier: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
-//        self.tableView.rowHeight
+
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        //        self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         refresh()
     }
     
@@ -33,9 +33,12 @@ class CyclopaedicViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("CyclopaedicRightCell", forIndexPath: indexPath) as! CyclopaedicCell
+        
+        cellIdentifier = cellIdentifier == nil ? "CyclopaedicRightCell" : "CyclopaedicLeftCell"
+
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier!, forIndexPath: indexPath) as! CyclopaedicCell
         cell.cyclopaedicModel = nearCyclopaedic[indexPath.row]
-//        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return cell
     }
     
@@ -54,7 +57,7 @@ class CyclopaedicViewController: UITableViewController {
         lastSuccessRequest?.fetchCyclopaedicPageModels { (handler: [Cyclopaedic]) -> Void in
             if handler.count > 0 {
                 self.nearCyclopaedic = handler
-                
+                print("==========\(handler)============")
                 self.tableView.reloadData()
             }
         }

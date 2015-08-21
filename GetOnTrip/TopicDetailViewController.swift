@@ -71,7 +71,7 @@ class TopicDetailViewController: UIViewController {
     
     func loadWebURL() {
         if let url = self.topicURL {
-            println("loadURL=\(url)")
+//            println("loadURL=\(url)")
             if let requestURL = NSURL(string: url) {
                 let request = NSURLRequest(URL: requestURL)
                 webView.loadRequest(request)

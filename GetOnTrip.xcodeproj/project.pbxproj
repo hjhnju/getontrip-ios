@@ -63,7 +63,6 @@
 		AED2DE421B84533A0091D320 /* TopicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE411B84533A0091D320 /* TopicRequest.swift */; };
 		AED2DE441B8460DE0091D320 /* TopicDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE431B8460DE0091D320 /* TopicDetails.swift */; };
 		AED2DE461B8468F60091D320 /* TopicDetailListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2DE451B8468F60091D320 /* TopicDetailListController.swift */; };
-		AEE5D2351B82DD2E00E6D129 /* ChannelRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE5D2341B82DD2E00E6D129 /* ChannelRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,7 +151,6 @@
 		AED2DE411B84533A0091D320 /* TopicRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicRequest.swift; sourceTree = "<group>"; };
 		AED2DE431B8460DE0091D320 /* TopicDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetails.swift; sourceTree = "<group>"; };
 		AED2DE451B8468F60091D320 /* TopicDetailListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailListController.swift; sourceTree = "<group>"; };
-		AEE5D2341B82DD2E00E6D129 /* ChannelRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelRequest.swift; sourceTree = "<group>"; };
 		F7B4D58CAA793845FCC0F1A4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -320,7 +318,6 @@
 				AE6D9FAF1B84AD69009A8A9D /* Video(视频) */,
 				72D86E281B65F045004B72D0 /* Sight.swift */,
 				72D86E291B65F045004B72D0 /* NearbyRequest.swift */,
-				AEE5D2341B82DD2E00E6D129 /* ChannelRequest.swift */,
 				72D86E2A1B65F045004B72D0 /* Topic.swift */,
 			);
 			name = Model;
@@ -592,7 +589,6 @@
 				AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */,
 				AE87C2141B85F285004C0998 /* BookCell.swift in Sources */,
 				AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */,
-				AEE5D2351B82DD2E00E6D129 /* ChannelRequest.swift in Sources */,
 				72D86E271B65F03D004B72D0 /* SightHeaderView.swift in Sources */,
 				72D7212B1B6A2FEB005BDE55 /* MainViewController.swift in Sources */,
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
