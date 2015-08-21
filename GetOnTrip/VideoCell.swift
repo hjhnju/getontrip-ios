@@ -18,6 +18,8 @@ class VideoCell: UITableViewCell {
     // 合集
     @IBOutlet weak var id: UILabel!
     
+    @IBOutlet weak var watchBtn: UIButton!
+    
     var videoModel: Video? {
         didSet {
             var imageURL = NSURL(string: AppIniOnline.BaseUri + (videoModel!.image))
@@ -26,14 +28,19 @@ class VideoCell: UITableViewCell {
             self.id.text = "合集: 共\(videoModel!.id)集"
         }
     }
+
     
     // TODO: 点击观看
-    @IBAction func touchUpInsideWatch(sender: AnyObject) {
-        
-    }
+//    @IBAction func touchUpInsideWatch(sender: AnyObject) {
+//        
+//    }
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        watchBtn.layer.masksToBounds = true
+        watchBtn.layer.cornerRadius = 12.0
+        watchBtn.layer.borderWidth = 1.0
+        watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -41,5 +48,8 @@ class VideoCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
+    
 
 }
