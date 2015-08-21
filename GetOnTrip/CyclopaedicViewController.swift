@@ -22,8 +22,9 @@ class CyclopaedicViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
-        
-        
+//        self.tableView.rowHeight
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        //        self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         refresh()
     }
     

@@ -21,6 +21,7 @@ class BookController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 172
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
         refresh()
     }

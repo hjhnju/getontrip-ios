@@ -21,6 +21,7 @@ class VideoController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = 215
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
         refresh()
     }

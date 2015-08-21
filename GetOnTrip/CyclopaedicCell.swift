@@ -24,6 +24,7 @@ class CyclopaedicCell: UITableViewCell {
             self.content.text = cyclopaedicModel!.content
             var imageURL = NSURL(string: AppIniDev.BaseUri + (cyclopaedicModel!.image))
             self.iconView?.sd_setImageWithURL(imageURL)
+//            self.iconView = UIImageView(image: UIImage(named: "1.jpg"))
 //            self.iconView?.contentMode = UIViewContentMode.ScaleAspectFill
 
         }
@@ -31,7 +32,8 @@ class CyclopaedicCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

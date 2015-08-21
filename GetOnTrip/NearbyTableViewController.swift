@@ -52,6 +52,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+////        self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         //移除底部空Cell
         tableView.tableFooterView     = UIView(frame: CGRectZero)
         tableView.sectionHeaderHeight = CGFloat(177) //图高+12
@@ -212,6 +214,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         headerViewCell.descValue = nearSights[section].desc
         headerViewCell.backgroundColor = UIColor.clearColor()
         headerViewCell.sightId.tag = nearSights[section].sightid
+        headerViewCell.sightId.setTitle(nearSights[section].name, forState: UIControlState.Normal)
 
         return headerViewCell
     }
@@ -275,17 +278,16 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     // MARK: Segues
     
-    /*
-     * 要获取景点id，在这个方法做的跳转，需要写到这里
-     */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        var sightTopicsVC = segue.destinationViewController.visibleViewController as! SightTopicsViewController
-        var tag = sender!.tag as Int
-        sightTopicsVC.sightId = tag
+        if segue.identifier == StoryBoardIdentifier.ShowSightTopicsSegue {
+            var sightTopicsVC = segue.destinationViewController.visibleViewController as! SightTopicsViewController  // ShowSightTopicsSegue  ShowTopicDetailSegue
+            sightTopicsVC.sightId = sender as? UIButton
+        }
+        
         
         var destination = segue.destinationViewController as? UIViewController
-        if let navCon = destination as? UINavigationController{
+        if let navCon = destination as? UINavigationController {
             destination = navCon.visibleViewController
         }
         if let identifier = segue.identifier {

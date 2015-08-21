@@ -12,7 +12,7 @@ import SSKeychain
 
 class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
-    var sightId: Int?
+    var sightId: UIButton?
     
     @IBOutlet weak var toolbar: UIToolbar!
     
@@ -53,13 +53,30 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    var view1: UIView = UIView()
+    // MARK: 懒加载
+    // 百科控制器
+    lazy var cyclopaedicViewController: CyclopaedicViewController = {
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicCyclopaedicSB) as! CyclopaedicViewController
+    }()
     
-    var view2: UIView = UIView()
+    // 话题控制器
+    var topicDetailListController: TopicDetailListController = {
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! TopicDetailListController
+    }()
     
-    var view3: UIView = UIView()
+    // 书籍控制器
+    var bookController: BookController = {
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicBookSB) as! BookController
+    }()
     
-    var view4: UIView = UIView()
+    // 视频控制器
+    var videoController: VideoController = {
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicVideoSB) as! VideoController
+    }()
     
     // `searchController` is set when the search button is clicked.
     var searchController: UISearchController!
@@ -69,10 +86,17 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupChildControllerProperty()
+    }
+    
+    func setupChildControllerProperty() {
         
+        self.navigationItem.title = sightId?.titleLabel?.text
+        scrollView.contentOffset.x = UIScreen.mainScreen().bounds.width
 
         //back button
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
+//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
         
         //颜色
         toolbar.barTintColor = SceneColor.lightBlack
@@ -89,79 +113,58 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         scrollView.bounces = false
         
         //初始化views
-        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        let controller1 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicCyclopaedicSB) as! CyclopaedicViewController
-        controller1.sightId = sightId
-        addChildViewController(controller1)
-        view1 = controller1.view
-        scrollView.addSubview(view1)
-        scrollView.bringSubviewToFront(view1)
+        cyclopaedicViewController.sightId = sightId!.tag
+        addChildViewController(cyclopaedicViewController)
+        scrollView.addSubview(cyclopaedicViewController.view)
+        scrollView.bringSubviewToFront(cyclopaedicViewController.view)
+        
+        topicDetailListController.sightId = sightId?.tag
+        addChildViewController(topicDetailListController)
+        scrollView.addSubview(topicDetailListController.view)
+        scrollView.bringSubviewToFront(topicDetailListController.view)
         
         
-        let controller2 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! TopicDetailListController
-        controller2.sightId = sightId
-        addChildViewController(controller2)
-        view2 = controller2.view
-        scrollView.addSubview(view2)
-        scrollView.bringSubviewToFront(view2)
+        bookController.sightId = sightId?.tag
+        addChildViewController(bookController)
+        scrollView.addSubview(bookController.view)
+        scrollView.bringSubviewToFront(bookController.view)
         
-        
-        let controller3 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicBookSB) as! BookController
-        controller3.sightId = sightId
-        addChildViewController(controller3)
-        view3 = controller3.view
-        scrollView.addSubview(view3)
-        scrollView.bringSubviewToFront(view3)
-        
-        let controller4 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicVideoSB) as! VideoController
-        controller4.sightId = sightId
-        addChildViewController(controller4)
-        view4 = controller4.view
-        scrollView.addSubview(view4)
-        scrollView.bringSubviewToFront(view4)
+        videoController.sightId = sightId?.tag
+        addChildViewController(videoController)
+        scrollView.addSubview(videoController.view)
+        scrollView.bringSubviewToFront(videoController.view)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         //初始化scrollView, subview's bounds确定后
         let wBounds = containView.bounds.width
         let hBounds = containView.bounds.height
         
-        self.scrollView.contentSize = CGSize(width: wBounds * 4, height: hBounds/2)
+        scrollView.contentSize = CGSize(width: wBounds * 4, height: hBounds/2)
         
-        view1.frame = CGRectMake(0, 0, wBounds, hBounds)
+        cyclopaedicViewController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
         
-        view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
-        self.scrollView.addSubview(view2)
-        self.scrollView.bringSubviewToFront(view2)
+        topicDetailListController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
+        scrollView.bringSubviewToFront(topicDetailListController.view)
         
-        view3.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
-        self.scrollView.addSubview(view3)
-        self.scrollView.bringSubviewToFront(view3)
+        bookController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
+        scrollView.bringSubviewToFront(bookController.view)
         
-        view4.frame = CGRectMake(wBounds * 3, 0, wBounds, hBounds)
-        self.scrollView.addSubview(view4)
-        self.scrollView.bringSubviewToFront(view4)
-        
+        videoController.view.frame = CGRectMake(wBounds * 3, 0, wBounds, hBounds)
+        scrollView.bringSubviewToFront(videoController.view)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         //default select
         if selectedItem == nil{
-            selectedItem = item1
+            selectedItem = item2
         }
     }
     
     //MASK: Actions
-    
-    @IBAction func showMenu(sender: UIBarButtonItem) {
-        if let masterNavCon = self.parentViewController as? MasterViewController {
-            masterNavCon.slideDelegate?.displayMenu()
-        }
-    }
-    
     @IBAction func selectItem(sender: UIButton) {
         //set select
         selectedItem = sender
@@ -179,13 +182,11 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         
         
         
-        
 
     }
     
     
     //MASK: Delegates
-    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         //TODO: animation on slideView
     }

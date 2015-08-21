@@ -31,9 +31,9 @@ class VideoCell: UITableViewCell {
 
     
     // TODO: 点击观看
-//    @IBAction func touchUpInsideWatch(sender: AnyObject) {
-//        
-//    }
+    func touchUpInsideWatch(sender: AnyObject) {
+        print("正在跳转请稍候")
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -41,6 +41,7 @@ class VideoCell: UITableViewCell {
         watchBtn.layer.cornerRadius = 12.0
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
+        watchBtn.addTarget(self, action: "touchUpInsideWatch:", forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
