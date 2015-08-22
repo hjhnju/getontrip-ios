@@ -18,24 +18,27 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     let slideHeight:CGFloat = 2
     
-    var slideView = UIView()
+//    var slideView = UIView()
     
     var selectedItem:UIButton? {
         didSet {
+            
+            
             if let item = selectedItem {
-                let slideX = item.frame.origin.x
-                let slideY = toolbar.frame.height - self.slideHeight
-                let slideWidth = item.frame.width
-                let newFrame   = CGRectMake(slideX, slideY, slideWidth, self.slideHeight)
-                if self.slideView.frame.origin.x != 0 {
-                    UIView.animateWithDuration(0.5, delay: 0,
-                        options: UIViewAnimationOptions.AllowUserInteraction,
-                        animations: { self.slideView.frame = newFrame },
-                        completion: { (finished: Bool) -> Void in }
-                    )
-                } else {
-                    self.slideView.frame = newFrame
-                }
+                
+//                let slideX = item.frame.origin.x
+//                let slideY = toolbar.frame.height - self.slideHeight
+//                let slideWidth = item.frame.width
+//                let newFrame   = CGRectMake(slideX, slideY, slideWidth, self.slideHeight)
+//                if self.slideView.frame.origin.x != 0 {
+//                    UIView.animateWithDuration(0.5, delay: 0,
+//                        options: UIViewAnimationOptions.AllowUserInteraction,
+//                        animations: { self.slideView.frame = newFrame },
+//                        completion: { (finished: Bool) -> Void in }
+//                    )
+//                } else {
+//                    self.slideView.frame = newFrame
+//                }
             }
         }
     }
@@ -61,19 +64,19 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // 话题控制器
-    var topicDetailListController: TopicDetailListController = {
+    lazy var topicDetailListController: TopicDetailListController = {
         let story1 = UIStoryboard(name: "Nearby", bundle: nil)
         return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! TopicDetailListController
     }()
     
     // 书籍控制器
-    var bookController: BookController = {
+    lazy var bookController: BookController = {
         let story1 = UIStoryboard(name: "Nearby", bundle: nil)
         return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicBookSB) as! BookController
     }()
     
     // 视频控制器
-    var videoController: VideoController = {
+    lazy var videoController: VideoController = {
         let story1 = UIStoryboard(name: "Nearby", bundle: nil)
         return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicVideoSB) as! VideoController
     }()
@@ -86,7 +89,12 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        item2.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        item2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        item2.layer.masksToBounds = true
+        item2.layer.cornerRadius = 10
+        recordButtonStatus = item2
+        
         setupChildControllerProperty()
     }
     
@@ -103,8 +111,8 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         toolbar.tintColor = UIColor.whiteColor()
         
         //初始化下划线
-        slideView.backgroundColor = SceneColor.lightYellow
-        toolbar.addSubview(slideView)
+//        slideView.backgroundColor = SceneColor.lightYellow
+//        toolbar.addSubview(slideView)
         
         //初始化scrollview
         scrollView.pagingEnabled = true
@@ -159,13 +167,30 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         //default select
-        if selectedItem == nil{
-            selectedItem = item2
-        }
+//        if selectedItem == nil{
+//            selectedItem = item2
+//        }
     }
     
     //MASK: Actions
+    var recordButtonStatus: UIButton?
+
+    
     @IBAction func selectItem(sender: UIButton) {
+        
+        recordButtonStatus?.backgroundColor = UIColor.clearColor()
+        recordButtonStatus?.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        recordButtonStatus?.selected = false
+        
+        if !sender.selected {
+            sender.selected = true
+            sender.backgroundColor = UIColor(white: 1, alpha: 0.5)
+            sender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            sender.layer.masksToBounds = true
+            sender.layer.cornerRadius = 10
+            recordButtonStatus = sender
+        }
+        
         //set select
         selectedItem = sender
         //move
@@ -175,6 +200,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         else if selectedItem == item3 { selectedIndex = 2 }
         else if selectedItem == item4 { selectedIndex = 3 }
         scrollView.contentOffset.x = containView.bounds.width * selectedIndex
+        
     }
     
     // 创建搜索
@@ -195,12 +221,16 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         var xOffset: CGFloat = scrollView.contentOffset.x
         if (xOffset < 1.0) {
             selectedItem = item1
+            selectItem(item1)
         } else if (xOffset < containView.bounds.width + 1) {
             selectedItem = item2
+            selectItem(item2)
         } else if (xOffset < containView.bounds.width * 2 + 1) {
             selectedItem = item3
+            selectItem(item3)
         } else {
             selectedItem = item4
+            selectItem(item4)
         }
         
     }
