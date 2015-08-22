@@ -47,7 +47,7 @@ class VideoCell: UITableViewCell {
         // 毛玻璃
         let groundGlass = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
         groundGlass.frame = self.iconView.frame
-        groundGlass.alpha = 0.8
+        groundGlass.alpha = 0.3
         for v in self.iconView.subviews {
             v.removeFromSuperview()
         }

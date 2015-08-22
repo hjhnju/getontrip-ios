@@ -22,6 +22,12 @@ class BookCell: UITableViewCell {
     
     @IBOutlet weak var price_mart: UILabel!
     
+    @IBOutlet weak var price_line: UIView!
+    
+    @IBOutlet weak var priceJdConstraint: NSLayoutConstraint!
+    
+    var recordPriceJdConstraint: CGFloat?
+    
     var bookModel: Book? {
         didSet {
             
@@ -30,13 +36,24 @@ class BookCell: UITableViewCell {
             var bookInfo = "作者：" + bookModel!.author + "\n出版社：" + bookModel!.press + "\n页数：" + bookModel!.pages + "\nISBN：" + bookModel!.isbn
             self.bookInfo.text = bookInfo
             self.price_jd.text = "￥" + bookModel!.price_jd
+            
+            self.price_mart.hidden = false
+            self.price_line.hidden = false
+            
+            self.priceJdConstraint.constant = recordPriceJdConstraint!
+            if bookModel?.price_mart == "" {
+                self.price_line.hidden = true
+                self.price_mart.hidden = true
+                self.priceJdConstraint.constant = CGFloat(-13)
+            }
             self.price_mart.text = "￥" + bookModel!.price_mart + " "
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        recordPriceJdConstraint = priceJdConstraint.constant
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

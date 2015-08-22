@@ -20,7 +20,7 @@ class CyclopaedicRequest: NSObject {
     */
     
     // 请求参数
-    var pageSize:Int = 2
+    var pageSize:Int = 6
     var curPage: Int = 1
     var sightId: Int
     

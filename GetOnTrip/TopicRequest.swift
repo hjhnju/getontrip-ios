@@ -21,7 +21,7 @@ class TopicRequest: NSObject {
     */
     
     // 请求参数
-    var pageSize:Int = 2
+    var pageSize:Int = 6
     var page: Int = 1
     var sightId: Int
     var order: Int?
@@ -53,7 +53,7 @@ class TopicRequest: NSObject {
             path: "/api/topic/list",
             post: post,
             handler: {(respData: JSON) -> Void in
-                print(respData)
+                
                 var topicDetails = [TopicDetails]()
                 for item in respData.arrayValue {
                     // 转换话题详情元素

@@ -19,7 +19,7 @@ class BookRequest: NSObject {
     */
     
     // 请求参数
-    var pageSize:Int = 2
+    var pageSize:Int = 6
     var page    :Int = 1
     var sightId :Int
     
@@ -37,8 +37,8 @@ class BookRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: [Book] -> Void) {
         var post         = [String: String]()
-        post["page"]     = String(self.page)
-        post["pageSize"] = String(self.pageSize)
+//        post["page"]     = String(self.page)
+//        post["pageSize"] = String(self.pageSize)
         post["sightId"]    = String(self.sightId)
         
         // 发送网络请求加载数据
@@ -46,7 +46,6 @@ class BookRequest: NSObject {
             path: "/api/book",
             post: post,
             handler: {(respData: JSON) -> Void in
-
                 
                 for item in respData.arrayValue {
                     var books = [Book]()
