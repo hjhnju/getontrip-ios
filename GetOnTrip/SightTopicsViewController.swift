@@ -16,32 +16,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var toolbar: UIToolbar!
     
-    let slideHeight:CGFloat = 2
-    
-//    var slideView = UIView()
-    
-    var selectedItem:UIButton? {
-        didSet {
-            
-            
-            if let item = selectedItem {
-                
-//                let slideX = item.frame.origin.x
-//                let slideY = toolbar.frame.height - self.slideHeight
-//                let slideWidth = item.frame.width
-//                let newFrame   = CGRectMake(slideX, slideY, slideWidth, self.slideHeight)
-//                if self.slideView.frame.origin.x != 0 {
-//                    UIView.animateWithDuration(0.5, delay: 0,
-//                        options: UIViewAnimationOptions.AllowUserInteraction,
-//                        animations: { self.slideView.frame = newFrame },
-//                        completion: { (finished: Bool) -> Void in }
-//                    )
-//                } else {
-//                    self.slideView.frame = newFrame
-//                }
-            }
-        }
-    }
+    var selectedItem:UIButton?
     
     // 百科
     @IBOutlet weak var item1: UIButton!
@@ -92,7 +67,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         item2.backgroundColor = UIColor(white: 1, alpha: 0.5)
         item2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         item2.layer.masksToBounds = true
-        item2.layer.cornerRadius = 10
+        item2.layer.cornerRadius = 15
         recordButtonStatus = item2
         
         setupChildControllerProperty()
@@ -110,9 +85,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         toolbar.barTintColor = SceneColor.lightBlack
         toolbar.tintColor = UIColor.whiteColor()
         
-        //初始化下划线
-//        slideView.backgroundColor = SceneColor.lightYellow
-//        toolbar.addSubview(slideView)
         
         //初始化scrollview
         scrollView.pagingEnabled = true
@@ -164,14 +136,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         scrollView.bringSubviewToFront(videoController.view)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        //default select
-//        if selectedItem == nil{
-//            selectedItem = item2
-//        }
-    }
-    
+
     //MASK: Actions
     var recordButtonStatus: UIButton?
 
@@ -187,7 +152,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
             sender.backgroundColor = UIColor(white: 1, alpha: 0.5)
             sender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
             sender.layer.masksToBounds = true
-            sender.layer.cornerRadius = 10
+            sender.layer.cornerRadius = 15
             recordButtonStatus = sender
         }
         
@@ -207,6 +172,36 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func searchButtonClicked(button: UIBarButtonItem) {
         
         
+        
+        
+        /**
+        * 接口1：/api/topic/detail
+        * 话题详情页接口
+        * @param integer topicId，话题ID
+        * @param string  deviceId，用户的设备ID（因为要统计UV）
+        * @return json
+        */
+        
+        
+        //   话题详情页
+        var uuid = SSKeychain.passwordForService(NSBundle.mainBundle().bundleIdentifier, account: "uuid")
+        
+        if (uuid == nil) {
+        uuid = NSUUID().UUIDString
+        SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
+        }
+        // http://123.57.46.229:8301/api/topic/detail?topicId=1&deviceId=3245759B-4905-4C9A-B326-74E8D0BB455E
+        var post     = [String:String]()
+        post["topicId"] = String(1)
+        post["deviceId"] = String(NSUUID().UUIDString)
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic/detail",
+        post: post,
+        handler: {(respData: JSON) -> Void in
+        print("=================\n")
+        print("\(respData)")
+        print("=================\n")
+        })
+
         
 
     }

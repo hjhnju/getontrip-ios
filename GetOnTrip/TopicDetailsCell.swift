@@ -52,10 +52,7 @@ class TopicDetailsCell: UITableViewCell {
         // Initialization code
         self.imageView?.clipsToBounds = true
         collect.setTitleColor(SceneColor.lightGray, forState: UIControlState.Normal)
-//        collect(font)
-//         = UIFont(name: "STHeitiSC-Light", size: 9)
-//        titleLabel.font = UIFont(name: "STHeitiSC-Light", size: 14)
-//        descLabel.font = UIFont(name: "STHeitiSC-Light", size: 10)
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

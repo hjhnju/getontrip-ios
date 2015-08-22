@@ -77,47 +77,5 @@ class TopicRequest: NSObject {
                 handler(topicDetails)
             }
         )
-        
     }
-
-    
-    
-    /**
-    * 接口1：/api/topic/detail
-    * 话题详情页接口
-    * @param integer topicId，话题ID
-    * @param string  deviceId，用户的设备ID（因为要统计UV）
-    * @return json
-    */
-    
-    
-    /*   话题详情页
-    var uuid = SSKeychain.passwordForService(NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-    
-    print("---------\(uuid)------------")
-    
-    
-    if (uuid == nil) {
-    uuid = NSUUID().UUIDString
-    SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-    }
-    
-    print("---------\(NSUUID().UUIDString)------------")
-    
-    
-    var post     = [String:String]()
-    post["topicId"] = String(stringInterpolationSegment: sight.topics[indexPath.row].topicid)
-    
-    print("+++++++++++\(String(stringInterpolationSegment: sight.topics[indexPath.row].topicid))++++++++++++")
-    
-    
-    post["deviceId"] = uuid
-    HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic/detail",
-    post: post,
-    handler: {(respData: JSON) -> Void in
-    print("=================\n")
-    print("\(respData)")
-    print("=================\n")
-    })
-    */
 }

@@ -20,15 +20,17 @@ class CyclopaedicViewController: UITableViewController {
     
     var cellIdentifier: String?
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        var cyclopaedicBottom = UIImageView(image: UIImage(named: "cyclopaedicBottom"))
-//        cyclopaedicBottom.frame = tableView.frame
-//        tableView.addSubview(cyclopaedicBottom)
-//        tableView.bringSubviewToFront(cyclopaedicBottom)
-//        cyclopaedicBottom.bringSubviewToFront(tableView)
-        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
 
+        
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         refresh()
     }

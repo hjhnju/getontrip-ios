@@ -44,6 +44,10 @@ class VideoController: UITableViewController {
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
     
     
     // MARK: 书籍列表页数据源方法

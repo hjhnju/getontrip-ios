@@ -35,6 +35,22 @@ class VideoCell: UITableViewCell {
         print("正在跳转请稍候")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // 毛玻璃
+//        let groundGlass = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
+//        groundGlass.frame = self.iconView.frame
+//        groundGlass.alpha = 0.3
+//        print("========================\(iconView.frame)===========")
+//        iconView.addSubview(groundGlass)
+//        for v in self.iconView.subviews {
+//            v.removeFromSuperview()
+//        }
+//        self.iconView.addSubview(groundGlass)
+    }
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -45,13 +61,16 @@ class VideoCell: UITableViewCell {
         watchBtn.addTarget(self, action: "touchUpInsideWatch:", forControlEvents: UIControlEvents.TouchUpInside)
         
         // 毛玻璃
-        let groundGlass = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
-        groundGlass.frame = self.iconView.frame
-        groundGlass.alpha = 0.3
-        for v in self.iconView.subviews {
-            v.removeFromSuperview()
-        }
-        self.iconView.addSubview(groundGlass)
+//        var groundGlass = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
+//        groundGlass.frame = self.iconView.frame
+//        groundGlass.alpha = 0.3
+//        print("========================\(iconView.frame)===========")
+//        iconView.addSubview(groundGlass)
+//        for v in self.iconView.subviews {
+//            v.removeFromSuperview()
+//        }
+//        self.iconView.addSubview(groundGlass)
+
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
