@@ -24,10 +24,6 @@ class CyclopaedicCell: UITableViewCell {
             self.content.text = cyclopaedicModel!.content
             var imageURL = NSURL(string: AppIniOnline.BaseUri + (cyclopaedicModel!.image))
             self.iconView?.sd_setImageWithURL(imageURL)
-            
-            print(imageURL)
-            
-            print("\n\n\n")
         }
     }
 

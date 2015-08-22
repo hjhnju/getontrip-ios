@@ -22,6 +22,11 @@ class CyclopaedicViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        var cyclopaedicBottom = UIImageView(image: UIImage(named: "cyclopaedicBottom"))
+//        cyclopaedicBottom.frame = tableView.frame
+//        tableView.addSubview(cyclopaedicBottom)
+//        tableView.bringSubviewToFront(cyclopaedicBottom)
+//        cyclopaedicBottom.bringSubviewToFront(tableView)
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
 
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
@@ -42,8 +47,12 @@ class CyclopaedicViewController: UITableViewController {
         return cell
     }
     
+
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        print("选中了\n")
+
     }
     
     private func refresh() {

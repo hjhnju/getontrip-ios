@@ -35,10 +35,10 @@ class TopicDetails: NSObject {
     var desc: String
     
     /// 标签
-    var tags: Int
+    var tags: NSArray
     
     // 初始化
-    init(from: String, subtitle: String, id: Int, title: String, collect: String, image: String, visit: Int, desc: String, tags: Int) {
+    init(from: String, subtitle: String, id: Int, title: String, collect: String, image: String, visit: Int, desc: String, tags: NSArray) {
         
         self.from     = from
         self.subtitle = subtitle

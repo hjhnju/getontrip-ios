@@ -21,28 +21,41 @@ class TopicDetailsCell: UITableViewCell {
     
     @IBOutlet weak var collect: UIButton!
     
-    @IBOutlet weak var tags: UIButton!
-    
-    
     var topicModel: TopicDetails? {
         didSet {
             
             var imageURL = NSURL(string: AppIniOnline.BaseUri + (topicModel!.image))
             self.iconImage?.sd_setImageWithURL(imageURL)
-//            self.imageView?.contentMode = UIViewContentMode.ScaleAspectFill
-//            self.imageView?.clipsToBounds = true
             self.title.text = topicModel!.title
             self.subtitle.text = topicModel!.subtitle
             self.desc.text = topicModel!.desc
-            self.collect.setTitle(topicModel!.collect, forState: UIControlState.Normal)
+            self.collect.setTitle(" " + topicModel!.collect, forState: UIControlState.Normal)
+            self.collect.setImage(UIImage(named: "collect"), forState: UIControlState.Normal)
+            self.bringSubviewToFront(self.collect)
+            self.collect.userInteractionEnabled = false
             self.imageView?.contentMode = UIViewContentMode.ScaleToFill
-
+            
+            // TODO: 待定 添加标签 
+//            let x: CGFloat = CGRectGetMaxX(iconImage.frame) + 7
+//            let y: CGFloat = CGRectGetMaxY(desc.frame) + 6
+//            let w: CGFloat = 28
+//            let h: CGFloat = 10
+//            for label_text in topicModel!.tags {
+//                let labelBtn = UIButton()
+//                label1.setTitle(label_text as? String, forState: UIControlState.Normal)
+//            }
         }
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.imageView?.clipsToBounds = true
+        collect.setTitleColor(SceneColor.lightGray, forState: UIControlState.Normal)
+//        collect(font)
+//         = UIFont(name: "STHeitiSC-Light", size: 9)
+//        titleLabel.font = UIFont(name: "STHeitiSC-Light", size: 14)
+//        descLabel.font = UIFont(name: "STHeitiSC-Light", size: 10)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

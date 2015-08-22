@@ -49,10 +49,11 @@ class TopicRequest: NSObject {
 //        post["tags"]     = String(stringInterpolationSegment: self.tags)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
+        HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/topic/list",
             post: post,
             handler: {(respData: JSON) -> Void in
+                print(respData)
                 var topicDetails = [TopicDetails]()
                 for item in respData.arrayValue {
                     // 转换话题详情元素
@@ -64,9 +65,12 @@ class TopicRequest: NSObject {
                     let image    = item["image"].stringValue
                     let visit    = item["visit"].intValue
                     let desc     = item["desc"].stringValue
-                    let tag      = item["tags"].intValue
                     
-                    let topicDetail = TopicDetails(from: from, subtitle: subtitle, id: id, title: title, collect: collect, image: image, visit: visit, desc: desc, tags: tag)
+                    var tags = NSMutableArray()
+                    for it in item["tags"].arrayValue {
+                        tags.addObject(it.stringValue)
+                    }
+                    let topicDetail = TopicDetails(from: from, subtitle: subtitle, id: id, title: title, collect: collect, image: image, visit: visit, desc: desc, tags: tags)
                     topicDetails.append(topicDetail)
                 }
                 // 回调
