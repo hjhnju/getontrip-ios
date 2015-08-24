@@ -20,6 +20,12 @@ class VideoCell: UITableViewCell {
     
     @IBOutlet weak var watchBtn: UIButton!
     
+    lazy var baseline: UIView! = {
+        var baselineView = UIView()
+        baselineView.backgroundColor = UIColor(white: 979797, alpha: 0.3)
+        return baselineView
+    }()
+    
     var videoModel: Video? {
         didSet {
             var imageURL = NSURL(string: AppIniOnline.BaseUri + (videoModel!.image))
@@ -49,7 +55,13 @@ class VideoCell: UITableViewCell {
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
         watchBtn.addTarget(self, action: "touchUpInsideWatch:", forControlEvents: UIControlEvents.TouchUpInside)
-
+        
+        self.addSubview(self.baseline)
+        var x: CGFloat = 9
+        var h: CGFloat = 0.5
+        var y: CGFloat = CGRectGetMaxY(self.frame) + CGFloat(h)
+        var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
+        baseline.frame = CGRectMake(x, y, w, h)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

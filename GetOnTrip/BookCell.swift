@@ -26,12 +26,22 @@ class BookCell: UITableViewCell {
     
     @IBOutlet weak var priceJdConstraint: NSLayoutConstraint!
     
+    lazy var baseline: UIView! = {
+        var baselineView = UIView()
+        baselineView.backgroundColor = UIColor(white: 979797, alpha: 0.3)
+        return baselineView
+        }()
+    
     var recordPriceJdConstraint: CGFloat?
     
     var bookModel: Book? {
         didSet {
             
             self.iconView?.sd_setImageWithURL(NSURL(string: bookModel!.image))
+            
+            
+            print("========\(bookModel!.image)==\n\n\n")
+            
             self.content_desc.text = bookModel?.content_desc
             var bookInfo = "作者：" + bookModel!.author + "\n出版社：" + bookModel!.press + "\n页数：" + bookModel!.pages + "\nISBN：" + bookModel!.isbn
             self.bookInfo.text = bookInfo
@@ -54,6 +64,12 @@ class BookCell: UITableViewCell {
         super.awakeFromNib()
         
         recordPriceJdConstraint = priceJdConstraint.constant
+        self.addSubview(self.baseline)
+        var x: CGFloat = 9
+        var h: CGFloat = 0.5
+        var y: CGFloat = CGRectGetMaxY(self.frame) + CGFloat(h)
+        var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
+        baseline.frame = CGRectMake(x, y, w, h)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

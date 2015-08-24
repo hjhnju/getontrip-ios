@@ -64,13 +64,18 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupDefaultSightTopic()
+        setupChildControllerProperty()
+    }
+    
+    // 加载默认的选中状态为话题按钮
+    func setupDefaultSightTopic() {
         item2.backgroundColor = UIColor(white: 1, alpha: 0.5)
         item2.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         item2.layer.masksToBounds = true
         item2.layer.cornerRadius = 15
         recordButtonStatus = item2
-        
-        setupChildControllerProperty()
     }
     
     func setupChildControllerProperty() {
@@ -95,24 +100,43 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         //初始化views
         cyclopaedicViewController.sightId = sightId!.tag
         addChildViewController(cyclopaedicViewController)
-        scrollView.addSubview(cyclopaedicViewController.view)
-        scrollView.bringSubviewToFront(cyclopaedicViewController.view)
         
         topicDetailListController.sightId = sightId?.tag
         addChildViewController(topicDetailListController)
         scrollView.addSubview(topicDetailListController.view)
-        scrollView.bringSubviewToFront(topicDetailListController.view)
+//        scrollView.bringSubviewToFront(topicDetailListController.view)
         
         
         bookController.sightId = sightId?.tag
         addChildViewController(bookController)
         scrollView.addSubview(bookController.view)
-        scrollView.bringSubviewToFront(bookController.view)
+//        scrollView.bringSubviewToFront(bookController.view)
         
         videoController.sightId = sightId?.tag
         addChildViewController(videoController)
         scrollView.addSubview(videoController.view)
-        scrollView.bringSubviewToFront(videoController.view)
+//        scrollView.bringSubviewToFront(videoController.view)
+        
+        // 更改各个界面的背景颜色
+        var backgroundView1: UIView = UIView(frame: UIScreen.mainScreen().bounds)
+        backgroundView1.addSubview(cyclopaedicViewController.view)
+        scrollView.addSubview(backgroundView1)
+        backgroundView1.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
+
+        var backgroundView2: UIView = UIView(frame: UIScreen.mainScreen().bounds)
+        backgroundView2.addSubview(cyclopaedicViewController.view)
+        scrollView.addSubview(backgroundView2)
+        backgroundView2.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
+        
+        var backgroundView3: UIView = UIView(frame: UIScreen.mainScreen().bounds)
+        backgroundView3.addSubview(cyclopaedicViewController.view)
+        scrollView.addSubview(backgroundView2)
+        backgroundView3.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
+        
+        var backgroundView4: UIView = UIView(frame: UIScreen.mainScreen().bounds)
+        backgroundView4.addSubview(cyclopaedicViewController.view)
+        scrollView.addSubview(backgroundView4)
+        backgroundView4.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
     }
     
     override func viewDidLayoutSubviews() {

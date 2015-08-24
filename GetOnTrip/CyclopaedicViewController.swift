@@ -23,8 +23,8 @@ class CyclopaedicViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
-        
+//        view.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
+        tableView.backgroundColor = UIColor.clearColor()
     }
     
     override func viewDidLoad() {
@@ -46,6 +46,7 @@ class CyclopaedicViewController: UITableViewController {
         
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier!, forIndexPath: indexPath) as! CyclopaedicCell
         cell.cyclopaedicModel = nearCyclopaedic[indexPath.row]
+        cell.backgroundColor = UIColor.clearColor()
         return cell
     }
     
