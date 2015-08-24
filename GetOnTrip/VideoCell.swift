@@ -37,17 +37,7 @@ class VideoCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        // 毛玻璃
-//        let groundGlass = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
-//        groundGlass.frame = self.iconView.frame
-//        groundGlass.alpha = 0.3
-//        print("========================\(iconView.frame)===========")
-//        iconView.addSubview(groundGlass)
-//        for v in self.iconView.subviews {
-//            v.removeFromSuperview()
-//        }
-//        self.iconView.addSubview(groundGlass)
+
     }
     
     
@@ -59,17 +49,6 @@ class VideoCell: UITableViewCell {
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
         watchBtn.addTarget(self, action: "touchUpInsideWatch:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        // 毛玻璃
-//        var groundGlass = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
-//        groundGlass.frame = self.iconView.frame
-//        groundGlass.alpha = 0.3
-//        print("========================\(iconView.frame)===========")
-//        iconView.addSubview(groundGlass)
-//        for v in self.iconView.subviews {
-//            v.removeFromSuperview()
-//        }
-//        self.iconView.addSubview(groundGlass)
 
     }
 

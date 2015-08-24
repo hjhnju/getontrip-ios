@@ -21,6 +21,14 @@ class TopicDetailsCell: UITableViewCell {
     
     @IBOutlet weak var collect: UIButton!
     
+    @IBOutlet weak var label1: UIButton!
+    
+    @IBOutlet weak var label2: UIButton!
+    
+    @IBOutlet weak var label3: UIButton!
+    
+    @IBOutlet weak var label4: UIButton!
+    
     var topicModel: TopicDetails? {
         didSet {
             
@@ -35,15 +43,23 @@ class TopicDetailsCell: UITableViewCell {
             self.collect.userInteractionEnabled = false
             self.imageView?.contentMode = UIViewContentMode.ScaleToFill
             
-            // TODO: 待定 添加标签 
-//            let x: CGFloat = CGRectGetMaxX(iconImage.frame) + 7
-//            let y: CGFloat = CGRectGetMaxY(desc.frame) + 6
-//            let w: CGFloat = 28
-//            let h: CGFloat = 10
-//            for label_text in topicModel!.tags {
-//                let labelBtn = UIButton()
-//                label1.setTitle(label_text as? String, forState: UIControlState.Normal)
-//            }
+            // TODO:  添加标签
+            for (var i: NSInteger = 0; i < topicModel?.tags.count; i++ ) {
+                if (i == 0){
+                    label1.hidden = false
+                    label1.setTitle(topicModel!.tags[i] as? String, forState: UIControlState.Normal)
+                } else if(i == 1){
+                    label2.hidden = false
+                    label2.setTitle(topicModel!.tags[i] as? String, forState: UIControlState.Normal)
+                } else if (i == 2){
+                    label3.hidden = false
+                    label3.setTitle(topicModel!.tags[i] as? String, forState: UIControlState.Normal)
+                } else if(i == 3){
+                    label4.hidden = false
+                    label4.setTitle(topicModel!.tags[i] as? String, forState: UIControlState.Normal)
+                }
+                
+            }
         }
     }
     
