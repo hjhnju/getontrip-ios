@@ -31,37 +31,35 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    // MARK: 懒加载
-    // 百科控制器
-    lazy var cyclopaedicViewController: CyclopaedicViewController = {
-        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicCyclopaedicSB) as! CyclopaedicViewController
-    }()
-    
-    // 话题控制器
-    lazy var topicDetailListController: TopicDetailListController = {
-        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! TopicDetailListController
-    }()
-    
-    // 书籍控制器
-    lazy var bookController: BookController = {
-        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicBookSB) as! BookController
-    }()
-    
-    // 视频控制器
-    lazy var videoController: VideoController = {
-        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicVideoSB) as! VideoController
-    }()
-    
     // `searchController` is set when the search button is clicked.
     var searchController: UISearchController!
     
+    lazy var view1: UIView = {
+        var view1 = UIView(frame: UIScreen.mainScreen().bounds)
+        view1.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
+        return view1
+    }()
+    
+    lazy var view2: UIView = {
+        var view1 = UIView(frame: UIScreen.mainScreen().bounds)
+        view1.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
+        return view1
+    }()
+    
+    lazy var view3: UIView = {
+        var view1 = UIView(frame: UIScreen.mainScreen().bounds)
+        view1.backgroundColor = UIColor(patternImage: UIImage(named: "bookBottom")!)
+        return view1
+    }()
+    
+    lazy var view4: UIView = {
+        var view1 = UIView(frame: UIScreen.mainScreen().bounds)
+        view1.backgroundColor = UIColor(patternImage: UIImage(named: "videoBottom")!)
+        return view1
+    }()
+    
+    
     //MASK: View Life Circle
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -100,43 +98,24 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         //初始化views
         cyclopaedicViewController.sightId = sightId!.tag
         addChildViewController(cyclopaedicViewController)
+        view1.addSubview(cyclopaedicViewController.view)
+        scrollView.addSubview(view1)
+        
         
         topicDetailListController.sightId = sightId?.tag
         addChildViewController(topicDetailListController)
-        scrollView.addSubview(topicDetailListController.view)
-//        scrollView.bringSubviewToFront(topicDetailListController.view)
-        
+        view2.addSubview(topicDetailListController.view)
+        scrollView.addSubview(view2)
         
         bookController.sightId = sightId?.tag
         addChildViewController(bookController)
-        scrollView.addSubview(bookController.view)
-//        scrollView.bringSubviewToFront(bookController.view)
+        view3.addSubview(bookController.view)
+        scrollView.addSubview(view3)
         
         videoController.sightId = sightId?.tag
         addChildViewController(videoController)
-        scrollView.addSubview(videoController.view)
-//        scrollView.bringSubviewToFront(videoController.view)
-        
-        // 更改各个界面的背景颜色
-        var backgroundView1: UIView = UIView(frame: UIScreen.mainScreen().bounds)
-        backgroundView1.addSubview(cyclopaedicViewController.view)
-        scrollView.addSubview(backgroundView1)
-        backgroundView1.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
-
-        var backgroundView2: UIView = UIView(frame: UIScreen.mainScreen().bounds)
-        backgroundView2.addSubview(cyclopaedicViewController.view)
-        scrollView.addSubview(backgroundView2)
-        backgroundView2.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
-        
-        var backgroundView3: UIView = UIView(frame: UIScreen.mainScreen().bounds)
-        backgroundView3.addSubview(cyclopaedicViewController.view)
-        scrollView.addSubview(backgroundView2)
-        backgroundView3.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
-        
-        var backgroundView4: UIView = UIView(frame: UIScreen.mainScreen().bounds)
-        backgroundView4.addSubview(cyclopaedicViewController.view)
-        scrollView.addSubview(backgroundView4)
-        backgroundView4.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
+        view4.addSubview(videoController.view)
+        scrollView.addSubview(view4)
     }
     
     override func viewDidLayoutSubviews() {
@@ -148,15 +127,15 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         
         scrollView.contentSize = CGSize(width: wBounds * 4, height: hBounds/2)
         
-        cyclopaedicViewController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
+        view1.frame = CGRectMake(0, 0, wBounds, hBounds)
         
-        topicDetailListController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
+        view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
         scrollView.bringSubviewToFront(topicDetailListController.view)
         
-        bookController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
+        view3.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
         scrollView.bringSubviewToFront(bookController.view)
         
-        videoController.view.frame = CGRectMake(wBounds * 3, 0, wBounds, hBounds)
+        view4.frame = CGRectMake(wBounds * 3, 0, wBounds, hBounds)
         scrollView.bringSubviewToFront(videoController.view)
     }
     
@@ -253,5 +232,30 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         }
         
     }
+    
+    // MARK: 懒加载
+    // 百科控制器
+    lazy var cyclopaedicViewController: CyclopaedicViewController = {
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicCyclopaedicSB) as! CyclopaedicViewController
+        }()
+    
+    // 话题控制器
+    lazy var topicDetailListController: TopicDetailListController = {
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! TopicDetailListController
+        }()
+    
+    // 书籍控制器
+    lazy var bookController: BookController = {
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicBookSB) as! BookController
+        }()
+    
+    // 视频控制器
+    lazy var videoController: VideoController = {
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicVideoSB) as! VideoController
+        }()
 
 }

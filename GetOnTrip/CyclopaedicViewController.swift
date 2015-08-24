@@ -30,7 +30,6 @@ class CyclopaedicViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         refresh()
     }
@@ -43,7 +42,6 @@ class CyclopaedicViewController: UITableViewController {
         
         cellIdentifier = cellIdentifier == nil ? "CyclopaedicRightCell" : "CyclopaedicLeftCell"
 
-        
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier!, forIndexPath: indexPath) as! CyclopaedicCell
         cell.cyclopaedicModel = nearCyclopaedic[indexPath.row]
         cell.backgroundColor = UIColor.clearColor()

@@ -22,7 +22,7 @@ class VideoController: UITableViewController {
         super.viewDidLoad()
         self.tableView.rowHeight = 215
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
+        tableView.backgroundColor = UIColor.clearColor()
         refresh()
     }
     

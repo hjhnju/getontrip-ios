@@ -63,11 +63,12 @@ class BookCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.backgroundColor = UIColor.clearColor()
         recordPriceJdConstraint = priceJdConstraint.constant
         self.addSubview(self.baseline)
         var x: CGFloat = 9
         var h: CGFloat = 0.5
-        var y: CGFloat = CGRectGetMaxY(self.frame) + CGFloat(h)
+        var y: CGFloat = self.bounds.height - h
         var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
         baseline.frame = CGRectMake(x, y, w, h)
     }

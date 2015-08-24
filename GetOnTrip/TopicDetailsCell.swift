@@ -11,30 +11,28 @@ import SDWebImage
 
 class TopicDetailsCell: UITableViewCell {
 
+    // 图片
     @IBOutlet weak var iconImage: UIImageView!
-    
+    // 标题
     @IBOutlet weak var title: UILabel!
-    
+    // 副标题
     @IBOutlet weak var subtitle: UILabel!
-    
+    // 描述
     @IBOutlet weak var desc: UILabel!
-    
+    // 收集数
     @IBOutlet weak var collect: UIButton!
-    
+    // 标签数
     @IBOutlet weak var label1: UILabel!
-    
     @IBOutlet weak var label2: UILabel!
-    
     @IBOutlet weak var label3: UILabel!
-    
     @IBOutlet weak var label4: UILabel!
-    
+    // 底线
     lazy var baseline: UIView! = {
         var baselineView = UIView()
         baselineView.backgroundColor = UIColor(white: 979797, alpha: 0.3)
         return baselineView
     }()
-    
+    // 加载数据
     var topicModel: TopicDetails? {
         didSet {
             
@@ -79,19 +77,26 @@ class TopicDetailsCell: UITableViewCell {
         }
     }
     
+    // cell之间的分隔线
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.addSubview(self.baseline)
+        var x: CGFloat = 9
+        var h: CGFloat = 0.5
+        var y: CGFloat = self.bounds.height - h
+        var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
+        baseline.frame = CGRectMake(x, y, w, h)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.imageView?.clipsToBounds = true
         collect.setTitleColor(SceneColor.lightGray, forState: UIControlState.Normal)
+        self.backgroundColor = UIColor.clearColor()
         
-        self.addSubview(self.baseline)
-        var x: CGFloat = 9
-        var h: CGFloat = 0.5
-        var y: CGFloat = CGRectGetMaxY(self.frame) + CGFloat(h)
-        var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
-        baseline.frame = CGRectMake(x, y, w, h)
-        
+        // 设置圆角
         label1.layer.cornerRadius = 1
         label1.layer.masksToBounds = true
         

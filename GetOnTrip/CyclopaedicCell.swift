@@ -32,16 +32,22 @@ class CyclopaedicCell: UITableViewCell {
             self.iconView?.sd_setImageWithURL(imageURL)
         }
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        var x: CGFloat = 9
+        var h: CGFloat = 0.5
+        var y: CGFloat = self.bounds.height - h
+        var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
+        baseline.frame = CGRectMake(x, y, w, h)
+    }
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.addSubview(self.baseline)
-        var x: CGFloat = 9
-        var h: CGFloat = 0.5
-        var y: CGFloat = CGRectGetMaxY(self.frame) + CGFloat(h)
-        var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
-        baseline.frame = CGRectMake(x, y, w, h)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

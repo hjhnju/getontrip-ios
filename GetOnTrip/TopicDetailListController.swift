@@ -22,7 +22,8 @@ class TopicDetailListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
+        tableView.backgroundColor = UIColor.clearColor()
+        
         refresh()
     }
     
