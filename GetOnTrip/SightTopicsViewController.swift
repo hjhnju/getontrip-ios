@@ -62,9 +62,85 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     //MASK: View Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
+        setupSearchAndCompositorItem()
         setupDefaultSightTopic()
         setupChildControllerProperty()
+    }
+    
+    //
+    func setupSearchAndCompositorItem() {
+        let item1 = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked")
+        let item2 = UIBarButtonItem(image: UIImage(named: "compositorButton"), style: UIBarButtonItemStyle.Plain, target: self, action: "compositorButtonClicked")
+        navigationController?.navigationItem.rightBarButtonItems = [item1, item2]
+    }
+    
+    // 排序
+    func compositorButtonClicked() {
+//        var compositorVC = CompositorController()
+//        compositorVC.view.frame = UIScreen.mainScreen().bounds
+//        view.addSubview(compositorVC.view)
+//        self.addChildViewController(compositorVC)
+        
+        topicDetailListController.addCompositorController()
+        // Create the search results view controller and use it for the UISearchController.
+//           let v = CompositorController()
+//        v.view.alpha = 0.5
+//        v.view.frame = CGRectMake(0, 0, 300, 500);
+        
+        let barButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Done, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = barButtonItem
+//        view2.addSubview(v.view)
+//        navigationController?.pushViewController(v, animated: true)
+        
+//        self.performSegueWithIdentifier("xxx", sender: nil)
+//        performSegueWithIdentifier:@"login2list" sender:nil];
+
+    }
+     deinit {
+    
+        print("88")
+    }
+    
+    // 搜索
+    func searchButtonClicked() {
+        
+//        searchController = UISearchController(searchResultsController: searchResultsController)
+//        searchController.searchResultsUpdater = searchResultsController
+//        searchController.hidesNavigationBarDuringPresentation = false
+        
+        
+        /**
+        * 接口1：/api/topic/detail
+        * 话题详情页接口
+        * @param integer topicId，话题ID
+        * @param string  deviceId，用户的设备ID（因为要统计UV）
+        * @return json
+        */
+        
+        
+        //   话题详情页
+        var uuid = SSKeychain.passwordForService(NSBundle.mainBundle().bundleIdentifier, account: "uuid")
+        
+        if (uuid == nil) {
+            uuid = NSUUID().UUIDString
+            SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
+        }
+        // http://123.57.46.229:8301/api/topic/detail?topicId=1&deviceId=3245759B-4905-4C9A-B326-74E8D0BB455E
+        var post     = [String:String]()
+        post["topicId"] = String(5)
+        post["deviceId"] = String(NSUUID().UUIDString)
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic/detail",
+            post: post,
+            handler: {(respData: JSON) -> Void in
+                print("=================\n")
+                print("\(respData)")
+                print("=================\n")
+        })
+        
+        
+        
     }
     
     // 加载默认的选中状态为话题按钮
@@ -171,43 +247,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         
     }
     
-    // 创建搜索
-    @IBAction func searchButtonClicked(button: UIBarButtonItem) {
-        
-        
-        
-        
-        /**
-        * 接口1：/api/topic/detail
-        * 话题详情页接口
-        * @param integer topicId，话题ID
-        * @param string  deviceId，用户的设备ID（因为要统计UV）
-        * @return json
-        */
-        
-        
-        //   话题详情页
-        var uuid = SSKeychain.passwordForService(NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        
-        if (uuid == nil) {
-        uuid = NSUUID().UUIDString
-        SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        }
-        // http://123.57.46.229:8301/api/topic/detail?topicId=1&deviceId=3245759B-4905-4C9A-B326-74E8D0BB455E
-        var post     = [String:String]()
-        post["topicId"] = String(1)
-        post["deviceId"] = String(NSUUID().UUIDString)
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic/detail",
-        post: post,
-        handler: {(respData: JSON) -> Void in
-        print("=================\n")
-        print("\(respData)")
-        print("=================\n")
-        })
 
-        
-
-    }
     
     
     //MASK: Delegates

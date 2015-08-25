@@ -32,6 +32,7 @@ class TopicDetailsCell: UITableViewCell {
         baselineView.backgroundColor = UIColor(white: 979797, alpha: 0.3)
         return baselineView
     }()
+    
     // 加载数据
     var topicModel: TopicDetails? {
         didSet {

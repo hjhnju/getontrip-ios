@@ -33,6 +33,7 @@ class CyclopaedicCell: UITableViewCell {
         }
     }
     
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         

@@ -23,8 +23,40 @@ class TopicDetailListController: UITableViewController {
         super.viewDidLoad()
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.backgroundColor = UIColor.clearColor()
-        
+
         refresh()
+    }
+    
+    // 添加排序控制器
+    func addCompositorController() {
+        var compositorVC = CompositorController()
+        compositorVC.view.frame = UIScreen.mainScreen().bounds
+        view.addSubview(compositorVC.view)
+        self.addChildViewController(compositorVC)
+        
+        
+//        let barButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Done, target: nil, action: nil)
+//        self.navigationItem.backBarButtonItem = barButtonItem
+        navigationController?.pushViewController(compositorVC, animated: true)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+//        self.presentViewController(compositorVC, animated: true, completion: nil)
+//        navigationItem.title = "asdlkfa"
+//        navigationController?.title = "asldjjf"
+//        self.performSegueWithIdentifier("xxx", sender: nil)
+//        var x: CGFloat = UIScreen.mainScreen().bounds.width * 2
+//        view.frame = CGRectMake(x, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
+//        view.sendSubviewToBack(view)
+//        print(view.frame)
+
     }
     
     // MARK: 加载更新数据
