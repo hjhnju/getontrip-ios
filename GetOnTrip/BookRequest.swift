@@ -46,9 +46,7 @@ class BookRequest: NSObject {
             path: "/api/book",
             post: post,
             handler: {(respData: JSON) -> Void in
-                print("\n\n\n")
-                print(respData)
-                print("\n\n\n")
+
                 for item in respData.arrayValue {
                     var books = [Book]()
                     for it in respData.arrayValue {
