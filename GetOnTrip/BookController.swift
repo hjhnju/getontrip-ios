@@ -43,8 +43,6 @@ class BookController: UITableViewController {
             }
         }
     }
-
-    
     
     // MARK: 书籍列表页数据源方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

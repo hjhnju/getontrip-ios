@@ -44,13 +44,13 @@ class TopicDetailRequest: NSObject {
     func fetchModels(handler: TopicDetail -> Void) {
         var post         = [String: String]()
         post["topicId"]  = String(self.topicId)
-        
+        post["deviceId"] = String(self.deviceId)
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
+        HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/topic/detail",
             post: post,
             handler: {(respData: JSON) -> Void in
-                
+                print(respData)
                 var topicDetail: TopicDetail?
                 // 转换话题详情
                 let from = respData["from"].stringValue

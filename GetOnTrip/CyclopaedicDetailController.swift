@@ -18,13 +18,12 @@ class CyclopaedicDetailController: UIViewController {
     var requestURL: String? {
         didSet {
             webView.loadRequest(NSURLRequest(URL: NSURL(string: requestURL!)!, cachePolicy: NSURLRequestCachePolicy.ReturnCacheDataElseLoad, timeoutInterval: 30))
-//                NSURLRequest(URL: NSURL(string: requestURL!)!))
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.addSubview(webView)
     }
     

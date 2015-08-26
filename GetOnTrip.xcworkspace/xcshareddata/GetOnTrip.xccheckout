@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>01C7D7D8-E1B2-42BD-B470-2DF42A6FA55D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>GetOnTrip</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C1D9A4F5169E02066477DDC970756C11DCAC97AC</key>
+		<string>https://github.com/zhenkunew123/getontrip-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>GetOnTrip.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C1D9A4F5169E02066477DDC970756C11DCAC97AC</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/zhenkunew123/getontrip-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C1D9A4F5169E02066477DDC970756C11DCAC97AC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C1D9A4F5169E02066477DDC970756C11DCAC97AC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>getontrip-ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>

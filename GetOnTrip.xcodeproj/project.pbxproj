@@ -330,7 +330,6 @@
 			children = (
 				AED2DE3D1B8426420091D320 /* Cyclopaedic(百科) */,
 				AED2DE401B8452CA0091D320 /* Topic(话题列表) */,
-				AE263C741B8D7866003BB0BC /* TopicDetail(话题详情) */,
 				AE6D9FAE1B84AD26009A8A9D /* Book(书籍) */,
 				AE6D9FAF1B84AD69009A8A9D /* Video(视频) */,
 				72D86E281B65F045004B72D0 /* Sight.swift */,
@@ -432,6 +431,7 @@
 			children = (
 				AED2DE411B84533A0091D320 /* TopicRequest.swift */,
 				AED2DE431B8460DE0091D320 /* TopicDetails.swift */,
+				AE263C741B8D7866003BB0BC /* TopicDetail(话题详情) */,
 			);
 			name = "Topic(话题列表)";
 			sourceTree = "<group>";
