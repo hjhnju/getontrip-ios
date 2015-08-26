@@ -31,6 +31,12 @@ struct StoryBoardIdentifier {
     static let NearbyTableViewCellID = "NearbyTableViewCellID"
     static let NearbyHeaderViewID    = "NearbyHeaderViewID"
     static let TopicDetailViewControllerID = "TopicDetailViewControllerID"
+    static let TopicDetailNavViewControllerID = "TopicDetailNavViewControllerID"
+    
+    //discovery
+    static let DiscoveryViewCellID = "DiscoveryViewCellID"
+    static let DiscoveryControllerID = "DiscoveryControllerID"
+    
     //man page
     static let NearbyControllerID = "NearbyControllerID"
     static let SearchResultsCell  = "SearchResultsCell"
@@ -41,6 +47,7 @@ struct StoryBoardIdentifier {
     static let ShowTopicDetailSegue = "ShowTopicDetailSegue"
     static let ShowSightTopicsSegue = "ShowSightTopicsSegue"
     static let ShowCitySightsSegue = "ShowCitySightsSegue"
+    static let ShowDiscoveryTopicDetailSegue = "ShowDiscoveryTopicDetailSegue"
 }
 
 struct SceneColor {
@@ -49,6 +56,7 @@ struct SceneColor {
     
     static let black  = UIColor.blackColor()
     static let lightBlack = UIColor(hex: 0x2A2D2E, alpha:1)
+    static let gray = UIColor(hex: 0x3E3E3E, alpha:1)
     static let lightGray = UIColor(hex: 0x9C9C9C, alpha:1)
     
     static let white  = UIColor.whiteColor()

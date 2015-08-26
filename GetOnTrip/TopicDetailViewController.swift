@@ -14,9 +14,12 @@ class TopicDetailViewController: UIViewController {
 
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var showCommentCountButton: UIBarButtonItem!
-    @IBOutlet weak var navItem: UINavigationItem!
     
-    var topic:Topic?
+    var topic:Topic? {
+        didSet {
+            loadTopic()
+        }
+    }
     
     var topicURL:String?
     
@@ -24,14 +27,7 @@ class TopicDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         //load data
-        let newTitle = topic?.sight
-        self.navigationController?.navigationItem.title = newTitle
-        
-        showCommentCountButton.title = "\(topic?.commentCount ?? 0)条评论"
-        showCommentCountButton.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
-        if let topicid = topic?.topicid {
-            self.topicURL = AppIni.BaseUri + "/topic/detail/preview?id=\(topicid)"
-        }
+        loadTopic()
         
         //init webview
         webView.backgroundColor = UIColor.whiteColor()
@@ -43,6 +39,18 @@ class TopicDetailViewController: UIViewController {
         loadWebURL()
     }
     
+    func loadTopic(){
+        if let topic = topic {
+            //navbar
+            self.navigationItem.title = topic.sight
+            
+            //toolbar
+            showCommentCountButton?.title = "\(topic.commentCount ?? 0)条评论"
+            showCommentCountButton?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
+            topicURL = AppIni.BaseUri + "/topic/detail/preview?id=\(topic.topicid)"
+        }
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         //修改navigationbar
@@ -52,7 +60,7 @@ class TopicDetailViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         //还原navigationbar
-        if let masterView = self.parentViewController?.navigationController as? MasterViewController {
+        if let masterView = self.navigationController as? MasterViewController {
             masterView.refreshBar()
         }
         //还原statusbar
@@ -64,14 +72,15 @@ class TopicDetailViewController: UIViewController {
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         
         //设置navigationbar
-        self.parentViewController?.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
-        self.parentViewController?.navigationController?.navigationBar.tintColor = SceneColor.lightGray
-        self.parentViewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
+        self.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
+        self.navigationController?.navigationBar.tintColor = SceneColor.lightGray
+        self.navigationController?.navigationBar.titleTextAttributes =
+            [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
     }
     
     func loadWebURL() {
         if let url = self.topicURL {
-            println("loadURL=\(url)")
+            NSLog("loadURL=\(url)")
             if let requestURL = NSURL(string: url) {
                 let request = NSURLRequest(URL: requestURL)
                 webView.loadRequest(request)

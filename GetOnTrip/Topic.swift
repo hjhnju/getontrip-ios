@@ -38,6 +38,9 @@ class Topic :Printable{
     //景点名
     var sight:String?
     
+    //景点所属城市
+    var city:String?
+    
     //距离
     var distance:String?
     
