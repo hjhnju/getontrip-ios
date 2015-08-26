@@ -33,43 +33,50 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     // `searchController` is set when the search button is clicked.
     var searchController: UISearchController!
-    
+    // 百科底图
     lazy var view1: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
         view1.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
         return view1
     }()
-    
+    // 话题列表底图
     lazy var view2: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
         view1.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
         return view1
     }()
-    
+    // 书籍底图
     lazy var view3: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
         view1.backgroundColor = UIColor(patternImage: UIImage(named: "bookBottom")!)
         return view1
     }()
-    
+    // 视频底图
     lazy var view4: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
         view1.backgroundColor = UIColor(patternImage: UIImage(named: "videoBottom")!)
         return view1
     }()
     
+    var btn: UIButton?
+    
     
     //MASK: View Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "navigationChangeTitle", name: "navigationChangeTitle", object: nil)
         setupSearchAndCompositorItem()
         setupDefaultSightTopic()
         setupChildControllerProperty()
     }
     
-    //
+    deinit {
+        // 注销通知
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "navigationChangeTitle", object: nil)
+    }
+    
+    // 导航栏设置
     func setupSearchAndCompositorItem() {
         let item1 = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked")
         let item2 = UIBarButtonItem(image: UIImage(named: "compositorButton"), style: UIBarButtonItemStyle.Plain, target: self, action: "compositorButtonClicked")
@@ -77,30 +84,26 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // 排序
+    let popoverAnimator = PopoverAnimator()
     func compositorButtonClicked() {
-//        var compositorVC = CompositorController()
-//        compositorVC.view.frame = UIScreen.mainScreen().bounds
-//        view.addSubview(compositorVC.view)
-//        self.addChildViewController(compositorVC)
+        navigationItem.hidesBackButton = true
+        navigationItem.title = "排序"
+        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
+        let vc = story1.instantiateViewControllerWithIdentifier("compositorContoller") as! CompositorController
         
-        topicDetailListController.addCompositorController()
-        // Create the search results view controller and use it for the UISearchController.
-//           let v = CompositorController()
-//        v.view.alpha = 0.5
-//        v.view.frame = CGRectMake(0, 0, 300, 500);
+        // 1. 设置`转场 transitioning`代理
+        vc.transitioningDelegate = popoverAnimator
+        // 2. 设置视图的展现大小
+        popoverAnimator.presentFrame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, 150)
+        // 3. 设置专场的模式 - 自定义转场动画
+        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
         
-        let barButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Done, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem = barButtonItem
-//        view2.addSubview(v.view)
-//        navigationController?.pushViewController(v, animated: true)
-        
-//        self.performSegueWithIdentifier("xxx", sender: nil)
-//        performSegueWithIdentifier:@"login2list" sender:nil];
-
+        presentViewController(vc, animated: true, completion: nil)
     }
-     deinit {
     
-        print("88")
+    func navigationChangeTitle() {
+        navigationItem.hidesBackButton = false
+        navigationItem.title = sightId?.titleLabel?.text
     }
     
     // 搜索
@@ -156,10 +159,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         
         self.navigationItem.title = sightId?.titleLabel?.text
         scrollView.contentOffset.x = UIScreen.mainScreen().bounds.width
-
-        //back button
-//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
-        
+    
         //颜色
         toolbar.barTintColor = SceneColor.lightBlack
         toolbar.tintColor = UIColor.whiteColor()

@@ -22,7 +22,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="177"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="85CFEF90-A8D6-4584-B6DD-DF1129E8A1F4" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="621FCDB5-00FF-46FF-A3EA-6A3DEA27512A" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="city" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="48" translatesAutoresizingMaskIntoConstraints="NO" id="Bt5-XI-xf4">
@@ -331,7 +331,7 @@
                                                 <constraint firstAttribute="height" constant="9" id="XIh-0f-eWn"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                            <state key="normal" title="114" image="FD40546E-1C92-4E14-9D7B-1B3A889B3EAD">
+                                            <state key="normal" title="114" image="A8B72C84-7272-4D88-91EE-F065C2C11D1B">
                                                 <color key="titleColor" red="0.61176470588235299" green="0.61176470588235299" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -697,7 +697,7 @@ ISBN：345566743566</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vJR-mw-fh8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4550" y="537"/>
+            <point key="canvasLocation" x="4551" y="537"/>
         </scene>
         <!--Cyclopaedic View Controller-->
         <scene sceneID="cP5-DV-9vv">
@@ -1238,24 +1238,94 @@ ISBN：345566743566</string>
             </objects>
             <point key="canvasLocation" x="3116" y="-122"/>
         </scene>
-        <!--排序-->
-        <scene sceneID="B5C-TZ-MLM">
+        <!--sjdkfha-->
+        <scene sceneID="qt0-I5-9I2">
             <objects>
-                <viewController id="Hbc-vO-Cn6" customClass="CompositorController" customModule="GetOnTrip" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="compositorContoller" id="H6k-fY-uxI" customClass="CompositorController" customModule="GetOnTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="hiM-m5-QHO"/>
-                        <viewControllerLayoutGuide type="bottom" id="jgL-ni-A5r"/>
+                        <viewControllerLayoutGuide type="top" id="lYh-pr-nHo"/>
+                        <viewControllerLayoutGuide type="bottom" id="Lyo-dS-ecg"/>
                     </layoutGuides>
-                    <view key="view" alpha="0.44999999999999962" contentMode="scaleToFill" id="AFt-dA-Kn8">
+                    <view key="view" contentMode="scaleToFill" id="LKS-EM-4lv">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.10980392156862745" green="0.10980392156862745" blue="0.10980392156862745" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="758-KN-cjN">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                <color key="backgroundColor" red="0.10980392156862745" green="0.10980392156862745" blue="0.10980392156862745" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="RJv-IU-6O6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="默认">
+                                    <color key="titleColor" red="0.40784313725490196" green="0.40784313725490196" blue="0.40784313725490196" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="compositorButtonClick:" destination="H6k-fY-uxI" eventType="touchUpInside" id="y7B-IQ-ESS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cd9-Zb-P5R">
+                                <rect key="frame" x="0.0" y="50" width="600" height="50"/>
+                                <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.10980392160000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="jvk-bJ-APu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="人气最高">
+                                    <color key="titleColor" red="0.40784313725490196" green="0.40784313725490196" blue="0.40784313725490196" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="compositorButtonClick:" destination="H6k-fY-uxI" eventType="touchUpInside" id="WWm-wg-meH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kAb-qM-W7l">
+                                <rect key="frame" x="0.0" y="100" width="600" height="50"/>
+                                <color key="backgroundColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.10980392160000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="IgT-c8-aKB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="最近更新">
+                                    <color key="titleColor" red="0.40784313725490196" green="0.40784313725490196" blue="0.40784313725490196" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="compositorButtonClick:" destination="H6k-fY-uxI" eventType="touchUpInside" id="sOF-dx-brW"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="kAb-qM-W7l" secondAttribute="trailing" id="5no-Ij-W2h"/>
+                            <constraint firstItem="758-KN-cjN" firstAttribute="top" secondItem="LKS-EM-4lv" secondAttribute="top" id="5qH-WK-EKY"/>
+                            <constraint firstItem="Cd9-Zb-P5R" firstAttribute="leading" secondItem="LKS-EM-4lv" secondAttribute="leading" id="CuB-uK-dJM"/>
+                            <constraint firstAttribute="trailing" secondItem="758-KN-cjN" secondAttribute="trailing" id="FLc-X6-uIy"/>
+                            <constraint firstItem="kAb-qM-W7l" firstAttribute="leading" secondItem="LKS-EM-4lv" secondAttribute="leading" id="SYR-iR-3aB"/>
+                            <constraint firstItem="758-KN-cjN" firstAttribute="leading" secondItem="LKS-EM-4lv" secondAttribute="leading" id="XlS-sR-dnl"/>
+                            <constraint firstAttribute="trailing" secondItem="Cd9-Zb-P5R" secondAttribute="trailing" id="cpC-Ls-Jd3"/>
+                            <constraint firstItem="kAb-qM-W7l" firstAttribute="top" secondItem="Cd9-Zb-P5R" secondAttribute="bottom" id="sJL-Z7-vI3"/>
+                            <constraint firstItem="Cd9-Zb-P5R" firstAttribute="top" secondItem="758-KN-cjN" secondAttribute="bottom" id="vkC-Fh-Bgw"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="排序" id="Zou-H3-NoG"/>
+                    <navigationItem key="navigationItem" title="sjdkfha" id="ZAT-BP-kat"/>
+                    <connections>
+                        <outlet property="defaultButton" destination="758-KN-cjN" id="hKf-Uu-itY"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mWk-M0-soK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="42u-qJ-cxc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6301" y="-816"/>
+            <point key="canvasLocation" x="3850" y="537"/>
         </scene>
         <!--途知-->
         <scene sceneID="FRp-IO-tbS">
@@ -1375,7 +1445,7 @@ ISBN：345566743566</string>
         </scene>
     </scenes>
     <resources>
-        <image name="85CFEF90-A8D6-4584-B6DD-DF1129E8A1F4" width="414" height="166">
+        <image name="621FCDB5-00FF-46FF-A3EA-6A3DEA27512A" width="414" height="166">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -6029,7 +6099,7 @@ AARAQwAEQEoABEBSAARAXwAEQGQABEBmAARAaAAEQG0ABEB1AARAeAAEQH0ABECFAARAiAAEQJoABECd
 AARAogAAAAAAAAQBAAAAAAAAAD8AAAAAAAAAAAAAAAAABECkA
 </mutableData>
         </image>
-        <image name="FD40546E-1C92-4E14-9D7B-1B3A889B3EAD" width="10" height="7">
+        <image name="A8B72C84-7272-4D88-91EE-F065C2C11D1B" width="10" height="7">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
