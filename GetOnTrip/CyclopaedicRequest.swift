@@ -46,7 +46,9 @@ class CyclopaedicRequest: NSObject {
             path: "/api/wiki",
             post: post,
             handler: {(respData: JSON) -> Void in
-                
+//                print("\n\n\n")
+//                print(respData)
+//                print("\n\n\n")
                 var cyclopaedics = [Cyclopaedic]()
                 for item in respData.arrayValue {
                     // 转换百科元素
@@ -55,6 +57,7 @@ class CyclopaedicRequest: NSObject {
                     let title       = item["title"].stringValue
                     let image       = item["image"].stringValue
                     let create_time = item["create_time"].intValue
+                    let url         = item["url"].stringValue
                     var cyc_label   = [CyclopaedicLabel]()
                     
                         // 转换百科中元素标签
@@ -67,7 +70,7 @@ class CyclopaedicRequest: NSObject {
                             cyc_label.append(cyclopaedic_label)
                         }
                     
-                    let cyclopaedicM = Cyclopaedic(status: status, content: content, title: title, image: image, create_time: create_time, items: cyc_label)
+                    let cyclopaedicM = Cyclopaedic(status: status, content: content, title: title, image: image, create_time: create_time, items: cyc_label, url: url)
                     cyclopaedics.append(cyclopaedicM)
                 }
                 // 回调

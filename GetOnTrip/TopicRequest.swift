@@ -45,8 +45,6 @@ class TopicRequest: NSObject {
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
         post["sight"]    = String(self.sightId)
-//        post["order"]    = String(stringInterpolationSegment: self.order)
-//        post["tags"]     = String(stringInterpolationSegment: self.tags)
         
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIniOnline.BaseUri,

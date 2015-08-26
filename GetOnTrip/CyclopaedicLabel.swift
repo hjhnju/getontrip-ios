@@ -16,7 +16,7 @@ class CyclopaedicLabel: NSObject {
     // 标签名称
     var name: String
     
-    // 标签路径(暂未使用)
+    // 标签路径
     var url: String
     
     // 标签时间(暂未使用)

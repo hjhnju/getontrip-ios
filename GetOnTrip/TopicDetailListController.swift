@@ -8,7 +8,6 @@
 
 import UIKit
 import SDWebImage
-import MZFormSheetController
 
 class TopicDetailListController: UITableViewController {
     
@@ -47,7 +46,6 @@ class TopicDetailListController: UITableViewController {
     }
     
     
-    
     // MARK: 话题列表页数据源方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return nearTopics.count
@@ -62,8 +60,11 @@ class TopicDetailListController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+//        let nav = UINavigationController(rootViewController: TopicDetailController())
+        let topicDetailVC = TopicDetailController()
+        topicDetailVC.view.backgroundColor = UIColor.blueColor()
+        self.navigationController?.pushViewController(topicDetailVC, animated: true)
     }
-    
-    
     
 }

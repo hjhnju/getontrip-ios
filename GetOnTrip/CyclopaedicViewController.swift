@@ -52,8 +52,10 @@ class CyclopaedicViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        print("选中了\n")
-
+        
+        var cycloVC = CyclopaedicDetailController()
+        cycloVC.requestURL = nearCyclopaedic[indexPath.row].url
+        navigationController?.pushViewController(cycloVC, animated: true)
     }
     
     private func refresh() {
@@ -67,7 +69,6 @@ class CyclopaedicViewController: UITableViewController {
         lastSuccessRequest?.fetchCyclopaedicPageModels { (handler: [Cyclopaedic]) -> Void in
             if handler.count > 0 {
                 self.nearCyclopaedic = handler
-                print("==========\(handler)============")
                 self.tableView.reloadData()
             }
         }

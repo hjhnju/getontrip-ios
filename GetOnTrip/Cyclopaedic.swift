@@ -28,8 +28,11 @@ class Cyclopaedic: NSObject {
     // 百科标签
     var items:[CyclopaedicLabel]
     
+    // url路径
+    var url: String
+    
     // 初始化方法
-    init(status:Int, content: String, title: String, image: String, create_time: Int, items: [CyclopaedicLabel]){
+    init(status:Int, content: String, title: String, image: String, create_time: Int, items: [CyclopaedicLabel], url: String){
         
         self.status = status
         self.content = content
@@ -37,6 +40,7 @@ class Cyclopaedic: NSObject {
         self.image = image
         self.create_time = create_time
         self.items = items
+        self.url = url
     }
 
 }

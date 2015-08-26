@@ -41,6 +41,10 @@
 		72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86E2A1B65F045004B72D0 /* Topic.swift */; };
 		72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72D86E331B678D51004B72D0 /* CoreLocation.framework */; };
 		A5EE519BF51DAA2DF513E39B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B20DEE60D8019CAB8D9975 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		AE263C761B8D78BC003BB0BC /* TopicDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C751B8D78BC003BB0BC /* TopicDetailRequest.swift */; };
+		AE263C781B8D7AE9003BB0BC /* TopicDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C771B8D7AE9003BB0BC /* TopicDetail.swift */; };
+		AE263C7A1B8D84F0003BB0BC /* TopicDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C791B8D84F0003BB0BC /* TopicDetailController.swift */; };
+		AE263C7E1B8D8C26003BB0BC /* CyclopaedicDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C7D1B8D8C26003BB0BC /* CyclopaedicDetailController.swift */; };
 		AE513E381B857D41003DC53D /* TopicDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE513E371B857D41003DC53D /* TopicDetailsCell.swift */; };
 		AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE553BB41B81E8D900C03737 /* GuideViewController.swift */; };
 		AE553BBA1B81EAB700C03737 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB61B81EAB700C03737 /* 1.jpg */; };
@@ -131,6 +135,10 @@
 		72D86E331B678D51004B72D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		81B20DEE60D8019CAB8D9975 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97726D23B8E630D4838357FE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		AE263C751B8D78BC003BB0BC /* TopicDetailRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailRequest.swift; sourceTree = "<group>"; };
+		AE263C771B8D7AE9003BB0BC /* TopicDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetail.swift; sourceTree = "<group>"; };
+		AE263C791B8D84F0003BB0BC /* TopicDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailController.swift; sourceTree = "<group>"; };
+		AE263C7D1B8D8C26003BB0BC /* CyclopaedicDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicDetailController.swift; sourceTree = "<group>"; };
 		AE513E371B857D41003DC53D /* TopicDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailsCell.swift; sourceTree = "<group>"; };
 		AE553BB01B81E8BA00C03737 /* GetOnTrip-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GetOnTrip-Bridging-Header.h"; sourceTree = "<group>"; };
 		AE553BB41B81E8D900C03737 /* GuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
@@ -319,7 +327,8 @@
 			isa = PBXGroup;
 			children = (
 				AED2DE3D1B8426420091D320 /* Cyclopaedic(百科) */,
-				AED2DE401B8452CA0091D320 /* Topic(话题详情) */,
+				AED2DE401B8452CA0091D320 /* Topic(话题列表) */,
+				AE263C741B8D7866003BB0BC /* TopicDetail(话题详情) */,
 				AE6D9FAE1B84AD26009A8A9D /* Book(书籍) */,
 				AE6D9FAF1B84AD69009A8A9D /* Video(视频) */,
 				72D86E281B65F045004B72D0 /* Sight.swift */,
@@ -327,6 +336,33 @@
 				72D86E2A1B65F045004B72D0 /* Topic.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		AE263C741B8D7866003BB0BC /* TopicDetail(话题详情) */ = {
+			isa = PBXGroup;
+			children = (
+				AE263C751B8D78BC003BB0BC /* TopicDetailRequest.swift */,
+				AE263C771B8D7AE9003BB0BC /* TopicDetail.swift */,
+			);
+			name = "TopicDetail(话题详情)";
+			sourceTree = "<group>";
+		};
+		AE263C7B1B8D853F003BB0BC /* Topic(话题) */ = {
+			isa = PBXGroup;
+			children = (
+				AED2DE451B8468F60091D320 /* TopicDetailListController.swift */,
+				AE263C791B8D84F0003BB0BC /* TopicDetailController.swift */,
+			);
+			name = "Topic(话题)";
+			sourceTree = "<group>";
+		};
+		AE263C7C1B8D8B4E003BB0BC /* Cyclopaedic(百科) */ = {
+			isa = PBXGroup;
+			children = (
+				AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */,
+				AE263C7D1B8D8C26003BB0BC /* CyclopaedicDetailController.swift */,
+			);
+			name = "Cyclopaedic(百科)";
 			sourceTree = "<group>";
 		};
 		AE553BBE1B81EB6300C03737 /* Guide(需换图) */ = {
@@ -380,20 +416,20 @@
 			name = "Cyclopaedic(百科)";
 			sourceTree = "<group>";
 		};
-		AED2DE401B8452CA0091D320 /* Topic(话题详情) */ = {
+		AED2DE401B8452CA0091D320 /* Topic(话题列表) */ = {
 			isa = PBXGroup;
 			children = (
 				AED2DE411B84533A0091D320 /* TopicRequest.swift */,
 				AED2DE431B8460DE0091D320 /* TopicDetails.swift */,
 			);
-			name = "Topic(话题详情)";
+			name = "Topic(话题列表)";
 			sourceTree = "<group>";
 		};
 		AED2DE471B8469110091D320 /* 附近 */ = {
 			isa = PBXGroup;
 			children = (
-				AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */,
-				AED2DE451B8468F60091D320 /* TopicDetailListController.swift */,
+				AE263C7C1B8D8B4E003BB0BC /* Cyclopaedic(百科) */,
+				AE263C7B1B8D853F003BB0BC /* Topic(话题) */,
 				AEB9E2931B85DB27007B3ED3 /* BookController.swift */,
 				AEA24B751B863BF300031FB8 /* VideoController.swift */,
 				AEE66DE11B8B241E007CF3C4 /* CompositorController.swift */,
@@ -580,6 +616,7 @@
 				72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */,
 				AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */,
 				72D7212D1B6A712F005BDE55 /* MasterViewController.swift in Sources */,
+				AE263C7E1B8D8C26003BB0BC /* CyclopaedicDetailController.swift in Sources */,
 				72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */,
 				AEA24B761B863BF300031FB8 /* VideoController.swift in Sources */,
 				AE513E381B857D41003DC53D /* TopicDetailsCell.swift in Sources */,
@@ -615,10 +652,13 @@
 				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,
 				AEBD70DB1B8D39AC00B3810D /* PopoverAnimator.swift in Sources */,
 				72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */,
+				AE263C781B8D7AE9003BB0BC /* TopicDetail.swift in Sources */,
 				72A5BF301B72391E00F3AB26 /* SearchResultsViewController.swift in Sources */,
 				AED2DE421B84533A0091D320 /* TopicRequest.swift in Sources */,
+				AE263C7A1B8D84F0003BB0BC /* TopicDetailController.swift in Sources */,
 				72D86E221B65F033004B72D0 /* SightTopicsViewController.swift in Sources */,
 				72D721291B6A241B005BDE55 /* SlideMenuViewController.swift in Sources */,
+				AE263C761B8D78BC003BB0BC /* TopicDetailRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

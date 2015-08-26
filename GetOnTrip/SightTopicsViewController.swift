@@ -8,7 +8,6 @@
 //
 
 import UIKit
-import SSKeychain
 
 class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
@@ -91,8 +90,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     // 导航栏设置
     func setupSearchAndCompositorItem() {
-        
-        
         navigationController?.navigationItem.rightBarButtonItems = [searchItem, compositorItem]
     }
     
@@ -122,41 +119,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     // 搜索
     func searchButtonClicked() {
         
-//        searchController = UISearchController(searchResultsController: searchResultsController)
-//        searchController.searchResultsUpdater = searchResultsController
-//        searchController.hidesNavigationBarDuringPresentation = false
-        
-        
-        /**
-        * 接口1：/api/topic/detail
-        * 话题详情页接口
-        * @param integer topicId，话题ID
-        * @param string  deviceId，用户的设备ID（因为要统计UV）
-        * @return json
-        */
-        
-        
-        //   话题详情页
-        var uuid = SSKeychain.passwordForService(NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        
-        if (uuid == nil) {
-            uuid = NSUUID().UUIDString
-            SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        }
-        // http://123.57.46.229:8301/api/topic/detail?topicId=1&deviceId=3245759B-4905-4C9A-B326-74E8D0BB455E
-        var post     = [String:String]()
-        post["topicId"] = String(5)
-        post["deviceId"] = String(NSUUID().UUIDString)
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic/detail",
-            post: post,
-            handler: {(respData: JSON) -> Void in
-                print("=================\n")
-                print("\(respData)")
-                print("=================\n")
-        })
-        
-        
-        
+
     }
     
     // 加载默认的选中状态为话题按钮
