@@ -46,9 +46,7 @@ class CyclopaedicRequest: NSObject {
             path: "/api/wiki",
             post: post,
             handler: {(respData: JSON) -> Void in
-//                print("\n\n\n")
-//                print(respData)
-//                print("\n\n\n")
+
                 var cyclopaedics = [Cyclopaedic]()
                 for item in respData.arrayValue {
                     // 转换百科元素

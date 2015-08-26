@@ -45,6 +45,7 @@
 		AE263C781B8D7AE9003BB0BC /* TopicDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C771B8D7AE9003BB0BC /* TopicDetail.swift */; };
 		AE263C7A1B8D84F0003BB0BC /* TopicDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C791B8D84F0003BB0BC /* TopicDetailController.swift */; };
 		AE263C7E1B8D8C26003BB0BC /* CyclopaedicDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C7D1B8D8C26003BB0BC /* CyclopaedicDetailController.swift */; };
+		AE263C811B8D9F93003BB0BC /* BookBuyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C801B8D9F93003BB0BC /* BookBuyController.swift */; };
 		AE513E381B857D41003DC53D /* TopicDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE513E371B857D41003DC53D /* TopicDetailsCell.swift */; };
 		AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE553BB41B81E8D900C03737 /* GuideViewController.swift */; };
 		AE553BBA1B81EAB700C03737 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB61B81EAB700C03737 /* 1.jpg */; };
@@ -139,6 +140,7 @@
 		AE263C771B8D7AE9003BB0BC /* TopicDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetail.swift; sourceTree = "<group>"; };
 		AE263C791B8D84F0003BB0BC /* TopicDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailController.swift; sourceTree = "<group>"; };
 		AE263C7D1B8D8C26003BB0BC /* CyclopaedicDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicDetailController.swift; sourceTree = "<group>"; };
+		AE263C801B8D9F93003BB0BC /* BookBuyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookBuyController.swift; sourceTree = "<group>"; };
 		AE513E371B857D41003DC53D /* TopicDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailsCell.swift; sourceTree = "<group>"; };
 		AE553BB01B81E8BA00C03737 /* GetOnTrip-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GetOnTrip-Bridging-Header.h"; sourceTree = "<group>"; };
 		AE553BB41B81E8D900C03737 /* GuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
@@ -365,6 +367,15 @@
 			name = "Cyclopaedic(百科)";
 			sourceTree = "<group>";
 		};
+		AE263C7F1B8D9F43003BB0BC /* Book(书籍) */ = {
+			isa = PBXGroup;
+			children = (
+				AEB9E2931B85DB27007B3ED3 /* BookController.swift */,
+				AE263C801B8D9F93003BB0BC /* BookBuyController.swift */,
+			);
+			name = "Book(书籍)";
+			sourceTree = "<group>";
+		};
 		AE553BBE1B81EB6300C03737 /* Guide(需换图) */ = {
 			isa = PBXGroup;
 			children = (
@@ -430,7 +441,7 @@
 			children = (
 				AE263C7C1B8D8B4E003BB0BC /* Cyclopaedic(百科) */,
 				AE263C7B1B8D853F003BB0BC /* Topic(话题) */,
-				AEB9E2931B85DB27007B3ED3 /* BookController.swift */,
+				AE263C7F1B8D9F43003BB0BC /* Book(书籍) */,
 				AEA24B751B863BF300031FB8 /* VideoController.swift */,
 				AEE66DE11B8B241E007CF3C4 /* CompositorController.swift */,
 				AEBD70D81B8D397A00B3810D /* PopoverPresentationController.swift */,
@@ -631,6 +642,7 @@
 				72D86E2C1B65F045004B72D0 /* NearbyRequest.swift in Sources */,
 				72A5BF351B73AB5F00F3AB26 /* SwiftyJSON.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,
+				AE263C811B8D9F93003BB0BC /* BookBuyController.swift in Sources */,
 				AED2DE441B8460DE0091D320 /* TopicDetails.swift in Sources */,
 				721643261B7D80EC009C292C /* CustomNavigationAnimationController.swift in Sources */,
 				AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */,

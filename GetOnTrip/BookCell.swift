@@ -36,10 +36,10 @@ class BookCell: UITableViewCell {
     
     var bookModel: Book? {
         didSet {
+            var imageURL = NSURL(string: AppIniOnline.BaseUri + (bookModel!.image))
+            self.iconView?.sd_setImageWithURL(imageURL)
             
-            self.iconView?.sd_setImageWithURL(NSURL(string: bookModel!.image))
-            
-            
+            print(imageURL)
             print("========\(bookModel!.image)==\n\n\n")
             
             self.content_desc.text = bookModel?.content_desc
