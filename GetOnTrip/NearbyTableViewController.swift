@@ -8,8 +8,6 @@
 
 import UIKit
 import CoreLocation
-import SSKeychain
-import Alamofire
 
 class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     

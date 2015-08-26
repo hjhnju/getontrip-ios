@@ -63,7 +63,8 @@ class TopicDetailListController: UITableViewController {
         
 //        let nav = UINavigationController(rootViewController: TopicDetailController())
         let topicDetailVC = TopicDetailController()
-        topicDetailVC.view.backgroundColor = UIColor.blueColor()
+        topicDetailVC.sightId = sightId
+//        topicDetailVC.view.backgroundColor = UIColor.blueColor()
         self.navigationController?.pushViewController(topicDetailVC, animated: true)
     }
     

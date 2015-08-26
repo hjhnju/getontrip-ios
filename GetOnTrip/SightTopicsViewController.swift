@@ -68,8 +68,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         btn.setImage(UIImage(named: "compositorButton"), forState: UIControlState.Normal)
         btn.addTarget(self, action: "compositorButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
         var item = UIBarButtonItem(customView: btn)
-        
-//        var item = UIBarButtonItem(image: UIImage(named: "compositorButton"), style: UIBarButtonItemStyle.Plain, target: self, action: "compositorButtonClicked")
         return item
     }()
     
@@ -232,7 +230,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         } else if (xOffset < containView.bounds.width + 1) {
             selectedItem = item2
             compositorItem.customView?.hidden = false
-            print("----\(compositorItem.customView)------")
             selectItem(item2)
         } else if (xOffset < containView.bounds.width * 2 + 1) {
             selectedItem = item3
@@ -243,7 +240,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
             compositorItem.customView?.hidden = true
             selectItem(item4)
         }
-        
     }
     
     // MARK: 懒加载

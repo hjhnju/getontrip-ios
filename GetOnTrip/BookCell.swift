@@ -39,9 +39,6 @@ class BookCell: UITableViewCell {
             var imageURL = NSURL(string: AppIniOnline.BaseUri + (bookModel!.image))
             self.iconView?.sd_setImageWithURL(imageURL)
             
-            print(imageURL)
-            print("========\(bookModel!.image)==\n\n\n")
-            
             self.content_desc.text = bookModel?.content_desc
             var bookInfo = "作者：" + bookModel!.author + "\n出版社：" + bookModel!.press + "\n页数：" + bookModel!.pages + "\nISBN：" + bookModel!.isbn
             self.bookInfo.text = bookInfo
