@@ -31,7 +31,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    // `searchController` is set when the search button is clicked.
     var searchController: UISearchController!
     // 百科底图
     lazy var view1: UIView = {
@@ -58,8 +57,22 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         return view1
     }()
     
-    var btn: UIButton?
+    // 排序按钮
+    lazy var searchItem: UIBarButtonItem = {
+        var item = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked")
+        return item
+    }()
     
+    // 搜索按钮
+    lazy var compositorItem: UIBarButtonItem = {
+        let btn = UIButton(frame: CGRectMake(0, 0, 30, 30))
+        btn.setImage(UIImage(named: "compositorButton"), forState: UIControlState.Normal)
+        btn.addTarget(self, action: "compositorButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
+        var item = UIBarButtonItem(customView: btn)
+        
+//        var item = UIBarButtonItem(image: UIImage(named: "compositorButton"), style: UIBarButtonItemStyle.Plain, target: self, action: "compositorButtonClicked")
+        return item
+    }()
     
     //MASK: View Life Circle
     override func viewDidLoad() {
@@ -78,9 +91,9 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     // 导航栏设置
     func setupSearchAndCompositorItem() {
-        let item1 = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked")
-        let item2 = UIBarButtonItem(image: UIImage(named: "compositorButton"), style: UIBarButtonItemStyle.Plain, target: self, action: "compositorButtonClicked")
-        navigationController?.navigationItem.rightBarButtonItems = [item1, item2]
+        
+        
+        navigationController?.navigationItem.rightBarButtonItems = [searchItem, compositorItem]
     }
     
     // 排序
@@ -244,30 +257,27 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         else if selectedItem == item3 { selectedIndex = 2 }
         else if selectedItem == item4 { selectedIndex = 3 }
         scrollView.contentOffset.x = containView.bounds.width * selectedIndex
-        
-    }
-    
-
-    
-    
-    //MASK: Delegates
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        //TODO: animation on slideView
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         var xOffset: CGFloat = scrollView.contentOffset.x
         if (xOffset < 1.0) {
             selectedItem = item1
+            compositorItem.customView?.hidden = true
+//                self.navigationItem.xxxItem.customView.hidden
             selectItem(item1)
         } else if (xOffset < containView.bounds.width + 1) {
             selectedItem = item2
+            compositorItem.customView?.hidden = false
+            print("----\(compositorItem.customView)------")
             selectItem(item2)
         } else if (xOffset < containView.bounds.width * 2 + 1) {
             selectedItem = item3
+            compositorItem.customView?.hidden = true
             selectItem(item3)
         } else {
             selectedItem = item4
+            compositorItem.customView?.hidden = true
             selectItem(item4)
         }
         
