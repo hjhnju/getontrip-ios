@@ -21,8 +21,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     var activityLabel: UILabel!
     
-    var scrollLock:Bool = false
-    
     var locationManager: CLLocationManager!
     
     //存储属性，保存最近有效定位。作为默认请求数据的参数（//TODO:缓存）
@@ -41,6 +39,12 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             refresh()
         }
     }
+    
+    //是否正在加载更多
+    var isLoadingMore = false
+    
+    //滑动前的y轴偏移
+    var yOffsetHis: CGFloat = 0
     
     //Animations
     let customNavigationAnimationController = CustomNavigationAnimationController()
@@ -132,6 +136,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                 if let smvc = self.navigationController?.parentViewController as? SlideMenuViewController {
                         smvc.sideViewController.bgImageUrl = self.nearSights[0].imageUrl
                 }
+                self.activityLabel.text = ""
             } else {
                 self.activityLabel.text = "无法获取附近内容，请检查您的网络"
             }
@@ -146,14 +151,13 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     //底部加载更多
     func loadMore(){
-        if scrollLock == true {
+        if self.isLoadingMore {
             return
         }
-        
-        scrollLock = true
-        
-        //self.activityLabel.text = "正在加载更多内容"
-        //activity.startAnimating()
+        self.isLoadingMore      = true
+        self.activityLabel.text = "正在加载更多内容"
+        activity.startAnimating()
+        //请求下一页
         self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = self.nearSights + sights
@@ -162,8 +166,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             } else {
                 self.activityLabel.text = "附近没有更多内容啦"
             }
-        //self.activity.stopAnimating()
-            self.scrollLock = false
+            self.activity.stopAnimating()
+            self.isLoadingMore = false
         }
     }
     
@@ -182,36 +186,16 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         // Configure the cell...
         let sight = nearSights[indexPath.section]
-        
-        cell.topicImageUrl = sight.topics[indexPath.row].imageUrl
-        cell.subtitle = sight.topics[indexPath.row].subtitle
-        cell.title = sight.topics[indexPath.row].title
-        cell.favorites = sight.topics[indexPath.row].favorites
-        cell.desc = sight.topics[indexPath.row].desc
-        cell.visits = sight.topics[indexPath.row].visits
-        cell.backgroundColor = UIColor.clearColor()
-        
-        // 遍历正在显示的cell如果是最后一行，自行加载数据
-        for tmpcell in tableView.visibleCells() {
-            if (tmpcell as! NearbyTableViewCell != cell) {
-                loadMore()
-            }
-        }
+        cell.updateCell(sight.topics[indexPath.row])
         
         return cell
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerViewCell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.NearbyHeaderViewID) as! SightHeaderView
-        headerViewCell.sightName = nearSights[section].name
-        headerViewCell.sightImageUrl = nearSights[section].imageUrl
-        headerViewCell.distanceValue = nearSights[section].distance
-        headerViewCell.cityValue = nearSights[section].city
-        headerViewCell.descValue = nearSights[section].desc
-        headerViewCell.backgroundColor = UIColor.clearColor()
-        headerViewCell.sightId.tag = nearSights[section].sightid
-        headerViewCell.sightId.setTitle(nearSights[section].name, forState: UIControlState.Normal)
+        let headerViewCell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.NearbyHeaderViewID) as! SightHeaderViewCell
+        
+        headerViewCell.updateCell(nearSights[section])
 
         return headerViewCell
     }
@@ -223,11 +207,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         return footerView
     }
     
-    
-    
-    /*
-     * 更改追加内容位置
-     */
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         
         //解决：去掉UItableview headerview黏性(sticky)
@@ -237,14 +216,28 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         } else if offSet.y >= tableView.sectionHeaderHeight {
             scrollView.contentInset = UIEdgeInsetsMake(-tableView.sectionHeaderHeight, 0, 0, 0);
         }
-        
-//        如果滚动到最底部，那么需要追加内容
-//        let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
-//        if yOffSet > 0 && offSet.y > yOffSet {
-//            loadMore()
-//        }
+
     }
     
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.yOffsetHis = scrollView.contentOffset.y
+    }
+    
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        //如果滚动到底部，需要追加内容
+        var offSet  = scrollView.contentOffset
+        //y正向移动时
+        if  offSet.y > self.yOffsetHis {
+            //提前量
+            let yBefore = tableView.sectionFooterHeight + tableView.sectionHeaderHeight
+            let gapLeft = scrollView.contentSize.height - scrollView.frame.size.height - offSet.y
+            //println("offSet.y=\(offSet.y), yBefore=\(yBefore), gapLeft=\(gapLeft)")
+            //剩余高度小于提前量
+            if !isLoadingMore && (gapLeft < yBefore) {
+                loadMore()
+            }
+        }
+    }
     
     //处理列表项的选中事件
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

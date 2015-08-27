@@ -76,6 +76,8 @@ class NearbyTableViewCell: UITableViewCell {
     
     
     override func awakeFromNib() {
+        self.backgroundColor = UIColor.clearColor()
+        
         //设置字体和颜色
         subtitleLabel.textColor  = SceneColor.lightGray
         titleLabel.textColor     = SceneColor.white
@@ -90,6 +92,15 @@ class NearbyTableViewCell: UITableViewCell {
         topicImageView.contentMode   = UIViewContentMode.ScaleAspectFill
         topicImageView.clipsToBounds = true
         
+    }
+    
+    func updateCell(topic: Topic){
+        self.topicImageUrl = topic.imageUrl
+        self.subtitle      = topic.subtitle
+        self.title         = topic.title
+        self.favorites     = topic.favorites
+        self.desc          = topic.desc
+        self.visits        = topic.visits
     }
     
 }

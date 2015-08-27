@@ -15,14 +15,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NearbyHeaderViewID" rowHeight="177" id="Oxz-SP-Z9Y" customClass="SightHeaderView" customModule="GetOnTrip" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NearbyHeaderViewID" rowHeight="177" id="Oxz-SP-Z9Y" customClass="SightHeaderViewCell" customModule="GetOnTrip" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="86" width="600" height="177"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Oxz-SP-Z9Y" id="twh-wU-Cus">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="177"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="494BFC33-A484-4C2B-BF19-6C0EEA0B8538" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="3094741C-D8C1-4750-894A-22FA62D03D51" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="city" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="48" translatesAutoresizingMaskIntoConstraints="NO" id="Bt5-XI-xf4">
@@ -330,7 +330,7 @@
                                                 <constraint firstAttribute="height" constant="9" id="XIh-0f-eWn"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                            <state key="normal" title="114" image="E0F05607-7C7A-48C5-AF91-8DBB2C2F127A">
+                                            <state key="normal" title="114" image="DB184215-9A37-4077-861E-415149B80206">
                                                 <color key="titleColor" red="0.61176470588235299" green="0.61176470588235299" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -1397,7 +1397,7 @@ ISBN：345566743566</string>
         </scene>
     </scenes>
     <resources>
-        <image name="494BFC33-A484-4C2B-BF19-6C0EEA0B8538" width="414" height="166">
+        <image name="3094741C-D8C1-4750-894A-22FA62D03D51" width="414" height="166">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -6051,7 +6051,7 @@ AARAQwAEQEoABEBSAARAXwAEQGQABEBmAARAaAAEQG0ABEB1AARAeAAEQH0ABECFAARAiAAEQJoABECd
 AARAogAAAAAAAAQBAAAAAAAAAD8AAAAAAAAAAAAAAAAABECkA
 </mutableData>
         </image>
-        <image name="E0F05607-7C7A-48C5-AF91-8DBB2C2F127A" width="10" height="7">
+        <image name="DB184215-9A37-4077-861E-415149B80206" width="10" height="7">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

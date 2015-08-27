@@ -22,10 +22,12 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     var selectedItem:UIButton? {
         didSet {
             if let item = selectedItem {
-                let slideX = item.frame.origin.x
-                let slideY = toolbar.frame.height - self.slideHeight
+                
+                let slideX     = item.frame.origin.x
+                let slideY     = toolbar.frame.height - self.slideHeight
                 let slideWidth = item.frame.width
                 let newFrame   = CGRectMake(slideX, slideY, slideWidth, self.slideHeight)
+                
                 if self.slideView.frame.origin.x != 0 {
                     UIView.animateWithDuration(0.5, delay: 0,
                         options: UIViewAnimationOptions.AllowUserInteraction,
@@ -72,6 +74,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         //初始化下划线
         slideView.backgroundColor = SceneColor.lightYellow
         toolbar.addSubview(slideView)
+        slideView.clipsToBounds = true
         
         //初始化scrollview
         scrollView.pagingEnabled = true

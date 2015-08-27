@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SightHeaderView: UITableViewCell {
+class SightHeaderViewCell: UITableViewCell {
     
     
     @IBOutlet weak var headerImageView: UIImageView!
@@ -67,6 +67,8 @@ class SightHeaderView: UITableViewCell {
     // MARK: View Life Circle
     
     override func awakeFromNib() {
+        self.backgroundColor = UIColor.clearColor()
+        
         sightLabel.layer.cornerRadius = 10
         sightLabel.layer.borderWidth = CGFloat(2)
         sightLabel.layer.masksToBounds = true
@@ -77,5 +79,15 @@ class SightHeaderView: UITableViewCell {
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
         headerImageView.clipsToBounds = true
         
+    }
+    
+    func updateCell(sight: Sight){
+        self.sightName     = sight.name
+        self.sightImageUrl = sight.imageUrl
+        self.distanceValue = sight.distance
+        self.cityValue     = sight.city
+        self.descValue     = sight.desc
+        self.sightId.tag   = sight.sightid
+        self.sightId.setTitle(sight.name, forState: UIControlState.Normal)
     }
 }
