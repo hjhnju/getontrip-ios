@@ -43,7 +43,7 @@ struct StoryBoardIdentifier {
     static let SearchResultsViewControllerID = "SearchResultsViewControllerID"
     
     //segues
-    static let ShowFavSegue  = "ShowFavSegue"
+    static let ShowFavSegue         = "ShowFavSegue"
     static let ShowTopicDetailSegue = "ShowTopicDetailSegue"
     static let ShowSightTopicsSegue = "ShowSightTopicsSegue"
     static let ShowCitySightsSegue = "ShowCitySightsSegue"
@@ -52,14 +52,14 @@ struct StoryBoardIdentifier {
 
 struct SceneColor {
     static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
-    static let yellow = UIColor.yellowColor()
+    static let yellow      = UIColor.yellowColor()
     
     static let black  = UIColor.blackColor()
     static let lightBlack = UIColor(hex: 0x2A2D2E, alpha:1)
     static let gray = UIColor(hex: 0x3E3E3E, alpha:1)
     static let lightGray = UIColor(hex: 0x9C9C9C, alpha:1)
     
-    static let white  = UIColor.whiteColor()
+    static let white       = UIColor.whiteColor()
     static let crystalWhite = UIColor(hex: 0xFFFFFF, alpha:0.4)
 }
 

@@ -17,6 +17,7 @@ class SightHeaderView: UITableViewCell {
     @IBOutlet var descLabel: UILabel!
     @IBOutlet weak var sightLabel: UILabel!
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sightId: UIButton!
     
     var sightImage:UIImage? {
         didSet {

@@ -35,6 +35,8 @@ class NearbyRequest {
         fetchModels(handler)
     }
     
+    
+    
     // 异步API，参数为回调函数
     // 返回NearbyModel的列表，e.g 附近3个景点
     //

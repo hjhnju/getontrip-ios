@@ -12,7 +12,6 @@ import CoreLocation
 class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     
     //MARK: Model and variables
-    
     var nearSights = [Sight]()
     
     var lastSuccessRequest: NearbyRequest?
@@ -51,6 +50,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+////        self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         //移除底部空Cell
         tableView.tableFooterView     = UIView(frame: CGRectZero)
         tableView.sectionHeaderHeight = CGFloat(177) //图高+12
@@ -86,6 +87,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         //animation
         navigationController?.delegate = self
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -114,6 +116,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         if lastSuccessRequest == nil {
             lastSuccessRequest = NearbyRequest(curLocation:self.curLocation)
         }
+        
+        
+        
         lastSuccessRequest!.fetchFirstPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = sights
@@ -150,8 +155,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         scrollLock = true
         
-        self.activityLabel.text = "正在加载更多内容"
-        activity.startAnimating()
+//        self.activityLabel.text = "正在加载更多内容"
+//        activity.startAnimating()
         self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = self.nearSights + sights
@@ -160,7 +165,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             } else {
                 self.activityLabel.text = "附近没有更多内容啦"
             }
-            self.activity.stopAnimating()
+//            self.activity.stopAnimating()
             self.scrollLock = false
         }
     }
@@ -172,7 +177,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //Tells the data source to return the number of rows in a given section of a table view. (required)
         return nearSights[section].topics.count
     }
     
@@ -181,6 +185,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         // Configure the cell...
         let sight = nearSights[indexPath.section]
+        
         cell.topicImageUrl = sight.topics[indexPath.row].imageUrl
         cell.subtitle = sight.topics[indexPath.row].subtitle
         cell.title = sight.topics[indexPath.row].title
@@ -188,6 +193,17 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         cell.desc = sight.topics[indexPath.row].desc
         cell.visits = sight.topics[indexPath.row].visits
         cell.backgroundColor = UIColor.clearColor()
+        
+        
+        // 遍历正在显示的cell如果是最后一行，自行加载数据
+        for tmpcell in tableView.visibleCells()
+        {
+            if (tmpcell as! NearbyTableViewCell != cell) {
+                loadMore()
+            }
+        }
+        
+        
         return cell
     }
     
@@ -200,6 +216,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         headerViewCell.cityValue = nearSights[section].city
         headerViewCell.descValue = nearSights[section].desc
         headerViewCell.backgroundColor = UIColor.clearColor()
+        headerViewCell.sightId.tag = nearSights[section].sightid
+        headerViewCell.sightId.setTitle(nearSights[section].name, forState: UIControlState.Normal)
 
         return headerViewCell
     }
@@ -211,6 +229,11 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         return footerView
     }
     
+    
+    
+    /*
+     * 更改追加内容位置
+     */
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         
         //解决：去掉UItableview headerview黏性(sticky)
@@ -221,12 +244,13 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             scrollView.contentInset = UIEdgeInsetsMake(-tableView.sectionHeaderHeight, 0, 0, 0);
         }
         
-        //如果滚动到最底部，那么需要追加内容
-        let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
-        if yOffSet > 0 && offSet.y > yOffSet {
-            loadMore()
-        }
+//        如果滚动到最底部，那么需要追加内容
+//        let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
+//        if yOffSet > 0 && offSet.y > yOffSet {
+//            loadMore()
+//        }
     }
+    
     
     //处理列表项的选中事件
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -258,12 +282,19 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.curLocation = nil
     }
     
+    
     // MARK: Segues
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
+        if segue.identifier == StoryBoardIdentifier.ShowSightTopicsSegue {
+            var sightTopicsVC = segue.destinationViewController.visibleViewController as! SightTopicsViewController  // ShowSightTopicsSegue  ShowTopicDetailSegue
+            sightTopicsVC.sightId = sender as? UIButton
+        }
+        
+        
         var destination = segue.destinationViewController as? UIViewController
-        if let navCon = destination as? UINavigationController{
+        if let navCon = destination as? UINavigationController {
             destination = navCon.visibleViewController
         }
         if let identifier = segue.identifier {
@@ -279,6 +310,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     
     @IBAction func showSightView(sender: UIButton) {
+        
+        
         performSegueWithIdentifier(StoryBoardIdentifier.ShowSightTopicsSegue, sender: sender)
     }
     
