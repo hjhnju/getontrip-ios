@@ -36,7 +36,7 @@ class TopicDetailsCell: UITableViewCell {
     // 加载数据
     var topicModel: TopicDetails? {
         didSet {
-            
+
             var imageURL = NSURL(string: AppIniOnline.BaseUri + (topicModel!.image))
             self.iconImage?.sd_setImageWithURL(imageURL)
             self.title.text = topicModel!.title

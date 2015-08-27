@@ -61,11 +61,16 @@ class TopicDetailListController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-//        let nav = UINavigationController(rootViewController: TopicDetailController())
-        let topicDetailVC = TopicDetailController()
-        topicDetailVC.sightId = sightId
-//        topicDetailVC.view.backgroundColor = UIColor.blueColor()
-        self.navigationController?.pushViewController(topicDetailVC, animated: true)
+//        navigationController?.pushViewController(TopicDetailController(sightId: sightId!), animated: true)
+//        self.performSegueWithIdentifier("topicDetailWebView", sender: sightId)
     }
+//   segue.destinationViewController 
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        
+//        if segue.identifier == "topicDetailWebView" {
+//            var sightTopicsVC = segue.destinationViewController as! TopicDetailController
+//            sightTopicsVC.sightId = sightId!
+//        }
+//    }
     
 }
