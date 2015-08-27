@@ -234,7 +234,11 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
         var topic = self.nearSights[indexPath.section].topics[indexPath.row]
         
-        self.performSegueWithIdentifier(StoryBoardIdentifier.ShowTopicDetailSegue, sender: topic)
+        //使用另一个storyboard
+        if let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController {
+            topicDetailViewController.topic = topic
+            self.navigationController?.pushViewController(topicDetailViewController, animated: true)
+        }
         
     }
     

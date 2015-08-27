@@ -81,7 +81,7 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let topic = topics[indexPath.row]
-        if let topicDetailViewController = UIStoryboard(name: "Nearby", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController {
+        if let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController {
             topicDetailViewController.topic = topic
             self.navigationController?.pushViewController(topicDetailViewController, animated: true)
         }
