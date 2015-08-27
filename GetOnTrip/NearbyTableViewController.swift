@@ -50,8 +50,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-////        self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+        
         //移除底部空Cell
         tableView.tableFooterView     = UIView(frame: CGRectZero)
         tableView.sectionHeaderHeight = CGFloat(177) //图高+12
@@ -117,8 +116,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             lastSuccessRequest = NearbyRequest(curLocation:self.curLocation)
         }
         
-        
-        
         lastSuccessRequest!.fetchFirstPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = sights
@@ -155,8 +152,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         scrollLock = true
         
-//        self.activityLabel.text = "正在加载更多内容"
-//        activity.startAnimating()
+        //self.activityLabel.text = "正在加载更多内容"
+        //activity.startAnimating()
         self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = self.nearSights + sights
@@ -165,7 +162,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             } else {
                 self.activityLabel.text = "附近没有更多内容啦"
             }
-//            self.activity.stopAnimating()
+        //self.activity.stopAnimating()
             self.scrollLock = false
         }
     }
@@ -194,15 +191,12 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         cell.visits = sight.topics[indexPath.row].visits
         cell.backgroundColor = UIColor.clearColor()
         
-        
         // 遍历正在显示的cell如果是最后一行，自行加载数据
-        for tmpcell in tableView.visibleCells()
-        {
+        for tmpcell in tableView.visibleCells() {
             if (tmpcell as! NearbyTableViewCell != cell) {
                 loadMore()
             }
         }
-        
         
         return cell
     }
@@ -308,10 +302,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         }
     }
     
-    
     @IBAction func showSightView(sender: UIButton) {
-        
-        
         performSegueWithIdentifier(StoryBoardIdentifier.ShowSightTopicsSegue, sender: sender)
     }
     

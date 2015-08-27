@@ -20,20 +20,20 @@ class DiscoveryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var commentsLabel: UILabel!
     
     override func awakeFromNib() {
-        self.backgroundColor = SceneColor.white
-        locateLabel.textColor = SceneColor.white
-        imageView.backgroundColor = SceneColor.crystalWhite
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        imageView.clipsToBounds = true
+        self.backgroundColor         = SceneColor.white
+        locateLabel.textColor        = SceneColor.white
+        imageView.backgroundColor    = SceneColor.crystalWhite
+        imageView.contentMode        = UIViewContentMode.ScaleAspectFill
+        imageView.clipsToBounds      = true
         imageView.layer.cornerRadius = 3
-        self.layer.cornerRadius = 3
+        self.layer.cornerRadius      = 3
     }
     
     func setDisplayFields(topic: Topic) {
         self.titleLabel.text = topic.title
-        if let url = topic.imageUrl {
-            ImageLoader.sharedLoader.imageForUrl(url) { (image:UIImage?, url:String) in
-                self.imageView.image = image
+        if let imageUrl = topic.imageUrl {
+            if let url = NSURL(string: imageUrl) {
+                self.imageView.sd_setImageWithURL(url, placeholderImage: UIImage(named: "default-topic"))
             }
         }
         let city = topic.city ?? ""

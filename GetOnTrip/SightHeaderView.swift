@@ -19,23 +19,12 @@ class SightHeaderView: UITableViewCell {
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var sightId: UIButton!
     
-    var sightImage:UIImage? {
-        didSet {
-            self.headerImageView!.image = self.sightImage
-        }
-    }
-    
     var sightImageUrl:String? {
         didSet{
-            if let url = sightImageUrl{
-                if url != "" {
-                    ImageLoader.sharedLoader.imageForUrl(url) { (image:UIImage?, url:String) in
-                        self.sightImage = image
-                    }
-                } 
-            }
-            if self.sightImage == nil {
-                self.sightImage = UIImage(named: "default-sight")
+            if let sightImageUrl = sightImageUrl{
+                if let url = NSURL(string: sightImageUrl) {
+                    self.headerImageView.sd_setImageWithURL(url, placeholderImage: UIImage(named: "default-sight"))
+                }
             }
         }
     }

@@ -24,24 +24,12 @@ class NearbyTableViewCell: UITableViewCell {
     
     @IBOutlet var favoritesLabel: UILabel!
     
-    var topicImage: UIImage? {
-        didSet{
-            topicImageView.image = topicImage
-        }
-    }
-    
     var topicImageUrl:String? {
         didSet{
-            if let url = topicImageUrl {
-                if url != "" {
-                    
-                    ImageLoader.sharedLoader.imageForUrl(url) { (image:UIImage?, url:String) in
-                        self.topicImage = image
-                    }
+            if let topicImageUrl = topicImageUrl {
+                if let url = NSURL(string: topicImageUrl) {
+                    self.topicImageView.sd_setImageWithURL(url, placeholderImage: UIImage(named: "default-topic"))
                 }
-            }
-            if self.topicImage == nil {
-                self.topicImage = UIImage(named: "default-topic")
             }
         }
     }
@@ -89,17 +77,17 @@ class NearbyTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         //设置字体和颜色
-        subtitleLabel.textColor = SceneColor.lightGray
-        titleLabel.textColor    = SceneColor.white
-        descLabel.textColor     = SceneColor.lightGray
+        subtitleLabel.textColor  = SceneColor.lightGray
+        titleLabel.textColor     = SceneColor.white
+        descLabel.textColor      = SceneColor.lightGray
         favoritesLabel.textColor = SceneColor.lightGray
-        visitsLabel.textColor   = SceneColor.crystalWhite
+        visitsLabel.textColor    = SceneColor.crystalWhite
         
-        subtitleLabel.font = UIFont(name: "STHeitiSC-Light", size: 9)
-        titleLabel.font = UIFont(name: "STHeitiSC-Light", size: 14)
-        descLabel.font = UIFont(name: "STHeitiSC-Light", size: 10)
+        subtitleLabel.font = UIFont(name: SceneFont.heiti, size: 9)
+        titleLabel.font    = UIFont(name: SceneFont.heiti, size: 14)
+        descLabel.font     = UIFont(name: SceneFont.heiti, size: 10)
         
-        topicImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        topicImageView.contentMode   = UIViewContentMode.ScaleAspectFill
         topicImageView.clipsToBounds = true
         
     }
