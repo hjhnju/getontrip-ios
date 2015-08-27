@@ -13,6 +13,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     var sightId: UIButton?
     
+    
     @IBOutlet weak var toolbar: UIToolbar!
     
     var selectedItem:UIButton?
@@ -30,7 +31,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    var searchController: UISearchController!
     // 百科底图
     lazy var view1: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
@@ -58,7 +58,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     // 排序按钮
     lazy var searchItem: UIBarButtonItem = {
-        var item = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked")
+        var item = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         return item
     }()
     
@@ -115,9 +115,15 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // 搜索
-    func searchButtonClicked() {
-        
-
+    func searchButtonClicked(button: UIBarButtonItem) {
+        // 获得父控制器
+        var pare = self.parentViewController?.parentViewController as! MasterViewController
+        // 找到MainViewController并调用搜索方法
+        for vc in pare.viewControllers {
+            if vc.isKindOfClass(MainViewController) {
+                vc.searchButtonClicked(button)
+            }
+        }
     }
     
     // 加载默认的选中状态为话题按钮

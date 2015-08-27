@@ -279,7 +279,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == StoryBoardIdentifier.ShowSightTopicsSegue {
-            var sightTopicsVC = segue.destinationViewController.visibleViewController as! SightTopicsViewController  // ShowSightTopicsSegue  ShowTopicDetailSegue
+            var sightTopicsVC = segue.destinationViewController.visibleViewController as! SightTopicsViewController  // ShowSightTopicsSegue
             sightTopicsVC.sightId = sender as? UIButton
         }
         

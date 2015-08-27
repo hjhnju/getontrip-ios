@@ -81,12 +81,13 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         
         //初始化views
         let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        let controller1 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.NearbyControllerID) as! UIViewController
+        let controller1 = story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.NearbyControllerID) as! NearbyTableViewController
         addChildViewController(controller1)
         view1 = controller1.view
         scrollView.addSubview(view1)
         scrollView.bringSubviewToFront(view1)
     }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -140,7 +141,9 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         scrollView.contentOffset.x = containView.bounds.width * selectedIndex
     }
     
+    // 搜索方法
     @IBAction func searchButtonClicked(button: UIBarButtonItem) {
+        
         // Create the search results view controller and use it for the UISearchController.
         let searchResultsController = storyboard!.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.SearchResultsViewControllerID) as! SearchResultsViewController
         

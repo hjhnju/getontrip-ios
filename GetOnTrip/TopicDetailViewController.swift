@@ -25,7 +25,6 @@ class TopicDetailViewController: UIViewController {
     override func viewDidLoad() {
         //load data
         let newTitle = topic?.sight
-        self.navigationController?.navigationItem.title = newTitle
         
         showCommentCountButton.title = "\(topic?.commentCount ?? 0)条评论"
         showCommentCountButton.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)

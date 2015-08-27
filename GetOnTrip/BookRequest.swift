@@ -37,8 +37,6 @@ class BookRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: [Book] -> Void) {
         var post         = [String: String]()
-//        post["page"]     = String(self.page)
-//        post["pageSize"] = String(self.pageSize)
         post["sightId"]    = String(self.sightId)
         
         // 发送网络请求加载数据
