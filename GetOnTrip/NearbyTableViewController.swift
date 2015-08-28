@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import MJRefresh
 
 class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     
@@ -43,9 +44,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     //是否正在加载更多
     var isLoadingMore = false
     
-    //滑动前的y轴偏移
-    var yOffsetHis: CGFloat = 0
-    
     //Animations
     let customNavigationAnimationController = CustomNavigationAnimationController()
     let customInteractionController = CustomInteractionController()
@@ -63,21 +61,18 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         tableView.separatorColor      = UIColor.grayColor()
         tableView.backgroundColor     = SceneColor.lightBlack
         
-        //创建footerView, 上拉加载
-        var tableFooterView:UIView      = UIView()
-        tableFooterView.frame           = CGRectMake(0, 0, tableView.bounds.size.width, 60)
-        tableFooterView.backgroundColor = UIColor.clearColor()
-        self.tableView.tableFooterView  = tableFooterView
-        activity       = UIActivityIndicatorView(activityIndicatorStyle: .White)
-        activity.frame = CGRectMake(0, 0, tableView.bounds.size.width, 44)
-        activityLabel = UILabel()
-        activityLabel.frame = CGRectMake(0, 44, tableView.bounds.size.width, 10)
-        activityLabel.font  = UIFont(name: SceneFont.heiti, size: 10)
-        activityLabel.baselineAdjustment = UIBaselineAdjustment.AlignCenters
-        activityLabel.textAlignment = NSTextAlignment.Center
-        activityLabel.textColor = SceneColor.lightGray
-        tableFooterView.addSubview(activity)
-        tableFooterView.addSubview(activityLabel)
+        //下拉刷新样式
+        refreshControl?.tintColor = SceneColor.lightGray
+        
+        //上拉刷新
+        let footerView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
+        footerView.automaticallyRefresh                = true
+        footerView.appearencePercentTriggerAutoRefresh = -3
+        footerView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        footerView.stateLabel.font            = UIFont(name: SceneFont.heiti, size: 12)
+        footerView.stateLabel.textColor       = SceneColor.lightGray
+        
+        self.tableView.footer = footerView
         
         //初始化定位服务
         self.locationManager = CLLocationManager()
@@ -128,7 +123,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                 var formatter = NSDateFormatter()
                 formatter.dateFormat = "yyyy-MM-dd HH:mm"
                 var dateString = formatter.stringFromDate(NSDate())
-                let message = "最近更新时间:\(dateString)"
+                let message = "最后更新:\(dateString)"
                 
                 self.refreshControl?.attributedTitle = NSAttributedString(string: message, attributes: [NSForegroundColorAttributeName:SceneColor.lightGray])
                 
@@ -136,9 +131,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                 if let smvc = self.navigationController?.parentViewController as? SlideMenuViewController {
                         smvc.sideViewController.bgImageUrl = self.nearSights[0].imageUrl
                 }
-                self.activityLabel.text = ""
             } else {
-                self.activityLabel.text = "无法获取附近内容，请检查您的网络"
             }
             
             
@@ -155,18 +148,15 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             return
         }
         self.isLoadingMore      = true
-        self.activityLabel.text = "正在加载更多内容"
-        activity.startAnimating()
         //请求下一页
         self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = self.nearSights + sights
                 self.tableView.reloadData()
-                self.activityLabel.text = ""
+                self.tableView.footer.endRefreshing()
             } else {
-                self.activityLabel.text = "附近没有更多内容啦"
+                self.tableView.footer.noticeNoMoreData()
             }
-            self.activity.stopAnimating()
             self.isLoadingMore = false
         }
     }
@@ -217,26 +207,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
             scrollView.contentInset = UIEdgeInsetsMake(-tableView.sectionHeaderHeight, 0, 0, 0);
         }
 
-    }
-    
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        self.yOffsetHis = scrollView.contentOffset.y
-    }
-    
-    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        //如果滚动到底部，需要追加内容
-        var offSet  = scrollView.contentOffset
-        //y正向移动时
-        if  offSet.y > self.yOffsetHis {
-            //提前量
-            let yBefore = tableView.sectionFooterHeight + tableView.sectionHeaderHeight
-            let gapLeft = scrollView.contentSize.height - scrollView.frame.size.height - offSet.y
-            //println("offSet.y=\(offSet.y), yBefore=\(yBefore), gapLeft=\(gapLeft)")
-            //剩余高度小于提前量
-            if !isLoadingMore && (gapLeft < yBefore) {
-                loadMore()
-            }
-        }
     }
     
     //处理列表项的选中事件

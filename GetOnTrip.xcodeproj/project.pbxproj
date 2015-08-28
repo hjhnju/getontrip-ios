@@ -222,7 +222,7 @@
 			name = Discovery;
 			sourceTree = "<group>";
 		};
-		72D721321B6B9894005BDE55 /* Frame */ = {
+		72D721321B6B9894005BDE55 /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				72D86E041B65E809004B72D0 /* Main.storyboard */,
@@ -234,7 +234,7 @@
 				72A5BF2F1B72391E00F3AB26 /* SearchResultsViewController.swift */,
 				72A5BF371B748BE200F3AB26 /* SearchResultsCell.swift */,
 			);
-			name = Frame;
+			name = Main;
 			sourceTree = "<group>";
 		};
 		72D721331B6B99DA005BDE55 /* Nearby */ = {
@@ -279,7 +279,7 @@
 		72D86DE11B65D94D004B72D0 /* GetOnTrip */ = {
 			isa = PBXGroup;
 			children = (
-				72D721321B6B9894005BDE55 /* Frame */,
+				72D721321B6B9894005BDE55 /* Main */,
 				AE553BBE1B81EB6300C03737 /* Guide */,
 				72D721331B6B99DA005BDE55 /* Nearby */,
 				7239FE261B85B4C000238A25 /* Discovery */,

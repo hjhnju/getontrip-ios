@@ -41,12 +41,14 @@ class DiscoveryRequest {
                     let subtitle = it["subtitle"].stringValue
                     
                     var topic  = Topic(topicid: topicId, title: title, subtitle: subtitle)
-                    topic.desc = it["desc"].stringValue
+                    topic.desc      = it["desc"].stringValue
                     topic.favorites = it["collect"].intValue
                     topic.visits    = it["visit"].intValue
                     topic.imageUrl  = AppIni.BaseUri + it["image"].stringValue
                     topic.from      = it["from"].stringValue
                     topic.sight     = it["sight"].stringValue
+                    topic.city      = it["city"].stringValue
+                    topic.distance  = it["dist"].stringValue
                     topic.commentCount = it["comment"].intValue
                     topics.append(topic)
                 }
