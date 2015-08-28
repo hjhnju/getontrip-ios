@@ -213,6 +213,12 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         recordButtonStatus?.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         recordButtonStatus?.selected = false
         
+        compositorItem.customView?.hidden = true
+        
+        if sender.currentTitle == "话题" {
+            compositorItem.customView?.hidden = false
+        }
+        
         if !sender.selected {
             sender.selected = true
             sender.backgroundColor = UIColor(white: 1, alpha: 0.5)
