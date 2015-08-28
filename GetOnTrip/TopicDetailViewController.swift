@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-class TopicDetailViewController: UIViewController, UIScrollViewDelegate {
+class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
     
     // MARK: Outlets and Properties
 
@@ -53,7 +53,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate {
         webView.scrollView.delegate = self
         webView.scrollView.contentInset = UIEdgeInsetsMake(355, 0, 0, 0)
         automaticallyAdjustsScrollViewInsets = false
-
+        webView.delegate = self
         //load html
         loadWebURL()
     }
@@ -82,7 +82,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate {
             //toolbar
             showCommentCountButton?.title = "\(topic.commentCount ?? 0)条评论"
             showCommentCountButton?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
-            topicURL = AppIni.BaseUri + "/topic/detail/preview?id=\(topic.topicid)"
+            topicURL = AppIniOnline.BaseUri + "/topic/detail?id=\(topic.topicid)"
         }
     }
     
@@ -163,6 +163,25 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate {
         
         webView.loadHTMLString(errorHTML, baseURL: nil)
     }
+    
+    // TODO: 以截取Range方式进行应用间跳转，如果不是我方协议就跳转，但以后需改
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        
+        println(request)
+        
+        var url = request.URL?.absoluteString
+        let index = advance(url!.startIndex, 20)
+        var range = Range<String.Index>(start: url!.startIndex, end: index)
+                                             // 01
+        println(url?.substringWithRange(range))
+        if url?.substringWithRange(range) == "http://123.57.67.165" {
+            return true
+        }
+        
+        UIApplication.sharedApplication().openURL(NSURL(string: url!)!)
+        return false
+    }
+    
     
     // MARK: Actions
     

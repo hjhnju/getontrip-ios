@@ -65,7 +65,8 @@ class TopicDetailRequest: NSObject {
                 let title           = respData["title"].stringValue
                 //topic?.subtitle = respData[""].stringValue
                 topic = Topic(topicid: id, title: title, subtitle: "")
-                topic!.imageUrl     = AppIni.BaseUri + respData["image"].stringValue
+                topic!.imageUrl     = AppIniOnline.BaseUri + respData["image"].stringValue
+                
                 topic!.favorites    = respData["collect"].intValue
                 topic!.visits       = respData["visits"].intValue
                 topic!.desc         = respData["content"].stringValue
