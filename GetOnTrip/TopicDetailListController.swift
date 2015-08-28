@@ -19,18 +19,22 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
     var nearTopics = [TopicDetails]()
 
     
+    // MARK: 初始化
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.backgroundColor = UIColor.clearColor()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
 
-        self.navigationItem.hidesBackButton = false
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
+        
         navigationController?.delegate = self
+//        navigationController?.navigationBar.barTintColor = UIColor.orangeColor()
+        
+        
         refresh()
     }
     
-    // MARK: 加载更新数据
     private func refresh() {
         NSLog("notice:refreshing nearby data.")
         
@@ -40,12 +44,46 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
         }
         
         lastSuccessRequest!.fetchTopicPageModels { (handler: [TopicDetails]) -> Void in
-//            print(handler)
             if handler.count > 0 {
                 self.nearTopics = handler
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        super.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
+        super.navigationController?.navigationController?.navigationBar.tintColor = SceneColor.lightGray
+        super.navigationController?.navigationController?.navigationBar.titleTextAttributes =
+            [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        
+    }
+    
+    // TODO: 为了使下个界面颜色变白，采取反复设置颜色的办法，不过这个办法并不好，如有更好的办法，请立即更换
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        super.navigationController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
+        super.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.black
+        super.navigationController?.navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
     }
     
     
@@ -57,12 +95,13 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("topicDetailListCell", forIndexPath: indexPath) as! TopicDetailsCell
         cell.topicModel = nearTopics[indexPath.row]
-//        self.tableView.reloadData()
+
         return cell
     }
     
     var lastSuccessRequest1: TopicDetailRequest?
     
+    // MARK: 代理方法，加载详情页面
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
@@ -72,20 +111,19 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
     private func loadData(id: Int) {
         NSLog("notice:refreshing nearby data.")
         
-        // 获取数据更新tableview
-//        if lastSuccessRequest1 == nil {
-//            lastSuccessRequest1 = TopicDetailRequest(topicId: id)
-//        }
-        
         TopicDetailRequest(topicId: id).fetchModels { (handler: Topic) -> Void in
             
-            let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController 
-            topicDetailViewController!.topic = handler
+            let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController
+            var topic = handler as Topic
+            topic.sight = self.navigationController?.navigationItem.title
+            topicDetailViewController!.topic = topic
+            topicDetailViewController?.refreshBar()
             self.navigationController?.pushViewController(topicDetailViewController!, animated: true)
         }
         
     }
     
+    // MARK: 转场动画
     let customNavigationAnimationController = CustomNavigationAnimationController()
     let customInteractionController = CustomInteractionController()
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

@@ -76,7 +76,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
         
-        
+
         
         self.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
         self.navigationController?.navigationBar.tintColor = SceneColor.lightGray
@@ -85,6 +85,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         setupSearchAndCompositorItem()
         setupDefaultSightTopic()
         setupChildControllerProperty()
+
     }
     
     deinit {

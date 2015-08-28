@@ -18,6 +18,8 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var showCommentCountButton: UIBarButtonItem!
     
+    // 标题
+    @IBOutlet weak var titleLabel: UILabel!
     // 收藏
     @IBOutlet weak var visits: UILabel!
     // 喜欢
@@ -54,9 +56,12 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         webView.scrollView.contentInset = UIEdgeInsetsMake(355, 0, 0, 0)
         automaticallyAdjustsScrollViewInsets = false
         webView.delegate = self
+        
+        
         //load html
         loadWebURL()
     }
+    
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
@@ -78,7 +83,6 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         if let topic = topic {
             //navbar
             self.navigationItem.title = topic.sight
-            
             //toolbar
             showCommentCountButton?.title = "\(topic.commentCount ?? 0)条评论"
             showCommentCountButton?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
@@ -93,12 +97,14 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         refreshBar()
         
         iconView.sd_setImageWithURL(NSURL(string: topic!.imageUrl!))
-        
+        visits.text = "\(topic!.visits!)"
+        favorites.text = "\(topic!.favorites!)"
+        titleLabel.text = topic?.title
+//        navigationItem.title = topic?.title
+//        navigationItem.title = topic?.from
         
         for (var i: Int = 0; i < topic?.tags?.count; i++ ) {
-            
             var tagsLabel: String = " " + (topic!.tags![i] as! String) as String + " "
-
             if (i == 0){
                 label1.hidden = false
                 label1.text = tagsLabel
@@ -116,7 +122,6 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
                 label4.text = tagsLabel
                 label4.sizeToFit()
             }
-            
         }
     }
     

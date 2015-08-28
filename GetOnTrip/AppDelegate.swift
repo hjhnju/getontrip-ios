@@ -27,6 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = defaultViewController()
 
+        let urlCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
+        NSURLCache.setSharedURLCache(urlCache)
+        
         return true
     }
 

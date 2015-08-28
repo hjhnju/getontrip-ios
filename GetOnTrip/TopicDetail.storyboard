@@ -64,6 +64,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="114" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vjn-1u-w7p" userLabel="visits">
                                         <rect key="frame" x="36" y="247" width="16" height="11"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whiteEye" translatesAutoresizingMaskIntoConstraints="NO" id="q0V-Zd-xJj" userLabel="eyeicon">
@@ -76,6 +77,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="456" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtf-qb-T2H" userLabel="favorites">
                                         <rect key="frame" x="79" y="247" width="16" height="11"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                        <color key="textColor" white="1" alpha="0.70000000000000007" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAN-8K-aRT">
@@ -178,7 +180,7 @@
                                     <constraint firstAttribute="height" constant="44" id="hCd-Xc-Mvu"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Item" id="sBB-Yf-yzT" userLabel="showCommentCount">
+                                    <barButtonItem enabled="NO" title="Item" id="sBB-Yf-yzT" userLabel="showCommentCount">
                                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                     <barButtonItem style="done" id="VBa-WS-sRX">
@@ -246,6 +248,7 @@
                         <outlet property="label3" destination="n4w-Be-ROv" id="R0Z-Pp-j93"/>
                         <outlet property="label4" destination="d7V-wX-JFW" id="4hk-nU-Y0m"/>
                         <outlet property="showCommentCountButton" destination="sBB-Yf-yzT" id="KmV-Ka-D5b"/>
+                        <outlet property="titleLabel" destination="OAN-8K-aRT" id="Jam-FX-v0R"/>
                         <outlet property="topHeightConstraint" destination="Rgx-Br-h4o" id="Xef-9L-2Cg"/>
                         <outlet property="visits" destination="Vjn-1u-w7p" id="iFG-cq-Xlf"/>
                         <outlet property="webView" destination="EOW-HY-dOc" id="qXO-Lm-BsR"/>
