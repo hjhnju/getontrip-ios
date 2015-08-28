@@ -22,6 +22,11 @@ class TopicDetailRequest: NSObject {
     var topicId  :Int
     var deviceId :String
     
+    var pageSize:Int = 6
+    
+    //获取当前页的数据
+    var curPage:Int = 1
+
     // 初始化方法
     init(topicId: Int) {
         self.topicId = topicId
@@ -36,42 +41,45 @@ class TopicDetailRequest: NSObject {
     }
     
     // 将数据回调外界
-    func fetchBookModels(handler: TopicDetail -> Void) {
+    func fetchBookModels(handler: Topic -> Void) {
         fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: TopicDetail -> Void) {
+    func fetchModels(handler: Topic -> Void) {
         var post         = [String: String]()
         post["topicId"]  = String(self.topicId)
         post["deviceId"] = String(self.deviceId)
+        post["page"]     = String(self.curPage)
+        post["pageSize"] = String(self.pageSize)
+        
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/topic/detail",
             post: post,
             handler: {(respData: JSON) -> Void in
-                print(respData)
-                var topicDetail: TopicDetail?
+                println(respData)
+                var topic: Topic?
                 // 转换话题详情
-                let from = respData["from"].stringValue
-                let content = respData["content"].stringValue
-                let id = respData["id"].intValue
-                let title = respData["title"].stringValue
-                let image = respData["image"].stringValue
-                let dis = respData["dis"].stringValue
-                let collect = respData["collect"].stringValue
-                let visit = respData["visit"].stringValue
-                let commentNum = respData["commentNum"].stringValue
+                let id              = respData["id"].intValue
+                let title           = respData["title"].stringValue
+                //topic?.subtitle = respData[""].stringValue
+                topic = Topic(topicid: id, title: title, subtitle: "")
+                topic!.imageUrl     = AppIni.BaseUri + respData["image"].stringValue
+                topic!.favorites    = respData["collect"].intValue
+                topic!.visits       = respData["visits"].intValue
+                topic!.desc         = respData["content"].stringValue
+                topic!.from         = respData["from"].stringValue
+                topic!.commentCount = respData["commentNum"].intValue
                 
-                var tags = NSMutableArray()
-                for it in respData["tags"].arrayValue {
-                    tags.addObject(it.stringValue)
-                }
-                
-                let topicDetailM = TopicDetail(from: from, content: content, id: id, title: title, image: image, dis: dis, collect: collect, visit: visit, commentNum: commentNum, tags: tags)
-                
+                    var tags = [String]()
+                    for it in respData["tags"].arrayValue {
+                        tags.append(it.stringValue)
+//                        tags.addObject(it.stringValue)
+                    }
+                topic!.tags = tags
                     // 回调
-                    handler(topicDetailM)
+                handler(topic!)
             }
         )
     }

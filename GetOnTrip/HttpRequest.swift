@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 class HttpRequest {
-    class func ajax(url: String?, path: String?,post: Dictionary<String, String>, handler: (JSON) -> Void) {
+    class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: (JSON) -> Void) {
         
         let urlPath = (url ?? "") + (path ?? "")
         

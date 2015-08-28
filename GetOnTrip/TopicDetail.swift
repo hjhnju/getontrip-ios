@@ -29,9 +29,9 @@ class TopicDetail: NSObject {
     
     var commentNum: String
     
-    var tags: NSArray
+    var tags: [String]
     
-    init(from: String, content: String, id: Int, title: String, image:String, dis: String, collect: String, visit: String, commentNum: String, tags: NSArray) {
+    init(from: String, content: String, id: Int, title: String, image:String, dis: String, collect: String, visit: String, commentNum: String, tags: [String]) {
         
         self.from       = from
         self.content    = content

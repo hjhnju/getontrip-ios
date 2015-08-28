@@ -51,7 +51,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     
     weak var view1: UIView!
     
-    var view2: UIView = UIView()
+    var view2: UIView!
     
     var view3: UIView = UIView()
     
@@ -86,6 +86,13 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         view1 = controller1.view
         scrollView.addSubview(view1)
         scrollView.bringSubviewToFront(view1)
+        
+        let story2 = UIStoryboard(name: "Discovery", bundle: nil)
+        let controller2 = story2.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.DiscoveryControllerID) as! UIViewController
+        addChildViewController(controller2)
+        view2 = controller2.view
+        scrollView.addSubview(view2)
+        scrollView.bringSubviewToFront(view2)
     }
     
     
@@ -100,10 +107,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         
         view1.frame = CGRectMake(0, 0, wBounds, hBounds)
         
-        view2.backgroundColor = UIColor.orangeColor()
         view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
-        self.scrollView.addSubview(view2)
-        self.scrollView.bringSubviewToFront(view2)
         
         view3.backgroundColor = UIColor.purpleColor()
         view3.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)

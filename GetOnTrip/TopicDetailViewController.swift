@@ -7,16 +7,35 @@
 //
 
 import UIKit
+import SDWebImage
 
-class TopicDetailViewController: UIViewController {
+class TopicDetailViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: Outlets and Properties
 
+    @IBOutlet weak var topHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var iconView: UIImageView!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var showCommentCountButton: UIBarButtonItem!
-    @IBOutlet weak var navItem: UINavigationItem!
     
-    var topic:Topic?
+    // 收藏
+    @IBOutlet weak var visits: UILabel!
+    // 喜欢
+    @IBOutlet weak var favorites: UILabel!
+    // 标签
+    @IBOutlet weak var label1: UILabel!
+    
+    @IBOutlet weak var label2: UILabel!
+    
+    @IBOutlet weak var label3: UILabel!
+    
+    @IBOutlet weak var label4: UILabel!
+    
+    var topic:Topic? {
+        didSet {
+            loadTopic()
+        }
+    }
     
     var topicURL:String?
     
@@ -24,34 +43,87 @@ class TopicDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         //load data
-        let newTitle = topic?.sight
-        
-        showCommentCountButton.title = "\(topic?.commentCount ?? 0)条评论"
-        showCommentCountButton.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
-        if let topicid = topic?.topicid {
-            self.topicURL = AppIni.BaseUri + "/topic/detail/preview?id=\(topicid)"
-        }
+        loadTopic()
         
         //init webview
         webView.backgroundColor = UIColor.whiteColor()
         webView.scalesPageToFit = true
         webView.dataDetectorTypes = .All
         webView.scrollView.showsHorizontalScrollIndicator = false
-        
+        webView.scrollView.delegate = self
+        webView.scrollView.contentInset = UIEdgeInsetsMake(355, 0, 0, 0)
+        automaticallyAdjustsScrollViewInsets = false
+
         //load html
         loadWebURL()
     }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        var height = -(scrollView.contentOffset.y + 44)
+        if height < 44 {
+            height = 0
+        }
+        
+        topHeightConstraint.constant = height
+        
+        var alpha = abs(64/scrollView.contentOffset.y)
+        if scrollView.contentOffset.y > 44 {
+            alpha = 1.0
+        }
+        
+    }
+    
+    func loadTopic(){
+        if let topic = topic {
+            //navbar
+            self.navigationItem.title = topic.sight
+            
+            //toolbar
+            showCommentCountButton?.title = "\(topic.commentCount ?? 0)条评论"
+            showCommentCountButton?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
+            topicURL = AppIni.BaseUri + "/topic/detail/preview?id=\(topic.topicid)"
+        }
+    }
+    
+    // 即将显示的时候各个控制加载完毕，开始加载控制内容
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         //修改navigationbar
         refreshBar()
+        
+        iconView.sd_setImageWithURL(NSURL(string: topic!.imageUrl!))
+        
+        
+        for (var i: Int = 0; i < topic?.tags?.count; i++ ) {
+            
+            var tagsLabel: String = " " + (topic!.tags![i] as! String) as String + " "
+
+            if (i == 0){
+                label1.hidden = false
+                label1.text = tagsLabel
+                label1.sizeToFit()
+            } else if(i == 1){
+                label2.hidden = false
+                label2.text = tagsLabel
+                label2.sizeToFit()
+            } else if (i == 2){
+                label3.hidden = false
+                label3.text = tagsLabel
+                label3.sizeToFit()
+            } else if(i == 3){
+                label4.hidden = false
+                label4.text = tagsLabel
+                label4.sizeToFit()
+            }
+            
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         //还原navigationbar
-        if let masterView = self.parentViewController?.navigationController as? MasterViewController {
+        if let masterView = self.navigationController as? MasterViewController {
             masterView.refreshBar()
         }
         //还原statusbar
@@ -63,16 +135,18 @@ class TopicDetailViewController: UIViewController {
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         
         //设置navigationbar
-        self.parentViewController?.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
-        self.parentViewController?.navigationController?.navigationBar.tintColor = SceneColor.lightGray
-        self.parentViewController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
+        self.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
+        self.navigationController?.navigationBar.tintColor = SceneColor.lightGray
+        self.navigationController?.navigationBar.titleTextAttributes =
+            [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
     }
     
     func loadWebURL() {
         if let url = self.topicURL {
 //            println("loadURL=\(url)")
-            if let requestURL = NSURL(string: url) {
+            if let requestURL = NSURL(string: url + "&isapp=1") {
                 let request = NSURLRequest(URL: requestURL)
+                //URL: http://123.57.46.229:8301/topic/detail/preview?id=23&isapp=1
                 webView.loadRequest(request)
             }
         }

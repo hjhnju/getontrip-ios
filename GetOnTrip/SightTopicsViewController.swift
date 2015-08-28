@@ -74,6 +74,12 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     //MASK: View Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
+        
+        
+        
+        self.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
+        self.navigationController?.navigationBar.tintColor = SceneColor.lightGray
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "navigationChangeTitle", name: "navigationChangeTitle", object: nil)
         setupSearchAndCompositorItem()

@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-class TopicDetailListController: UITableViewController {
+class TopicDetailListController: UITableViewController, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     
     // 网络请求，加载数据
     var lastSuccessRequest: TopicRequest?
@@ -23,7 +23,10 @@ class TopicDetailListController: UITableViewController {
         super.viewDidLoad()
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.backgroundColor = UIColor.clearColor()
-        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
+
+        self.navigationItem.hidesBackButton = false
+        navigationController?.delegate = self
         refresh()
     }
     
@@ -58,19 +61,43 @@ class TopicDetailListController: UITableViewController {
         return cell
     }
     
+    var lastSuccessRequest1: TopicDetailRequest?
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-//        navigationController?.pushViewController(TopicDetailController(sightId: sightId!), animated: true)
-//        self.performSegueWithIdentifier("topicDetailWebView", sender: sightId)
+        loadData(nearTopics[indexPath.row].id)
     }
-//   segue.destinationViewController 
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        
-//        if segue.identifier == "topicDetailWebView" {
-//            var sightTopicsVC = segue.destinationViewController as! TopicDetailController
-//            sightTopicsVC.sightId = sightId!
-//        }
-//    }
     
+    private func loadData(id: Int) {
+        NSLog("notice:refreshing nearby data.")
+        
+        // 获取数据更新tableview
+//        if lastSuccessRequest1 == nil {
+//            lastSuccessRequest1 = TopicDetailRequest(topicId: id)
+//        }
+        
+        TopicDetailRequest(topicId: id).fetchModels { (handler: Topic) -> Void in
+            
+            let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController 
+            topicDetailViewController!.topic = handler
+            self.navigationController?.pushViewController(topicDetailViewController!, animated: true)
+        }
+        
+    }
+    
+    let customNavigationAnimationController = CustomNavigationAnimationController()
+    let customInteractionController = CustomInteractionController()
+    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if operation == .Push {
+            customInteractionController.attachToViewController(toVC)
+        }
+        customNavigationAnimationController.reverse = operation == .Pop
+        return customNavigationAnimationController
+    }
+    
+    func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return customInteractionController.transitionInProgress ? customInteractionController : nil
+    }
 }
