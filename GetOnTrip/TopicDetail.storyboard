@@ -41,7 +41,7 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a2I-hc-XeZ" userLabel="图片背景">
                                 <rect key="frame" x="0.0" y="44" width="600" height="311"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="S8F-5u-FUG">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="S8F-5u-FUG">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="267"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whiteHeart" translatesAutoresizingMaskIntoConstraints="NO" id="rSB-Aq-Y8w" userLabel="favicon">

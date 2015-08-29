@@ -26,10 +26,13 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
         tableView.backgroundColor = UIColor.clearColor()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
 
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
+//        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         
         navigationController?.delegate = self
-//        navigationController?.navigationBar.barTintColor = UIColor.orangeColor()
+        navigationController?.navigationBar.barTintColor = UIColor.orangeColor()
+//        println()
+        println(navigationController?.navigationBar)
+        
         
         
         refresh()
@@ -54,10 +57,10 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        super.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
-        super.navigationController?.navigationController?.navigationBar.tintColor = SceneColor.lightGray
-        super.navigationController?.navigationController?.navigationBar.titleTextAttributes =
-            [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
+//        super.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
+//        super.navigationController?.navigationController?.navigationBar.tintColor = SceneColor.lightGray
+//        super.navigationController?.navigationController?.navigationBar.titleTextAttributes =
+//            [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -75,9 +78,17 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        super.navigationController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
-        super.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.black
-        super.navigationController?.navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
+//        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
+//        println("调用了吗")
+//        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
+//        UINavigationBar.appearance().barTintColor = SceneColor.black
+//        UINavigationBar.appearance().tintColor = SceneColor.lightYellow
+//        super.navigationController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
+//        super.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.black
+//        super.navigationController?.navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
+//        self.navigationController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
+//        self.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.black
+//        self.navigationController?.navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -117,8 +128,7 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
             var topic = handler as Topic
             topic.sight = self.navigationController?.navigationItem.title
             topicDetailViewController!.topic = topic
-            topicDetailViewController?.refreshBar()
-            self.navigationController?.pushViewController(topicDetailViewController!, animated: true)
+            super.navigationController?.navigationController?.pushViewController(topicDetailViewController!, animated: true)
         }
         
     }

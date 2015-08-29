@@ -44,6 +44,8 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     // MARK: View Life Circle
     
     override func viewDidLoad() {
+        
+        
         //load data
         loadTopic()
         
@@ -93,6 +95,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     // 即将显示的时候各个控制加载完毕，开始加载控制内容
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         //修改navigationbar
         refreshBar()
         
@@ -100,8 +103,6 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         visits.text = "\(topic!.visits!)"
         favorites.text = "\(topic!.favorites!)"
         titleLabel.text = topic?.title
-//        navigationItem.title = topic?.title
-//        navigationItem.title = topic?.from
         
         for (var i: Int = 0; i < topic?.tags?.count; i++ ) {
             var tagsLabel: String = " " + (topic!.tags![i] as! String) as String + " "
@@ -125,6 +126,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         }
     }
     
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         //还原navigationbar
@@ -144,7 +146,10 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         self.navigationController?.navigationBar.tintColor = SceneColor.lightGray
         self.navigationController?.navigationBar.titleTextAttributes =
             [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
+        
     }
+    
+    
     
     func loadWebURL() {
         if let url = self.topicURL {
