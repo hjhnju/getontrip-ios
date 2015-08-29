@@ -131,11 +131,10 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                 if let smvc = self.navigationController?.parentViewController as? SlideMenuViewController {
                         smvc.sideViewController.bgImageUrl = self.nearSights[0].imageUrl
                 }
-            } else {
             }
             
-            
             self.refreshControl?.endRefreshing()
+            self.tableView.footer.resetNoMoreData()
             //结束定位
             //println("结束定位")
             self.locationManager.stopUpdatingLocation()

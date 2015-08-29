@@ -33,7 +33,7 @@ class DiscoveryFlowLayout: UICollectionViewFlowLayout {
     var frameMap = [NSIndexPath:CGRect]()
     
     override func prepareLayout() {
-        NSLog("DiscoveryFlowLayout.prepareLayout")
+        //NSLog("DiscoveryFlowLayout.prepareLayout")
         //base init
         self.scrollDirection         = UICollectionViewScrollDirection.Vertical
         self.minimumLineSpacing      = FlowLayoutContants.minLineSpacing

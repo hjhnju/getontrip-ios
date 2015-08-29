@@ -79,6 +79,7 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
                 self.collectionView!.reloadData()
             }
             self.collectionView?.header.endRefreshing()
+            self.collectionView?.footer.resetNoMoreData()
         }
     }
     
@@ -142,4 +143,24 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
         return CGSize(width: FlowLayoutContants.itemWidth, height: itemHeight)
     }
 
+    // MARK: UIScrollViewDelegate
+    
+    var yOffsetHis:CGFloat = 0
+    
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        yOffsetHis = scrollView.contentOffset.y
+    }
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        let gap = scrollView.contentOffset.y - yOffsetHis
+        let factor = fmin(1.0, fmax(gap / UIScreen.mainScreen().bounds.height, -1.0))
+        
+        for cell in self.collectionView!.visibleCells() {
+            if let collectionViewCell = cell as? DiscoveryCollectionViewCell {
+                //println("collectionViewCell.frame = \(collectionViewCell.frame)")
+                //println("scrolledViewCell.frame = \(collectionViewCell.scrolledImageUIView.frame)")
+                collectionViewCell.scrolledImageUIView.factor = factor
+            }
+        }
+    }
 }

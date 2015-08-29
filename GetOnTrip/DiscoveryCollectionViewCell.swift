@@ -13,7 +13,7 @@ class DiscoveryCollectionViewCell: UICollectionViewCell {
     var topic: Topic?
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var scrolledImageUIView: ScrolledImageUIView!
     @IBOutlet weak var locateLabel: UILabel!
     
     @IBOutlet weak var favoritesLabel: UILabel!
@@ -22,10 +22,6 @@ class DiscoveryCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         self.backgroundColor         = SceneColor.white
         locateLabel.textColor        = SceneColor.white
-        imageView.backgroundColor    = SceneColor.crystalWhite
-        imageView.contentMode        = UIViewContentMode.ScaleAspectFill
-        imageView.clipsToBounds      = true
-        imageView.layer.cornerRadius = 3
         self.layer.cornerRadius      = 3
     }
     
@@ -33,7 +29,7 @@ class DiscoveryCollectionViewCell: UICollectionViewCell {
         self.titleLabel.text = topic.title
         if let imageUrl = topic.imageUrl {
             if let url = NSURL(string: imageUrl) {
-                self.imageView.sd_setImageWithURL(url, placeholderImage: UIImage(named: "default-topic"))
+                self.scrolledImageUIView.loadImage(url)
             }
         }
         let city = topic.city ?? ""
