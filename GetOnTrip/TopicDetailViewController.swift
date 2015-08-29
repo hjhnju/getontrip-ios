@@ -11,8 +11,7 @@ import SDWebImage
 
 class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
     
-    // MARK: Outlets and Properties
-
+    // MARK: 相关属性
     @IBOutlet weak var topHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var iconView: UIImageView!
     @IBOutlet weak var webView: UIWebView!
@@ -33,16 +32,9 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     @IBOutlet weak var label4: UILabel!
     
-    var topic:Topic? {
-        didSet {
-            loadTopic()
-        }
-    }
-    
     var topicURL:String?
     
-    // MARK: View Life Circle
-    
+    // MARK: 初始化相关
     override func viewDidLoad() {
         
         
@@ -62,34 +54,6 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         
         //load html
         loadWebURL()
-    }
-    
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        var height = -(scrollView.contentOffset.y + 44)
-        if height < 44 {
-            height = 0
-        }
-        
-        topHeightConstraint.constant = height
-        
-        var alpha = abs(64/scrollView.contentOffset.y)
-        if scrollView.contentOffset.y > 44 {
-            alpha = 1.0
-        }
-        
-    }
-    
-    func loadTopic(){
-        if let topic = topic {
-            //navbar
-            self.navigationItem.title = topic.sight
-            //toolbar
-            showCommentCountButton?.title = "\(topic.commentCount ?? 0)条评论"
-            showCommentCountButton?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
-            topicURL = AppIniOnline.BaseUri + "/topic/detail?id=\(topic.topicid)"
-        }
     }
     
     // 即将显示的时候各个控制加载完毕，开始加载控制内容
@@ -149,22 +113,37 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         
     }
     
+    // MARK: 赋值后设置各项属性
+    var topic:Topic? {
+        didSet {
+            loadTopic()
+        }
+    }
+    
+    
+    func loadTopic(){
+        if let topic = topic {
+            //navbar
+            self.navigationItem.title = topic.sight
+            //toolbar
+            showCommentCountButton?.title = "\(topic.commentCount ?? 0)条评论"
+            showCommentCountButton?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
+            topicURL = AppIniOnline.BaseUri + "/topic/detail?id=\(topic.topicid)"
+        }
+    }
     
     
     func loadWebURL() {
         if let url = self.topicURL {
-//            println("loadURL=\(url)")
             if let requestURL = NSURL(string: url + "&isapp=1") {
                 let request = NSURLRequest(URL: requestURL)
-                //URL: http://123.57.46.229:8301/topic/detail/preview?id=23&isapp=1
                 webView.loadRequest(request)
             }
         }
     }
     
     
-    // MARK: UIWebViewDelegate
-    
+    // MARK: UIWebView and UIScrollView Delegate 代理方法
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         
         let localizedErrorMessage = NSLocalizedString("An error occured:", comment: "")
@@ -172,6 +151,20 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">\(localizedErrorMessage) \(error.localizedDescription)</div></body></html>"
         
         webView.loadHTMLString(errorHTML, baseURL: nil)
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let navigationBarHeight: CGFloat = 44
+        var height = -(scrollView.contentOffset.y + navigationBarHeight)
+        if height < navigationBarHeight {
+            height = 0
+        }
+        
+        topHeightConstraint.constant = height
+//        var alpha = abs(64/scrollView.contentOffset.y)
+//        if scrollView.contentOffset.y > navigationBarHeight {
+//            alpha = 1.0
+//        }
     }
     
     // TODO: 以截取Range方式进行应用间跳转，如果不是我方协议就跳转，但以后需改

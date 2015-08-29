@@ -38,7 +38,7 @@
                                     </mask>
                                 </variation>
                             </webView>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a2I-hc-XeZ" userLabel="图片背景">
+                            <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a2I-hc-XeZ" userLabel="图片背景">
                                 <rect key="frame" x="0.0" y="44" width="600" height="311"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="S8F-5u-FUG">
