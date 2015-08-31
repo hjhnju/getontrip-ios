@@ -100,9 +100,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//        self.navigationController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
-//        self.navigationController?.navigationBar.barTintColor = SceneColor.black
-//        self.navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
+
     }
     
     // 排序
