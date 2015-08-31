@@ -18,7 +18,6 @@ class CyclopaedicViewController: UITableViewController {
     
     var nearCyclopaedic = [Cyclopaedic]()
     
-    var cellIdentifier: String?
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -39,11 +38,11 @@ class CyclopaedicViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        cellIdentifier = cellIdentifier == nil ? "CyclopaedicRightCell" : "CyclopaedicLeftCell"
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier!, forIndexPath: indexPath) as! CyclopaedicCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("CyclopaedicLeftCell", forIndexPath: indexPath) as! CyclopaedicCell
         
         if indexPath.row == 0 {
-            cell = tableView.dequeueReusableCellWithIdentifier("CyclopaedicRightCell", forIndexPath: indexPath) as! CyclopaedicCell
+            cell.removeFromSuperview()
+            cell = tableView.dequeueReusableCellWithIdentifier("CyclopaedicRightCell") as! CyclopaedicCell
         }
         cell.cyclopaedicModel = nearCyclopaedic[indexPath.row]
         cell.backgroundColor = UIColor.clearColor()
