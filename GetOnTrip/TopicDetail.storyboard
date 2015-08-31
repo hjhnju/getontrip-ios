@@ -207,7 +207,6 @@
                                     <barButtonItem width="18" style="plain" systemItem="fixedSpace" id="XrZ-jD-YhY"/>
                                     <barButtonItem image="comment" id="zvC-FF-TRT" userLabel="comment">
                                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="-10" maxY="0.0"/>
-=======
                                         <exclude reference="cqS-2r-3hW"/>
                                         <exclude reference="j5b-C7-HtY"/>
                                         <exclude reference="cj6-rI-TwC"/>
@@ -272,7 +271,6 @@
                         <outlet property="titleLabel" destination="OAN-8K-aRT" id="Jam-FX-v0R"/>
                         <outlet property="topHeightConstraint" destination="Rgx-Br-h4o" id="Xef-9L-2Cg"/>
                         <outlet property="visits" destination="Vjn-1u-w7p" id="iFG-cq-Xlf"/>
-=======
                             <constraint firstItem="EOW-HY-dOc" firstAttribute="leading" secondItem="Krd-5E-zCZ" secondAttribute="leading" id="3c3-fo-ibV"/>
                             <constraint firstItem="EOW-HY-dOc" firstAttribute="top" secondItem="fTx-LP-noJ" secondAttribute="top" id="Jog-wR-LdD"/>
                             <constraint firstItem="EOW-HY-dOc" firstAttribute="trailing" secondItem="Krd-5E-zCZ" secondAttribute="trailing" id="Jtg-jP-QLa"/>
@@ -286,7 +284,6 @@
                     <navigationItem key="navigationItem" id="EAZ-Du-dCD"/>
                     <connections>
                         <outlet property="showCommentCountButton" destination="sBB-Yf-yzT" id="KmV-Ka-D5b"/>
->>>>>>> hjhnju/master
                         <outlet property="webView" destination="EOW-HY-dOc" id="qXO-Lm-BsR"/>
                     </connections>
                 </viewController>
