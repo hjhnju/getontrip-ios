@@ -45,6 +45,9 @@ class Topic :Printable{
     var distance:String?
     
     var commentCount:Int?
+    
+    // 标签
+    var tags: NSArray?
 
     init(topicid:Int, title: String, subtitle: String){
         self.topicid = topicid

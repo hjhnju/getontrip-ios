@@ -45,13 +45,13 @@ class TopicRequest: NSObject {
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
         post["sight"]    = String(self.sightId)
-        
-        // 发送网络请求加载数据
+        println(self.sightId)
+        // 发送网络请求加载数据 http://123.57.67.165:8301/api/topic/list?sight=4
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/topic/list",
             post: post,
             handler: {(respData: JSON) -> Void in
-                
+
                 var topicDetails = [TopicDetails]()
                 for item in respData.arrayValue {
                     // 转换话题详情元素

@@ -50,7 +50,7 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
         
         //NSLog("DiscoveryCollectionViewController.viewDidLoad")
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         //NSLog("DiscoveryCollectionViewController.viewWillAppear:frame=\(self.collectionView?.frame)")
     }
@@ -69,6 +69,7 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
     func refresh() {
         //下拉刷新 self.collectionView!.header.isRefreshing()的状态不变化，没什么卵用
         self.collectionView?.header.beginRefreshing()
+
         if self.lastRequest == nil {
             self.lastRequest = DiscoveryRequest()
         }
@@ -134,6 +135,7 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+
         var itemHeight:CGFloat = 217
         let mod = indexPath.item % 6
         if  mod == 2 || mod == 4 {

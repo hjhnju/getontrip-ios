@@ -13,6 +13,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     var sightId: UIButton?
     
+    
     @IBOutlet weak var toolbar: UIToolbar!
     
     var selectedItem:UIButton?
@@ -30,7 +31,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    var searchController: UISearchController!
     // 百科底图
     lazy var view1: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
@@ -58,7 +58,7 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     
     // 排序按钮
     lazy var searchItem: UIBarButtonItem = {
-        var item = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked")
+        var item = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         return item
     }()
     
@@ -74,11 +74,18 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     //MASK: View Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
+        
+
+        
+        self.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
+        self.navigationController?.navigationBar.tintColor = SceneColor.lightGray
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "navigationChangeTitle", name: "navigationChangeTitle", object: nil)
         setupSearchAndCompositorItem()
         setupDefaultSightTopic()
         setupChildControllerProperty()
+
     }
     
     deinit {
@@ -89,6 +96,11 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     // 导航栏设置
     func setupSearchAndCompositorItem() {
         navigationController?.navigationItem.rightBarButtonItems = [searchItem, compositorItem]
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
     }
     
     // 排序
@@ -115,9 +127,15 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // 搜索
-    func searchButtonClicked() {
-        
-
+    func searchButtonClicked(button: UIBarButtonItem) {
+        // 获得父控制器
+        var pare = self.parentViewController?.parentViewController as! MasterViewController
+        // 找到MainViewController并调用搜索方法
+        for vc in pare.viewControllers {
+            if vc.isKindOfClass(MainViewController) {
+                vc.searchButtonClicked(button)
+            }
+        }
     }
     
     // 加载默认的选中状态为话题按钮
@@ -199,6 +217,12 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         recordButtonStatus?.backgroundColor = UIColor.clearColor()
         recordButtonStatus?.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         recordButtonStatus?.selected = false
+        
+        compositorItem.customView?.hidden = true
+        
+        if sender.currentTitle == "话题" {
+            compositorItem.customView?.hidden = false
+        }
         
         if !sender.selected {
             sender.selected = true

@@ -164,7 +164,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="search" id="gQ5-nZ-CJS" userLabel="search">
                             <connections>
-                                <action selector="searchButtonClicked:" destination="5UJ-qb-tQW" id="Y7y-SM-YCi"/>
+                                <action selector="searchButtonClicked:" destination="5UJ-qb-tQW" id="ocu-OP-h4E"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
