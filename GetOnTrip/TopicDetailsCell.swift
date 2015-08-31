@@ -36,7 +36,7 @@ class TopicDetailsCell: UITableViewCell {
     // 加载数据
     var topicModel: TopicDetails? {
         didSet {
-            
+
             var imageURL = NSURL(string: AppIniOnline.BaseUri + (topicModel!.image))
             self.iconImage?.sd_setImageWithURL(imageURL)
             self.title.text = topicModel!.title
@@ -53,8 +53,10 @@ class TopicDetailsCell: UITableViewCell {
             self.collect.userInteractionEnabled = false
             self.imageView?.contentMode = UIViewContentMode.ScaleToFill
             
-            // TODO:  添加标签（有问题，为什么后面要+那么多的空格，而前面不用加）
+            // TODO:  添加标签
+            
             for (var i: NSInteger = 0; i < topicModel?.tags.count; i++ ) {
+                
                 var tagsLabel = "" + (topicModel!.tags[i] as! String) as String + "    "
                 if (i == 0){
                     label1.hidden = false
