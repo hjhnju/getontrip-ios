@@ -175,7 +175,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         var range = Range<String.Index>(start: url!.startIndex, end: index)
                                              // 01
         println(url?.substringWithRange(range))
-        if url?.substringWithRange(range) == "http://123.57.67.165" {
+        if url?.substringWithRange(range) == "http://123.57.46.229" {
             return true
         }
         
