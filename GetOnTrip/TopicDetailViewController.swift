@@ -159,10 +159,6 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         }
         
         topHeightConstraint.constant = height
-//        var alpha = abs(64/scrollView.contentOffset.y)
-//        if scrollView.contentOffset.y > navigationBarHeight {
-//            alpha = 1.0
-//        }
     }
     
     // TODO: 以截取Range方式进行应用间跳转，如果不是我方协议就跳转，但以后需改
@@ -193,6 +189,24 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         println("doSharing")
     }
     @IBAction func doComment(sender: UIBarButtonItem) {
-        println("doComment")
+        
+        let sendPopoverAnimator = SendPopoverAnimator()
+        let story1 = UIStoryboard(name: "TopicDetail", bundle: nil)
+        let vc = story1.instantiateViewControllerWithIdentifier("sendComment") as! SendCommentController
+//        let vc = SendCommentController()
+        
+        // 1. 设置`转场 transitioning`代理
+        vc.transitioningDelegate = sendPopoverAnimator
+        // 2. 设置视图的展现大小
+        let h: CGFloat = 444
+        let w: CGFloat = UIScreen.mainScreen().bounds.width
+        let y: CGFloat = UIScreen.mainScreen().bounds.height - 44 - h
+        sendPopoverAnimator.presentFrame = CGRectMake(0, y, w, h)
+//        sendPopoverAnimator.presentFrame = CGRectMake(100, 100, 100, 100)
+        vc.view.clipsToBounds = true
+        // 3. 设置专场的模式 - 自定义转场动画
+        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+        
+        presentViewController(vc, animated: true, completion: nil)
     }
 }

@@ -249,7 +249,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         if (xOffset < 1.0) {
             selectedItem = item1
             compositorItem.customView?.hidden = true
-//                self.navigationItem.xxxItem.customView.hidden
             selectItem(item1)
         } else if (xOffset < containView.bounds.width + 1) {
             selectedItem = item2

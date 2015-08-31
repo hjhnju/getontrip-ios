@@ -69,7 +69,5 @@ class CompositorController: UIViewController {
         baselineCenter1.frame = CGRectMake(x, 50, screen.width - x * 2, 0.5)
         baselineCenter2.frame = CGRectMake(x, 100, screen.width - x * 2, 0.5)
         baselineBottom.frame = CGRectMake(0, 150, screen.width, 0.5)
-        
     }
-
 }

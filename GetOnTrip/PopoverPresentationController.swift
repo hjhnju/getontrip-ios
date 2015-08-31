@@ -16,7 +16,7 @@ class PopoverPresentationController: UIPresentationController {
     // 遮罩视图
     lazy var dummyView: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor(white: 0.0, alpha: 0.2)
+        v.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
         
         let tap = UITapGestureRecognizer(target: self, action: "close")
         v.addGestureRecognizer(tap)
