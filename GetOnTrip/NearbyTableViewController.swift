@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import MJRefresh
 
 class NearbyTableViewController: UITableViewController, CLLocationManagerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     
@@ -20,8 +21,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     var activity: UIActivityIndicatorView!
     
     var activityLabel: UILabel!
-    
-    var scrollLock:Bool = false
     
     var locationManager: CLLocationManager!
     
@@ -42,6 +41,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         }
     }
     
+    //是否正在加载更多
+    var isLoadingMore = false
+    
     //Animations
     let customNavigationAnimationController = CustomNavigationAnimationController()
     let customInteractionController = CustomInteractionController()
@@ -59,21 +61,18 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         tableView.separatorColor      = UIColor.grayColor()
         tableView.backgroundColor     = SceneColor.lightBlack
         
-        //创建footerView, 上拉加载
-        var tableFooterView:UIView      = UIView()
-        tableFooterView.frame           = CGRectMake(0, 0, tableView.bounds.size.width, 60)
-        tableFooterView.backgroundColor = UIColor.clearColor()
-        self.tableView.tableFooterView  = tableFooterView
-        activity       = UIActivityIndicatorView(activityIndicatorStyle: .White)
-        activity.frame = CGRectMake(0, 0, tableView.bounds.size.width, 44)
-        activityLabel = UILabel()
-        activityLabel.frame = CGRectMake(0, 44, tableView.bounds.size.width, 10)
-        activityLabel.font  = UIFont(name: SceneFont.heiti, size: 10)
-        activityLabel.baselineAdjustment = UIBaselineAdjustment.AlignCenters
-        activityLabel.textAlignment = NSTextAlignment.Center
-        activityLabel.textColor = SceneColor.lightGray
-        tableFooterView.addSubview(activity)
-        tableFooterView.addSubview(activityLabel)
+        //下拉刷新样式
+        refreshControl?.tintColor = SceneColor.lightGray
+        
+        //上拉刷新
+        let footerView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
+        footerView.automaticallyRefresh                = true
+        footerView.appearencePercentTriggerAutoRefresh = -3
+        footerView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        footerView.stateLabel.font            = UIFont(name: SceneFont.heiti, size: 12)
+        footerView.stateLabel.textColor       = SceneColor.lightGray
+        
+        self.tableView.footer = footerView
         
         //初始化定位服务
         self.locationManager = CLLocationManager()
@@ -124,7 +123,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                 var formatter = NSDateFormatter()
                 formatter.dateFormat = "yyyy-MM-dd HH:mm"
                 var dateString = formatter.stringFromDate(NSDate())
-                let message = "最近更新时间:\(dateString)"
+                let message = "最后更新:\(dateString)"
                 
                 self.refreshControl?.attributedTitle = NSAttributedString(string: message, attributes: [NSForegroundColorAttributeName:SceneColor.lightGray])
                 
@@ -133,7 +132,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                         smvc.sideViewController.bgImageUrl = self.nearSights[0].imageUrl
                 }
             } else {
-                self.activityLabel.text = "无法获取附近内容，请检查您的网络"
             }
             
             
@@ -146,24 +144,20 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     //底部加载更多
     func loadMore(){
-        if scrollLock == true {
+        if self.isLoadingMore {
             return
         }
-        
-        scrollLock = true
-        
-        //self.activityLabel.text = "正在加载更多内容"
-        //activity.startAnimating()
+        self.isLoadingMore      = true
+        //请求下一页
         self.lastSuccessRequest?.fetchNextPageModels { (sights:[Sight]) -> Void in
             if sights.count > 0 {
                 self.nearSights = self.nearSights + sights
                 self.tableView.reloadData()
-                self.activityLabel.text = ""
+                self.tableView.footer.endRefreshing()
             } else {
-                self.activityLabel.text = "附近没有更多内容啦"
+                self.tableView.footer.noticeNoMoreData()
             }
-        //self.activity.stopAnimating()
-            self.scrollLock = false
+            self.isLoadingMore = false
         }
     }
     
@@ -182,36 +176,16 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         // Configure the cell...
         let sight = nearSights[indexPath.section]
-        
-        cell.topicImageUrl = sight.topics[indexPath.row].imageUrl
-        cell.subtitle = sight.topics[indexPath.row].subtitle
-        cell.title = sight.topics[indexPath.row].title
-        cell.favorites = sight.topics[indexPath.row].favorites
-        cell.desc = sight.topics[indexPath.row].desc
-        cell.visits = sight.topics[indexPath.row].visits
-        cell.backgroundColor = UIColor.clearColor()
-        
-        // 遍历正在显示的cell如果是最后一行，自行加载数据
-        for tmpcell in tableView.visibleCells() {
-            if (tmpcell as! NearbyTableViewCell != cell) {
-                loadMore()
-            }
-        }
+        cell.updateCell(sight.topics[indexPath.row])
         
         return cell
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerViewCell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.NearbyHeaderViewID) as! SightHeaderView
-        headerViewCell.sightName = nearSights[section].name
-        headerViewCell.sightImageUrl = nearSights[section].imageUrl
-        headerViewCell.distanceValue = nearSights[section].distance
-        headerViewCell.cityValue = nearSights[section].city
-        headerViewCell.descValue = nearSights[section].desc
-        headerViewCell.backgroundColor = UIColor.clearColor()
-        headerViewCell.sightId.tag = nearSights[section].sightid
-        headerViewCell.sightId.setTitle(nearSights[section].name, forState: UIControlState.Normal)
+        let headerViewCell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.NearbyHeaderViewID) as! SightHeaderViewCell
+        
+        headerViewCell.updateCell(nearSights[section])
 
         return headerViewCell
     }
@@ -223,11 +197,6 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         return footerView
     }
     
-    
-    
-    /*
-     * 更改追加内容位置
-     */
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         
         //解决：去掉UItableview headerview黏性(sticky)
@@ -237,14 +206,8 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         } else if offSet.y >= tableView.sectionHeaderHeight {
             scrollView.contentInset = UIEdgeInsetsMake(-tableView.sectionHeaderHeight, 0, 0, 0);
         }
-        
-//        如果滚动到最底部，那么需要追加内容
-//        let yOffSet = scrollView.contentSize.height - scrollView.frame.size.height
-//        if yOffSet > 0 && offSet.y > yOffSet {
-//            loadMore()
-//        }
+
     }
-    
     
     //处理列表项的选中事件
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -255,7 +218,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         //使用另一个storyboard
         if let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController {
             topicDetailViewController.topic = topic
-            navigationController?.pushViewController(topicDetailViewController, animated: true)
+            self.navigationController?.pushViewController(topicDetailViewController, animated: true)
         }
         
     }

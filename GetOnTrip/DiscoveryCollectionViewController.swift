@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MJRefresh
 
 class DiscoveryCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -15,35 +16,41 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
     var topics = [Topic]()
 
     var lastRequest: DiscoveryRequest?
+    
+    var isLoadingMore:Bool = false
+    
+    // MARK: View Life Circle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Storyboard已完成，不能再Register cell classes here
-        //self.collectionView!.registerClass(DiscoveryCollectionViewCell.self, forCellWithReuseIdentifier: StoryBoardIdentifier.DiscoveryViewCellID)
-        
         self.collectionView!.backgroundColor = SceneColor.gray
+        
+        //下拉刷新
+        let headerView = MJRefreshNormalHeader(refreshingBlock: refresh)
+        headerView.stateLabel.font                = UIFont(name: SceneFont.heiti, size: 12)
+        headerView.lastUpdatedTimeLabel.font      = UIFont(name: SceneFont.heiti, size: 11)
+        headerView.stateLabel.textColor           = SceneColor.lightGray
+        headerView.lastUpdatedTimeLabel.textColor = SceneColor.lightGray
+        headerView.activityIndicatorViewStyle     = UIActivityIndicatorViewStyle.White
+        
+        self.collectionView?.header          = headerView
+        
+        //上拉刷新
+        let footerView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
+        footerView.automaticallyRefresh                = true
+        footerView.appearencePercentTriggerAutoRefresh = -3
+        footerView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        footerView.stateLabel.font            = UIFont(name: SceneFont.heiti, size: 12)
+        footerView.stateLabel.textColor       = SceneColor.lightGray
+        
+        self.collectionView?.footer = footerView
         
         refresh()
         
         //NSLog("DiscoveryCollectionViewController.viewDidLoad")
     }
-    
-    func refresh() {
-        //下拉刷新
-        if self.lastRequest == nil {
-            self.lastRequest = DiscoveryRequest()
-        }
-        lastRequest?.fetchFirstPageModels {
-            (topics:[Topic]) -> Void in
-            if topics.count > 0 {
-                self.topics = topics
-                self.collectionView!.reloadData()
-            }
-            return
-        }
-    }
-    
+
     override func viewWillAppear(animated: Bool) {
         //NSLog("DiscoveryCollectionViewController.viewWillAppear:frame=\(self.collectionView?.frame)")
     }
@@ -55,6 +62,43 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: Custom functions
+
+    func refresh() {
+        //下拉刷新 self.collectionView!.header.isRefreshing()的状态不变化，没什么卵用
+        self.collectionView?.header.beginRefreshing()
+
+        if self.lastRequest == nil {
+            self.lastRequest = DiscoveryRequest()
+        }
+        lastRequest?.fetchFirstPageModels {
+            (topics:[Topic]) -> Void in
+            if topics.count > 0 {
+                self.topics = topics
+                self.collectionView!.reloadData()
+            }
+            self.collectionView?.header.endRefreshing()
+        }
+    }
+    
+    func loadMore(){
+        if self.isLoadingMore {
+            return
+        }
+        self.isLoadingMore = true
+        //请求下一页
+        self.lastRequest?.fetchNextPageModels { (topics:[Topic]) -> Void in
+            if topics.count > 0 {
+                self.topics = self.topics + topics
+                self.collectionView?.reloadData()
+                self.collectionView?.footer.endRefreshing()
+            } else {
+                self.collectionView?.footer.noticeNoMoreData()
+            }
+            self.isLoadingMore = false
+        }
     }
 
     // MARK: UICollectionViewDataSource
@@ -90,11 +134,14 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        var itemHeight = 166
-        if indexPath.item % 3 == 0 {
-            itemHeight = 220
+
+        var itemHeight:CGFloat = 217
+        let mod = indexPath.item % 6
+        if  mod == 2 || mod == 4 {
+            itemHeight = 257
         }
         //NSLog("DiscoveryCollectionViewController.sizeForItemAtIndexPath:\(indexPath.section)-\(indexPath.row), item.size=\(FlowLayoutContants.itemWidth):\(itemHeight)")
-        return CGSize(width: FlowLayoutContants.itemWidth, height: CGFloat(itemHeight))
+        return CGSize(width: FlowLayoutContants.itemWidth, height: itemHeight)
     }
+
 }

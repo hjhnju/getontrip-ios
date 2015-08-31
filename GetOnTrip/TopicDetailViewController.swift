@@ -17,6 +17,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var showCommentCountButton: UIBarButtonItem!
     
+<<<<<<< HEAD
     // 标题
     @IBOutlet weak var titleLabel: UILabel!
     // 收藏
@@ -25,6 +26,13 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     @IBOutlet weak var favorites: UILabel!
     // 标签
     @IBOutlet weak var label1: UILabel!
+=======
+    var topic:Topic? {
+        didSet {
+            loadTopic()
+        }
+    }
+>>>>>>> hjhnju/master
     
     @IBOutlet weak var label2: UILabel!
     
@@ -36,8 +44,11 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     // MARK: 初始化相关
     override func viewDidLoad() {
+<<<<<<< HEAD
         
         
+=======
+>>>>>>> hjhnju/master
         //load data
         loadTopic()
         
@@ -56,7 +67,22 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         loadWebURL()
     }
     
+<<<<<<< HEAD
     // 即将显示的时候各个控制加载完毕，开始加载控制内容
+=======
+    func loadTopic(){
+        if let topic = topic {
+            //navbar
+            self.navigationItem.title = topic.sight
+            
+            //toolbar
+            showCommentCountButton?.title = "\(topic.commentCount ?? 0)条评论"
+            showCommentCountButton?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
+            topicURL = AppIni.BaseUri + "/topic/detail/preview?id=\(topic.topicid)"
+        }
+    }
+    
+>>>>>>> hjhnju/master
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -110,7 +136,10 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         self.navigationController?.navigationBar.tintColor = SceneColor.lightGray
         self.navigationController?.navigationBar.titleTextAttributes =
             [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
+<<<<<<< HEAD
         
+=======
+>>>>>>> hjhnju/master
     }
     
     // MARK: 赋值后设置各项属性

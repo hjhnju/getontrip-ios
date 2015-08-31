@@ -43,11 +43,14 @@ class DiscoveryFlowLayout: UICollectionViewFlowLayout {
         //delegate
         self.delegate = self.collectionView?.delegate as? UICollectionViewDelegateFlowLayout
         
-        colums = [CGFloat]()
+        self.colums = [CGFloat]()
         var yOffset: CGFloat = 0
         for i in 0..<FlowLayoutContants.columCount {
-            colums.append(yOffset)
+            self.colums.append(yOffset)
         }
+        
+        self.indexMap.removeAll(keepCapacity: false)
+        self.frameMap.removeAll(keepCapacity: false)
         
         let itemCount = self.collectionView?.numberOfItemsInSection(0) ?? 0
         for i in 0..<itemCount {
