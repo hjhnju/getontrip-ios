@@ -207,37 +207,16 @@
                                     <barButtonItem width="18" style="plain" systemItem="fixedSpace" id="XrZ-jD-YhY"/>
                                     <barButtonItem image="comment" id="zvC-FF-TRT" userLabel="comment">
                                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="-10" maxY="0.0"/>
-=======
-                                        <exclude reference="cqS-2r-3hW"/>
-                                        <exclude reference="j5b-C7-HtY"/>
-                                        <exclude reference="cj6-rI-TwC"/>
-                                        <exclude reference="crM-S2-cHp"/>
-                                        <exclude reference="49Q-iG-hBy"/>
-                                    </mask>
-                                </variation>
-                            </webView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Krd-5E-zCZ">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem title="Item" id="sBB-Yf-yzT" userLabel="showCommentCount">
-                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="jzj-QL-Eqq"/>
-                                    <barButtonItem image="favorite" id="Dk2-3a-oh0" userLabel="favorite">
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <action selector="doFavorite:" destination="dCM-oq-WNU" id="nlj-QQ-OBy"/>
+                                            <action selector="doComment:" destination="dCM-oq-WNU" id="eWH-3P-znw"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="28" style="plain" systemItem="fixedSpace" id="wtV-Vi-wnx"/>
-                                    <barButtonItem image="share" id="p4D-9A-NCp" userLabel="share">
-                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="doSharing:" destination="dCM-oq-WNU" id="4aB-qE-HuO"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem width="28" style="plain" systemItem="fixedSpace" id="ggU-nj-Gjx"/>
-                                    <barButtonItem image="comment" id="zvC-FF-TRT" userLabel="comment">
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
                             <constraint firstItem="Krd-5E-zCZ" firstAttribute="leading" secondItem="fTx-LP-noJ" secondAttribute="leading" id="59d-VO-bgI"/>
                             <constraint firstItem="a2I-hc-XeZ" firstAttribute="leading" secondItem="fTx-LP-noJ" secondAttribute="leading" id="HS1-kD-HDd"/>
                             <constraint firstItem="Krd-5E-zCZ" firstAttribute="top" secondItem="EOW-HY-dOc" secondAttribute="bottom" id="KL8-Rn-hzq"/>
@@ -272,21 +251,6 @@
                         <outlet property="titleLabel" destination="OAN-8K-aRT" id="Jam-FX-v0R"/>
                         <outlet property="topHeightConstraint" destination="Rgx-Br-h4o" id="Xef-9L-2Cg"/>
                         <outlet property="visits" destination="Vjn-1u-w7p" id="iFG-cq-Xlf"/>
-=======
-                            <constraint firstItem="EOW-HY-dOc" firstAttribute="leading" secondItem="Krd-5E-zCZ" secondAttribute="leading" id="3c3-fo-ibV"/>
-                            <constraint firstItem="EOW-HY-dOc" firstAttribute="top" secondItem="fTx-LP-noJ" secondAttribute="top" id="Jog-wR-LdD"/>
-                            <constraint firstItem="EOW-HY-dOc" firstAttribute="trailing" secondItem="Krd-5E-zCZ" secondAttribute="trailing" id="Jtg-jP-QLa"/>
-                            <constraint firstItem="EOW-HY-dOc" firstAttribute="bottom" secondItem="P4t-2o-T9s" secondAttribute="top" id="lAC-xG-4Ny"/>
-                            <constraint firstItem="P4t-2o-T9s" firstAttribute="top" secondItem="Krd-5E-zCZ" secondAttribute="bottom" id="tI6-1b-nRT"/>
-                            <constraint firstItem="EOW-HY-dOc" firstAttribute="leading" secondItem="fTx-LP-noJ" secondAttribute="leading" id="trb-YG-03T"/>
-                            <constraint firstAttribute="trailing" secondItem="EOW-HY-dOc" secondAttribute="trailing" id="yQM-TP-N3U"/>
-                        </constraints>
-                    </view>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="EAZ-Du-dCD"/>
-                    <connections>
-                        <outlet property="showCommentCountButton" destination="sBB-Yf-yzT" id="KmV-Ka-D5b"/>
->>>>>>> hjhnju/master
                         <outlet property="webView" destination="EOW-HY-dOc" id="qXO-Lm-BsR"/>
                     </connections>
                 </viewController>
