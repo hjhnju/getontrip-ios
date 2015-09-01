@@ -22,6 +22,8 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
     
     var sightId: Int?
     
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
     var nearSendComment = [SendComment]()
     
     
@@ -31,6 +33,48 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
         tableView.dataSource = self
         tableView.delegate = self
         refresh()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    func keyboardChanged(notification: NSNotification) {
+        
+        var duration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
+        
+        var rect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]!.CGRectValue
+        
+        
+//        bottomConstraint.constant = UIScreen.mainScreen().bounds.height - rect.origin.y
+        
+//        bottomConstraint.constant = UIScreen.mainScreen().bounds.height - rect.origin.y
+        
+//        self.bottomConstraint.constant = [UIScreen mainScreen].bounds.size.height - r.origin.y;
+//        
+//        [UIView animateWithDuration:duration animations:^{
+//        [self.view layoutIfNeeded];
+//        } completion:^(BOOL finished) {
+//        [self scrollToBottom];
+//        }];
+        
+//        let rect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]!.CGRectValue
+//        // 键盘动画时长
+//        var duration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
+//        
+//        duration = localKeyboardFlag ? 0 : duration
+//        localKeyboardFlag = false
+//        
+//        // 2. 设置键盘高度
+//        toolBarBottomCons?.constant = -(view.bounds.height - rect.origin.y)
+//        
+//        // 3. 动画
+//        UIView.animateWithDuration(duration) {
+//            self.view.layoutIfNeeded()
+//        }
+
+        
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // MARK: 加载更新数据
@@ -56,19 +100,20 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("SendComment_Cell", forIndexPath: indexPath) as! SendCommentCell
-        cell.sendCommentModel = nearSendComment[indexPath.row]
+        var cell = reuseableCellWithIndexPath(indexPath)
         
         return cell
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var cell = reuseableCellWithIndexPath(indexPath)
-        return cell.rowHeight("asdfkhalsdkjflasjdfhlashdlajsd;lkajshdluhifaw")
+        return cell.rowHeight!
     }
     
     func reuseableCellWithIndexPath(indexPath: NSIndexPath) -> SendCommentCell {
         
-        return tableView.dequeueReusableCellWithIdentifier("SendComment_Cell") as! SendCommentCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("SendComment_Cell") as! SendCommentCell
+        cell.sendCommentModel = nearSendComment[indexPath.row]
+        return cell
     }
 }

@@ -26,7 +26,10 @@ class SendPresentationController: UIPresentationController {
     
     ///  关闭展现视图控制器
     func close() {
-        presentedViewController.dismissViewControllerAnimated(true, completion: nil)
+        if !presentedViewController.isBeingPresented(){
+            
+            presentedViewController.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     ///  容器视图将要重新布局子视图

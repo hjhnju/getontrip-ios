@@ -21,6 +21,7 @@ class SendCommentCell: UITableViewCell {
     // 对话内容
     @IBOutlet weak var dialogContent: UILabel!
     
+    var rowHeight: CGFloat?
     var sendCommentModel: SendComment? {
         didSet {
             
@@ -29,21 +30,18 @@ class SendCommentCell: UITableViewCell {
             content.text = sendCommentModel?.content
             create_tiem.text = sendCommentModel?.create_time
             
-            let array = sendCommentModel?.subComment!
+            for subComment in sendCommentModel!.subComment {
+                
+            }
+            
             var text: String = ""
-            for it in array! {
-                var sendSub = it as! SendComment_SubComment
-                text.append(sendSub.from_name? + ":" + sendSub.content? + "\n" + sendSub.to_name? + "回复") as! String
+            for subComment in sendCommentModel!.subComment {
+                text += (subComment.from_name! + ":" + subComment.content! + "\n" + subComment.to_name! + "回复")
             }
             dialogContent.text = text
+            
+            rowHeight = CGRectGetMaxY(dialogContent.frame) + CGFloat(23)
         }
-    }
-    
-    func rowHeight(text: String) -> CGFloat {
-        dialogContent.text = text
-//        layoutIfNeeded()
-        dialogContent.text = "aladksjnaljkdn;alksj"
-        return CGRectGetMaxY(dialogContent.frame) + CGFloat(23)
     }
     
     override func awakeFromNib() {

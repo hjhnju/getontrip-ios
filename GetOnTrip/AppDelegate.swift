@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SSKeychain
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

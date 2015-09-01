@@ -359,22 +359,28 @@
                         <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuCellID" textLabel="QwY-xi-aI9" imageView="Ane-cI-Y2c" rowHeight="70" style="IBUITableViewCellStyleDefault" id="8MK-TW-uIG">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuCellID" rowHeight="70" id="8MK-TW-uIG" customClass="MenuTableViewCell" customModule="GetOnTrip" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8MK-TW-uIG" id="OtX-nP-hAI">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QwY-xi-aI9">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hw3-Gd-m6R">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="locating" id="Ane-cI-Y2c">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Hw3-Gd-m6R" firstAttribute="leading" secondItem="OtX-nP-hAI" secondAttribute="leading" id="GMS-Ig-2R1"/>
+                                        <constraint firstItem="Hw3-Gd-m6R" firstAttribute="top" secondItem="OtX-nP-hAI" secondAttribute="top" id="b5v-1x-qle"/>
+                                        <constraint firstAttribute="trailing" secondItem="Hw3-Gd-m6R" secondAttribute="trailing" id="bg7-Qj-2yA"/>
+                                        <constraint firstAttribute="bottom" secondItem="Hw3-Gd-m6R" secondAttribute="bottom" id="oDc-VK-39O"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="titleLabel" destination="Hw3-Gd-m6R" id="ale-0U-EMQ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -504,7 +510,6 @@
     </scenes>
     <resources>
         <image name="hamburger" width="21" height="14"/>
-        <image name="locating" width="16" height="16"/>
         <image name="menu-bg" width="323" height="717"/>
         <image name="search" width="21" height="23"/>
         <image name="weibo" width="43" height="42"/>

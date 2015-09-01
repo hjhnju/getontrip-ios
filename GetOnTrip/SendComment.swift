@@ -17,7 +17,7 @@ class SendComment: NSObject {
     // id
     var id: Int?
     // 评论
-    var subComment: NSArray?
+    var subComment: [SendComment_SubComment]
     // 评论者
     var to_name: String?
     // 评论时间 
@@ -25,7 +25,7 @@ class SendComment: NSObject {
     // 被评论者
     var from_name: String?
     
-    init(avatar: String, content: String, id: Int, subComment: NSArray, to_name: String, create_time: String, from_name: String) {
+    init(avatar: String, content: String, id: Int, subComment: [SendComment_SubComment], to_name: String, create_time: String, from_name: String) {
         self.avatar      = avatar
         self.content     = content
         self.id          = id

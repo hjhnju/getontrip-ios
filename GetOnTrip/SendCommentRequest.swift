@@ -46,9 +46,9 @@ class SendCommentRequest: NSObject {
             path: "/api/comment/list",
             post: post,
             handler: {(respData: JSON) -> Void in
-                println(respData)
+
                 var sendCommentM = [SendComment]()
-               // http://123.57.46.229:8301/pic/491a981835731d71.jpg
+               
                 for item in respData.arrayValue {
                     let avatar  = AppIni.BaseUri + item["avatar"].stringValue
                     let content = item["content"].stringValue

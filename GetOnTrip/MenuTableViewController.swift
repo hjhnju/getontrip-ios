@@ -10,8 +10,7 @@ import UIKit
 
 class MenuTableViewController: UITableViewController {
     
-    //MASK: Properties
-    
+    //MARK: Properties
     var menuData:[Int: Dictionary<String, String>] = [
         0: ["text":"切换城市", "icon":"menu-locate"],
         1: ["text":"我的收藏", "icon":"menu-favorite", "segue":StoryBoardIdentifier.ShowFavSegue],
@@ -20,14 +19,27 @@ class MenuTableViewController: UITableViewController {
         4: ["text":"反馈",  "icon":"menu-feedback"],
     ]
     
-    //MASK: View Life Cycle
-
+    lazy var baseline: UIView! = {
+        var baselineView = UIView()
+        baselineView.backgroundColor = UIColor(white: 0xFFFFFF, alpha: 0.3)
+        return baselineView
+    }()
+    
+    //MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         //移除底部空Cell
         tableView.tableFooterView = UIView(frame:CGRectZero)
         tableView.backgroundColor = UIColor.clearColor()
         tableView.separatorColor  = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.addSubview(baseline)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        baseline.frame = CGRectMake(0, 0, tableView.bounds.width, 0.5)
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,8 +47,7 @@ class MenuTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    //MASK: Delegate
-    
+    //MARK: - tableView Delegate
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         //设置下划线无缩进
         cell.separatorInset = UIEdgeInsetsZero
@@ -58,25 +69,54 @@ class MenuTableViewController: UITableViewController {
             }
         }
     }
-
+    
+    // MARK: - tableView  dataSource
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //Tells the data source to return the number of rows in a given section of a table view. (required)
+
         return menuData.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.MenuCellID, forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.MenuCellID, forIndexPath: indexPath) as! MenuTableViewCell
         
         var text = menuData[indexPath.row]!["text"]!
-        var image = UIImage(named: menuData[indexPath.row]!["icon"]!)
+//        var image = UIImage(named: menuData[indexPath.row]!["icon"]!)
 
-        cell.textLabel?.text = text
-        cell.imageView?.image = image
+        cell.titleLabel.text = text
         return cell
     }
 
+}
+
+// MARK: -  MenuTableViewCell
+class MenuTableViewCell: UITableViewCell {
+    
+    // 设置文字
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    // 设置底线
+    lazy var baseline: UIView! = {
+        var baselineView = UIView()
+        baselineView.backgroundColor = UIColor(white: 0xFFFFFF, alpha: 0.3)
+        return baselineView
+    }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        var x: CGFloat = 0
+        var h: CGFloat = 0.5
+        var y: CGFloat = self.bounds.height - h
+        var w: CGFloat = self.bounds.width
+        baseline.frame = CGRectMake(x, y, w, h)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.addSubview(baseline)
+    }
 }
