@@ -8,17 +8,10 @@
 
 import UIKit
 
-protocol UserDataSource {
-    
-}
-
 class MenuViewController: UIViewController {
     
-    //MASK: Properties
-    
-    var slideDelegate: SlideMenuViewControllerDelegate?
-    
-    var logined: Bool = true
+    //MARK: Properties
+    var logined: Bool = false
     
     var headImage: UIImage? {
         didSet {
@@ -29,7 +22,7 @@ class MenuViewController: UIViewController {
     var userName: String? {
         didSet {
             if let name = userName {
-                welcome.text = "Hello! \(name)"
+                user_name.text = "Hello! \(name)"
             }
         }
     }
@@ -51,14 +44,13 @@ class MenuViewController: UIViewController {
         }
     }
     
-    var dataSource: UserDataSource!
-    
-    @IBOutlet weak var welcome: UILabel!
+    @IBOutlet weak var user_name: UILabel!
     @IBOutlet weak var unloginView: UIView!
     @IBOutlet weak var headButton: UIButton!
     @IBOutlet weak var bgImageView: UIImageView!
     
-    //MASK: View Life Cycle
+    @IBOutlet weak var welcome_label: UILabel!
+    //MARK: View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,18 +58,24 @@ class MenuViewController: UIViewController {
         bgImageView.contentMode = UIViewContentMode.ScaleToFill
         bgImageView.clipsToBounds = true
         
-        refresh()
+        if logined {
+            refresh()
+        }
+        welcome_label.hidden = logined ?? false
     }
     
     func refresh() {
         if logined {
+            
             headImage = UIImage(named: "default-topic")
             userName  = "Joshua"
             unloginView.hidden = true
             //圆角头像
+            headButton.hidden = false
             headButton.layer.cornerRadius = headButton.frame.width / 2
             headButton.clipsToBounds = true
             headButton.setTitle("", forState: .Normal)
+            user_name.hidden = false
             
         }else {
             headButton.hidden = true

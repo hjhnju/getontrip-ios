@@ -87,6 +87,11 @@ class MenuTableViewController: UITableViewController {
 //        var image = UIImage(named: menuData[indexPath.row]!["icon"]!)
 
         cell.titleLabel.text = text
+        cell.frame.origin.x = 100
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            cell.frame.origin.x = 0
+        })
+        
         return cell
     }
 

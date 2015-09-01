@@ -290,6 +290,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnO-L3-x9o" userLabel="确认发布">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MXZ-pa-hlO">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入评论" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6pN-PU-hDn">
                                         <rect key="frame" x="9" y="7" width="466" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -301,18 +304,24 @@
                                             <constraint firstAttribute="width" constant="91" id="332-0q-L8R"/>
                                             <constraint firstAttribute="height" constant="34" id="deE-gW-d7V"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <state key="normal" title="确认发布">
+                                            <color key="titleColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" secondItem="MXZ-pa-hlO" secondAttribute="width" id="9KM-LB-pMW"/>
                                     <constraint firstAttribute="centerY" secondItem="Xx4-lm-KXI" secondAttribute="centerY" id="GG2-CF-07R"/>
+                                    <constraint firstAttribute="height" secondItem="MXZ-pa-hlO" secondAttribute="height" id="HYd-8H-05K"/>
                                     <constraint firstAttribute="height" constant="44" id="Nkr-kl-7VQ"/>
                                     <constraint firstAttribute="centerY" secondItem="6pN-PU-hDn" secondAttribute="centerY" id="PZF-yV-sYF"/>
                                     <constraint firstItem="6pN-PU-hDn" firstAttribute="leading" secondItem="cnO-L3-x9o" secondAttribute="leading" constant="9" id="c06-ca-1Z9"/>
+                                    <constraint firstItem="MXZ-pa-hlO" firstAttribute="top" secondItem="cnO-L3-x9o" secondAttribute="top" id="eEN-8O-wRr"/>
                                     <constraint firstAttribute="trailing" secondItem="Xx4-lm-KXI" secondAttribute="trailing" constant="19" id="g84-2D-01E"/>
+                                    <constraint firstItem="MXZ-pa-hlO" firstAttribute="leading" secondItem="cnO-L3-x9o" secondAttribute="leading" id="qSh-5x-lQb"/>
                                     <constraint firstItem="Xx4-lm-KXI" firstAttribute="leading" secondItem="6pN-PU-hDn" secondAttribute="trailing" constant="15" id="tnM-Is-deM"/>
                                 </constraints>
                             </view>
@@ -352,12 +361,12 @@
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uB1-X4-hqn">
-                                                    <rect key="frame" x="78" y="116" width="501" height="41"/>
+                                                    <rect key="frame" x="78" y="116" width="501" height="26.5"/>
                                                     <color key="backgroundColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clara J 回复 无知无畏0511:怕什么啊Clara J 回复 无知无畏0511:怕什么啊Clara J 回复 无知无畏0511:怕什么啊" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKp-Ud-rzc">
-                                                    <rect key="frame" x="78" y="114" width="501" height="41"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="78" y="114" width="501" height="26.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -421,8 +430,10 @@
                     </view>
                     <connections>
                         <outlet property="bottomConstraint" destination="pxj-zo-du9" id="81w-sc-JId"/>
+                        <outlet property="bottomImageView" destination="MXZ-pa-hlO" id="TcI-MX-mFe"/>
                         <outlet property="commentTitleView" destination="AaS-7C-uZg" id="yk7-4e-ong"/>
                         <outlet property="confirmIssue" destination="Xx4-lm-KXI" id="I1Q-bw-6yT"/>
+                        <outlet property="confirmSendView" destination="cnO-L3-x9o" id="twB-fV-amS"/>
                         <outlet property="tableView" destination="MU5-ar-i3B" id="MYD-br-jC5"/>
                     </connections>
                 </viewController>

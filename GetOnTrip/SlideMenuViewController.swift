@@ -74,7 +74,6 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
         
         self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewID) as! MasterViewController
         
-        self.sideViewController.slideDelegate = self
         self.masterViewController.slideDelegate = self
         
         //添加用户拖动事件
@@ -176,7 +175,11 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
-            animations:{ self.masterViewController.view.frame = mainSize; },
+            animations:{ self.masterViewController.view.frame = mainSize;
+              println(self.masterViewController.viewControllers)
+//            self.sideViewController. container
+//                self.sideViewController.view.cont
+            },
             completion: { (finished: Bool) -> Void in }
         )
         

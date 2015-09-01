@@ -10,15 +10,17 @@ import UIKit
 
 class SendCommentController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    // MARK: - 属性
+    // 评论标题
     @IBOutlet weak var commentTitleView: UIView!
-    
+    // 确认发布view
+    @IBOutlet weak var confirmSendView: UIView!
+    // 确认发布按钮
     @IBOutlet weak var confirmIssue: UIButton!
-    
+    // 对话tableView
     @IBOutlet weak var tableView: UITableView!
     // 网络请求，加载数据
     var lastSuccessRequest: SendCommentRequest?
-    
-    
     
     var sightId: Int?
     
@@ -26,51 +28,50 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
     
     var nearSendComment = [SendComment]()
     
+    // 设置底线
+    lazy var baseline: UIView! = {
+        var baselineView = UIView()
+//        baselineView.backgroundColor = UIColor(white: 0x9C9C9C, alpha: 0.5)
+        baselineView.backgroundColor = UIColor(hex: 0x9C9C9C, alpha: 0.5)
+//        baselineView.alpha = 0.5
+        return baselineView
+    }()
     
+    @IBOutlet weak var bottomImageView: UIImageView!
+    // MARK: - 初始化相关属性
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        commentTitleView.addSubview(baseline)
+        commentTitleView.sendSubviewToBack(baseline)
+        bottomImageView.image = UIImage(named: "triangle_fall")
+        confirmIssue.backgroundColor = UIColor(hex: 0xF3FD54, alpha: 1.0)
+        confirmIssue.layer.cornerRadius = confirmIssue.bounds.height * 0.5
         tableView.dataSource = self
         tableView.delegate = self
         refresh()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        var x: CGFloat = 0
+        var h: CGFloat = 0.5
+        var y: CGFloat = CGRectGetMaxY(commentTitleView.frame) - 0.5
+        var w: CGFloat = commentTitleView.bounds.width
+        baseline.frame = CGRectMake(x, y, w, h)
+    }
+    
     func keyboardChanged(notification: NSNotification) {
         
         var duration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
         
-        var rect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]!.CGRectValue
+        var rect: CGRect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]!.CGRectValue()
         
-        
-//        bottomConstraint.constant = UIScreen.mainScreen().bounds.height - rect.origin.y
-        
-//        bottomConstraint.constant = UIScreen.mainScreen().bounds.height - rect.origin.y
-        
-//        self.bottomConstraint.constant = [UIScreen mainScreen].bounds.size.height - r.origin.y;
-//        
-//        [UIView animateWithDuration:duration animations:^{
-//        [self.view layoutIfNeeded];
-//        } completion:^(BOOL finished) {
-//        [self scrollToBottom];
-//        }];
-        
-//        let rect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]!.CGRectValue
-//        // 键盘动画时长
-//        var duration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
-//        
-//        duration = localKeyboardFlag ? 0 : duration
-//        localKeyboardFlag = false
-//        
-//        // 2. 设置键盘高度
-//        toolBarBottomCons?.constant = -(view.bounds.height - rect.origin.y)
-//        
-//        // 3. 动画
-//        UIView.animateWithDuration(duration) {
-//            self.view.layoutIfNeeded()
-//        }
-
-        
+        UIView.animateWithDuration(duration, animations: { () -> Void in
+            self.bottomConstraint.constant = UIScreen.mainScreen().bounds.height - rect.origin.y - 44
+        })
     }
     
     deinit {
@@ -86,7 +87,6 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
             lastSuccessRequest = SendCommentRequest(topicId: 1)
         }
         
-//        lastSuccessRequest?.fetchCommentModels(handler: SendComment -> Void)
         lastSuccessRequest?.fetchCommentModels { (handler: [SendComment] ) -> Void in
             self.nearSendComment = handler
             self.tableView.reloadData()
