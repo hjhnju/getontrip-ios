@@ -63,7 +63,7 @@ class SendCommentRequest: NSObject {
                         let it_content = it["content"].stringValue
                         let it_from_name = it["from_name"].stringValue
                         let it_to_name = it["to_name"].stringValue
-                        let itSubcomment = SendComment_SubComment(id: it_id, content: it_content, from_name: it_from_name, to_name: it_to_name)
+                        var itSubcomment = SendComment_SubComment(id: it_id, content: it_content, from_name: it_from_name, to_name: it_to_name)
                         it_subComment.append(itSubcomment)
                     }
                     let sendComment = SendComment(avatar: avatar, content: content, id: id, subComment: it_subComment, to_name: to_name, create_time: create_time, from_name: from_name)

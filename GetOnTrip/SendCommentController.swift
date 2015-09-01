@@ -8,14 +8,17 @@
 
 import UIKit
 
-class SendCommentController: UIViewController {
+class SendCommentController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var commentTitleView: UIView!
     
     @IBOutlet weak var confirmIssue: UIButton!
     
+    @IBOutlet weak var tableView: UITableView!
     // 网络请求，加载数据
     var lastSuccessRequest: SendCommentRequest?
+    
+    
     
     var sightId: Int?
     
@@ -25,6 +28,8 @@ class SendCommentController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.dataSource = self
+        tableView.delegate = self
         refresh()
     }
     
@@ -40,8 +45,30 @@ class SendCommentController: UIViewController {
 //        lastSuccessRequest?.fetchCommentModels(handler: SendComment -> Void)
         lastSuccessRequest?.fetchCommentModels { (handler: [SendComment] ) -> Void in
             self.nearSendComment = handler
-            print(handler)
+            self.tableView.reloadData()
         }
 
+    }
+    
+    // MARK: tableView dataSource and delegate
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return nearSendComment.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCellWithIdentifier("SendComment_Cell", forIndexPath: indexPath) as! SendCommentCell
+        cell.sendCommentModel = nearSendComment[indexPath.row]
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        var cell = reuseableCellWithIndexPath(indexPath)
+        return cell.rowHeight("asdfkhalsdkjflasjdfhlashdlajsd;lkajshdluhifaw")
+    }
+    
+    func reuseableCellWithIndexPath(indexPath: NSIndexPath) -> SendCommentCell {
+        
+        return tableView.dequeueReusableCellWithIdentifier("SendComment_Cell") as! SendCommentCell
     }
 }

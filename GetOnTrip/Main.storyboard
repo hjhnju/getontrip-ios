@@ -277,12 +277,6 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JiX-cQ-ucE">
-                                        <rect key="frame" x="0.0" y="200" width="600" height="300"/>
-                                        <connections>
-                                            <segue destination="xSm-V3-Lgc" kind="embed" id="G8B-kO-thS"/>
-                                        </connections>
-                                    </containerView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w3z-fx-IWf" userLabel="headButton">
                                         <rect key="frame" x="269" y="90" width="60" height="60"/>
                                         <constraints>
@@ -293,6 +287,12 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JiX-cQ-ucE">
+                                        <rect key="frame" x="0.0" y="160" width="600" height="340"/>
+                                        <connections>
+                                            <segue destination="xSm-V3-Lgc" kind="embed" id="G8B-kO-thS"/>
+                                        </connections>
+                                    </containerView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -307,7 +307,7 @@
                                     <constraint firstItem="iL3-u2-pJ8" firstAttribute="centerX" secondItem="gtL-Za-Grd" secondAttribute="centerX" id="aJv-gi-EaI"/>
                                     <constraint firstItem="JiX-cQ-ucE" firstAttribute="top" secondItem="8JN-Wd-YBy" secondAttribute="top" constant="282" id="b48-yB-4Pq"/>
                                     <constraint firstItem="iL3-u2-pJ8" firstAttribute="top" secondItem="gtL-Za-Grd" secondAttribute="bottom" id="fNb-K1-zll"/>
-                                    <constraint firstItem="JiX-cQ-ucE" firstAttribute="top" secondItem="8JN-Wd-YBy" secondAttribute="top" constant="200" id="gEx-bR-DWu"/>
+                                    <constraint firstItem="JiX-cQ-ucE" firstAttribute="top" secondItem="8JN-Wd-YBy" secondAttribute="top" constant="160" id="gEx-bR-DWu"/>
                                     <constraint firstAttribute="centerX" secondItem="dFu-dE-pQ2" secondAttribute="centerX" id="gPG-Eu-J0t"/>
                                     <constraint firstItem="JiX-cQ-ucE" firstAttribute="top" secondItem="7b7-iP-Ell" secondAttribute="bottom" constant="35" id="ggY-cF-Ug9"/>
                                     <constraint firstItem="iL3-u2-pJ8" firstAttribute="bottom" secondItem="8JN-Wd-YBy" secondAttribute="bottomMargin" id="hOK-vy-lNa"/>
@@ -352,14 +352,14 @@
         <scene sceneID="aFU-4w-eGE">
             <objects>
                 <tableViewController id="xSm-V3-Lgc" customClass="MenuTableViewController" customModule="GetOnTrip" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bMa-Rh-lp2">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" sectionHeaderHeight="22" sectionFooterHeight="22" id="bMa-Rh-lp2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="340"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuCellID" textLabel="QwY-xi-aI9" imageView="Ane-cI-Y2c" style="IBUITableViewCellStyleDefault" id="8MK-TW-uIG">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuCellID" textLabel="QwY-xi-aI9" imageView="Ane-cI-Y2c" rowHeight="70" style="IBUITableViewCellStyleDefault" id="8MK-TW-uIG">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8MK-TW-uIG" id="OtX-nP-hAI">
                                     <autoresizingMask key="autoresizingMask"/>
