@@ -49,6 +49,12 @@ struct StoryBoardIdentifier {
     static let ShowCitySightsSegue = "ShowCitySightsSegue"
     static let ShowDiscoveryTopicDetailSegue = "ShowDiscoveryTopicDetailSegue"
     
+    //左侧菜单
+    static let SideslipSwitchCity  = "SideslipSwitchCity"
+    static let SidesMessage        = "SidesMessage"
+    static let SidesSetting        = "SidesSetting"
+    static let SidesFeedback       = "SidesFeedback"
+    
     // storyboardID 附近二级页面
     static let ScenicCyclopaedicSB = "ScenicCyclopaedicSB"
     static let ScenicTopicSB       = "ScenicTopicSB"

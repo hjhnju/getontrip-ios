@@ -12,11 +12,11 @@ class MenuTableViewController: UITableViewController {
     
     // MARK: - Properties
     var menuData:[Int: Dictionary<String, String>] = [
-        0: ["text":"切换城市", "icon":"menu-locate"],
+        0: ["text":"切换城市", "icon":"menu-locate", "segue":StoryBoardIdentifier.SideslipSwitchCity],
         1: ["text":"我的收藏", "icon":"menu-favorite", "segue":StoryBoardIdentifier.ShowFavSegue],
-        2: ["text":"消息",  "icon":"menu-msg"],
-        3: ["text":"设置",  "icon":"menu-setting"],
-        4: ["text":"反馈",  "icon":"menu-feedback"],
+        2: ["text":"消息",  "icon":"menu-msg", "segue":StoryBoardIdentifier.SidesMessage],
+        3: ["text":"设置",  "icon":"menu-setting", "segue":StoryBoardIdentifier.SidesSetting],
+        4: ["text":"反馈",  "icon":"menu-feedback", "segue":StoryBoardIdentifier.SidesFeedback],
     ]
     
     lazy var baseline: UIView! = {
@@ -68,14 +68,7 @@ class MenuTableViewController: UITableViewController {
             slideCon.dismissMenu()
             if let segue = menuData[indexPath.row]!["segue"] {
                 slideCon.masterViewController.performSegueWithIdentifier(segue, sender: nil)
-                
             }
-            
-            var vc = UIViewController()
-            vc.view.backgroundColor = UIColor.orangeColor()
-            slideCon.masterViewController.view.addSubview(vc.view)
-            slideCon.masterViewController.addChildViewController(vc)
-            slideCon.masterViewController.navigationController?.pushViewController(vc, animated: true)
         }
     }
     

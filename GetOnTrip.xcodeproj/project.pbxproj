@@ -71,7 +71,7 @@
 		AEB9E2961B85E272007B3ED3 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB9E2951B85E272007B3ED3 /* Book.swift */; };
 		AEBD70D91B8D397A00B3810D /* PopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD70D81B8D397A00B3810D /* PopoverPresentationController.swift */; };
 		AEBD70DB1B8D39AC00B3810D /* PopoverAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD70DA1B8D39AC00B3810D /* PopoverAnimator.swift */; };
-		AECF6C681B95CB0C00E18332 /* SettingViewControllerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF6C671B95CB0C00E18332 /* SettingViewControllerTableViewController.swift */; };
+		AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */; };
 		AED03EA01B941DB300EF063C /* TopicDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AED03E9F1B941DB300EF063C /* TopicDetail.storyboard */; };
 		AED03EA21B94208000EF063C /* SendCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED03EA11B94208000EF063C /* SendCommentController.swift */; };
 		AED03EA41B9424C000EF063C /* SendPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED03EA31B9424C000EF063C /* SendPresentationController.swift */; };
@@ -179,7 +179,7 @@
 		AEB9E2951B85E272007B3ED3 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		AEBD70D81B8D397A00B3810D /* PopoverPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverPresentationController.swift; sourceTree = "<group>"; };
 		AEBD70DA1B8D39AC00B3810D /* PopoverAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverAnimator.swift; sourceTree = "<group>"; };
-		AECF6C671B95CB0C00E18332 /* SettingViewControllerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewControllerTableViewController.swift; sourceTree = "<group>"; };
+		AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		AED03E9F1B941DB300EF063C /* TopicDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TopicDetail.storyboard; sourceTree = "<group>"; };
 		AED03EA11B94208000EF063C /* SendCommentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendCommentController.swift; sourceTree = "<group>"; };
 		AED03EA31B9424C000EF063C /* SendPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendPresentationController.swift; sourceTree = "<group>"; };
@@ -245,7 +245,7 @@
 				72D7212E1B6B69FF005BDE55 /* MenuTableViewController.swift */,
 				72A5BF2F1B72391E00F3AB26 /* SearchResultsViewController.swift */,
 				72A5BF371B748BE200F3AB26 /* SearchResultsCell.swift */,
-				AECF6C671B95CB0C00E18332 /* SettingViewControllerTableViewController.swift */,
+				AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -700,7 +700,6 @@
 				7239FE2C1B86D6C900238A25 /* DiscoveryCollectionViewCell.swift in Sources */,
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
 				AEA24B741B863A1100031FB8 /* Video.swift in Sources */,
-				AECF6C681B95CB0C00E18332 /* SettingViewControllerTableViewController.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColorExtentions.swift in Sources */,
 				7239FE2A1B86CADD00238A25 /* DiscoveryCollectionViewController.swift in Sources */,
 				72D86E211B65F033004B72D0 /* NearbyTableViewController.swift in Sources */,
@@ -715,6 +714,7 @@
 				72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */,
 				AE263C781B8D7AE9003BB0BC /* TopicDetail.swift in Sources */,
 				72A5BF301B72391E00F3AB26 /* SearchResultsViewController.swift in Sources */,
+				AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */,
 				AED2DE421B84533A0091D320 /* TopicRequest.swift in Sources */,
 				72D86E221B65F033004B72D0 /* SightTopicsViewController.swift in Sources */,
 				72D721291B6A241B005BDE55 /* SlideMenuViewController.swift in Sources */,

@@ -30,10 +30,6 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
         
         navigationController?.delegate = self
         navigationController?.navigationBar.barTintColor = UIColor.orangeColor()
-//        println()
-        println(navigationController?.navigationBar)
-        
-        
         
         refresh()
     }
@@ -53,50 +49,6 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
             }
         }
     }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-//        super.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
-//        super.navigationController?.navigationController?.navigationBar.tintColor = SceneColor.lightGray
-//        super.navigationController?.navigationController?.navigationBar.titleTextAttributes =
-//            [NSForegroundColorAttributeName : SceneColor.lightGray, NSFontAttributeName: UIFont.systemFontOfSize(12)]
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        
-    }
-    
-    // TODO: 为了使下个界面颜色变白，采取反复设置颜色的办法，不过这个办法并不好，如有更好的办法，请立即更换
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-//        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
-//        println("调用了吗")
-//        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
-//        UINavigationBar.appearance().barTintColor = SceneColor.black
-//        UINavigationBar.appearance().tintColor = SceneColor.lightYellow
-//        super.navigationController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
-//        super.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.black
-//        super.navigationController?.navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
-//        self.navigationController?.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
-//        self.navigationController?.navigationController?.navigationBar.barTintColor = SceneColor.black
-//        self.navigationController?.navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
-    }
-    
     
     // MARK: 话题列表页数据源方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
