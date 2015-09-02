@@ -177,12 +177,15 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
             options: UIViewAnimationOptions.AllowUserInteraction,
             animations:{ self.masterViewController.view.frame = mainSize;
                 let tc = self.sideViewController.childViewControllers[0] as!MenuTableViewController
-                tc.cellx = 50
+                tc.tableView.hidden = false
+                tc.cellx = 0
                 tc.tableView.reloadData()
             },
             completion: { (finished: Bool) -> Void in
             }
         )
+        
+        
         
         //将侧边栏的装填标记为打开状态
         self.slideMenuState = SlideMenuState.Opening
@@ -205,7 +208,10 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
             animations: { self.masterViewController.view.frame = mainSize; },
-            completion: { (finished: Bool) -> Void in }
+            completion: { (finished: Bool) -> Void in
+            let tc = self.sideViewController.childViewControllers[0] as!MenuTableViewController
+                tc.tableView.hidden = true
+            }
         )
         
         self.masterViewController.refreshMask()

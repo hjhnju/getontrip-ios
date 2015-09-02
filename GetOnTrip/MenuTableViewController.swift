@@ -10,7 +10,7 @@ import UIKit
 
 class MenuTableViewController: UITableViewController {
     
-    //MARK: Properties
+    // MARK: - Properties
     var menuData:[Int: Dictionary<String, String>] = [
         0: ["text":"切换城市", "icon":"menu-locate"],
         1: ["text":"我的收藏", "icon":"menu-favorite", "segue":StoryBoardIdentifier.ShowFavSegue],
@@ -35,12 +35,6 @@ class MenuTableViewController: UITableViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.addSubview(baseline)
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        baseline.frame = CGRectMake(0, 0, tableView.bounds.width, 0.5)
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -48,7 +42,7 @@ class MenuTableViewController: UITableViewController {
     }
     
     //MARK: - tableView Delegate
-    var cellx: CGFloat = 50
+    var cellx: CGFloat = 0
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         //设置下划线无缩进
         cell.separatorInset = UIEdgeInsetsZero
@@ -58,16 +52,12 @@ class MenuTableViewController: UITableViewController {
         //无底色
         cell.backgroundColor = UIColor.clearColor()
         
-        cellx += 100
+        cellx += 300
         cell.transform = CGAffineTransformMakeTranslation(cellx, 0)
-        UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 3, initialSpringVelocity: 3, options: UIViewAnimationOptions.AllowAnimatedContent, animations: { () -> Void in
+        UIView.animateWithDuration(0.8, delay: 0.0, usingSpringWithDamping: 3, initialSpringVelocity: 3, options: UIViewAnimationOptions.AllowAnimatedContent, animations: { () -> Void in
             cell.transform = CGAffineTransformIdentity
         }, completion: nil)
-
-
-        
     }
-    
     
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -102,20 +92,17 @@ class MenuTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.MenuCellID, forIndexPath: indexPath) as! MenuTableViewCell
         
+        // 添加tableview顶上的线
+        if indexPath.row == 0 {
+            cell.addSubview(baseline)
+            baseline.frame = CGRectMake(0, 0, tableView.bounds.width, 0.5)
+        }
+        
         var text = menuData[indexPath.row]!["text"]!
-//        var image = UIImage(named: menuData[indexPath.row]!["icon"]!)
-
         cell.titleLabel.text = text
-//        cell.frame.origin.x = 100
-//        UIView.animateWithDuration(0.00001, animations: { () -> Void in
-//            cell.frame.origin.x = 0
-//        })
         
         return cell
     }
-    
-
-
 }
 
 // MARK: -  MenuTableViewCell
