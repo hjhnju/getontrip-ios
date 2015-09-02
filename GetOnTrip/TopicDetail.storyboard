@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Topic Detail View Controller-->
@@ -325,47 +326,47 @@
                                     <constraint firstItem="Xx4-lm-KXI" firstAttribute="leading" secondItem="6pN-PU-hDn" secondAttribute="trailing" constant="15" id="tnM-Is-deM"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="173" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MU5-ar-i3B">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="132" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MU5-ar-i3B">
                                 <rect key="frame" x="0.0" y="41" width="600" height="515"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SendComment_Cell" rowHeight="173" id="EI3-40-dV6" customClass="SendCommentCell" customModule="GetOnTrip" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SendComment_Cell" rowHeight="132" id="EI3-40-dV6" customClass="SendCommentCell" customModule="GetOnTrip" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EI3-40-dV6" id="hXN-ID-kDr">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Clara J" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b29-LX-e7x">
-                                                    <rect key="frame" x="65" y="65" width="45.5" height="17"/>
+                                                    <rect key="frame" x="65" y="22" width="45.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="真的假的，我倒是挺想看看有什么好玩的，真的么，太好咯哈哈哈哈哈哈哈哈真有那么神奇的时期" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9M-g8-UU6">
-                                                    <rect key="frame" x="65" y="84" width="526" height="14.5"/>
+                                                    <rect key="frame" x="65" y="41" width="526" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="365天前" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Kl-Ej-yKS">
-                                                    <rect key="frame" x="561" y="65" width="30" height="10"/>
+                                                    <rect key="frame" x="561" y="22" width="30" height="10"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="98V-bJ-DTp">
-                                                    <rect key="frame" x="11" y="65" width="44" height="44"/>
+                                                    <rect key="frame" x="11" y="22" width="44" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="QX3-Vz-puF"/>
                                                         <constraint firstAttribute="width" constant="44" id="teh-dq-dog"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uB1-X4-hqn">
-                                                    <rect key="frame" x="78" y="116" width="501" height="26.5"/>
+                                                    <rect key="frame" x="78" y="73" width="501" height="26.5"/>
                                                     <color key="backgroundColor" red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clara J 回复 无知无畏0511:怕什么啊Clara J 回复 无知无畏0511:怕什么啊Clara J 回复 无知无畏0511:怕什么啊" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKp-Ud-rzc">
-                                                    <rect key="frame" x="78" y="114" width="501" height="26.5"/>
+                                                    <rect key="frame" x="78" y="71" width="501" height="26.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -383,6 +384,7 @@
                                                 <constraint firstItem="oKp-Ud-rzc" firstAttribute="leading" secondItem="uB1-X4-hqn" secondAttribute="trailing" constant="-372" id="PTV-rf-Y0H"/>
                                                 <constraint firstItem="oKp-Ud-rzc" firstAttribute="top" secondItem="uB1-X4-hqn" secondAttribute="bottom" constant="-16" id="SZS-kc-9fj"/>
                                                 <constraint firstItem="b29-LX-e7x" firstAttribute="leading" secondItem="98V-bJ-DTp" secondAttribute="trailing" constant="10" id="Wan-1b-w6Z"/>
+                                                <constraint firstItem="98V-bJ-DTp" firstAttribute="top" secondItem="hXN-ID-kDr" secondAttribute="topMargin" constant="14" id="gw5-rh-FLS"/>
                                                 <constraint firstItem="oKp-Ud-rzc" firstAttribute="centerY" secondItem="uB1-X4-hqn" secondAttribute="centerY" constant="48" id="kin-yi-i5t"/>
                                                 <constraint firstItem="b29-LX-e7x" firstAttribute="top" secondItem="98V-bJ-DTp" secondAttribute="top" id="lh6-Tf-aBZ"/>
                                                 <constraint firstItem="e9M-g8-UU6" firstAttribute="top" secondItem="b29-LX-e7x" secondAttribute="bottom" constant="2" id="qBa-ra-McZ"/>
@@ -396,6 +398,7 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="AWd-1m-Wjf"/>
                                                     <exclude reference="PTV-rf-Y0H"/>
                                                     <exclude reference="SZS-kc-9fj"/>
                                                     <exclude reference="kin-yi-i5t"/>

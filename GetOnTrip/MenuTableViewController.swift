@@ -25,7 +25,7 @@ class MenuTableViewController: UITableViewController {
         return baselineView
     }()
     
-    //MARK: View Life Cycle
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         //移除底部空Cell
@@ -48,6 +48,7 @@ class MenuTableViewController: UITableViewController {
     }
     
     //MARK: - tableView Delegate
+    var cellx: CGFloat = 50
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         //设置下划线无缩进
         cell.separatorInset = UIEdgeInsetsZero
@@ -56,7 +57,18 @@ class MenuTableViewController: UITableViewController {
         cell.layoutMargins = UIEdgeInsetsZero
         //无底色
         cell.backgroundColor = UIColor.clearColor()
+        
+        cellx += 100
+        cell.transform = CGAffineTransformMakeTranslation(cellx, 0)
+        UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 3, initialSpringVelocity: 3, options: UIViewAnimationOptions.AllowAnimatedContent, animations: { () -> Void in
+            cell.transform = CGAffineTransformIdentity
+        }, completion: nil)
+
+
+        
     }
+    
+    
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -66,7 +78,14 @@ class MenuTableViewController: UITableViewController {
             slideCon.dismissMenu()
             if let segue = menuData[indexPath.row]!["segue"] {
                 slideCon.masterViewController.performSegueWithIdentifier(segue, sender: nil)
+                
             }
+            
+            var vc = UIViewController()
+            vc.view.backgroundColor = UIColor.orangeColor()
+            slideCon.masterViewController.view.addSubview(vc.view)
+            slideCon.masterViewController.addChildViewController(vc)
+            slideCon.masterViewController.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -87,13 +106,15 @@ class MenuTableViewController: UITableViewController {
 //        var image = UIImage(named: menuData[indexPath.row]!["icon"]!)
 
         cell.titleLabel.text = text
-        cell.frame.origin.x = 100
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            cell.frame.origin.x = 0
-        })
+//        cell.frame.origin.x = 100
+//        UIView.animateWithDuration(0.00001, animations: { () -> Void in
+//            cell.frame.origin.x = 0
+//        })
         
         return cell
     }
+    
+
 
 }
 

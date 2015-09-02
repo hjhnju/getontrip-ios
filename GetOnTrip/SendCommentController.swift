@@ -31,9 +31,7 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
     // 设置底线
     lazy var baseline: UIView! = {
         var baselineView = UIView()
-//        baselineView.backgroundColor = UIColor(white: 0x9C9C9C, alpha: 0.5)
         baselineView.backgroundColor = UIColor(hex: 0x9C9C9C, alpha: 0.5)
-//        baselineView.alpha = 0.5
         return baselineView
     }()
     
@@ -42,6 +40,7 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         commentTitleView.addSubview(baseline)
         commentTitleView.sendSubviewToBack(baseline)
         bottomImageView.image = UIImage(named: "triangle_fall")

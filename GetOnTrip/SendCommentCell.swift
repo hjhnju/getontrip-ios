@@ -21,6 +21,13 @@ class SendCommentCell: UITableViewCell {
     // 对话内容
     @IBOutlet weak var dialogContent: UILabel!
     
+    // 设置底线
+    lazy var baseline: UIView! = {
+        var baselineView = UIView()
+        baselineView.backgroundColor = UIColor(hex: 0x9C9C9C, alpha: 0.5)
+        return baselineView
+    }()
+    
     var rowHeight: CGFloat?
     var sendCommentModel: SendComment? {
         didSet {
@@ -40,24 +47,32 @@ class SendCommentCell: UITableViewCell {
             }
             dialogContent.text = text
             
-            rowHeight = CGRectGetMaxY(dialogContent.frame) + CGFloat(23)
+            if text != "" {
+                rowHeight = CGRectGetMaxY(dialogContent.frame) + CGFloat(23)
+            } else {
+                rowHeight = max(CGRectGetMaxY(iconView.frame), CGRectGetMaxY(content.frame)) + CGFloat(15)
+            }
+            
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        var x: CGFloat = 0
+        var h: CGFloat = 0.5
+        var y: CGFloat = self.bounds.height - 0.5
+        var w: CGFloat = self.bounds.width
+        baseline.frame = CGRectMake(x, y, w, h)
+
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.addSubview(baseline)
         iconView.layer.masksToBounds = true
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
         dialogContent.preferredMaxLayoutWidth = 300
     }
-    
-    
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

@@ -46,7 +46,7 @@ class SendCommentRequest: NSObject {
             path: "/api/comment/list",
             post: post,
             handler: {(respData: JSON) -> Void in
-
+                println(respData)
                 var sendCommentM = [SendComment]()
                
                 for item in respData.arrayValue {

@@ -339,6 +339,7 @@
                     <connections>
                         <outlet property="bgImageView" destination="7EX-79-Vzg" id="Eey-Sr-uJa"/>
                         <outlet property="headButton" destination="w3z-fx-IWf" id="Ify-5h-zYC"/>
+                        <outlet property="sideTableViewController" destination="JiX-cQ-ucE" id="1EX-Fj-6sy"/>
                         <outlet property="unloginView" destination="7b7-iP-Ell" id="0k3-vS-4qW"/>
                         <outlet property="user_name" destination="dFu-dE-pQ2" id="3DX-Tr-dGa"/>
                         <outlet property="welcome_label" destination="8Nz-pU-ksl" id="79a-1R-XGf"/>

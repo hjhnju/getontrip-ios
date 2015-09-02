@@ -10,6 +10,8 @@ import UIKit
 
 class MenuViewController: UIViewController {
     
+    @IBOutlet weak var sideTableViewController: UIView!
+    
     //MARK: Properties
     var logined: Bool = false
     
