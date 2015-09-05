@@ -71,7 +71,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
             //toolbar
             showCommentCountButton?.title = "\(topic.commentCount ?? 0)条评论"
             showCommentCountButton?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
-            topicURL = AppIni.BaseUri + "/topic/detail/preview?id=\(topic.topicid)"
+            topicURL = AppIni.BaseUri + "/topic/detail?id=\(topic.topicid)"
         }
     }
     
@@ -135,6 +135,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         if let url = self.topicURL {
             if let requestURL = NSURL(string: url + "&isapp=1") {
                 let request = NSURLRequest(URL: requestURL)
+                
                 webView.loadRequest(request)
             }
         }

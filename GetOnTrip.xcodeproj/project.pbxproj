@@ -60,6 +60,8 @@
 		AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */; };
 		AE7C571D1B85971F00C5FC59 /* CyclopaedicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
+		AE8D54A31B9A9EB9009F26DE /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8D54A21B9A9EB9009F26DE /* libicucore.dylib */; };
+		AE8D54A51B9A9EFA009F26DE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8D54A41B9A9EFA009F26DE /* MessageUI.framework */; };
 		AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */; };
 		AEA191881B94347600D78F4E /* SendCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA191871B94347600D78F4E /* SendCommentRequest.swift */; };
 		AEA1918A1B9434E800D78F4E /* SendComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA191891B9434E800D78F4E /* SendComment.swift */; };
@@ -67,11 +69,16 @@
 		AEA24B741B863A1100031FB8 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B731B863A1100031FB8 /* Video.swift */; };
 		AEA24B761B863BF300031FB8 /* VideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B751B863BF300031FB8 /* VideoController.swift */; };
 		AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B771B8644D200031FB8 /* VideoCell.swift */; };
+		AEA94F841B9AA478006D6998 /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94F811B9AA478006D6998 /* SMS_SDK.framework */; };
+		AEA94F8B1B9AA49E006D6998 /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AEA94F861B9AA49E006D6998 /* SMS_SDKLocalizable.strings */; };
+		AEA94F8C1B9AA49E006D6998 /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AEA94F891B9AA49E006D6998 /* SMS_SDKLocalizable.strings */; };
+		AEA94F8E1B9AA535006D6998 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94F8D1B9AA535006D6998 /* libz.1.2.5.dylib */; };
 		AEB9E2941B85DB27007B3ED3 /* BookController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB9E2931B85DB27007B3ED3 /* BookController.swift */; };
 		AEB9E2961B85E272007B3ED3 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB9E2951B85E272007B3ED3 /* Book.swift */; };
 		AEBD70D91B8D397A00B3810D /* PopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD70D81B8D397A00B3810D /* PopoverPresentationController.swift */; };
 		AEBD70DB1B8D39AC00B3810D /* PopoverAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD70DA1B8D39AC00B3810D /* PopoverAnimator.swift */; };
 		AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */; };
+		AECBDFA11B96EA1400FAC682 /* provinces.plist in Resources */ = {isa = PBXBuildFile; fileRef = AECBDFA01B96EA1400FAC682 /* provinces.plist */; };
 		AED03EA01B941DB300EF063C /* TopicDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AED03E9F1B941DB300EF063C /* TopicDetail.storyboard */; };
 		AED03EA21B94208000EF063C /* SendCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED03EA11B94208000EF063C /* SendCommentController.swift */; };
 		AED03EA41B9424C000EF063C /* SendPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED03EA31B9424C000EF063C /* SendPresentationController.swift */; };
@@ -168,6 +175,8 @@
 		AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRequest.swift; sourceTree = "<group>"; };
 		AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicCell.swift; sourceTree = "<group>"; };
 		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
+		AE8D54A21B9A9EB9009F26DE /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		AE8D54A41B9A9EFA009F26DE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicViewController.swift; sourceTree = "<group>"; };
 		AEA191871B94347600D78F4E /* SendCommentRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendCommentRequest.swift; sourceTree = "<group>"; };
 		AEA191891B9434E800D78F4E /* SendComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendComment.swift; sourceTree = "<group>"; };
@@ -175,11 +184,16 @@
 		AEA24B731B863A1100031FB8 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		AEA24B751B863BF300031FB8 /* VideoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
 		AEA24B771B8644D200031FB8 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
+		AEA94F811B9AA478006D6998 /* SMS_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMS_SDK.framework; sourceTree = "<group>"; };
+		AEA94F871B9AA49E006D6998 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = SMS_SDKLocalizable.strings; sourceTree = "<group>"; };
+		AEA94F8A1B9AA49E006D6998 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = SMS_SDKLocalizable.strings; sourceTree = "<group>"; };
+		AEA94F8D1B9AA535006D6998 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		AEB9E2931B85DB27007B3ED3 /* BookController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookController.swift; sourceTree = "<group>"; };
 		AEB9E2951B85E272007B3ED3 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		AEBD70D81B8D397A00B3810D /* PopoverPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverPresentationController.swift; sourceTree = "<group>"; };
 		AEBD70DA1B8D39AC00B3810D /* PopoverAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverAnimator.swift; sourceTree = "<group>"; };
 		AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		AECBDFA01B96EA1400FAC682 /* provinces.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = provinces.plist; sourceTree = "<group>"; };
 		AED03E9F1B941DB300EF063C /* TopicDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TopicDetail.storyboard; sourceTree = "<group>"; };
 		AED03EA11B94208000EF063C /* SendCommentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendCommentController.swift; sourceTree = "<group>"; };
 		AED03EA31B9424C000EF063C /* SendPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendPresentationController.swift; sourceTree = "<group>"; };
@@ -199,6 +213,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEA94F8E1B9AA535006D6998 /* libz.1.2.5.dylib in Frameworks */,
+				AE8D54A51B9A9EFA009F26DE /* MessageUI.framework in Frameworks */,
+				AE8D54A31B9A9EB9009F26DE /* libicucore.dylib in Frameworks */,
+				AEA94F841B9AA478006D6998 /* SMS_SDK.framework in Frameworks */,
 				72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */,
 				A5EE519BF51DAA2DF513E39B /* Pods.framework in Frameworks */,
 			);
@@ -217,6 +235,9 @@
 		66637B5775E152B983D5D047 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AEA94F8D1B9AA535006D6998 /* libz.1.2.5.dylib */,
+				AE8D54A41B9A9EFA009F26DE /* MessageUI.framework */,
+				AE8D54A21B9A9EB9009F26DE /* libicucore.dylib */,
 				81B20DEE60D8019CAB8D9975 /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -298,6 +319,7 @@
 				7239FE261B85B4C000238A25 /* Discovery */,
 				72D86E091B65E844004B72D0 /* Ucenter */,
 				72D86E081B65E82B004B72D0 /* Common */,
+				AE8D549A1B9A8FC5009F26DE /* Login */,
 				72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */,
 				72D86DE41B65D94D004B72D0 /* AppDelegate.swift */,
 				72D86DE21B65D94D004B72D0 /* Supporting Files */,
@@ -312,6 +334,7 @@
 				72D86DED1B65D94D004B72D0 /* LaunchScreen.xib */,
 				72D86DEB1B65D94D004B72D0 /* Images.xcassets */,
 				72D86DE61B65D94D004B72D0 /* ViewController.swift */,
+				AECBDFA01B96EA1400FAC682 /* provinces.plist */,
 				72D86DE31B65D94D004B72D0 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -456,6 +479,40 @@
 			name = "Video(视频)";
 			sourceTree = "<group>";
 		};
+		AE8D549A1B9A8FC5009F26DE /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				AEA94F7E1B9AA478006D6998 /* SMS_SDK */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		AEA94F7E1B9AA478006D6998 /* SMS_SDK */ = {
+			isa = PBXGroup;
+			children = (
+				AEA94F851B9AA49E006D6998 /* en.lproj */,
+				AEA94F881B9AA49E006D6998 /* zh-Hans.lproj */,
+				AEA94F811B9AA478006D6998 /* SMS_SDK.framework */,
+			);
+			path = SMS_SDK;
+			sourceTree = "<group>";
+		};
+		AEA94F851B9AA49E006D6998 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				AEA94F861B9AA49E006D6998 /* SMS_SDKLocalizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		AEA94F881B9AA49E006D6998 /* zh-Hans.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				AEA94F891B9AA49E006D6998 /* SMS_SDKLocalizable.strings */,
+			);
+			path = "zh-Hans.lproj";
+			sourceTree = "<group>";
+		};
 		AED2DE3D1B8426420091D320 /* Cyclopaedic(百科) */ = {
 			isa = PBXGroup;
 			children = (
@@ -564,6 +621,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 72D86DD61B65D94D004B72D0;
 			productRefGroup = 72D86DE01B65D94D004B72D0 /* Products */;
@@ -583,10 +641,13 @@
 			files = (
 				AE553BBC1B81EAB700C03737 /* 3.jpg in Resources */,
 				AE553BBD1B81EAB700C03737 /* 4.jpg in Resources */,
+				AECBDFA11B96EA1400FAC682 /* provinces.plist in Resources */,
 				AE553BBA1B81EAB700C03737 /* 1.jpg in Resources */,
 				72D86E051B65E809004B72D0 /* Main.storyboard in Resources */,
 				AE553BBB1B81EAB700C03737 /* 2.jpg in Resources */,
 				72D86DEF1B65D94D004B72D0 /* LaunchScreen.xib in Resources */,
+				AEA94F8B1B9AA49E006D6998 /* SMS_SDKLocalizable.strings in Resources */,
+				AEA94F8C1B9AA49E006D6998 /* SMS_SDKLocalizable.strings in Resources */,
 				724393671B7045A000F13EA1 /* Nearby.storyboard in Resources */,
 				72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */,
 				AEE122241B8F330E00AAC3C9 /* bg.jpg in Resources */,
@@ -749,6 +810,22 @@
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
+		AEA94F861B9AA49E006D6998 /* SMS_SDKLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AEA94F871B9AA49E006D6998 /* en */,
+			);
+			name = SMS_SDKLocalizable.strings;
+			sourceTree = "<group>";
+		};
+		AEA94F891B9AA49E006D6998 /* SMS_SDKLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AEA94F8A1B9AA49E006D6998 /* zh-Hans */,
+			);
+			name = SMS_SDKLocalizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -843,6 +920,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK",
+				);
 				INFOPLIST_FILE = GetOnTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -862,6 +943,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK",
+				);
 				INFOPLIST_FILE = GetOnTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

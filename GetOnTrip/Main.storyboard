@@ -171,18 +171,23 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nickel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ADN-JF-0qx">
-                                                    <rect key="frame" x="548" y="14" width="44.5" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="美女" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="4vs-QI-vjL">
+                                                    <rect key="frame" x="441" y="16" width="150" height="25.5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="Urr-mH-hS9"/>
+                                                        <constraint firstAttribute="width" constant="150" id="k89-8c-Qfa"/>
+                                                    </constraints>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="sM6-R9-7mA" firstAttribute="leading" secondItem="qVR-Wq-1Pm" secondAttribute="leading" constant="9" id="HPM-oR-RiR"/>
-                                                <constraint firstAttribute="trailing" secondItem="ADN-JF-0qx" secondAttribute="trailing" constant="7" id="S1j-ws-Jma"/>
+                                                <constraint firstAttribute="trailing" secondItem="4vs-QI-vjL" secondAttribute="trailing" constant="9" id="kIH-iY-FVW"/>
+                                                <constraint firstAttribute="centerY" secondItem="4vs-QI-vjL" secondAttribute="centerY" constant="-4" id="pK9-S9-YFP"/>
                                                 <constraint firstAttribute="centerY" secondItem="sM6-R9-7mA" secondAttribute="centerY" id="syZ-ia-bde"/>
-                                                <constraint firstAttribute="centerY" secondItem="ADN-JF-0qx" secondAttribute="centerY" id="yj7-XU-G9N"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -199,8 +204,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="女" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="doG-k6-KMe">
-                                                    <rect key="frame" x="574" y="14" width="17" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="577" y="16" width="14" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
