@@ -84,4 +84,57 @@ class MenuViewController: UIViewController {
         }
     }
     
+    // MARK: 第三方登陆
+    // 微信登陆
+    @IBAction func wechatLogin(sender: UIButton) {
+        //授权
+        ShareSDK.authorize(SSDKPlatformType.TypeWechat, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
+            
+            switch state{
+                
+            case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  println("操作取消")
+                
+            default:
+                break
+            }
+        })
+    }
+    
+    // qq登陆
+    @IBAction func qqLogin(sender: UIButton) {
+        //授权
+        ShareSDK.authorize(SSDKPlatformType.TypeQQ, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
+            
+            switch state{
+                
+            case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  println("操作取消")
+                
+            default:
+                break
+            }
+        })
+    }
+    
+    // 新浪微博登陆
+    @IBAction func SinaWeiboLogin(sender: UIButton) {
+        //授权
+        ShareSDK.authorize(SSDKPlatformType.TypeSinaWeibo, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
+            
+            switch state{
+                
+            case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  println("操作取消")
+                
+            default:
+                break
+            }
+        })
+    }
+    
+    
 }
