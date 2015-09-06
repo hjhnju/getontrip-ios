@@ -19,18 +19,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         return pick
     }()
     
-    lazy var provinces: NSArray = {
-        let path = NSBundle.mainBundle().pathForResource("provinces", ofType: "plist")
-        let provinceArray = NSArray(contentsOfFile: path!)
-        var provincesM = NSMutableArray()
-        
-        for dict in provinceArray! {
-            let privin = Provinces().provinceWithDict(dict as! NSDictionary)
-            provincesM.addObject(dict)
-        }
-        
-        return provincesM
-    }()
+    var provinces: NSArray?
     
     var provinceIndex: Int = 0
     
@@ -49,6 +38,21 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         pickView.dataSource = self
         pickView.delegate = self
         tableView.addSubview(pickView)
+        
+        
+        
+        let path = NSBundle.mainBundle().pathForResource("cities", ofType: "plist")
+        let provinceArray = NSArray(contentsOfFile: path!)
+        var provincesM = NSMutableArray()
+        
+        for dict in provinceArray! {
+            let privin = Province.provinceWithDict(dict as! NSDictionary)
+            //            let privin = Province(dict: dict as! NSDictionary)
+            provincesM.addObject(dict)
+        }
+        provinces = provincesM
+        
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -103,9 +107,9 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
         if component == 0 {
-            return provinces.count
+            return provinces!.count
         } else {
-            var province: AnyObject = provinces[provinceIndex]
+            var province = provinces![provinceIndex]
             return 5
         }
 
@@ -126,35 +130,51 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
         
-        var province: AnyObject = provinces[row]
+        var province = provinces![row]
         return province.name
     }
     
-//    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
-//        
-//        var label: UILabel?
-//        
-//        if view != nil {
-//            label = view as? UILabel
-//        } else {
-//            label = UILabel()
-//        }
-//        
-//        if component == 0 {
-//            var province: AnyObject = provinces[row]
-//            label?.text = province.name
-//            label?.backgroundColor = UIColor.grayColor()
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        //省份选中
+        if (component == 0) {
+            var province = provinces![row]
+            pickerView.reloadComponent(1)
+            self.provinceIndex = row
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
+        
+        var label: UILabel?
+        
+        if view != nil {
+            label = view as? UILabel
+        } else {
+            label = UILabel()
+        }
+        
+        if component == 0 {
+            println(provinces)
+            var province = provinces![row] as! NSDictionary
+            var temp = Province.provinceWithDict(province)
+            println("---------")
+            println(temp)
+            label?.text = temp.name
+//            label?.backgroundColor = UIColor.orangeColor()
+            label?.textAlignment = NSTextAlignment.Center
 //            label?.bounds = CGRectMake(0, 0, 150, 30)
-//        } else {
-//            var province: AnyObject = provinces[provinceIndex]
-//            label!.text = province.cities[row]! as! String
-//            label!.backgroundColor = UIColor.purpleColor()
-//        }
-//        return label!
-//        
-//
-//
-//    }
+        } else {
+
+            var temp = provinces![provinceIndex] as! NSDictionary
+            var province = Province.provinceWithDict(temp)
+            label?.textAlignment = NSTextAlignment.Center
+            label!.text = province.cities![row] as? String
+
+        }
+        return label!
+
+
+    }
 //    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
 //        if row == 0 {
 //            return "男"
@@ -222,14 +242,19 @@ class settingTableViewCell: UITableViewCell {
 
 
 // MARK: - 省市模型
-class Provinces : NSObject {
+class Province : NSObject {
     
     var name: String?
     var cities: NSArray?
     
-    func provinceWithDict(dict: NSDictionary) -> Provinces{
-        var provinces = Provinces()
-        provinces.setValuesForKeysWithDictionary(dict as [NSObject : AnyObject])
-        return provinces
+//    init(dict: NSDictionary) {
+//        self.name = dict["name"] as! String
+//        self.cities = dict["dities"] as! NSArray
+//    }
+    
+    class func provinceWithDict(dict: NSDictionary) -> Province {
+        var province = Province()
+        province.setValuesForKeysWithDictionary(dict as [NSObject : AnyObject])
+        return province
     }
 }

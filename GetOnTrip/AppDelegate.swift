@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import SSKeychain
 
 /// 全局变量记录用户账号
 var sharedUserAccount = UserAccount.loadAccount()
+/// 记录uuid
+var appUUID: String?
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -35,8 +38,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()
+        
+        // 获取用户uuid
+        gainUserUUID()
     
         return true
+    }
+    
+    // MARK: - 获取用户uuid
+    private func gainUserUUID() {
+        // 获取uuid
+        var uuid = SSKeychain.passwordForService(NSBundle.mainBundle().bundleIdentifier, account: "uuid")
+        if (uuid == nil) {
+            uuid = NSUUID().UUIDString
+            SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
+        }
+        appUUID = uuid
     }
 
     // MARK: - 注册第三方登陆分享应用相关信息

@@ -31,13 +31,7 @@ class TopicDetailRequest: NSObject {
     init(topicId: Int) {
         self.topicId = topicId
         
-        // 获取uuid
-        var uuid = SSKeychain.passwordForService(NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        if (uuid == nil) {
-            uuid = NSUUID().UUIDString
-            SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        }
-        self.deviceId = uuid
+        self.deviceId = appUUID!
     }
     
     // 将数据回调外界

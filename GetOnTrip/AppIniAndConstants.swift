@@ -78,3 +78,4 @@ struct SceneColor {
 struct SceneFont {
     static let heiti = "STHeitiSC-Light"
 }
+
