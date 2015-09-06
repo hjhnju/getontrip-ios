@@ -50,6 +50,9 @@
 		AE12FF821B9C15E100C09F8A /* FeedBackRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE12FF811B9C15E100C09F8A /* FeedBackRequest.swift */; };
 		AE12FF841B9C1DB700C09F8A /* FeedBackSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE12FF831B9C1DB700C09F8A /* FeedBackSendRequest.swift */; };
 		AE20EDEC1B9C456300F26074 /* cities.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE20EDEB1B9C456300F26074 /* cities.plist */; };
+		AE20EDEE1B9C4FC100F26074 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */; };
+		AE20EDF01B9C53B900F26074 /* MessageListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */; };
+		AE20EDF21B9C571100F26074 /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE20EDF11B9C571100F26074 /* MessageList.swift */; };
 		AE263C761B8D78BC003BB0BC /* TopicDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C751B8D78BC003BB0BC /* TopicDetailRequest.swift */; };
 		AE263C781B8D7AE9003BB0BC /* TopicDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C771B8D7AE9003BB0BC /* TopicDetail.swift */; };
 		AE263C7E1B8D8C26003BB0BC /* CyclopaedicDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE263C7D1B8D8C26003BB0BC /* CyclopaedicDetailController.swift */; };
@@ -186,6 +189,9 @@
 		AE12FF811B9C15E100C09F8A /* FeedBackRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedBackRequest.swift; sourceTree = "<group>"; };
 		AE12FF831B9C1DB700C09F8A /* FeedBackSendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedBackSendRequest.swift; sourceTree = "<group>"; };
 		AE20EDEB1B9C456300F26074 /* cities.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cities.plist; sourceTree = "<group>"; };
+		AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListRequest.swift; sourceTree = "<group>"; };
+		AE20EDF11B9C571100F26074 /* MessageList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
 		AE263C751B8D78BC003BB0BC /* TopicDetailRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailRequest.swift; sourceTree = "<group>"; };
 		AE263C771B8D7AE9003BB0BC /* TopicDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetail.swift; sourceTree = "<group>"; };
 		AE263C7D1B8D8C26003BB0BC /* CyclopaedicDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicDetailController.swift; sourceTree = "<group>"; };
@@ -345,6 +351,7 @@
 				72A5BF371B748BE200F3AB26 /* SearchResultsCell.swift */,
 				AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */,
 				AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */,
+				AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -491,6 +498,8 @@
 				AE12FF811B9C15E100C09F8A /* FeedBackRequest.swift */,
 				AE12FF831B9C1DB700C09F8A /* FeedBackSendRequest.swift */,
 				AE7C2F671B9C284F00A6D640 /* FeedBack.swift */,
+				AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */,
+				AE20EDF11B9C571100F26074 /* MessageList.swift */,
 			);
 			name = "Setting设置菜单";
 			sourceTree = "<group>";
@@ -874,6 +883,7 @@
 				7239FE301B87130600238A25 /* DiscoveryFlowLayout.swift in Sources */,
 				AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */,
 				AEB9E2961B85E272007B3ED3 /* Book.swift in Sources */,
+				AE20EDF21B9C571100F26074 /* MessageList.swift in Sources */,
 				72D7212F1B6B69FF005BDE55 /* MenuTableViewController.swift in Sources */,
 				AED03EA21B94208000EF063C /* SendCommentController.swift in Sources */,
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
@@ -886,6 +896,7 @@
 				AE7C2F681B9C284F00A6D640 /* FeedBack.swift in Sources */,
 				72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */,
 				AEA24B761B863BF300031FB8 /* VideoController.swift in Sources */,
+				AE20EDF01B9C53B900F26074 /* MessageListRequest.swift in Sources */,
 				AE513E381B857D41003DC53D /* TopicDetailsCell.swift in Sources */,
 				7216432A1B7DB18F009C292C /* StringExtentions.swift in Sources */,
 				AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */,
@@ -899,6 +910,7 @@
 				AED2DE461B8468F60091D320 /* TopicDetailListController.swift in Sources */,
 				AE12FF7F1B9C0BE800C09F8A /* FeedBackViewController.swift in Sources */,
 				72D86E2C1B65F045004B72D0 /* NearbyRequest.swift in Sources */,
+				AE20EDEE1B9C4FC100F26074 /* MessageViewController.swift in Sources */,
 				72A5BF351B73AB5F00F3AB26 /* SwiftyJSON.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,
 				AE12FF821B9C15E100C09F8A /* FeedBackRequest.swift in Sources */,

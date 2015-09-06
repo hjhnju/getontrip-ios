@@ -22,6 +22,12 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
     /// 反馈列表
     var feedBackList: NSArray?
     
+    /// 缓存行高
+    lazy var rowHeightCache: NSCache = {
+        var cache = NSCache()
+        return cache
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,14 +58,65 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
         }
     }
     
+    func scrollToBottom() {
+        NSIndexPath()
+    }
+    
+    /*
+    - (void)scrollToBottom {
+    // 滚动到最后一行
+    NSIndexPath *path = [NSIndexPath indexPathForRow:self.messages.count - 1 inSection:0];
+    [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+*/
+    // MARK: - tableView dataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         println(feedBackList)
         return feedBackList?.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+        var cell = reuseableCellWithIndexPath(indexPath)
+//        var reed = feedBackList[indexPath.row]
+//        cell.feedBack = feedBackList[indexPath.row]
+        
+        cell.feedBack = feedBackList![indexPath.row] as? FeedBack
         return cell
+    }
+    
+    /*
+    
+    - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // 判断缓存
+    if ([self.rowHeightCache objectForKey:indexPath] != nil) {
+    NSLog(@"返回缓存行高");
+    return [[self.rowHeightCache objectForKey:indexPath] floatValue];
+    }
+    
+    MessageCell *cell = [self reuseableCellWithIndexPath:indexPath];
+    CGFloat h = [cell rowHeight:self.messages[indexPath.row]];
+    
+    [self.rowHeightCache setObject:@(h) forKey:indexPath];
+    
+    return h;
+    }
+    */
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if rowHeightCache.objectForKey(indexPath) != nil {
+            return CGFloat(rowHeightCache.objectForKey(indexPath)!.floatValue)
+        }
+        
+        var cell = self.reuseableCellWithIndexPath(indexPath)
+        let h = cell.rowHeight(feedBackList![indexPath.row] as! FeedBack)
+        rowHeightCache.setObject(h, forKey: indexPath)
+        return h
+    }
+    
+    func reuseableCellWithIndexPath(indexPath: NSIndexPath) -> FeedBackViewCell {
+        let msg: FeedBack = feedBackList![indexPath.row] as! FeedBack
+        return tableView.dequeueReusableCellWithIdentifier(FeedBackViewCell().cellIdentifier(msg)) as! FeedBackViewCell
     }
     
     func sendMessageClick(btn: UIButton) {
@@ -132,7 +189,7 @@ class FeedBackViewCell: UITableViewCell {
     }
     
     func cellIdentifier(feedback: FeedBack) -> String {
-        return (feedback.id.toInt()! % 2) == 0 ? "SendCell" : "RecvCell"
+        return feedBack?.type == 2 ? "SendCell" : "RecvCell"
     }
     
     override func awakeFromNib() {

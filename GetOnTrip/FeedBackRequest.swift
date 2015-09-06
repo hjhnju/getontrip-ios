@@ -45,14 +45,12 @@ class FeedBackRequest: NSObject {
                 for feedBack in respData.arrayValue {
                     
                     var feedBackM: FeedBack?
-                    let userid      = feedBack["userid"].stringValue
+                    let id          = feedBack["id"].intValue
                     let content     = feedBack["content"].stringValue
-                    let status      = feedBack["status"].stringValue
-                    let id          = feedBack["id"].stringValue
-                    let update_time = feedBack["update_time"].stringValue
-                    let deal_time   = feedBack["deal_time"].stringValue
+                    let type        = feedBack["type"].intValue
+                    let image       = feedBack["image"].stringValue
                     let create_time = feedBack["create_time"].stringValue
-                    feedBackM = FeedBack(userid: userid, content: content, status: status, id: id, update_time: update_time, deal_time: deal_time, create_time: create_time)
+                    feedBackM = FeedBack(content: content, id: id, type: type, image: image, create_time: create_time)
                     feedBackList.append(feedBackM!)
                 }
                 // 回调

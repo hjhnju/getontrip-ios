@@ -109,7 +109,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         if component == 0 {
             return provinces!.count
         } else {
-            var province = provinces![provinceIndex]
+            var province: AnyObject = provinces![provinceIndex]
             return 5
         }
 
@@ -130,14 +130,14 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
         
-        var province = provinces![row]
+        var province: AnyObject = provinces![row]
         return province.name
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         //省份选中
         if (component == 0) {
-            var province = provinces![row]
+            var province: AnyObject = provinces![row]
             pickerView.reloadComponent(1)
             self.provinceIndex = row
         }
@@ -246,11 +246,6 @@ class Province : NSObject {
     
     var name: String?
     var cities: NSArray?
-    
-//    init(dict: NSDictionary) {
-//        self.name = dict["name"] as! String
-//        self.cities = dict["dities"] as! NSArray
-//    }
     
     class func provinceWithDict(dict: NSDictionary) -> Province {
         var province = Province()

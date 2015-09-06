@@ -21,7 +21,6 @@ class TopicDetailRequest: NSObject {
     // 请求参数
     var topicId  :Int
     var deviceId :String
-    
     var pageSize:Int = 6
     
     //获取当前页的数据
