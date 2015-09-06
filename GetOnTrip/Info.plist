@@ -25,11 +25,15 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>QQ05FB8B52</string>
 				<string>wx4868b35061f87885</string>
-				<string>tencent100371282</string>
-				<string>fb107704292745179</string>
-				<string>wb568898243</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sinaweibosso.568898243</string>
 			</array>
 		</dict>
 	</array>

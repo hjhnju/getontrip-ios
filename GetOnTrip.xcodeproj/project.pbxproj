@@ -56,12 +56,12 @@
 		AE553BBB1B81EAB700C03737 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB71B81EAB700C03737 /* 2.jpg */; };
 		AE553BBC1B81EAB700C03737 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB81B81EAB700C03737 /* 3.jpg */; };
 		AE553BBD1B81EAB700C03737 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AE553BB91B81EAB700C03737 /* 4.jpg */; };
+		AE6849771B9BD83100F00560 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8D54A21B9A9EB9009F26DE /* libicucore.dylib */; };
+		AE6849781B9BD85400F00560 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FC51B9B14EB006D6998 /* libz.dylib */; };
 		AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */; };
 		AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */; };
 		AE7C571D1B85971F00C5FC59 /* CyclopaedicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
-		AE8D54A31B9A9EB9009F26DE /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8D54A21B9A9EB9009F26DE /* libicucore.dylib */; };
-		AE8D54A51B9A9EFA009F26DE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE8D54A41B9A9EFA009F26DE /* MessageUI.framework */; };
 		AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE993E541B8318F000ECDCE1 /* CyclopaedicViewController.swift */; };
 		AEA191881B94347600D78F4E /* SendCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA191871B94347600D78F4E /* SendCommentRequest.swift */; };
 		AEA1918A1B9434E800D78F4E /* SendComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA191891B9434E800D78F4E /* SendComment.swift */; };
@@ -69,9 +69,6 @@
 		AEA24B741B863A1100031FB8 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B731B863A1100031FB8 /* Video.swift */; };
 		AEA24B761B863BF300031FB8 /* VideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B751B863BF300031FB8 /* VideoController.swift */; };
 		AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B771B8644D200031FB8 /* VideoCell.swift */; };
-		AEA94F841B9AA478006D6998 /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94F811B9AA478006D6998 /* SMS_SDK.framework */; };
-		AEA94F8B1B9AA49E006D6998 /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AEA94F861B9AA49E006D6998 /* SMS_SDKLocalizable.strings */; };
-		AEA94F8C1B9AA49E006D6998 /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AEA94F891B9AA49E006D6998 /* SMS_SDKLocalizable.strings */; };
 		AEA94F901B9AED30006D6998 /* UserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA94F8F1B9AED30006D6998 /* UserAccount.swift */; };
 		AEA94FB41B9B14A7006D6998 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94F941B9B14A7006D6998 /* GoogleOpenSource.framework */; };
 		AEA94FB51B9B14A7006D6998 /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEA94F951B9B14A7006D6998 /* GooglePlus.bundle */; };
@@ -90,7 +87,6 @@
 		AEA94FC21B9B14A7006D6998 /* ShareSDKExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FB11B9B14A7006D6998 /* ShareSDKExtension.framework */; };
 		AEA94FC31B9B14A7006D6998 /* ShareSDKUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEA94FB21B9B14A7006D6998 /* ShareSDKUI.bundle */; };
 		AEA94FC41B9B14A7006D6998 /* ShareSDKUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FB31B9B14A7006D6998 /* ShareSDKUI.framework */; };
-		AEA94FC61B9B14EB006D6998 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FC51B9B14EB006D6998 /* libz.dylib */; };
 		AEA94FC81B9B1503006D6998 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FC71B9B1503006D6998 /* libstdc++.dylib */; };
 		AEA94FCA1B9B150E006D6998 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FC91B9B150E006D6998 /* JavaScriptCore.framework */; };
 		AEA94FCC1B9B153A006D6998 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FCB1B9B153A006D6998 /* ImageIO.framework */; };
@@ -206,9 +202,6 @@
 		AEA24B731B863A1100031FB8 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		AEA24B751B863BF300031FB8 /* VideoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
 		AEA24B771B8644D200031FB8 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
-		AEA94F811B9AA478006D6998 /* SMS_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMS_SDK.framework; sourceTree = "<group>"; };
-		AEA94F871B9AA49E006D6998 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = SMS_SDKLocalizable.strings; sourceTree = "<group>"; };
-		AEA94F8A1B9AA49E006D6998 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = SMS_SDKLocalizable.strings; sourceTree = "<group>"; };
 		AEA94F8D1B9AA535006D6998 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		AEA94F8F1B9AED30006D6998 /* UserAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAccount.swift; sourceTree = "<group>"; };
 		AEA94F941B9B14A7006D6998 /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleOpenSource.framework; sourceTree = "<group>"; };
@@ -269,12 +262,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE6849781B9BD85400F00560 /* libz.dylib in Frameworks */,
+				AE6849771B9BD83100F00560 /* libicucore.dylib in Frameworks */,
 				AEA94FCE1B9B154B006D6998 /* libsqlite3.dylib in Frameworks */,
 				AEA94FCC1B9B153A006D6998 /* ImageIO.framework in Frameworks */,
 				AEA94FCA1B9B150E006D6998 /* JavaScriptCore.framework in Frameworks */,
 				AEA94FC81B9B1503006D6998 /* libstdc++.dylib in Frameworks */,
-				AEA94FC61B9B14EB006D6998 /* libz.dylib in Frameworks */,
-				AE8D54A31B9A9EB9009F26DE /* libicucore.dylib in Frameworks */,
 				AEA94FBE1B9B14A7006D6998 /* MOBFoundation.framework in Frameworks */,
 				AEA94FBB1B9B14A7006D6998 /* libWeiboSDK.a in Frameworks */,
 				AEA94FC41B9B14A7006D6998 /* ShareSDKUI.framework in Frameworks */,
@@ -283,10 +276,8 @@
 				AEA94FB61B9B14A7006D6998 /* GooglePlus.framework in Frameworks */,
 				AEA94FB41B9B14A7006D6998 /* GoogleOpenSource.framework in Frameworks */,
 				AEA94FC11B9B14A7006D6998 /* ShareSDKConnector.framework in Frameworks */,
-				AE8D54A51B9A9EFA009F26DE /* MessageUI.framework in Frameworks */,
 				AEA94FC21B9B14A7006D6998 /* ShareSDKExtension.framework in Frameworks */,
 				AEA94FC01B9B14A7006D6998 /* ShareSDK.framework in Frameworks */,
-				AEA94F841B9AA478006D6998 /* SMS_SDK.framework in Frameworks */,
 				72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */,
 				AEA94FBA1B9B14A7006D6998 /* RennSDK.framework in Frameworks */,
 				A5EE519BF51DAA2DF513E39B /* Pods.framework in Frameworks */,
@@ -306,6 +297,8 @@
 		66637B5775E152B983D5D047 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AE6849791B9BD94100F00560 /* location(地理位置) */,
+				AEA94F911B9B14A7006D6998 /* libraries(登陆/分享) */,
 				AEA94FCD1B9B154B006D6998 /* libsqlite3.dylib */,
 				AEA94FCB1B9B153A006D6998 /* ImageIO.framework */,
 				AEA94FC91B9B150E006D6998 /* JavaScriptCore.framework */,
@@ -368,7 +361,6 @@
 		72D86DD61B65D94D004B72D0 = {
 			isa = PBXGroup;
 			children = (
-				72D86E331B678D51004B72D0 /* CoreLocation.framework */,
 				72D86DE11B65D94D004B72D0 /* GetOnTrip */,
 				72D86DF71B65D94D004B72D0 /* GetOnTripTests */,
 				72D86DE01B65D94D004B72D0 /* Products */,
@@ -395,7 +387,6 @@
 				7239FE261B85B4C000238A25 /* Discovery */,
 				72D86E091B65E844004B72D0 /* Ucenter */,
 				72D86E081B65E82B004B72D0 /* Common */,
-				AE8D549A1B9A8FC5009F26DE /* Framework */,
 				72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */,
 				72D86DE41B65D94D004B72D0 /* AppDelegate.swift */,
 				72D86DE21B65D94D004B72D0 /* Supporting Files */,
@@ -471,6 +462,7 @@
 		72D86E151B65E871004B72D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AEA94F8F1B9AED30006D6998 /* UserAccount.swift */,
 				AE263C741B8D7866003BB0BC /* TopicDetail(话题详情) */,
 				AED2DE3D1B8426420091D320 /* Cyclopaedic(百科) */,
 				AED2DE401B8452CA0091D320 /* Topic(话题列表) */,
@@ -537,6 +529,15 @@
 			name = Guide;
 			sourceTree = "<group>";
 		};
+		AE6849791B9BD94100F00560 /* location(地理位置) */ = {
+			isa = PBXGroup;
+			children = (
+				72D86E331B678D51004B72D0 /* CoreLocation.framework */,
+			);
+			name = "location(地理位置)";
+			path = GetOnTrip;
+			sourceTree = "<group>";
+		};
 		AE6D9FAE1B84AD26009A8A9D /* Book(书籍) */ = {
 			isa = PBXGroup;
 			children = (
@@ -555,43 +556,7 @@
 			name = "Video(视频)";
 			sourceTree = "<group>";
 		};
-		AE8D549A1B9A8FC5009F26DE /* Framework */ = {
-			isa = PBXGroup;
-			children = (
-				AEA94F911B9B14A7006D6998 /* libraries */,
-				AEA94F7E1B9AA478006D6998 /* SMS_SDK */,
-				AEA94F8F1B9AED30006D6998 /* UserAccount.swift */,
-			);
-			name = Framework;
-			sourceTree = "<group>";
-		};
-		AEA94F7E1B9AA478006D6998 /* SMS_SDK */ = {
-			isa = PBXGroup;
-			children = (
-				AEA94F851B9AA49E006D6998 /* en.lproj */,
-				AEA94F881B9AA49E006D6998 /* zh-Hans.lproj */,
-				AEA94F811B9AA478006D6998 /* SMS_SDK.framework */,
-			);
-			path = SMS_SDK;
-			sourceTree = "<group>";
-		};
-		AEA94F851B9AA49E006D6998 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				AEA94F861B9AA49E006D6998 /* SMS_SDKLocalizable.strings */,
-			);
-			path = en.lproj;
-			sourceTree = "<group>";
-		};
-		AEA94F881B9AA49E006D6998 /* zh-Hans.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				AEA94F891B9AA49E006D6998 /* SMS_SDKLocalizable.strings */,
-			);
-			path = "zh-Hans.lproj";
-			sourceTree = "<group>";
-		};
-		AEA94F911B9B14A7006D6998 /* libraries */ = {
+		AEA94F911B9B14A7006D6998 /* libraries(登陆/分享) */ = {
 			isa = PBXGroup;
 			children = (
 				AEA94F921B9B14A7006D6998 /* extends */,
@@ -603,8 +568,8 @@
 				AEA94FB21B9B14A7006D6998 /* ShareSDKUI.bundle */,
 				AEA94FB31B9B14A7006D6998 /* ShareSDKUI.framework */,
 			);
-			name = libraries;
-			path = SMS_SDK/libraries;
+			name = "libraries(登陆/分享)";
+			path = GetOnTrip/SMS_SDK/libraries;
 			sourceTree = "<group>";
 		};
 		AEA94F921B9B14A7006D6998 /* extends */ = {
@@ -812,10 +777,8 @@
 				72D86E051B65E809004B72D0 /* Main.storyboard in Resources */,
 				AE553BBB1B81EAB700C03737 /* 2.jpg in Resources */,
 				72D86DEF1B65D94D004B72D0 /* LaunchScreen.xib in Resources */,
-				AEA94F8B1B9AA49E006D6998 /* SMS_SDKLocalizable.strings in Resources */,
 				AEA94FC31B9B14A7006D6998 /* ShareSDKUI.bundle in Resources */,
 				AEA94FB91B9B14A7006D6998 /* RennSDK.bundle in Resources */,
-				AEA94F8C1B9AA49E006D6998 /* SMS_SDKLocalizable.strings in Resources */,
 				724393671B7045A000F13EA1 /* Nearby.storyboard in Resources */,
 				72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */,
 				AEE122241B8F330E00AAC3C9 /* bg.jpg in Resources */,
@@ -977,22 +940,6 @@
 				72D86DEE1B65D94D004B72D0 /* Base */,
 			);
 			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-		AEA94F861B9AA49E006D6998 /* SMS_SDKLocalizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AEA94F871B9AA49E006D6998 /* en */,
-			);
-			name = SMS_SDKLocalizable.strings;
-			sourceTree = "<group>";
-		};
-		AEA94F891B9AA49E006D6998 /* SMS_SDKLocalizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AEA94F8A1B9AA49E006D6998 /* zh-Hans */,
-			);
-			name = SMS_SDKLocalizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

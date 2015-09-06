@@ -210,4 +210,78 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         
         presentViewController(vc, animated: true, completion: nil)
     }
+    
+    
+    // TODO:测试webview
+    
+    func showTopicDetail() {
+        var html = NSMutableString()
+        html.appendString("<html><head>")
+        html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
+        html.appendString("</head><body>")
+        html.appendString("")
+        html.appendString("</body></html>")
+        webView.loadHTMLString(html as String, baseURL: nil)
+    }
+   /*
+    /**
+    *  初始化body内容
+    */
+    func setupBody() -> String{
+        var body = NSMutableString()
+        body.appendFormat("<div class=\"title\">%@</div>", "标题")
+        body.appendFormat("<div class=\"time\">%@</div>", "时间")
+        body.appendString("数据体")
+        for img in detail.img {
+            var imgHtml = NSMutableString()
+            imgHtml.appendString("<div class=\"img-parent\">")
+            
+            let pixel = "".componentsSeparatedByString("*")
+            let width: Int = Int(pixel.first)
+            let height: Int = Int(pixel.last)
+            var
+        }
+        
+        
+        
+        return body as String
+    }
+    
+       // 拼接图片
+    [body appendString:self.detail.body];
+    for (HMNewsDetailImg *img in self.detail.img) {
+    // 图片的html字符串
+    NSMutableString *imgHtml = [NSMutableString string];
+    [imgHtml appendString:@"<div class=\"img-parent\">"];
+    
+    // img.pixel = 500*332
+    NSArray *pixel = [img.pixel componentsSeparatedByString:@"*"];
+    int width = [[pixel firstObject] intValue];
+    int height = [[pixel lastObject] intValue];
+    int maxWidth = [UIScreen mainScreen].bounds.size.width * 0.8;
+    if (width > maxWidth) { // 限制尺寸
+    height = height * maxWidth / width;
+    width = maxWidth;
+    }
+    
+    NSString *onload = @"this.onclick = function() {"
+    "   window.location.href = 'hm:src=' + this.src;"
+    "};";
+    
+    [imgHtml appendFormat:@"<img onload=\"%@\" width=\"%d\" height=\"%d\" src=\"%@\">", onload, width, height, img.src];
+    [imgHtml appendString:@"</div>"];
+    
+    // 将img.ref替换为img标签的内容
+    [body replaceOccurrencesOfString:img.ref withString:imgHtml options:NSCaseInsensitiveSearch range:NSMakeRange(0, body.length)];
+    }
+    return body;
+    }
+    */
+
+    
+    
+    
+    
+    
+    
 }

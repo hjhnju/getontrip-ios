@@ -602,8 +602,8 @@
                                                     <action selector="SinaWeiboLogin:" destination="xLA-c7-0ul" eventType="touchUpInside" id="U7Z-Ic-c6v"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mlO-Ua-ZnS" userLabel="微信">
-                                                <rect key="frame" x="195" y="27" width="46" height="43"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mlO-Ua-ZnS" userLabel="微信">
+                                                <rect key="frame" x="202" y="29" width="39" height="39"/>
                                                 <state key="normal" image="weixin_picture">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -663,6 +663,9 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c8g-Av-MOq">
+                                        <rect key="frame" x="270" y="60" width="60" height="60"/>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gMC-Ou-M32">
                                         <rect key="frame" x="267" y="543" width="66" height="14"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -677,8 +680,8 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JiX-cQ-ucE">
-                                        <rect key="frame" x="0.0" y="170" width="600" height="310"/>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JiX-cQ-ucE">
+                                        <rect key="frame" x="0.0" y="107" width="600" height="373"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="373" id="bcc-Kk-JkN"/>
                                         </constraints>
@@ -690,8 +693,10 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="8Nz-pU-ksl" firstAttribute="bottom" secondItem="Zzy-fJ-QsS" secondAttribute="top" id="0Rt-F0-rfd"/>
+                                    <constraint firstItem="w3z-fx-IWf" firstAttribute="width" secondItem="c8g-Av-MOq" secondAttribute="width" id="1My-mc-lIy"/>
                                     <constraint firstItem="7EX-79-Vzg" firstAttribute="top" secondItem="8JN-Wd-YBy" secondAttribute="top" id="2gD-Cf-e1u"/>
                                     <constraint firstItem="7b7-iP-Ell" firstAttribute="trailing" secondItem="JiX-cQ-ucE" secondAttribute="trailing" id="5Vf-oJ-lhk"/>
+                                    <constraint firstItem="w3z-fx-IWf" firstAttribute="centerX" secondItem="c8g-Av-MOq" secondAttribute="centerX" id="Cf1-Mh-dru"/>
                                     <constraint firstItem="7EX-79-Vzg" firstAttribute="leading" secondItem="JiX-cQ-ucE" secondAttribute="leading" id="FTJ-bx-4As"/>
                                     <constraint firstItem="w3z-fx-IWf" firstAttribute="top" secondItem="8JN-Wd-YBy" secondAttribute="top" constant="60" id="HdP-1G-RR6"/>
                                     <constraint firstItem="w3z-fx-IWf" firstAttribute="bottom" secondItem="dFu-dE-pQ2" secondAttribute="top" constant="-8" id="QMa-nu-HfA"/>
@@ -699,10 +704,12 @@
                                     <constraint firstAttribute="centerX" secondItem="8Nz-pU-ksl" secondAttribute="centerX" id="Z6I-lq-P2D"/>
                                     <constraint firstAttribute="centerX" secondItem="dFu-dE-pQ2" secondAttribute="centerX" id="aVp-EV-f0t"/>
                                     <constraint firstItem="JiX-cQ-ucE" firstAttribute="top" secondItem="8JN-Wd-YBy" secondAttribute="top" constant="282" id="b48-yB-4Pq"/>
+                                    <constraint firstItem="w3z-fx-IWf" firstAttribute="centerY" secondItem="c8g-Av-MOq" secondAttribute="centerY" id="dHM-kv-o7m"/>
                                     <constraint firstItem="JiX-cQ-ucE" firstAttribute="top" secondItem="8JN-Wd-YBy" secondAttribute="top" constant="160" id="gEx-bR-DWu"/>
                                     <constraint firstItem="JiX-cQ-ucE" firstAttribute="top" secondItem="7b7-iP-Ell" secondAttribute="bottom" constant="35" id="ggY-cF-Ug9"/>
                                     <constraint firstItem="7b7-iP-Ell" firstAttribute="top" secondItem="8JN-Wd-YBy" secondAttribute="top" constant="82" id="hUU-LJ-zTh"/>
                                     <constraint firstAttribute="bottom" secondItem="gMC-Ou-M32" secondAttribute="bottom" constant="23" id="isG-Dt-p1R"/>
+                                    <constraint firstItem="w3z-fx-IWf" firstAttribute="height" secondItem="c8g-Av-MOq" secondAttribute="height" id="nGy-e0-7O5"/>
                                     <constraint firstAttribute="centerX" secondItem="gMC-Ou-M32" secondAttribute="centerX" id="oBG-wU-E9S"/>
                                     <constraint firstAttribute="bottom" secondItem="JiX-cQ-ucE" secondAttribute="bottom" constant="100" id="snW-FU-wpq"/>
                                     <constraint firstItem="7b7-iP-Ell" firstAttribute="leading" secondItem="JiX-cQ-ucE" secondAttribute="leading" id="tB8-Oq-Al5"/>
@@ -730,6 +737,7 @@
                     <connections>
                         <outlet property="bgImageView" destination="7EX-79-Vzg" id="Eey-Sr-uJa"/>
                         <outlet property="headButton" destination="w3z-fx-IWf" id="Ify-5h-zYC"/>
+                        <outlet property="iconView" destination="c8g-Av-MOq" id="dXj-D6-0TV"/>
                         <outlet property="sideTableViewController" destination="JiX-cQ-ucE" id="1EX-Fj-6sy"/>
                         <outlet property="unloginView" destination="7b7-iP-Ell" id="0k3-vS-4qW"/>
                         <outlet property="user_name" destination="dFu-dE-pQ2" id="3DX-Tr-dGa"/>
@@ -745,7 +753,7 @@
             <objects>
                 <tableViewController id="xSm-V3-Lgc" customClass="MenuTableViewController" customModule="GetOnTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" sectionHeaderHeight="22" sectionFooterHeight="22" id="bMa-Rh-lp2">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="310"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="373"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

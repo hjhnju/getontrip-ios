@@ -9,7 +9,7 @@
 import UIKit
 
 /// 全局变量记录用户账号
-//var sharedUserAccount = UserAccount.loadAccount()
+var sharedUserAccount = UserAccount.loadAccount()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -33,6 +33,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSURLCache.setSharedURLCache(urlCache)
         
         
+        // 注册第三方登陆分享应用相关信息
+        registerAppInfo()
+    
+        return true
+    }
+
+    // MARK: - 注册第三方登陆分享应用相关信息
+    private func registerAppInfo() {
         
         /**
         *  设置ShareSDK的appKey，如果尚未在ShareSDK官网注册过App，请移步到http://mob.com/login 登录后台进行应用注册，
@@ -51,20 +59,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             onImport: {(platform : SSDKPlatformType) -> Void in
                 
                 switch platform{
-                // 调用微信接口
+                    // 调用微信接口
                 case SSDKPlatformType.TypeWechat:
                     ShareSDKConnector.connectWeChat(WXApi.classForCoder())
-                // 调用qq接口
+                    // 调用qq接口
                 case SSDKPlatformType.TypeQQ:
                     ShareSDKConnector.connectQQ(QQApiInterface.classForCoder(), tencentOAuthClass: TencentOAuth.classForCoder())
-                // 未调用新浪接口，文档说不调用并不影响授权及分享功能
+                    // 未调用新浪接口，文档说不调用并不影响授权及分享功能
                 default:
                     break
                 }
             },
             onConfiguration: {(platform : SSDKPlatformType,appInfo : NSMutableDictionary!) -> Void in
                 switch platform {
-                // TODO: 以下应用均未在相关应用进行过注册，模拟器无法检测，只能使用真机
+                    // TODO: 以下应用均未在相关应用进行过注册，模拟器无法检测，只能使用真机
                 case SSDKPlatformType.TypeSinaWeibo:
                     //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
                     appInfo.SSDKSetupSinaWeiboByAppKey("568898243",
@@ -95,16 +103,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                 }
         })
-    
-    
-    
-    
-        return true
+
     }
 
 
-
-    // MARK: 设置是否是第一次进入最新版本
+    // MARK: - 设置是否是第一次进入最新版本
     private func defaultViewController() -> UIViewController {
         
         return isNewUpdate() ? GuideViewController() : SlideMenuViewController()

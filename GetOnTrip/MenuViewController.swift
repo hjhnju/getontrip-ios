@@ -7,16 +7,20 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MenuViewController: UIViewController {
     
     @IBOutlet weak var sideTableViewController: UIView!
     
+    
+    @IBOutlet weak var iconView: UIImageView!
     //MARK: Properties
     var logined: Bool = false
     
     var headImage: UIImage? {
         didSet {
+//            headButton.imageView
             headButton.setBackgroundImage(headImage, forState: UIControlState.Normal)
         }
     }
@@ -24,11 +28,11 @@ class MenuViewController: UIViewController {
     var userName: String? {
         didSet {
             if let name = userName {
-                user_name.text = "Hello! \(name)"
+                user_name.text = "\(name)"
             }
         }
     }
-    
+
     var bgImageUrl: String? {
         didSet {
             if let url = bgImageUrl {
@@ -68,31 +72,37 @@ class MenuViewController: UIViewController {
     
     func refresh() {
         if logined {
-            
-            headImage = UIImage(named: "default-topic")
-            userName  = "Joshua"
+            iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!))
+            iconView.layer.cornerRadius = iconView.frame.width / 2
+            iconView.clipsToBounds = true
+            userName  = sharedUserAccount?.nickname
             unloginView.hidden = true
-            //圆角头像
             headButton.hidden = false
+            //圆角头像
             headButton.layer.cornerRadius = headButton.frame.width / 2
             headButton.clipsToBounds = true
             headButton.setTitle("", forState: .Normal)
             user_name.hidden = false
-            
+            welcome_label.hidden = true
         }else {
             headButton.hidden = true
+            iconView.hidden = true
         }
     }
     
-    // MARK: 第三方登陆
+    // MARK: - 第三方登陆
     // 微信登陆
     @IBAction func wechatLogin(sender: UIButton) {
-        //授权
+//        UserAccount()!.wechatLogin()
         ShareSDK.authorize(SSDKPlatformType.TypeWechat, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
                 
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            var account = UserAccount(user: user)
+            sharedUserAccount = account
+            self.logined = true
+            self.refresh()
             case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
             case SSDKResponseState.Cancel:  println("操作取消")
                 
@@ -104,12 +114,15 @@ class MenuViewController: UIViewController {
     
     // qq登陆
     @IBAction func qqLogin(sender: UIButton) {
-        //授权
         ShareSDK.authorize(SSDKPlatformType.TypeQQ, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
                 
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            var account = UserAccount(user: user)
+            sharedUserAccount = account
+            self.logined = true
+            self.refresh()
             case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
             case SSDKResponseState.Cancel:  println("操作取消")
                 
@@ -127,6 +140,13 @@ class MenuViewController: UIViewController {
             switch state{
                 
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+                
+            var account = UserAccount(user: user)
+            
+                sharedUserAccount = account
+                self.logined = true
+                self.refresh()
+                
             case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
             case SSDKResponseState.Cancel:  println("操作取消")
                 
