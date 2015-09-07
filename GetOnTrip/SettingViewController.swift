@@ -23,6 +23,10 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     
     // 昵称
     @IBOutlet weak var nickName: UITextView!
+    
+    /// 通知
+    @IBOutlet weak var informSwitch: UISwitch!
+    
     /// 选择城市/姓别
     lazy var pickView: UIPickerView = {
         var pick = UIPickerView()
@@ -56,6 +60,8 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         pickView.dataSource = self
         pickView.delegate = self
         tableView.addSubview(pickView)
+        
+        informSwitch.addTarget(self, action: "informSwitchClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
         
         
@@ -124,11 +130,9 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
             picker.delegate = self
             presentViewController(picker, animated: true, completion: nil)
         }
+        
+        
 
-        //        if indexPath.row == SettingCell.nickCell {
-////            pickView.hidden = false
-////            pickViewSourceNameAndCity = true
-//        }
 
 
 
@@ -217,6 +221,13 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         return label!
 
 
+    }
+    
+    /// 通知方法
+    func informSwitchClick(inform: UISwitch) {
+        let alertView = UIAlertView(title: "通知", message: "请到设置——通知中打开我们的推送功能", delegate: self, cancelButtonTitle: "确定")
+        alertView.show()
+        inform.on = false
     }
     
     

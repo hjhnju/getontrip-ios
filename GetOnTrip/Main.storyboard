@@ -392,7 +392,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZPt-2C-NdW">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ZPt-2C-NdW">
                                                     <rect key="frame" x="540" y="13" width="51" height="31"/>
                                                 </switch>
                                             </subviews>
@@ -417,6 +417,7 @@
                     <navigationItem key="navigationItem" title="设置" id="dzb-Nr-i74"/>
                     <connections>
                         <outlet property="iconView" destination="QV3-b2-lkH" id="Sfx-Mp-SGx"/>
+                        <outlet property="informSwitch" destination="ZPt-2C-NdW" id="HIA-li-3sZ"/>
                         <outlet property="nickName" destination="4vs-QI-vjL" id="9hS-Bc-tyP"/>
                     </connections>
                 </tableViewController>
