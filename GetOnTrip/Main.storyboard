@@ -244,7 +244,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QV3-b2-lkH">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="QV3-b2-lkH">
                                                     <rect key="frame" x="524" y="26.5" width="66" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="66" id="P01-VO-wsP"/>
@@ -272,24 +272,36 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="美女" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="4vs-QI-vjL">
-                                                    <rect key="frame" x="441" y="16" width="150" height="25.5"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="美女" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4vs-QI-vjL">
+                                                    <rect key="frame" x="541" y="0.0" width="50" height="49.5"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="Urr-mH-hS9"/>
-                                                        <constraint firstAttribute="width" constant="150" id="k89-8c-Qfa"/>
+                                                        <constraint firstAttribute="width" constant="50" id="htW-R0-5pA"/>
+                                                        <constraint firstAttribute="height" constant="40" id="vVd-Vz-A9V"/>
                                                     </constraints>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.47024054276315774" green="0.63679584703947367" blue="0.42454769736842107" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="vVd-Vz-A9V"/>
+                                                        </mask>
+                                                    </variation>
                                                 </textView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="sM6-R9-7mA" firstAttribute="leading" secondItem="qVR-Wq-1Pm" secondAttribute="leading" constant="9" id="HPM-oR-RiR"/>
-                                                <constraint firstAttribute="trailing" secondItem="4vs-QI-vjL" secondAttribute="trailing" constant="9" id="kIH-iY-FVW"/>
-                                                <constraint firstAttribute="centerY" secondItem="4vs-QI-vjL" secondAttribute="centerY" constant="-4" id="pK9-S9-YFP"/>
+                                                <constraint firstAttribute="trailing" secondItem="4vs-QI-vjL" secondAttribute="trailing" constant="9" id="Xa8-cL-g4r"/>
+                                                <constraint firstAttribute="bottom" secondItem="4vs-QI-vjL" secondAttribute="bottom" id="YP8-6v-ubP"/>
+                                                <constraint firstAttribute="centerY" secondItem="4vs-QI-vjL" secondAttribute="centerY" id="hHr-Fa-28r"/>
+                                                <constraint firstItem="4vs-QI-vjL" firstAttribute="top" secondItem="qVR-Wq-1Pm" secondAttribute="top" id="ljn-Qk-9bS"/>
                                                 <constraint firstAttribute="centerY" secondItem="sM6-R9-7mA" secondAttribute="centerY" id="syZ-ia-bde"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="hHr-Fa-28r"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
@@ -405,6 +417,7 @@
                     <navigationItem key="navigationItem" title="设置" id="dzb-Nr-i74"/>
                     <connections>
                         <outlet property="iconView" destination="QV3-b2-lkH" id="Sfx-Mp-SGx"/>
+                        <outlet property="nickName" destination="4vs-QI-vjL" id="9hS-Bc-tyP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2cb-ac-zkI" userLabel="First Responder" sceneMemberID="firstResponder"/>

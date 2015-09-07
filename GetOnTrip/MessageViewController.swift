@@ -13,6 +13,8 @@ class MessageViewController: UITableViewController {
 
     var lastSuccessRequest: MessageListRequest?
     
+    var messageLists: [MessageList]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,9 +35,9 @@ class MessageViewController: UITableViewController {
             lastSuccessRequest = MessageListRequest()
         }
         
-        lastSuccessRequest?.fetchFeedBackModels {(handler: String) -> Void in
-//            self.feedBackList = handler
-//            self.tableView.reloadData()
+        lastSuccessRequest?.fetchFeedBackModels {(handler: [MessageList]) -> Void in
+            self.messageLists = handler
+            self.tableView.reloadData()
         }
     }
     
@@ -47,11 +49,9 @@ class MessageViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
+        
+        return messageLists?.count ?? 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

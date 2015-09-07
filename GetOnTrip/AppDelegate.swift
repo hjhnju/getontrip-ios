@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Joshua. All rights reserved.
 //
 
+// $(TARGET_NAME)  项目名
+
 import UIKit
 import SSKeychain
 
@@ -100,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                 case SSDKPlatformType.TypeWechat:
                     //设置微信应用信息
-                    appInfo.SSDKSetupWeChatByAppId("wx4868b35061f87885", appSecret: "64020361b8ec4c99936c0e3999a9f249")
+//                    appInfo.SSDKSetupWeChatByAppId("wx4868b35061f87885", appSecret: "64020361b8ec4c99936c0e3999a9f249")
                     break
                     
                 case SSDKPlatformType.TypeTencentWeibo:

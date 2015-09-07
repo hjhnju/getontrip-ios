@@ -8,26 +8,44 @@
 
 import UIKit
 
-class SettingViewController: UITableViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+/// 定义选中的是第几行
+struct SettingCell {
+    static let iconCell = 1
+    static let nickCell = 2
+    static let sexCell  = 3
+    static let cityCell = 4
+}
+
+class SettingViewController: UITableViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate {
     
-    // 头像
+    /// 头像
     @IBOutlet weak var iconView: UIImageView!
     
+    // 昵称
+    @IBOutlet weak var nickName: UITextView!
+    /// 选择城市/姓别
     lazy var pickView: UIPickerView = {
         var pick = UIPickerView()
         pick.backgroundColor = UIColor(hex: 0xDCD7D7, alpha: 1.0)
+        pick.hidden = true
         return pick
     }()
     
+    /// 省市联动
     var provinces: NSArray?
     
+    /// 当前省的索引
     var provinceIndex: Int = 0
+    
+    /// pick切换数据源方法 如果是true则是姓别，false是城市
+    var pickViewSourceNameAndCity: Bool = false
     
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        println(provinces)
+        
+        nickName.delegate = self
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
         iconView.clipsToBounds = true
@@ -51,25 +69,53 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
             provincesM.addObject(dict)
         }
         provinces = provincesM
-        
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         let h: CGFloat = 162
-        let y: CGFloat = UIScreen.mainScreen().bounds.height - h - 64
+        let y: CGFloat = UIScreen.mainScreen().bounds.height
         let w: CGFloat = UIScreen.mainScreen().bounds.width
         pickView.frame = CGRectMake(0, y, w, h)
     }
     
+    
     // MARK: - tableview delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        /// 先切换数据源方法，再实现动画
+        if indexPath.row == SettingCell.sexCell {
+            pickViewSourceNameAndCity = true
+            pickView.reloadAllComponents()
+        }
+        
+        if indexPath.row == SettingCell.cityCell {
+            pickViewSourceNameAndCity = false
+            pickView.reloadAllComponents()
+        }
+        
+        let y: CGFloat = UIScreen.mainScreen().bounds.height - pickView.bounds.height - 64
         
         
-        if indexPath.row == 1 {
+        /// pickView 位置动画
+        if indexPath.row == SettingCell.cityCell || indexPath.row == SettingCell.sexCell{
+            pickView.hidden = false
+            if pickView.frame.origin.y > y {
+            pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    self.pickView.frame.origin.y = y
+                })
+            }
+        } else {
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
+            })
+        }
+        
+
+        
+        if indexPath.row == SettingCell.iconCell {
             // 选择照片
             if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
                 return
@@ -78,18 +124,13 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
             picker.delegate = self
             presentViewController(picker, animated: true, completion: nil)
         }
-        
-        if indexPath.row == 3 {
-//            let h: CGFloat = 162
-//            let y: CGFloat = UIScreen.mainScreen().bounds.height - h - 64
-//            let w: CGFloat = UIScreen.mainScreen().bounds.width
-//            var pick = UIPickerView(frame: CGRectMake(0, y, w, h))
-//            tableView.addSubview(pick)
-//            pick.backgroundColor = UIColor.whiteColor()
-//            pick.dataSource = self
-//            pick.delegate = self
-            
-        }
+
+        //        if indexPath.row == SettingCell.nickCell {
+////            pickView.hidden = false
+////            pickViewSourceNameAndCity = true
+//        }
+
+
 
     }
     
@@ -101,23 +142,26 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     
     // MARK: - pickView dataSource
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 2
+        return pickViewSourceNameAndCity ? 1 : 2
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        if component == 0 {
-            return provinces!.count
-        } else {
-            var province: AnyObject = provinces![provinceIndex]
-            return 5
+        if pickViewSourceNameAndCity {
+                return 2
+            } else {
+                if component == 0 {
+                    return provinces!.count
+                } else {
+                    var province: AnyObject = provinces![provinceIndex]
+                    return province["cities"]!!.count
+                }
         }
-
     }
     
     func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        if component == 0 {
-            return 150
+        
+        if pickViewSourceNameAndCity {
+            return 20
         } else {
             return 150
         }
@@ -125,13 +169,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     
     func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 44
-    }
-    
-    
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        
-        var province: AnyObject = provinces![row]
-        return province.name
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -153,40 +190,48 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
             label = UILabel()
         }
         
-        if component == 0 {
-            println(provinces)
-            var province = provinces![row] as! NSDictionary
-            var temp = Province.provinceWithDict(province)
-            println("---------")
-            println(temp)
-            label?.text = temp.name
-//            label?.backgroundColor = UIColor.orangeColor()
-            label?.textAlignment = NSTextAlignment.Center
-//            label?.bounds = CGRectMake(0, 0, 150, 30)
+        if pickViewSourceNameAndCity {
+            
+            if row == 0 {
+                label?.text = "男"
+            } else {
+                label?.text = "女"
+            }
+            
         } else {
-
-            var temp = provinces![provinceIndex] as! NSDictionary
-            var province = Province.provinceWithDict(temp)
-            label?.textAlignment = NSTextAlignment.Center
-            label!.text = province.cities![row] as? String
-
+            
+            if component == 0 {
+                var province = provinces![row] as! NSDictionary
+                var temp = Province.provinceWithDict(province)
+                label?.text = temp.name
+                label?.textAlignment = NSTextAlignment.Center
+            } else {
+                var temp = provinces![provinceIndex] as! NSDictionary
+                var province = Province.provinceWithDict(temp)
+                label?.textAlignment = NSTextAlignment.Center
+                label!.text = province.cities![row] as? String
+            }
         }
+        
+        
         return label!
 
 
     }
-//    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-//        if row == 0 {
-//            return "男"
-//        } else {
-//            return "女"
-//        }
-//    }
     
     
     
-    
-    
+    // MARK: UITextView Delegate
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        
+        var tempText = nickName.text as NSString
+        if tempText.length > 5 {
+            
+            return false
+        }
+        
+        return true
+    }
     
     
 }

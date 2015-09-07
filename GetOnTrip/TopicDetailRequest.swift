@@ -51,7 +51,7 @@ class TopicDetailRequest: NSObject {
             path: "/api/topic/detail",
             post: post,
             handler: {(respData: JSON) -> Void in
-                println(respData)
+
                 var topic: Topic?
                 // 转换话题详情
                 let id              = respData["id"].intValue

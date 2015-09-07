@@ -10,19 +10,38 @@ import UIKit
 
 class MessageList: NSObject {
    
+    /// 附加？
+    var attach: String?
+    
+    /// 内容
+    var content: String?
+    
+    /// 头像
+    var avatar: String?
+    
+    /// mid
+    var mid: Int
+    
+    /// 标题
+    var title: String?
+    
+    /// 图片
+    var image: String?
+    
     /// 创建时间
     var create_time: String?
     
-    /// mid
-    var mid: String?
+    /// 回复/提问
+    var type: String?
     
-    /// 标题
-    
-    
-//    "create_time" : "3小时",
-//    "mid" : 23,
-//    "title" : "系统消息",
-//    "content" : "444",
-//    "image" : "",
-//    "attach" : null
+    init(attach: String, content: String, avatar: String, mid: Int, title: String, image: String, create_time: String, type: String) {
+        self.attach = attach
+        self.content = content
+        self.avatar = avatar
+        self.mid = mid
+        self.title = title
+        self.image = image
+        self.create_time = create_time
+        self.type = type
+    }
 }

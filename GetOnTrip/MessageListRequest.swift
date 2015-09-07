@@ -25,12 +25,12 @@ class MessageListRequest: NSObject {
     var curPage  :Int = 1
     
     // 将数据回调外界
-    func fetchFeedBackModels(handler: String -> Void) {
+    func fetchFeedBackModels(handler: [MessageList] -> Void) {
         fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: String -> Void) {
+    func fetchModels(handler: [MessageList] -> Void) {
         var post         = [String: String]()
         post["deviceId"] = appUUID
         post["pageSize"] = String(self.pageSize)
@@ -40,13 +40,23 @@ class MessageListRequest: NSObject {
             path: "/api/msg/list",
             post: post,
             handler: {(respData: JSON) -> Void in
-                println(respData)
-                "\(respData)".writeToFile("/Users/zk-pro/Desktop/111", atomically: true, encoding: NSUTF8StringEncoding, error: nil)
-                var reversion: AnyObject?
-                reversion = respData.object
+                
+               var messageLists = [MessageList]()
+                for item in respData.arrayValue {
+                    let attach = item["attach"].stringValue
+                    let content = item["content"].stringValue
+                    let avatar  = item["avatar"].stringValue
+                    let mid     = item["mid"].intValue
+                    let title   = item["title"].stringValue
+                    let image   = item["image"].stringValue
+                    let cTime   = item["create_time"].stringValue
+                    let type    = item["type"].stringValue
+                    var messageListM = MessageList(attach: attach, content: content, avatar: avatar, mid: mid, title: title, image: image, create_time: cTime, type: type)
+                    messageLists.append(messageListM)
+                }
                 
                 // 回调
-                handler(reversion as! String)
+                handler(messageLists)
             }
         )
     }

@@ -26,9 +26,9 @@ class SendPresentationController: UIPresentationController {
     
     ///  关闭展现视图控制器
     func close() {
-        if !presentedViewController.isBeingPresented(){
-            
-            presentedViewController.dismissViewControllerAnimated(true, completion: nil)
+        
+        dispatch_after(1, dispatch_get_main_queue()) { () -> Void in
+            self.presentedViewController.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     

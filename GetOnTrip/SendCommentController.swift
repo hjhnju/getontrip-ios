@@ -64,13 +64,15 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
     
     func keyboardChanged(notification: NSNotification) {
         
-        var duration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
+        let duration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
+        let r = notification.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue()
         
-        var rect: CGRect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]!.CGRectValue()
-        
+        bottomConstraint.constant = UIScreen.mainScreen().bounds.size.height - r!.origin.y - 44
         UIView.animateWithDuration(duration, animations: { () -> Void in
-            self.bottomConstraint.constant = UIScreen.mainScreen().bounds.height - rect.origin.y - 44
-        })
+            self.view.layoutIfNeeded()
+            }) { (_) -> Void in
+                
+        }
     }
     
     deinit {

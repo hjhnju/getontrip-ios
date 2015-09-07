@@ -165,13 +165,10 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     // TODO: 以截取Range方式进行应用间跳转，如果不是我方协议就跳转，但以后需改
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
-        println(request)
         
         var url = request.URL?.absoluteString
         let index = advance(url!.startIndex, 20)
         var range = Range<String.Index>(start: url!.startIndex, end: index)
-                                             // 01
-        println(url?.substringWithRange(range))
         if url?.substringWithRange(range) == "http://123.57.46.229" {
             return true
         }
