@@ -99,7 +99,6 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         
         addChildViewController(motifController)
         view3.addSubview(motifController.view)
-        motifController.view.backgroundColor = UIColor.blueColor()
         scrollView.addSubview(view3)
     }
     
@@ -190,10 +189,9 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // 主题控制器
-    lazy var motifController: UIViewController = {
-//        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-//        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicBookSB) as! BookController
-        return UIViewController()
+    lazy var motifController: CollectMotifViewController = {
+        let story1 = UIStoryboard(name: "Main", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectMotifSB) as! CollectMotifViewController
     }()
     
 }

@@ -64,7 +64,7 @@ struct StoryBoardIdentifier {
     // 收藏页面
     static let CollectTopicSB      = "CollectTopicSB"
     static let CollectSightSB      = "CollectSightSB"
-    static let CollectMotifSB      = "CollectMotif"
+    static let CollectMotifSB      = "CollectMotifSB"
 }
 
 struct SceneColor {

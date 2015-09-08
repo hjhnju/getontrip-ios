@@ -110,6 +110,7 @@
 		AECD22661B9ECDD5007F1D71 /* CollectSightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD22651B9ECDD5007F1D71 /* CollectSightViewController.swift */; };
 		AECD22691B9EDD4C007F1D71 /* CollectSight.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD22681B9EDD4C007F1D71 /* CollectSight.swift */; };
 		AECD226D1B9EEC9B007F1D71 /* CollectTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD226C1B9EEC9B007F1D71 /* CollectTopicViewController.swift */; };
+		AECD226F1B9F045D007F1D71 /* CollectMotifViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD226E1B9F045D007F1D71 /* CollectMotifViewController.swift */; };
 		AED03EA01B941DB300EF063C /* TopicDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AED03E9F1B941DB300EF063C /* TopicDetail.storyboard */; };
 		AED03EA21B94208000EF063C /* SendCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED03EA11B94208000EF063C /* SendCommentController.swift */; };
 		AED03EA41B9424C000EF063C /* SendPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED03EA31B9424C000EF063C /* SendPresentationController.swift */; };
@@ -269,6 +270,7 @@
 		AECD22651B9ECDD5007F1D71 /* CollectSightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectSightViewController.swift; sourceTree = "<group>"; };
 		AECD22681B9EDD4C007F1D71 /* CollectSight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectSight.swift; sourceTree = "<group>"; };
 		AECD226C1B9EEC9B007F1D71 /* CollectTopicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectTopicViewController.swift; sourceTree = "<group>"; };
+		AECD226E1B9F045D007F1D71 /* CollectMotifViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectMotifViewController.swift; sourceTree = "<group>"; };
 		AED03E9F1B941DB300EF063C /* TopicDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TopicDetail.storyboard; sourceTree = "<group>"; };
 		AED03EA11B94208000EF063C /* SendCommentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendCommentController.swift; sourceTree = "<group>"; };
 		AED03EA31B9424C000EF063C /* SendPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendPresentationController.swift; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 				72D721341B6C4500005BDE55 /* FavoriteViewController.swift */,
 				AECD22651B9ECDD5007F1D71 /* CollectSightViewController.swift */,
 				AECD226C1B9EEC9B007F1D71 /* CollectTopicViewController.swift */,
+				AECD226E1B9F045D007F1D71 /* CollectMotifViewController.swift */,
 			);
 			name = Ucenter;
 			sourceTree = "<group>";
@@ -914,6 +917,7 @@
 				AED03EA21B94208000EF063C /* SendCommentController.swift in Sources */,
 				AECD22661B9ECDD5007F1D71 /* CollectSightViewController.swift in Sources */,
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
+				AECD226F1B9F045D007F1D71 /* CollectMotifViewController.swift in Sources */,
 				721642E81B79C01A009C292C /* UILabelExtentions.swift in Sources */,
 				72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */,
 				AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */,
