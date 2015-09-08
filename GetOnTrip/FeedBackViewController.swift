@@ -28,24 +28,30 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
         return cache
     }()
     
+    // MARK: - 初始化相关
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        sendButton.layer.cornerRadius = sendButton.bounds.height * 0.5
-        sendButton.clipsToBounds = true
-        sendButton.addTarget(self, action: "sendMessageClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        settingSendButton()
         tableView.dataSource = self
         tableView.delegate = self
-        self.tableView.backgroundColor = UIColor(patternImage: UIImage(named: "setting_black")!)
+        self.tableView.backgroundColor = UIColor(patternImage: UIImage(named: "feedBack_background")!)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
         // 加载反馈列表
         loadFeedBackHistory()
     }
     
+    /// 加载发送按钮相关设置
+    func settingSendButton() {
+        sendButton.layer.cornerRadius = sendButton.bounds.height * 0.5
+        sendButton.clipsToBounds = true
+        sendButton.addTarget(self, action: "sendMessageClick:", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    /// 注销通知
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
+    /// 当键盘弹出的时候，执行想着操作
     func keyboardChanged(not: NSNotification) {
         let duration = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
         let r = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue()
@@ -58,9 +64,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
         }
     }
     
-    func scrollToBottom() {
-        NSIndexPath()
-    }
+
     
     /*
     - (void)scrollToBottom {
@@ -77,10 +81,8 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = reuseableCellWithIndexPath(indexPath)
-//        var reed = feedBackList[indexPath.row]
-//        cell.feedBack = feedBackList[indexPath.row]
-        
         cell.feedBack = feedBackList![indexPath.row] as? FeedBack
+
         return cell
     }
     
@@ -116,7 +118,8 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
     
     func reuseableCellWithIndexPath(indexPath: NSIndexPath) -> FeedBackViewCell {
         let msg: FeedBack = feedBackList![indexPath.row] as! FeedBack
-        return tableView.dequeueReusableCellWithIdentifier(FeedBackViewCell().cellIdentifier(msg)) as! FeedBackViewCell
+       
+        return tableView.dequeueReusableCellWithIdentifier(msg.type == 1 ? "SendCell" : "RecvCell") as! FeedBackViewCell
     }
     
     func sendMessageClick(btn: UIButton) {
@@ -168,32 +171,29 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
 class FeedBackViewCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var msgButton: UIButton!
+    @IBOutlet weak var contentBackground: UIImageView!
     @IBOutlet weak var msgLabel: UILabel!
     @IBOutlet weak var timeLabelHeightConstraint: NSLayoutConstraint!
-    
-
+    @IBOutlet weak var iconView: UIImageView!
     
     var feedBack: FeedBack? {
         didSet {
             timeLabel.text = feedBack!.showTime ? feedBack!.create_time : ""
             timeLabelHeightConstraint.constant = feedBack!.showTime ? 15 : 0
             msgLabel.text = feedBack!.content
-            msgButton.setTitle(feedBack!.content, forState: UIControlState.Normal)
         }
     }
     
     func rowHeight(feedBackMessage: FeedBack) -> CGFloat {
         self.layoutIfNeeded()
-        return CGRectGetMaxY(msgButton.frame) + 8
+        return CGRectGetMaxY(contentBackground.frame) + 12
     }
-    
-    func cellIdentifier(feedback: FeedBack) -> String {
-        return feedBack?.type == 2 ? "SendCell" : "RecvCell"
-    }
+
     
     override func awakeFromNib() {
-        self.msgButton.titleLabel?.numberOfLines = 0
         self.msgLabel.preferredMaxLayoutWidth = 200
+//        contentBackground.image = UIImage(named: "")
+        iconView.layer.cornerRadius = iconView.bounds.width * 0.5
+        iconView.clipsToBounds = true
     }
 }

@@ -16,16 +16,19 @@ struct SettingCell {
     static let cityCell = 4
 }
 
-class SettingViewController: UITableViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate {
+class SettingViewController: UITableViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     /// 头像
     @IBOutlet weak var iconView: UIImageView!
     
     // 昵称
-    @IBOutlet weak var nickName: UITextView!
+    @IBOutlet weak var nickName: UITextField!
     
     /// 通知
     @IBOutlet weak var informSwitch: UISwitch!
+    /// 通知行的cell
+    @IBOutlet weak var informCell: settingTableViewCell!
+    
     
     /// 选择城市/姓别
     lazy var pickView: UIPickerView = {
@@ -48,7 +51,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nickName.delegate = self
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
@@ -84,11 +86,16 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         let y: CGFloat = UIScreen.mainScreen().bounds.height
         let w: CGFloat = UIScreen.mainScreen().bounds.width
         pickView.frame = CGRectMake(0, y, w, h)
+        // 删除最后的线
+        informCell.baseline.removeFromSuperview()
     }
     
     
     // MARK: - tableview delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // 退出键盘
+        nickName.resignFirstResponder()
         
         /// 先切换数据源方法，再实现动画
         if indexPath.row == SettingCell.sexCell {
@@ -217,55 +224,20 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
             }
         }
         
-        
         return label!
-
-
     }
     
     /// 通知方法
     func informSwitchClick(inform: UISwitch) {
-        let alertView = UIAlertView(title: "通知", message: "请到设置——通知中打开我们的推送功能", delegate: self, cancelButtonTitle: "确定")
+        let alertView = UIAlertView(title: nil, message: "请到设置——通知中打开我们的推送功能", delegate: self, cancelButtonTitle: "确定")
         alertView.show()
         inform.on = false
     }
     
     
     
-    // MARK: UITextView Delegate
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        
-        var tempText = nickName.text as NSString
-        if tempText.length > 5 {
-            
-            return false
-        }
-        
-        return true
-    }
-    
-    
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // MARK: - settingTableViewCell
 class settingTableViewCell: UITableViewCell {
@@ -280,10 +252,10 @@ class settingTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        var x: CGFloat = 0
+        var x: CGFloat = 9
         var h: CGFloat = 0.5
         var y: CGFloat = self.bounds.height - h
-        var w: CGFloat = self.bounds.width
+        var w: CGFloat = self.bounds.width - x * 2
         baseline.frame = CGRectMake(x, y, w, h)
     }
     
