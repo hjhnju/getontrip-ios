@@ -83,7 +83,7 @@ class MessageTableViewCell: UITableViewCell {
         baseline.frame = CGRectMake(x, y, w, h)
     }
     
-    // 设置底线
+    /// 设置底线
     lazy var baseline: UIView! = {
         var baselineView = UIView()
         baselineView.backgroundColor = UIColor(white: 0xFFFFFF, alpha: 0.3)

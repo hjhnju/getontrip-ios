@@ -16,7 +16,7 @@ class CollectSightViewController: UICollectionViewController {
     let layout = UICollectionViewFlowLayout()
     
     /// 网络请求加载数据
-    var lastSuccessRequest: FavoriteRequest?
+    var lastSuccessRequest: CollectSightRequest?
 
     
     init() {
@@ -51,10 +51,10 @@ class CollectSightViewController: UICollectionViewController {
         
         //获取数据更新tableview
         if lastSuccessRequest == nil {
-            lastSuccessRequest = FavoriteRequest(type: 1)
+            lastSuccessRequest = CollectSightRequest()
         }
         
-        lastSuccessRequest?.fetchBookModels { (handler: [Book]) -> Void in
+        lastSuccessRequest?.fetchCollectSightModels { (handler: [CollectSight]) -> Void in
 
         }
     }

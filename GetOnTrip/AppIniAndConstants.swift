@@ -60,6 +60,11 @@ struct StoryBoardIdentifier {
     static let ScenicTopicSB       = "ScenicTopicSB"
     static let ScenicBookSB        = "ScenicBookSB"
     static let ScenicVideoSB       = "ScenicVideoSB"
+    
+    // 收藏页面
+    static let CollectTopicSB      = "CollectTopicSB"
+    static let CollectSightSB      = "CollectSightSB"
+    static let CollectMotifSB      = "CollectMotif"
 }
 
 struct SceneColor {

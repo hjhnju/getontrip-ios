@@ -17,13 +17,13 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var showCommentCountButton: UIBarButtonItem!
     
-    // 标题
+    /// 标题
     @IBOutlet weak var titleLabel: UILabel!
-    // 收藏
+    /// 收藏
     @IBOutlet weak var visits: UILabel!
-    // 喜欢
+    /// 喜欢
     @IBOutlet weak var favorites: UILabel!
-    // 标签
+    /// 标签
     @IBOutlet weak var label1: UILabel!
     var topic:Topic? {
         didSet {
@@ -184,7 +184,31 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         println("doFavorite")
     }
     @IBAction func doSharing(sender: UIBarButtonItem) {
-        println("doSharing")
+        
+        
+        //1.创建分享参数
+        var shareParames = NSMutableDictionary()
+        shareParames.SSDKSetupShareParamsByText("分享内容",
+            images : UIImage(named: "shareImg.png"),
+            url : NSURL(string:"http://mob.com"),
+            title : "分享标题",
+            type : SSDKContentType.Auto)
+        //2.进行分享
+        ShareSDK.showShareActionSheet(self.view, items: nil, shareParams: shareParames) { (state : SSDKResponseState, platformType : SSDKPlatformType, userdata : [NSObject : AnyObject]!, contentEnity : SSDKContentEntity!, error : NSError!, Bool end) -> Void in
+            
+            switch state{
+                
+            case SSDKResponseState.Success: println("分享成功")
+            case SSDKResponseState.Fail:    println("分享失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  println("分享取消")
+                
+            default:
+                break
+            }
+        }
+        
+        
+        
     }
     @IBAction func doComment(sender: UIBarButtonItem) {
         
@@ -211,15 +235,15 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     // TODO:测试webview
     
-    func showTopicDetail() {
-        var html = NSMutableString()
-        html.appendString("<html><head>")
-        html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
-        html.appendString("</head><body>")
-        html.appendString("")
-        html.appendString("</body></html>")
-        webView.loadHTMLString(html as String, baseURL: nil)
-    }
+//    func showTopicDetail() {
+//        var html = NSMutableString()
+//        html.appendString("<html><head>")
+//        html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
+//        html.appendString("</head><body>")
+//        html.appendString("")
+//        html.appendString("</body></html>")
+//        webView.loadHTMLString(html as String, baseURL: nil)
+//    }
    /*
     /**
     *  初始化body内容

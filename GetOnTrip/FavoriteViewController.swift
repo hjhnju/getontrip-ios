@@ -59,24 +59,6 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         
     }
     
-    // 排序
-    let popoverAnimator = PopoverAnimator()
-    func compositorButtonClicked() {
-        navigationItem.hidesBackButton = true
-        navigationItem.title = "排序"
-        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        let vc = story1.instantiateViewControllerWithIdentifier("compositorContoller") as! CompositorController
-        
-        // 1. 设置`转场 transitioning`代理
-        vc.transitioningDelegate = popoverAnimator
-        // 2. 设置视图的展现大小
-        popoverAnimator.presentFrame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, 150)
-        // 3. 设置专场的模式 - 自定义转场动画
-        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
-        
-        presentViewController(vc, animated: true, completion: nil)
-    }
-    
     func navigationChangeTitle() {
         navigationItem.hidesBackButton = false
     }
@@ -111,10 +93,8 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(view1)
         
         
-        addChildViewController(topicDetailListController)
-        topicDetailListController.sightId = 5
-        view2.addSubview(topicDetailListController.view)
-        topicDetailListController.view.backgroundColor = UIColor.greenColor()
+        addChildViewController(collectTopicController)
+        view2.addSubview(collectTopicController.view)
         scrollView.addSubview(view2)
         
         addChildViewController(motifController)
@@ -135,7 +115,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         view1.frame = CGRectMake(0, 0, wBounds, hBounds)
         
         view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
-        scrollView.bringSubviewToFront(topicDetailListController.view)
+        scrollView.bringSubviewToFront(collectTopicController.view)
         
         view3.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
         scrollView.bringSubviewToFront(motifController.view)
@@ -204,9 +184,9 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // 话题控制器
-    lazy var topicDetailListController: TopicDetailListController = {
-        let story1 = UIStoryboard(name: "Nearby", bundle: nil)
-        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicTopicSB) as! TopicDetailListController
+    lazy var collectTopicController: CollectTopicViewController = {
+        let story1 = UIStoryboard(name: "Main", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectTopicSB) as! CollectTopicViewController
     }()
     
     // 主题控制器
