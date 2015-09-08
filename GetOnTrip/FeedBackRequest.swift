@@ -40,7 +40,7 @@ class FeedBackRequest: NSObject {
             post: post,
             handler: {(respData: JSON) -> Void in
                 println(respData)
-                
+//                http://123.57.46.229:8301/api/advise/list?deviceId=8DEB478E-87C1-4AE6-BFE3-F69A72B9F7BC
                 var feedBackList = [FeedBack]()
                 for feedBack in respData.arrayValue {
                     

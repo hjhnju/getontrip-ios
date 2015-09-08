@@ -12,7 +12,7 @@ class MenuTableViewController: UITableViewController {
     
     // MARK: - Properties
     var menuData:[Int: Dictionary<String, String>] = [
-        0: ["text":"切换城市", "icon":"menu-locate", "segue":StoryBoardIdentifier.SideslipSwitchCity],
+        0: ["text":"切换城市", "icon":"menu-locate"],
         1: ["text":"我的收藏", "icon":"menu-favorite", "segue":StoryBoardIdentifier.ShowFavSegue],
         2: ["text":"消息",  "icon":"menu-msg", "segue":StoryBoardIdentifier.SidesMessage],
         3: ["text":"设置",  "icon":"menu-setting", "segue":StoryBoardIdentifier.SidesSetting],
@@ -59,17 +59,43 @@ class MenuTableViewController: UITableViewController {
         }, completion: nil)
     }
     
-    
+    var searchController: UISearchController!
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        if let slideCon = self.parentViewController?.parentViewController as? SlideMenuViewController {
-            slideCon.dismissMenu()
-            if let segue = menuData[indexPath.row]!["segue"] {
-                slideCon.masterViewController.performSegueWithIdentifier(segue, sender: nil)
+        if indexPath.row == 0 {
+//            let searchResultsController = SwitchCityViewController()
+//            searchResultsController.view.backgroundColor = UIColor.orangeColor()
+//            // 创建搜索控制器
+//            searchController = UISearchController(searchResultsController: searchResultsController)
+//            //
+//            searchController.searchResultsUpdater = searchResultsController
+//            searchController.hidesNavigationBarDuringPresentation = false
+//            
+//            //UI setting
+//            let imgView   = UIImageView(image: UIImage(named: "search-bg")!)
+//            imgView.frame = searchController.view.bounds
+//            searchController.view.addSubview(imgView)
+//            searchController.view.sendSubviewToBack(imgView)
+//            searchController.searchBar.barStyle = UIBarStyle.Black
+//            searchController.searchBar.tintColor = UIColor.grayColor()
+//            let textField = searchController.searchBar.valueForKey("searchField") as? UITextField
+//            textField?.textColor = UIColor.whiteColor()
+//            searchController.searchBar.becomeFirstResponder()
+//            searchController.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
+            
+            presentViewController(searchController, animated: true, completion: nil)
+        } else {
+            self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
+            if let slideCon = self.parentViewController?.parentViewController as? SlideMenuViewController {
+                slideCon.dismissMenu()
+                
+                if let segue = menuData[indexPath.row]!["segue"] {
+                    slideCon.masterViewController.performSegueWithIdentifier(segue, sender: nil)
+                }
             }
         }
+        
+        
     }
     
     // MARK: - tableView  dataSource

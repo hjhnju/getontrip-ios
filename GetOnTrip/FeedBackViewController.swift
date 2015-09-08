@@ -32,6 +32,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.estimatedRowHeight = 100
         settingSendButton()
         tableView.dataSource = self
         tableView.delegate = self
@@ -51,7 +52,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    /// 当键盘弹出的时候，执行想着操作
+    /// 当键盘弹出的时候，执行相关操作
     func keyboardChanged(not: NSNotification) {
         let duration = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
         let r = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue()
@@ -80,10 +81,12 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = reuseableCellWithIndexPath(indexPath)
-        cell.feedBack = feedBackList![indexPath.row] as? FeedBack
-
-        return cell
+//        var cell = reuseableCellWithIndexPath(indexPath)
+//        cell.feedBack = feedBackList![indexPath.row] as? FeedBack
+        let feedBack = feedBackList![indexPath.row] as? FeedBack
+        var cell = tableView.dequeueReusableCellWithIdentifier(feedBack?.type == 1 ? "SendCell" : "RecvCell", forIndexPath: indexPath) as? FeedBackViewCell
+        cell?.feedBack = feedBack
+        return cell!
     }
     
     /*
@@ -176,13 +179,28 @@ class FeedBackViewCell: UITableViewCell {
     @IBOutlet weak var timeLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var iconView: UIImageView!
     
+    // 消息背景宽度
+    @IBOutlet weak var imageWidth: NSLayoutConstraint!
+    // 消息背景高度
+    @IBOutlet weak var imageHeight: NSLayoutConstraint!
     var feedBack: FeedBack? {
         didSet {
             timeLabel.text = feedBack!.showTime ? feedBack!.create_time : ""
             timeLabelHeightConstraint.constant = feedBack!.showTime ? 15 : 0
             msgLabel.text = feedBack!.content
+//            contentBackground.image = UIImage(named: "system_Message")
+            
+//            imageWidth.constant = 50
+//            imageHeight.constant = 50
         }
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        
+    }
+    
     
     func rowHeight(feedBackMessage: FeedBack) -> CGFloat {
         self.layoutIfNeeded()
@@ -192,8 +210,8 @@ class FeedBackViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         self.msgLabel.preferredMaxLayoutWidth = 200
-//        contentBackground.image = UIImage(named: "")
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
         iconView.clipsToBounds = true
+
     }
 }
