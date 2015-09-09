@@ -47,6 +47,8 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     /// pick切换数据源方法 如果是true则是姓别，false是城市
     var pickViewSourceNameAndCity: Bool = false
     
+    var lastProvinceIndex: Int = 0
+    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,8 +128,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
             })
         }
         
-
-        
         if indexPath.row == SettingCell.iconCell {
             // 选择照片
             if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
@@ -137,11 +137,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
             picker.delegate = self
             presentViewController(picker, animated: true, completion: nil)
         }
-        
-        
-
-
-
 
     }
     
@@ -163,8 +158,9 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
                 if component == 0 {
                     return provinces!.count
                 } else {
-                    var province: AnyObject = provinces![provinceIndex]
-                    return province["cities"]!!.count
+                    var provinceIndex = pickerView.selectedRowInComponent(0)
+                    return provinces![provinceIndex]["cities"]!!.count
+
                 }
         }
     }
@@ -183,11 +179,11 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
         //省份选中
-        if (component == 0) {
-            var province: AnyObject = provinces![row]
+        if (component == 0 && pickViewSourceNameAndCity == false) {
             pickerView.reloadComponent(1)
-            self.provinceIndex = row
+            self.lastProvinceIndex = row
         }
     }
     
@@ -200,27 +196,22 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         } else {
             label = UILabel()
         }
+        label?.textAlignment = NSTextAlignment.Center
         
         if pickViewSourceNameAndCity {
             
-            if row == 0 {
-                label?.text = "男"
-            } else {
-                label?.text = "女"
-            }
+//            if row == 0 {
+                label?.text = row == 0 ? "男" : "女"
+//            } else {
+//                label?.text = "女"
+//            }
             
         } else {
             
             if component == 0 {
-                var province = provinces![row] as! NSDictionary
-                var temp = Province.provinceWithDict(province)
-                label?.text = temp.name
-                label?.textAlignment = NSTextAlignment.Center
+                label?.text = Province.provinceWithDict(provinces![row] as! NSDictionary).name
             } else {
-                var temp = provinces![provinceIndex] as! NSDictionary
-                var province = Province.provinceWithDict(temp)
-                label?.textAlignment = NSTextAlignment.Center
-                label!.text = province.cities![row] as? String
+                label!.text = Province.provinceWithDict(provinces![lastProvinceIndex] as! NSDictionary).cities![row] as? String
             }
         }
         
@@ -233,9 +224,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         alertView.show()
         inform.on = false
     }
-    
-    
-    
 
 }
 
@@ -245,7 +233,7 @@ class settingTableViewCell: UITableViewCell {
     // 设置底线
     lazy var baseline: UIView! = {
         var baselineView = UIView()
-        baselineView.backgroundColor = UIColor(white: 0x979797, alpha: 0.3)
+        baselineView.backgroundColor = UIColor(hex: 0x979797, alpha: 0.3)
         return baselineView
     }()
     
