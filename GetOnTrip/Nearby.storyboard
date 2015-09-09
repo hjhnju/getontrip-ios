@@ -22,7 +22,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="177"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1B137435-8472-4EE2-9A43-CEB4AEDDD39F" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="B1E7C78C-523E-421B-8D5C-F89E63F01638" translatesAutoresizingMaskIntoConstraints="NO" id="DNO-9b-Nr9">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="165"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="city" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="48" translatesAutoresizingMaskIntoConstraints="NO" id="Bt5-XI-xf4">
@@ -100,7 +100,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="x8Y-Cd-a2b" kind="show" id="Igu-tL-bxC"/>
+                                                <segue destination="x8Y-Cd-a2b" kind="show" identifier="CityCenterSegue" id="Ex5-nu-7y0"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -137,6 +137,7 @@
                                     <outlet property="headerImageView" destination="DNO-9b-Nr9" id="yHS-kb-RcC"/>
                                     <outlet property="sightId" destination="Exc-gp-sLW" id="wW3-mg-8Yw"/>
                                     <outlet property="sightLabel" destination="aoz-KV-nLP" id="GYf-Fb-kvb"/>
+                                    <outlet property="tocityButton" destination="k11-nI-AwX" id="pHz-qZ-m52"/>
                                     <outlet property="widthConstraint" destination="lac-LD-6df" id="d01-FH-Zdz"/>
                                 </connections>
                             </tableViewCell>
@@ -264,25 +265,13 @@
                     <view key="view" contentMode="scaleToFill" id="kS5-a1-VIU">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="城市中间页" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdA-LS-zGl">
-                                <rect key="frame" x="258" y="289" width="85" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="gdA-LS-zGl" secondAttribute="centerX" id="2uq-yg-m3d"/>
-                            <constraint firstAttribute="centerY" secondItem="gdA-LS-zGl" secondAttribute="centerY" id="lPn-Xg-xmB"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="城市" id="iO1-tV-DjI"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kUi-a4-qDj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3850" y="-1484"/>
+            <point key="canvasLocation" x="4386" y="-1819"/>
         </scene>
         <!--Topic Detail List Controller-->
         <scene sceneID="CX4-yy-abt">
@@ -330,7 +319,7 @@
                                                 <constraint firstAttribute="height" constant="9" id="XIh-0f-eWn"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="8"/>
-                                            <state key="normal" title="114" image="55EE0170-37A0-4C9F-8709-62C3270F9BAB">
+                                            <state key="normal" title="114" image="DBC17582-79A7-4C6C-946E-F16BE766D2CA">
                                                 <color key="titleColor" red="0.61176470588235299" green="0.61176470588235299" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -1110,13 +1099,14 @@ ISBN：345566743566</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="x8Y-Cd-a2b" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="gaT-T6-L8b"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="tYT-mU-yTz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="8Mt-1t-8Of" kind="relationship" relationship="rootViewController" id="3BN-cO-GzQ"/>
+                        <segue destination="hRv-hb-hS3" kind="relationship" relationship="rootViewController" id="Q3v-GS-x2E"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HV7-1i-lxA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1422,9 +1412,45 @@ ISBN：345566743566</string>
             </objects>
             <point key="canvasLocation" x="3850" y="-816"/>
         </scene>
+        <!--City Center View Collection-->
+        <scene sceneID="zEK-4a-8j0">
+            <objects>
+                <collectionViewController storyboardIdentifier="DiscoveryControllerID" id="hRv-hb-hS3" customClass="CityCenterViewCollection" customModule="GetOnTrip" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="XQz-Ac-dxR">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="dV2-Qp-YIO">
+                            <size key="itemSize" width="193" height="217"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cityreuseIdentifierCell" id="Wh1-m4-g8L" customClass="CityCenterCollectionCell" customModule="GetOnTrip" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="193" height="217"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="hRv-hb-hS3" id="Evb-h4-vDh"/>
+                            <outlet property="delegate" destination="hRv-hb-hS3" id="eKQ-dU-8SZ"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="ZB0-0D-R6Z"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K94-3O-NAd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3820" y="-1490"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="1B137435-8472-4EE2-9A43-CEB4AEDDD39F" width="414" height="166">
+        <image name="B1E7C78C-523E-421B-8D5C-F89E63F01638" width="414" height="166">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -6078,7 +6104,7 @@ AARAQwAEQEoABEBSAARAXwAEQGQABEBmAARAaAAEQG0ABEB1AARAeAAEQH0ABECFAARAiAAEQJoABECd
 AARAogAAAAAAAAQBAAAAAAAAAD8AAAAAAAAAAAAAAAAABECkA
 </mutableData>
         </image>
-        <image name="55EE0170-37A0-4C9F-8709-62C3270F9BAB" width="10" height="7">
+        <image name="DBC17582-79A7-4C6C-946E-F16BE766D2CA" width="10" height="7">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

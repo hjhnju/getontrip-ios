@@ -179,6 +179,8 @@ class FeedBackViewCell: UITableViewCell {
     @IBOutlet weak var timeLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var iconView: UIImageView!
     
+    @IBOutlet weak var imageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     // 消息背景宽度
     @IBOutlet weak var imageWidth: NSLayoutConstraint!
     // 消息背景高度
@@ -188,17 +190,10 @@ class FeedBackViewCell: UITableViewCell {
             timeLabel.text = feedBack!.showTime ? feedBack!.create_time : ""
             timeLabelHeightConstraint.constant = feedBack!.showTime ? 15 : 0
             msgLabel.text = feedBack!.content
-//            contentBackground.image = UIImage(named: "system_Message")
-            
-//            imageWidth.constant = 50
-//            imageHeight.constant = 50
+            imageWidthConstraint.constant = CGFloat(msgLabel.bounds.width)
+            imageHeightConstraint.constant = CGFloat(msgLabel.bounds.height)
+            layoutIfNeeded()
         }
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        
     }
     
     

@@ -56,7 +56,7 @@ class CollectMotifViewController: UITableViewController {
         var cell = tableView.dequeueReusableCellWithIdentifier("CollectMotifCell", forIndexPath: indexPath) as? CollectMotifCell
         
         cell!.collectMotif = collectMotif[indexPath.row] as CollectMotif
-        
+        cell?.selectionStyle = UITableViewCellSelectionStyle.None
         return cell!
     }
     

@@ -104,6 +104,10 @@
 		AEB9E2961B85E272007B3ED3 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB9E2951B85E272007B3ED3 /* Book.swift */; };
 		AEBD70D91B8D397A00B3810D /* PopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD70D81B8D397A00B3810D /* PopoverPresentationController.swift */; };
 		AEBD70DB1B8D39AC00B3810D /* PopoverAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD70DA1B8D39AC00B3810D /* PopoverAnimator.swift */; };
+		AEC800791BA0084800099DD9 /* CityCenterViewCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC800781BA0084800099DD9 /* CityCenterViewCollection.swift */; };
+		AEC8007B1BA018F700099DD9 /* CityCenterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC8007A1BA018F700099DD9 /* CityCenterRequest.swift */; };
+		AEC8007D1BA0362700099DD9 /* CityCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC8007C1BA0362700099DD9 /* CityCenter.swift */; };
+		AECA022E1B9FCCBD00C3A472 /* UIButtonExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECA022D1B9FCCBD00C3A472 /* UIButtonExtentions.swift */; };
 		AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */; };
 		AECD22601B9E9B9E007F1D71 /* SwitchCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD225F1B9E9B9E007F1D71 /* SwitchCityViewController.swift */; };
 		AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */; };
@@ -264,6 +268,10 @@
 		AEB9E2951B85E272007B3ED3 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		AEBD70D81B8D397A00B3810D /* PopoverPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverPresentationController.swift; sourceTree = "<group>"; };
 		AEBD70DA1B8D39AC00B3810D /* PopoverAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverAnimator.swift; sourceTree = "<group>"; };
+		AEC800781BA0084800099DD9 /* CityCenterViewCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityCenterViewCollection.swift; sourceTree = "<group>"; };
+		AEC8007A1BA018F700099DD9 /* CityCenterRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityCenterRequest.swift; sourceTree = "<group>"; };
+		AEC8007C1BA0362700099DD9 /* CityCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityCenter.swift; sourceTree = "<group>"; };
+		AECA022D1B9FCCBD00C3A472 /* UIButtonExtentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonExtentions.swift; sourceTree = "<group>"; };
 		AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		AECD225F1B9E9B9E007F1D71 /* SwitchCityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCityViewController.swift; sourceTree = "<group>"; };
 		AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectSightRequest.swift; sourceTree = "<group>"; };
@@ -376,6 +384,7 @@
 			children = (
 				724393661B7045A000F13EA1 /* Nearby.storyboard */,
 				AE553BBE1B81EB6300C03737 /* Guide */,
+				AEC800771BA007E900099DD9 /* CityCenter(城市中间) */,
 				72D86E1E1B65F032004B72D0 /* NearbyTableViewController.swift */,
 				72D86E1F1B65F032004B72D0 /* SightTopicsViewController.swift */,
 				AE263C7C1B8D8B4E003BB0BC /* Cyclopaedic */,
@@ -465,6 +474,7 @@
 				721642E71B79C01A009C292C /* UILabelExtentions.swift */,
 				721643291B7DB18F009C292C /* StringExtentions.swift */,
 				7239FDEC1B7F25BB00238A25 /* UIColorExtentions.swift */,
+				AECA022D1B9FCCBD00C3A472 /* UIButtonExtentions.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -687,6 +697,16 @@
 				AEA94FAC1B9B14A7006D6998 /* WXApiObject.h */,
 			);
 			path = WeChatSDK;
+			sourceTree = "<group>";
+		};
+		AEC800771BA007E900099DD9 /* CityCenter(城市中间) */ = {
+			isa = PBXGroup;
+			children = (
+				AEC800781BA0084800099DD9 /* CityCenterViewCollection.swift */,
+				AEC8007A1BA018F700099DD9 /* CityCenterRequest.swift */,
+				AEC8007C1BA0362700099DD9 /* CityCenter.swift */,
+			);
+			name = "CityCenter(城市中间)";
 			sourceTree = "<group>";
 		};
 		AECD22671B9ED19C007F1D71 /* Favorite(收藏) */ = {
@@ -919,7 +939,9 @@
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
 				AECD226F1B9F045D007F1D71 /* CollectMotifViewController.swift in Sources */,
 				721642E81B79C01A009C292C /* UILabelExtentions.swift in Sources */,
+				AECA022E1B9FCCBD00C3A472 /* UIButtonExtentions.swift in Sources */,
 				72D86E2D1B65F045004B72D0 /* Topic.swift in Sources */,
+				AEC8007D1BA0362700099DD9 /* CityCenter.swift in Sources */,
 				AED2DE3A1B838AEC0091D320 /* Cyclopaedic.swift in Sources */,
 				AECD22691B9EDD4C007F1D71 /* CollectSight.swift in Sources */,
 				72D7212D1B6A712F005BDE55 /* MasterViewController.swift in Sources */,
@@ -973,7 +995,9 @@
 				AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */,
 				AEB9E2941B85DB27007B3ED3 /* BookController.swift in Sources */,
 				AECD226D1B9EEC9B007F1D71 /* CollectTopicViewController.swift in Sources */,
+				AEC800791BA0084800099DD9 /* CityCenterViewCollection.swift in Sources */,
 				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,
+				AEC8007B1BA018F700099DD9 /* CityCenterRequest.swift in Sources */,
 				AE12FF841B9C1DB700C09F8A /* FeedBackSendRequest.swift in Sources */,
 				AEBD70DB1B8D39AC00B3810D /* PopoverAnimator.swift in Sources */,
 				72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */,

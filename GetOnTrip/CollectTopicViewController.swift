@@ -21,6 +21,8 @@ class CollectTopicViewController: UITableViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.rowHeight = 107
         tableView.backgroundColor = UIColor.clearColor()
+        
+
         refresh()
         
     }
@@ -56,7 +58,9 @@ class CollectTopicViewController: UITableViewController {
         var cell = tableView.dequeueReusableCellWithIdentifier("CollectTopicCell", forIndexPath: indexPath) as? CollectTopicCell
         
         cell!.collectTopic = collectTopic[indexPath.row] as CollectTopic
+        cell?.selectionStyle = UITableViewCellSelectionStyle.None
         
+
         return cell!
     }
     

@@ -1,37 +1,32 @@
 //
-//  CollectSightViewController.swift
+//  CityCenterViewCollection.swift
 //  GetOnTrip
 //
-//  Created by 王振坤 on 15/9/8.
+//  Created by 王振坤 on 15/9/9.
 //  Copyright (c) 2015年 Joshua. All rights reserved.
 //
 
 import UIKit
 
-let reuseIdentifier1 = "CollectionViewCell"
+let cityreuseIdentifier = "cityreuseIdentifierCell"
 
-class CollectSightViewController: UICollectionViewController {
-    
-    /// 界面布局
+class CityCenterViewCollection: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+
+    /// 布局
     let layout = UICollectionViewFlowLayout()
     
     /// 网络请求加载数据
-    var lastSuccessRequest: CollectSightRequest?
-
+    var lastSuccessRequest: CityCenterRequest?
+    
     /// 数据模型
-    var collectSights = [CollectSight]()
+    var cityCenters = [CityCenter]()
     
-    init() {
-        super.init(collectionViewLayout: layout)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    /// 传递城市ID的模型
+    var sightId: UIButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.backgroundColor = UIColor.clearColor()
+        collectionView?.backgroundColor = SceneColor.gray
         let w: CGFloat = 170
         let h: CGFloat = 150
         // 每个item的大小
@@ -43,46 +38,47 @@ class CollectSightViewController: UICollectionViewController {
         layout.minimumInteritemSpacing = lw
         layout.sectionInset = UIEdgeInsets(top: 0, left: lw, bottom: 0, right: lw)
         // Register cell classes
-        collectionView?.registerClass(CSCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier1)
-
+        collectionView?.registerClass(CityCenterCollectionCell.self, forCellWithReuseIdentifier: cityreuseIdentifier)
+        navigationController?.navigationItem.title = sightId?.titleLabel?.text
+        println(sightId?.tag)
         refresh()
     }
     
-
+    
     
     private func refresh() {
         NSLog("notice:refreshing nearby data.")
         
         //获取数据更新tableview
         if lastSuccessRequest == nil {
-            lastSuccessRequest = CollectSightRequest()
+            lastSuccessRequest = CityCenterRequest(cityId: sightId!.tag)
         }
         
-        lastSuccessRequest?.fetchCollectSightModels { (handler: [CollectSight]) -> Void in
-            self.collectSights = handler
+        lastSuccessRequest?.fetchCityCenterModels { (handler: [CityCenter]) -> Void in
+            self.cityCenters = handler
             self.collectionView?.reloadData()
         }
     }
-
+    
     // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectSights.count
+        return cityCenters.count
     }
-
+    
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier1, forIndexPath: indexPath) as! CSCollectionViewCell
+        var cell = collectionView.dequeueReusableCellWithReuseIdentifier(cityreuseIdentifier, forIndexPath: indexPath) as! CityCenterCollectionCell
         
-        cell.collectSight = collectSights[indexPath.row] as CollectSight
+        cell.collectSight = cityCenters[indexPath.row] as CityCenter
         return cell
     }
 }
 // 收藏景点的cell
-class CSCollectionViewCell: UICollectionViewCell {
+class CityCenterCollectionCell: UICollectionViewCell {
     
     lazy var iconView: UIImageView = {
         var imageView = UIImageView()
         return imageView
-    }()
+        }()
     
     lazy var title: UILabel = {
         var lab = UILabel()
@@ -90,7 +86,7 @@ class CSCollectionViewCell: UICollectionViewCell {
         lab.textAlignment = NSTextAlignment.Center
         lab.backgroundColor = UIColor.orangeColor()
         return lab
-    }()
+        }()
     
     lazy var subtitle: UILabel = {
         var lab = UILabel()
@@ -98,13 +94,13 @@ class CSCollectionViewCell: UICollectionViewCell {
         lab.backgroundColor = UIColor.orangeColor()
         lab.bounds = CGRectMake(0, 0, 150, 20)
         return lab
-    }()
+        }()
     
-    var collectSight: CollectSight? {
+    var collectSight: CityCenter? {
         didSet {
             iconView.sd_setImageWithURL(NSURL(string: collectSight!.image!))
             title.text = collectSight?.name
-            subtitle.text = collectSight?.topicNum
+//            subtitle.text = collectSight?.topicNum
         }
     }
     
@@ -123,7 +119,7 @@ class CSCollectionViewCell: UICollectionViewCell {
         title.frame = CGRectMake(0, self.bounds.height * 0.5, self.bounds.width, 20)
         subtitle.frame = CGRectMake(0, self.bounds.height - 20, self.bounds.width, 20)
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

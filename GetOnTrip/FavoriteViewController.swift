@@ -50,17 +50,9 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
         containView.backgroundColor = UIColor(patternImage: UIImage(named: "collect_background")!)
         
-        
-//        self.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
-//        self.navigationController?.navigationBar.tintColor = SceneColor.lightGray
-        
 //        setupDefaultSightTopic()
         setupChildControllerProperty()
         
-    }
-    
-    func navigationChangeTitle() {
-        navigationItem.hidesBackButton = false
     }
     
     // 搜索
@@ -77,7 +69,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     
     func setupChildControllerProperty() {
         
-        scrollView.contentOffset.x = UIScreen.mainScreen().bounds.width
+        scrollView.contentOffset.x = 0
         
         
         //初始化scrollview
@@ -89,7 +81,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         //初始化views
         addChildViewController(sightViewController)
         view1.addSubview(sightViewController.view)
-        sightViewController.view.backgroundColor = UIColor.orangeColor()
+//        sightViewController.view.backgroundColor = UIColor.orangeColor()
         scrollView.addSubview(view1)
         
         
@@ -109,13 +101,11 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         let wBounds = containView.bounds.width
         let hBounds = containView.bounds.height
         
-        scrollView.contentSize = CGSize(width: wBounds * 4, height: hBounds/2)
+        scrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds * 0.5)
         
         view1.frame = CGRectMake(0, 0, wBounds, hBounds)
-        
         view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
         scrollView.bringSubviewToFront(collectTopicController.view)
-        
         view3.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
         scrollView.bringSubviewToFront(motifController.view)
     }
@@ -178,7 +168,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     // 景点控制器
     lazy var sightViewController: CollectSightViewController = {
 //        let story1 = UIStoryboard(name: "Main", bundle: nil)
-//        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ScenicCyclopaedicSB) as! CyclopaedicViewController
+//        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectSightSB) as! CollectSightViewController
         return CollectSightViewController()
     }()
     
@@ -195,3 +185,6 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     }()
     
 }
+
+
+
