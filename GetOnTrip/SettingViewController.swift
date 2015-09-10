@@ -99,12 +99,25 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         return sv
     }()
     
+    @IBOutlet weak var exitLogin: UIButton!
+    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
+//        let saveButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+//        saveButton.setTitle("保存", forState: UIControlState.Normal)
+//        saveButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+//        saveButton.setTitleColor(UIColor.yellowColor(), forState: UIControlState.Selected)
+//        saveButton.selected = true
+//        saveButton.bounds = CGRectMake(0, 0, 40, 40)
+//        saveButton.addTarget(self, action: "saveUserInfo:", forControlEvents: UIControlEvents.TouchUpInside)
+//        let saveItem = UIBarButtonItem(customView: saveButton)
+        let saveItem = UIBarButtonItem(title: "保存", style: UIBarButtonItemStyle.Plain, target: self, action: "saveUserInfo:")
+        navigationItem.rightBarButtonItem = saveItem
+        saveItem.customView?.userInteractionEnabled = false
+        
+        
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
         iconView.clipsToBounds = true
         tableView.backgroundColor = UIColor(patternImage: UIImage(named: "setting_black")!)
@@ -126,19 +139,26 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         }
         provinces = provincesM
         
+        exitLogin.addTarget(self, action: "exitLoginClick", forControlEvents: UIControlEvents.TouchUpInside)
+        exitLogin.layer.cornerRadius = 15
+        exitLogin.clipsToBounds = true
+    }
+    
+    func saveUserInfo(item: UIBarButtonItem) {
+        
+        println("保存用户信息\(item)")
+    }
+    
+    func exitLoginClick() {
+        println("退出登陆")
     }
     
     func sortClick() {
         print("点击了")
     }
     
-    
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
-
         // 删除最后的线
         informCell.baseline.removeFromSuperview()
     }

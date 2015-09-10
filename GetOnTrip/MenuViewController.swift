@@ -90,8 +90,7 @@ class MenuViewController: UIViewController {
         }
     }
     
-    // MARK: - 第三方登陆
-    // 微信登陆
+    // MARK: - 第三方登陆 微信登陆
     @IBAction func wechatLogin(sender: UIButton) {
 //        UserAccount()!.wechatLogin()
         ShareSDK.authorize(SSDKPlatformType.TypeWechat, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
@@ -99,10 +98,13 @@ class MenuViewController: UIViewController {
             switch state{
                 
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            self.login(user.uid.toInt()!, type: 3)
             var account = UserAccount(user: user)
+            
             sharedUserAccount = account
             self.logined = true
             self.refresh()
+                
             case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
             case SSDKResponseState.Cancel:  println("操作取消")
                 
@@ -112,17 +114,20 @@ class MenuViewController: UIViewController {
         })
     }
     
-    // qq登陆
+    /// MARK: - qq登陆
     @IBAction func qqLogin(sender: UIButton) {
         ShareSDK.authorize(SSDKPlatformType.TypeQQ, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
                 
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            self.login(user.uid.toInt()!, type: 3)
             var account = UserAccount(user: user)
+            
             sharedUserAccount = account
             self.logined = true
             self.refresh()
+                
             case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
             case SSDKResponseState.Cancel:  println("操作取消")
                 
@@ -132,7 +137,10 @@ class MenuViewController: UIViewController {
         })
     }
     
-    // 新浪微博登陆
+    var lastSuccessRequest: UserLoghtRequest?
+
+    
+    /// MARK: - 新浪微博登陆
     @IBAction func SinaWeiboLogin(sender: UIButton) {
         //授权
         ShareSDK.authorize(SSDKPlatformType.TypeSinaWeibo, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
@@ -140,7 +148,8 @@ class MenuViewController: UIViewController {
             switch state{
                 
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-                
+//                login(openId: Int)
+            self.login(user.uid.toInt()!, type: 3)
             var account = UserAccount(user: user)
             
                 sharedUserAccount = account
@@ -154,7 +163,16 @@ class MenuViewController: UIViewController {
                 break
             }
         })
+        
+        // 发送数据，进行登陆告知
     }
     
-    
+    // MARK: 告诉后台用户已登陆
+    private func login(openId: Int, type: Int) {
+        UserLoghtRequest(openId: openId, type: type).fetchLoginModels()
+    }
+        
 }
+    
+    
+

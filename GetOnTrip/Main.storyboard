@@ -529,14 +529,14 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VGB-OF-KcC" id="sZd-U8-Crs">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="头像" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I6r-jr-Su7">
-                                                    <rect key="frame" x="9" y="51" width="28" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="头像" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I6r-jr-Su7">
+                                                    <rect key="frame" x="9" y="42" width="28" height="17"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="1.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="QV3-b2-lkH">
-                                                    <rect key="frame" x="524" y="26.5" width="66" height="66"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="QV3-b2-lkH">
+                                                    <rect key="frame" x="524" y="18" width="66" height="66"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="66" id="P01-VO-wsP"/>
                                                         <constraint firstAttribute="height" constant="66" id="Zc4-cF-oib"/>
@@ -684,6 +684,34 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="150" id="6eo-3I-bxI">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6eo-3I-bxI" id="zML-eo-hjn">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VeN-RV-hVp">
+                                                    <rect key="frame" x="216" y="95.5" width="167" height="34"/>
+                                                    <color key="backgroundColor" red="0.10980392156862745" green="0.10980392156862745" blue="0.10980392156862745" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="167" id="BYN-Rs-8fJ"/>
+                                                        <constraint firstAttribute="height" constant="34" id="cTa-4u-Beu"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                    <state key="normal" title="退出登陆">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="VeN-RV-hVp" secondAttribute="bottom" constant="20" id="0jR-2M-prC"/>
+                                                <constraint firstAttribute="centerX" secondItem="VeN-RV-hVp" secondAttribute="centerX" id="Qvj-eI-8EE"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -694,6 +722,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="设置" id="dzb-Nr-i74"/>
                     <connections>
+                        <outlet property="exitLogin" destination="VeN-RV-hVp" id="S5t-F0-ar5"/>
                         <outlet property="iconView" destination="QV3-b2-lkH" id="Sfx-Mp-SGx"/>
                         <outlet property="informCell" destination="OLQ-oT-AmR" id="VOm-ta-ts3"/>
                         <outlet property="informSwitch" destination="ZPt-2C-NdW" id="HIA-li-3sZ"/>
@@ -984,7 +1013,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cao-kJ-Jyd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-728" y="1477"/>
+            <point key="canvasLocation" x="-711" y="1477"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BXP-Ag-1c3">

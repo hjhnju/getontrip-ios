@@ -138,7 +138,7 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
                 if (self.slideMenuState == SlideMenuState.Closing){
                     c.origin.x = location.x - self.panGestureStartLocation.x;
                 }
-            }else if (sender.translationInView(self.view).x > -SlideMenuOptions.DrawerWidth){
+            } else if (sender.translationInView(self.view).x > -SlideMenuOptions.DrawerWidth){
                 if (self.slideMenuState == SlideMenuState.Opening){
                     c.origin.x = panGestureRecognizer.translationInView(self.masterViewController.view).x + SlideMenuOptions.DrawerWidth
                 }
