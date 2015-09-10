@@ -507,7 +507,7 @@
 		72D86E151B65E871004B72D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AEA94F8F1B9AED30006D6998 /* UserAccount.swift */,
+				AEC8007E1BA1354200099DD9 /* Login(登陆/保存用户信息) */,
 				AE12FF801B9C159100C09F8A /* Setting设置菜单 */,
 				AE263C741B8D7866003BB0BC /* TopicDetail(话题详情) */,
 				AED2DE3D1B8426420091D320 /* Cyclopaedic(百科) */,
@@ -707,6 +707,14 @@
 				AEC8007C1BA0362700099DD9 /* CityCenter.swift */,
 			);
 			name = "CityCenter(城市中间)";
+			sourceTree = "<group>";
+		};
+		AEC8007E1BA1354200099DD9 /* Login(登陆/保存用户信息) */ = {
+			isa = PBXGroup;
+			children = (
+				AEA94F8F1B9AED30006D6998 /* UserAccount.swift */,
+			);
+			name = "Login(登陆/保存用户信息)";
 			sourceTree = "<group>";
 		};
 		AECD22671B9ED19C007F1D71 /* Favorite(收藏) */ = {

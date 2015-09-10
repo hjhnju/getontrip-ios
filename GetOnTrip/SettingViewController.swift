@@ -29,15 +29,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     /// 通知行的cell
     @IBOutlet weak var informCell: settingTableViewCell!
     
-    
-    /// 选择城市/姓别
-    lazy var pickView: UIPickerView = {
-        var pick = UIPickerView()
-        pick.backgroundColor = UIColor(hex: 0xDCD7D7, alpha: 1.0)
-        pick.hidden = true
-        return pick
-    }()
-    
     /// 省市联动
     var provinces: NSArray?
     
@@ -49,11 +40,70 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     
     var lastProvinceIndex: Int = 0
     
+    /// 选择城市/姓别
+    lazy var pickView: UIPickerView = {
+        var pick = UIPickerView()
+        pick.backgroundColor = UIColor(hex: 0xDCD7D7, alpha: 1.0)
+        pick.hidden = true
+        return pick
+    }()
+    
+    /// 选择底部的view
+    lazy var cancleBottomView: UIView = {
+        var ve = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 50))
+        ve.backgroundColor = UIColor.whiteColor()
+        ve.addSubview(self.trueButton)
+        ve.addSubview(self.sortButton)
+        ve.addSubview(self.cancleButton)
+        let w: CGFloat = 50
+        self.trueButton.bounds = CGRectMake(0, 0, w, 44)
+        self.sortButton.bounds = CGRectMake(0, 0, w, 44)
+        self.cancleButton.bounds = CGRectMake(0, 0, w, 44)
+        self.sortButton.center = ve.center
+        let x: CGFloat = ve.bounds.width - w + w * 0.5
+        let y: CGFloat = ve.bounds.height * 0.5
+        self.trueButton.center = CGPointMake(x, y)
+        let cx: CGFloat = w * 0.5
+        self.cancleButton.center = CGPointMake(cx, y)
+        self.sortButton.addTarget(self, action: "sortClick", forControlEvents: UIControlEvents.TouchUpInside)
+
+        return ve
+    }()
+    /// 取消按钮
+    lazy var cancleButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("取消", forState: UIControlState.Normal)
+        btn.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        return btn
+    }()
+    /// 确定按钮
+    lazy var trueButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("确定", forState: UIControlState.Normal)
+        btn.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        return btn
+    }()
+    /// 类别按钮
+    lazy var sortButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("类别", forState: UIControlState.Normal)
+        btn.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        return btn
+    }()
+    
+    /// 遮罩
+    lazy var shadeView: UIButton = {
+        let sv = UIButton(frame: UIScreen.mainScreen().bounds)
+        sv.backgroundColor = UIColor.blackColor()
+        sv.alpha = 0.0
+        return sv
+    }()
+    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
         iconView.clipsToBounds = true
@@ -63,11 +113,8 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         
         pickView.dataSource = self
         pickView.delegate = self
-        tableView.addSubview(pickView)
         
         informSwitch.addTarget(self, action: "informSwitchClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        
         
         let path = NSBundle.mainBundle().pathForResource("cities", ofType: "plist")
         let provinceArray = NSArray(contentsOfFile: path!)
@@ -75,23 +122,38 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         
         for dict in provinceArray! {
             let privin = Province.provinceWithDict(dict as! NSDictionary)
-            //            let privin = Province(dict: dict as! NSDictionary)
             provincesM.addObject(dict)
         }
         provinces = provincesM
+        
     }
+    
+    func sortClick() {
+        print("点击了")
+    }
+    
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let h: CGFloat = 162
-        let y: CGFloat = UIScreen.mainScreen().bounds.height
-        let w: CGFloat = UIScreen.mainScreen().bounds.width
-        pickView.frame = CGRectMake(0, y, w, h)
+        
+
         // 删除最后的线
         informCell.baseline.removeFromSuperview()
     }
     
+    func shadeViewClick() {
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.shadeView.alpha = 0.0
+            self.pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
+            self.cancleBottomView.frame.origin.y = UIScreen.mainScreen().bounds.height
+        }) { (_) -> Void in
+            self.shadeView.removeFromSuperview()
+            self.pickView.removeFromSuperview()
+            self.cancleBottomView.removeFromSuperview()
+        }
+    }
     
     // MARK: - tableview delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -110,16 +172,31 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
             pickView.reloadAllComponents()
         }
         
-        let y: CGFloat = UIScreen.mainScreen().bounds.height - pickView.bounds.height - 64
         
         
         /// pickView 位置动画
         if indexPath.row == SettingCell.cityCell || indexPath.row == SettingCell.sexCell{
+            
+            let h: CGFloat = pickViewSourceNameAndCity ? 162 : 216
+            let y1: CGFloat = UIScreen.mainScreen().bounds.height
+            let w: CGFloat = UIScreen.mainScreen().bounds.width
+            pickView.frame = CGRectMake(0, y1, w, h)
+            let y: CGFloat = UIScreen.mainScreen().bounds.height - pickView.bounds.height
+            cancleBottomView.frame = CGRectMake(0, y1, w, 44)
+            
+            UIApplication.sharedApplication().keyWindow!.addSubview(shadeView)
+            shadeView.addTarget(self, action: "shadeViewClick", forControlEvents: UIControlEvents.TouchUpInside)
+            UIApplication.sharedApplication().keyWindow!.addSubview(pickView)
+            UIApplication.sharedApplication().keyWindow!.addSubview(cancleBottomView)
+            
             pickView.hidden = false
             if pickView.frame.origin.y > y {
             pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
+            let cy: CGFloat = y1 - pickView.frame.height - 44
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
                     self.pickView.frame.origin.y = y
+                    self.shadeView.alpha = 0.5
+                    self.cancleBottomView.frame.origin.y = cy
                 })
             }
         } else {
@@ -144,6 +221,8 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         
         iconView.image = image
         dismissViewControllerAnimated(true, completion: nil)
+        // 重新设回导航栏样式
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
     
     // MARK: - pickView dataSource
@@ -160,22 +239,17 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
                 } else {
                     var provinceIndex = pickerView.selectedRowInComponent(0)
                     return provinces![provinceIndex]["cities"]!!.count
-
                 }
         }
     }
     
-    func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        
-        if pickViewSourceNameAndCity {
-            return 20
-        } else {
-            return 150
-        }
-    }
+//    func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+//        
+//        return pickViewSourceNameAndCity ? 20 : 132
+//    }
     
     func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 44
+        return 32
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -191,36 +265,23 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         
         var label: UILabel?
         
-        if view != nil {
-            label = view as? UILabel
-        } else {
-            label = UILabel()
-        }
+        label = view != nil ? view as? UILabel : UILabel()
+        
         label?.textAlignment = NSTextAlignment.Center
         
         if pickViewSourceNameAndCity {
-            
-//            if row == 0 {
-                label?.text = row == 0 ? "男" : "女"
-//            } else {
-//                label?.text = "女"
-//            }
-            
+            label?.text = row == 0 ? "男" : "女"
         } else {
-            
-            if component == 0 {
-                label?.text = Province.provinceWithDict(provinces![row] as! NSDictionary).name
-            } else {
-                label!.text = Province.provinceWithDict(provinces![lastProvinceIndex] as! NSDictionary).cities![row] as? String
-            }
+            label?.text = component == 0 ? Province.provinceWithDict(provinces![row] as! NSDictionary).name : Province.provinceWithDict(provinces![lastProvinceIndex] as! NSDictionary).cities![row] as? String
         }
-        
         return label!
     }
     
+
+    
     /// 通知方法
     func informSwitchClick(inform: UISwitch) {
-        let alertView = UIAlertView(title: nil, message: "请到设置——通知中打开我们的推送功能", delegate: self, cancelButtonTitle: "确定")
+        let alertView = UIAlertView(title: nil, message: "请到设置—通知中打开我们的推送功能", delegate: self, cancelButtonTitle: "确定")
         alertView.show()
         inform.on = false
     }
@@ -253,9 +314,6 @@ class settingTableViewCell: UITableViewCell {
         addSubview(baseline)
     }
 }
-
-
-
 
 // MARK: - 省市模型
 class Province : NSObject {
