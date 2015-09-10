@@ -68,6 +68,7 @@
 		AE6849781B9BD85400F00560 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FC51B9B14EB006D6998 /* libz.dylib */; };
 		AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */; };
 		AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */; };
+		AE7B997B1BA17DE4003034FB /* UserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */; };
 		AE7C2F681B9C284F00A6D640 /* FeedBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C2F671B9C284F00A6D640 /* FeedBack.swift */; };
 		AE7C571D1B85971F00C5FC59 /* CyclopaedicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
@@ -218,6 +219,7 @@
 		AE553BB91B81EAB700C03737 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
 		AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookRequest.swift; sourceTree = "<group>"; };
 		AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRequest.swift; sourceTree = "<group>"; };
+		AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoRequest.swift; sourceTree = "<group>"; };
 		AE7C2F671B9C284F00A6D640 /* FeedBack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedBack.swift; sourceTree = "<group>"; };
 		AE7C571C1B85971F00C5FC59 /* CyclopaedicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclopaedicCell.swift; sourceTree = "<group>"; };
 		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
@@ -716,6 +718,7 @@
 			children = (
 				AEA94F8F1B9AED30006D6998 /* UserAccount.swift */,
 				AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */,
+				AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */,
 			);
 			name = "Login(登陆/保存用户信息)";
 			sourceTree = "<group>";
@@ -1018,6 +1021,7 @@
 				AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */,
 				AED2DE421B84533A0091D320 /* TopicRequest.swift in Sources */,
 				72D86E221B65F033004B72D0 /* SightTopicsViewController.swift in Sources */,
+				AE7B997B1BA17DE4003034FB /* UserInfoRequest.swift in Sources */,
 				72D721291B6A241B005BDE55 /* SlideMenuViewController.swift in Sources */,
 				AE263C761B8D78BC003BB0BC /* TopicDetailRequest.swift in Sources */,
 			);

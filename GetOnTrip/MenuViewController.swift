@@ -12,26 +12,26 @@ import SDWebImage
 class MenuViewController: UIViewController {
     
     @IBOutlet weak var sideTableViewController: UIView!
+    /// 底图图片
+    @IBOutlet weak var bgImageView: UIImageView!
     
-    
-    @IBOutlet weak var iconView: UIImageView!
     //MARK: Properties
-    var logined: Bool = false
+    var logined: Bool = true
     
-    var headImage: UIImage? {
-        didSet {
-//            headButton.imageView
-            headButton.setBackgroundImage(headImage, forState: UIControlState.Normal)
-        }
-    }
+//    var headImage: UIImage? {
+//        didSet {
+////            headButton.imageView
+////            headButton.setBackgroundImage(headImage, forState: UIControlState.Normal)
+//        }
+//    }
     
-    var userName: String? {
-        didSet {
-            if let name = userName {
-                user_name.text = "\(name)"
-            }
-        }
-    }
+//    var userName: String? {
+//        didSet {
+//            if let name = userName {
+//                user_name.text = "\(name)"
+//            }
+//        }
+//    }
 
     var bgImageUrl: String? {
         didSet {
@@ -49,44 +49,41 @@ class MenuViewController: UIViewController {
             }
         }
     }
-    
+    /// 用户名称
     @IBOutlet weak var user_name: UILabel!
+    /// 用户头像
+    @IBOutlet weak var iconView: UIImageView!
+    
+    /// 第三登陆未显示view
     @IBOutlet weak var unloginView: UIView!
-    @IBOutlet weak var headButton: UIButton!
-    @IBOutlet weak var bgImageView: UIImageView!
+    /// 第三登陆已登陆显示view
+    @IBOutlet weak var loginView: UIView!
     
-    @IBOutlet weak var welcome_label: UILabel!
     //MARK: View Life Cycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         //backgroud
         bgImageView.contentMode = UIViewContentMode.ScaleToFill
         bgImageView.clipsToBounds = true
         
-        if logined {
-            refresh()
-        }
-        welcome_label.hidden = logined ?? false
+//        if logined {
+//            refresh()
+//        }
+//        welcome_label.hidden = logined ?? false
+        
+        iconView.layer.cornerRadius = iconView.bounds.width * 0.5
+        iconView.clipsToBounds = true
     }
     
     func refresh() {
         if logined {
-            iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!))
-            iconView.layer.cornerRadius = iconView.frame.width / 2
-            iconView.clipsToBounds = true
-            userName  = sharedUserAccount?.nickname
             unloginView.hidden = true
-            headButton.hidden = false
-            //圆角头像
-            headButton.layer.cornerRadius = headButton.frame.width / 2
-            headButton.clipsToBounds = true
-            headButton.setTitle("", forState: .Normal)
-            user_name.hidden = false
-            welcome_label.hidden = true
-        }else {
-            headButton.hidden = true
-            iconView.hidden = true
+            loginView.hidden = false
+            iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount?.icon! ?? ""))
+            user_name.text  = sharedUserAccount!.nickname
+        } else {
+            unloginView.hidden = false
+            loginView.hidden = true
         }
     }
     
@@ -162,9 +159,7 @@ class MenuViewController: UIViewController {
             default:
                 break
             }
-        })
-        
-        // 发送数据，进行登陆告知
+        })        
     }
     
     // MARK: 告诉后台用户已登陆

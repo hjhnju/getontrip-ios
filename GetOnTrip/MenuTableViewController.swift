@@ -89,17 +89,15 @@ class MenuTableViewController: UITableViewController {
             if let slideCon = self.parentViewController?.parentViewController as? SlideMenuViewController {
                 slideCon.dismissMenu()
                 
-                if let segue = menuData[indexPath.row]!["segue"] {
-                    if segue == StoryBoardIdentifier.SidesSetting && sharedUserAccount == nil {
-                        // TODO: 设置进行前进行登陆检查
-                        let alertView = UIAlertView(title: nil, message: "请先登陆，么么哒", delegate: self, cancelButtonTitle: "亲一个")
-                        alertView.show()
-                        
-                    } else {
-                        slideCon.masterViewController.performSegueWithIdentifier(segue, sender: nil)
-                    }
+                if sharedUserAccount == nil{
+                    // TODO: 设置进行前进行登陆检查
+                    let alertView = UIAlertView(title: nil, message: "亲，请先登陆，么么哒", delegate: self, cancelButtonTitle: "亲一个")
+                    alertView.show()
+                } else {
+                    let segue = menuData[indexPath.row]!["segue"]
+                    slideCon.masterViewController.performSegueWithIdentifier(segue, sender: nil)
+
                 }
-                
             }
         }
         

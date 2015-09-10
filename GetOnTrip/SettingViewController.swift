@@ -151,6 +151,10 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     
     func exitLoginClick() {
         println("退出登陆")
+        sharedUserAccount = nil
+        
+//        navigationController?.popViewControllerAnimated(true)
+        super.navigationController?.navigationController!.popViewControllerAnimated(true)
     }
     
     func sortClick() {

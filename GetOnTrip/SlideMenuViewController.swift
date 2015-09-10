@@ -177,6 +177,8 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
             options: UIViewAnimationOptions.AllowUserInteraction,
             animations:{ self.masterViewController.view.frame = mainSize;
                 let tc = self.sideViewController.childViewControllers[0] as!MenuTableViewController
+                self.sideViewController.logined = sharedUserAccount != nil ? true : false
+                self.sideViewController.refresh()
                 tc.tableView.hidden = false
                 tc.cellx = 0
                 tc.tableView.reloadData()

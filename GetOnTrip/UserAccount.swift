@@ -10,36 +10,23 @@ import UIKit
 
 class UserAccount: NSObject {
     
-   /**
-    *  授权凭证， 为nil则表示尚未授权
-    */
+    /// 授权凭证， 为nil则表示尚未授权
     var credential: SSDKCredential?
     
-   /**
-    *  用户标识
-    */
+    /// 用户标识
     var uid: String?
     
-   /**
-    *  昵称
-    */
+    /// 昵称
     var nickname: String?
     
-   /**
-    *  头像
-    */
+    /// 头像
     var icon: String?
     
-   /**
-    *  性别
-    */
+    /// 性别
     var gender: SSDKGender?
     
-   /**
-    *  原始数据
-    */
+    /// 原始数据
     var rawData: NSDictionary?
-    
     
     /// 用于调用access_token，接口获取授权后的access token
     var access_token: String?
@@ -49,6 +36,9 @@ class UserAccount: NSObject {
     /// 过期日期
     var expiresDate: NSDate?
     
+    /// 获取用户信息请求
+    /// 网络请求，加载数据
+    var lastSuccessRequest: UserInfoRequest?
     
     init(user: SSDKUser) {
 //        access_token = dict["access_token"] as? String
@@ -74,7 +64,7 @@ class UserAccount: NSObject {
         ShareSDK.authorize(SSDKPlatformType.TypeSinaWeibo, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
-                
+            
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
 //                self.user = user
                 self.saveAccount()
@@ -89,13 +79,14 @@ class UserAccount: NSObject {
     }
     
     class func loadAccount() -> UserAccount? {
-        print("加载用账户")
+        
         // 判断 token 是否已经过期，如果过期，直接返回 nil
         if let account = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount {
         
             // 判断日期是否过期，根当前系统时间进行`比较`，低于当前系统时间，就认为过期
             // 过期日期`大于`当前日期，结果应该是降序
 //            if account.expiresDate!.compare(NSDate()) == NSComparisonResult.OrderedDescending {
+                account.loadUserData()
                 return account
 //            }
         }
@@ -131,6 +122,19 @@ class UserAccount: NSObject {
         aCoder.encodeObject(expiresDate, forKey: "expiresDate")
         aCoder.encodeObject(uid, forKey: "uid")
         aCoder.encodeObject(nickname, forKey: "nickname")
+    }
+    
+    private func loadUserData() {
+        
+        //获取数据更新tableview
+        if lastSuccessRequest == nil {
+            lastSuccessRequest = UserInfoRequest()
+        }
+        
+        lastSuccessRequest?.fetchBookModels { (handler: Topic) -> Void in
+           
+        }
+        
     }
     
 }
