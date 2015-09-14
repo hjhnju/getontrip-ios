@@ -162,10 +162,10 @@ class FeedBackViewCell: UITableViewCell {
 
     var feedBack: FeedBack? {
         didSet {
-
+//            iconView.sd_setImageWithURL(NSURL(string: feedBack!.image))
             timeLabel.text = feedBack!.showTime ? feedBack!.create_time : ""
             timeHeightCons.constant = feedBack!.showTime ? 15 : 0
-            msgLabel.text = "我是系统我是系统我系统我是系统我是系统我是系统我是系统我是系统我是系统我是系统"
+            msgLabel.text = feedBack?.content
             msgBtn.setTitle(feedBack!.content, forState: UIControlState.Normal)
         }
     }
@@ -186,7 +186,7 @@ class FeedBackViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         msgBtn.titleLabel!.numberOfLines = 0
-        msgLabel.preferredMaxLayoutWidth = 100
+//        msgLabel.preferredMaxLayoutWidth = 100
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
         iconView.clipsToBounds = true
 

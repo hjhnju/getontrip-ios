@@ -807,39 +807,39 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ezy-BF-hzg">
-                                                    <rect key="frame" x="369" y="49" width="180" height="77.5"/>
+                                                    <rect key="frame" x="386" y="61" width="163" height="34.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <inset key="contentEdgeInsets" minX="16" minY="8" maxX="16" maxY="8"/>
+                                                    <inset key="contentEdgeInsets" minX="8" minY="6" maxX="8" maxY="7"/>
                                                     <state key="normal" title="系统消息系统消息" backgroundImage="1.png">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="系统消息系统消息" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="efM-9k-7Qv" userLabel="内容标签">
-                                                    <rect key="frame" x="403" y="59" width="140" height="58"/>
+                                                    <rect key="frame" x="411" y="64" width="134" height="29"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
+                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="top" secondItem="efM-9k-7Qv" secondAttribute="top" id="7D0-mT-8ln"/>
+                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="height" secondItem="efM-9k-7Qv" secondAttribute="height" id="Dv2-6P-9rK"/>
                                                 <constraint firstItem="z1U-hv-5Jm" firstAttribute="top" secondItem="9AL-EL-Vjd" secondAttribute="topMargin" constant="6" id="FQe-nn-iLr"/>
-                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="leading" secondItem="efM-9k-7Qv" secondAttribute="leading" constant="-34" id="GFL-Uf-B0c"/>
-                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="top" secondItem="efM-9k-7Qv" secondAttribute="top" id="GOl-Px-ACj"/>
                                                 <constraint firstItem="OT3-gN-l7j" firstAttribute="bottom" secondItem="z1U-hv-5Jm" secondAttribute="top" constant="-20" id="JKN-il-oRE"/>
+                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="trailing" secondItem="efM-9k-7Qv" secondAttribute="trailing" constant="-8" id="JMs-Ev-YQx"/>
                                                 <constraint firstItem="z1U-hv-5Jm" firstAttribute="trailing" secondItem="9AL-EL-Vjd" secondAttribute="trailingMargin" id="JdV-Cz-xlG"/>
-                                                <constraint firstItem="z1U-hv-5Jm" firstAttribute="leading" secondItem="ezy-BF-hzg" secondAttribute="trailing" constant="9" id="LzJ-Ra-Sh0"/>
+                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="top" secondItem="z1U-hv-5Jm" secondAttribute="top" id="RnU-K2-ZXO"/>
                                                 <constraint firstItem="ezy-BF-hzg" firstAttribute="trailing" secondItem="efM-9k-7Qv" secondAttribute="trailing" constant="-5" id="VL7-Ml-qsX"/>
                                                 <constraint firstItem="ezy-BF-hzg" firstAttribute="width" secondItem="efM-9k-7Qv" secondAttribute="width" id="VVN-Ww-JWY"/>
                                                 <constraint firstItem="efM-9k-7Qv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9AL-EL-Vjd" secondAttribute="leadingMargin" constant="40" id="Yvy-0d-d9l"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="OT3-gN-l7j" secondAttribute="trailing" constant="-8" id="Zfu-9X-EgV"/>
-                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="top" secondItem="OT3-gN-l7j" secondAttribute="bottom" constant="22" id="lNv-fI-DwM"/>
+                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="width" secondItem="efM-9k-7Qv" secondAttribute="width" id="e52-ov-1HL"/>
                                                 <constraint firstItem="OT3-gN-l7j" firstAttribute="leading" secondItem="9AL-EL-Vjd" secondAttribute="leadingMargin" constant="-8" id="n8n-jR-wRo"/>
                                                 <constraint firstItem="z1U-hv-5Jm" firstAttribute="leading" secondItem="efM-9k-7Qv" secondAttribute="trailing" constant="14" id="p8S-wl-Gkq"/>
-                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="height" secondItem="efM-9k-7Qv" secondAttribute="height" id="t8f-Uf-649"/>
-                                                <constraint firstItem="ezy-BF-hzg" firstAttribute="width" secondItem="efM-9k-7Qv" secondAttribute="width" id="w1B-ww-uI2"/>
+                                                <constraint firstItem="efM-9k-7Qv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9AL-EL-Vjd" secondAttribute="leadingMargin" constant="40" id="q50-aF-nYX"/>
+                                                <constraint firstItem="z1U-hv-5Jm" firstAttribute="leading" secondItem="ezy-BF-hzg" secondAttribute="trailing" constant="9" id="wSz-Xu-prg"/>
                                                 <constraint firstItem="OT3-gN-l7j" firstAttribute="top" secondItem="9AL-EL-Vjd" secondAttribute="topMargin" constant="18" id="wq5-6C-raR"/>
-                                                <constraint firstItem="efM-9k-7Qv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9AL-EL-Vjd" secondAttribute="leadingMargin" constant="40" id="yrI-M2-6TD"/>
                                                 <constraint firstItem="ezy-BF-hzg" firstAttribute="height" secondItem="efM-9k-7Qv" secondAttribute="height" id="zSJ-E1-tHY"/>
                                             </constraints>
                                             <variation key="default">
@@ -853,7 +853,7 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.47024054279999999" green="0.63679584700000003" blue="0.42454769739999998" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="iconView" destination="z1U-hv-5Jm" id="RTx-3X-IDb"/>
                                             <outlet property="msgBtn" destination="ezy-BF-hzg" id="y8p-fW-cyP"/>
@@ -926,7 +926,7 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.47024054279999999" green="0.63679584700000003" blue="0.42454769739999998" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="iconView" destination="CMS-xw-b7r" id="tXB-VI-gHa"/>
                                             <outlet property="msgBtn" destination="VyC-hM-dMl" id="6kr-jc-dZd"/>
