@@ -36,76 +36,88 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qW6-HI-Gju">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qW6-HI-Gju">
                                 <rect key="frame" x="0.0" y="64" width="600" height="70"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iMz-q3-Fga" customClass="CollectButton" customModule="GetOnTrip" customModuleProvider="target">
-                                        <rect key="frame" x="201" y="0.0" width="200" height="70"/>
-                                        <color key="backgroundColor" red="0.66666666669999997" green="0.50573087989999999" blue="0.66666666669999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="话题" image="topic_image">
+                                        <rect key="frame" x="200" y="0.0" width="200" height="70"/>
+                                        <color key="backgroundColor" red="0.12156862745098039" green="0.12941176470588234" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="话题" image="motif_image">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="selected">
+                                        <state key="selected" image="motif_highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U0u-dX-qEy" customClass="CollectButton" customModule="GetOnTrip" customModuleProvider="target">
                                         <rect key="frame" x="400" y="0.0" width="200" height="70"/>
-                                        <color key="backgroundColor" red="0.66666666669999997" green="0.50573087989999999" blue="0.66666666669999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="主题" image="motif_image">
+                                        <color key="backgroundColor" red="0.12156862745098039" green="0.12941176470588234" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="主题" image="topic_image">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="selected">
+                                        <state key="selected" image="topic_highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="caH-WS-1ca">
+                                        <rect key="frame" x="400" y="10" width="1" height="50"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aBH-3q-Xel" customClass="CollectButton" customModule="GetOnTrip" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="70"/>
+                                        <color key="backgroundColor" red="0.12156862745098039" green="0.12941176470588234" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="景点" image="sight_image">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected" image="sight_highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BpA-Is-FXQ">
-                                        <rect key="frame" x="200" y="10" width="1" height="50"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <rect key="frame" x="199" y="10" width="1" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="1" id="n42-5F-hTs"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="caH-WS-1ca">
-                                        <rect key="frame" x="401" y="10" width="1" height="50"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aBH-3q-Xel" customClass="CollectButton" customModule="GetOnTrip" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="70"/>
-                                        <color key="backgroundColor" red="0.66666666669999997" green="0.50573087989999999" blue="0.66666666669999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="景点" image="sight_image">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <state key="selected">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="aBH-3q-Xel" firstAttribute="top" secondItem="qW6-HI-Gju" secondAttribute="top" id="6UY-ZL-yI7"/>
-                                    <constraint firstItem="BpA-Is-FXQ" firstAttribute="top" secondItem="qW6-HI-Gju" secondAttribute="top" constant="10" id="9HN-Mz-j2C"/>
+                                    <constraint firstItem="BpA-Is-FXQ" firstAttribute="top" secondItem="qW6-HI-Gju" secondAttribute="top" id="9HN-Mz-j2C"/>
                                     <constraint firstAttribute="height" constant="70" id="AnZ-Jg-d7Y"/>
                                     <constraint firstItem="BpA-Is-FXQ" firstAttribute="width" secondItem="caH-WS-1ca" secondAttribute="width" id="DBM-CH-h09"/>
+                                    <constraint firstItem="BpA-Is-FXQ" firstAttribute="top" secondItem="qW6-HI-Gju" secondAttribute="top" constant="10" id="EO6-K3-4S9"/>
                                     <constraint firstItem="aBH-3q-Xel" firstAttribute="leading" secondItem="qW6-HI-Gju" secondAttribute="leading" id="GI5-Ke-1KY"/>
                                     <constraint firstAttribute="bottom" secondItem="aBH-3q-Xel" secondAttribute="bottom" id="GuF-ua-QfR"/>
                                     <constraint firstItem="U0u-dX-qEy" firstAttribute="height" secondItem="aBH-3q-Xel" secondAttribute="height" id="GxY-T2-jov"/>
                                     <constraint firstItem="U0u-dX-qEy" firstAttribute="centerY" secondItem="aBH-3q-Xel" secondAttribute="centerY" id="Oms-o8-eeo"/>
                                     <constraint firstAttribute="bottom" secondItem="BpA-Is-FXQ" secondAttribute="bottom" constant="10" id="T8X-Q8-fAw"/>
+                                    <constraint firstAttribute="bottom" secondItem="caH-WS-1ca" secondAttribute="bottom" constant="10" id="Taf-Cm-ljV"/>
                                     <constraint firstAttribute="width" secondItem="aBH-3q-Xel" secondAttribute="width" multiplier="3:1" id="Ucp-KM-X95"/>
                                     <constraint firstItem="caH-WS-1ca" firstAttribute="leading" secondItem="iMz-q3-Fga" secondAttribute="trailing" id="VWD-II-uYW"/>
                                     <constraint firstItem="iMz-q3-Fga" firstAttribute="leading" secondItem="BpA-Is-FXQ" secondAttribute="trailing" id="XKQ-qs-HDB"/>
                                     <constraint firstItem="U0u-dX-qEy" firstAttribute="width" secondItem="aBH-3q-Xel" secondAttribute="width" id="XLy-2V-FAv"/>
-                                    <constraint firstItem="BpA-Is-FXQ" firstAttribute="height" secondItem="caH-WS-1ca" secondAttribute="height" id="XpN-bE-Cpv"/>
+                                    <constraint firstItem="BpA-Is-FXQ" firstAttribute="height" secondItem="caH-WS-1ca" secondAttribute="height" constant="-20" id="XpN-bE-Cpv"/>
+                                    <constraint firstAttribute="bottom" secondItem="BpA-Is-FXQ" secondAttribute="bottom" constant="10" id="hDL-Yg-yze"/>
                                     <constraint firstItem="U0u-dX-qEy" firstAttribute="width" secondItem="iMz-q3-Fga" secondAttribute="width" id="hcL-14-4ez"/>
                                     <constraint firstItem="BpA-Is-FXQ" firstAttribute="centerY" secondItem="caH-WS-1ca" secondAttribute="centerY" id="iWR-TU-r5y"/>
-                                    <constraint firstItem="BpA-Is-FXQ" firstAttribute="leading" secondItem="aBH-3q-Xel" secondAttribute="trailing" id="jCl-sF-XTQ"/>
+                                    <constraint firstItem="BpA-Is-FXQ" firstAttribute="leading" secondItem="aBH-3q-Xel" secondAttribute="trailing" constant="-1" id="jCl-sF-XTQ"/>
+                                    <constraint firstItem="caH-WS-1ca" firstAttribute="top" secondItem="qW6-HI-Gju" secondAttribute="top" constant="10" id="le9-hL-HoM"/>
                                     <constraint firstAttribute="trailing" secondItem="U0u-dX-qEy" secondAttribute="trailing" id="nKp-XP-wVv"/>
                                     <constraint firstItem="U0u-dX-qEy" firstAttribute="centerY" secondItem="iMz-q3-Fga" secondAttribute="centerY" id="wW5-Ez-aTL"/>
                                     <constraint firstItem="U0u-dX-qEy" firstAttribute="height" secondItem="iMz-q3-Fga" secondAttribute="height" id="zrO-Ms-51J"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="9HN-Mz-j2C"/>
+                                        <exclude reference="T8X-Q8-fAw"/>
+                                        <exclude reference="XpN-bE-Cpv"/>
+                                        <exclude reference="iWR-TU-r5y"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I5C-om-MGX">
                                 <rect key="frame" x="0.0" y="134" width="600" height="466"/>
@@ -143,7 +155,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="btnBackground" destination="qW6-HI-Gju" id="cLc-8w-baG"/>
                         <outlet property="containView" destination="I5C-om-MGX" id="hoo-8J-n9h"/>
+                        <outlet property="line1" destination="caH-WS-1ca" id="bMf-17-N7O"/>
+                        <outlet property="line2" destination="caH-WS-1ca" id="TMB-SN-Btb"/>
                         <outlet property="motifBtn" destination="U0u-dX-qEy" id="0yL-rB-3LM"/>
                         <outlet property="scrollView" destination="jrL-f4-OsQ" id="v6d-f4-THi"/>
                         <outlet property="sightBtn" destination="aBH-3q-Xel" id="9Hc-sA-cyt"/>
@@ -1544,11 +1559,14 @@
         <image name="current_location" width="10" height="14"/>
         <image name="hamburger" width="21" height="14"/>
         <image name="menu-bg" width="323" height="717"/>
-        <image name="motif_image" width="26" height="25"/>
+        <image name="motif_highlighted" width="27" height="25"/>
+        <image name="motif_image" width="27" height="25"/>
         <image name="qq_picture" width="44" height="42"/>
         <image name="search" width="21" height="23"/>
+        <image name="sight_highlighted" width="38" height="23"/>
         <image name="sight_image" width="38" height="23"/>
-        <image name="topic_image" width="27" height="25"/>
+        <image name="topic_highlighted" width="26" height="25"/>
+        <image name="topic_image" width="26" height="25"/>
         <image name="weixin_picture" width="43" height="41"/>
         <image name="xinlang" width="43" height="42"/>
     </resources>

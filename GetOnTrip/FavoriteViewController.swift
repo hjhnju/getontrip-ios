@@ -17,8 +17,13 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var containView: UIView!
+    /// 按钮背景的view
+    @IBOutlet weak var btnBackground: UIView!
+    /// 左边线
+    @IBOutlet weak var line1: UIView!
+    /// 右边线
+    @IBOutlet weak var line2: UIView!
     
-    @IBOutlet weak var background: UIView!
     // 景点底图
     lazy var view1: UIView = {
         var tempView = UIView(frame: UIScreen.mainScreen().bounds)
@@ -49,10 +54,47 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
         containView.backgroundColor = UIColor(patternImage: UIImage(named: "collect_background")!)
-        
+        recordButtonStatus = sightBtn
+
 //        setupDefaultSightTopic()
         setupChildControllerProperty()
         
+        sightBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        topicBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        motifBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    /// MARK: - 切换收藏视图方法
+    /// 记录按钮的状态
+    var recordButtonStatus: UIButton?
+    func switchCollectButtonClick(sender: UIButton) {
+        recordButtonStatus?.selected = false
+        sender.selected = true
+        recordButtonStatus = sender
+        
+        //        compositorItem.customView?.hidden = true
+        
+        //        if sender.currentTitle == "话题" {
+        //            compositorItem.customView?.hidden = false
+        //        }
+        
+        if !sender.selected {
+            sender.selected = true
+            recordButtonStatus = sender
+        }
+
+        var selectedIndex: CGFloat = 0
+        if sender == sightBtn { selectedIndex = 0 }
+        else if sender == topicBtn { selectedIndex = 1 }
+        else if sender == motifBtn { selectedIndex = 2 }
+        scrollView.contentOffset.x = containView.bounds.width * selectedIndex
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        line1.bounds = CGRectMake(0, 0, 0.5, 1)
+        line2.bounds = CGRectMake(0, 0, 0.5, 1)
     }
     
     // 搜索
@@ -81,7 +123,6 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         //初始化views
         addChildViewController(sightViewController)
         view1.addSubview(sightViewController.view)
-//        sightViewController.view.backgroundColor = UIColor.orangeColor()
         scrollView.addSubview(view1)
         
         
@@ -112,63 +153,21 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     
     
     //MASK: Actions
-    var recordButtonStatus: UIButton?
-    
-    
-    @IBAction func selectItem(sender: UIButton) {
-        
-        recordButtonStatus?.backgroundColor = UIColor.clearColor()
-        recordButtonStatus?.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        recordButtonStatus?.selected = false
-        
-//        compositorItem.customView?.hidden = true
-        
-//        if sender.currentTitle == "话题" {
-//            compositorItem.customView?.hidden = false
-//        }
-        
-        if !sender.selected {
-            sender.selected = true
-            sender.backgroundColor = UIColor(white: 1, alpha: 0.5)
-            sender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-            sender.layer.masksToBounds = true
-            sender.layer.cornerRadius = 15
-            recordButtonStatus = sender
-        }
-        
-        //set select
-//        selectedItem = sender
-        //move
-//        var selectedIndex: CGFloat = 0
-//        if selectedItem == item1 { selectedIndex = 0 }
-//        else if selectedItem == item2 { selectedIndex = 1 }
-//        else if selectedItem == item3 { selectedIndex = 2 }
-//        else if selectedItem == item4 { selectedIndex = 3 }
-//        scrollView.contentOffset.x = containView.bounds.width * selectedIndex
-    }
-    
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+
         var xOffset: CGFloat = scrollView.contentOffset.x
         if (xOffset < 1.0) {
-//            selectedItem = item1
-//            compositorItem.customView?.hidden = true
-//            selectItem(item1)
-//        } else if (xOffset < containView.bounds.width + 1) {
-//            selectedItem = item2
-//            compositorItem.customView?.hidden = false
-//            selectItem(item2)
-//        } else {
-//            selectedItem = item4
-//            compositorItem.customView?.hidden = true
-//            selectItem(item4)
+            switchCollectButtonClick(sightBtn)
+        } else if (xOffset < containView.bounds.width + 1) {
+            switchCollectButtonClick(topicBtn)
+        } else {
+            switchCollectButtonClick(motifBtn)
         }
     }
     
     // MARK: 懒加载
     // 景点控制器
     lazy var sightViewController: CollectSightViewController = {
-//        let story1 = UIStoryboard(name: "Main", bundle: nil)
-//        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectSightSB) as! CollectSightViewController
         return CollectSightViewController()
     }()
     

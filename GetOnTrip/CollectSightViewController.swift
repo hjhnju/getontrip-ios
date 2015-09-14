@@ -87,15 +87,17 @@ class CSCollectionViewCell: UICollectionViewCell {
     lazy var title: UILabel = {
         var lab = UILabel()
         lab.bounds = CGRectMake(0, 0, 150, 20)
+        lab.textColor = UIColor.whiteColor()
+        lab.font = UIFont.boldSystemFontOfSize(16)
         lab.textAlignment = NSTextAlignment.Center
-        lab.backgroundColor = UIColor.orangeColor()
         return lab
     }()
     
     lazy var subtitle: UILabel = {
         var lab = UILabel()
         lab.textAlignment = NSTextAlignment.Center
-        lab.backgroundColor = UIColor.orangeColor()
+        lab.font = UIFont.systemFontOfSize(9)
+        lab.textColor = UIColor(white: 1.0, alpha: 0.7)
         lab.bounds = CGRectMake(0, 0, 150, 20)
         return lab
     }()
@@ -108,10 +110,17 @@ class CSCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    lazy var bottomView: UIView = {
+        var v = UIView()
+        v.backgroundColor = UIColor(hex: 0x747474, alpha: 0.5)
+        return v
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         addSubview(iconView)
+        addSubview(bottomView)
         addSubview(title)
         addSubview(subtitle)
     }
@@ -120,6 +129,7 @@ class CSCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         iconView.frame = self.bounds
+        bottomView.frame = self.bounds
         title.frame = CGRectMake(0, self.bounds.height * 0.5, self.bounds.width, 20)
         subtitle.frame = CGRectMake(0, self.bounds.height - 20, self.bounds.width, 20)
     }
