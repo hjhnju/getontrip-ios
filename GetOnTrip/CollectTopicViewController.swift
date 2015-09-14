@@ -64,6 +64,27 @@ class CollectTopicViewController: UITableViewController {
         return cell!
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println("点击了")
+        let topicId = collectTopic[indexPath.row].id
+        loadData(topicId!)
+    }
+    
+    
+    private func loadData(id: Int) {
+        NSLog("notice:refreshing nearby data.")
+        
+        TopicDetailRequest(topicId: id).fetchModels { (handler: Topic) -> Void in
+            
+            let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController
+            var topic = handler as Topic
+            topic.sight = self.navigationController?.navigationItem.title
+            topicDetailViewController!.topic = topic
+            super.navigationController?.navigationController?.pushViewController(topicDetailViewController!, animated: true)
+        }
+        
+    }
+
 
     /*
     // Override to support conditional editing of the table view.

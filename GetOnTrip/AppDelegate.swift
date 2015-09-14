@@ -16,6 +16,9 @@ var sharedUserAccount = UserAccount.loadAccount()
 /// 记录uuid
 var appUUID: String?
 
+// TODO: qq:key 4PgUEB1BmyOAQMl9  id:1104781543
+// TODO: 微信：
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

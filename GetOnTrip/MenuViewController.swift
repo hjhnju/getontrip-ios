@@ -96,7 +96,7 @@ class MenuViewController: UIViewController {
                 
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
             self.login(user.uid.toInt()!, type: 3)
-            var account = UserAccount(user: user)
+            var account = UserAccount(user: user, type: 2)
             
             sharedUserAccount = account
             self.logined = true
@@ -119,7 +119,7 @@ class MenuViewController: UIViewController {
                 
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
             self.login(user.uid.toInt()!, type: 3)
-            var account = UserAccount(user: user)
+            var account = UserAccount(user: user, type: 1)
             
             sharedUserAccount = account
             self.logined = true
@@ -147,9 +147,10 @@ class MenuViewController: UIViewController {
             case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
 //                login(openId: Int)
             self.login(user.uid.toInt()!, type: 3)
-            var account = UserAccount(user: user)
+            var account = UserAccount(user: user, type: 3)
             
                 sharedUserAccount = account
+                sharedUserAccount?.saveAccount()
                 self.logined = true
                 self.refresh()
                 

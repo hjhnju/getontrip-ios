@@ -32,7 +32,6 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.estimatedRowHeight = 100
         settingSendButton()
         tableView.dataSource = self
         tableView.delegate = self
@@ -89,25 +88,6 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
         return cell!
     }
     
-    /*
-    
-    - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    // 判断缓存
-    if ([self.rowHeightCache objectForKey:indexPath] != nil) {
-    NSLog(@"返回缓存行高");
-    return [[self.rowHeightCache objectForKey:indexPath] floatValue];
-    }
-    
-    MessageCell *cell = [self reuseableCellWithIndexPath:indexPath];
-    CGFloat h = [cell rowHeight:self.messages[indexPath.row]];
-    
-    [self.rowHeightCache setObject:@(h) forKey:indexPath];
-    
-    return h;
-    }
-    */
-    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if rowHeightCache.objectForKey(indexPath) != nil {
             return CGFloat(rowHeightCache.objectForKey(indexPath)!.floatValue)
@@ -116,6 +96,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
         var cell = self.reuseableCellWithIndexPath(indexPath)
         let h = cell.rowHeight(feedBackList![indexPath.row] as! FeedBack)
         rowHeightCache.setObject(h, forKey: indexPath)
+        
         return h
     }
     
@@ -174,37 +155,38 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
 class FeedBackViewCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var contentBackground: UIImageView!
     @IBOutlet weak var msgLabel: UILabel!
-    @IBOutlet weak var timeLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var iconView: UIImageView!
-    
-    @IBOutlet weak var imageWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
-    // 消息背景宽度
-    @IBOutlet weak var imageWidth: NSLayoutConstraint!
-    // 消息背景高度
-    @IBOutlet weak var imageHeight: NSLayoutConstraint!
+    @IBOutlet weak var msgBtn: UIButton!
+    @IBOutlet weak var timeHeightCons: NSLayoutConstraint!
+
     var feedBack: FeedBack? {
         didSet {
+
             timeLabel.text = feedBack!.showTime ? feedBack!.create_time : ""
-            timeLabelHeightConstraint.constant = feedBack!.showTime ? 15 : 0
-            msgLabel.text = feedBack!.content
-            imageWidthConstraint.constant = CGFloat(msgLabel.bounds.width)
-            imageHeightConstraint.constant = CGFloat(msgLabel.bounds.height)
-            layoutIfNeeded()
+            timeHeightCons.constant = feedBack!.showTime ? 15 : 0
+            msgLabel.text = "我是系统我是系统我系统我是系统我是系统我是系统我是系统我是系统我是系统我是系统"
+            msgBtn.setTitle(feedBack!.content, forState: UIControlState.Normal)
         }
     }
     
     
     func rowHeight(feedBackMessage: FeedBack) -> CGFloat {
         self.layoutIfNeeded()
-        return CGRectGetMaxY(contentBackground.frame) + 12
+        
+        // 设置文本换行宽度
+        msgLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 126
+        
+        // 更新自动布局
+        layoutIfNeeded()
+        
+        return CGRectGetMaxY(msgBtn.frame) + 12
     }
 
     
     override func awakeFromNib() {
-        self.msgLabel.preferredMaxLayoutWidth = 200
+        msgBtn.titleLabel!.numberOfLines = 0
+        msgLabel.preferredMaxLayoutWidth = 100
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
         iconView.clipsToBounds = true
 
