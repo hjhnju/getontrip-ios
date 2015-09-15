@@ -112,7 +112,35 @@ class CSCollectionViewCell: UICollectionViewCell {
     
     lazy var bottomView: UIView = {
         var v = UIView()
-        v.backgroundColor = UIColor(hex: 0x747474, alpha: 0.5)
+        v.backgroundColor = UIColor(hex: 0x747474, alpha: 0.3)
+        return v
+    }()
+    
+    lazy var bottomView1: UIView = {
+        var v = UIView()
+        v.backgroundColor = UIColor.blackColor()
+        v.alpha = 0.3
+        return v
+    }()
+    
+    lazy var bottomView2: UIView = {
+        var v = UIView()
+        v.backgroundColor = UIColor.blackColor()
+        v.alpha = 0.3
+        return v
+    }()
+    
+    lazy var bottomView3: UIView = {
+        var v = UIView()
+        v.backgroundColor = UIColor.blackColor()
+        v.alpha = 0.3
+        return v
+    }()
+    
+    lazy var bottomView4: UIView = {
+        var v = UIView()
+        v.backgroundColor = UIColor.blackColor()
+        v.alpha = 0.3
         return v
     }()
     
@@ -120,6 +148,10 @@ class CSCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         addSubview(iconView)
+        addSubview(bottomView1)
+        addSubview(bottomView2)
+        addSubview(bottomView3)
+        addSubview(bottomView4)
         addSubview(bottomView)
         addSubview(title)
         addSubview(subtitle)
@@ -128,10 +160,14 @@ class CSCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        iconView.frame = self.bounds
-        bottomView.frame = self.bounds
-        title.frame = CGRectMake(0, self.bounds.height * 0.5, self.bounds.width, 20)
-        subtitle.frame = CGRectMake(0, self.bounds.height - 20, self.bounds.width, 20)
+        iconView.frame    = self.bounds
+        bottomView1.frame = CGRectMake(0, 0, self.bounds.width, 3)
+        bottomView2.frame = CGRectMake(self.bounds.width - 3, 3, 3, self.bounds.height - 6)
+        bottomView3.frame = CGRectMake(0, 3, 3, self.bounds.height - 6)
+        bottomView4.frame = CGRectMake(0, self.bounds.height - 3, self.bounds.width, 3)
+        bottomView.frame  = CGRectMake(3, 3, self.bounds.width - 6, self.bounds.height - 6)
+        title.frame       = CGRectMake(0, self.bounds.height * 0.5, self.bounds.width, 20)
+        subtitle.frame    = CGRectMake(0, self.bounds.height - 25, self.bounds.width, 20)
     }
 
     required init(coder aDecoder: NSCoder) {
