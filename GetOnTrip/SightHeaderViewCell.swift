@@ -19,6 +19,7 @@ class SightHeaderViewCell: UITableViewCell {
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var sightId: UIButton!
     
+    @IBOutlet weak var tocityButton: UIButton!
     var sightImageUrl:String? {
         didSet{
             if let sightImageUrl = sightImageUrl{
@@ -89,5 +90,7 @@ class SightHeaderViewCell: UITableViewCell {
         self.descValue     = sight.desc
         self.sightId.tag   = sight.sightid
         self.sightId.setTitle(sight.name, forState: UIControlState.Normal)
+        tocityButton.titleLabel?.text = self.sightId.titleLabel?.text
+        tocityButton.tag = sightId.tag
     }
 }

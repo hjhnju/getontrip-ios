@@ -30,7 +30,7 @@ class BookCell: UITableViewCell {
         var baselineView = UIView()
         baselineView.backgroundColor = UIColor(white: 979797, alpha: 0.3)
         return baselineView
-        }()
+    }()
     
     var recordPriceJdConstraint: CGFloat?
     

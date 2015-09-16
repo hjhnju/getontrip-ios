@@ -21,7 +21,6 @@ class TopicDetailRequest: NSObject {
     // 请求参数
     var topicId  :Int
     var deviceId :String
-    
     var pageSize:Int = 6
     
     //获取当前页的数据
@@ -31,13 +30,7 @@ class TopicDetailRequest: NSObject {
     init(topicId: Int) {
         self.topicId = topicId
         
-        // 获取uuid
-        var uuid = SSKeychain.passwordForService(NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        if (uuid == nil) {
-            uuid = NSUUID().UUIDString
-            SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        }
-        self.deviceId = uuid
+        self.deviceId = appUUID!
     }
     
     // 将数据回调外界
@@ -58,7 +51,7 @@ class TopicDetailRequest: NSObject {
             path: "/api/topic/detail",
             post: post,
             handler: {(respData: JSON) -> Void in
-                println(respData)
+
                 var topic: Topic?
                 // 转换话题详情
                 let id              = respData["id"].intValue

@@ -11,7 +11,7 @@ import Foundation
 
 class CyclopaedicViewController: UITableViewController {
     
-    // 网络请求，加载数据
+    /// 网络请求，加载数据
     var lastSuccessRequest: CyclopaedicRequest?
     
     var sightId: Int?

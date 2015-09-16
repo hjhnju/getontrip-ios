@@ -34,25 +34,25 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
     // 百科底图
     lazy var view1: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
-        view1.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
+//        view1.backgroundColor = UIColor(patternImage: UIImage(named: "cyclopaedicBottom")!)
         return view1
     }()
     // 话题列表底图
     lazy var view2: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
-        view1.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
+//        view1.backgroundColor = UIColor(patternImage: UIImage(named: "topicBottom")!)
         return view1
     }()
     // 书籍底图
     lazy var view3: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
-        view1.backgroundColor = UIColor(patternImage: UIImage(named: "bookBottom")!)
+//        view1.backgroundColor = UIColor(patternImage: UIImage(named: "bookBottom")!)
         return view1
     }()
     // 视频底图
     lazy var view4: UIView = {
         var view1 = UIView(frame: UIScreen.mainScreen().bounds)
-        view1.backgroundColor = UIColor(patternImage: UIImage(named: "videoBottom")!)
+//        view1.backgroundColor = UIColor(patternImage: UIImage(named: "videoBottom")!)
         return view1
     }()
     
@@ -71,12 +71,12 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         return item
     }()
     
-    //MASK: View Life Circle
+    // MARK: View Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
-        
-
+        /// 附近页面背景
+        containView.backgroundColor = UIColor(patternImage: UIImage(named: "nearbg_background")!)
         
         self.navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
         self.navigationController?.navigationBar.tintColor = SceneColor.lightGray
@@ -249,7 +249,6 @@ class SightTopicsViewController: UIViewController, UIScrollViewDelegate {
         if (xOffset < 1.0) {
             selectedItem = item1
             compositorItem.customView?.hidden = true
-//                self.navigationItem.xxxItem.customView.hidden
             selectItem(item1)
         } else if (xOffset < containView.bounds.width + 1) {
             selectedItem = item2

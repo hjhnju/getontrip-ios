@@ -41,9 +41,13 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         }
     }
     
+
+    
     //是否正在加载更多
     var isLoadingMore = false
     
+
+    @IBOutlet weak var showCityCenterClick: UIButton!
     //Animations
     let customNavigationAnimationController = CustomNavigationAnimationController()
     let customInteractionController = CustomInteractionController()
@@ -247,6 +251,10 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         if segue.identifier == StoryBoardIdentifier.ShowSightTopicsSegue {
             var sightTopicsVC = segue.destinationViewController.visibleViewController as! SightTopicsViewController  // ShowSightTopicsSegue
             sightTopicsVC.sightId = sender as? UIButton
+        } else if (segue.identifier == "CityCenterSegue") {
+   
+            var cityCenterVC = segue.destinationViewController.visibleViewController as! CityCenterViewCollection
+            cityCenterVC.sightId = sender as? UIButton
         }
         
         
@@ -267,6 +275,13 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     
     @IBAction func showSightView(sender: UIButton) {
         performSegueWithIdentifier(StoryBoardIdentifier.ShowSightTopicsSegue, sender: sender)
+    }
+    
+    /// 显示城市中间页的方法
+    @IBAction func showCityCenterClick(sender: UIButton) {
+
+        performSegueWithIdentifier("CityCenterSegue", sender: sender)
+
     }
     
     // MARK: NavigationDelegate

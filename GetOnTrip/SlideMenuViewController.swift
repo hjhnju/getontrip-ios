@@ -74,7 +74,6 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
         
         self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewID) as! MasterViewController
         
-        self.sideViewController.slideDelegate = self
         self.masterViewController.slideDelegate = self
         
         //添加用户拖动事件
@@ -139,7 +138,7 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
                 if (self.slideMenuState == SlideMenuState.Closing){
                     c.origin.x = location.x - self.panGestureStartLocation.x;
                 }
-            }else if (sender.translationInView(self.view).x > -SlideMenuOptions.DrawerWidth){
+            } else if (sender.translationInView(self.view).x > -SlideMenuOptions.DrawerWidth){
                 if (self.slideMenuState == SlideMenuState.Opening){
                     c.origin.x = panGestureRecognizer.translationInView(self.masterViewController.view).x + SlideMenuOptions.DrawerWidth
                 }
@@ -176,9 +175,19 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
-            animations:{ self.masterViewController.view.frame = mainSize; },
-            completion: { (finished: Bool) -> Void in }
+            animations:{ self.masterViewController.view.frame = mainSize;
+                let tc = self.sideViewController.childViewControllers[0] as!MenuTableViewController
+                self.sideViewController.logined = sharedUserAccount != nil ? true : false
+                self.sideViewController.refresh()
+                tc.tableView.hidden = false
+                tc.cellx = 0
+                tc.tableView.reloadData()
+            },
+            completion: { (finished: Bool) -> Void in
+            }
         )
+        
+        
         
         //将侧边栏的装填标记为打开状态
         self.slideMenuState = SlideMenuState.Opening
@@ -201,7 +210,10 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
             animations: { self.masterViewController.view.frame = mainSize; },
-            completion: { (finished: Bool) -> Void in }
+            completion: { (finished: Bool) -> Void in
+            let tc = self.sideViewController.childViewControllers[0] as!MenuTableViewController
+                tc.tableView.hidden = true
+            }
         )
         
         self.masterViewController.refreshMask()
