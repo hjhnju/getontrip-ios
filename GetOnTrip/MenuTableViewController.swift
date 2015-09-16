@@ -63,27 +63,27 @@ class MenuTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if indexPath.row == 0 {
-//            let searchResultsController = SwitchCityViewController()
-//            searchResultsController.view.backgroundColor = UIColor.orangeColor()
-//            // 创建搜索控制器
+//            let switchCityController = SwitchCityViewController()
+//            switchCityController.view.backgroundColor = UIColor.orangeColor()
+            // 创建搜索控制器
 //            searchController = UISearchController(searchResultsController: searchResultsController)
-//            //
+            //
 //            searchController.searchResultsUpdater = searchResultsController
 //            searchController.hidesNavigationBarDuringPresentation = false
-//            
-//            //UI setting
+            
+            //UI setting
 //            let imgView   = UIImageView(image: UIImage(named: "search-bg")!)
-//            imgView.frame = searchController.view.bounds
-//            searchController.view.addSubview(imgView)
-//            searchController.view.sendSubviewToBack(imgView)
-//            searchController.searchBar.barStyle = UIBarStyle.Black
-//            searchController.searchBar.tintColor = UIColor.grayColor()
+//            imgView.frame = switchCityController.view.bounds
+//            switchCityController.view.addSubview(imgView)
+//            switchCityController.view.sendSubviewToBack(imgView)
+//            switchCityController.searchBar.barStyle = UIBarStyle.Black
+//            switchCityController.searchBar.tintColor = UIColor.grayColor()
 //            let textField = searchController.searchBar.valueForKey("searchField") as? UITextField
 //            textField?.textColor = UIColor.whiteColor()
 //            searchController.searchBar.becomeFirstResponder()
 //            searchController.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
             
-            presentViewController(searchController, animated: true, completion: nil)
+            presentViewController(SwitchCityViewController(), animated: true, completion: nil)
         } else {
             self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
             if let slideCon = self.parentViewController?.parentViewController as? SlideMenuViewController {

@@ -68,6 +68,8 @@
 		AE6849781B9BD85400F00560 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FC51B9B14EB006D6998 /* libz.dylib */; };
 		AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */; };
 		AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */; };
+		AE7AD7531BA7C39E006857EB /* cityGroups.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE7AD7521BA7C39E006857EB /* cityGroups.plist */; };
+		AE7AD7571BA7E278006857EB /* seachCities.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE7AD7561BA7E278006857EB /* seachCities.plist */; };
 		AE7B997B1BA17DE4003034FB /* UserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */; };
 		AE7B997D1BA1877F003034FB /* UserUploadInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B997C1BA1877F003034FB /* UserUploadInfoRequest.swift */; };
 		AE7C2F681B9C284F00A6D640 /* FeedBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C2F671B9C284F00A6D640 /* FeedBack.swift */; };
@@ -220,6 +222,8 @@
 		AE553BB91B81EAB700C03737 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
 		AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookRequest.swift; sourceTree = "<group>"; };
 		AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRequest.swift; sourceTree = "<group>"; };
+		AE7AD7521BA7C39E006857EB /* cityGroups.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cityGroups.plist; sourceTree = "<group>"; };
+		AE7AD7561BA7E278006857EB /* seachCities.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = seachCities.plist; sourceTree = "<group>"; };
 		AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoRequest.swift; sourceTree = "<group>"; };
 		AE7B997C1BA1877F003034FB /* UserUploadInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserUploadInfoRequest.swift; sourceTree = "<group>"; };
 		AE7C2F671B9C284F00A6D640 /* FeedBack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedBack.swift; sourceTree = "<group>"; };
@@ -445,11 +449,10 @@
 		72D86DE21B65D94D004B72D0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AE7AD7511BA7C37D006857EB /* Plist */,
 				72D86DED1B65D94D004B72D0 /* LaunchScreen.xib */,
 				72D86DEB1B65D94D004B72D0 /* Images.xcassets */,
 				72D86DE61B65D94D004B72D0 /* ViewController.swift */,
-				AE20EDEB1B9C456300F26074 /* cities.plist */,
-				72D86DE31B65D94D004B72D0 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -619,6 +622,17 @@
 				AEA24B731B863A1100031FB8 /* Video.swift */,
 			);
 			name = "Video(视频)";
+			sourceTree = "<group>";
+		};
+		AE7AD7511BA7C37D006857EB /* Plist */ = {
+			isa = PBXGroup;
+			children = (
+				AE7AD7521BA7C39E006857EB /* cityGroups.plist */,
+				72D86DE31B65D94D004B72D0 /* Info.plist */,
+				AE20EDEB1B9C456300F26074 /* cities.plist */,
+				AE7AD7561BA7E278006857EB /* seachCities.plist */,
+			);
+			name = Plist;
 			sourceTree = "<group>";
 		};
 		AEA94F911B9B14A7006D6998 /* libraries(登陆/分享) */ = {
@@ -862,10 +876,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEA94FB81B9B14A7006D6998 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				AE7AD7571BA7E278006857EB /* seachCities.plist in Resources */,
 				AE553BBC1B81EAB700C03737 /* 3.jpg in Resources */,
 				AEA94FBF1B9B14A7006D6998 /* ShareSDK.bundle in Resources */,
 				AEA94FB51B9B14A7006D6998 /* GooglePlus.bundle in Resources */,
 				AE553BBD1B81EAB700C03737 /* 4.jpg in Resources */,
+				AE7AD7531BA7C39E006857EB /* cityGroups.plist in Resources */,
 				AE20EDEC1B9C456300F26074 /* cities.plist in Resources */,
 				AEA94FBC1B9B14A7006D6998 /* WeiboSDK.bundle in Resources */,
 				AE553BBA1B81EAB700C03737 /* 1.jpg in Resources */,

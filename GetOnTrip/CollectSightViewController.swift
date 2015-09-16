@@ -42,6 +42,7 @@ class CollectSightViewController: UICollectionViewController {
         let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
         layout.minimumInteritemSpacing = lw
         layout.sectionInset = UIEdgeInsets(top: 0, left: lw, bottom: 0, right: lw)
+
         // Register cell classes
         collectionView?.registerClass(CSCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier1)
 
