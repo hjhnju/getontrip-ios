@@ -18,11 +18,12 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         }
         return arrayM.copy() as! NSArray
     }()
-
-    lazy var searchBar: UISearchBar = {
-        var search = UISearchBar()
-        return search
-    }()
+    
+    var searchBar: UISearchBar?
+//    lazy var searchBar: UISearchBar = {
+//        var search = UISearchBar()
+//        return search
+//    }()
     
     lazy var tableView: UITableView = {
         var tableView = UITableView()
@@ -53,16 +54,14 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = UIColor.whiteColor()
-        view.addSubview(searchBar)
-        view.addSubview(tableView)
+        view.addSubview(searchBar!)
         view.addSubview(coverButton)
-        
-        searchBar.delegate = self
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        searchBar.frame = CGRectMake(0, 20, view.bounds.width, 44)
+        searchBar!.frame = CGRectMake(0, 20, view.bounds.width, 44)
         tableView.frame = CGRectMake(0, 64, view.bounds.width, view.bounds.height - 64)
         coverButton.frame = tableView.frame
         citySearchVC.view.frame = tableView.frame
@@ -71,12 +70,17 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         view.addSubview(citySearchVC.view)
         citySearchVC.view.hidden = true
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "switchCityController_Cell")
+
+        tableView.sectionIndexColor = UIColor.whiteColor()
+        tableView.sectionIndexBackgroundColor = UIColor.clearColor()
+        
+//        tableView.cell.selectionStyle=UITableViewCellSelectionStyleNone
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-
+        
     }
     
     // MARK: - 数据源方法
@@ -93,11 +97,14 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         
         var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("switchCityController_Cell") as! UITableViewCell
         let city: CityGorupModel = cityGroupData[indexPath.section] as! CityGorupModel
+        cell.backgroundColor = UIColor.clearColor()
         cell.textLabel!.text = city.cities![indexPath.row] as? String
-
+        cell.textLabel?.textColor = UIColor.whiteColor()
+//        cell.selectionStyle = UITableViewCellSelectionStyle.Gray
         return cell
     }
 
+    
     // MARK: searchBar代理方法
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
@@ -123,26 +130,14 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         var text: NSString = searchBar.text as NSString
         if text.length > 0 {
-            println("进这里了")
             citySearchVC.view.hidden = false
+            tableView.hidden = true
             citySearchVC.searchText = searchText
         } else {
-            println("还是进这里")
             citySearchVC.view.hidden = true
+            tableView.hidden = false
         }
     }
-    
-//    #pragma mark 搜索内容发生改变
-//    - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-//    {
-//    // 如果输入有内容, 在显示搜索结果控制器的view
-//    if (searchBar.text.length) {
-//    self.citySearchVC.view.hidden = NO;
-//    self.citySearchVC.searchText = searchText;
-//    } else {
-//    self.citySearchVC.view.hidden = YES;
-//    }
-//    }
     
     /// MARK: - 取消搜索
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
@@ -150,17 +145,32 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
     }
     
     func coverClick() {
-        searchBar.resignFirstResponder()
+        
+        self.searchBar!.resignFirstResponder()
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let cityM: AnyObject = cityGroupData[section]
+        
         return cityM.title!!
+    }
+    
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+       let v = UILabel()
+        v.backgroundColor = UIColor.clearColor()
+        v.textColor = UIColor.whiteColor()
+        let text: String = cityGroupData[section].title!!
+        v.text = "    " + "\(text)"
+        return v
     }
     
     func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
         return cityGroupData.valueForKey("title") as? [AnyObject]
     }
+    
+    
+    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 //        var cityM = cityGroupData[indexPath.section]
@@ -225,6 +235,9 @@ class CitySearchViewController: UITableViewController {
         citiesData = MetaTool.cities
         resultData = NSMutableArray()
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "citySearchController_Cell")
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.backgroundColor = UIColor.clearColor()
+        tableView.tableHeaderView?.backgroundColor = UIColor.clearColor()
     }
     
     // MARK: - 数据源方法
@@ -234,12 +247,24 @@ class CitySearchViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("citySearchController_Cell") as! UITableViewCell
+        cell.backgroundColor = UIColor.clearColor()
         cell.textLabel!.text = resultData![indexPath.row] as? String ?? ""
+        cell.textLabel?.textColor = UIColor.whiteColor()
+        cell.backgroundColor = UIColor.clearColor()
         return cell
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "共有\(resultData!.count)个搜索结果"
+        return "  "
+    }
+    
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let v = UILabel()
+        v.backgroundColor = UIColor.clearColor()
+        v.textColor = UIColor.whiteColor()
+        v.text = "    共有" + "\(resultData!.count)个搜索结果"
+        return v
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
