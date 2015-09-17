@@ -20,6 +20,16 @@
 		7239FE301B87130600238A25 /* DiscoveryFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7239FE2F1B87130600238A25 /* DiscoveryFlowLayout.swift */; };
 		7239FE321B887D0200238A25 /* DiscoveryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7239FE311B887D0200238A25 /* DiscoveryRequest.swift */; };
 		724393671B7045A000F13EA1 /* Nearby.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 724393661B7045A000F13EA1 /* Nearby.storyboard */; };
+		724F66A91B944939004A6805 /* Theme.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 724F66A81B944939004A6805 /* Theme.storyboard */; };
+		724F66AB1B94498B004A6805 /* ThemeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724F66AA1B94498B004A6805 /* ThemeTableViewController.swift */; };
+		724F66AE1B944AB1004A6805 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724F66AD1B944AB1004A6805 /* Theme.swift */; };
+		724F66B01B944CB7004A6805 /* ThemeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724F66AF1B944CB7004A6805 /* ThemeRequest.swift */; };
+		724F66B41B94565C004A6805 /* ThemeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724F66B31B94565C004A6805 /* ThemeTableViewCell.swift */; };
+		724F66CC1B96BF5A004A6805 /* ThemeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724F66CB1B96BF5A004A6805 /* ThemeDetailViewController.swift */; };
+		724F66CE1B96C241004A6805 /* ThemeDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724F66CD1B96C241004A6805 /* ThemeDetailRequest.swift */; };
+		724F66D01B96E181004A6805 /* Landscape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724F66CF1B96E181004A6805 /* Landscape.swift */; };
+		724F66D31B96EBDB004A6805 /* LandscapeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724F66D21B96EBDB004A6805 /* LandscapeCollectionViewCell.swift */; };
+		724F66D51B96EF3C004A6805 /* LandscapeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724F66D41B96EF3C004A6805 /* LandscapeViewController.swift */; };
 		72A5BF301B72391E00F3AB26 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5BF2F1B72391E00F3AB26 /* SearchResultsViewController.swift */; };
 		72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5BF311B73351400F3AB26 /* HttpRequest.swift */; };
 		72A5BF351B73AB5F00F3AB26 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5BF341B73AB5F00F3AB26 /* SwiftyJSON.swift */; };
@@ -117,6 +127,16 @@
 		7239FE2F1B87130600238A25 /* DiscoveryFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryFlowLayout.swift; sourceTree = "<group>"; };
 		7239FE311B887D0200238A25 /* DiscoveryRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryRequest.swift; sourceTree = "<group>"; };
 		724393661B7045A000F13EA1 /* Nearby.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Nearby.storyboard; sourceTree = "<group>"; };
+		724F66A81B944939004A6805 /* Theme.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Theme.storyboard; sourceTree = "<group>"; };
+		724F66AA1B94498B004A6805 /* ThemeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTableViewController.swift; sourceTree = "<group>"; };
+		724F66AD1B944AB1004A6805 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		724F66AF1B944CB7004A6805 /* ThemeRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeRequest.swift; sourceTree = "<group>"; };
+		724F66B31B94565C004A6805 /* ThemeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTableViewCell.swift; sourceTree = "<group>"; };
+		724F66CB1B96BF5A004A6805 /* ThemeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDetailViewController.swift; sourceTree = "<group>"; };
+		724F66CD1B96C241004A6805 /* ThemeDetailRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDetailRequest.swift; sourceTree = "<group>"; };
+		724F66CF1B96E181004A6805 /* Landscape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Landscape.swift; sourceTree = "<group>"; };
+		724F66D21B96EBDB004A6805 /* LandscapeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeCollectionViewCell.swift; sourceTree = "<group>"; };
+		724F66D41B96EF3C004A6805 /* LandscapeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeViewController.swift; sourceTree = "<group>"; };
 		72A5BF2F1B72391E00F3AB26 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		72A5BF311B73351400F3AB26 /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
 		72A5BF341B73AB5F00F3AB26 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
@@ -225,6 +245,39 @@
 			name = Discovery;
 			sourceTree = "<group>";
 		};
+		724F66A71B94485F004A6805 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				724F66D11B96EBB7004A6805 /* View */,
+				724F66AC1B944AA2004A6805 /* Model */,
+				724F66A81B944939004A6805 /* Theme.storyboard */,
+				724F66AA1B94498B004A6805 /* ThemeTableViewController.swift */,
+				724F66B31B94565C004A6805 /* ThemeTableViewCell.swift */,
+				724F66CB1B96BF5A004A6805 /* ThemeDetailViewController.swift */,
+				724F66D41B96EF3C004A6805 /* LandscapeViewController.swift */,
+			);
+			name = Theme;
+			sourceTree = "<group>";
+		};
+		724F66AC1B944AA2004A6805 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				724F66AD1B944AB1004A6805 /* Theme.swift */,
+				724F66AF1B944CB7004A6805 /* ThemeRequest.swift */,
+				724F66CD1B96C241004A6805 /* ThemeDetailRequest.swift */,
+				724F66CF1B96E181004A6805 /* Landscape.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		724F66D11B96EBB7004A6805 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				724F66D21B96EBDB004A6805 /* LandscapeCollectionViewCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		72D721321B6B9894005BDE55 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +339,7 @@
 				AE553BBE1B81EB6300C03737 /* Guide */,
 				72D721331B6B99DA005BDE55 /* Nearby */,
 				7239FE261B85B4C000238A25 /* Discovery */,
+				724F66A71B94485F004A6805 /* Theme */,
 				72D86E091B65E844004B72D0 /* Ucenter */,
 				72D86E081B65E82B004B72D0 /* Common */,
 				72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */,
@@ -534,7 +588,7 @@
 				TargetAttributes = {
 					72D86DDE1B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 568F62S6LX;
+						DevelopmentTeam = H7P27HMFW7;
 					};
 					72D86DF31B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
@@ -576,6 +630,7 @@
 				72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */,
 				AEE122241B8F330E00AAC3C9 /* bg.jpg in Resources */,
 				7239FE281B85B4EF00238A25 /* Discovery.storyboard in Resources */,
+				724F66A91B944939004A6805 /* Theme.storyboard in Resources */,
 				AED03EA01B941DB300EF063C /* TopicDetail.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -643,8 +698,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7239FE321B887D0200238A25 /* DiscoveryRequest.swift in Sources */,
+				724F66B01B944CB7004A6805 /* ThemeRequest.swift in Sources */,
 				721643241B7B30A9009C292C /* TopicDetailViewController.swift in Sources */,
 				7239FE301B87130600238A25 /* DiscoveryFlowLayout.swift in Sources */,
+				724F66CE1B96C241004A6805 /* ThemeDetailRequest.swift in Sources */,
 				AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */,
 				AEB9E2961B85E272007B3ED3 /* Book.swift in Sources */,
 				72D7212F1B6B69FF005BDE55 /* MenuTableViewController.swift in Sources */,
@@ -656,6 +713,7 @@
 				AE263C7E1B8D8C26003BB0BC /* CyclopaedicDetailController.swift in Sources */,
 				72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */,
 				AEA24B761B863BF300031FB8 /* VideoController.swift in Sources */,
+				724F66D51B96EF3C004A6805 /* LandscapeViewController.swift in Sources */,
 				AE513E381B857D41003DC53D /* TopicDetailsCell.swift in Sources */,
 				7216432A1B7DB18F009C292C /* StringExtentions.swift in Sources */,
 				72B8DC7F1B907C8C00B8FC2C /* ScrolledImageUIView.swift in Sources */,
@@ -664,6 +722,7 @@
 				721643281B7D8F39009C292C /* CustomInteractionController.swift in Sources */,
 				AED2DE3C1B8426370091D320 /* CyclopaedicLabel.swift in Sources */,
 				AEBD70D91B8D397A00B3810D /* PopoverPresentationController.swift in Sources */,
+				724F66B41B94565C004A6805 /* ThemeTableViewCell.swift in Sources */,
 				72D86E2B1B65F045004B72D0 /* Sight.swift in Sources */,
 				AED2DE461B8468F60091D320 /* TopicDetailListController.swift in Sources */,
 				72D86E2C1B65F045004B72D0 /* NearbyRequest.swift in Sources */,
@@ -673,15 +732,18 @@
 				AED2DE441B8460DE0091D320 /* TopicDetails.swift in Sources */,
 				721643261B7D80EC009C292C /* CustomNavigationAnimationController.swift in Sources */,
 				AED2DE3F1B842A8F0091D320 /* CyclopaedicRequest.swift in Sources */,
+				724F66AB1B94498B004A6805 /* ThemeTableViewController.swift in Sources */,
 				AE87C2141B85F285004C0998 /* BookCell.swift in Sources */,
 				AEE66DE21B8B241E007CF3C4 /* CompositorController.swift in Sources */,
 				AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */,
 				72D86E271B65F03D004B72D0 /* SightHeaderViewCell.swift in Sources */,
 				72D7212B1B6A2FEB005BDE55 /* MainViewController.swift in Sources */,
 				7239FE2C1B86D6C900238A25 /* DiscoveryCollectionViewCell.swift in Sources */,
+				724F66CC1B96BF5A004A6805 /* ThemeDetailViewController.swift in Sources */,
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
 				AEA24B741B863A1100031FB8 /* Video.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColorExtentions.swift in Sources */,
+				724F66AE1B944AB1004A6805 /* Theme.swift in Sources */,
 				7239FE2A1B86CADD00238A25 /* DiscoveryCollectionViewController.swift in Sources */,
 				72D86E211B65F033004B72D0 /* NearbyTableViewController.swift in Sources */,
 				2044495B1B6609B50028BE77 /* MenuViewController.swift in Sources */,
@@ -689,11 +751,13 @@
 				AE993E551B8318F000ECDCE1 /* CyclopaedicViewController.swift in Sources */,
 				AE7C571D1B85971F00C5FC59 /* CyclopaedicCell.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */,
+				724F66D01B96E181004A6805 /* Landscape.swift in Sources */,
 				AEB9E2941B85DB27007B3ED3 /* BookController.swift in Sources */,
 				72D86E261B65F03D004B72D0 /* NearbyTableViewCell.swift in Sources */,
 				AEBD70DB1B8D39AC00B3810D /* PopoverAnimator.swift in Sources */,
 				72D86E1D1B65F00E004B72D0 /* ImageLoader.swift in Sources */,
 				AE263C781B8D7AE9003BB0BC /* TopicDetail.swift in Sources */,
+				724F66D31B96EBDB004A6805 /* LandscapeCollectionViewCell.swift in Sources */,
 				72A5BF301B72391E00F3AB26 /* SearchResultsViewController.swift in Sources */,
 				AED2DE421B84533A0091D320 /* TopicRequest.swift in Sources */,
 				72D86E221B65F033004B72D0 /* SightTopicsViewController.swift in Sources */,

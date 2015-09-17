@@ -51,11 +51,11 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    weak var view1: UIView!
+    var view1: UIView!
     
     var view2: UIView!
     
-    var view3: UIView = UIView()
+    var view3: UIView!
     
     // `searchController` is set when the search button is clicked.
     var searchController: UISearchController!
@@ -96,6 +96,13 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         view2 = controller2.view
         scrollView.addSubview(view2)
         scrollView.bringSubviewToFront(view2)
+        
+        let story3 = UIStoryboard(name: "Theme", bundle: nil)
+        let controller3 = story3.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.ThemeTableViewControllerID) as! UIViewController
+        addChildViewController(controller3)
+        view3 = controller3.view
+        scrollView.addSubview(view3)
+        scrollView.bringSubviewToFront(view3)
     }
     
     
@@ -112,12 +119,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         
         view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
         
-        view3.backgroundColor = UIColor.purpleColor()
         view3.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
-        self.scrollView.addSubview(view3)
-        self.scrollView.bringSubviewToFront(view3)
-        
-        
     }
     
     override func viewDidAppear(animated: Bool) {

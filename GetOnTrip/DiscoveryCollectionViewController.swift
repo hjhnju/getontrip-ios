@@ -11,8 +11,6 @@ import MJRefresh
 
 class DiscoveryCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    //var topics: [Topic] = [Topic(topicid: 1, title: "topic1", subtitle: "desc1"), Topic(topicid: 2, title: "topic2", subtitle: "desc2"), Topic(topicid: 3, title: "topic3", subtitle: "desc3"), Topic(topicid: 4, title: "topic4", subtitle: "desc4"), Topic(topicid: 5, title: "topic5", subtitle: "desc5"), Topic(topicid: 6, title: "topic6", subtitle: "desc6"), Topic(topicid: 7, title: "topic7", subtitle: "desc7")]
-    
     var topics = [Topic]()
 
     var lastRequest: DiscoveryRequest?
@@ -94,6 +92,7 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
             if topics.count > 0 {
                 self.topics = self.topics + topics
                 self.collectionView?.reloadData()
+                self.refreshScrollImageView()
                 self.collectionView?.footer.endRefreshing()
             } else {
                 self.collectionView?.footer.noticeNoMoreData()
@@ -153,14 +152,17 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
         yOffsetHis = scrollView.contentOffset.y
     }
     
+    var factor: CGFloat = 0
+    
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         let gap = scrollView.contentOffset.y - yOffsetHis
-        let factor = fmin(1.0, fmax(gap / UIScreen.mainScreen().bounds.height, -1.0))
-        
+        factor = fmin(1.0, fmax(gap / UIScreen.mainScreen().bounds.height, -1.0))
+        refreshScrollImageView()
+    }
+    
+    func refreshScrollImageView() {
         for cell in self.collectionView!.visibleCells() {
             if let collectionViewCell = cell as? DiscoveryCollectionViewCell {
-                //println("collectionViewCell.frame = \(collectionViewCell.frame)")
-                //println("scrolledViewCell.frame = \(collectionViewCell.scrolledImageUIView.frame)")
                 collectionViewCell.scrolledImageUIView.factor = factor
             }
         }
