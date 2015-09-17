@@ -472,35 +472,57 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         
         return dataM.copy() as! NSData
     }
-    
+
     
     /// MARK: - 保存用户信息
     func saveUserInfo(item: UIBarButtonItem) {
         
-        let path = NSBundle.mainBundle().pathForResource("1.jpg", ofType: nil)
-//        NSDictionary *dict = @{@"other.png": [NSData dataWithContentsOfFile:path]};
-       
-        var dict = NSMutableDictionary()
-        dict.setValue(NSData(contentsOfFile: path!), forKey: "2.jpg")
-        
-        
-        postUpload("userfile[]", dataDict: dict, params: NSDictionary())
-        
-        
-        
-        
+        let imageData = UIImagePNGRepresentation(iconView.image)
+        var post       = [String: String]()
+        post["userid"] = String(stringInterpolationSegment: appUUID)
+        post["type"]   = String(stringInterpolationSegment: 3)
+        post["param"]  = String(stringInterpolationSegment: [["nick_name": "aa"], ["type": "png"], ["sex": "1"]])
+        post["image"]  = String(stringInterpolationSegment: imageData)
+        HttpRequest.uploadPicture("http://127.0.0.1", fieldName: "123", dataList: ["123" : imageData!], parameters: post) { (JSON) -> () in
+            println(JSON)
+        }
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
+//        if let avatar = iconView.image {
+//            let imageData = UIImagePNGRepresentation(avatar)
+//            let urlRequest = HttpRequest.urlRequestWithComponents(AppIni.BaseUri + "/api/user/editinfoc", parameters: post, imageData: imageData)
+//            
+//            upload(urlRequest.0, data: urlRequest.1)
+//                .progress { (_, bytesWritten, bytesToWrite) in
+//                    println("\(bytesWritten) / \(bytesToWrite)")
+//                }.responseJSON { (_, _, json, err) in
+//                    println("Upload avatar (and nick& sex) resp json: \(json), error: \(err)")
+//                    
+//                    // 清除成员变量保持的image数据
+////                    self.newAvatar = nil
+////                    callback(result: json, avatarChanged: true)
+//            }
+//        } else {
+//            request(.POST, AppIni.BaseUri + "/api/user/editinfoc", parameters: post)
+//                .responseJSON { (_, _, json, err) in
+//                    println("Post nick&sex resp json: \(json), error: \(err)")
+////                    callback(result: json, avatarChanged: false)
+//            }
+//        }
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
         println("保存用户信息\(item)")
         
         
@@ -533,20 +555,8 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
 //        }];
 
         
-        /*
         
-       
-        
-        
-        
-        --随便\r\n
-        Content-Disposition: form-data; name="userfile"; filename="111.txt"\r\n
-        Content-Type: application/octet-stream\r\n\r\n
-        
-        要上传文件的二进制数据
-        \r\n
-        --随便--
-        */
+
         
 
     }
@@ -614,3 +624,96 @@ class Province : NSObject {
         return province
     }
 }
+
+
+
+
+
+
+
+//class UpLoadRequest: NSObject {
+//    
+//    private let boundary: String = "--"
+//    private let boundaryID: String = "----WebKitFormBoundaryORlx73ddAq4zgHyz"
+//    var uploadRequest: NSMutableURLRequest?
+//    var parameterName: String = ""
+//    var mimType: String?
+//    var bodyHeader: String?
+//    var bodyFooter: String?
+//    var bodyData: NSMutableData = NSMutableData()
+//    
+//    //拼接带参数头部
+//    func httpHeaderStringWithParameters(parameter: String, paramName: String) ->String {
+//        var header: String = self.boundary+self.boundaryID+"\r\n"
+//        
+//        header += "Content-Disposition: form-data;name=\"\(paramName)\"\r\n"
+//        header += parameter+"\r\n"
+//        
+//        return header
+//        
+//    }
+//    //拼接带文件的头部
+//    func httpHeaderStringWithFile(mimType: String, upLoadFileName: String) ->String {
+//        
+//        var header: String = self.boundary+self.boundaryID+"\r\n"
+//        
+//        header += "Content-Disposition: form-data; name=\"personPicture\"; filename=\"\(upLoadFileName)\"\r\n"
+//        header += "Content-Type: \(mimType)\r\n\r\n"
+//        //        header += "Content-Transfer-Encoding: binary\r\n"
+//        self.bodyHeader = header
+//        
+//        return header
+//    }
+//    
+//    //拼接底部
+//    func httpBottomString() -> String {
+//        
+//        var footer: String = self.boundary+self.boundaryID+self.boundary
+//        footer += "\r\n"
+//        self.bodyFooter = footer
+//        
+//        return footer
+//    }
+//    
+//    //指定全路径文件的mimType
+//    func mimTypeWithFilePath(filePath: String) {
+//        
+//        if !NSFileManager.defaultManager().fileExistsAtPath(filePath) {
+//            return
+//        }
+//        
+//        let url = NSURL(fileURLWithPath: filePath)
+//        let request = NSMutableURLRequest(URL: url)
+//        
+//        var response: NSURLResponse?
+//        
+//        do {
+//        try NSURLConnection.sendSynchronousRequest(request, returningResponse: &response)
+//        self.mimType = response!.MIMEType
+//        } catch {
+//            print(error)
+//            return
+//        }
+//    }
+//    
+//    //初始化请求
+//    init(URL: NSURL, fileName: String, filePath: String)  {
+//        super.init()
+//        self.mimTypeWithFilePath(filePath)
+//        if self.mimType == nil { return }
+//        
+//        self.bodyData.appendData(self.httpHeaderStringWithFile(self.mimType!, upLoadFileName: fileName) .dataUsingEncoding(NSUTF8StringEncoding)!)
+//        //尾部
+//        self.bodyData.appendData(NSData(contentsOfFile: filePath)!)
+//        self.bodyData.appendData("\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+//        self.bodyData.appendData(self.httpBottomString().dataUsingEncoding(NSUTF8StringEncoding)!)
+//        
+//        let mutableRequest = NSMutableURLRequest(URL: URL, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 10)
+//        mutableRequest.HTTPMethod = "POST"
+//        mutableRequest.HTTPBody = self.bodyData
+//        mutableRequest.addValue("multipart/form-data; boundary=\(self.boundaryID)", forHTTPHeaderField: "Content-Type")
+//        mutableRequest.addValue("\(self.bodyData.length)", forHTTPHeaderField: "Content-Length")
+//        self.uploadRequest = mutableRequest
+//    }
+//}
+//

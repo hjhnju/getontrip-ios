@@ -42,7 +42,7 @@ class UserUploadInfoRequest: NSObject {
         var post       = [String: String]()
         post["userid"] = String(stringInterpolationSegment: self.userid)
         post["type"]   = String(stringInterpolationSegment: self.type)
-        post["parm"]   = String(stringInterpolationSegment: self.param)
+        post["param"]   = String(stringInterpolationSegment: self.param)
         post["image"]  = String(stringInterpolationSegment: self.image)
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIniOnline.BaseUri,
