@@ -14,7 +14,7 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
     
     // MARK: Properties
     
-    var resultData = [[Dictionary<String, JSON>]]()
+    var resultData = [[Dictionary<String, AnyObject>]]()
     
     var sectionTitle = [String]()
     
@@ -32,13 +32,13 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
                 }
                 self.resultData.removeAll(keepCapacity: true)
                 self.sectionTitle.removeAll(keepCapacity: true)
-                HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: ["query":query], handler: {(respData: JSON) -> Void in
+                HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: ["query":query], handler: {(respData: NSArray) -> Void in
                     for section in self.sectionTypes {
-                        let secRows = respData[section].arrayValue
+                        let secRows = respData[Int(section)!] as! NSDictionary
                         if secRows.count > 0 {
-                            var rows = [Dictionary<String, JSON>]()
+                            var rows = [Dictionary<String, AnyObject>]()
                             for row in secRows {
-                                rows.append(row.dictionaryValue)
+                                rows.append(row as! Dictionary)
                             }
                             self.resultData.append(rows)
                             let title = self.titleMap[section] ?? section
@@ -80,8 +80,8 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         view.addSubview(line)
         
         let headerView = view as! UITableViewHeaderFooterView
-        headerView.textLabel.textColor = UIColor.lightGrayColor()
-        headerView.textLabel.font = UIFont(name: "Helvetica Neue", size: 11)
+        headerView.textLabel!.textColor = UIColor.lightGrayColor()
+        headerView.textLabel!.font = UIFont(name: "Helvetica Neue", size: 11)
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -95,7 +95,7 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         cell.resultTitle = resultData[indexPath.section][indexPath.row]["name"]?.stringValue
         cell.resultDesc  = resultData[indexPath.section][indexPath.row]["desc"]?.stringValue
         cell.resultType  = self.sectionTypes[indexPath.section]
-        cell.resultId  = resultData[indexPath.section][indexPath.row]["id"]?.intValue
+        cell.resultId  = Int(resultData[indexPath.section][indexPath.row]["id"] as! String)!
         return cell
     }
     

@@ -38,25 +38,22 @@ class CityCenterRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/city/detail",
             post: post,
-            handler: {(respData: JSON) -> Void in
-                println(respData)
-               
+            handler: {(respData: NSArray) -> Void in
+
                 var collectSightM = [CityCenter]()
-                for item in respData.arrayValue {
-                    for it in respData.arrayValue {
+                    for it in respData {
                         
-                        var collectM = CityCenter()
-                        collectM.id = it["id"].intValue
-                        collectM.name = it["name"].stringValue
-                        collectM.image = AppIni.BaseUri + it["image"].stringValue
-                        collectM.topics = it["topics"].stringValue
-                        collectM.collect = it["collect"].stringValue
+                        let collectM = CityCenter(dict: it as! [String : String])
+//                        collectM.id = it["id"].intValue
+//                        collectM.name = it["name"].stringValue
+//                        collectM.topics = it["topics"].stringValue
+//                        collectM.collect = it["collect"].stringValue
+                        collectM.image = AppIni.BaseUri + String(it["image"])
                         collectSightM.append(collectM)
                     }
                     
                     // 回调
                     handler(collectSightM)
-                }
             }
         )
     }

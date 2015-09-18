@@ -15,12 +15,12 @@ extension String {
     //获取带行间距的字符格式
     func getAttributedString(lineHeightMultiple:CGFloat = 0, lineSpacing: CGFloat = 0, breakMode:NSLineBreakMode = NSLineBreakMode.ByTruncatingTail) -> NSAttributedString {
         
-        var style = NSMutableParagraphStyle()
+        let style = NSMutableParagraphStyle()
         style.lineSpacing = lineSpacing
         style.lineHeightMultiple = lineHeightMultiple
         style.lineBreakMode = breakMode
         
-        var attributedString = NSMutableAttributedString(string: self)
+        let attributedString = NSMutableAttributedString(string: self)
         attributedString.addAttribute(NSParagraphStyleAttributeName, value: style, range: NSMakeRange(0, attributedString.length))
         
         return attributedString

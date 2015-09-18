@@ -19,6 +19,15 @@ class CollectSight: NSObject {
     var image: String?
     /// 共几个话题
     var topicNum: String?
+    
+    init(dict: [String : String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }
 
 /// 话题
@@ -33,6 +42,15 @@ class CollectTopic: NSObject {
     var image: String?
     /// 副标题
     var subtitle: String?
+    
+    init(dict: [String : String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }
 
 class CollectMotif: NSObject {
@@ -47,4 +65,13 @@ class CollectMotif: NSObject {
     var name: String?
     /// 第几期
     var period: String?
+    
+    init(dict: [String : String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }

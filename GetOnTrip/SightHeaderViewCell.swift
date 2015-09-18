@@ -60,7 +60,7 @@ class SightHeaderViewCell: UITableViewCell {
     var descValue:String? {
         didSet {
             if let value = descValue {
-                self.descLabel.attributedText = value.getAttributedString(lineHeightMultiple: 1.1)
+                self.descLabel.attributedText = value.getAttributedString(1.1)
             }
         }
     }
@@ -73,7 +73,7 @@ class SightHeaderViewCell: UITableViewCell {
         sightLabel.layer.cornerRadius = 10
         sightLabel.layer.borderWidth = CGFloat(2)
         sightLabel.layer.masksToBounds = true
-        sightLabel.layer.borderColor = UIColor.yellowColor() as! CGColorRef
+        sightLabel.layer.borderColor = UIColor.yellowColor().CGColor
         
         sightLabel.font = UIFont(name: SceneFont.heiti, size: 14)
         
@@ -84,11 +84,11 @@ class SightHeaderViewCell: UITableViewCell {
     
     func updateCell(sight: Sight){
         self.sightName     = sight.name
-        self.sightImageUrl = sight.imageUrl
-        self.distanceValue = sight.distance
+        self.sightImageUrl = sight.image
+        self.distanceValue = sight.dis
         self.cityValue     = sight.city
-        self.descValue     = sight.desc
-        self.sightId.tag   = sight.sightid
+        self.descValue     = sight.describe
+        self.sightId.tag   = sight.id!
         self.sightId.setTitle(sight.name, forState: UIControlState.Normal)
         tocityButton.titleLabel?.text = self.sightId.titleLabel?.text
         tocityButton.tag = sightId.tag

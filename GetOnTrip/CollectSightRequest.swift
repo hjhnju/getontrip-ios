@@ -46,23 +46,21 @@ class CollectSightRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/collect/list",
             post: post,
-            handler: {(respData: JSON) -> Void in
-                println(respData)
+            handler: {(respData: NSArray) -> Void in
+
                 var collectSightM = [CollectSight]()
-                for item in respData.arrayValue {
-                    for it in respData.arrayValue {
+                    for it in respData {
                         
-                        var collectM = CollectSight()
-                        collectM.id = it["id"].intValue
-                        collectM.name = it["name"].stringValue
-                        collectM.image = AppIni.BaseUri + it["image"].stringValue
-                        collectM.topicNum = it["topicNum"].stringValue
+                        let collectM = CollectSight(dict: it as! [String : String])
+//                        collectM.id = it["id"].intValue
+//                        collectM.name = it["name"].stringValue
+//                        collectM.image = AppIni.BaseUri + it["image"].stringValue
+//                        collectM.topicNum = it["topicNum"].stringValue
                         collectSightM.append(collectM)
                     }
 
                     // 回调
                     handler(collectSightM)
-                }
             }
         )
     }
@@ -77,24 +75,22 @@ class CollectSightRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/collect/list",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
                 
                 var collectSightM = [CollectTopic]()
-                for item in respData.arrayValue {
-                    for it in respData.arrayValue {
+                    for it in respData  {
                         
-                        var collectM = CollectTopic()
-                        collectM.id = it["id"].intValue
-                        collectM.title = it["title"].stringValue
-                        collectM.collect = it["collect"].stringValue
-                        collectM.image = AppIni.BaseUri + it["image"].stringValue
-                        collectM.subtitle = it["subtitle"].stringValue
+                        let collectM = CollectTopic(dict: it as! [String : String])
+//                        collectM.id = it["id"].intValue
+//                        collectM.title = it["title"].stringValue
+//                        collectM.collect = it["collect"].stringValue
+//                        collectM.subtitle = it["subtitle"].stringValue
+                        collectM.image = AppIni.BaseUri + String(it["image"])
                         collectSightM.append(collectM)
                     }
                     
                     // 回调
                     handler(collectSightM)
-                }
             }
         )
     }
@@ -109,25 +105,23 @@ class CollectSightRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/collect/list",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
                 
                 var collectSightM = [CollectMotif]()
-                for item in respData.arrayValue {
-                    for it in respData.arrayValue {
+                    for it in respData {
                         
-                        var collectM = CollectMotif()
-                        collectM.id = it["id"].intValue
-                        collectM.collect = it["collect"].stringValue
-                        collectM.image = AppIni.BaseUri + it["image"].stringValue
-                        collectM.name = it["name"].stringValue
-                        collectM.period = it["period"].stringValue
+                        let collectM = CollectMotif(dict: it as! [String : String])
+//                        collectM.id = it["id"].intValue
+//                        collectM.collect = it["collect"].stringValue
+//                        collectM.name = it["name"].stringValue
+//                        collectM.period = it["period"].stringValue
+                        collectM.image = AppIni.BaseUri + String(it["image"])
                         
                         collectSightM.append(collectM)
                     }
                     
                     // 回调
                     handler(collectSightM)
-                }
             }
         )
     }

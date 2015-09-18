@@ -53,7 +53,7 @@ class CyclopaedicViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        var cycloVC = CyclopaedicDetailController()
+        let cycloVC = CyclopaedicDetailController()
         cycloVC.requestURL = nearCyclopaedic[indexPath.row].url
         navigationController?.pushViewController(cycloVC, animated: true)
     }

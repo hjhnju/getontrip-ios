@@ -33,29 +33,29 @@ class UserInfoRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/user/info",
             post: post,
-            handler: {(respData: JSON) -> Void in
-                println(respData)
-                var topic: Topic?
+            handler: {(respData: NSArray) -> Void in
+
+                var topic = Topic(dict: respData[0] as! [String : String])
                 // 转换话题详情
-                let id              = respData["id"].intValue
-                let title           = respData["title"].stringValue
+//                let id              = respData["id"].intValue
+//                let title           = respData["title"].stringValue
                 //topic?.subtitle = respData[""].stringValue
-                topic = Topic(topicid: id, title: title, subtitle: "")
-                topic!.imageUrl     = AppIniOnline.BaseUri + respData["image"].stringValue
+//                topic = Topic(topicid: id, title: title, subtitle: "")
+                topic.imageUrl     = AppIniOnline.BaseUri + String(respData[0]["image"])
                 
-                topic!.favorites    = respData["collect"].intValue
-                topic!.visits       = respData["visits"].intValue
-                topic!.desc         = respData["content"].stringValue
-                topic!.from         = respData["from"].stringValue
-                topic!.commentCount = respData["commentNum"].intValue
+//                topic!.favorites    = respData["collect"].intValue
+//                topic!.visits       = respData["visits"].intValue
+//                topic!.desc         = respData["content"].stringValue
+//                topic!.from         = respData["from"].stringValue
+//                topic!.commentCount = respData["commentNum"].intValue
                 
-                var tags = [String]()
-                for it in respData["tags"].arrayValue {
-                    tags.append(it.stringValue)
-                }
-                topic!.tags = tags
+//                var tags = [String]()
+//                for it in respData[0]["tags"] {
+//                    tags.append(it.stringValue)
+//                }
+//                topic!.tags = tags
                 // 回调
-                handler(topic!)
+                handler(topic)
             }
         )
     }

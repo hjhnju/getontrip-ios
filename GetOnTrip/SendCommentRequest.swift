@@ -45,28 +45,21 @@ class SendCommentRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/comment/list",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
 
                 var sendCommentM = [SendComment]()
                
-                for item in respData.arrayValue {
-                    let avatar  = AppIni.BaseUri + item["avatar"].stringValue
-                    let content = item["content"].stringValue
-                    let id      = item["id"].intValue
-                    let to_name = item["to_name"].stringValue
-                    let create_time = item["create_time"].stringValue
-                    let from_name = item["from_name"].stringValue
-                    
+                for item in respData {
+                    let sendComment = SendComment(dict: item as! [String : String])
+                    sendComment.avatar  = AppIni.BaseUri + String(item["avatar"])
+
                     var it_subComment = [SendComment_SubComment]()
-                    for it in item["subComment"].arrayValue {
-                        let it_id = it["id"].intValue
-                        let it_content = it["content"].stringValue
-                        let it_from_name = it["from_name"].stringValue
-                        let it_to_name = it["to_name"].stringValue
-                        var itSubcomment = SendComment_SubComment(id: it_id, content: it_content, from_name: it_from_name, to_name: it_to_name)
+                    for it in (item["subComment"] as? NSArray)! {
+                        
+                        let itSubcomment = SendComment_SubComment(dict: it as! [String : String])
                         it_subComment.append(itSubcomment)
+
                     }
-                    let sendComment = SendComment(avatar: avatar, content: content, id: id, subComment: it_subComment, to_name: to_name, create_time: create_time, from_name: from_name)
                     sendCommentM.append(sendComment)
                 }
                 // 回调

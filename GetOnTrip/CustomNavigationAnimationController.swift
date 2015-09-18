@@ -11,7 +11,7 @@ import UIKit
 class CustomNavigationAnimationController: NSObject, UIViewControllerAnimatedTransitioning{
     var reverse: Bool = true
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return 0.5
     }
     
@@ -35,17 +35,17 @@ class CustomNavigationAnimationController: NSObject, UIViewControllerAnimatedTra
         viewFromTransform.m34 = const
         viewToTransform.m34 = const
         
-        containerView.transform = CGAffineTransformMakeTranslation(direction * containerView.frame.size.width / 2, 0)
+        containerView!.transform = CGAffineTransformMakeTranslation(direction * containerView!.frame.size.width / 2, 0)
         toView?.layer.transform = viewToTransform
-        containerView.addSubview(toView!)
+        containerView!.addSubview(toView!)
         
         UIView.animateWithDuration(transitionDuration(transitionContext), animations: {
-            containerView.transform = CGAffineTransformMakeTranslation(-direction * containerView.frame.size.width / 2.0, 0)
+            containerView!.transform = CGAffineTransformMakeTranslation(-direction * containerView!.frame.size.width / 2.0, 0)
             fromView?.layer.transform = viewFromTransform
             toView?.layer.transform = CATransform3DIdentity
         }, completion: {
             finished in
-            containerView.transform = CGAffineTransformIdentity
+            containerView!.transform = CGAffineTransformIdentity
             fromView?.layer.transform = CATransform3DIdentity
             toView?.layer.transform = CATransform3DIdentity
             

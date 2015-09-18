@@ -54,7 +54,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
     /// 当键盘弹出的时候，执行相关操作
     func keyboardChanged(not: NSNotification) {
         let duration = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
-        let r = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue()
+        let r = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
         
         bottomConstraint.constant = UIScreen.mainScreen().bounds.size.height - r!.origin.y
         UIView.animateWithDuration(duration, animations: { () -> Void in
@@ -75,7 +75,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
 */
     // MARK: - tableView dataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        println(feedBackList)
+
         return feedBackList?.count ?? 0
     }
     
@@ -83,7 +83,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
 //        var cell = reuseableCellWithIndexPath(indexPath)
 //        cell.feedBack = feedBackList![indexPath.row] as? FeedBack
         let feedBack = feedBackList![indexPath.row] as? FeedBack
-        var cell = tableView.dequeueReusableCellWithIdentifier(feedBack?.type == 1 ? "SendCell" : "RecvCell", forIndexPath: indexPath) as? FeedBackViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(feedBack?.type == 1 ? "SendCell" : "RecvCell", forIndexPath: indexPath) as? FeedBackViewCell
         cell?.feedBack = feedBack
         return cell!
     }
@@ -93,7 +93,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
             return CGFloat(rowHeightCache.objectForKey(indexPath)!.floatValue)
         }
         
-        var cell = self.reuseableCellWithIndexPath(indexPath)
+        let cell = self.reuseableCellWithIndexPath(indexPath)
         let h = cell.rowHeight(feedBackList![indexPath.row] as! FeedBack)
         rowHeightCache.setObject(h, forKey: indexPath)
         
@@ -135,7 +135,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
     private func sendFeedBackMessage() {
         
         if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = FeedBackSendRequest(deviceId: appUUID!, advise: sendContentText.text)
+            lastSuccessAddRequest = FeedBackSendRequest(deviceId: appUUID!, advise: sendContentText.text!)
         }
         
         lastSuccessAddRequest?.fetchFeedBackModels {(handler: String) -> Void in

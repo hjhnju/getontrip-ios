@@ -20,7 +20,7 @@ class MessageList: NSObject {
     var avatar: String?
     
     /// mid
-    var mid: Int
+    var mid: Int?
     
     /// 标题
     var title: String?
@@ -33,15 +33,4 @@ class MessageList: NSObject {
     
     /// 回复/提问
     var type: String?
-    
-    init(attach: String, content: String, avatar: String, mid: Int, title: String, image: String, create_time: String, type: String) {
-        self.attach = attach
-        self.content = content
-        self.avatar = avatar
-        self.mid = mid
-        self.title = title
-        self.image = image
-        self.create_time = create_time
-        self.type = type
-    }
 }

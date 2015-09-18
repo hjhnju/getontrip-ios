@@ -55,17 +55,17 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        var x: CGFloat = 0
-        var h: CGFloat = 0.5
-        var y: CGFloat = CGRectGetMaxY(commentTitleView.frame) - 0.5
-        var w: CGFloat = commentTitleView.bounds.width
+        let x: CGFloat = 0
+        let h: CGFloat = 0.5
+        let y: CGFloat = CGRectGetMaxY(commentTitleView.frame) - 0.5
+        let w: CGFloat = commentTitleView.bounds.width
         baseline.frame = CGRectMake(x, y, w, h)
     }
     
     func keyboardChanged(notification: NSNotification) {
         
         let duration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
-        let r = notification.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue()
+        let r = notification.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
         
         bottomConstraint.constant = UIScreen.mainScreen().bounds.size.height - r!.origin.y - 44
         UIView.animateWithDuration(duration, animations: { () -> Void in
@@ -101,19 +101,19 @@ class SendCommentController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = reuseableCellWithIndexPath(indexPath)
+        let cell = reuseableCellWithIndexPath(indexPath)
         
         return cell
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var cell = reuseableCellWithIndexPath(indexPath)
+        let cell = reuseableCellWithIndexPath(indexPath)
         return cell.rowHeight!
     }
     
     func reuseableCellWithIndexPath(indexPath: NSIndexPath) -> SendCommentCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("SendComment_Cell") as! SendCommentCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("SendComment_Cell") as! SendCommentCell
         cell.sendCommentModel = nearSendComment[indexPath.row]
         return cell
     }

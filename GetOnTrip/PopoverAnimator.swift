@@ -41,7 +41,7 @@ class PopoverAnimator: NSObject, UIViewControllerTransitioningDelegate, UIViewCo
     }
     
     // 动画时长
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         
         return isPresented ? 1.2 : 0.25
     }
@@ -52,7 +52,7 @@ class PopoverAnimator: NSObject, UIViewControllerTransitioningDelegate, UIViewCo
         if isPresented {
             let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
             
-            transitionContext.containerView().addSubview(toView)
+            transitionContext.containerView()!.addSubview(toView)
             
             
             toView.transform = CGAffineTransformMakeScale(1.0, 0)

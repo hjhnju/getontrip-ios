@@ -66,8 +66,8 @@ class CompositorController: UIViewController {
         let screen = UIScreen.mainScreen().bounds
         let buttonHeight: CGFloat = 50
         let x: CGFloat = 9
-        baselineCenter1.frame = CGRectMake(x, 50, screen.width - x * 2, 0.5)
-        baselineCenter2.frame = CGRectMake(x, 100, screen.width - x * 2, 0.5)
-        baselineBottom.frame = CGRectMake(0, 150, screen.width, 0.5)
+        baselineCenter1.frame = CGRectMake(x, buttonHeight, screen.width - x * 2, lineHeight)
+        baselineCenter2.frame = CGRectMake(x, 100, screen.width - x * 2, lineHeight)
+        baselineBottom.frame = CGRectMake(0, 150, screen.width, lineHeight)
     }
 }

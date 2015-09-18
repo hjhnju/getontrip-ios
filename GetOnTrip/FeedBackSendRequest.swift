@@ -42,14 +42,14 @@ class FeedBackSendRequest: NSObject {
         HttpRequest.ajax(AppIniDev.BaseUri,
             path: "/api/advise/add",
             post: post,
-            handler: {(respData: JSON) -> Void in
-                println(respData)
+            handler: {(respData: NSArray) -> Void in
+
                 
-                var reversion: AnyObject?
-                reversion = respData.object
+//                var reversion: AnyObject?
+//                reversion = respData.object
                 
                 // 回调
-                handler(reversion as! String)
+                handler(respData[0] as! String)
             }
         )
     }

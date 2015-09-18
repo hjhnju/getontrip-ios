@@ -48,16 +48,16 @@ class UserUploadInfoRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/user/addinfo",
             post: post,
-            handler: {(respData: JSON) -> Void in
-                println(respData)
-                var topic: Topic?
+            handler: {(respData: NSArray) -> Void in
+
+                let topic = Topic(dict: ["" : ""])
                 // 转换话题详情
 //                let id              = respData["id"].intValue
 //                let title           = respData["title"].stringValue
 //                //topic?.subtitle = respData[""].stringValue
 //                topic = Topic(topicid: id, title: title, subtitle: "")
 //                topic!.imageUrl     = AppIniOnline.BaseUri + respData["image"].stringValue
-//                
+//
 //                topic!.favorites    = respData["collect"].intValue
 //                topic!.visits       = respData["visits"].intValue
 //                topic!.desc         = respData["content"].stringValue
@@ -70,7 +70,7 @@ class UserUploadInfoRequest: NSObject {
 //                }
 //                topic!.tags = tags
                 // 回调
-                handler(topic!)
+                handler(topic)
             }
         )
     }

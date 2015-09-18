@@ -59,8 +59,7 @@ class BookController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        let url = nearBook[indexPath.row].url
-        var bookVC = BookBuyController()
+        let bookVC = BookBuyController()
         bookVC.requestURL = nearBook[indexPath.row].url
         navigationController?.pushViewController(bookVC, animated: true)
     }

@@ -18,6 +18,7 @@ var appUUID: String?
 
 // TODO: qq:key 4PgUEB1BmyOAQMl9  id:1104781543
 // TODO: 微信：
+// pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -40,8 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urlCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
         NSURLCache.setSharedURLCache(urlCache)
         
-        /// 打开数据库
-        SQLiteManager.sharedSQLiteManager.openDB("status.db")
+        // 打开数据库
+//        SQLiteManager.sharedSQLiteManager.openDB("status.db")
         
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()

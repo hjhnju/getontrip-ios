@@ -11,38 +11,47 @@ import UIKit
 class TopicDetail: NSObject {
    
     // 来源
-    var from: String
+    var from: String?
     
-    var content: String
+    var content: String?
     
-    var id: Int
+    var id: Int?
     
-    var title: String
+    var title: String?
     
-    var image: String
+    var image: String?
     
-    var dis: String
+    var dis: String?
     
-    var collect: String
+    var collect: String?
     
-    var visit: String
+    var visit: String?
     
-    var commentNum: String
+    var commentNum: String?
     
-    var tags: [String]
+    var tags: [String]?
     
-    init(from: String, content: String, id: Int, title: String, image:String, dis: String, collect: String, visit: String, commentNum: String, tags: [String]) {
-        
-        self.from       = from
-        self.content    = content
-        self.id         = id
-        self.title      = title
-        self.image      = image
-        self.dis        = dis
-        self.collect    = collect
-        self.visit      = visit
-        self.commentNum = commentNum
-        self.tags       = tags
+    init(dict: [String : String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
     }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
+    
+//    init(from: String, content: String, id: Int, title: String, image:String, dis: String, collect: String, visit: String, commentNum: String, tags: [String]) {
+//        
+//        self.from       = from
+//        self.content    = content
+//        self.id         = id
+//        self.title      = title
+//        self.image      = image
+//        self.dis        = dis
+//        self.collect    = collect
+//        self.visit      = visit
+//        self.commentNum = commentNum
+//        self.tags       = tags
+//    }
     
 }

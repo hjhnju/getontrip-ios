@@ -37,12 +37,12 @@ class SendCommentCell: UITableViewCell {
             content.text = sendCommentModel?.content
             create_tiem.text = sendCommentModel?.create_time
             
-            for subComment in sendCommentModel!.subComment {
-                
-            }
+//            for _ in sendCommentModel!.subComment! {
+//                
+//            }
             
             var text: String = ""
-            for subComment in sendCommentModel!.subComment {
+            for subComment in sendCommentModel!.subComment! {
                 text += (subComment.from_name! + ":" + subComment.content! + "\n" + subComment.to_name! + "回复")
             }
             dialogContent.text = text
@@ -59,10 +59,10 @@ class SendCommentCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        var x: CGFloat = 0
-        var h: CGFloat = 0.5
-        var y: CGFloat = self.bounds.height - 0.5
-        var w: CGFloat = self.bounds.width
+        let x: CGFloat = 0
+        let h: CGFloat = 0.5
+        let y: CGFloat = self.bounds.height - 0.5
+        let w: CGFloat = self.bounds.width
         baseline.frame = CGRectMake(x, y, w, h)
 
     }

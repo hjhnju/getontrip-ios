@@ -31,24 +31,21 @@ class ImageLoader {
                 })
                 return
             }
-            
-            let downloadTask: NSURLSessionDataTask = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: urlString)!, completionHandler: {(data: NSData!, response: NSURLResponse!, error: NSError!) -> Void in
+            NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: urlString)!, completionHandler: { (data, response, error) -> Void in
                 if (error != nil) {
                     completionHandler(image: nil, url: urlString)
                     return
                 }
                 
                 if data != nil {
-                    let image = UIImage(data: data)
-                    self.cache.setObject(data, forKey: urlString)
+                    let image = UIImage(data: data!)
+                    self.cache.setObject(data!, forKey: urlString)
                     dispatch_async(dispatch_get_main_queue(), {() in
                         completionHandler(image: image, url: urlString)
                     })
                     return
                 }
-                
-            })
-            downloadTask.resume()
+            }).resume()
         })
         
     }

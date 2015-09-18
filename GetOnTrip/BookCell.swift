@@ -36,13 +36,12 @@ class BookCell: UITableViewCell {
     
     var bookModel: Book? {
         didSet {
-            var imageURL = NSURL(string: AppIniOnline.BaseUri + (bookModel!.image))
+            let imageURL = NSURL(string: AppIniOnline.BaseUri + (bookModel!.image)!)
             self.iconView?.sd_setImageWithURL(imageURL)
             
             self.content_desc.text = bookModel?.content_desc
-            var bookInfo = "作者：" + bookModel!.author + "\n出版社：" + bookModel!.press + "\n页数：" + bookModel!.pages + "\nISBN：" + bookModel!.isbn
-            self.bookInfo.text = bookInfo
-            self.price_jd.text = "￥" + bookModel!.price_jd
+            bookInfo.text = "作者：" + bookModel!.author! + "\n出版社：" + bookModel!.press! + "\n页数：" + bookModel!.pages! + "\nISBN：" + bookModel!.isbn!
+            self.price_jd.text = "￥" + bookModel!.price_jd!
             
             self.price_mart.hidden = false
             self.price_line.hidden = false
@@ -53,7 +52,7 @@ class BookCell: UITableViewCell {
                 self.price_mart.hidden = true
                 self.priceJdConstraint.constant = CGFloat(-13)
             }
-            self.price_mart.text = "￥" + bookModel!.price_mart + " "
+            self.price_mart.text = "￥" + bookModel!.price_mart! + " "
         }
     }
     
@@ -63,10 +62,10 @@ class BookCell: UITableViewCell {
         self.backgroundColor = UIColor.clearColor()
         recordPriceJdConstraint = priceJdConstraint.constant
         self.addSubview(self.baseline)
-        var x: CGFloat = 9
-        var h: CGFloat = 0.5
-        var y: CGFloat = self.bounds.height - h
-        var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
+        let x: CGFloat = 9
+        let h: CGFloat = 0.5
+        let y: CGFloat = self.bounds.height - h
+        let w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
         baseline.frame = CGRectMake(x, y, w, h)
     }
 

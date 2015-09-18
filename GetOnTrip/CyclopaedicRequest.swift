@@ -45,31 +45,21 @@ class CyclopaedicRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/wiki",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
 
                 var cyclopaedics = [Cyclopaedic]()
-                for item in respData.arrayValue {
-                    // 转换百科元素
-                    let status      = item["status"].intValue
-                    let content     = item["content"].stringValue
-                    let title       = item["title"].stringValue
-                    let image       = item["image"].stringValue
-                    let create_time = item["create_time"].intValue
-                    let url         = item["url"].stringValue
-                    var cyc_label   = [CyclopaedicLabel]()
+
+                for item in respData {
+                    let cycl = Cyclopaedic(dict: item as! [String : String])
                     
+                    var cyc_label   = [CyclopaedicLabel]()
                         // 转换百科中元素标签
-                        for it in item["items"].arrayValue {
-                            let id          = it["id"].intValue
-                            let name        = it["name"].stringValue
-                            let url         = it["url"].stringValue
-                            let create_Time = it["create_time"].intValue
-                            let cyclopaedic_label = CyclopaedicLabel(labelId: id, name: name, url: url, create_time: create_Time)
-                            cyc_label.append(cyclopaedic_label)
+                        for it in item["items"] as! NSArray {
+                            let cLabel = CyclopaedicLabel(dict: it as! [String : String])
+                            cyc_label.append(cLabel)
                         }
                     
-                    let cyclopaedicM = Cyclopaedic(status: status, content: content, title: title, image: image, create_time: create_time, items: cyc_label, url: url)
-                    cyclopaedics.append(cyclopaedicM)
+                    cyclopaedics.append(cycl)
                 }
                 // 回调
                 handler(cyclopaedics)

@@ -44,7 +44,7 @@ class UserLoghtRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/user/login",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
             }
         )
     }

@@ -10,23 +10,30 @@ import Foundation
 import Alamofire
 
 class HttpRequest {
-    class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: (JSON) -> Void) {
+    class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: (NSArray) -> Void) {
         
         let urlPath = (url ?? "") + (path ?? "")
         
         NSLog("[HttpRequest]:url=\(urlPath), post=\(post)")
         
         request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
-            if let data = respData {
-                let json = JSON(data: data)
-                if json["status"] == 0 {
-                    let data = json["data"]
-                    if !data.isEmpty {
-                        return handler(data)
-                    }
-                }
+            
+            let result = try! NSJSONSerialization.JSONObjectWithData(respData!, options: NSJSONReadingOptions(rawValue: 0)) as! [String: AnyObject]
+            
+            if result["status"] as! Int == 0 {
+                    return handler(result["data"] as! NSArray)
             }
-            return handler(nil)
+            
+//            if let data = respData {
+////                let json = JSON(data: data)
+//                if json["status"] == 0 {
+//                    let data = json["data"]
+//                    if !data.isEmpty {
+//                        return handler(data)
+//                    }
+//                }
+//            }
+//            handler(nil)
         }
     }
     
@@ -35,7 +42,7 @@ class HttpRequest {
     /// 上传一张及多张图片的方法
     class func uploadPicture(URLString: String, fieldName: String, dataList:[String: NSData!], parameters: [String: AnyObject]? = nil ,completion:(JSON: AnyObject?) -> ()) {
         
-        var request = NSMutableURLRequest(URL: NSURL(string: URLString)!)
+        let request = NSMutableURLRequest(URL: NSURL(string: URLString)!)
         
         // 1. 设置请求的方法
         request.HTTPMethod = "POST"
@@ -43,23 +50,23 @@ class HttpRequest {
         let type = "multipart/form-data; boundary=\(boundary)"
         request.setValue(type, forHTTPHeaderField: "Content-Type")
         
-        let data = formData(fieldName, dataList: dataList, parameters: parameters)
-        
-        upload(request, data: data).responseJSON() { (_, _, JSON, error) -> Void in
-            println("error = \(error)")
-            println("JSON = \(JSON)")
-            if error == nil {
-                completion(JSON: JSON)
-            } else {
-                completion(JSON: nil)
-            }
-        }
+//        _ = formData(fieldName, dataList: dataList, parameters: parameters)
+
+//        upload(request, data: data).responseJSON() { (_, _, JSON, error) -> Void in
+//            println("error = \(error)")
+//            println("JSON = \(JSON)")
+//            if error == nil {
+//                completion(JSON: JSON)
+//            } else {
+//                completion(JSON: nil)
+//            }
+//        }
     }
     
     // 生成 formData 的方法
     private class func formData(fieldName: String, dataList:[String: NSData!], parameters: [String: AnyObject]? = nil) -> NSData {
         
-        var dataM = NSMutableData()
+        let dataM = NSMutableData()
         
         // 1. 遍历字典，拼接字符串参数
         if let params = parameters {
@@ -96,7 +103,7 @@ class HttpRequest {
     class func urlRequestWithComponents(urlString:String, parameters: Dictionary<String, String>, imageData: NSData) -> (URLRequestConvertible, NSData) {
         
         // create url request to send
-        var mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         mutableURLRequest.HTTPMethod = Method.POST.rawValue
         let boundaryConstant = "myRandomBoundary12345";
         let contentType = "multipart/form-data;boundary="+boundaryConstant

@@ -38,20 +38,13 @@ class FeedBackRequest: NSObject {
         HttpRequest.ajax(AppIniDev.BaseUri,
             path: "/api/advise/list",
             post: post,
-            handler: {(respData: JSON) -> Void in
-                println(respData)
-//                http://123.57.46.229:8301/api/advise/list?deviceId=8DEB478E-87C1-4AE6-BFE3-F69A72B9F7BC
+            handler: {(respData: NSArray) -> Void in
+
                 var feedBackList = [FeedBack]()
-                for feedBack in respData.arrayValue {
+                for feedBack in respData {
                     
-                    var feedBackM: FeedBack?
-                    let id          = feedBack["id"].intValue
-                    let content     = feedBack["content"].stringValue
-                    let type        = feedBack["type"].intValue
-                    let image       = feedBack["image"].stringValue
-                    let create_time = feedBack["create_time"].stringValue
-                    feedBackM = FeedBack(content: content, id: id, type: type, image: image, create_time: create_time)
-                    feedBackList.append(feedBackM!)
+                    let feedBackM = FeedBack(dict: feedBack as! [String : String])
+                    feedBackList.append(feedBackM)
                 }
                 // 回调
                 handler(feedBackList)

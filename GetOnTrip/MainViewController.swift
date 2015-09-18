@@ -91,7 +91,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         scrollView.bringSubviewToFront(view1)
         
         let story2 = UIStoryboard(name: "Discovery", bundle: nil)
-        let controller2 = story2.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.DiscoveryControllerID) as! UIViewController
+        let controller2 = story2.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.DiscoveryControllerID) 
         addChildViewController(controller2)
         view2 = controller2.view
         scrollView.addSubview(view2)
@@ -186,7 +186,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        var xOffset: CGFloat = scrollView.contentOffset.x
+        let xOffset: CGFloat = scrollView.contentOffset.x
         if (xOffset < 1.0) {
             selectedItem = item1
         } else if (xOffset < containView.bounds.width + 1) {

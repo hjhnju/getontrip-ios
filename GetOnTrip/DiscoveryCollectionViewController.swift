@@ -28,21 +28,23 @@ class DiscoveryCollectionViewController: UICollectionViewController, UICollectio
         
         //下拉刷新
         let headerView = MJRefreshNormalHeader(refreshingBlock: refresh)
-        headerView.stateLabel.font                = UIFont(name: SceneFont.heiti, size: 12)
-        headerView.lastUpdatedTimeLabel.font      = UIFont(name: SceneFont.heiti, size: 11)
-        headerView.stateLabel.textColor           = SceneColor.lightGray
-        headerView.lastUpdatedTimeLabel.textColor = SceneColor.lightGray
-        headerView.activityIndicatorViewStyle     = UIActivityIndicatorViewStyle.White
+        headerView.stateLabel!.font                = UIFont(name: SceneFont.heiti, size: 12)
+        headerView.lastUpdatedTimeLabel!.font      = UIFont(name: SceneFont.heiti, size: 11)
+        headerView.stateLabel!.textColor           = SceneColor.lightGray
+        headerView.lastUpdatedTimeLabel!.textColor = SceneColor.lightGray
+        headerView.activityIndicatorViewStyle      = UIActivityIndicatorViewStyle.White
         
         self.collectionView?.header          = headerView
         
         //上拉刷新
         let footerView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
         footerView.automaticallyRefresh                = true
-        footerView.appearencePercentTriggerAutoRefresh = -3
+//        footerView.appearencePercentTriggerAutoRefresh = -3
+        // TODO: 未检测
+        footerView.automaticallyChangeAlpha = true
         footerView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
-        footerView.stateLabel.font            = UIFont(name: SceneFont.heiti, size: 12)
-        footerView.stateLabel.textColor       = SceneColor.lightGray
+        footerView.stateLabel!.font           = UIFont(name: SceneFont.heiti, size: 12)
+        footerView.stateLabel!.textColor      = SceneColor.lightGray
         
         self.collectionView?.footer = footerView
         

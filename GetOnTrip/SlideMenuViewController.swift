@@ -123,9 +123,9 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
     func panGestureRecognized(sender: UIPanGestureRecognizer){
         
         //用户对视图操控的状态。
-        var state = sender.state;
-        var location = sender.locationInView(self.masterViewController.view)
-        var velocity = sender.velocityInView(self.masterViewController.view)
+        let state = sender.state;
+        let location = sender.locationInView(self.masterViewController.view)
+//        let velocity = sender.velocityInView(self.masterViewController.view)
         
         switch (state) {
         case UIGestureRecognizerState.Began:
@@ -146,7 +146,7 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
             self.masterViewController.view.frame = c ;
             break;
         case UIGestureRecognizerState.Ended:
-            var c = self.masterViewController.view.frame
+            let c = self.masterViewController.view.frame
             //表示用户需要展开
             if (location.x - self.panGestureStartLocation.x > SlideMenuOptions.kICSDrawerControllerLeftViewInitialOffset){
                 self.didOpen()

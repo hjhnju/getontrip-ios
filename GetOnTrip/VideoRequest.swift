@@ -45,23 +45,24 @@ class VideoRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/video",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
 
                     var videos = [Video]()
-                    for it in respData.arrayValue {
+                    for it in respData {
                         // 转换视频属性
-                        let from     = it["from"].stringValue
-                        let status   = it["status"].stringValue
-                        let totalNum = it["totalNum"].stringValue
-                        let id       = it["id"].stringValue
-                        let len      = it["len"].stringValue
-                        let title    = it["title"].stringValue
-                        let image    = it["image"].stringValue
-                        let create_time = it["create_time"].stringValue
-                        let type     = it["type"].stringValue
-                        let url      = it["url"].stringValue
+                        let video = Video(dict: it as! [String : String])
+//                        let from     = it["from"].stringValue
+//                        let status   = it["status"].stringValue
+//                        let totalNum = it["totalNum"].stringValue
+//                        let id       = it["id"].stringValue
+//                        let len      = it["len"].stringValue
+//                        let title    = it["title"].stringValue
+//                        let image    = it["image"].stringValue
+//                        let create_time = it["create_time"].stringValue
+//                        let type     = it["type"].stringValue
+//                        let url      = it["url"].stringValue
 
-                        let video = Video(from: from, status: status, totalNum: totalNum, id: id, len: len, title: title, image: image, create_time: create_time, type: type, url: url)
+//                        let video = Video(from: from, status: status, totalNum: totalNum, id: id, len: len, title: title, image: image, create_time: create_time, type: type, url: url)
                         videos.append(video)
                     }
                 

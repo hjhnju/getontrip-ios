@@ -17,7 +17,7 @@ class SendComment: NSObject {
     // id
     var id: Int?
     // 评论
-    var subComment: [SendComment_SubComment]
+    var subComment: [SendComment_SubComment]?
     // 评论者
     var to_name: String?
     // 评论时间 
@@ -25,16 +25,14 @@ class SendComment: NSObject {
     // 被评论者
     var from_name: String?
     
-    init(avatar: String, content: String, id: Int, subComment: [SendComment_SubComment], to_name: String, create_time: String, from_name: String) {
-        self.avatar      = avatar
-        self.content     = content
-        self.id          = id
-        self.subComment  = subComment
-        self.to_name     = to_name
-        self.create_time = create_time
-        self.from_name   = from_name
+    init(dict: [String: String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
     }
     
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }
 
 
@@ -49,10 +47,12 @@ class SendComment_SubComment: NSObject {
     // 评论者
     var to_name: String?
     
-    init(id: Int, content: String, from_name: String, to_name: String) {
-        self.id        = id
-        self.content   = content
-        self.from_name = from_name
-        self.to_name   = to_name
+    init(dict: [String: String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
     }
 }

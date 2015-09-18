@@ -8,47 +8,56 @@
 
 import UIKit
 
-class TopicDetails: NSObject {
+class TopicDetails : NSObject {
    
-    // 话题详情来源
-    var from: String
+    /// 话题详情来源
+    var from: String?
     
-    // 子标题
-    var subtitle: String
+    /// 子标题
+    var subtitle: String?
     
-    // id
-    var id: Int
+    /// id
+    var id: Int?
     
-    // 标题
-    var title: String
+    /// 标题
+    var title: String?
     
-    // 收集
-    var collect: String
+    /// 收集
+    var collect: String?
     
-    // 图片
-    var image: String
+    /// 图片
+    var image: String?
     
-    // 访问
-    var visit: Int
+    /// 访问
+    var visit: Int?
     
-    // 描述
-    var desc: String
+    /// 描述
+    var desc: String?
     
     /// 标签
-    var tags: NSArray
+    var tags: NSArray?
     
-    // 初始化
-    init(from: String, subtitle: String, id: Int, title: String, collect: String, image: String, visit: Int, desc: String, tags: NSArray) {
-        
-        self.from     = from
-        self.subtitle = subtitle
-        self.id       = id
-        self.title    = title
-        self.collect  = collect
-        self.image    = image
-        self.visit    = visit
-        self.desc     = desc
-        self.tags     = tags
+    /// 初始化
+    init(dict: [String : String]) {
+       super.init()
+        setValuesForKeysWithDictionary(dict)
     }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
+    
+//    init(from: String, subtitle: String, id: Int, title: String, collect: String, image: String, visit: Int, desc: String, tags: NSArray) {
+//        
+//        self.from     = from
+//        self.subtitle = subtitle
+//        self.id       = id
+//        self.title    = title
+//        self.collect  = collect
+//        self.image    = image
+//        self.visit    = visit
+//        self.desc     = desc
+//        self.tags     = tags
+//    }
     
 }

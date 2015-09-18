@@ -39,20 +39,19 @@ class MessageListRequest: NSObject {
         HttpRequest.ajax(AppIniDev.BaseUri,
             path: "/api/msg/list",
             post: post,
-            handler: {(respData: JSON) -> Void in
-                println(respData)
-               var messageLists = [MessageList]()
-                for item in respData.arrayValue {
-                    let attach = item["attach"].stringValue
-                    let content = item["content"].stringValue
-                    let avatar  = AppIni.BaseUri + item["avatar"].stringValue
-                    let mid     = item["mid"].intValue
-                    let title   = item["title"].stringValue
-                    let image   = AppIni.BaseUri + item["image"].stringValue
-                    println(image)
-                    let cTime   = item["create_time"].stringValue
-                    let type    = item["type"].stringValue
-                    var messageListM = MessageList(attach: attach, content: content, avatar: avatar, mid: mid, title: title, image: image, create_time: cTime, type: type)
+            handler: {(respData: NSArray) -> Void in
+
+                var messageLists = [MessageList]()
+                for item in respData {
+                    let messageListM = MessageList()
+                    messageListM.attach  = item["attach"] as? String
+                    messageListM.content = item["content"] as? String
+                    messageListM.avatar  = AppIni.BaseUri + String(item["avatar"])
+                    messageListM.mid     = item["mid"] as? Int
+                    messageListM.title   = item["title"] as? String
+                    messageListM.image   = AppIni.BaseUri + String(item["image"])
+                    messageListM.create_time = item["create_time"] as? String
+                    messageListM.type    = item["type"] as? String
                     messageLists.append(messageListM)
                 }
                 

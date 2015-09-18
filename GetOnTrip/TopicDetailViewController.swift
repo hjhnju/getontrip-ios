@@ -87,7 +87,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         titleLabel.text = topic?.title
         
         for (var i: Int = 0; i < topic?.tags?.count; i++ ) {
-            var tagsLabel: String = " " + (topic!.tags![i] as! String) as String + " "
+            let tagsLabel: String = " " + (topic!.tags![i] as! String) as String + " "
             if (i == 0){
                 label1.hidden = false
                 label1.text = tagsLabel
@@ -143,11 +143,11 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     
     // MARK: UIWebView and UIScrollView Delegate 代理方法
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
         
         let localizedErrorMessage = NSLocalizedString("An error occured:", comment: "")
         
-        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">\(localizedErrorMessage) \(error.localizedDescription)</div></body></html>"
+        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">\(localizedErrorMessage) \(error!.localizedDescription)</div></body></html>"
         
         webView.loadHTMLString(errorHTML, baseURL: nil)
     }
@@ -163,31 +163,31 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     }
     
     // TODO: 以截取Range方式进行应用间跳转，如果不是我方协议就跳转，但以后需改
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        
-        
-        var url = request.URL?.absoluteString
-        let index = advance(url!.startIndex, 20)
-        var range = Range<String.Index>(start: url!.startIndex, end: index)
-        if url?.substringWithRange(range) == "http://123.57.46.229" {
-            return true
-        }
-        
-        UIApplication.sharedApplication().openURL(NSURL(string: url!)!)
-        return false
-    }
+//    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+//        
+//        
+//        let url = request.URL?.absoluteString
+//        let index = advance(url!.startIndex, 20)
+//        let range = Range<String.Index>(start: url!.startIndex, end: index)
+//        if url?.substringWithRange(range) == "http://123.57.46.229" {
+//            return true
+//        }
+//        
+//        UIApplication.sharedApplication().openURL(NSURL(string: url!)!)
+//        return false
+//    }
     
     
     // MARK: Actions
     
     @IBAction func doFavorite(sender: UIBarButtonItem) {
-        println("doFavorite")
+        print("doFavorite")
     }
     @IBAction func doSharing(sender: UIBarButtonItem) {
         
         
         //1.创建分享参数
-        var shareParames = NSMutableDictionary()
+        let shareParames = NSMutableDictionary()
         shareParames.SSDKSetupShareParamsByText("分享内容",
             images : UIImage(named: "shareImg.png"),
             url : NSURL(string:"http://mob.com"),
@@ -198,9 +198,9 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
             
             switch state{
                 
-            case SSDKResponseState.Success: println("分享成功")
-            case SSDKResponseState.Fail:    println("分享失败,错误描述:\(error)")
-            case SSDKResponseState.Cancel:  println("分享取消")
+            case SSDKResponseState.Success: print("分享成功")
+            case SSDKResponseState.Fail:    print("分享失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  print("分享取消")
                 
             default:
                 break

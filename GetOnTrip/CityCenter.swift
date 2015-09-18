@@ -20,4 +20,13 @@ class CityCenter: NSObject {
     var image: String?
     /// 是否收藏
     var collect: String?
+    
+    init(dict: [String : String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }

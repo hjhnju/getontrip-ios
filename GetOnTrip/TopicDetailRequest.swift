@@ -50,28 +50,37 @@ class TopicDetailRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/topic/detail",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
 
                 var topic: Topic?
-                // 转换话题详情
-                let id              = respData["id"].intValue
-                let title           = respData["title"].stringValue
-                //topic?.subtitle = respData[""].stringValue
-                topic = Topic(topicid: id, title: title, subtitle: "")
-                topic!.imageUrl     = AppIniOnline.BaseUri + respData["image"].stringValue
-                
-                topic!.favorites    = respData["collect"].intValue
-                topic!.visits       = respData["visits"].intValue
-                topic!.desc         = respData["content"].stringValue
-                topic!.from         = respData["from"].stringValue
-                topic!.commentCount = respData["commentNum"].intValue
-                
+                for item in respData {
+                    topic = Topic(dict: item as! [String : String])
+                    
                     var tags = [String]()
-                    for it in respData["tags"].arrayValue {
-                        tags.append(it.stringValue)
-//                        tags.addObject(it.stringValue)
+                    for it in item as! NSArray {
+                        tags.append(it as! String)
                     }
-                topic!.tags = tags
+                    topic?.tags = tags
+                }
+//                // 转换话题详情
+//                let id              = respData["id"].intValue
+//                let title           = respData["title"].stringValue
+//                //topic?.subtitle = respData[""].stringValue
+//                topic = Topic(topicid: id, title: title, subtitle: "")
+//                topic!.imageUrl     = AppIniOnline.BaseUri + respData["image"].stringValue
+//                
+//                topic!.favorites    = respData["collect"].intValue
+//                topic!.visits       = respData["visits"].intValue
+//                topic!.desc         = respData["content"].stringValue
+//                topic!.from         = respData["from"].stringValue
+//                topic!.commentCount = respData["commentNum"].intValue
+                
+//                    var tags = [String]()
+//                    for it in respData["tags"].arrayValue {
+//                        tags.append(it.stringValue)
+////                        tags.addObject(it.stringValue)
+//                    }
+//                topic!.tags = tags
                     // 回调
                 handler(topic!)
             }

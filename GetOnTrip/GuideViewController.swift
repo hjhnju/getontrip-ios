@@ -162,7 +162,6 @@ class NewFeatureCell: UICollectionViewCell {
         let x: CGFloat = (screen.width - w) * 0.5
         let y: CGFloat = screen.height - 220
         startButton.frame = CGRectMake(x, y, w, h)
-        let pageY: CGFloat = screen.height - 100
     }
     
     required init(coder aDecoder: NSCoder) {

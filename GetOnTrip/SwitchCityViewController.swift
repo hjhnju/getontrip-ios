@@ -14,7 +14,7 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         let array = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("cityGroups.plist", ofType: nil)!)
         var arrayM = NSMutableArray()
         for it in array! {
-            arrayM.addObject(CityGorupModel.cityGorupWithDict(it as! [NSObject : AnyObject]))
+            arrayM.addObject(CityGorupModel.cityGorupWithDict(it as! [String : AnyObject]))
         }
         return arrayM.copy() as! NSArray
     }()
@@ -95,7 +95,7 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("switchCityController_Cell") as! UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("switchCityController_Cell")!
         let city: CityGorupModel = cityGroupData[indexPath.section] as! CityGorupModel
         cell.backgroundColor = UIColor.clearColor()
         cell.textLabel!.text = city.cities![indexPath.row] as? String
@@ -110,8 +110,11 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         searchBar.setShowsCancelButton(true, animated: true)
         
         for subView in searchBar.subviews.first!.subviews {
-            if subView is UIButton {
-                subView.setTitle("取消", forState: UIControlState.Normal)
+            if subView.isKindOfClass(UIButton) {
+//                let sub = subView as UIButton
+                let sub = subView as! UIButton
+                sub.setTitle("取消", forState: UIControlState.Normal)
+                
             }
         }
         
@@ -128,7 +131,7 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        var text: NSString = searchBar.text as NSString
+        let text: NSString = NSString(string: searchBar.text!)
         if text.length > 0 {
             citySearchVC.view.hidden = false
             tableView.hidden = true
@@ -164,11 +167,10 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         v.text = "    " + "\(text)"
         return v
     }
-    
-    func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
-        return cityGroupData.valueForKey("title") as? [AnyObject]
+
+    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+        return cityGroupData.valueForKey("title") as? [String]
     }
-    
     
     
     
@@ -212,7 +214,7 @@ class CitySearchViewController: UITableViewController {
     var searchText: String? {
         didSet {
             // 1. copy
-            var st: String = searchText!.copy() as! String
+//            var st: String = searchText!.copy() as! String
             // 2. 转换小写
             searchText! = searchText!.lowercaseString
             // 3. 清空上一次数据
@@ -246,7 +248,7 @@ class CitySearchViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("citySearchController_Cell") as! UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("citySearchController_Cell")!
         cell.backgroundColor = UIColor.clearColor()
         cell.textLabel!.text = resultData![indexPath.row] as? String ?? ""
         cell.textLabel?.textColor = UIColor.whiteColor()
@@ -282,7 +284,7 @@ class MetaTool: NSObject {
         let array = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("seachCities.plist", ofType: nil)!)
         var arrayM = NSMutableArray()
         for it in array! {
-            arrayM.addObject(SearchCityModel.searchCityGorupWithDict(it as! [NSObject : AnyObject]))
+            arrayM.addObject(SearchCityModel.searchCityGorupWithDict(it as! [String : AnyObject]))
         }
         return arrayM.copy() as! NSArray
     }()
@@ -300,8 +302,8 @@ class SearchCityModel: NSObject {
     /// 子区域
     var districts: NSArray?
     
-    class func searchCityGorupWithDict(dict: [NSObject: AnyObject]) -> SearchCityModel {
-        var cityModel = SearchCityModel()
+    class func searchCityGorupWithDict(dict: [String : AnyObject]) -> SearchCityModel {
+        let cityModel = SearchCityModel()
         cityModel.setValuesForKeysWithDictionary(dict)
         return cityModel
     }
@@ -314,8 +316,8 @@ class CityGorupModel: NSObject {
     /// 分组标题
     var title: String?
     
-    class func cityGorupWithDict(dict: [NSObject: AnyObject]) -> CityGorupModel {
-        var cityModel = CityGorupModel()
+    class func cityGorupWithDict(dict: [String : AnyObject]) -> CityGorupModel {
+        let cityModel = CityGorupModel()
         cityModel.setValuesForKeysWithDictionary(dict)
         return cityModel
     }

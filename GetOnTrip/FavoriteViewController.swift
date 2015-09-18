@@ -100,11 +100,12 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     // 搜索
     func searchButtonClicked(button: UIBarButtonItem) {
         // 获得父控制器
-        var pare = self.parentViewController?.parentViewController as! MasterViewController
+        let pare = self.parentViewController?.parentViewController as! MasterViewController
         // 找到MainViewController并调用搜索方法
         for vc in pare.viewControllers {
             if vc.isKindOfClass(MainViewController) {
-                vc.searchButtonClicked(button)
+                let vc1 = vc as! MainViewController
+                vc1.searchButtonClicked(button)
             }
         }
     }
@@ -155,7 +156,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     //MASK: Actions
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
 
-        var xOffset: CGFloat = scrollView.contentOffset.x
+        let xOffset: CGFloat = scrollView.contentOffset.x
         if (xOffset < 1.0) {
             switchCollectButtonClick(sightBtn)
         } else if (xOffset < containView.bounds.width + 1) {

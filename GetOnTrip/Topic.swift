@@ -9,16 +9,17 @@
 import Foundation
 
 //话题类
-class Topic :Printable{
+// TODO: class Topic :Printable
+class Topic : NSObject {
     
     //话题ID
-    var topicid:Int
+    var topicid:Int?
     
     //标题
-    var title:String
+    var title:String?
     
     //副标题
-    var subtitle:String
+    var subtitle:String?
     
     //图片
     var imageUrl:String?
@@ -49,15 +50,18 @@ class Topic :Printable{
     // 标签
     var tags: NSArray?
 
-    init(topicid:Int, title: String, subtitle: String){
-        self.topicid = topicid
-        self.title = title
-        self.subtitle = subtitle
+    init(dict: [String : String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
     }
     
-    var description:String {
-        get{
-            return "Topic(\(topicid)"
-        }
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
     }
+    
+//    override var description : String {
+//        get{
+//            return "Topic(\(topicid)"
+//        }
+//    }
 }

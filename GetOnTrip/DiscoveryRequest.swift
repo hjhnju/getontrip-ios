@@ -33,23 +33,24 @@ class DiscoveryRequest {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/find",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
                 var topics = [Topic]()
-                for it in respData.arrayValue {
-                    let topicId  = it["id"].intValue
-                    let title    = it["title"].stringValue
-                    let subtitle = it["subtitle"].stringValue
+                for it  in respData {
+                    let topic = Topic(dict: it as! [String : String])
+//                    let topicId: Int  = (it["id"] as? Int)!
+//                    let title: String = it["title"]! as! String
+//                    let subtitle: String = it["subtitle"] as! String
                     
-                    var topic  = Topic(topicid: topicId, title: title, subtitle: subtitle)
-                    topic.desc      = it["desc"].stringValue
-                    topic.favorites = it["collect"].intValue
-                    topic.visits    = it["visit"].intValue
-                    topic.imageUrl  = AppIni.BaseUri + it["image"].stringValue
-                    topic.from      = it["from"].stringValue
-                    topic.sight     = it["sight"].stringValue
-                    topic.city      = it["city"].stringValue
-                    topic.distance  = it["dist"].stringValue
-                    topic.commentCount = it["comment"].intValue
+//                    let topic  = Topic(topicid: topicId, title: title, subtitle: subtitle)
+//                    topic.desc      = it["desc"]!!.stringValue
+//                    topic.favorites = it["collect"] as? Int
+//                    topic.visits    = it["visit"] as? Int
+//                    topic.imageUrl  = AppIni.BaseUri + String(it["image"])
+//                    topic.from      = it["from"]! as? String
+//                    topic.sight     = it["sight"]! as? String
+//                    topic.city      = it["city"]! as? String
+//                    topic.distance  = it["dist"]! as? String
+//                    topic.commentCount = it["comment"]! as? Int
                     topics.append(topic)
                 }
                 if topics.count > 0 {

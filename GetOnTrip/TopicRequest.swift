@@ -45,31 +45,33 @@ class TopicRequest: NSObject {
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
         post["sight"]    = String(self.sightId)
-        println(self.sightId)
+
         // 发送网络请求加载数据 http://123.57.67.165:8301/api/topic/list?sight=4
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/topic/list",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
 
                 var topicDetails = [TopicDetails]()
-                for item in respData.arrayValue {
+                for item in respData {
+                    let td = TopicDetails(dict: item as! [String : String])
                     // 转换话题详情元素
-                    let from     = item["from"].stringValue
-                    let subtitle = item["subtitle"].stringValue
-                    let id       = item["id"].intValue
-                    let title    = item["title"].stringValue
-                    let collect  = item["collect"].stringValue
-                    let image    = item["image"].stringValue
-                    let visit    = item["visit"].intValue
-                    let desc     = item["desc"].stringValue
+//                    let from     = item["from"].stringValue
+//                    let subtitle = item["subtitle"].stringValue
+//                    let id       = item["id"].intValue
+//                    let title    = item["title"].stringValue
+//                    let collect  = item["collect"].stringValue
+//                    let image    = item["image"].stringValue
+//                    let visit    = item["visit"].intValue
+//                    let desc     = item["desc"].stringValue
                     
-                    var tags = NSMutableArray()
-                    for it in item["tags"].arrayValue {
-                        tags.addObject(it.stringValue)
+                    let tags = NSMutableArray()
+                    for it in item["tags"] as! NSArray {
+                        tags.addObject(it)
                     }
-                    let topicDetail = TopicDetails(from: from, subtitle: subtitle, id: id, title: title, collect: collect, image: image, visit: visit, desc: desc, tags: tags)
-                    topicDetails.append(topicDetail)
+                    td.tags = tags
+//                    let topicDetail = TopicDetails(from: from, subtitle: subtitle, id: id, title: title, collect: collect, image: image, visit: visit, desc: desc, tags: tags)
+                    topicDetails.append(td)
                 }
                 // 回调
                 handler(topicDetails)

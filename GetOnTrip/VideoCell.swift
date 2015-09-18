@@ -22,7 +22,7 @@ class VideoCell: UITableViewCell {
     
     var videoModel: Video? {
         didSet {
-            var imageURL = NSURL(string: AppIniOnline.BaseUri + (videoModel!.image))
+            let imageURL = NSURL(string: AppIniOnline.BaseUri + (videoModel!.image)!)
             self.iconView?.sd_setImageWithURL(imageURL)
             self.title.text = videoModel!.title
             self.id.text = "合集: 共\(videoModel!.id)集"

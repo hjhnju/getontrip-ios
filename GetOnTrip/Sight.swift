@@ -11,22 +11,22 @@ import Foundation
 /*
 包含一个section的数据：景点介绍 ＋ 2个话题
 */
-class Sight {
+class Sight : NSObject {
     
     //景点id
-    var sightid:Int
+    var id:Int?
     
     //景点名称
-    var name:String
+    var name:String?
     
     //景点图片url
-    var imageUrl:String?
+    var image:String?
     
     //景点距离
-    var distance:String?
+    var dis:String?
     
     //描述
-    var desc:String?
+    var describe:String?
     
     //城市
     var city: String? {
@@ -38,13 +38,18 @@ class Sight {
     }
     
     //城市id
-    var cityId: Int?
+    var city_id: Int?
     
     //话题
-    var topics = [Topic]()
+    var topics: [Topic]?
     
-    init(sightid:Int, name:String){
-        self.sightid = sightid
-        self.name = name
+    init(dict: [String : String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
     }
+    
+//    init(sightid:Int, name:String){
+//        self.sightid = sightid
+//        self.name = name
+//    }
 }

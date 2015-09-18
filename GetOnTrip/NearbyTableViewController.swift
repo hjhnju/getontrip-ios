@@ -71,10 +71,12 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         //上拉刷新
         let footerView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
         footerView.automaticallyRefresh                = true
-        footerView.appearencePercentTriggerAutoRefresh = -3
+//        footerView.appearencePercentTriggerAutoRefresh = -3
+        // TODO: 未校正
+        footerView.automaticallyChangeAlpha = true
         footerView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
-        footerView.stateLabel.font            = UIFont(name: SceneFont.heiti, size: 12)
-        footerView.stateLabel.textColor       = SceneColor.lightGray
+        footerView.stateLabel!.font            = UIFont(name: SceneFont.heiti, size: 12)
+        footerView.stateLabel!.textColor       = SceneColor.lightGray
         
         self.tableView.footer = footerView
         
@@ -124,16 +126,17 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
                 self.nearSights = sights
                 self.tableView.reloadData()
                 
-                var formatter = NSDateFormatter()
+                let formatter = NSDateFormatter()
                 formatter.dateFormat = "yyyy-MM-dd HH:mm"
-                var dateString = formatter.stringFromDate(NSDate())
+                let dateString = formatter.stringFromDate(NSDate())
                 let message = "最后更新:\(dateString)"
                 
                 self.refreshControl?.attributedTitle = NSAttributedString(string: message, attributes: [NSForegroundColorAttributeName:SceneColor.lightGray])
                 
                 //设置左侧菜单背景
                 if let smvc = self.navigationController?.parentViewController as? SlideMenuViewController {
-                        smvc.sideViewController.bgImageUrl = self.nearSights[0].imageUrl
+
+                    smvc.sideViewController.bgImageUrl = self.nearSights[0].image
                 }
             } else {
             }
@@ -172,7 +175,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nearSights[section].topics.count
+        return nearSights[section].topics!.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -180,7 +183,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         // Configure the cell...
         let sight = nearSights[indexPath.section]
-        cell.updateCell(sight.topics[indexPath.row])
+        cell.updateCell(sight.topics![indexPath.row])
         
         return cell
     }
@@ -204,7 +207,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         
         //解决：去掉UItableview headerview黏性(sticky)
-        var offSet = scrollView.contentOffset
+        let offSet = scrollView.contentOffset
         if offSet.y <= tableView.sectionHeaderHeight && offSet.y >= 0 {
             scrollView.contentInset = UIEdgeInsetsMake(-offSet.y, 0, 0, 0);
         } else if offSet.y >= tableView.sectionHeaderHeight {
@@ -217,7 +220,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
-        var topic = self.nearSights[indexPath.section].topics[indexPath.row]
+        let topic = self.nearSights[indexPath.section].topics![indexPath.row]
         
         //使用另一个storyboard
         if let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController {
@@ -228,15 +231,16 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     }
     
     // MARK: CCLocationManagerDelegate
-    
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        let newLocation = locations.last as? CLLocation
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        let newLocation = locations.last
         //NSLog("notice:location.latitude=%@", newLocation?.description ?? "nil")
         
         self.curLocation = newLocation
     }
+
     
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         
         NSLog("error:%@", error.localizedDescription)
         
@@ -249,11 +253,12 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == StoryBoardIdentifier.ShowSightTopicsSegue {
-            var sightTopicsVC = segue.destinationViewController.visibleViewController as! SightTopicsViewController  // ShowSightTopicsSegue
+            
+            let sightTopicsVC: SightTopicsViewController = segue.destinationViewController as! SightTopicsViewController  // ShowSightTopicsSegue
             sightTopicsVC.sightId = sender as? UIButton
         } else if (segue.identifier == "CityCenterSegue") {
    
-            var cityCenterVC = segue.destinationViewController.visibleViewController as! CityCenterViewCollection
+            let cityCenterVC = segue.destinationViewController as! CityCenterViewCollection
             cityCenterVC.sightId = sender as? UIButton
         }
         

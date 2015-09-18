@@ -73,11 +73,11 @@ class UserAccount: NSObject, NSCoding {
             
             switch state{
             
-            case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
 //                self.user = user
                 self.saveAccount()
-            case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
-            case SSDKResponseState.Cancel:  println("操作取消")
+            case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  print("操作取消")
 
             default:
                 break
@@ -88,7 +88,8 @@ class UserAccount: NSObject, NSCoding {
     
     
     /// MARK: - 保存和加载文件
-    static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingPathComponent("account.plist")
+    static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("account.plist")
+    
     ///  将当前对象归档保存至沙盒 `Keyed` 键值归档/解档
     func saveAccount() {
         print(UserAccount.accountPath)
@@ -119,7 +120,7 @@ class UserAccount: NSObject, NSCoding {
         }
         
         lastSuccessRequest?.fetchBookModels { (handler: Topic) -> Void in
-           println(handler)
+           print(handler)
         }
         
     }

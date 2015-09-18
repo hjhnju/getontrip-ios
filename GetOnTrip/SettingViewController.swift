@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import AFNetworking
 
 /// 定义选中的是第几行
 struct SettingCell {
@@ -128,7 +129,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         /// TPDO: 先注释
         iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!))
         nickName.text = sharedUserAccount?.nickname
-        println(sharedUserAccount?.gender)
+        print(sharedUserAccount?.gender)
         if sharedUserAccount?.gender?.hashValue == 0 {
             gender.text = "男"
         } else if sharedUserAccount?.gender?.hashValue == 1 {
@@ -173,10 +174,10 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         pickView.delegate = self
         let path = NSBundle.mainBundle().pathForResource("cities", ofType: "plist")
         let provinceArray = NSArray(contentsOfFile: path!)
-        var provincesM = NSMutableArray()
+        let provincesM = NSMutableArray()
         
         for dict in provinceArray! {
-            let privin = Province.provinceWithDict(dict as! NSDictionary)
+            _ = Province.provinceWithDict(dict as! NSDictionary)
             provincesM.addObject(dict)
         }
         provinces = provincesM
@@ -188,7 +189,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     }
     
     func exitLoginClick() {
-        println("退出登陆")
+        print("退出登陆")
         sharedUserAccount = nil
         // 将页面返回到首页
         super.navigationController?.navigationController!.popViewControllerAnimated(true)
@@ -298,7 +299,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
                 if component == 0 {
                     return provinces!.count
                 } else {
-                    var provinceIndex = pickerView.selectedRowInComponent(0)
+                    let provinceIndex = pickerView.selectedRowInComponent(0)
                     return provinces![provinceIndex]["cities"]!!.count
                 }
         }
@@ -330,7 +331,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
                 let citi = provin["cities"] as! NSArray
                 saveTown = citi[0] as? String
                 
-                println(row)
+                print(row)
                 break;
             case 1:
                 let citi = provin["cities"] as! NSArray
@@ -342,7 +343,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         }
     }
     
-    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
         
         var label: UILabel?
         
@@ -440,32 +441,32 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         
         request.HTTPMethod = "POST"
         
-        var typeValue = "multipart/form-data; boundary=upload"
+        let typeValue = "multipart/form-data; boundary=upload"
         request.setValue(typeValue, forHTTPHeaderField: "Content-Type")
         
-        var imageData = UIImagePNGRepresentation(iconView.image)
-        var data = formData(fieldName, dataDict: dataDict, params: params)
+        _ = UIImagePNGRepresentation(iconView.image!)
+        let data = formData(fieldName, dataDict: dataDict, params: params)
 
         NSURLSession.sharedSession().uploadTaskWithRequest(request, fromData: data) { (data, response, error) -> Void in
-            println(data)
+            print(data)
             
         }.resume()
     }
 
     func formData(fieldName: String, dataDict: NSDictionary, params: NSDictionary) -> NSData {
         
-        var dataM = NSMutableData()
+        let dataM = NSMutableData()
         
         dataDict.enumerateKeysAndObjectsUsingBlock { (fileName, fileData, stop) -> Void in
             
-            var strM = NSMutableString()
+            let strM = NSMutableString()
             
             strM.appendFormat("--%@\r\n", "xxx")
             strM.appendFormat("Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fieldName as String, fileName as! String)
             strM.appendString("Content-Type: application/octet-stream\r\n\r\n")
             dataM.appendData(strM.dataUsingEncoding(NSUTF8StringEncoding)!)
             dataM.appendData(fileData as! NSData)
-            var tail = NSString(format: "\r\n--%@--", "xxx")
+            let tail = NSString(format: "\r\n--%@--", "xxx")
             dataM.appendData(tail.dataUsingEncoding(NSUTF8StringEncoding)!)
             
         }
@@ -477,82 +478,26 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     /// MARK: - 保存用户信息
     func saveUserInfo(item: UIBarButtonItem) {
         
-        let imageData = UIImagePNGRepresentation(iconView.image)
+        let imageData = UIImagePNGRepresentation(iconView.image!)
         var post       = [String: String]()
         post["userid"] = String(stringInterpolationSegment: appUUID)
         post["type"]   = String(stringInterpolationSegment: 3)
         post["param"]  = String(stringInterpolationSegment: [["nick_name": "aa"], ["type": "png"], ["sex": "1"]])
         post["image"]  = String(stringInterpolationSegment: imageData)
         HttpRequest.uploadPicture("http://127.0.0.1", fieldName: "123", dataList: ["123" : imageData!], parameters: post) { (JSON) -> () in
-            println(JSON)
+            print(JSON)
         }
         
+        var params = [String:String]()
+        params["userid"] = appUUID
+        params["type"] = "3"
+        params["param"] = "nick_name:aa,type:jpg,sex:1"
         
         
-//        if let avatar = iconView.image {
-//            let imageData = UIImagePNGRepresentation(avatar)
-//            let urlRequest = HttpRequest.urlRequestWithComponents(AppIni.BaseUri + "/api/user/editinfoc", parameters: post, imageData: imageData)
-//            
-//            upload(urlRequest.0, data: urlRequest.1)
-//                .progress { (_, bytesWritten, bytesToWrite) in
-//                    println("\(bytesWritten) / \(bytesToWrite)")
-//                }.responseJSON { (_, _, json, err) in
-//                    println("Upload avatar (and nick& sex) resp json: \(json), error: \(err)")
-//                    
-//                    // 清除成员变量保持的image数据
-////                    self.newAvatar = nil
-////                    callback(result: json, avatarChanged: true)
-//            }
-//        } else {
-//            request(.POST, AppIni.BaseUri + "/api/user/editinfoc", parameters: post)
-//                .responseJSON { (_, _, json, err) in
-//                    println("Post nick&sex resp json: \(json), error: \(err)")
-////                    callback(result: json, avatarChanged: false)
-//            }
-//        }
-
-
-
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-        println("保存用户信息\(item)")
+        print("保存用户信息\(item)")
         
-        
-//        let fileURL = NSBundle.mainBundle().URLForResource("Default", withExtension: "png")
-        
-//        let imageData = UIImagePNGRepresentation(iconView.image)
-//    
-////        Alamofire.upload(.POST, "http://123.57.46.229:8301/upload/pic", file: fileURL!)
-//        imageData.writeToURL(NSURL(string: "http://127.0.0.1/uploads/2.png")!, atomically: true)
-//        
-//        Alamofire.upload(.POST, "http://127.0.0.1/upload-m.php", data: formData(imageData, fieldName: "2.png", fileName: "3.png"))
-//        
-//        NSURL *url = [NSURL URLWithString:@"http://192.168.13.85/post/upload-m.php"];
-//        
-//        // 2. request
-//        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-//        request.HTTPMethod = @"POST";
-//        
-//        // 2.1 设置 content-type
-//        NSString *type = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-//        [request setValue:type forHTTPHeaderField:@"Content-Type"];
-//        
-//        // 2.2 设置数据体
-//        request.HTTPBody = [self formData:fileDict fieldName:fieldName params:params];
-//        
-//        // 3. connection
-//        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//        
-//        NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL]);
-//        }];
 
         
         
@@ -568,13 +513,13 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
 //            param=nick_name:aa,type:jpg,image:bb,sex:1
             var param = [[String: String]]()
             
-            param.append(["nick_name": nickName.text])
+            param.append(["nick_name": nickName.text!])
             param.append(["type": "png"])
-            let imageData = UIImageJPEGRepresentation(iconView.image, 1)
+            let imageData = UIImageJPEGRepresentation(iconView.image!, 1)
 //            param.append(["image": "\(imageData)"])
             let sex = gender.text == "男" ? "1" : "2"
             param.append(["sex":  sex])
-            lastSuccessRequest = UserUploadInfoRequest(userid: sharedUserAccount!.uid!.toInt()!, type: sharedUserAccount!.type, param: param, image: "\(imageData)")
+            lastSuccessRequest = UserUploadInfoRequest(userid: Int(sharedUserAccount!.uid!)!, type: sharedUserAccount!.type, param: param, image: "\(imageData)")
         }
         
 //        lastSuccessRequest?.fetchAddInfoModels {(handler: Topic -> Void)
@@ -598,10 +543,10 @@ class settingTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        var x: CGFloat = 9
-        var h: CGFloat = 0.5
-        var y: CGFloat = self.bounds.height - h
-        var w: CGFloat = self.bounds.width - x * 2
+        let x: CGFloat = 9
+        let h: CGFloat = 0.5
+        let y: CGFloat = self.bounds.height - h
+        let w: CGFloat = self.bounds.width - x * 2
         baseline.frame = CGRectMake(x, y, w, h)
     }
     
@@ -619,101 +564,8 @@ class Province : NSObject {
     var cities: NSArray?
     
     class func provinceWithDict(dict: NSDictionary) -> Province {
-        var province = Province()
-        province.setValuesForKeysWithDictionary(dict as [NSObject : AnyObject])
+        let province = Province()
+        province.setValuesForKeysWithDictionary(dict as! [String : AnyObject])
         return province
     }
 }
-
-
-
-
-
-
-
-//class UpLoadRequest: NSObject {
-//    
-//    private let boundary: String = "--"
-//    private let boundaryID: String = "----WebKitFormBoundaryORlx73ddAq4zgHyz"
-//    var uploadRequest: NSMutableURLRequest?
-//    var parameterName: String = ""
-//    var mimType: String?
-//    var bodyHeader: String?
-//    var bodyFooter: String?
-//    var bodyData: NSMutableData = NSMutableData()
-//    
-//    //拼接带参数头部
-//    func httpHeaderStringWithParameters(parameter: String, paramName: String) ->String {
-//        var header: String = self.boundary+self.boundaryID+"\r\n"
-//        
-//        header += "Content-Disposition: form-data;name=\"\(paramName)\"\r\n"
-//        header += parameter+"\r\n"
-//        
-//        return header
-//        
-//    }
-//    //拼接带文件的头部
-//    func httpHeaderStringWithFile(mimType: String, upLoadFileName: String) ->String {
-//        
-//        var header: String = self.boundary+self.boundaryID+"\r\n"
-//        
-//        header += "Content-Disposition: form-data; name=\"personPicture\"; filename=\"\(upLoadFileName)\"\r\n"
-//        header += "Content-Type: \(mimType)\r\n\r\n"
-//        //        header += "Content-Transfer-Encoding: binary\r\n"
-//        self.bodyHeader = header
-//        
-//        return header
-//    }
-//    
-//    //拼接底部
-//    func httpBottomString() -> String {
-//        
-//        var footer: String = self.boundary+self.boundaryID+self.boundary
-//        footer += "\r\n"
-//        self.bodyFooter = footer
-//        
-//        return footer
-//    }
-//    
-//    //指定全路径文件的mimType
-//    func mimTypeWithFilePath(filePath: String) {
-//        
-//        if !NSFileManager.defaultManager().fileExistsAtPath(filePath) {
-//            return
-//        }
-//        
-//        let url = NSURL(fileURLWithPath: filePath)
-//        let request = NSMutableURLRequest(URL: url)
-//        
-//        var response: NSURLResponse?
-//        
-//        do {
-//        try NSURLConnection.sendSynchronousRequest(request, returningResponse: &response)
-//        self.mimType = response!.MIMEType
-//        } catch {
-//            print(error)
-//            return
-//        }
-//    }
-//    
-//    //初始化请求
-//    init(URL: NSURL, fileName: String, filePath: String)  {
-//        super.init()
-//        self.mimTypeWithFilePath(filePath)
-//        if self.mimType == nil { return }
-//        
-//        self.bodyData.appendData(self.httpHeaderStringWithFile(self.mimType!, upLoadFileName: fileName) .dataUsingEncoding(NSUTF8StringEncoding)!)
-//        //尾部
-//        self.bodyData.appendData(NSData(contentsOfFile: filePath)!)
-//        self.bodyData.appendData("\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
-//        self.bodyData.appendData(self.httpBottomString().dataUsingEncoding(NSUTF8StringEncoding)!)
-//        
-//        let mutableRequest = NSMutableURLRequest(URL: URL, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 10)
-//        mutableRequest.HTTPMethod = "POST"
-//        mutableRequest.HTTPBody = self.bodyData
-//        mutableRequest.addValue("multipart/form-data; boundary=\(self.boundaryID)", forHTTPHeaderField: "Content-Type")
-//        mutableRequest.addValue("\(self.bodyData.length)", forHTTPHeaderField: "Content-Length")
-//        self.uploadRequest = mutableRequest
-//    }
-//}
-//

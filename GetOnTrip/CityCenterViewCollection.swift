@@ -49,7 +49,7 @@ class CityCenterViewCollection: UICollectionViewController {
         // Register cell classes
         collectionView?.registerClass(CityCenterCollectionCell.self, forCellWithReuseIdentifier: cityreuseIdentifier)
         navigationController?.navigationItem.title = sightId?.titleLabel?.text
-        println(sightId?.tag)
+        print(sightId?.tag)
         refresh()
     }
     
@@ -75,7 +75,7 @@ class CityCenterViewCollection: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier(cityreuseIdentifier, forIndexPath: indexPath) as! CityCenterCollectionCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cityreuseIdentifier, forIndexPath: indexPath) as! CityCenterCollectionCell
         
         cell.collectSight = cityCenters[indexPath.row] as CityCenter
         return cell

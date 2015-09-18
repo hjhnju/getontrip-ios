@@ -28,7 +28,7 @@ class CyclopaedicCell: UITableViewCell {
         didSet {
             self.title.text = cyclopaedicModel!.title
             self.content.text = cyclopaedicModel!.content
-            var imageURL = NSURL(string: AppIniOnline.BaseUri + (cyclopaedicModel!.image))
+            let imageURL = NSURL(string: AppIniOnline.BaseUri + (cyclopaedicModel!.image)!)
             self.iconView?.sd_setImageWithURL(imageURL)
         }
     }
@@ -37,10 +37,10 @@ class CyclopaedicCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        var x: CGFloat = 9
-        var h: CGFloat = 0.5
-        var y: CGFloat = self.bounds.height - h
-        var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
+        let x: CGFloat = 9
+        let h: CGFloat = 0.5
+        let y: CGFloat = self.bounds.height - h
+        let w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
         baseline.frame = CGRectMake(x, y, w, h)
     }
     

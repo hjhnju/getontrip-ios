@@ -44,8 +44,8 @@ class DiscoveryFlowLayout: UICollectionViewFlowLayout {
         self.delegate = self.collectionView?.delegate as? UICollectionViewDelegateFlowLayout
         
         self.colums = [CGFloat]()
-        var yOffset: CGFloat = 0
-        for i in 0..<FlowLayoutContants.columCount {
+        let yOffset: CGFloat = 0
+        for _ in 0..<FlowLayoutContants.columCount {
             self.colums.append(yOffset)
         }
         
@@ -87,20 +87,21 @@ class DiscoveryFlowLayout: UICollectionViewFlowLayout {
         //NSLog("DiscoveryFlowLayout.layoutForItemAtIndexPath:\(indexPath.section)-\(indexPath.row), frame=\(frame)")
     }
     
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        
         var result = [UICollectionViewLayoutAttributes]()
         
         let indexPaths = self.indexPathsOfItemsInRect(rect)
         for indexPath in indexPaths {
             let attribute = self.layoutAttributesForItemAtIndexPath(indexPath)
-            result.append(attribute)
+            result.append(attribute!)
         }
         //NSLog("DiscoveryFlowLayout.layoutAttributesForElementsInRect:rect=\(rect)")
         return result
     }
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
-        var attribute = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+        let attribute = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
         attribute.frame = frameMap[indexPath]!
         //NSLog("DiscoveryFlowLayout.layoutAttributesForItemAtIndexPath:\(indexPath.section)-\(indexPath.row)")
         return attribute
@@ -120,9 +121,14 @@ class DiscoveryFlowLayout: UICollectionViewFlowLayout {
     
     override func collectionViewContentSize() -> CGSize {
         var size = self.collectionView!.frame.size
-        
-        let maxHeight = maxElement(self.colums)
-        size.height = maxHeight
+        var max: CGFloat?
+        for i in self.colums {
+            if i > max {
+                max = i
+            }
+        }
+//        let maxHeight = max
+        size.height = max!
         
         //NSLog("DiscoveryFlowLayout.collectionViewContentSize:\(size)")
         return size

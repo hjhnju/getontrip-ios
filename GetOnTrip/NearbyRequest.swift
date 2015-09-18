@@ -53,30 +53,34 @@ class NearbyRequest {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/home",
             post: post,
-            handler: {(respData: JSON) -> Void in
+            handler: {(respData: NSArray) -> Void in
+                
                 var sights = [Sight]()
-                for item in respData.arrayValue {
-                    let sightId = item["id"].intValue
-                    let name    = item["name"].stringValue
-                    var sight   = Sight(sightid: sightId, name: name)
-                    sight.city  = item["city"].stringValue
-                    sight.cityId = item["city_id"].intValue
-                    sight.desc  = item["describe"].stringValue
-                    sight.imageUrl = AppIni.BaseUri + item["image"].stringValue
-                    sight.distance = item["dis"].stringValue
-                    for it in item["topic"].arrayValue {
-                        let topicId = it["id"].intValue
-                        let title   = it["title"].stringValue
-                        let subtitle = it["subtitle"].stringValue
-                        var topic = Topic(topicid: topicId, title: title, subtitle: subtitle)
-                        topic.desc = it["desc"].stringValue
-                        topic.favorites = it["collect"].intValue
-                        topic.visits = it["visit"].intValue
-                        topic.imageUrl = AppIni.BaseUri + it["image"].stringValue
-                        topic.from = it["from"].stringValue
-                        topic.sight = name
-                        topic.distance = sight.distance
-                        sight.topics.append(topic)
+                for item in respData {
+                    let sight = Sight(dict: item as! [String : String])
+                    sight.image = AppIni.BaseUri + String(item["image"])
+//                    let sightId = item["id"].intValue
+//                    let name    = item["name"].stringValue
+//                    var sight   = Sight(sightid: sightId, name: name)
+//                    sight.city  = item["city"].stringValue
+//                    sight.cityId = item["city_id"].intValue
+//                    sight.desc  = item["describe"].stringValue
+//                    sight.distance = item["dis"].stringValue
+                    for it in item["topic"] as! NSArray {
+                        let topic = Topic(dict: it as! [String : String])
+//                        let topicId = it["id"].intValue
+//                        let title   = it["title"].stringValue
+//                        let subtitle = it["subtitle"].stringValue
+//                        var topic = Topic(topicid: topicId, title: title, subtitle: subtitle)
+//                        topic.desc = it["desc"].stringValue
+//                        topic.favorites = it["collect"].intValue
+//                        topic.visits = it["visit"].intValue
+//                        topic.imageUrl = AppIni.BaseUri + it["image"].stringValue
+//                        topic.from = it["from"].stringValue
+//                        topic.sight = name
+//                        topic.distance = sight.distance
+                        sight.topics?.append(topic)
+//                        sight.topics.append(topic)
                     }
                     sights.append(sight)
                 }

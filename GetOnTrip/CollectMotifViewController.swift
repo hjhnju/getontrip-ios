@@ -53,7 +53,7 @@ class CollectMotifViewController: UITableViewController {
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("CollectMotifCell", forIndexPath: indexPath) as? CollectMotifCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("CollectMotifCell", forIndexPath: indexPath) as? CollectMotifCell
         
         cell!.collectMotif = collectMotif[indexPath.row] as CollectMotif
         cell?.selectionStyle = UITableViewCellSelectionStyle.None

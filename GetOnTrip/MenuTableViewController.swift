@@ -92,7 +92,7 @@ class MenuTableViewController: UITableViewController {
                     alertView.show()
                 } else {
                     let segue = menuData[indexPath.row]!["segue"]
-                    slideCon.masterViewController.performSegueWithIdentifier(segue, sender: nil)
+                    slideCon.masterViewController.performSegueWithIdentifier(segue!, sender: nil)
 
                 }
             }
@@ -120,7 +120,7 @@ class MenuTableViewController: UITableViewController {
             baseline.frame = CGRectMake(0, 0, tableView.bounds.width, 0.5)
         }
         
-        var text = menuData[indexPath.row]!["text"]!
+        let text = menuData[indexPath.row]!["text"]!
         cell.titleLabel.text = text
         
         return cell
@@ -143,10 +143,10 @@ class MenuTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        var x: CGFloat = 0
-        var h: CGFloat = 0.5
-        var y: CGFloat = self.bounds.height - h
-        var w: CGFloat = self.bounds.width
+        let x: CGFloat = 0
+        let h: CGFloat = 0.5
+        let y: CGFloat = self.bounds.height - h
+        let w: CGFloat = self.bounds.width
         baseline.frame = CGRectMake(x, y, w, h)
     }
     

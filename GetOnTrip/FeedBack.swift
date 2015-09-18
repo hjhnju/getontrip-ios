@@ -11,28 +11,29 @@ import UIKit
 class FeedBack: NSObject {
     
     /// 内容
-    var content: String
+    var content: String?
     
     /// id
-    var id: Int
+    var id: Int?
     
     /// 是否回复
-    var type: Int
+    var type: Int?
     
     /// 创建时间
-    var create_time: String
+    var create_time: String?
     
     /// 图片
-    var image: String
+    var image: String?
     
     /// 是否显示时间
     var showTime: Bool = true
     
-    init(content: String, id: Int, type: Int, image: String, create_time: String) {
-        self.content = content
-        self.id     = id
-        self.create_time = create_time
-        self.image = image
-        self.type   = type
+    init(dict: [String : String]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
     }
 }

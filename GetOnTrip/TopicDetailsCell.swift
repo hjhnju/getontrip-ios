@@ -37,7 +37,7 @@ class TopicDetailsCell: UITableViewCell {
     var topicModel: TopicDetails? {
         didSet {
 
-            var imageURL = NSURL(string: AppIniOnline.BaseUri + (topicModel!.image))
+            let imageURL = NSURL(string: AppIniOnline.BaseUri + (topicModel!.image)!)
             self.iconImage?.sd_setImageWithURL(imageURL)
             self.title.text = topicModel!.title
             self.subtitle.text = topicModel!.subtitle
@@ -47,7 +47,7 @@ class TopicDetailsCell: UITableViewCell {
                 self.desc.numberOfLines = 2
             }
             self.desc.text = topicModel!.desc
-            self.collect.setTitle(" " + topicModel!.collect, forState: UIControlState.Normal)
+            self.collect.setTitle(" " + topicModel!.collect!, forState: UIControlState.Normal)
             self.collect.setImage(UIImage(named: "collect"), forState: UIControlState.Normal)
             self.bringSubviewToFront(self.collect)
             self.collect.userInteractionEnabled = false
@@ -55,9 +55,9 @@ class TopicDetailsCell: UITableViewCell {
             
             // TODO:  添加标签
             
-            for (var i: NSInteger = 0; i < topicModel?.tags.count; i++ ) {
+            for (var i: NSInteger = 0; i < topicModel?.tags!.count; i++ ) {
                 
-                var tagsLabel = "" + (topicModel!.tags[i] as! String) as String + "    "
+                let tagsLabel = "" + (topicModel!.tags![i] as! String) as String + "    "
                 if (i == 0){
                     label1.hidden = false
                     label1.text = tagsLabel
@@ -85,10 +85,10 @@ class TopicDetailsCell: UITableViewCell {
         super.layoutSubviews()
         
         self.addSubview(self.baseline)
-        var x: CGFloat = 9
-        var h: CGFloat = 0.5
-        var y: CGFloat = self.bounds.height - h
-        var w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
+        let x: CGFloat = 9
+        let h: CGFloat = 0.5
+        let y: CGFloat = self.bounds.height - h
+        let w: CGFloat = UIScreen.mainScreen().bounds.width - x * 2
         baseline.frame = CGRectMake(x, y, w, h)
     }
     

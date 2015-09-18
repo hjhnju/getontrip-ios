@@ -94,16 +94,16 @@ class MenuViewController: UIViewController {
             
             switch state{
                 
-            case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-            self.login(user.uid.toInt()!, type: 3)
-            var account = UserAccount(user: user, type: 2)
+            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            self.login(Int(user.uid)!, type: 3)
+            let account = UserAccount(user: user, type: 2)
             
             sharedUserAccount = account
             self.logined = true
             self.refresh()
                 
-            case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
-            case SSDKResponseState.Cancel:  println("操作取消")
+            case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  print("操作取消")
                 
             default:
                 break
@@ -117,16 +117,16 @@ class MenuViewController: UIViewController {
             
             switch state{
                 
-            case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-            self.login(user.uid.toInt()!, type: 3)
-            var account = UserAccount(user: user, type: 1)
+            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            self.login(Int(user.uid!)!, type: 3)
+            let account = UserAccount(user: user, type: 1)
             
             sharedUserAccount = account
             self.logined = true
             self.refresh()
                 
-            case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
-            case SSDKResponseState.Cancel:  println("操作取消")
+            case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  print("操作取消")
                 
             default:
                 break
@@ -144,18 +144,18 @@ class MenuViewController: UIViewController {
             
             switch state{
                 
-            case SSDKResponseState.Success: println("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
 //                login(openId: Int)
-            self.login(user.uid.toInt()!, type: 3)
-            var account = UserAccount(user: user, type: 3)
+            self.login(Int(user.uid!)!, type: 3)
+            let account = UserAccount(user: user, type: 3)
             
                 sharedUserAccount = account
                 sharedUserAccount?.saveAccount()
                 self.logined = true
                 self.refresh()
                 
-            case SSDKResponseState.Fail:    println("授权失败,错误描述:\(error)")
-            case SSDKResponseState.Cancel:  println("操作取消")
+            case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  print("操作取消")
                 
             default:
                 break

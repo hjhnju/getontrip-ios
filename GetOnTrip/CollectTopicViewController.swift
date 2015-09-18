@@ -55,7 +55,7 @@ class CollectTopicViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("CollectTopicCell", forIndexPath: indexPath) as? CollectTopicCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("CollectTopicCell", forIndexPath: indexPath) as? CollectTopicCell
         
         cell!.collectTopic = collectTopic[indexPath.row] as CollectTopic
         cell?.selectionStyle = UITableViewCellSelectionStyle.None
@@ -65,7 +65,7 @@ class CollectTopicViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("点击了")
+
         let topicId = collectTopic[indexPath.row].id
         loadData(topicId!)
     }
@@ -77,7 +77,7 @@ class CollectTopicViewController: UITableViewController {
         TopicDetailRequest(topicId: id).fetchModels { (handler: Topic) -> Void in
             
             let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController
-            var topic = handler as Topic
+            let topic = handler as Topic
             topic.sight = self.navigationController?.navigationItem.title
             topicDetailViewController!.topic = topic
             super.navigationController?.navigationController?.pushViewController(topicDetailViewController!, animated: true)

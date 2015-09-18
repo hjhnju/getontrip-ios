@@ -69,7 +69,7 @@ class MessageTableViewCell: UITableViewCell {
             restorePerson.text = message?.content
             restoreTime.text = message?.create_time
             restoreImageView.sd_setImageWithURL(NSURL(string: message!.image!), placeholderImage: UIImage(named: "2.jpg"))
-            println(message?.image)
+            print(message?.image)
         }
     }
     

@@ -68,7 +68,7 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        loadData(nearTopics[indexPath.row].id)
+        loadData(nearTopics[indexPath.row].id!)
     }
     
     private func loadData(id: Int) {
@@ -77,7 +77,7 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
         TopicDetailRequest(topicId: id).fetchModels { (handler: Topic) -> Void in
             
             let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController
-            var topic = handler as Topic
+            let topic = handler as Topic
             topic.sight = self.navigationController?.navigationItem.title
             topicDetailViewController!.topic = topic
             super.navigationController?.navigationController?.pushViewController(topicDetailViewController!, animated: true)
