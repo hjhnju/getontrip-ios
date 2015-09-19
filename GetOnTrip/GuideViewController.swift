@@ -136,7 +136,7 @@ class NewFeatureCell: UICollectionViewCell {
     // 开始按钮
     lazy var startButton: UIButton = {
         // 自定义按钮
-        let btn = UIButton()
+        let btn = UIButton(type: UIButtonType.Custom)
         btn.frame = CGRectMake(0, 0, 105, 36)
         
         btn.setTitle("立即体验", forState: UIControlState.Normal)

@@ -35,7 +35,7 @@ class UserInfoRequest: NSObject {
             post: post,
             handler: {(respData: NSArray) -> Void in
 
-                var topic = Topic(dict: respData[0] as! [String : String])
+                let topic = Topic(dict: respData[0] as! [String : String])
                 // 转换话题详情
 //                let id              = respData["id"].intValue
 //                let title           = respData["title"].stringValue

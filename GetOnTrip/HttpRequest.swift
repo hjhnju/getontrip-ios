@@ -18,10 +18,11 @@ class HttpRequest {
         
         request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
             
-            let result = try! NSJSONSerialization.JSONObjectWithData(respData!, options: NSJSONReadingOptions(rawValue: 0)) as! [String: AnyObject]
-            
-            if result["status"] as! Int == 0 {
-                    return handler(result["data"] as! NSArray)
+            let result = try? NSJSONSerialization.JSONObjectWithData(respData!, options: NSJSONReadingOptions(rawValue: 0)) as! [String: AnyObject]
+            if result != nil {
+//                if result!["status"] as! Int == 0 {
+                    return handler(result!["data"] as! NSArray)
+//                }
             }
             
 //            if let data = respData {

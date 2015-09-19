@@ -8,7 +8,6 @@
 
 import UIKit
 import Alamofire
-import AFNetworking
 
 /// 定义选中的是第几行
 struct SettingCell {

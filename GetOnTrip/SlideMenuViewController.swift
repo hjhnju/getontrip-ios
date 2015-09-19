@@ -46,11 +46,14 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
     //MASK: Properties
     
     //定义窗体主体Controller
-    var masterViewController: MasterViewController!
+    lazy var masterViewController: MasterViewController  = {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewID) as! MasterViewController
+        return vc
+    }()
+
     
     //定义侧边栏的Controller
     var sideViewController: MenuViewController!
-    
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
     
@@ -67,12 +70,13 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
         
         //初始化侧边栏和主体控制器
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
+                
         //TODO:处理登陆状态
         //self.sideViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MenuViewId) as! MenuViewController
         self.sideViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MenuViewID) as! MenuViewController
-        
-        self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewID) as! MasterViewController
+
+//        self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewID) as! MasterViewController
+//        self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewID) as! MasterViewController
         
         self.masterViewController.slideDelegate = self
         
