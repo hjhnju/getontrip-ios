@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 class HttpRequest {
-    class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: (NSArray) -> Void) {
+    class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: (AnyObject) -> Void) {
         
         let urlPath = (url ?? "") + (path ?? "")
         
@@ -21,7 +21,8 @@ class HttpRequest {
             let result = try? NSJSONSerialization.JSONObjectWithData(respData!, options: NSJSONReadingOptions(rawValue: 0)) as! [String: AnyObject]
             if result != nil {
 //                if result!["status"] as! Int == 0 {
-                    return handler(result!["data"] as! NSArray)
+//                print(result)
+                    return handler(result!["data"] as? NSArray ?? NSDictionary())
 //                }
             }
             
