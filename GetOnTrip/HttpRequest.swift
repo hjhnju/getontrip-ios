@@ -20,22 +20,11 @@ class HttpRequest {
             
             let result = try? NSJSONSerialization.JSONObjectWithData(respData!, options: NSJSONReadingOptions(rawValue: 0)) as! [String: AnyObject]
             if result != nil {
-//                if result!["status"] as! Int == 0 {
-//                print(result)
-                    return handler(result!["data"] as? NSArray ?? NSDictionary())
-//                }
+
+                return handler(result!["data"] as? NSArray ?? (result!["data"] as? NSDictionary)!)
+
             }
-            
-//            if let data = respData {
-////                let json = JSON(data: data)
-//                if json["status"] == 0 {
-//                    let data = json["data"]
-//                    if !data.isEmpty {
-//                        return handler(data)
-//                    }
-//                }
-//            }
-//            handler(nil)
+
         }
     }
     

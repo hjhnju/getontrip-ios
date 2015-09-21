@@ -50,10 +50,10 @@ class TopicDetailRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/topic/detail",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 var topic: Topic?
-                for item in respData {
+                for item in respData as! NSArray {
                     topic = Topic(dict: item as! [String : String])
                     
                     var tags = [String]()

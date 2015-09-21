@@ -33,10 +33,10 @@ class DiscoveryRequest {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/find",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
                 
                 var topics = [Topic]()
-                for it  in respData {
+                for it  in respData as! NSArray {
                     let topic = Topic(dict: it as! [String : String])
 //                    let topicId: Int  = (it["id"] as? Int)!
 //                    let title: String = it["title"]! as! String

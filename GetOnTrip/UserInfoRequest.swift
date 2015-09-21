@@ -33,7 +33,7 @@ class UserInfoRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/user/info",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 let topic = Topic(dict: respData[0] as! [String : String])
                 // 转换话题详情

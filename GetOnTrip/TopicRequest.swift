@@ -50,10 +50,10 @@ class TopicRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/topic/list",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 var topicDetails = [TopicDetails]()
-                for item in respData {
+                for item in respData as! NSArray {
                     print(item)
                     let td = TopicDetails(dict: item as! [String : AnyObject])
                     // 转换话题详情元素

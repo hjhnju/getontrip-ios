@@ -38,10 +38,10 @@ class FeedBackRequest: NSObject {
         HttpRequest.ajax(AppIniDev.BaseUri,
             path: "/api/advise/list",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 var feedBackList = [FeedBack]()
-                for feedBack in respData {
+                for feedBack in respData as! NSArray {
                     
                     let feedBackM = FeedBack(dict: feedBack as! [String : String])
                     feedBackList.append(feedBackM)

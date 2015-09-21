@@ -46,10 +46,10 @@ class CollectSightRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/collect/list",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 var collectSightM = [CollectSight]()
-                    for it in respData {
+                    for it in respData as! NSArray {
                         
                         let collectM = CollectSight(dict: it as! [String : String])
 //                        collectM.id = it["id"].intValue
@@ -75,10 +75,10 @@ class CollectSightRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/collect/list",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
                 
                 var collectSightM = [CollectTopic]()
-                    for it in respData  {
+                    for it in respData as! NSArray {
                         
                         let collectM = CollectTopic(dict: it as! [String : String])
 //                        collectM.id = it["id"].intValue
@@ -105,10 +105,10 @@ class CollectSightRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/collect/list",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
                 
                 var collectSightM = [CollectMotif]()
-                    for it in respData {
+                    for it in respData as! NSArray {
                         
                         let collectM = CollectMotif(dict: it as! [String : String])
 //                        collectM.id = it["id"].intValue

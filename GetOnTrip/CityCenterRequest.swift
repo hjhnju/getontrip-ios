@@ -38,10 +38,10 @@ class CityCenterRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/city/detail",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 var collectSightM = [CityCenter]()
-                    for it in respData {
+                    for it in respData as! NSArray {
                         
                         let collectM = CityCenter(dict: it as! [String : String])
 //                        collectM.id = it["id"].intValue

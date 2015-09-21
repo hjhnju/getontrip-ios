@@ -43,10 +43,10 @@ class BookRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/book",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                     var books = [Book]()
-                    for it in respData {
+                    for it in respData as! NSArray {
                         print(it)
                         // 转换书籍元素详情
                         let bookM = Book(dict: it as! [String : AnyObject])

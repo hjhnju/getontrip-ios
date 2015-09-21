@@ -45,10 +45,10 @@ class VideoRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/video",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                     var videos = [Video]()
-                    for it in respData {
+                    for it in respData as! NSArray {
                         print(it)
                         // 转换视频属性
                         let video = Video(dict: it as! [String : AnyObject])

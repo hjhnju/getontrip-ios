@@ -48,7 +48,7 @@ class UserUploadInfoRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/user/addinfo",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 let topic = Topic(dict: ["" : ""])
                 // 转换话题详情

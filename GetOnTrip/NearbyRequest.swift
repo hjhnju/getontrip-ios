@@ -53,10 +53,10 @@ class NearbyRequest {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/home",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
                 
                 var sights = [Sight]()
-                for item in respData {
+                for item in respData as! NSArray {
 
 //                    http://123.57.67.165:8301/api/home?city=2&x=47&page=1&y=47&pageSize=2
                     let sight = Sight(dict: item as! NSDictionary as! [String : AnyObject])

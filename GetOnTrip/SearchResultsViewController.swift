@@ -32,12 +32,12 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
                 }
                 self.resultData.removeAll(keepCapacity: true)
                 self.sectionTitle.removeAll(keepCapacity: true)
-                HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: ["query":query], handler: {(respData: NSArray) -> Void in
+                HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: ["query":query], handler: {(respData: AnyObject) -> Void in
                     
                     for section in self.sectionTypes {
-
+                        
                         let secRows = respData[section] // as! NSDictionary
-                        if secRows!.count > 0 {
+                        if secRows!!.count > 0 {
                             var rows = [Dictionary<String, AnyObject>]()
                             for row in secRows as! NSArray {
                                 rows.append(row as! Dictionary)

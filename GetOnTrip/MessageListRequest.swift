@@ -39,10 +39,10 @@ class MessageListRequest: NSObject {
         HttpRequest.ajax(AppIniDev.BaseUri,
             path: "/api/msg/list",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 var messageLists = [MessageList]()
-                for item in respData {
+                for item in respData as! NSArray {
                     let messageListM = MessageList()
                     messageListM.attach  = item["attach"] as? String
                     messageListM.content = item["content"] as? String

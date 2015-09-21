@@ -45,11 +45,11 @@ class SendCommentRequest: NSObject {
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/comment/list",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 var sendCommentM = [SendComment]()
                
-                for item in respData {
+                for item in respData as! NSArray {
                     let sendComment = SendComment(dict: item as! [String : String])
                     sendComment.avatar  = AppIni.BaseUri + String(item["avatar"])
 

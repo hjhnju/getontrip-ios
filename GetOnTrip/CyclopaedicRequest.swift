@@ -45,11 +45,11 @@ class CyclopaedicRequest: NSObject {
         HttpRequest.ajax(AppIniOnline.BaseUri,
             path: "/api/wiki",
             post: post,
-            handler: {(respData: NSArray) -> Void in
+            handler: {(respData: AnyObject) -> Void in
 
                 var cyclopaedics = [Cyclopaedic]()
 
-                for item in respData {
+                for item in respData as! NSArray {
 
                     let cycl = Cyclopaedic(dict: item as! [String : AnyObject])
 //                    http://123.57.67.165:8301/api/wiki?sightId=1&pageSize=6&page=1
