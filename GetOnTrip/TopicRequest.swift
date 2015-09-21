@@ -54,23 +54,16 @@ class TopicRequest: NSObject {
 
                 var topicDetails = [TopicDetails]()
                 for item in respData {
-                    let td = TopicDetails(dict: item as! [String : String])
+                    print(item)
+                    let td = TopicDetails(dict: item as! [String : AnyObject])
                     // 转换话题详情元素
-//                    let from     = item["from"].stringValue
-//                    let subtitle = item["subtitle"].stringValue
-//                    let id       = item["id"].intValue
-//                    let title    = item["title"].stringValue
-//                    let collect  = item["collect"].stringValue
-//                    let image    = item["image"].stringValue
-//                    let visit    = item["visit"].intValue
-//                    let desc     = item["desc"].stringValue
+
                     
-                    let tags = NSMutableArray()
-                    for it in item["tags"] as! NSArray {
-                        tags.addObject(it)
-                    }
-                    td.tags = tags
-//                    let topicDetail = TopicDetails(from: from, subtitle: subtitle, id: id, title: title, collect: collect, image: image, visit: visit, desc: desc, tags: tags)
+//                    let tags = NSMutableArray()
+//                    for it in item["tags"] as! NSArray {
+//                        tags.addObject(it)
+//                    }
+//                    td.tags = tags
                     topicDetails.append(td)
                 }
                 // 回调

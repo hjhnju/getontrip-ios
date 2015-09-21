@@ -47,25 +47,11 @@ class BookRequest: NSObject {
 
                     var books = [Book]()
                     for it in respData {
+                        print(it)
                         // 转换书籍元素详情
-                        let bookM = Book(dict: it as! [String : String])
-                        
-//                        let create_time = it["create_time"].stringValue
-//                        let author = it["author"].stringValue
-//                        let content_desc = it["content_desc"].stringValue
-//                        let price_mart = it["price_mart"].stringValue
-//                        let id = it["id"].stringValue
-//                        let press = it["press"].stringValue
-//                        let price_jd = it["price_jd"].stringValue
-//                        let title = it["title"].stringValue
-//                        let url = it["url"].stringValue
-//                        let isbn = it["isbn"].stringValue
-//                        let status = it["status"].stringValue
-//                        let pages = it["pages"].stringValue
-//                        let image = it["image"].stringValue
-//                        let totalNum = it["totalNum"].stringValue
+                        let bookM = Book(dict: it as! [String : AnyObject])
+//                        http://123.57.67.165:8301/api/book?sightId=1
 
-//                        let bookM = Book(create_time: create_time, author: author, content_desc: content_desc, price_mart: price_mart, id: id, press: press, price_jd: price_jd, title: title, url: url, isbn: isbn, status: status, pages: pages, image: image, totalNum: totalNum)
                         books.append(bookM)
                     }
                     

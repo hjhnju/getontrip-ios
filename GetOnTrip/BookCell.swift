@@ -40,19 +40,19 @@ class BookCell: UITableViewCell {
             self.iconView?.sd_setImageWithURL(imageURL)
             
             self.content_desc.text = bookModel?.content_desc
-            bookInfo.text = "作者：" + bookModel!.author! + "\n出版社：" + bookModel!.press! + "\n页数：" + bookModel!.pages! + "\nISBN：" + bookModel!.isbn!
+//            bookInfo.text = "作者：" + "\(bookModel!.author!)" + "\n出版社：" + "\(bookModel!.press!)" + "\n页数：" + "\(bookModel!.pages!)" + "\nISBN：" + "\(bookModel!.isbn!)"
             self.price_jd.text = "￥" + bookModel!.price_jd!
             
             self.price_mart.hidden = false
             self.price_line.hidden = false
             
             self.priceJdConstraint.constant = recordPriceJdConstraint!
-            if bookModel?.price_mart == "" {
-                self.price_line.hidden = true
-                self.price_mart.hidden = true
-                self.priceJdConstraint.constant = CGFloat(-13)
-            }
-            self.price_mart.text = "￥" + bookModel!.price_mart! + " "
+//            if (bookModel?.price_mart)! == nil  {
+//                self.price_line.hidden = true
+//                self.price_mart.hidden = true
+//                self.priceJdConstraint.constant = CGFloat(-13)
+//            }
+//            self.price_mart.text = "￥" + "\(bookModel!.price_mart!)" + " "
         }
     }
     

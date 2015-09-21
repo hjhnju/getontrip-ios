@@ -29,7 +29,6 @@ class TopicDetailListController: UITableViewController, UIViewControllerTransiti
 //        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         
         navigationController?.delegate = self
-        navigationController?.navigationBar.barTintColor = UIColor.orangeColor()
         
         refresh()
     }

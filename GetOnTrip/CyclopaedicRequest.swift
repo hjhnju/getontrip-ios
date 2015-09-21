@@ -50,14 +50,15 @@ class CyclopaedicRequest: NSObject {
                 var cyclopaedics = [Cyclopaedic]()
 
                 for item in respData {
-                    let cycl = Cyclopaedic(dict: item as! [String : String])
-                    
-                    var cyc_label   = [CyclopaedicLabel]()
+
+                    let cycl = Cyclopaedic(dict: item as! [String : AnyObject])
+//                    http://123.57.67.165:8301/api/wiki?sightId=1&pageSize=6&page=1
+//                    var cyc_label   = [CyclopaedicLabel]()
                         // 转换百科中元素标签
-                        for it in item["items"] as! NSArray {
-                            let cLabel = CyclopaedicLabel(dict: it as! [String : String])
-                            cyc_label.append(cLabel)
-                        }
+//                        for it in item["items"] as! NSArray {
+//                            let cLabel = CyclopaedicLabel(dict: it as! [String : String])
+//                            cyc_label.append(cLabel)
+//                        }
                     
                     cyclopaedics.append(cycl)
                 }

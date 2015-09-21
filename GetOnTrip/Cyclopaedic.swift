@@ -31,10 +31,15 @@ class Cyclopaedic: NSObject {
     // url路径
     var url: String?
     
+    // id
+    var id: Int?
+    
     // 初始化方法
-    init(dict: [String: String]){
+    init(dict: [String: AnyObject]){
         super.init()
         setValuesForKeysWithDictionary(dict)
+        status = dict["status"]?.integerValue
+        id = dict["id"]?.integerValue
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

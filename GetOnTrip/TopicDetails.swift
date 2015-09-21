@@ -38,9 +38,11 @@ class TopicDetails : NSObject {
     var tags: NSArray?
     
     /// 初始化
-    init(dict: [String : String]) {
+    init(dict: [String : AnyObject]) {
        super.init()
         setValuesForKeysWithDictionary(dict)
+        visit = Int(dict["visit"] as! String)
+        // TODO: ----- 标签未加
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
