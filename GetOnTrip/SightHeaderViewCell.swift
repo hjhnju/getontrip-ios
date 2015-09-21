@@ -88,7 +88,7 @@ class SightHeaderViewCell: UITableViewCell {
         self.distanceValue = sight.dis
         self.cityValue     = sight.city
         self.descValue     = sight.describe
-        self.sightId.tag   = sight.id!
+        self.sightId.tag   = Int(sight.id!)
         self.sightId.setTitle(sight.name, forState: UIControlState.Normal)
         tocityButton.titleLabel?.text = self.sightId.titleLabel?.text
         tocityButton.tag = sightId.tag

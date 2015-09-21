@@ -13,23 +13,23 @@ import Foundation
 class Topic : NSObject {
     
     //话题ID
-    var id:Int?
+    var id: String?
     
     //标题
-    var title:String?
+    var title: String?
     
     //副标题
-    var subtitle:String?
+    var subtitle: String?
     
     //图片
-    var image:String?
+    var image: String?
     
     //收藏
 //    var favorites:Int?
-    var collect: String?
+    var collect: Int?
     
     //浏览
-//    var visits:String?
+    var visit: Int?
     
     //描述
     var desc:String?
@@ -52,8 +52,9 @@ class Topic : NSObject {
     // 标签
     var tags: NSArray?
 
-    init(dict: [String : String]) {
+    init(dict: [String : AnyObject]) {
         super.init()
+
         setValuesForKeysWithDictionary(dict)
     }
     

@@ -175,7 +175,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nearSights[section].topics!.count
+        return nearSights[section].topic!.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -183,7 +183,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         // Configure the cell...
         let sight = nearSights[indexPath.section]
-        cell.updateCell(sight.topics![indexPath.row])
+        cell.updateCell(sight.topic![indexPath.row])
         
         return cell
     }
@@ -220,11 +220,11 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         self.tableView!.deselectRowAtIndexPath(indexPath, animated: true)
-        let topic = self.nearSights[indexPath.section].topics![indexPath.row]
+        let topic = self.nearSights[indexPath.section].topic![indexPath.row]
         
         //使用另一个storyboard
         if let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController {
-            topicDetailViewController.topic = topic
+            topicDetailViewController.topic = topic as! Topic
             self.navigationController?.pushViewController(topicDetailViewController, animated: true)
         }
         

@@ -57,31 +57,20 @@ class NearbyRequest {
                 
                 var sights = [Sight]()
                 for item in respData {
-                    let sight = Sight(dict: item as! [String : String])
-                    sight.image = AppIni.BaseUri + String(item["image"])
-//                    let sightId = item["id"].intValue
-//                    let name    = item["name"].stringValue
-//                    var sight   = Sight(sightid: sightId, name: name)
-//                    sight.city  = item["city"].stringValue
-//                    sight.cityId = item["city_id"].intValue
-//                    sight.desc  = item["describe"].stringValue
-//                    sight.distance = item["dis"].stringValue
-                    for it in item["topic"] as! NSArray {
-                        let topic = Topic(dict: it as! [String : String])
-//                        let topicId = it["id"].intValue
-//                        let title   = it["title"].stringValue
-//                        let subtitle = it["subtitle"].stringValue
-//                        var topic = Topic(topicid: topicId, title: title, subtitle: subtitle)
-//                        topic.desc = it["desc"].stringValue
-//                        topic.favorites = it["collect"].intValue
-//                        topic.visits = it["visit"].intValue
-//                        topic.imageUrl = AppIni.BaseUri + it["image"].stringValue
-//                        topic.from = it["from"].stringValue
-//                        topic.sight = name
-//                        topic.distance = sight.distance
-                        sight.topics?.append(topic)
-//                        sight.topics.append(topic)
-                    }
+
+//                    http://123.57.67.165:8301/api/home?city=2&x=47&page=1&y=47&pageSize=2
+                    let sight = Sight(dict: item as! NSDictionary as! [String : AnyObject])
+                    sight.image = NSString(format: "%@%@", AppIni.BaseUri, item["image"] as! String) as String
+
+                    
+//                    for it in item["topic"] as! NSArray {
+//                        let topic = Topic(dict: it as! [String : String])
+//                        let str = it["image"] as! String
+//                        topic.image = AppIni.BaseUri + str
+//                        sight.topic.addObject(topic)
+////                        sight.topic.append(topic)
+//
+//                    }
                     sights.append(sight)
                 }
                 if sights.count > 0 {

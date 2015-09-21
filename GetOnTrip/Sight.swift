@@ -14,7 +14,7 @@ import Foundation
 class Sight : NSObject {
     
     //景点id
-    var id:Int?
+    var id: Int?
     
     //景点名称
     var name:String?
@@ -23,10 +23,10 @@ class Sight : NSObject {
     var image:String?
     
     //景点距离
-    var dis:String?
+    var dis: String?
     
     //描述
-    var describe:String?
+    var describe: String?
     
     //城市
     var city: String? {
@@ -41,11 +41,24 @@ class Sight : NSObject {
     var city_id: Int?
     
     //话题
-    var topics: [Topic]?
+    var topic: [Topic]?
     
-    init(dict: [String : String]) {
+    init(dict: [String : AnyObject]) {
         super.init()
+
         setValuesForKeysWithDictionary(dict)
+        
+        id = dict["id"] as? Int
+        city_id = dict["city_id"] as? Int
+        
+        topic = [Topic]()
+        for tp in dict["topic"] as! NSArray {
+            topic?.append(Topic(dict: tp as! [String : AnyObject]))
+        }
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
     }
     
 //    init(sightid:Int, name:String){

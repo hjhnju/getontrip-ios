@@ -116,7 +116,7 @@ class NewFeatureCell: UICollectionViewCell {
         UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 10, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
             self.startButton.transform = CGAffineTransformIdentity
             }, completion: { (_) -> Void in
-//                print("OK")
+
                 self.startButton.userInteractionEnabled = true
         })
     }

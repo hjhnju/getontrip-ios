@@ -447,7 +447,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         let data = formData(fieldName, dataDict: dataDict, params: params)
 
         NSURLSession.sharedSession().uploadTaskWithRequest(request, fromData: data) { (data, response, error) -> Void in
-            print(data)
+//            print(data)
             
         }.resume()
     }

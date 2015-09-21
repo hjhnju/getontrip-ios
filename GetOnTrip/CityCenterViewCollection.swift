@@ -49,7 +49,7 @@ class CityCenterViewCollection: UICollectionViewController {
         // Register cell classes
         collectionView?.registerClass(CityCenterCollectionCell.self, forCellWithReuseIdentifier: cityreuseIdentifier)
         navigationController?.navigationItem.title = sightId?.titleLabel?.text
-        print(sightId?.tag)
+
         refresh()
     }
     

@@ -120,7 +120,7 @@ class UserAccount: NSObject, NSCoding {
         }
         
         lastSuccessRequest?.fetchBookModels { (handler: Topic) -> Void in
-           print(handler)
+//           print(handler)
         }
         
     }

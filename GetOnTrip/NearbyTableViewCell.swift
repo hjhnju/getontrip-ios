@@ -98,9 +98,9 @@ class NearbyTableViewCell: UITableViewCell {
         self.topicImageUrl = topic.image
         self.subtitle      = topic.subtitle
         self.title         = topic.title
-        self.favorites     = topic.collect
+        self.favorites     = String(topic.collect)
         self.desc          = topic.desc
-//        self.visits        = topic.visits
+//        self.visits        = String(topic.visit)
     }
     
 }

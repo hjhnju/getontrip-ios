@@ -34,7 +34,7 @@ class DiscoveryRequest {
             path: "/api/find",
             post: post,
             handler: {(respData: NSArray) -> Void in
-                print(respData)
+                
                 var topics = [Topic]()
                 for it  in respData {
                     let topic = Topic(dict: it as! [String : String])
@@ -57,7 +57,7 @@ class DiscoveryRequest {
                 if topics.count > 0 {
                     self.curPage = self.curPage + 1
                 }
-                print(topics)
+
                 handler(topics)
             }
         )
