@@ -13,7 +13,7 @@ import Foundation
 class Topic : NSObject {
     
     //话题ID
-    var topicid:Int?
+    var id:Int?
     
     //标题
     var title:String?
@@ -22,13 +22,14 @@ class Topic : NSObject {
     var subtitle:String?
     
     //图片
-    var imageUrl:String?
+    var image:String?
     
     //收藏
-    var favorites:Int?
+//    var favorites:Int?
+    var collect: String?
     
     //浏览
-    var visits:Int?
+//    var visits:String?
     
     //描述
     var desc:String?
@@ -43,9 +44,10 @@ class Topic : NSObject {
     var city:String?
     
     //距离
-    var distance:String?
+    var dist:String?
     
-    var commentCount:Int?
+    // 评论个数
+    var comment: String?
     
     // 标签
     var tags: NSArray?

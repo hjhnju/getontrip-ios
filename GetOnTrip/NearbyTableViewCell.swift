@@ -50,10 +50,10 @@ class NearbyTableViewCell: UITableViewCell {
         }
     }
     
-    var favorites:Int? {
+    var favorites:String? {
         didSet {
             if let newFavorites = favorites {
-                self.favoritesLabel.text = "\(newFavorites)"
+                self.favoritesLabel.text = newFavorites
             }
         }
     }
@@ -66,13 +66,13 @@ class NearbyTableViewCell: UITableViewCell {
         }
     }
     
-    var visits:Int? {
-        didSet {
-            if let newValue = visits {
-                self.visitsLabel.text = "\(newValue)"
-            }
-        }
-    }
+//    var visits:Int? {
+//        didSet {
+//            if let newValue = visits {
+//                self.visitsLabel.text = "\(newValue)"
+//            }
+//        }
+//    }
     
     
     override func awakeFromNib() {
@@ -95,12 +95,12 @@ class NearbyTableViewCell: UITableViewCell {
     }
     
     func updateCell(topic: Topic){
-        self.topicImageUrl = topic.imageUrl
+        self.topicImageUrl = topic.image
         self.subtitle      = topic.subtitle
         self.title         = topic.title
-        self.favorites     = topic.favorites
+        self.favorites     = topic.collect
         self.desc          = topic.desc
-        self.visits        = topic.visits
+//        self.visits        = topic.visits
     }
     
 }

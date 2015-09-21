@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (2.0.1)
+  - Alamofire (2.0.2)
   - MJRefresh (2.4.10)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
@@ -13,7 +13,7 @@ DEPENDENCIES:
   - SSKeychain
 
 SPEC CHECKSUMS:
-  Alamofire: 1d8e208d616fbbfd2391b15eae766d07c96cdc49
+  Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
   MJRefresh: e52328552ed9cbfce3501e3820b18bf7643c65cc
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d

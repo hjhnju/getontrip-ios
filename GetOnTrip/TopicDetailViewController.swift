@@ -27,6 +27,7 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
     @IBOutlet weak var label1: UILabel!
     var topic:Topic? {
         didSet {
+//            http://123.57.46.229:8301/api/find?pageSize=8&page=1
             loadTopic()
         }
     }
@@ -69,9 +70,9 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
             self.navigationItem.title = topic.sight
             
             //toolbar
-            showCommentCountButton?.title = "\(topic.commentCount ?? 0)条评论"
+            showCommentCountButton?.title = "topic.comment" ?? "0" + "条评论"
             showCommentCountButton?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(11)], forState: UIControlState.Normal)
-            topicURL = AppIni.BaseUri + "/topic/detail?id=\(topic.topicid)"
+            topicURL = AppIni.BaseUri + "/topic/detail?id=\(topic.id)"
         }
     }
     
@@ -81,9 +82,9 @@ class TopicDetailViewController: UIViewController, UIScrollViewDelegate, UIWebVi
         //修改navigationbar
         refreshBar()
         
-        iconView.sd_setImageWithURL(NSURL(string: topic!.imageUrl!))
-        visits.text = "\(topic!.visits!)"
-        favorites.text = "\(topic!.favorites!)"
+        iconView.sd_setImageWithURL(NSURL(string: topic!.image!))
+//        visits.text = "\(topic!.visits!)"
+        favorites.text = "\(topic!.collect!)"
         titleLabel.text = topic?.title
         
         for (var i: Int = 0; i < topic?.tags?.count; i++ ) {

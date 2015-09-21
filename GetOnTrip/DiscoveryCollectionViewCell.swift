@@ -31,22 +31,22 @@ class DiscoveryCollectionViewCell: UICollectionViewCell {
     
     func setDisplayFields(topic: Topic) {
         self.titleLabel.text = topic.title
-        if let imageUrl = topic.imageUrl {
+        if let imageUrl = topic.image {
             if let url = NSURL(string: imageUrl) {
                 self.imageView.sd_setImageWithURL(url, placeholderImage: UIImage(named: "default-topic"))
             }
         }
         let city = topic.city ?? ""
         let sight = topic.sight ?? ""
-        let distance = topic.distance ?? ""
+        let distance = topic.dist ?? ""
         var locate = ""
         if !city.isEmpty {
             locate = "\(city)·"
         }
         locate = locate + "\(sight) \(distance)"
         self.locateLabel.text = locate
-        self.favoritesLabel.text = "\(topic.favorites ?? 0)"
-        self.commentsLabel.text = "\(topic.commentCount ?? 0)"
+        self.favoritesLabel.text = "topic.collect" ?? "0"
+        self.commentsLabel.text = "topic.comment" ?? "0"
         //NSLog("DiscoveryCollectionViewCell.awakeFromNib:frame=\(self.frame)")
     }
 }

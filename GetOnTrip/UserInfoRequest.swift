@@ -41,7 +41,7 @@ class UserInfoRequest: NSObject {
 //                let title           = respData["title"].stringValue
                 //topic?.subtitle = respData[""].stringValue
 //                topic = Topic(topicid: id, title: title, subtitle: "")
-                topic.imageUrl     = AppIniOnline.BaseUri + String(respData[0]["image"])
+                topic.image     = AppIniOnline.BaseUri + String(respData[0]["image"])
                 
 //                topic!.favorites    = respData["collect"].intValue
 //                topic!.visits       = respData["visits"].intValue
