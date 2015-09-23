@@ -19,14 +19,17 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         return arrayM.copy() as! NSArray
     }()
     
-    var searchBar: UISearchBar?
-//    lazy var searchBar: UISearchBar = {
-//        var search = UISearchBar()
-//        return search
-//    }()
+//    var searchBar: UISearchBar?
+    lazy var searchBar: UISearchBar = {
+        var search = UISearchBar()
+        search.barStyle = UIBarStyle.Black
+        search.tintColor = UIColor.grayColor()
+        return search
+    }()
     
     lazy var tableView: UITableView = {
         var tableView = UITableView()
+        tableView.backgroundColor = UIColor.clearColor()
         return tableView
     }()
     
@@ -46,6 +49,10 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         return btn
     }()
     
+    /// 底图view
+    var imgView = UIImageView(image: UIImage(named: "search-bg0"))
+    
+    
     /// 搜索结果控制器
     lazy var citySearchVC: CitySearchViewController = {
         var svc = CitySearchViewController()
@@ -54,14 +61,23 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(searchBar!)
+        
+        view.addSubview(searchBar)
         view.addSubview(coverButton)
-        tableView.backgroundColor = UIColor.clearColor()
+        view.addSubview(tableView)
+        view.addSubview(imgView)
+        imgView.frame = view.bounds
+        view.sendSubviewToBack(imgView)
+        
+        searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        searchBar!.frame = CGRectMake(0, 20, view.bounds.width, 44)
+        
+        searchBar.frame = CGRectMake(0, 20, view.bounds.width, 44)
         tableView.frame = CGRectMake(0, 64, view.bounds.width, view.bounds.height - 64)
         coverButton.frame = tableView.frame
         citySearchVC.view.frame = tableView.frame
@@ -149,7 +165,7 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
     
     func coverClick() {
         
-        self.searchBar!.resignFirstResponder()
+        self.searchBar.resignFirstResponder()
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

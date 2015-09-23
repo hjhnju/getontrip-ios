@@ -12,6 +12,7 @@ import CoreLocation
 
 class SideBottomController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
     
+    // MARK: - 属性
     /// 定义窗体主体Controller
     lazy var masterViewController: UIViewController  = SearchListPageController()
     
@@ -64,20 +65,18 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     let tableViewDataSource = ["切换城市", "我的收藏", "消息", "设置", "反馈"]
     
     /// 位置管理器
-    lazy var locationManager: CLLocationManager = {
-        let location = CLLocationManager()
-        location.delegate = self
-        return location
-    }()
+    lazy var locationManager: CLLocationManager = CLLocationManager()
     
     /// 地理位置
     var city: String?
     
-    /// 主窗口控制器(搜索入口一)
-    lazy var searchListPageController: SearchListPageController = SearchListPageController()
+    /// 主窗口控制器
+    var mainEntranceController: UINavigationController?
+    // (搜索入口一)
+    lazy var searchListPageController: UINavigationController = UINavigationController(rootViewController: SearchListPageController())
     
     /// 城市中间页(入品二)
-    lazy var cityCenterPageController: CityCenterPageController = CityCenterPageController()
+    lazy var cityCenterPageController: UINavigationController = UINavigationController(rootViewController: CityCenterPageController())
     
     // MARK: - 初始化方法
     override func viewDidLoad() {
@@ -85,12 +84,20 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         
         // 应用程序使用期间允许定位
         locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
         locationManager.startUpdatingLocation()
         
         setupInit()
         setupAutoLayout()
         refreshLoginStatus()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // TODO: 加载这里是错误的，临时使用
         setupSideController()
+        print(city)
     }
     
     /// 初始化相关设置
@@ -111,7 +118,8 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         
         tableView.dataSource = self
         tableView.delegate   = self
-        
+        tableView.hidden = true
+        tableView.rowHeight = view.bounds.height * 0.5 * 0.2
         tableView.registerClass(MenuSettingTableViewCell.self, forCellReuseIdentifier: "MenuTableView_Cell")
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
     }
@@ -133,26 +141,16 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     
     /// 初始侧面控制器
     private func setupSideController() {
-        if city != nil {
-            addChildViewController(cityCenterPageController)
-            view.addSubview(cityCenterPageController.view)
-//            cityCenterPageController.view.frame = CGRectMake(0, 0, view.bounds.width, view.bounds.height)
-            
-            
-        } else {
-            addChildViewController(searchListPageController)
-            view.addSubview(searchListPageController.view)
-//            searchListPageController.view.frame = CGRectMake(0, 0, view.bounds.width, view.bounds.height)
-
-        }
+        
+        mainEntranceController = city != nil ? cityCenterPageController : searchListPageController
+        addChildViewController(mainEntranceController!)
+        view.addSubview(mainEntranceController!.view)
     }
     
     /// 设置行高并刷新
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        print(tableView.frame)
-        tableView.rowHeight = tableView.bounds.height * 0.2
-        tableView.reloadData()
+        
         iconView.layer.cornerRadius = min(iconView.bounds.width, iconView.bounds.height) * 0.5
         iconView.clipsToBounds = true
     }
@@ -186,13 +184,55 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         cell.titleLabel.text = tableViewDataSource[indexPath.row]
         // 添加tableview顶上的线
         if indexPath.row == 0 {
-            let baselineView = UIView()
-            baselineView.backgroundColor = UIColor(white: 0xFFFFFF, alpha: 0.3)
+            let baselineView = UIView(color: UIColor(white: 0xFFFFFF, alpha: 1), alphaF: 0.3)
             cell.addSubview(baselineView)
             baselineView.ff_AlignInner(ff_AlignType.TopLeft, referView: cell, size: CGSizeMake(cell.bounds.width, 0.5), offset: CGPointMake(0, 0))
         }
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let close = mainEntranceController?.visibleViewController as! BaseHomeController
+        close.openAndCloseView()
+        
+        /// MARK: 跳转切换城市页面
+        if indexPath.row == 0 {
+            let switchCityVC = SwitchCityViewController()
+            
+            
+            
+            
+            mainEntranceController?.pushViewController(switchCityVC, animated: true)
+        }
+        
+        
+        
+//        let vc = UIViewController()
+//        vc.view.backgroundColor = UIColor.orangeColor()
+//        vc.view.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
+//        mainEntranceController?.pushViewController(vc, animated: true)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    /// 侧滑菜单动画效果
+    var cellx: CGFloat = 0
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        cellx += 150
+        cell.transform = CGAffineTransformMakeTranslation(cellx, 0)
+        UIView.animateWithDuration(0.8, delay: 0.0, usingSpringWithDamping: 3, initialSpringVelocity: 1, options: UIViewAnimationOptions.AllowAnimatedContent, animations: { () -> Void in
+            cell.transform = CGAffineTransformIdentity
+        }, completion: nil)
     }
     
     // MARK: - 地理定位代理方法
@@ -206,7 +246,7 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
 
-        geocoder.reverseGeocodeLocation(location) { (placemarks, error) -> Void in
+        geocoder.reverseGeocodeLocation(location) { [unowned self] (placemarks, error) -> Void in
 
             if (placemarks?.count == 0 || error != nil) {
                 print("地理信息没找到")
@@ -214,10 +254,18 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
             } else {
                 let firstPlacemark: NSString = NSString(string: "\(placemarks!.first!.locality!)")
                 self.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
-                print(self.city!)
+                
+                struct Static {
+                    static var onceToken: dispatch_once_t = 0
+                }
+                
+                // TODO: 地理位置 是异步加载的，在获取到地理位置之前应该先显示什么
+//                dispatch_once(&Static.onceToken, { [unowned self] in
+//                    self.setupSideController()
+//                })
             }
         }
-        
+    
     }
     
 }
@@ -233,7 +281,7 @@ class MenuSettingTableViewCell : UITableViewCell {
         addSubview(baseline)
         addSubview(titleLabel)
         
-        self.backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clearColor()
         baseline.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(bounds.width, 0.5), offset: CGPointMake(0, 0))
         titleLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
     }

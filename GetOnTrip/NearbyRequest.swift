@@ -58,19 +58,8 @@ class NearbyRequest {
                 var sights = [Sight]()
                 for item in respData as! NSArray {
 
-//                    http://123.57.67.165:8301/api/home?city=2&x=47&page=1&y=47&pageSize=2
-                    let sight = Sight(dict: item as! NSDictionary as! [String : AnyObject])
+                    let sight = Sight(dict: item as! [String : AnyObject])
                     sight.image = NSString(format: "%@%@", AppIni.BaseUri, item["image"] as! String) as String
-
-                    
-//                    for it in item["topic"] as! NSArray {
-//                        let topic = Topic(dict: it as! [String : String])
-//                        let str = it["image"] as! String
-//                        topic.image = AppIni.BaseUri + str
-//                        sight.topic.addObject(topic)
-////                        sight.topic.append(topic)
-//
-//                    }
                     sights.append(sight)
                 }
                 if sights.count > 0 {
