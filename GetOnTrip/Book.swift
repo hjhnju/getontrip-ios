@@ -43,13 +43,11 @@ class Book: NSObject {
     // 初始化方法
     init(dict: [String : AnyObject]) {
         super.init()
-        print(dict)
         
         setValuesForKeysWithDictionary(dict)
         
         create_time = Int(dict["create_time"] as! String)!
         id = Int(dict["id"] as! String)!
-        isbn = Int(dict["isbn"] as! String)!
         pages = dict["pages"] as? Int
         price_mart = dict["price_mart"]! as? Double
         url = String(dict["url"])

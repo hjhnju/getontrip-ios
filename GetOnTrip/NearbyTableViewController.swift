@@ -224,7 +224,7 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         
         //使用另一个storyboard
         if let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController {
-            topicDetailViewController.topic = topic as! Topic
+            topicDetailViewController.topic = topic 
             self.navigationController?.pushViewController(topicDetailViewController, animated: true)
         }
         
@@ -263,9 +263,9 @@ class NearbyTableViewController: UITableViewController, CLLocationManagerDelegat
         }
         
         
-        var destination = segue.destinationViewController as? UIViewController
+        var destination = segue.destinationViewController
         if let navCon = destination as? UINavigationController {
-            destination = navCon.visibleViewController
+            destination = navCon.visibleViewController!
         }
         if let identifier = segue.identifier {
             switch identifier{

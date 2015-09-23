@@ -27,19 +27,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        //status bar
         
-//        http://123.57.46.229:8301/api/find?pageSize=8&page=1
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         
-        //back button
+        
+        UIApplication.sharedApplication().statusBarHidden = true
+        
         let backButtonImage = UIImage(named: "back")
         UINavigationBar.appearance().backIndicatorImage = backButtonImage
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
         
-        window?.rootViewController = defaultViewController()
-
+        
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.rootViewController = SideBottomController()
+        window?.makeKeyAndVisible()
+        
+        
         let urlCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
         NSURLCache.setSharedURLCache(urlCache)
         
@@ -54,6 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         return true
     }
+    
+    
     
     // MARK: - 获取用户uuid
     private func gainUserUUID() {

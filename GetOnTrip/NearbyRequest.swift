@@ -11,7 +11,7 @@ import CoreLocation
 
 class NearbyRequest {
     
-    var curLocation:CLLocation?
+    var curLocation: CLLocation?
     
     //默认城市：北京
     var cityId:Int = 2

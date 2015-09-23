@@ -75,7 +75,7 @@ class MasterViewController: UINavigationController {
     //MASK: Unwind Segues
     
     @IBAction func backingPrepareForSegue(segue: UIStoryboardSegue){
-        //self.slideMenuState = SlideMenuState.Closing
+//        self.slideMenuState = SlideMenuState.Closing
 //        println("backingPrepareForSegue")
         dismissViewControllerAnimated(true, completion: nil)
     }

@@ -33,3 +33,15 @@ class CollectButton: UIButton {
     }
     
 }
+
+extension UIButton {
+    
+    /// 快速设置圆角
+    convenience init(icon: String) {
+        
+        self.init()
+        setImage(UIImage(named: icon), forState: UIControlState.Normal)
+        layer.cornerRadius = min(bounds.width, bounds.height) * 0.5
+        layer.masksToBounds = true
+    }
+}

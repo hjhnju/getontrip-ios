@@ -75,8 +75,6 @@ class SlideMenuViewController: UIViewController, SlideMenuViewControllerDelegate
         //self.sideViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MenuViewId) as! MenuViewController
         self.sideViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MenuViewID) as! MenuViewController
 
-//        self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewID) as! MasterViewController
-//        self.masterViewController = storyboard.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.MainNavViewID) as! MasterViewController
         
         self.masterViewController.slideDelegate = self
         

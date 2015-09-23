@@ -84,3 +84,7 @@ struct SceneFont {
     static let heiti = "STHeitiSC-Light"
 }
 
+/// 占位图像
+struct placeholderImage {
+    static let userIcon = "user_icon"
+}

@@ -124,7 +124,7 @@ class NewFeatureCell: UICollectionViewCell {
     /// 点击开始按钮
     func startButtonClicked() {
         
-        let slideVC = SlideMenuViewController()
+        let slideVC = SearchListPageController()
         UIApplication.sharedApplication().keyWindow?.rootViewController = slideVC
     }
     
