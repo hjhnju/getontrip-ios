@@ -52,10 +52,7 @@ class CollectSightRequest: NSObject {
                     for it in respData as! NSArray {
                         
                         let collectM = CollectSight(dict: it as! [String : String])
-//                        collectM.id = it["id"].intValue
-//                        collectM.name = it["name"].stringValue
-//                        collectM.image = AppIni.BaseUri + it["image"].stringValue
-//                        collectM.topicNum = it["topicNum"].stringValue
+
                         collectSightM.append(collectM)
                     }
 

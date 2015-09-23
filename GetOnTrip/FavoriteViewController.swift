@@ -7,61 +7,94 @@
 //
 
 import UIKit
+import FFAutoLayout
 
 class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent;
     }
+    // MARK: - 属性
+    lazy var scrollView: UIScrollView = UIScrollView()
     
-    @IBOutlet weak var scrollView: UIScrollView!
+    /// 底图背景颜色
+    lazy var containView: UIView = UIView()
     
-    @IBOutlet weak var containView: UIView!
     /// 按钮背景的view
-    @IBOutlet weak var btnBackground: UIView!
+    lazy var btnBackground: UIView = UIView()
+    
     /// 左边线
-    @IBOutlet weak var line1: UIView!
+    lazy var line1: UIView = UIView()
+    
     /// 右边线
-    @IBOutlet weak var line2: UIView!
+    lazy var line2: UIView = UIView()
     
     // 景点底图
-    lazy var view1: UIView = {
-        var tempView = UIView(frame: UIScreen.mainScreen().bounds)
-        return tempView
-    }()
+    lazy var view1: UIView = UIView(frame: UIScreen.mainScreen().bounds)
+
+    /// 话题底图
+    lazy var view2: UIView = UIView(frame: UIScreen.mainScreen().bounds)
     
-    // 话题底图
-    lazy var view2: UIView = {
-        var tempView = UIView(frame: UIScreen.mainScreen().bounds)
-        return tempView
-    }()
-    
-    // 主题底图
-    lazy var view3: UIView = {
-        var tempView = UIView(frame: UIScreen.mainScreen().bounds)
-        return tempView
-    }()
+    /// 主题底图
+    lazy var view3: UIView = UIView(frame: UIScreen.mainScreen().bounds)
     
     /// 景点按钮
-    @IBOutlet weak var sightBtn: UIButton!
+    lazy var sightBtn: CollectButton = CollectButton(title: "景点", imageName: "sight_image", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3))
     /// 话题按钮
-    @IBOutlet weak var topicBtn: UIButton!
+    lazy var topicBtn: CollectButton = CollectButton(title: "话题", imageName: "topic_image", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3))
     /// 主题按钮
-    @IBOutlet weak var motifBtn: UIButton!
+    lazy var motifBtn: CollectButton = CollectButton(title: "主题", imageName: "motif_image", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3))
     
-    // MARK: - View Life Circle
+    // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
-        containView.backgroundColor = UIColor(patternImage: UIImage(named: "collect_background")!)
-        recordButtonStatus = sightBtn
-
+        
+        setupAddSubViewAndAction()
+        setupAutoLayout()
 //        setupDefaultSightTopic()
         setupChildControllerProperty()
         
+    }
+    
+    private func setupProperty() {
+        
+        title = "我的收藏"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
+        containView.backgroundColor = UIColor(patternImage: UIImage(named: "collect_background")!)
+        recordButtonStatus = sightBtn
+    }
+    
+    private func setupAddSubViewAndAction() {
+        
+        view.addSubview(containView)
+        containView.addSubview(scrollView)
+        scrollView.addSubview(view1)
+        scrollView.addSubview(view2)
+        scrollView.addSubview(view3)
+        view.addSubview(btnBackground)
+        btnBackground.addSubview(sightBtn)
+        btnBackground.addSubview(topicBtn)
+        btnBackground.addSubview(motifBtn)
+        btnBackground.addSubview(line1)
+        btnBackground.addSubview(line2)
+
         sightBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         topicBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         motifBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    // MARK: - 初始化自动布局
+    private func setupAutoLayout() {
+        
+        let btnW: CGFloat = view.bounds.width / 3
+        let btnH: CGFloat = 70
+        btnBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, btnH), offset: CGPointMake(0, 64))
+        sightBtn.ff_AlignInner(ff_AlignType.TopLeft, referView: btnBackground, size: CGSizeMake(btnW, btnH), offset: CGPointMake(0, 0))
+        line1.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: sightBtn, size: CGSizeMake(0.5, 50), offset: CGPointMake(0, 0))
+        topicBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: btnBackground, size: CGSizeMake(btnW, btnH), offset: CGPointMake(0, 0))
+        line2.ff_AlignHorizontal(ff_AlignType.CenterCenter, referView: topicBtn, size: CGSizeMake(0.5, 50), offset: CGPointMake(0, 0))
+        motifBtn.ff_AlignInner(ff_AlignType.TopRight, referView: btnBackground, size: CGSizeMake(btnW, btnH), offset: CGPointMake(0, 0))
+        containView.ff_AlignInner(ff_AlignType.BottomCenter, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - btnH), offset: CGPointMake(0, 0))
+        scrollView.ff_AlignInner(ff_AlignType.CenterCenter, referView: containView, size: nil, offset: CGPointMake(0, 0))
     }
     
     /// MARK: - 切换收藏视图方法
@@ -71,12 +104,6 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         recordButtonStatus?.selected = false
         sender.selected = true
         recordButtonStatus = sender
-        
-        //        compositorItem.customView?.hidden = true
-        
-        //        if sender.currentTitle == "话题" {
-        //            compositorItem.customView?.hidden = false
-        //        }
         
         if !sender.selected {
             sender.selected = true
@@ -185,6 +212,4 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     }()
     
 }
-
-
 

@@ -24,13 +24,29 @@ extension UIButton {
 // MARK: - 收藏界面的按钮
 class CollectButton: UIButton {
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let ix: CGFloat = self.bounds.width * 0.5
-        let iy: CGFloat = self.bounds.height * 0.5 - 5
-        let ty: CGFloat = self.bounds.height * 0.5 + 20
+    convenience init(title: String, imageName: String, fontSize: CGFloat, titleColor: UIColor = UIColor.whiteColor()) {
+        
+        self.init()
+        
+        setTitle(title, forState: UIControlState.Normal)
+        setImage(UIImage(named: imageName), forState: UIControlState.Normal)
+        titleLabel?.font = UIFont.systemFontOfSize(fontSize)
+        setTitleColor(titleColor, forState: UIControlState.Normal)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        let ix: CGFloat = bounds.width * 0.5
+        let iy: CGFloat = bounds.height * 0.5 - 5
+        let ty: CGFloat = bounds.height * 0.5 + 20
         imageView?.center = CGPointMake(ix, iy)
         titleLabel?.center = CGPointMake(ix, ty)
+        
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }

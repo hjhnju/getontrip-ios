@@ -126,8 +126,9 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     
     /// 初始化自动布局
     private func setupAutoLayout() {
-        imageView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.75, view.bounds.height - 20), offset: CGPointMake(0, 20))
-        tableView.ff_AlignInner(ff_AlignType.CenterCenter, referView: imageView, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.75, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
+        
+        imageView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(sideViewFrame.sideOffsetX, view.bounds.height - 20), offset: CGPointMake(0, 20))
+        tableView.ff_AlignInner(ff_AlignType.CenterCenter, referView: imageView, size: CGSizeMake(sideViewFrame.sideOffsetX, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
         loginAfter.ff_AlignInner(ff_AlignType.TopCenter, referView: imageView, size: CGSizeMake(imageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
         loginAge.ff_AlignInner(ff_AlignType.TopCenter, referView: imageView, size: CGSizeMake(imageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
         iconView.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
@@ -137,6 +138,7 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         weiboButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginAge, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
         welcome.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAge, size: nil, offset: CGPointMake(0, 0))
         state.ff_AlignVertical(ff_AlignType.BottomCenter, referView: welcome, size: nil, offset: CGPointMake(0, 8))
+        
     }
     
     /// 初始侧面控制器
@@ -199,12 +201,17 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         
         /// MARK: 跳转切换城市页面
         if indexPath.row == 0 {
-            let switchCityVC = SwitchCityViewController()
+            mainEntranceController?.pushViewController(SwitchCityViewController(), animated: true)
+        } else if indexPath.row == 1 {
+            mainEntranceController?.pushViewController(FavoriteViewController(), animated: true)
+        } else if indexPath.row == 2 {
             
+        } else if indexPath.row == 3 {
             
+        } else if indexPath.row == 4 {
             
+        } else {
             
-            mainEntranceController?.pushViewController(switchCityVC, animated: true)
         }
         
         
