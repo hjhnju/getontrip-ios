@@ -24,10 +24,10 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     lazy var btnBackground: UIView = UIView()
     
     /// 左边线
-    lazy var line1: UIView = UIView()
+    lazy var line1: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
     
     /// 右边线
-    lazy var line2: UIView = UIView()
+    lazy var line2: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
     
     // 景点底图
     lazy var view1: UIView = UIView(frame: UIScreen.mainScreen().bounds)
@@ -45,10 +45,26 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     /// 主题按钮
     lazy var motifBtn: CollectButton = CollectButton(title: "主题", imageName: "motif_image", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3))
     
+    // 景点控制器
+    lazy var sightViewController: CollectSightViewController = CollectSightViewController()
+    
+    // 话题控制器
+    lazy var collectTopicController: CollectTopicViewController = {
+        let story1 = UIStoryboard(name: "Main", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectTopicSB) as! CollectTopicViewController
+    }()
+    
+    // 主题控制器
+    lazy var motifController: CollectMotifViewController = {
+        let story1 = UIStoryboard(name: "Main", bundle: nil)
+        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectMotifSB) as! CollectMotifViewController
+    }()
+    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupProperty()
         setupAddSubViewAndAction()
         setupAutoLayout()
 //        setupDefaultSightTopic()
@@ -61,6 +77,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         title = "我的收藏"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
         containView.backgroundColor = UIColor(patternImage: UIImage(named: "collect_background")!)
+        btnBackground.backgroundColor = SceneColor.deepGrey
         recordButtonStatus = sightBtn
     }
     
@@ -91,9 +108,10 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         sightBtn.ff_AlignInner(ff_AlignType.TopLeft, referView: btnBackground, size: CGSizeMake(btnW, btnH), offset: CGPointMake(0, 0))
         line1.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: sightBtn, size: CGSizeMake(0.5, 50), offset: CGPointMake(0, 0))
         topicBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: btnBackground, size: CGSizeMake(btnW, btnH), offset: CGPointMake(0, 0))
-        line2.ff_AlignHorizontal(ff_AlignType.CenterCenter, referView: topicBtn, size: CGSizeMake(0.5, 50), offset: CGPointMake(0, 0))
+        line2.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: topicBtn, size: CGSizeMake(0.5, 50), offset: CGPointMake(0, 0))
         motifBtn.ff_AlignInner(ff_AlignType.TopRight, referView: btnBackground, size: CGSizeMake(btnW, btnH), offset: CGPointMake(0, 0))
         containView.ff_AlignInner(ff_AlignType.BottomCenter, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - btnH), offset: CGPointMake(0, 0))
+        print(view.bounds)
         scrollView.ff_AlignInner(ff_AlignType.CenterCenter, referView: containView, size: nil, offset: CGPointMake(0, 0))
     }
     
@@ -140,7 +158,6 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     func setupChildControllerProperty() {
         
         scrollView.contentOffset.x = 0
-        
         
         //初始化scrollview
         scrollView.pagingEnabled = true
@@ -192,24 +209,6 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
             switchCollectButtonClick(motifBtn)
         }
     }
-    
-    // MARK: 懒加载
-    // 景点控制器
-    lazy var sightViewController: CollectSightViewController = {
-        return CollectSightViewController()
-    }()
-    
-    // 话题控制器
-    lazy var collectTopicController: CollectTopicViewController = {
-        let story1 = UIStoryboard(name: "Main", bundle: nil)
-        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectTopicSB) as! CollectTopicViewController
-    }()
-    
-    // 主题控制器
-    lazy var motifController: CollectMotifViewController = {
-        let story1 = UIStoryboard(name: "Main", bundle: nil)
-        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectMotifSB) as! CollectMotifViewController
-    }()
     
 }
 

@@ -12,11 +12,25 @@ import UIKit
 extension UIButton {
     
     /// 快速设置圆角
-    convenience init(icon: String) {
+    convenience init(icon: String, masksToBounds: Bool = false) {
         
         self.init()
         setImage(UIImage(named: icon), forState: UIControlState.Normal)
-        layer.cornerRadius = min(bounds.width, bounds.height) * 0.5
+        
+        if masksToBounds == true {
+            layer.cornerRadius = min(bounds.width, bounds.height) * 0.5
+            layer.masksToBounds = false
+        }
+    }
+    
+    /// 快速设置文字
+    convenience init(title: String, fontSize: CGFloat, radius: CGFloat, titleColor: UIColor = UIColor.whiteColor()) {
+        
+        self.init()
+        setTitle(title, forState: UIControlState.Normal)
+        titleLabel?.font = UIFont.systemFontOfSize(fontSize)
+        setTitleColor(titleColor, forState: UIControlState.Normal)
+        layer.cornerRadius = radius
         layer.masksToBounds = true
     }
 }
@@ -34,19 +48,13 @@ class CollectButton: UIButton {
         setTitleColor(titleColor, forState: UIControlState.Normal)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
         let ix: CGFloat = bounds.width * 0.5
-        let iy: CGFloat = bounds.height * 0.5 - 5
-        let ty: CGFloat = bounds.height * 0.5 + 20
+        let iy: CGFloat = bounds.height * 0.5 - 9
+        let ty: CGFloat = bounds.height * 0.5 + 16
         imageView?.center = CGPointMake(ix, iy)
         titleLabel?.center = CGPointMake(ix, ty)
-        
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }

@@ -21,6 +21,18 @@ extension UILabel {
         }
     }
     
+    convenience init(color: UIColor, title: String, fontSize: CGFloat, mutiLines: Bool = false) {
+        self.init()
+        
+        text = title
+        font = UIFont.systemFontOfSize(fontSize)
+        textColor = color
+        
+        if mutiLines {
+            numberOfLines = 0
+        }
+    }
+    
     //根据文字设置标签显示宽度
     func resizeWidthToFit(widthConstraint: NSLayoutConstraint) {
         let attributes = [NSFontAttributeName : font]

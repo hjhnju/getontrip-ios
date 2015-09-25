@@ -11,8 +11,6 @@ import UIKit
 import FFAutoLayout
 
 class BaseHomeController: UIViewController {
-
-//    var navigationBar = UINavigationBar()
     
     /// 搜索方法
     lazy var searchBar: UISearchBar = {
@@ -74,13 +72,15 @@ class BaseHomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
         setupNavigationBar()
         view.backgroundColor = UIColor.whiteColor()
+        
+
         
         navigationItem.leftBarButtonItem = sideButton
         let searchButton = UIBarButtonItem(customView: searchBar)
         navigationItem.rightBarButtonItem = searchButton
-        
         
         //初始化蒙板
         let parent = self.parentViewController as! UINavigationController
@@ -104,10 +104,19 @@ class BaseHomeController: UIViewController {
     }
     
     func setupNavigationBar() {
-        navigationController?.navigationBar.barTintColor = SceneColor.black
-        navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+//        searchBar.backgroundImage = imageWithColor(UIColor.orangeColor())
+//        navigationController?.navigationBar.backgroundImage = imageWithColor(UIColor.clearColor())
+        
+//        navigationController?.navigationBar.barTintColor = SceneColor.black
+//        navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
+//        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
         //TODO:remove 1px border
     }
+    
+
+    
+
 
 }

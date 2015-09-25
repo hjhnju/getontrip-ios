@@ -54,12 +54,12 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     lazy var name: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
     
     /// 微信
-    lazy var wechatButton: UIButton = UIButton(icon: "weixin_picture")
+    lazy var wechatButton: UIButton = UIButton(icon: "weixin_picture", masksToBounds: true)
     /// qq
-    lazy var qqButton: UIButton = UIButton(icon: "qq_picture")
+    lazy var qqButton: UIButton = UIButton(icon: "qq_picture", masksToBounds: true)
     
     /// 微博
-    lazy var weiboButton: UIButton = UIButton(icon: "xinlang")
+    lazy var weiboButton: UIButton = UIButton(icon: "xinlang", masksToBounds: true)
     
     /// 设置菜单的数据源
     let tableViewDataSource = ["切换城市", "我的收藏", "消息", "设置", "反馈"]
@@ -78,6 +78,9 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     /// 城市中间页(入品二)
     lazy var cityCenterPageController: UINavigationController = UINavigationController(rootViewController: CityCenterPageController())
     
+    /// 登陆状态
+    var logined: Bool = true
+    
     // MARK: - 初始化方法
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,14 +93,6 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         setupInit()
         setupAutoLayout()
         refreshLoginStatus()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // TODO: 加载这里是错误的，临时使用
-        setupSideController()
-        print(city)
     }
     
     /// 初始化相关设置
@@ -115,6 +110,10 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         loginAge.addSubview(state)
         welcome.text = "hello!"
         state.text   = "使用以下账号直接登录"
+        
+        wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
+        weiboButton.addTarget(self, action: "sinaWeiboLogin", forControlEvents: UIControlEvents.TouchUpInside)
+        qqButton.addTarget(self, action: "qqLogin", forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView.dataSource = self
         tableView.delegate   = self
@@ -144,12 +143,22 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     /// 初始侧面控制器
     private func setupSideController() {
         
-        mainEntranceController = city != nil ? cityCenterPageController : searchListPageController
-        addChildViewController(mainEntranceController!)
-        view.addSubview(mainEntranceController!.view)
+//        mainEntranceController = city != nil ? cityCenterPageController : searchListPageController
+        mainEntranceController = cityCenterPageController
+
+        addChildViewController(cityCenterPageController)
+        view.addSubview(cityCenterPageController.view)
     }
     
-    /// 设置行高并刷新
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // TODO: 加载这里是错误的，临时使用
+        setupSideController()
+        print(city)
+    }
+    
+    /// 设置
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -175,6 +184,43 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    // MARK: - 登陆
+    /// 微信登陆
+    func wechatLogin() {
+        thirdParthLogin(SSDKPlatformType.TypeWechat)
+    }
+    
+    /// qq登陆
+    func qqLogin() {
+        thirdParthLogin(SSDKPlatformType.TypeQQ)
+    }
+    
+    /// 新浪微博登陆
+    func sinaWeiboLogin() {
+        thirdParthLogin(SSDKPlatformType.TypeSinaWeibo)
+    }
+    
+    /// 第三方登陆
+    func thirdParthLogin(type: SSDKPlatformType) {
+        //授权
+        ShareSDK.authorize(type, settings: nil, onStateChanged: { [unowned self] (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
+            
+            switch state{
+                
+            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            let account = UserAccount(user: user, type: 3)
+            sharedUserAccount = account
+            self.refreshLoginStatus()
+                
+            case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
+            case SSDKResponseState.Cancel:  print("操作取消")
+                
+            default:
+                break
+            }
+        })
+    }
+    
     // MARK: - tableView数据源方法
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -194,40 +240,27 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     
+    /// 跳转控制器
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let close = mainEntranceController?.visibleViewController as! BaseHomeController
         close.openAndCloseView()
         
-        /// MARK: 跳转切换城市页面
+        /// MARK: 跳转切换相应页面
+        var VC: UIViewController?
         if indexPath.row == 0 {
-            mainEntranceController?.pushViewController(SwitchCityViewController(), animated: true)
+            VC = SwitchCityViewController()
         } else if indexPath.row == 1 {
-            mainEntranceController?.pushViewController(FavoriteViewController(), animated: true)
+            VC = FavoriteViewController()
         } else if indexPath.row == 2 {
-            
+            VC = MessageViewController()
         } else if indexPath.row == 3 {
-            
-        } else if indexPath.row == 4 {
-            
-        } else {
-            
+            VC = SettingViewController()
+        } else  {
+            VC = FeedBackViewController()
         }
         
-        
-        
-//        let vc = UIViewController()
-//        vc.view.backgroundColor = UIColor.orangeColor()
-//        vc.view.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
-//        mainEntranceController?.pushViewController(vc, animated: true)
-        
-        
-        
-        
-        
-        
-        
-        
+        mainEntranceController?.pushViewController(VC!, animated: true)
         
     }
     

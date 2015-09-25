@@ -46,11 +46,6 @@ class UserAccount: NSObject, NSCoding {
     /// 登陆类型
     var type: Int = 0
     init(user: SSDKUser, type: Int) {
-//        access_token = dict["access_token"] as? String
-//        expires_in = dict["expires_in"] as? NSTimeInterval
-        
-        // 计算过期日期
-//        expiresDate = NSDate(timeIntervalSinceNow: expires_in!)
         
         credential = user.credential
         uid        = user.uid
@@ -60,32 +55,10 @@ class UserAccount: NSObject, NSCoding {
         rawData    = user.rawData
         self.type  = type
         super.init()
-//        loadUserData()
+
         // MARK: - 用户信息创建完毕，即刻保存
         saveAccount()
     }
-    
-    
-    // 新浪登陆
-    func SinaWeiboLogin() -> UserAccount {
-        //授权
-        ShareSDK.authorize(SSDKPlatformType.TypeSinaWeibo, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
-            
-            switch state{
-            
-            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-//                self.user = user
-                self.saveAccount()
-            case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
-            case SSDKResponseState.Cancel:  print("操作取消")
-
-            default:
-                break
-            }
-        })
-        return self
-    }
-    
     
     /// MARK: - 保存和加载文件
     static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("account.plist")
@@ -104,7 +77,7 @@ class UserAccount: NSObject, NSCoding {
         
             // 判断日期是否过期，根当前系统时间进行`比较`，低于当前系统时间，就认为过期
             // 过期日期`大于`当前日期，结果应该是降序
-//            if account.expiresDate!.compare(NSDate()) == NSComparisonResult.OrderedDescending {
+//            if account.credential!.expired!.compare(NSDate()) == NSComparisonResult.OrderedDescending {
                 return account
 //            }
         }
