@@ -86,6 +86,8 @@ struct SceneColor {
     static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)
     /// 首页热门景点底灰
     static let sightGrey   = UIColor(hex: 0x2A2D2E, alpha: 1.0)
+    /// 首页底色
+    static let homeGrey    = UIColor(hex: 0x1F2223, alpha: 1.0)
 }
 
 struct SceneFont {
