@@ -37,10 +37,10 @@ class HomeCityCenterRequest {
             path: "/api/home",
             post: post,
             handler: {(respData: AnyObject) -> Void in
+                print(respData)
+                let homeModel = NSMutableDictionary()
                 
-                var homeModel = NSDictionary()
-                
-                var city   = HomeCity(dict: respData["city"] as! [String : AnyObject])
+                let city   = HomeCity(dict: respData["city"] as! [String : AnyObject])
                 var sights = [HomeSight]()
                 var topics = [HomeTopic]()
                 
@@ -69,7 +69,11 @@ class HomeCity : NSObject {
      /// 城市名
     var name: String?
     /// 城市图片
-    var image: String?
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
     
     init(dict: [String: AnyObject]) {
         super.init()
@@ -87,7 +91,11 @@ class HomeSight : NSObject {
     /// 景点名
     var name: String?
     /// 景点图片
-    var image: String?
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
     /// 景点内容
     var desc: String?
     
@@ -104,7 +112,7 @@ class HomeSight : NSObject {
 class HomeTopic : NSObject {
     /// id
     var id: String?
-    /// 城市名
+    /// 标题
     var title: String?
     /// 副标题
     var subtitle: String?
@@ -117,7 +125,11 @@ class HomeTopic : NSObject {
     /// 来自（可能不要）
     var from: String?
     /// 图片
-    var image: String?
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
     /// 景点（可能不要）
     var sight: String?
     /// 标签

@@ -21,6 +21,14 @@ extension UILabel {
         }
     }
     
+    ///  快速创建标签
+    ///
+    ///  - parameter color:     字体颜色
+    ///  - parameter title:     文字内容
+    ///  - parameter fontSize:  文字大小
+    ///  - parameter mutiLines: true 行数为0，false没设
+    ///
+    ///  - returns: label
     convenience init(color: UIColor, title: String, fontSize: CGFloat, mutiLines: Bool = false) {
         self.init()
         

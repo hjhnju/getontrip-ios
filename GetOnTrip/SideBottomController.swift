@@ -24,10 +24,7 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     }()
     
     /// 底图图片
-    lazy var imageView: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "menu-bg")!)
-        return image
-    }()
+    lazy var imageView: UIImageView = UIImageView(image: UIImage(named: "menu-bg")!)
     
     /// 登陆前，底view
     lazy var loginAge: UIView = UIView()

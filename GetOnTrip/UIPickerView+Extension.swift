@@ -23,6 +23,6 @@ extension UIPickerView {
         self.init()
         
         backgroundColor = color
-        hidden = hidde
+        hidden = hidde 
     }
 }
