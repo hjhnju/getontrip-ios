@@ -80,10 +80,7 @@ class CollectSightViewController: UICollectionViewController {
 // 收藏景点的cell
 class CSCollectionViewCell: UICollectionViewCell {
     
-    lazy var iconView: UIImageView = {
-        var imageView = UIImageView()
-        return imageView
-    }()
+    lazy var iconView: UIImageView = UIImageView()
     
     lazy var title: UILabel = {
         var lab = UILabel()
@@ -117,33 +114,13 @@ class CSCollectionViewCell: UICollectionViewCell {
         return v
     }()
     
-    lazy var bottomView1: UIView = {
-        var v = UIView()
-        v.backgroundColor = UIColor.blackColor()
-        v.alpha = 0.3
-        return v
-    }()
+    lazy var bottomView1: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.3)
     
-    lazy var bottomView2: UIView = {
-        var v = UIView()
-        v.backgroundColor = UIColor.blackColor()
-        v.alpha = 0.3
-        return v
-    }()
+    lazy var bottomView2: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.3)
     
-    lazy var bottomView3: UIView = {
-        var v = UIView()
-        v.backgroundColor = UIColor.blackColor()
-        v.alpha = 0.3
-        return v
-    }()
+    lazy var bottomView3: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.3)
     
-    lazy var bottomView4: UIView = {
-        var v = UIView()
-        v.backgroundColor = UIColor.blackColor()
-        v.alpha = 0.3
-        return v
-    }()
+    lazy var bottomView4: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.3)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

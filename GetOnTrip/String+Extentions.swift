@@ -12,7 +12,7 @@ import UIKit
 
 extension String {
     
-    //获取带行间距的字符格式
+    // 获取带行间距的字符格式
     func getAttributedString(lineHeightMultiple:CGFloat = 0, lineSpacing: CGFloat = 0, breakMode:NSLineBreakMode = NSLineBreakMode.ByTruncatingTail) -> NSAttributedString {
         
         let style = NSMutableParagraphStyle()

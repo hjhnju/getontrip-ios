@@ -9,52 +9,49 @@
 import UIKit
 import FFAutoLayout
 
-class SearchListPageController: BaseHomeController {
+class SearchListPageController: BaseHomeController, UITableViewDataSource, UITableViewDelegate {
     
-//    var slideDelegate: //SlideMenuViewControllerDelegate?
+    /// 底部的tableView
+    lazy var tableView = UITableView()
     
-//    var maskView: UIView!
+    var dataSource: NSDictionary?
     
-//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        navigationController?.pushViewController(UIViewController(), animated: true)
-//    }
-    
-    
-    
-    //MASK: View Life Cycle
-//    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-//        return UIStatusBarStyle.LightContent;
-//    }
-    
+    /// 网络请求加载数据(添加)
+    var lastSuccessAddRequest: HomeSearchCityRequest?
 
-    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "测试", style: UIBarButtonItemStyle.Plain, target: self, action: nil)
-//        view.frame = CGRectMake(0, 0, 100, 100)
-//        view.backgroundColor = UIColor
-//        setupNavigationBar()
-//        view.backgroundColor = UIColor.whiteColor()
-//        navigationController?.navigationItem.leftBarButtonItem
-//        UIBarButtonItem(customView: <#T##UIView#>)
+    // MARK: - 初始化
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        //统一navbar颜色样式
-//        refreshBar()
+        loadSearchData()
         
-
+        view.addSubview(tableView)
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: view.bounds.size, offset: CGPointMake(0, 0))
         
-//        refreshMask()
-//    }
+    }
     
-
-
     
-
-    
-    //MASK: Gestures
-    
-
-    
+    /// 发送反馈消息
+    private func loadSearchData() {
         
+        if lastSuccessAddRequest == nil {
+            lastSuccessAddRequest = HomeSearchCityRequest()
+            
+        }
+        
+        lastSuccessAddRequest?.fetchFeedBackModels {[unowned self] (handler: NSDictionary) -> Void in
+            self.dataSource = handler
+            self.tableView.reloadData()
+        }
+    }
+    
+    // MARK: - tableView 数据源及代理方法
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return (dataSource?.objectForKey("datas")?.count)! + 1
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
 }

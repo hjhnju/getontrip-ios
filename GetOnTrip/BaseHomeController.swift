@@ -95,6 +95,7 @@ class BaseHomeController: UIViewController {
             self.maskView.addGestureRecognizer(pan)
         }
     }
+//    http://123.57.46.229:8301/api/home?deviceId=583C5CED-BDC2-4B7A-896F-64C2CAB8DBD2&city=北京
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

@@ -61,10 +61,5 @@ class Topic : NSObject {
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         
     }
-    
-//    override var description : String {
-//        get{
-//            return "Topic(\(topicid)"
-//        }
-//    }
+
 }

@@ -62,25 +62,7 @@ class TopicDetailRequest: NSObject {
                     }
                     topic?.tags = tags
                 }
-//                // 转换话题详情
-//                let id              = respData["id"].intValue
-//                let title           = respData["title"].stringValue
-//                //topic?.subtitle = respData[""].stringValue
-//                topic = Topic(topicid: id, title: title, subtitle: "")
-//                topic!.imageUrl     = AppIniOnline.BaseUri + respData["image"].stringValue
-//                
-//                topic!.favorites    = respData["collect"].intValue
-//                topic!.visits       = respData["visits"].intValue
-//                topic!.desc         = respData["content"].stringValue
-//                topic!.from         = respData["from"].stringValue
-//                topic!.commentCount = respData["commentNum"].intValue
-                
-//                    var tags = [String]()
-//                    for it in respData["tags"].arrayValue {
-//                        tags.append(it.stringValue)
-////                        tags.addObject(it.stringValue)
-//                    }
-//                topic!.tags = tags
+
                     // 回调
                 handler(topic!)
             }
