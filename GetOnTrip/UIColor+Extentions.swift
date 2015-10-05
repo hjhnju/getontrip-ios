@@ -19,4 +19,12 @@ extension UIColor {
             alpha: CGFloat(alpha)
         )
     }
+    
+    class func randomColor() -> UIColor {
+        return UIColor(red: randomValue(), green: randomValue(), blue: randomValue(), alpha: 1.0)
+    }
+    
+    private class func randomValue() -> CGFloat {
+        return CGFloat(arc4random_uniform(256)) / 255
+    }
 }

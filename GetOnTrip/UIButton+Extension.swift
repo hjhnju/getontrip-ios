@@ -33,6 +33,17 @@ extension UIButton {
         layer.cornerRadius = radius
         layer.masksToBounds = true
     }
+    
+    /// 快速设置文字
+    convenience init(image: String, title: String, fontSize: CGFloat, titleColor: UIColor = UIColor.whiteColor()) {
+        
+        self.init()
+        
+        setImage(UIImage(named: image), forState: UIControlState.Normal)
+        setTitle(title, forState: UIControlState.Normal)
+        titleLabel?.font = UIFont.systemFontOfSize(fontSize)
+        setTitleColor(titleColor, forState: UIControlState.Normal)
+    }
 }
 
 // MARK: - 收藏界面的按钮

@@ -53,4 +53,16 @@ extension UILabel {
             setNeedsLayout()
         }
     }
+    
+    class func channelLabelWithTitle(title: String) -> UILabel {
+        
+        let l: UILabel = UILabel()
+        l.text = title
+        l.font = UIFont.systemFontOfSize(50)
+        l.textAlignment = NSTextAlignment.Center
+        l.sizeToFit()
+        l.font = UIFont.systemFontOfSize(14)
+        l.userInteractionEnabled = true
+        return l
+    }
 }

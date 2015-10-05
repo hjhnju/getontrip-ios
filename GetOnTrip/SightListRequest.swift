@@ -19,7 +19,7 @@ class SightListRequest: NSObject {
     * @param string tags:逗号隔开的id串，如："1,2"。对于用户点击通用标签的时候，不要传景点ID，只传通用标签ID及页码信息。对于用户点击书籍标签，视频标签，景观标签，分别调用书籍模块，景观模块，视频模块的接口。
     * @return json
     */
-        
+//    http://123.57.46.229:8301/api/sight/detail?tags=1&sightId=4    
     // 请求参数
     var sightId :String?
     var page    :Int = 1
@@ -44,7 +44,7 @@ class SightListRequest: NSObject {
             path: "/api/sight/detail",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-                
+                print(respData)
                 let dict = NSMutableDictionary()
                 var sightTags = [SightListTags]()
                 for item in respData["tags"] as! NSArray {

@@ -105,14 +105,14 @@ class BaseHomeController: UIViewController {
     }
     
     func setupNavigationBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
+//        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+//        navigationController?.navigationBar.shadowImage = UIImage()
 //        searchBar.backgroundImage = imageWithColor(UIColor.orangeColor())
 //        navigationController?.navigationBar.backgroundImage = imageWithColor(UIColor.clearColor())
         
-//        navigationController?.navigationBar.barTintColor = SceneColor.black
-//        navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
-//        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
+        navigationController?.navigationBar.barTintColor = SceneColor.black
+        navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
         //TODO:remove 1px border
     }
     

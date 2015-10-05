@@ -10,6 +10,30 @@ import UIKit
 
 class SightCollectionViewCell: UICollectionViewCell {
     
+    /// 子控制器
+    var VC: HistoryTableViewController = HistoryTableViewController()
     
+    var urlString: String? {
+        didSet {
+            VC.urlString = urlString
+        }
+    }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        addSubview(VC.view)
+        backgroundColor = UIColor.clearColor()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        VC.view.frame = bounds
+    }
+
 }

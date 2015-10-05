@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 
 /// 城市中间页
-class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate {
+class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     /// 顶部的背景高度
     let backgroundViewH: CGFloat = 198 + 24 + 34 + 196 + 34 + 8
@@ -32,7 +32,7 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
     lazy var collectBtn: UIButton = UIButton(title: "+ 收藏", fontSize: 14, radius: 10)
     
     /// 界面布局
-    let layout = WaterfallLayout()
+    let layout = UICollectionViewFlowLayout()
     
     /// 热门景点内容
     lazy var collectionView: UICollectionView =  { [unowned self] in
@@ -98,7 +98,7 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         cityName.text = "极梦"
         collectBtn.layer.borderWidth = 1.0
         view.backgroundColor = SceneColor.homeGrey
-        cityBackground.image = UIImage(named: "2.jpg")
+        cityBackground.image = UIImage(named: "f35b27ba5b053f475295a3dcecf87e6a.jpg")
         tableView.backgroundColor = UIColor.clearColor()
         cityBackground.backgroundColor = UIColor.orangeColor()
         collectBtn.layer.borderColor = UIColor.whiteColor().CGColor
@@ -113,10 +113,7 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         collectionView.delegate = self
         
         collectionView.backgroundColor = UIColor.clearColor()
-        
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-//        tableView.contentOffset = CGPointMake(100, 100)
-        
         tableView.registerClass(HomeCityCententTopicCell.self, forCellReuseIdentifier: "HomeCityCententTopic_Cell")
         collectionView.registerClass(HomeSightCollectionViewCell.self, forCellWithReuseIdentifier: "HomeSightCollectionView_Cell")
         topicTopIcon.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -125,12 +122,6 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         
         // 每个item的大小
         layout.itemSize = CGSizeMake(186, 196)
-        // 行间距
-//        layout.minimumLineSpacing = 15
-        // item之间水平间距
-//        let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
-//        layout.minimumInteritemSpacing = lw
-//        layout.sectionInset = UIEdgeInsets(top: 0, left: lw, bottom: 0, right: lw)
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -185,7 +176,7 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
             self.loadProperty(handler.valueForKey("city") as! HomeCity)
             
             self.dataSource = handler
-            self.layout.dataList = 2//self.dataSource?.objectForKey("sights")?.count
+            
             self.tableView.reloadData()
             self.collectionView.reloadData()
         }
@@ -206,11 +197,37 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("HomeSightCollectionView_Cell", forIndexPath: indexPath) as! HomeSightCollectionViewCell
         let data = dataSource?.valueForKey("sights") as! NSArray
         cell.data = data[indexPath.row] as? HomeSight
-//        cell.backgroundColor = UIColor.orangeColor()
+
         layout.prepareLayout()
+
         return cell
     }
     
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        
+        if (dataSource?.valueForKey("sights")?.count == 0) { return CGSizeZero }
+        
+        switch dataSource!.valueForKey("sights")!.count {
+        case 1:
+            return CGSizeMake(collectionView.bounds.width - 16, collectionView.bounds.height)
+        case 2:
+            return CGSizeMake(collectionView.bounds.width * 0.5 - 8, collectionView.bounds.height)
+        case 3:
+            if indexPath.row == 0 {
+                return CGSizeMake(collectionView.bounds.width * 0.5 - 16, collectionView.bounds.height)
+            } else {
+                return CGSizeMake(collectionView.bounds.width * 0.5 - 16, collectionView.bounds.height * 0.5 - 6)
+            }
+        default:
+            if indexPath.row % 3 == 0 {
+                return CGSizeMake(collectionView.bounds.width * 0.5, collectionView.bounds.height)
+            } else {
+                return CGSizeMake(113, 100)
+            }
+        }
+    }
     
     
     ///  选中某一行
@@ -291,55 +308,3 @@ class HomeSightCollectionViewCell: UICollectionViewCell {
     }
 }
 
-var index: Int = 0
-// MARK: - 瀑布流布局
-class WaterfallLayout: UICollectionViewFlowLayout {
-    
-    var dataList: Int?
-    
-//    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-//        super.layoutAttributesForItemAtIndexPath(indexPath)
-//        
-//        
-//    }
-    
-    override func prepareLayout() {
-        
-        let contentWidth = collectionView!.bounds.size.width - sectionInset.left - sectionInset.right;
-        
-        if (dataList == nil) { return }
-        switch dataList! {
-        case 1:
-            itemSize = CGSizeMake(contentWidth, (collectionView?.bounds.height)!)
-        case 2:
-            itemSize = CGSizeMake(contentWidth * 0.5, collectionView!.bounds.height)
-        case 3:
-            
-//            if index == 0 {
-//                itemSize = CGSizeMake(300, 300)
-//                index++
-//                print("---------------------")
-//            } else {
-//                itemSize = CGSizeMake(100, 100)
-//                print("==============")
-//            }
-//            let arrayM = NSMutableArray()
-//            let attr = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withIndexPath: <#T##NSIndexPath#>)
-            print("3")
-            
-        default:
-            print("4")
-            break
-        }
-        
-    }
-    
-//    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-//        
-//        
-//        
-//    }
-    
-    
-
-}

@@ -9,10 +9,13 @@
 import UIKit
 import FFAutoLayout
 
-class SightListController: UIViewController {
+class SightListController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     /// 景点列表id
     var sightId: String?
+    
+    /// scrollView底部view
+    lazy var scrollViewBottomView: UIView = UIView()
     
     /// 标签视图
     lazy var scrollerView = UIScrollView()
@@ -39,7 +42,13 @@ class SightListController: UIViewController {
     var currentIndex: Int?
     
     /// 数据
-    var dataSource: NSDictionary?
+    var dataSource: NSDictionary? {
+        didSet {
+            channels = dataSource!.objectForKey("sightTags") as? NSArray
+            setupChannel()
+            collectionView.reloadData()
+        }
+    }
     
     /// 发送反馈消息
     private func loadSightData() {
@@ -51,9 +60,6 @@ class SightListController: UIViewController {
         
         lastSuccessAddRequest?.fetchSightListModels {[unowned self] (handler: NSDictionary) -> Void in
             self.dataSource = handler
-            
-            self.channels = handler.objectForKey("sightTags") as? NSArray
-            self.setupChannel()
         }
     }
     
@@ -63,21 +69,32 @@ class SightListController: UIViewController {
     
         view.backgroundColor = UIColor.whiteColor()
         
-        view.addSubview(scrollerView)
+        view.addSubview(scrollViewBottomView)
+        scrollViewBottomView.addSubview(scrollerView)
         view.addSubview(collectionView)
-        
         scrollerView.backgroundColor = UIColor.grayColor()
+        
+        collectionView.dataSource = self
+        collectionView.delegate   = self
+        
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
         
         setupNavigationBar()
-        setupAutlLayout()
         loadSightData()
         
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollViewBottomView.frame = CGRectMake(0, 64, view.bounds.width, 36)
+        scrollerView.ff_Fill(scrollViewBottomView)
+        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: scrollViewBottomView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(scrollViewBottomView.frame)), offset: CGPointMake(0, 0))
+        setupLayout()
+    }
+    
     func setupAutlLayout() {
         
-        scrollerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 30), offset: CGPointMake(0, 64))
+//        scrollerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 30), offset: CGPointMake(0, 64))
     }
     
     func setupNavigationBar() {
@@ -90,30 +107,29 @@ class SightListController: UIViewController {
     
     ///  设置频道标签
     func setupChannel() {
-        
        
-        automaticallyAdjustsScrollViewInsets = false
         /// 间隔
-        var x: CGFloat = 50
-        let h: CGFloat = scrollerView.bounds.size.height
+        var x: CGFloat = 0
+        let h: CGFloat = 36
         
         for label in channels! {
             let tag: SightListTags = label as! SightListTags
-            let lab = UILabel(color: UIColor.blackColor(), title: tag.name!, fontSize: 14, mutiLines: false)
+            let lab = UILabel.channelLabelWithTitle(tag.name!)
             
-            lab.tag = index
-            lab.frame = CGRectMake(x, 0, 50, h)
-            x += 100
+            lab.backgroundColor = UIColor.randomColor()
+//            lab.tag = index
+            lab.frame = CGRectMake(x, 0, lab.bounds.width, h)
+            x += lab.bounds.width
             scrollerView.addSubview(lab)
         }
         
-        scrollerView.contentSize = CGSizeMake(CGFloat(100 * Int(channels!.count) + 50), 30)
+        scrollerView.contentSize = CGSizeMake(x, h)
         currentIndex = 0
     }
 
 
     private func setupLayout() {
-        layout.itemSize = CGSize(width: 100, height: 100)
+        layout.itemSize = collectionView.bounds.size
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
@@ -124,16 +140,55 @@ class SightListController: UIViewController {
     // MARK: - collectionView 数据源方法
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return (dataSource?.objectForKey("sightTags")?.count)!
+        if dataSource != nil {
+            
+//            SightListTags
+            return (dataSource?.objectForKey("sightTags")?.count)!
+        }
+        return 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
-        
-        cell.backgroundColor = UIColor(red: CGFloat(arc4random_uniform(256) / 255), green: CGFloat(CGFloat(arc4random_uniform(256) / 255)), blue: CGFloat(CGFloat(arc4random_uniform(256) / 255)), alpha: 1.0)
+        let dataType = dataSource?.objectForKey("sightTags") as! NSArray
 
+        let data = dataType[indexPath.row] as! SightListTags
+        
+        cell.VC.sightId = data.id
+        if (data.name == "文学" || data.name == "历史" || data.name == "地理") {
+            
+        } else if (data.name == "景观") {
+            cell.urlString = "landscape"
+        } else if (data.name == "书籍") {
+            cell.urlString = "book"
+        } else if (data.name == "视频") {
+            cell.urlString = "video"
+        } else {
+            cell.urlString = "bbbb"
+        }
+        
+        
+        
+        
+        
+        
+        cell.backgroundColor = UIColor.randomColor()
+//        if (!childViewControllers.contains(cell.VC)) {
+//            
+//            print("包含吗")
+//            addChildViewController(cell.VC)
+//            
+//        }
+        
+        
+        
+        
+        
+        
+        
+        
 //        if childViewControllers.contains(cell.UICollectionView) {
 //        addChildViewController(cell.)
 //        }
