@@ -19,6 +19,14 @@ class BookCell: UITableViewCell {
     
     lazy var author: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "作者：张加冕", fontSize: 12, mutiLines: true)
     
+    var book: SightBook? {
+        didSet {
+            iconView.sd_setImageWithURL(NSURL(string: book!.image!), placeholderImage: UIImage(named: "2.jpg"))
+            titleLabel.text = book!.title!
+            subtitleLabel.text = book!.content_desc!
+            author.text = book!.author!
+        }
+    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -39,14 +47,16 @@ class BookCell: UITableViewCell {
         addSubview(author)
         
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 115 - 18 - 7
-        titleLabel.preferredMaxLayoutWidth = w
+        titleLabel.preferredMaxLayoutWidth    = w
         subtitleLabel.preferredMaxLayoutWidth = w
+        titleLabel.numberOfLines              = 1
+        subtitleLabel.numberOfLines           = 0
     }
     
     private func setupAutoLayout() {
         
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(115, 145), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 115 - 18 - 7, 20), offset: CGPointMake(7, 0))
         subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 12))
         author.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
     }

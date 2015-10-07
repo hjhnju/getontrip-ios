@@ -9,7 +9,8 @@
 import UIKit
 
 class VideoRequest: NSObject {
-   /**
+    
+    /**
     * 接口1：/api/video
     * 视频详情接口
     * @param integer page
@@ -19,49 +20,69 @@ class VideoRequest: NSObject {
     */
     
     // 请求参数
-    var pageSize:Int = 2
+    var sightId :String?
     var page    :Int = 1
-    var sightId :Int
-    
-    // 初始化方法
-    init(sightId: Int) {
-        
-        self.sightId = sightId
-    }
+    var pageSize:Int = 6
     
     // 将数据回调外界
-    func fetchVideoModels(handler: [Video] -> Void) {
+    func fetchSightListModels(handler: NSArray -> Void) {
         fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: [Video] -> Void) {
+    func fetchModels(handler: NSArray -> Void) {
         var post         = [String: String]()
+        post["sightId"]  = String(4)
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
-        post["sightId"]  = String(self.sightId)
+        
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIniOnline.BaseUri,
+        HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/video",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-
-                    var videos = [Video]()
-                    for it in respData as! NSArray {
-                        print(it)
-                        // 转换视频属性
-                        let video = Video(dict: it as! [String : AnyObject])
-
-                        videos.append(video)
-                    }
+                print(respData)
                 
-                    // 回调
-                    handler(videos)
+                let sightVideo = NSMutableArray() // [SightBook]()
+                for item in respData.objectForKey("list") as! NSArray {
+                    sightVideo.addObject(SightVideo(dict: item as! [String : AnyObject]))
                 }
+                
+                // 回调
+                handler(sightVideo)
+            }
         )
+    }
+}
 
-
+/// 景点列表Tags
+class SightVideo: NSObject {
+    /// id
+    var id: String?
+    /// 标题
+    var title: String?
+    /// url
+    var url: String?
+    /// 图片
+    var image: String?
+    ///  时长
+    var len: String?
+    
+    init(dict: [String: AnyObject]) {
+        super.init()
+        
+        id = String(dict["id"]!)
+        title = String(dict["title"]!)
+        url = String(dict["url"]!)
+        image = AppIni.BaseUri + String(dict["image"]!)
+        len = String(dict["len"]!)
+        
+        //        setValuesForKeysWithDictionary(dict)
+        
     }
     
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }

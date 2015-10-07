@@ -145,14 +145,14 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     // 搜索
     func searchButtonClicked(button: UIBarButtonItem) {
         // 获得父控制器
-        let pare = self.parentViewController?.parentViewController as! MasterViewController
-        // 找到MainViewController并调用搜索方法
-        for vc in pare.viewControllers {
-            if vc.isKindOfClass(MainViewController) {
-                let vc1 = vc as! MainViewController
-                vc1.searchButtonClicked(button)
-            }
-        }
+//        let pare = self.parentViewController?.parentViewController as! MasterViewController
+//        // 找到MainViewController并调用搜索方法
+//        for vc in pare.viewControllers {
+//            if vc.isKindOfClass(MainViewController) {
+//                let vc1 = vc as! MainViewController
+//                vc1.searchButtonClicked(button)
+//            }
+//        }
     }
     
     func setupChildControllerProperty() {

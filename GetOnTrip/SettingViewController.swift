@@ -21,24 +21,23 @@ struct SettingCell {
     static let cityCell = 3
 }
 
-class SettingViewController: UITableViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    lazy var tableView: UITableView = UITableView()
     
     /// 头像
     lazy var iconView: UIImageView = UIImageView()
     
     /// 昵称
-    lazy var nickName: UITextField = UITextField(alignment: NSTextAlignment.Right, sizeFout: 14, color: UIColor.whiteColor())
+    lazy var nickName: UITextField = UITextField(alignment: NSTextAlignment.Right, sizeFout: 14, color: UIColor.blackColor())
     /// 性别
-    lazy var gender: UILabel = UILabel(color: UIColor.whiteColor(), title: "男", fontSize: 14, mutiLines: false)
+    lazy var gender: UILabel = UILabel(color: UIColor.blackColor(), title: "男", fontSize: 14, mutiLines: false)
     
     /// 临时保存性别
     var saveGender: String?
     
-    /// 通知
-    lazy var informSwitch: UISwitch = UISwitch()
-    
     /// 城市
-    lazy var city: UILabel = UILabel(color: UIColor.whiteColor(), title: "未知", fontSize: 14, mutiLines: false)
+    lazy var city: UILabel = UILabel(color: UIColor.blackColor(), title: "未知", fontSize: 14, mutiLines: false)
     
     /// 临时保存城市
     var saveCity: String?
@@ -80,7 +79,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     var lastSuccessRequest: UserUploadInfoRequest?
 
     /// 退出登陆按钮
-    lazy var exitLogin: UIButton = UIButton(title: "退出登陆", fontSize: 14, radius: 34 * 0.5)
+    lazy var exitLogin: UIButton = UIButton(title: "退出登陆", fontSize: 14, radius: 0, titleColor: UIColor.blackColor())
     
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
@@ -94,19 +93,32 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     
     private func setupAddProperty() {
         
-        cancleBottomView.backgroundColor = UIColor.whiteColor()
-        cancleBottomView.addSubview(self.trueButton)
-        cancleBottomView.addSubview(self.sortButton)
-        cancleBottomView.addSubview(self.cancleButton)
+        view.addSubview(tableView)
+        cancleBottomView.backgroundColor = UIColor.orangeColor()
+        cancleBottomView.addSubview(trueButton)
+        cancleBottomView.addSubview(sortButton)
+        cancleBottomView.addSubview(cancleButton)
+        view.addSubview(exitLogin)
+        exitLogin.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
+        
+        tableView.dataSource = self
+        tableView.delegate = self
         
         shadeView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
         cancleButton.addTarget(self, action: "shadeViewClick:", forControlEvents: UIControlEvents.TouchUpInside)
         trueButton.addTarget(self, action: "trueButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         sortButton.addTarget(self, action: "sortClick", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        tableView.frame = view.bounds
+        cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(-20, 0))
+        sortButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(0, 0))
+        trueButton.ff_AlignInner(ff_AlignType.CenterRight, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(20, 0))
+        exitLogin.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
     }
     
     private func setupInitSetting() {
         title = "设置"
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         /// TPDO: 先注释
         iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!))
         nickName.text = sharedUserAccount?.nickname
@@ -116,7 +128,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         else                                              { gender.text = "未知"}
         
         city.text = sharedUserAccount?.city
-        
     }
     
     private func setupBarButtonItem() {
@@ -124,7 +135,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         saveItem = UIBarButtonItem(title: "保存", style: UIBarButtonItemStyle.Plain, target: self, action: "saveUserInfo:")
         navigationItem.rightBarButtonItem = saveItem
         saveItem!.enabled = false
-        informSwitch.addTarget(self, action: "informSwitchClick:", forControlEvents: UIControlEvents.TouchUpInside)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "nickNameTextFieldTextDidChangeNotification:", name: UITextFieldTextDidChangeNotification, object: nickName)
 
     }
@@ -141,7 +151,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     
     private func loadInitSetting() {
         // tableview设置
-        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "setting_black")!)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         // 省市联动
@@ -152,15 +161,13 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         let provincesM = NSMutableArray()
         
         for dict in provinceArray! {
-            _ = Province.provinceWithDict(dict as! NSDictionary)
+//            _ = Province.provinceWithDict(dict as! NSDictionary)
             provincesM.addObject(dict)
         }
         provinces = provincesM
         
         // 退出登陆
         exitLogin.addTarget(self, action: "exitLoginClick", forControlEvents: UIControlEvents.TouchUpInside)
-        exitLogin.layer.cornerRadius = 15
-        exitLogin.clipsToBounds = true
     }
     
     func exitLoginClick() {
@@ -192,30 +199,20 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
     }
     
     // MARK: - tableview delegate
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 4 : 2
-    }
-    
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        if section == 0 {
-            return UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "   基本资料", fontSize: 11, mutiLines: false)
-        } else {
-            return UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "   消息推送", fontSize: 11, mutiLines: false)
-        }
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UILabel(color: UIColor(hex: 0x1C1C1C, alpha: 0.7), title: "   基本资料", fontSize: 11, mutiLines: false)
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = settingTableViewCell()
-        if indexPath.section == 0 {
-            
+        
             if indexPath.row == SettingCell.iconCell {
 
-                let baseView = UIView(color: SceneColor.shallowGrey, alphaF: 0.2)
+                let baseView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
                 cell.left.text = "头像"
                 cell.addSubview(iconView)
                 iconView.layer.cornerRadius = 66 * 0.5
@@ -242,34 +239,18 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
                 cell.left.text = "城市"
                 cell.addSubview(city)
                 city.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+                cell.baseline.removeFromSuperview()
             }
-            
-        } else {
-            
-            if indexPath.row == 0 {
-                
-                let baseView = UIView(color: SceneColor.shallowGrey, alphaF: 0.2)
-                cell.left.text = "是否实时接收我们为您推荐的相关话题？"
-                cell.addSubview(baseView)
-                baseView.ff_AlignInner(ff_AlignType.TopCenter, referView: cell, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-                cell.addSubview(informSwitch)
-                informSwitch.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
-            } else {
-                cell.left.removeFromSuperview()
-                cell.addSubview(self.exitLogin)
-                exitLogin.ff_AlignInner(ff_AlignType.CenterCenter, referView: cell, size: CGSizeMake(167, 34), offset: CGPointMake(0, 0))
-            }
-        }
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return section == 0 ? 46 : 94
     }
 
     /// 每行的行高
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
             
             if indexPath.row == 0      { return 102}
@@ -282,7 +263,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         }
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         // 退出键盘
         nickName.resignFirstResponder()
@@ -418,15 +399,6 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
         return label!
     }
     
-    
-
-    
-    /// 通知方法
-    func informSwitchClick(inform: UISwitch) {
-        let alertView = UIAlertView(title: nil, message: "请到设置—通知中打开我们的推送功能", delegate: self, cancelButtonTitle: "确定")
-        alertView.show()
-        inform.on = false
-    }
     
     // MARK: - other method
     /// 确定按钮
@@ -591,7 +563,7 @@ class SettingViewController: UITableViewController, UIImagePickerControllerDeleg
 class settingTableViewCell: UITableViewCell {
     
     /// 左标签
-    lazy var left: UILabel = UILabel(color: UIColor.whiteColor(), title: "名字", fontSize: 14, mutiLines: false)
+    lazy var left: UILabel = UILabel(color: UIColor.blackColor(), title: "名字", fontSize: 14, mutiLines: false)
     
     /// 设置底线
     lazy var baseline: UIView! = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)

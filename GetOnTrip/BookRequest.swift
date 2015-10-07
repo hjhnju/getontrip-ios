@@ -9,7 +9,8 @@
 import UIKit
 
 class BookRequest: NSObject {
-   /**
+    
+    /**
     * 接口1：/api/book
     * 书籍详情接口
     * @param integer page
@@ -18,47 +19,76 @@ class BookRequest: NSObject {
     * @return json
     */
     
+    
     // 请求参数
-    var pageSize:Int = 6
+    var sightId :String?
     var page    :Int = 1
-    var sightId :Int
+    var pageSize:Int = 6
     
-    // 初始化方法
-    init(sightId: Int) {
-        
-        self.sightId = sightId
-    }
-    
+    //    http://123.57.67.165:8301/api/sight/detail?tags
     // 将数据回调外界
-    func fetchBookModels(handler: [Book] -> Void) {
+    func fetchSightListModels(handler: NSArray -> Void) {
         fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: [Book] -> Void) {
+    func fetchModels(handler: NSArray -> Void) {
         var post         = [String: String]()
-        post["sightId"]    = String(self.sightId)
+        post["sightId"]  = String(4)
+        post["page"]     = String(self.page)
+        post["pageSize"] = String(self.pageSize)
+        
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIniOnline.BaseUri,
+        HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/book",
             post: post,
             handler: {(respData: AnyObject) -> Void in
 
-                    var books = [Book]()
-                    for it in respData as! NSArray {
-                        print(it)
-                        // 转换书籍元素详情
-                        let bookM = Book(dict: it as! [String : AnyObject])
-//                        http://123.57.67.165:8301/api/book?sightId=1
-
-                        books.append(bookM)
-                    }
-                    
-                    // 回调
-                    handler(books)
+                
+                let sightBook = NSMutableArray() // [SightBook]()
+                for item in respData.objectForKey("list") as! NSArray {
+                    sightBook.addObject(SightBook(dict: item as! [String : AnyObject]))
+                }
+                
+                // 回调
+                handler(sightBook)
             }
         )
     }
+}
 
+/// 景点列表Tags
+class SightBook: NSObject {
+    /// id
+    var id: String?
+    /// 标题
+    var title: String?
+    /// 作者
+    var author: String?
+    /// url
+    var url: String?
+    /// 图片
+    var image: String?
+    /// 内容
+    var content_desc: String?
+    
+    
+    init(dict: [String: AnyObject]) {
+        super.init()
+        
+        id = String(dict["id"]!)
+        title = String(dict["title"]!)
+        author = String(dict["author"]!)
+        image = AppIni.BaseUri + String(dict["image"]!)
+        url = String(dict["url"])
+        content_desc = String(dict["content_desc"]!)
+        
+        //        setValuesForKeysWithDictionary(dict)
+        
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }

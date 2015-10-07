@@ -142,22 +142,8 @@ class SearchListPageController: BaseHomeController, UITableViewDataSource, UITab
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchListTableView_Cell", forIndexPath: indexPath)
         cell.backgroundColor = UIColor(red: CGFloat(arc4random_uniform(256) / 255), green: CGFloat(CGFloat(arc4random_uniform(256) / 255)), blue: CGFloat(CGFloat(arc4random_uniform(256) / 255)), alpha: 1.0)
-//        cell.backgroundColor = UIColor.orangeColor()
         cell.textLabel?.text = "1"
         return cell
     }
-    
-    
-    
-//    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let v = UIView(color: UIColor.greenColor(), alphaF: 1.0)
-//        v.backgroundColor = UIColor.greenColor()
-//        
-//        return v
-//    }
-//    
-//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return "asdfasda"
-//    }
 }
 

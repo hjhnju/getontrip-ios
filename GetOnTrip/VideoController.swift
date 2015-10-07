@@ -30,18 +30,18 @@ class VideoController: UITableViewController {
     private func refresh() {
         NSLog("notice:refreshing nearby data.")
         
-        //         获取数据更新tableview
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = VideoRequest(sightId: sightId!)
-        }
-        
-        lastSuccessRequest!.fetchVideoModels { (handler: [Video]) -> Void in
-
-            if handler.count > 0 {
-                self.nearVideo = handler
-                self.tableView.reloadData()
-            }
-        }
+//        //         获取数据更新tableview
+//        if lastSuccessRequest == nil {
+//            lastSuccessRequest = VideoRequest(sightId: sightId!)
+//        }
+//        
+//        lastSuccessRequest!.fetchVideoModels { (handler: [Video]) -> Void in
+//
+//            if handler.count > 0 {
+//                self.nearVideo = handler
+//                self.tableView.reloadData()
+//            }
+//        }
     }
     
     override func viewWillAppear(animated: Bool) {

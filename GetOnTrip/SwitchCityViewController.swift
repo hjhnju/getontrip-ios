@@ -38,14 +38,8 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         btn.backgroundColor = UIColor.blackColor()
         btn.alpha = 0
         btn.tag = 10
-        
         btn.addTarget(self, action: "coverClick", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        // UIView + AutoLayout
-//        [cover autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
-        
-        // 布局单条边
-//        [cover autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.searchBar withOffset:15 ];
+
         return btn
     }()
     
@@ -54,10 +48,7 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
     
     
     /// 搜索结果控制器
-    lazy var citySearchVC: CitySearchViewController = {
-        var svc = CitySearchViewController()
-        return svc
-    }()
+    lazy var citySearchVC: CitySearchViewController = CitySearchViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,7 +107,6 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         cell.backgroundColor = UIColor.clearColor()
         cell.textLabel!.text = city.cities![indexPath.row] as? String
         cell.textLabel?.textColor = UIColor.whiteColor()
-//        cell.selectionStyle = UITableViewCellSelectionStyle.Gray
         return cell
     }
 
@@ -127,7 +117,6 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         
         for subView in searchBar.subviews.first!.subviews {
             if subView.isKindOfClass(UIButton) {
-//                let sub = subView as UIButton
                 let sub = subView as! UIButton
                 sub.setTitle("取消", forState: UIControlState.Normal)
                 

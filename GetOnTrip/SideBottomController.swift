@@ -140,11 +140,11 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     /// 初始侧面控制器
     private func setupSideController() {
         
-//        mainEntranceController = city != nil ? cityCenterPageController : searchListPageController
+        mainEntranceController = city != nil ? cityCenterPageController : searchListPageController
 //        mainEntranceController = searchListPageController
 
-        addChildViewController(cityCenterPageController)
-        view.addSubview(cityCenterPageController.view)
+        addChildViewController(mainEntranceController!)
+        view.addSubview(mainEntranceController!.view)
     }
     
     override func viewWillAppear(animated: Bool) {

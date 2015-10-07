@@ -17,8 +17,11 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     /// scrollView底部view
     lazy var scrollViewBottomView: UIView = UIView()
     
+    /// 指示view
+    lazy var indicate: UIView = UIView(color: UIColor.yellowColor())
+    
     /// 标签视图
-    lazy var scrollerView = UIScrollView()
+    lazy var scrollerViewLabel = UIScrollView()
     
     /// 标签数组
     var channels: NSArray?
@@ -70,9 +73,10 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         view.backgroundColor = UIColor.whiteColor()
         
         view.addSubview(scrollViewBottomView)
-        scrollViewBottomView.addSubview(scrollerView)
+        scrollViewBottomView.addSubview(scrollerViewLabel)
         view.addSubview(collectionView)
-        scrollerView.backgroundColor = UIColor.grayColor()
+        scrollViewBottomView.addSubview(indicate)
+        scrollerViewLabel.backgroundColor = SceneColor.sightGrey
         
         collectionView.dataSource = self
         collectionView.delegate   = self
@@ -87,7 +91,7 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollViewBottomView.frame = CGRectMake(0, 64, view.bounds.width, 36)
-        scrollerView.ff_Fill(scrollViewBottomView)
+        scrollerViewLabel.ff_Fill(scrollViewBottomView)
         collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: scrollViewBottomView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(scrollViewBottomView.frame)), offset: CGPointMake(0, 0))
         setupLayout()
     }
@@ -100,12 +104,14 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     func setupNavigationBar() {
 
 //        navigationController?.navigationBar.backIndicatorImage = nil
+        
         navigationController?.navigationBar.barTintColor = SceneColor.black
         navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
     }
     
     ///  设置频道标签
+    var indicateW: CGFloat?
     func setupChannel() {
        
         /// 间隔
@@ -115,15 +121,21 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         for label in channels! {
             let tag: SightListTags = label as! SightListTags
             let lab = UILabel.channelLabelWithTitle(tag.name!)
-            
-            lab.backgroundColor = UIColor.randomColor()
+            lab.textColor = UIColor.whiteColor()
+            lab.backgroundColor = UIColor.clearColor()
 //            lab.tag = index
             lab.frame = CGRectMake(x, 0, lab.bounds.width, h)
             x += lab.bounds.width
-            scrollerView.addSubview(lab)
+            
+            if indicateW == nil {
+                indicateW = lab.bounds.width
+            }
+            
+            scrollerViewLabel.addSubview(lab)
         }
         
-        scrollerView.contentSize = CGSizeMake(x, h)
+        indicate.frame = CGRectMake(0, CGRectGetMaxY(scrollerViewLabel.frame) - 2.5, indicateW!, CGFloat(1.5))
+        scrollerViewLabel.contentSize = CGSizeMake(x, h)
         currentIndex = 0
     }
 
@@ -140,16 +152,10 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     // MARK: - collectionView 数据源方法
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if dataSource != nil {
-            
-//            SightListTags
-            return (dataSource?.objectForKey("sightTags")?.count)!
-        }
-        return 0
+        return dataSource != nil ? dataSource!.objectForKey("sightTags")!.count : 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
         let dataType = dataSource?.objectForKey("sightTags") as! NSArray
@@ -169,43 +175,54 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
             cell.urlString = "bbbb"
         }
         
+        if (!childViewControllers.contains(cell.VC)) {
+            addChildViewController(cell.VC)
+        }
         
-        
-        
-        
-        
-        cell.backgroundColor = UIColor.randomColor()
-//        if (!childViewControllers.contains(cell.VC)) {
-//            
-//            print("包含吗")
-//            addChildViewController(cell.VC)
-//            
-//        }
-        
-        
-        
-        
-        
-        
-        
-        
-//        if childViewControllers.contains(cell.UICollectionView) {
-//        addChildViewController(cell.)
-//        }
-        // 添加子视图控制器，注意这句话一定要有，否则会打断响应者链条
-//        if (![self.childViewControllers containsObject:cell.newsVC]) {
-//            [self addChildViewController:(UIViewController *)cell.newsVC];
-//        }
-//        cell.URLString = [self.channels[indexPath.item] URLString];
         return cell
     }
     
-    // scrollerView 代理方法
+    // MARK - scrollerView 代理方法
+    var offset1: CGFloat = 0
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        var currentLabel: UILabel = scrollerViewLabel.subviews[currentIndex!] as! UILabel
+        var nextLabel: UILabel?
         
+        let array = collectionView.indexPathsForVisibleItems()
+        for path in array {
+            if path.item != currentIndex {
+                nextLabel = scrollerViewLabel.subviews[path.item] as? UILabel
+                
+            }
+        }
+        
+        if nextLabel == nil {
+            return
+        }
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         
+        currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
+        
+        // 计算当前选中标签的中心点
+        let l = scrollerViewLabel.subviews[currentIndex!]
+        var offset: CGFloat = l.center.x - scrollerViewLabel.bounds.width * 0.5
+        let maxOffset: CGFloat = scrollerViewLabel.contentSize.width - scrollerViewLabel.bounds.width
+        
+        if (offset < 0) {
+            offset = 0
+        } else if (offset > maxOffset) {
+            offset = maxOffset
+        }
+
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.indicate.frame.origin.x = l.frame.origin.x
+        })
+        scrollerViewLabel.setContentOffset(CGPointMake(offset, 0), animated: true)
+        UIView.animateWithDuration(0.5) { () -> Void in
+            self.indicate.frame.origin.x -=  offset
+        }
+        offset1 = offset
     }
 }
