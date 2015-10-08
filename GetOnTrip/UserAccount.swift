@@ -88,13 +88,13 @@ class UserAccount: NSObject, NSCoding {
     private func loadUserData() {
         
         //获取数据更新tableview
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = UserInfoRequest()
-        }
-        
-        lastSuccessRequest?.fetchBookModels { (handler: Topic) -> Void in
-//           print(handler)
-        }
+//        if lastSuccessRequest == nil {
+//            lastSuccessRequest = UserInfoRequest()
+//        }
+//        
+//        lastSuccessRequest?.fetchBookModels { (handler: Topic) -> Void in
+////           print(handler)
+//        }
         
     }
     

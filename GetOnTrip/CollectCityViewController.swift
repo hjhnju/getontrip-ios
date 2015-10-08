@@ -17,7 +17,7 @@ class CollectCityViewController: UICollectionViewController {
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
     
-    var collectMotif = [CollectMotif]()
+    var collectCity = [CollectCity]()
 
     
     
@@ -32,7 +32,7 @@ class CollectCityViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.backgroundColor = UIColor.clearColor()
+        collectionView?.backgroundColor = UIColor.purpleColor()
         let w: CGFloat = 170
         let h: CGFloat = 150
         // 每个item的大小
@@ -58,15 +58,15 @@ class CollectCityViewController: UICollectionViewController {
             lastSuccessRequest = CollectSightRequest()
         }
         
-        lastSuccessRequest?.fetchCollectMotifModels { (handler: [CollectMotif]) -> Void in
-            self.collectMotif = handler as [CollectMotif]
+        lastSuccessRequest?.fetchCollectMotifModels { (handler: [CollectCity]) -> Void in
+            self.collectCity = handler as [CollectCity]
             self.collectionView!.reloadData()
         }
     }
     
     // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectMotif.count
+        return collectCity.count
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

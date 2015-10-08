@@ -14,48 +14,32 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent;
     }
+    
     // MARK: - 属性
-    lazy var scrollView: UIScrollView = UIScrollView()
+    lazy var titleBackground: UIView = UIView(color: SceneColor.lightBlack, alphaF: 1.0)
     
-    /// 底图背景颜色
-    lazy var containView: UIView = UIView()
-    
-    /// 按钮背景的view
-    lazy var btnBackground: UIView = UIView()
-    
-    /// 左边线
-    lazy var line1: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
-    
-    /// 右边线
-    lazy var line2: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
-    
-    // 景点底图
-    lazy var view1: UIView = UIView(frame: UIScreen.mainScreen().bounds)
-
-    /// 话题底图
-    lazy var view2: UIView = UIView(frame: UIScreen.mainScreen().bounds)
-    
-    /// 主题底图
-    lazy var view3: UIView = UIView(frame: UIScreen.mainScreen().bounds)
+    /// 内容底部scrollview
+    lazy var contentScrollView: UIScrollView = UIScrollView()
     
     /// 景点按钮
-    lazy var sightBtn: CollectButton = CollectButton(title: "景点", imageName: "sight_image", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3))
+    lazy var sightBtn: UIButton = UIButton(title: "景点", fontSize: 14, radius: 0, titleColor: UIColor.whiteColor())
+    
     /// 话题按钮
-    lazy var topicBtn: CollectButton = CollectButton(title: "话题", imageName: "topic_image", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3))
-    /// 主题按钮
-    lazy var motifBtn: CollectButton = CollectButton(title: "主题", imageName: "motif_image", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3))
+    lazy var contentBtn: UIButton = UIButton(title: "内容", fontSize: 14, radius: 0, titleColor: UIColor.whiteColor())
+    
+    /// 城市按钮
+    lazy var cityBtn: UIButton = UIButton(title: "城市", fontSize: 14, radius: 0, titleColor: UIColor.whiteColor())
+    
+    lazy var selectView: UIView = UIView(color: UIColor.yellowColor(), alphaF: 1.0)
     
     // 景点控制器
     lazy var sightViewController: CollectSightViewController = CollectSightViewController()
     
-    // 话题控制器
-    lazy var collectTopicController: CollectTopicViewController = {
-        let story1 = UIStoryboard(name: "Main", bundle: nil)
-        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectTopicSB) as! CollectTopicViewController
-    }()
+    // 内容控制器
+    lazy var contentController: CollectContentViewController = CollectContentViewController()
     
-    // 主题控制器
-    lazy var motifController: CollectCityViewController = CollectCityViewController()
+    // 城市控制器
+    lazy var cityController: CollectCityViewController = CollectCityViewController()
 
     
     // MARK: - 初始化相关设置
@@ -73,45 +57,46 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     private func setupProperty() {
         
         title = "我的收藏"
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
-        containView.backgroundColor = UIColor(patternImage: UIImage(named: "collect_background")!)
-        btnBackground.backgroundColor = SceneColor.deepGrey
-        recordButtonStatus = sightBtn
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        view.backgroundColor = UIColor.whiteColor()
+//        recordButtonStatus = sightBtn
     }
     
     private func setupAddSubViewAndAction() {
         
-        view.addSubview(containView)
-        containView.addSubview(scrollView)
-        scrollView.addSubview(view1)
-        scrollView.addSubview(view2)
-        scrollView.addSubview(view3)
-        view.addSubview(btnBackground)
-        btnBackground.addSubview(sightBtn)
-        btnBackground.addSubview(topicBtn)
-        btnBackground.addSubview(motifBtn)
-        btnBackground.addSubview(line1)
-        btnBackground.addSubview(line2)
-
+        view.addSubview(titleBackground)
+        view.addSubview(contentScrollView)
+        contentScrollView.backgroundColor = UIColor.blueColor()
+        titleBackground.addSubview(cityBtn)
+        titleBackground.addSubview(sightBtn)
+        titleBackground.addSubview(contentBtn)
+        contentScrollView.addSubview(cityController.view)
+        contentScrollView.addSubview(contentController.view)
+        contentScrollView.addSubview(sightViewController.view)
+        titleBackground.addSubview(selectView)
+        
+        addChildViewController(cityController)
+        addChildViewController(contentController)
+        addChildViewController(sightViewController)
+        
+        cityBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         sightBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        topicBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        motifBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        contentBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
     }
+    
+    
     // MARK: - 初始化自动布局
     private func setupAutoLayout() {
         
-        let btnW: CGFloat = view.bounds.width / 3
-        let btnH: CGFloat = 70
-        btnBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, btnH), offset: CGPointMake(0, 64))
-        sightBtn.ff_AlignInner(ff_AlignType.TopLeft, referView: btnBackground, size: CGSizeMake(btnW, btnH), offset: CGPointMake(0, 0))
-        line1.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: sightBtn, size: CGSizeMake(0.5, 50), offset: CGPointMake(0, 0))
-        topicBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: btnBackground, size: CGSizeMake(btnW, btnH), offset: CGPointMake(0, 0))
-        line2.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: topicBtn, size: CGSizeMake(0.5, 50), offset: CGPointMake(0, 0))
-        motifBtn.ff_AlignInner(ff_AlignType.TopRight, referView: btnBackground, size: CGSizeMake(btnW, btnH), offset: CGPointMake(0, 0))
-        containView.ff_AlignInner(ff_AlignType.BottomCenter, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - btnH), offset: CGPointMake(0, 0))
-        print(view.bounds)
-        scrollView.ff_AlignInner(ff_AlignType.CenterCenter, referView: containView, size: nil, offset: CGPointMake(0, 0))
+        automaticallyAdjustsScrollViewInsets = false
+        titleBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 36), offset: CGPointMake(0, 64))
+        contentScrollView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleBackground, size: CGSizeMake(view.bounds.width, view.bounds.height), offset: CGPointMake(0, 0))
+        contentBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
+        sightBtn.ff_AlignInner(ff_AlignType.CenterLeft, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
+        cityBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
     }
+    
     
     /// MARK: - 切换收藏视图方法
     /// 记录按钮的状态
@@ -121,6 +106,10 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         sender.selected = true
         recordButtonStatus = sender
         
+        UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
+            self.selectView.center.x = sender.center.x
+        }
+        
         if !sender.selected {
             sender.selected = true
             recordButtonStatus = sender
@@ -128,17 +117,28 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
 
         var selectedIndex: CGFloat = 0
         if sender == sightBtn { selectedIndex = 0 }
-        else if sender == topicBtn { selectedIndex = 1 }
-        else if sender == motifBtn { selectedIndex = 2 }
-        scrollView.contentOffset.x = containView.bounds.width * selectedIndex
+        else if sender == contentBtn { selectedIndex = 1 }
+        else if sender == cityBtn { selectedIndex = 2 }
+//        contentScrollView.contentOffset.x = containView.bounds.width * selectedIndex
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        line1.bounds = CGRectMake(0, 0, 0.5, 1)
-        line2.bounds = CGRectMake(0, 0, 0.5, 1)
+        selectView.frame = CGRectMake(27 * 0.5, 34.5, 73, 1.5)
+//        selectView.center.x = sightBtn.center.x
+        
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+    }
+    
     
     // 搜索
     func searchButtonClicked(button: UIBarButtonItem) {
@@ -155,43 +155,31 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     
     func setupChildControllerProperty() {
         
-        scrollView.contentOffset.x = 0
+        contentScrollView.contentOffset.x = 0
         
         //初始化scrollview
-        scrollView.pagingEnabled = true
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.delegate = self
-        scrollView.bounces = false
-        
-        //初始化views
-        addChildViewController(sightViewController)
-        view1.addSubview(sightViewController.view)
-        scrollView.addSubview(view1)
-        
-        
-        addChildViewController(collectTopicController)
-        view2.addSubview(collectTopicController.view)
-        scrollView.addSubview(view2)
-        
-        addChildViewController(motifController)
-        view3.addSubview(motifController.view)
-        scrollView.addSubview(view3)
+        contentScrollView.pagingEnabled = true
+        contentScrollView.showsHorizontalScrollIndicator = false
+        contentScrollView.delegate = self
+        contentScrollView.bounces = false
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         //初始化scrollView, subview's bounds确定后
-        let wBounds = containView.bounds.width
-        let hBounds = containView.bounds.height
+        let wBounds = contentScrollView.bounds.width
+        let hBounds = contentScrollView.bounds.height
         
-        scrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds * 0.5)
+        contentScrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds * 0.5)
         
-        view1.frame = CGRectMake(0, 0, wBounds, hBounds)
-        view2.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
-        scrollView.bringSubviewToFront(collectTopicController.view)
-        view3.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
-        scrollView.bringSubviewToFront(motifController.view)
+        sightViewController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
+        contentController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
+//        contentScrollView.bringSubviewToFront(collectTopicController.view)
+        cityController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
+//        scrollView.bringSubviewToFront(motifController.view)
+        
+        
     }
     
     
@@ -201,10 +189,10 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         let xOffset: CGFloat = scrollView.contentOffset.x
         if (xOffset < 1.0) {
             switchCollectButtonClick(sightBtn)
-        } else if (xOffset < containView.bounds.width + 1) {
-            switchCollectButtonClick(topicBtn)
+        } else if (xOffset < titleBackground.bounds.width + 1) {
+            switchCollectButtonClick(contentBtn)
         } else {
-            switchCollectButtonClick(motifBtn)
+            switchCollectButtonClick(cityBtn)
         }
     }
     

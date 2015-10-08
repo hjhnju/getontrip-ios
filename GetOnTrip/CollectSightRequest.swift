@@ -32,12 +32,12 @@ class CollectSightRequest: NSObject {
     }
     
     /// 将收藏话题数据回调外界
-    func fetchCollectTopicModels(handler: [CollectTopic] -> Void) {
+    func fetchCollectTopicModels(handler: [CollectContent] -> Void) {
         fetchTopicModels(handler)
     }
     
     /// 将收藏主题数据回调外界
-    func fetchCollectMotifModels(handler: [CollectMotif] -> Void) {
+    func fetchCollectMotifModels(handler: [CollectCity] -> Void) {
         fetchMotifModels(handler)
     }
     // 异步加载景点获取数据
@@ -51,7 +51,7 @@ class CollectSightRequest: NSObject {
             path: "/api/collect/list",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-
+                print(respData)
                 var collectSightM = [CollectSight]()
                     for it in respData as! NSArray {
                         
@@ -67,7 +67,7 @@ class CollectSightRequest: NSObject {
     }
     
     // 异步加载话题获取数据
-    func fetchTopicModels(handler: [CollectTopic] -> Void) {
+    func fetchTopicModels(handler: [CollectContent] -> Void) {
         var post       = [String: String]()
         post["type"]   = String(1)
         post["device"] = String(self.device)
@@ -77,17 +77,11 @@ class CollectSightRequest: NSObject {
             path: "/api/collect/list",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-                
-                var collectSightM = [CollectTopic]()
+                print(respData)
+                var collectSightM = [CollectContent]()
                     for it in respData as! NSArray {
                         
-                        let collectM = CollectTopic(dict: it as! [String : String])
-//                        collectM.id = it["id"].intValue
-//                        collectM.title = it["title"].stringValue
-//                        collectM.collect = it["collect"].stringValue
-//                        collectM.subtitle = it["subtitle"].stringValue
-                        collectM.image = AppIni.BaseUri + String(it["image"])
-                        collectSightM.append(collectM)
+                        collectSightM.append(CollectContent(dict: it as! [String : String]))
                     }
                     
                     // 回调
@@ -97,7 +91,7 @@ class CollectSightRequest: NSObject {
     }
     
     // 异步加载主题获取数据
-    func fetchMotifModels(handler: [CollectMotif] -> Void) {
+    func fetchMotifModels(handler: [CollectCity] -> Void) {
         var post       = [String: String]()
         post["type"]   = String(3)
         post["device"] = String(self.device)
@@ -108,17 +102,11 @@ class CollectSightRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 
-                var collectSightM = [CollectMotif]()
+                print(respData)
+                var collectSightM = [CollectCity]()
                     for it in respData as! NSArray {
                         
-                        let collectM = CollectMotif(dict: it as! [String : String])
-//                        collectM.id = it["id"].intValue
-//                        collectM.collect = it["collect"].stringValue
-//                        collectM.name = it["name"].stringValue
-//                        collectM.period = it["period"].stringValue
-                        collectM.image = AppIni.BaseUri + String(it["image"])
-                        
-                        collectSightM.append(collectM)
+                        collectSightM.append(CollectCity(dict: it as! [String : String]))
                     }
                     
                     // 回调
@@ -151,16 +139,20 @@ class CollectSight: NSObject {
     }
 }
 
-/// 话题
-class CollectTopic: NSObject {
+/// 收藏内容
+class CollectContent: NSObject {
     /// 收藏话题id
-    var id: Int?
+    var id: String?
     /// 标题
     var title: String?
     /// 收藏数
     var collect: String?
     /// 图片
-    var image: String?
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
     /// 副标题
     var subtitle: String?
     
@@ -174,10 +166,10 @@ class CollectTopic: NSObject {
     }
 }
 
-class CollectMotif: NSObject {
+class CollectCity: NSObject {
     
     /// 收藏主题id
-    var id: Int?
+    var id: String?
     /// 收藏数
     var collect: String?
     /// 图片

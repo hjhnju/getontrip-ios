@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import SDWebImage
 
 class HomeCityCententTopicCell: UITableViewCell {
 

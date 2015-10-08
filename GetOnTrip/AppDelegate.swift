@@ -37,8 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let backButtonImage = UIImage(named: "back")
         UINavigationBar.appearance().backIndicatorImage = backButtonImage
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
-        
-        
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.rootViewController = SideBottomController()
@@ -142,10 +141,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     // MARK: - 设置是否是第一次进入最新版本
-    private func defaultViewController() -> UIViewController {
-        
-        return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
-    }
+//    private func defaultViewController() -> UIViewController {
+//        
+//        return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
+//    }
 
     // 是否新版本
     private func isNewUpdate() -> Bool {

@@ -185,7 +185,7 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     // MARK - scrollerView 代理方法
     var offset1: CGFloat = 0
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        var currentLabel: UILabel = scrollerViewLabel.subviews[currentIndex!] as! UILabel
+//        _: UILabel = scrollerViewLabel.subviews[currentIndex!] as! UILabel
         var nextLabel: UILabel?
         
         let array = collectionView.indexPathsForVisibleItems()

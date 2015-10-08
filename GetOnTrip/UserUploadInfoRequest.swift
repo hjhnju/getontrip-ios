@@ -33,46 +33,46 @@ class UserUploadInfoRequest: NSObject {
     }
     
     // 将数据回调外界
-    func fetchAddInfoModels(handler: Topic -> Void) {
-        fetchModels(handler)
-    }
-    
-    // 异步加载获取数据
-    func fetchModels(handler: Topic -> Void) {
-        var post       = [String: String]()
-        post["userid"] = String(stringInterpolationSegment: self.userid)
-        post["type"]   = String(stringInterpolationSegment: self.type)
-        post["param"]   = String(stringInterpolationSegment: self.param)
-        post["image"]  = String(stringInterpolationSegment: self.image)
-        // 发送网络请求加载数据
-        HttpRequest.ajax(AppIniOnline.BaseUri,
-            path: "/api/user/addinfo",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-
-                let topic = Topic(dict: ["" : ""])
-                // 转换话题详情
-//                let id              = respData["id"].intValue
-//                let title           = respData["title"].stringValue
-//                //topic?.subtitle = respData[""].stringValue
-//                topic = Topic(topicid: id, title: title, subtitle: "")
-//                topic!.imageUrl     = AppIniOnline.BaseUri + respData["image"].stringValue
+//    func fetchAddInfoModels(handler: Topic -> Void) {
+//        fetchModels(handler)
+//    }
+//    
+//    // 异步加载获取数据
+//    func fetchModels(handler: Topic -> Void) {
+//        var post       = [String: String]()
+//        post["userid"] = String(stringInterpolationSegment: self.userid)
+//        post["type"]   = String(stringInterpolationSegment: self.type)
+//        post["param"]   = String(stringInterpolationSegment: self.param)
+//        post["image"]  = String(stringInterpolationSegment: self.image)
+//        // 发送网络请求加载数据
+//        HttpRequest.ajax(AppIniOnline.BaseUri,
+//            path: "/api/user/addinfo",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
 //
-//                topic!.favorites    = respData["collect"].intValue
-//                topic!.visits       = respData["visits"].intValue
-//                topic!.desc         = respData["content"].stringValue
-//                topic!.from         = respData["from"].stringValue
-//                topic!.commentCount = respData["commentNum"].intValue
-//                
-//                var tags = [String]()
-//                for it in respData["tags"].arrayValue {
-//                    tags.append(it.stringValue)
-//                }
-//                topic!.tags = tags
-                // 回调
-                handler(topic)
-            }
-        )
-    }
+//                let topic = Topic(dict: ["" : ""])
+//                // 转换话题详情
+////                let id              = respData["id"].intValue
+////                let title           = respData["title"].stringValue
+////                //topic?.subtitle = respData[""].stringValue
+////                topic = Topic(topicid: id, title: title, subtitle: "")
+////                topic!.imageUrl     = AppIniOnline.BaseUri + respData["image"].stringValue
+////
+////                topic!.favorites    = respData["collect"].intValue
+////                topic!.visits       = respData["visits"].intValue
+////                topic!.desc         = respData["content"].stringValue
+////                topic!.from         = respData["from"].stringValue
+////                topic!.commentCount = respData["commentNum"].intValue
+////                
+////                var tags = [String]()
+////                for it in respData["tags"].arrayValue {
+////                    tags.append(it.stringValue)
+////                }
+////                topic!.tags = tags
+//                // 回调
+//                handler(topic)
+//            }
+//        )
+//    }
     
 }

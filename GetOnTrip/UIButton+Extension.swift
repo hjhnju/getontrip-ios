@@ -45,27 +45,3 @@ extension UIButton {
         setTitleColor(titleColor, forState: UIControlState.Normal)
     }
 }
-
-// MARK: - 收藏界面的按钮
-class CollectButton: UIButton {
-    
-    convenience init(title: String, imageName: String, fontSize: CGFloat, titleColor: UIColor = UIColor.whiteColor()) {
-        
-        self.init()
-        
-        setTitle(title, forState: UIControlState.Normal)
-        setImage(UIImage(named: imageName), forState: UIControlState.Normal)
-        titleLabel?.font = UIFont.systemFontOfSize(fontSize)
-        setTitleColor(titleColor, forState: UIControlState.Normal)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let ix: CGFloat = bounds.width * 0.5
-        let iy: CGFloat = bounds.height * 0.5 - 9
-        let ty: CGFloat = bounds.height * 0.5 + 16
-        imageView?.center = CGPointMake(ix, iy)
-        titleLabel?.center = CGPointMake(ix, ty)
-    }
-}

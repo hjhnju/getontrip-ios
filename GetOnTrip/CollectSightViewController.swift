@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 let reuseIdentifier1 = "CollectionViewCell"
 
@@ -32,14 +33,12 @@ class CollectSightViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.backgroundColor = UIColor.clearColor()
+        collectionView?.backgroundColor = UIColor.orangeColor()
         let w: CGFloat = 170
         let h: CGFloat = 150
-        // 每个item的大小
+        
         layout.itemSize = CGSizeMake(w, h)
-        // 行间距
         layout.minimumLineSpacing = 15
-        // item之间水平间距
         let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
         layout.minimumInteritemSpacing = lw
         layout.sectionInset = UIEdgeInsets(top: 0, left: lw, bottom: 0, right: lw)

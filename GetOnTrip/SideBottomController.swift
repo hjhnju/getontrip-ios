@@ -242,6 +242,14 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         let close = searchListPageController.visibleViewController as! BaseHomeController
         close.openAndCloseView()
         
+        if indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 4 {
+            if sharedUserAccount == nil {
+                let alertView = UIAlertView(title: nil, message: "亲，请先登陆，么么哒", delegate: self, cancelButtonTitle: "亲一个")
+                alertView.show()
+                return
+            }
+        }
+        
         /// MARK: 跳转切换相应页面
         var VC: UIViewController?
         if indexPath.row == 0 {
@@ -300,6 +308,7 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
                     print("丫的没来吗")
                     self.setupSideController()
                     let vc = self.searchListPageController.visibleViewController as! SearchListPageController
+                    self.currentCity.setTitle("  当前在" + self.city!, forState: UIControlState.Normal)
                     vc.currentCity = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
                 })
             }

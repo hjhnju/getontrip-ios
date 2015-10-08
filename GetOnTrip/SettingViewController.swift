@@ -552,9 +552,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             lastSuccessRequest = UserUploadInfoRequest(userid: Int(sharedUserAccount!.uid!)!, type: sharedUserAccount!.type, param: param, image: "\(imageData)")
         }
         
-        lastSuccessRequest!.fetchAddInfoModels { (handler: Topic) -> Void in
-        
-        }
+//        lastSuccessRequest!.fetchAddInfoModels { (handler: Topic) -> Void in
+//        
+//        }
     }
 
 }

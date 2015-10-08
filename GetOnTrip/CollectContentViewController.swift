@@ -9,19 +9,19 @@
 import UIKit
 import FFAutoLayout
 
-class CollectTopicViewController: UITableViewController {
+class CollectContentViewController: UITableViewController {
 
     /// 网络请求加载数据
     var lastSuccessRequest: CollectSightRequest?
     
-    var collectTopic = [CollectTopic]()
+    var collectTopic = [CollectContent]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.rowHeight = 107
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.backgroundColor = UIColor.greenColor()
         
 
         refresh()
@@ -36,8 +36,8 @@ class CollectTopicViewController: UITableViewController {
             lastSuccessRequest = CollectSightRequest()
         }
         
-        lastSuccessRequest?.fetchCollectTopicModels { (handler: [CollectTopic]) -> Void in
-            self.collectTopic = handler as [CollectTopic]
+        lastSuccessRequest?.fetchCollectTopicModels { (handler: [CollectContent]) -> Void in
+            self.collectTopic = handler as [CollectContent]
             self.tableView.reloadData()
         }
     }
@@ -56,7 +56,7 @@ class CollectTopicViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("CollectTopicCell", forIndexPath: indexPath) as? CollectTopicCell
         
-        cell!.collectTopic = collectTopic[indexPath.row] as CollectTopic
+        cell!.collectContent = collectTopic[indexPath.row] as CollectContent
         cell?.selectionStyle = UITableViewCellSelectionStyle.None
         
 
@@ -66,22 +66,23 @@ class CollectTopicViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         let topicId = collectTopic[indexPath.row].id
-        loadData(topicId!)
+        
+//        loadData(topicId.intValue)
     }
     
     
     private func loadData(id: Int) {
         NSLog("notice:refreshing nearby data.")
         
-        TopicDetailRequest(topicId: id).fetchModels { (handler: Topic) -> Void in
-            
-            let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController
-            let topic = handler as Topic
-            topic.sight = self.navigationController?.navigationItem.title
-            topicDetailViewController!.topic = topic
-            super.navigationController?.navigationController?.pushViewController(topicDetailViewController!, animated: true)
-        }
-        
+//        TopicDetailRequest(topicId: id).fetchModels { (handler: Topic) -> Void in
+//            
+//            let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController
+//            let topic = handler as Topic
+//            topic.sight = self.navigationController?.navigationItem.title
+//            topicDetailViewController!.topic = topic
+//            super.navigationController?.navigationController?.pushViewController(topicDetailViewController!, animated: true)
+//        }
+//        
     }
 
 }
@@ -109,22 +110,22 @@ class CollectTopicCell: UITableViewCell {
         baseline.frame = CGRectMake(x, y, w, h)
     }
     
-    var collectTopic: CollectTopic? {
+    var collectContent: CollectContent {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectTopic!.image!))
-            titleLabel.text = collectTopic?.title
-            subtitleLabel.text = collectTopic?.subtitle
-            collect.setTitle(collectTopic?.collect, forState: UIControlState.Normal)
+            iconView.sd_setImageWithURL(NSURL(string: collectContent.image!))
+            titleLabel.text = collectContent.title
+            subtitleLabel.text = collectContent.subtitle
+            collect.setTitle(collectContent.collect, forState: UIControlState.Normal)
         }
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setupProperty()
-        setupAutoLayout()
-    }
-
+//    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+//        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//        
+//        setupProperty()
+//        setupAutoLayout()
+//    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
