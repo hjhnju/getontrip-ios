@@ -41,7 +41,6 @@ class HomeSearchCityRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 
-                print(respData)
                 let searchModel = NSMutableDictionary()
                 
                 var searchLabels = [SearchLabel]()

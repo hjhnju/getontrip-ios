@@ -102,7 +102,6 @@ class CollectSightRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 
-                print(respData)
                 var collectSightM = [CollectCity]()
                     for it in respData as! NSArray {
                         

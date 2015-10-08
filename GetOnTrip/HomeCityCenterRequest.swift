@@ -37,7 +37,7 @@ class HomeCityCenterRequest {
             path: "/api/home",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-                print(respData)
+
                 let homeModel = NSMutableDictionary()
                 
                 let city   = HomeCity(dict: respData["city"] as! [String : AnyObject])

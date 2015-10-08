@@ -22,7 +22,6 @@ class CollectContentViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.rowHeight = 107
         tableView.backgroundColor = UIColor.clearColor()
         tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: collectContentViewIdentifier)
 
@@ -55,6 +54,9 @@ class CollectContentViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(collectContentViewIdentifier, forIndexPath: indexPath) as? CollectContentCell
         cell!.collectContent = collectContent[indexPath.row] as CollectContent
 //        cell?.selectionStyle = UITableViewCellSelectionStyle.None
+        if indexPath.row == collectContent.count - 1 {
+            cell?.baseline.removeFromSuperview()
+        }
         return cell!
     }
     
@@ -63,6 +65,12 @@ class CollectContentViewController: UITableViewController {
 //        let topicId = collectTopic[indexPath.row].id
         
 //        loadData(topicId.intValue)
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        let collect = collectContent[indexPath.row] as CollectContent
+        return collect.type == "4" ? 125 : 107
     }
     
     
@@ -93,7 +101,7 @@ class CollectContentCell: UITableViewCell {
     
     lazy var collect: UIButton = UIButton(image: "eye", title: " 114", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 1.0))
     
-    lazy var baseline: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
+    lazy var baseline: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     
     
     var collectContent: CollectContent? {
@@ -102,6 +110,13 @@ class CollectContentCell: UITableViewCell {
             titleLabel.text = collectContent!.title
             subtitleLabel.text = collectContent!.subtitle
             collect.setTitle(collectContent!.collect, forState: UIControlState.Normal)
+            
+            if collectContent?.type == "4" {
+                let cons = iconView.ff_Constraint(constraints, attribute: NSLayoutAttribute.Height)
+                cons?.constant = 91
+                titleLabel.font = UIFont.systemFontOfSize(16)
+                titleLabel.textColor = UIColor.blackColor()
+            }
         }
     }
     
@@ -124,6 +139,8 @@ class CollectContentCell: UITableViewCell {
         addSubview(collect)
         addSubview(baseline)
         
+        iconView.contentMode = UIViewContentMode.ScaleAspectFit
+        
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 120 - 27
         titleLabel.preferredMaxLayoutWidth = w
         subtitleLabel.preferredMaxLayoutWidth = w
@@ -137,6 +154,6 @@ class CollectContentCell: UITableViewCell {
         titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
         collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
-        baseline.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(9, 0))
+        baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
 }
