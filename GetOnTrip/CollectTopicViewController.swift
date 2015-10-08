@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FFAutoLayout
 
 class CollectTopicViewController: UITableViewController {
 
@@ -87,14 +88,16 @@ class CollectTopicViewController: UITableViewController {
 
 // MARK: - CollectTopicCell
 class CollectTopicCell: UITableViewCell {
-    /// 图片
-    @IBOutlet weak var iconView: UIImageView!
-    /// 标题
-    @IBOutlet weak var titleLabel: UILabel!
-    /// 副标题
-    @IBOutlet weak var subtitleLabel: UILabel!
-    /// 收藏数
-    @IBOutlet weak var collect: UILabel!
+    
+    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
+    
+    lazy var titleLabel: UILabel = UILabel(color: UIColor(hex: 0x939393, alpha: 1.0), title: "密道传说常年有", fontSize: 13, mutiLines: false)
+    
+    lazy var subtitleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "故宫内真有密道吗？入口在哪里？", fontSize: 16, mutiLines: false)
+    
+    lazy var collect: UIButton = UIButton(image: "eye", title: " 114", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 1.0))
+    
+    lazy var baseline: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -106,25 +109,39 @@ class CollectTopicCell: UITableViewCell {
         baseline.frame = CGRectMake(x, y, w, h)
     }
     
-    /// 设置底线
-    lazy var baseline: UIView! = {
-        var baselineView = UIView()
-        baselineView.backgroundColor = UIColor(white: 0xFFFFFF, alpha: 0.3)
-        return baselineView
-    }()
-    
     var collectTopic: CollectTopic? {
         didSet {
             iconView.sd_setImageWithURL(NSURL(string: collectTopic!.image!))
             titleLabel.text = collectTopic?.title
             subtitleLabel.text = collectTopic?.subtitle
-            collect.text = collectTopic?.collect
+            collect.setTitle(collectTopic?.collect, forState: UIControlState.Normal)
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addSubview(baseline)
+        setupProperty()
+        setupAutoLayout()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupProperty() {
+        let w: CGFloat = UIScreen.mainScreen().bounds.width - 120 - 27
+        titleLabel.preferredMaxLayoutWidth = w
+        subtitleLabel.preferredMaxLayoutWidth = w
+        titleLabel.numberOfLines = 1
+        subtitleLabel.numberOfLines = 3
+    }
+    
+    private func setupAutoLayout() {
+        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(120, 73), offset: CGPointMake(9, 0))
+        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
+        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
+        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
+        baseline.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(9, 0))
     }
 }

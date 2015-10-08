@@ -40,24 +40,63 @@ class MessageListRequest: NSObject {
             path: "/api/msg/list",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-
+                print(respData)
                 var messageLists = [MessageList]()
                 for item in respData as! NSArray {
-                    let messageListM = MessageList()
-                    messageListM.attach  = item["attach"] as? String
-                    messageListM.content = item["content"] as? String
-                    messageListM.avatar  = AppIni.BaseUri + String(item["avatar"])
-                    messageListM.mid     = item["mid"] as? Int
-                    messageListM.title   = item["title"] as? String
-                    messageListM.image   = AppIni.BaseUri + String(item["image"])
-                    messageListM.create_time = item["create_time"] as? String
-                    messageListM.type    = item["type"] as? String
-                    messageLists.append(messageListM)
+                    
+                    messageLists.append(MessageList(dict: item as! [String : AnyObject]))
                 }
                 
                 // 回调
                 handler(messageLists)
             }
         )
+    }
+}
+
+
+class MessageList: NSObject {
+    
+    /// 内容
+    var content: String?
+    
+    /// 头像
+    var avatar: String? {
+        didSet {
+            avatar = AppIni.BaseUri + avatar!
+        }
+    }
+    
+    /// 标题
+    var title: String?
+    
+    /// 图片
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
+    
+    /// 创建时间
+    var create_time: String?
+    
+    /// 回复/提问
+    var type: String?
+    
+    init(dict: [String : AnyObject]) {
+        super.init()
+        
+        // TODO: 因为type不是String类型
+//        setValuesForKeysWithDictionary(dict)
+        content = dict["content"] as? String
+        avatar  = dict["avatar"]  as? String
+        title   = dict["title"]   as? String
+        image   = dict["image"]   as? String
+        type    = dict["type"]    as? String
+        create_time = dict["create_time"] as? String
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
     }
 }

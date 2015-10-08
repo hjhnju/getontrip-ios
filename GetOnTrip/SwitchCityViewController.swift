@@ -12,6 +12,7 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
 
     lazy var cityGroupData: NSArray = {
         let array = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("cityGroups.plist", ofType: nil)!)
+        
         var arrayM = NSMutableArray()
         for it in array! {
             arrayM.addObject(CityGorupModel.cityGorupWithDict(it as! [String : AnyObject]))
@@ -82,6 +83,7 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         tableView.sectionIndexBackgroundColor = UIColor.clearColor()
         
 //        tableView.cell.selectionStyle=UITableViewCellSelectionStyleNone
+        navigationController?.navigationBarHidden = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -287,6 +289,7 @@ class MetaTool: NSObject {
     /// 返回城市数据
     static var cities: NSArray = {
         let array = NSArray(contentsOfFile: NSBundle.mainBundle().pathForResource("seachCities.plist", ofType: nil)!)
+        
         var arrayM = NSMutableArray()
         for it in array! {
             arrayM.addObject(SearchCityModel.searchCityGorupWithDict(it as! [String : AnyObject]))

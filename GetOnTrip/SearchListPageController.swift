@@ -22,21 +22,23 @@ class SearchListPageController: BaseHomeController, UITableViewDataSource, UITab
     /// 搜索顶部
     var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244))
     
-    /// 遮罩
-//    lazy var shade: UIView = UIView(color: UIColor(hex: 0x2A2D2E, alpha: 0.55))
-    
     /// 搜索顶部图片
     var iconView = UIImageView(image: UIImage(named: "fvclhwpdlenpbjqd_original.jpg"))
     
     /// 排序数据源
-    var searchLabel = ["历史名城   8", "地理奇观   8", "名胜古迹  30", "艺术殿堂  30", "室外古镇  14", "丝绸之路  14"]
+    var searchLabel: NSMutableArray = NSMutableArray()
+    var searchLabelTags: NSMutableArray = NSMutableArray()
     
     /// 当前定位所在地
-    lazy var currentLocus: UILabel = UILabel(color: UIColor.whiteColor(), title: "当前定位在北京，", fontSize: 16, mutiLines: false)
+    lazy var currentLocus: UILabel = UILabel(color: UIColor.whiteColor(), title: "当前定位在", fontSize: 16, mutiLines: false)
+    
+    lazy var currentCity: String = "北京"
     
     /// 立即进入按钮
     lazy var enterButton: UIButton = UIButton(title: "立即进入", fontSize: 16, radius: 0, titleColor: UIColor.yellowColor())
 
+    /// 记录状态按钮
+    var tempButton: UIButton?
     
     // MARK: - 初始化
     override func viewDidLoad() {
@@ -48,13 +50,18 @@ class SearchListPageController: BaseHomeController, UITableViewDataSource, UITab
         headerView.addSubview(iconView)
         headerView.addSubview(currentLocus)
         headerView.addSubview(enterButton)
-//        headerView.addSubview(shade)
+        currentLocus.text = currentLocus.text! + currentCity
 
         headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
+        enterButton.addTarget(self, action: "enterButtonClick", forControlEvents: UIControlEvents.TouchUpInside)
         
         loadSearchData()
         setupAutoLayout()
-        addSearchTitleButton()
+    }
+    
+    func enterButtonClick() {
+        
+        navigationController?.pushViewController(CityCenterPageController(), animated: true)
     }
     
     ///  添加tableview相关属性
@@ -73,11 +80,16 @@ class SearchListPageController: BaseHomeController, UITableViewDataSource, UITab
     private func addSearchTitleButton() {
         for (var i = 0; i < searchLabel.count; i++) {
             
-            let btn = UIButton(title: searchLabel[i], fontSize: 14, radius: 0)
+            let btn = UIButton(title: searchLabel[i] as! String, fontSize: 14, radius: 0)
             btn.addTarget(self, action: "searchTitleMethod:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
             headerView.addSubview(btn)
+            btn.tag = searchLabelTags[i].integerValue
+            if i == 0 {
+                btn.selected = true
+                tempButton = btn
+            }
             
             let btnW = 87
             let btnH = 19
@@ -94,6 +106,7 @@ class SearchListPageController: BaseHomeController, UITableViewDataSource, UITab
             
             btn.frame = CGRectMake(CGFloat(btnX), CGFloat(btnY), CGFloat(btnW), CGFloat(btnH))
         }
+        //let btn = headerView.subviews[0]
     }
     
     ///  布局
@@ -102,12 +115,10 @@ class SearchListPageController: BaseHomeController, UITableViewDataSource, UITab
         iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: headerView, size: CGSizeMake(view.bounds.width, 244), offset: CGPointMake(0, 0))
         currentLocus.ff_AlignInner(ff_AlignType.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(-30, -5))
         enterButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: currentLocus, size: nil, offset: CGPointMake(0, 0))
-
-//        shade.ff_Fill(shade)
     }
     
     
-    /// 发送反馈消息
+    /// 发送搜索信息
     private func loadSearchData() {
         
         if lastSuccessAddRequest == nil {
@@ -116,33 +127,50 @@ class SearchListPageController: BaseHomeController, UITableViewDataSource, UITab
         
         lastSuccessAddRequest?.fetchFeedBackModels {[unowned self] (handler: NSDictionary) -> Void in
             self.dataSource = handler
+            
+            if self.searchLabel.count == 0 {
+                for lab in handler.objectForKey("labels") as! NSArray {
+                    let labM = lab as! SearchLabel
+                    
+                    var label: String = ""
+                    label = lab.name + "    " + labM.num!
+                    self.searchLabel.addObject(label)
+                    self.searchLabelTags.addObject(labM.id!)
+                }
+                self.addSearchTitleButton()
+            }
+            
+            self.iconView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String))
             self.tableView.reloadData()
         }
     }
     
     ///  触发搜索列表的方法
-    ///
-    ///  - parameter btn: 排序的按钮
     func searchTitleMethod(btn: UIButton) {
         
         btn.selected = true
+        tempButton?.selected = false
+        tempButton = btn
         
-        print("点击了这个搜索方法")
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        lastSuccessAddRequest!.label = String(btn.tag)
+        loadSearchData()
     }
     
     // MARK: - tableView 数据源及代理方法
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100//(dataSource?.objectForKey("datas")?.count)! + 1
+        if dataSource != nil {
+            return dataSource!.objectForKey("datas")!.count!
+        }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SearchListTableView_Cell", forIndexPath: indexPath)
-        cell.backgroundColor = UIColor(red: CGFloat(arc4random_uniform(256) / 255), green: CGFloat(CGFloat(arc4random_uniform(256) / 255)), blue: CGFloat(CGFloat(arc4random_uniform(256) / 255)), alpha: 1.0)
-        cell.textLabel?.text = "1"
+        let cell = tableView.dequeueReusableCellWithIdentifier("SearchListTableView_Cell", forIndexPath: indexPath) as! SearchListTableViewCell
+        
+        let array = dataSource!.objectForKey("datas") as! NSArray
+        cell.backgroundColor = UIColor.clearColor()
+        cell.data = array[indexPath.row] as? SearchData
+        
         return cell
     }
 }

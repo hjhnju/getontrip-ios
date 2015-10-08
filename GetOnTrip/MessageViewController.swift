@@ -18,9 +18,16 @@ class MessageViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "feedBack_background")!)
+        
+        setupProperty()
         loadFeedBackHistory()
+    }
+    
+    private func setupProperty() {
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.registerClass(MessageTableViewCell.self, forCellReuseIdentifier: "Message_Cell")
+        title = "消息"
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
     }
     
     
@@ -46,12 +53,15 @@ class MessageViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Message_Cell", forIndexPath: indexPath) as! MessageTableViewCell
-//        var ml = messageLists[indexPath.row]
         cell.message = messageLists![indexPath.row] as MessageList
-        
+//        cell.iconView.layer.cornerRadius = max(cell.iconView.bounds.width, cell.iconView.bounds.height) * 0.5
+//        cell.iconView.clipsToBounds = true
         return cell
     }
-
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 72
+    }
 }
 
 // MARK: - 回复消息
@@ -59,9 +69,9 @@ class MessageTableViewCell: UITableViewCell {
     /// 头像
     lazy var iconView: UIImageView = UIImageView()
     /// 回复人
-    lazy var restorePerson: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 12, mutiLines: false)
+    lazy var restorePerson: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 12, mutiLines: false)
     /// 回复时间
-    lazy var restoreTime: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 9, mutiLines: false)
+    lazy var restoreTime: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 9, mutiLines: false)
     /// 所回复的照片
     lazy var restoreImageView: UIImageView = UIImageView()
     
@@ -75,6 +85,7 @@ class MessageTableViewCell: UITableViewCell {
             restoreTime.text = message?.create_time
             restoreImageView.sd_setImageWithURL(NSURL(string: message!.image!), placeholderImage: UIImage(named: "2.jpg"))
             print(message?.image)
+            
         }
     }
     
@@ -92,12 +103,18 @@ class MessageTableViewCell: UITableViewCell {
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
         restorePerson.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
         restoreTime.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(9, 0))
+        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(-9, 0))
         baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        iconView.layer.cornerRadius = max(iconView.bounds.width, iconView.bounds.height) * 0.5
+        iconView.clipsToBounds = true
     }
 }
 
@@ -155,13 +172,21 @@ class SystemTableViewCell: UITableViewCell {
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
         restorePerson.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
         restoreTime.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(9, 0))
+        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(-9, 0))
         title.ff_AlignHorizontal(ff_AlignType.TopRight, referView: restorePerson, size: nil, offset: CGPointMake(15, 0))
         subTitle.ff_AlignVertical(ff_AlignType.BottomLeft, referView: title, size: nil, offset: CGPointMake(0, 8))
         baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        iconView.layer.cornerRadius = max(iconView.bounds.width, iconView.bounds.height) * 0.5
+        iconView.clipsToBounds = true
     }
 }

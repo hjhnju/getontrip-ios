@@ -29,6 +29,7 @@ class CyclopaedicViewController: UITableViewController {
         super.viewDidLoad()
 
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
         refresh()
     }
     
@@ -46,6 +47,7 @@ class CyclopaedicViewController: UITableViewController {
         }
         cell.cyclopaedicModel = nearCyclopaedic[indexPath.row]
         cell.backgroundColor = UIColor.clearColor()
+        //cell.selectionStyle
         return cell
     }
     

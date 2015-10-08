@@ -19,7 +19,7 @@ class HomeSearchCityRequest: NSObject {
     */
     
     // 请求参数
-    var label   : String?
+    var label   : String = ""
     var page    : Int = 1
     var pageSize: Int = 6
 
@@ -40,7 +40,8 @@ class HomeSearchCityRequest: NSObject {
             path: "/api/search/label",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-
+                
+                print(respData)
                 let searchModel = NSMutableDictionary()
                 
                 var searchLabels = [SearchLabel]()
@@ -54,9 +55,10 @@ class HomeSearchCityRequest: NSObject {
                     searchDatas.append(SearchData(dict: item as! [String : String]))
                 }
                 
+                let str = respData.objectForKey("image") as! String
                 searchModel.setValue(searchLabels, forKey: "labels")
                 searchModel.setValue(searchDatas, forKey: "datas")
-
+                searchModel.setValue(String(AppIni.BaseUri + str), forKey: "image")
                 // 回调
                 handler(searchModel)
             }
@@ -95,8 +97,12 @@ class SearchData : NSObject {
             image = AppIni.BaseUri + image!
         }
     }
-    /// 景点内容
-    var desc: String?
+    /// 收藏
+    var collect_num: String = ""
+    
+    var topic_num: String = ""
+    
+    var comment_num: String = ""
     
     init(dict: [String: String]) {
         super.init()

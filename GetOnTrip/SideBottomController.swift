@@ -36,16 +36,10 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     lazy var state = UILabel(color: UIColor.whiteColor(), fontSize: 12, mutiLines: true)
     
     /// 登陆后，底view
-    lazy var loginAfter: UIView = {
-        let loginAfter = UIView()
-        return loginAfter
-    }()
+    lazy var loginAfter: UIView = UIView()
     
     /// 登陆后，头像
-    lazy var iconView: UIImageView = {
-        let iconView = UIImageView()
-        return iconView
-    }()
+    lazy var iconView: UIImageView = UIImageView()
     
     /// 登陆后，名称
     lazy var name: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
@@ -67,13 +61,15 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     /// 地理位置
     var city: String?
     
+    lazy var currentCity: UIButton = UIButton(image: "current_city_icon", title: "  当前城市未知", fontSize: 10)
+    
     /// 主窗口控制器
-    var mainEntranceController: UINavigationController?
+//    var mainEntranceController: UINavigationController?
     // (搜索入口一)
     lazy var searchListPageController: UINavigationController = UINavigationController(rootViewController: SearchListPageController())
     
     /// 城市中间页(入品二)
-    lazy var cityCenterPageController: UINavigationController = UINavigationController(rootViewController: CityCenterPageController())
+//    lazy var cityCenterPageController: UINavigationController = UINavigationController(rootViewController: CityCenterPageController())
     
     /// 登陆状态
     var logined: Bool = true
@@ -90,6 +86,7 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         setupInit()
         setupAutoLayout()
         refreshLoginStatus()
+        setupSideController()
     }
     
     /// 初始化相关设置
@@ -105,8 +102,10 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         loginAge.addSubview(weiboButton)
         loginAge.addSubview(welcome)
         loginAge.addSubview(state)
+        view.addSubview(currentCity)
         welcome.text = "hello!"
         state.text   = "使用以下账号直接登录"
+        currentCity.alpha = 0.7
         
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
         weiboButton.addTarget(self, action: "sinaWeiboLogin", forControlEvents: UIControlEvents.TouchUpInside)
@@ -134,26 +133,26 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
         weiboButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginAge, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
         welcome.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAge, size: nil, offset: CGPointMake(0, 0))
         state.ff_AlignVertical(ff_AlignType.BottomCenter, referView: welcome, size: nil, offset: CGPointMake(0, 8))
-        
+        currentCity.ff_AlignInner(ff_AlignType.BottomCenter, referView: imageView, size: nil, offset: CGPointMake(0, -21))
     }
     
     /// 初始侧面控制器
     private func setupSideController() {
         
-        mainEntranceController = city != nil ? cityCenterPageController : searchListPageController
+//        mainEntranceController = city != nil ? cityCenterPageController : searchListPageController
 //        mainEntranceController = searchListPageController
-
-        addChildViewController(mainEntranceController!)
-        view.addSubview(mainEntranceController!.view)
+        
+        addChildViewController(searchListPageController)
+        view.addSubview(searchListPageController.view)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // TODO: 加载这里是错误的，临时使用
-        setupSideController()
-        print(city)
-    }
+//    override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(animated)
+//        
+//        // TODO: 加载这里是错误的，临时使用
+//        setupSideController()
+//        print(city)
+//    }
     
     /// 设置
     override func viewDidAppear(animated: Bool) {
@@ -240,7 +239,7 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     /// 跳转控制器
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let close = mainEntranceController?.visibleViewController as! BaseHomeController
+        let close = searchListPageController.visibleViewController as! BaseHomeController
         close.openAndCloseView()
         
         /// MARK: 跳转切换相应页面
@@ -257,8 +256,7 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
             VC = FeedBackViewController()
         }
         
-        mainEntranceController?.pushViewController(VC!, animated: true)
-        
+        searchListPageController.pushViewController(VC!, animated: true)
     }
     
     /// 侧滑菜单动画效果
@@ -275,7 +273,8 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     // MARK: - 地理定位代理方法
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("开始定位，就定了一次")
-        locationManager.stopUpdatingLocation()
+        
+//        locationManager.stopUpdatingLocation()
         // 获取位置信息
         let coordinate = locations.first?.coordinate
         
@@ -297,9 +296,12 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
                 }
                 
                 // TODO: 地理位置 是异步加载的，在获取到地理位置之前应该先显示什么
-//                dispatch_once(&Static.onceToken, { [unowned self] in
-//                    self.setupSideController()
-//                })
+                dispatch_once(&Static.onceToken, { [unowned self] in
+                    print("丫的没来吗")
+                    self.setupSideController()
+                    let vc = self.searchListPageController.visibleViewController as! SearchListPageController
+                    vc.currentCity = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
+                })
             }
         }
     

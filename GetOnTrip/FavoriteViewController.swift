@@ -55,10 +55,8 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // 主题控制器
-    lazy var motifController: CollectMotifViewController = {
-        let story1 = UIStoryboard(name: "Main", bundle: nil)
-        return story1.instantiateViewControllerWithIdentifier(StoryBoardIdentifier.CollectMotifSB) as! CollectMotifViewController
-    }()
+    lazy var motifController: CollectCityViewController = CollectCityViewController()
+
     
     // MARK: - 初始化相关设置
     override func viewDidLoad() {

@@ -10,15 +10,17 @@ import UIKit
 
 class FeedBackViewController: UIViewController,UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var sendButton: UIButton!
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    lazy var tableView: UITableView = UITableView()
+    
+    lazy var sendButton: UIButton = UIButton(title: "发送", fontSize: 12, radius: 34 * 0.5)
+    
+//    lazy var bottomConstraint: NSLayoutConstraint!
     /// 网络请求加载数据(添加)
     var lastSuccessAddRequest: FeedBackSendRequest?
     /// 反馈情况(历史)
     var lastSuccessRequest: FeedBackRequest?
     /// 发送文字
-    @IBOutlet weak var sendContentText: UITextField!
+    lazy var sendContentText: UITextField = UITextField()
     /// 反馈列表
     var feedBackList: NSArray?
     
@@ -56,7 +58,7 @@ class FeedBackViewController: UIViewController,UITableViewDataSource, UITableVie
         let duration = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
         let r = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
         
-        bottomConstraint.constant = UIScreen.mainScreen().bounds.size.height - r!.origin.y
+//        bottomConstraint.constant = UIScreen.mainScreen().bounds.size.height - r!.origin.y
         UIView.animateWithDuration(duration, animations: { () -> Void in
             self.view.layoutIfNeeded()
         }) { (_) -> Void in
