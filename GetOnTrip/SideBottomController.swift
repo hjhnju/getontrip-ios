@@ -282,7 +282,7 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("开始定位，就定了一次")
         
-//        locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
         // 获取位置信息
         let coordinate = locations.first?.coordinate
         

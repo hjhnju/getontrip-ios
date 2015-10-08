@@ -128,7 +128,7 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
     }
     
-    ///  话题刷新按按方法
+    ///  话题刷新按钮方法
     func topicRefreshButton(btn: UIButton) {
         
         let anim = CABasicAnimation(keyPath: "transform.rotation")

@@ -67,7 +67,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         
         view.addSubview(titleBackground)
         view.addSubview(contentScrollView)
-        contentScrollView.backgroundColor = UIColor.blueColor()
+        contentScrollView.backgroundColor = UIColor.whiteColor()
         titleBackground.addSubview(cityBtn)
         titleBackground.addSubview(sightBtn)
         titleBackground.addSubview(contentBtn)
@@ -125,7 +125,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        selectView.frame = CGRectMake(27 * 0.5, 34.5, 73, 1.5)
+        selectView.frame = CGRectMake(27 * 0.5, 34, 73, 1.5)
 //        selectView.center.x = sightBtn.center.x
         
     }

@@ -9,20 +9,22 @@
 import UIKit
 import FFAutoLayout
 
+let collectContentViewIdentifier = "CollectContent_Cell"
+
 class CollectContentViewController: UITableViewController {
 
     /// 网络请求加载数据
     var lastSuccessRequest: CollectSightRequest?
     
-    var collectTopic = [CollectContent]()
+    var collectContent = [CollectContent]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.rowHeight = 107
-        tableView.backgroundColor = UIColor.greenColor()
-        
+        tableView.backgroundColor = UIColor.clearColor()
+        tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: collectContentViewIdentifier)
 
         refresh()
         
@@ -37,35 +39,28 @@ class CollectContentViewController: UITableViewController {
         }
         
         lastSuccessRequest?.fetchCollectTopicModels { (handler: [CollectContent]) -> Void in
-            self.collectTopic = handler as [CollectContent]
+            self.collectContent = handler as [CollectContent]
             self.tableView.reloadData()
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return collectTopic.count
+        return collectContent.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("CollectTopicCell", forIndexPath: indexPath) as? CollectTopicCell
         
-        cell!.collectContent = collectTopic[indexPath.row] as CollectContent
-        cell?.selectionStyle = UITableViewCellSelectionStyle.None
-        
-
+        let cell = tableView.dequeueReusableCellWithIdentifier(collectContentViewIdentifier, forIndexPath: indexPath) as? CollectContentCell
+        cell!.collectContent = collectContent[indexPath.row] as CollectContent
+//        cell?.selectionStyle = UITableViewCellSelectionStyle.None
         return cell!
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
-        let topicId = collectTopic[indexPath.row].id
+//        let topicId = collectTopic[indexPath.row].id
         
 //        loadData(topicId.intValue)
     }
@@ -88,7 +83,7 @@ class CollectContentViewController: UITableViewController {
 }
 
 // MARK: - CollectTopicCell
-class CollectTopicCell: UITableViewCell {
+class CollectContentCell: UITableViewCell {
     
     lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
     
@@ -100,37 +95,35 @@ class CollectTopicCell: UITableViewCell {
     
     lazy var baseline: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let x: CGFloat = 9
-        let h: CGFloat = 0.5
-        let y: CGFloat = self.bounds.height - h
-        let w: CGFloat = self.bounds.width - x * 2
-        baseline.frame = CGRectMake(x, y, w, h)
-    }
     
-    var collectContent: CollectContent {
+    var collectContent: CollectContent? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectContent.image!))
-            titleLabel.text = collectContent.title
-            subtitleLabel.text = collectContent.subtitle
-            collect.setTitle(collectContent.collect, forState: UIControlState.Normal)
+            iconView.sd_setImageWithURL(NSURL(string: collectContent!.image!))
+            titleLabel.text = collectContent!.title
+            subtitleLabel.text = collectContent!.subtitle
+            collect.setTitle(collectContent!.collect, forState: UIControlState.Normal)
         }
     }
     
-//    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        
-//        setupProperty()
-//        setupAutoLayout()
-//    }
-    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupProperty()
+        setupAutoLayout()
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     private func setupProperty() {
+        
+        addSubview(iconView)
+        addSubview(titleLabel)
+        addSubview(subtitleLabel)
+        addSubview(collect)
+        addSubview(baseline)
+        
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 120 - 27
         titleLabel.preferredMaxLayoutWidth = w
         subtitleLabel.preferredMaxLayoutWidth = w
@@ -139,8 +132,9 @@ class CollectTopicCell: UITableViewCell {
     }
     
     private func setupAutoLayout() {
+        
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(120, 73), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
+        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
         collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
         baseline.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(9, 0))

@@ -51,7 +51,7 @@ class CollectSightRequest: NSObject {
             path: "/api/collect/list",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-                print(respData)
+
                 var collectSightM = [CollectSight]()
                     for it in respData as! NSArray {
                         
@@ -77,7 +77,7 @@ class CollectSightRequest: NSObject {
             path: "/api/collect/list",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-                print(respData)
+
                 var collectSightM = [CollectContent]()
                     for it in respData as! NSArray {
                         
@@ -125,7 +125,11 @@ class CollectSight: NSObject {
     /// 话题名
     var name: String?
     /// 话题图片
-    var image: String?
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
     /// 共几个话题
     var topicNum: String?
     
@@ -156,6 +160,8 @@ class CollectContent: NSObject {
     /// 副标题
     var subtitle: String?
     
+    var type: String?
+    
     init(dict: [String : String]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
@@ -170,14 +176,15 @@ class CollectCity: NSObject {
     
     /// 收藏主题id
     var id: String?
-    /// 收藏数
-    var collect: String?
     /// 图片
-    var image: String?
-    /// 主题名字
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
     var name: String?
-    /// 第几期
-    var period: String?
+    
+    var topicNum: String?
     
     init(dict: [String : String]) {
         super.init()
