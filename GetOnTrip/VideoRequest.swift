@@ -9,7 +9,8 @@
 import UIKit
 
 class VideoRequest: NSObject {
-   /**
+    
+    /**
     * 接口1：/api/video
     * 视频详情接口
     * @param integer page
@@ -19,58 +20,69 @@ class VideoRequest: NSObject {
     */
     
     // 请求参数
-    var pageSize:Int = 2
+    var sightId :String?
     var page    :Int = 1
-    var sightId :Int
-    
-    // 初始化方法
-    init(sightId: Int) {
-        
-        self.sightId = sightId
-    }
+    var pageSize:Int = 6
     
     // 将数据回调外界
-    func fetchVideoModels(handler: [Video] -> Void) {
+    func fetchSightListModels(handler: NSArray -> Void) {
         fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: [Video] -> Void) {
+    func fetchModels(handler: NSArray -> Void) {
         var post         = [String: String]()
+        post["sightId"]  = String(4)
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
-        post["sightId"]  = String(self.sightId)
+        
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIniOnline.BaseUri,
+        HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/video",
             post: post,
-            handler: {(respData: JSON) -> Void in
-
-                    var videos = [Video]()
-                    for it in respData.arrayValue {
-                        // 转换视频属性
-                        let from     = it["from"].stringValue
-                        let status   = it["status"].stringValue
-                        let totalNum = it["totalNum"].stringValue
-                        let id       = it["id"].stringValue
-                        let len      = it["len"].stringValue
-                        let title    = it["title"].stringValue
-                        let image    = it["image"].stringValue
-                        let create_time = it["create_time"].stringValue
-                        let type     = it["type"].stringValue
-                        let url      = it["url"].stringValue
-
-                        let video = Video(from: from, status: status, totalNum: totalNum, id: id, len: len, title: title, image: image, create_time: create_time, type: type, url: url)
-                        videos.append(video)
-                    }
+            handler: {(respData: AnyObject) -> Void in
+                print(respData)
                 
-                    // 回调
-                    handler(videos)
+                let sightVideo = NSMutableArray() // [SightBook]()
+                for item in respData.objectForKey("list") as! NSArray {
+                    sightVideo.addObject(SightVideo(dict: item as! [String : AnyObject]))
                 }
+                
+                // 回调
+                handler(sightVideo)
+            }
         )
+    }
+}
 
-
+/// 景点列表Tags
+class SightVideo: NSObject {
+    /// id
+    var id: String?
+    /// 标题
+    var title: String?
+    /// url
+    var url: String?
+    /// 图片
+    var image: String?
+    ///  时长
+    var len: String?
+    
+    init(dict: [String: AnyObject]) {
+        super.init()
+        
+        id = String(dict["id"]!)
+        title = String(dict["title"]!)
+        url = String(dict["url"]!)
+        image = AppIni.BaseUri + String(dict["image"]!)
+        len = String(dict["len"]!)
+        
+        //        setValuesForKeysWithDictionary(dict)
+        
     }
     
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }

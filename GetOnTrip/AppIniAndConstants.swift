@@ -56,11 +56,22 @@ struct StoryBoardIdentifier {
     static let ShowThemeSegue = "ShowThemeSegue"
     static let ShowLandscapeSegue = "ShowLandscapeSegue"
     
+    //左侧菜单
+    static let SideslipSwitchCity  = "SideslipSwitchCity"
+    static let SidesMessage        = "SidesMessage"
+    static let SidesSetting        = "SidesSetting"
+    static let SidesFeedback       = "SidesFeedback"
+    
     // storyboardID 附近二级页面
     static let ScenicCyclopaedicSB = "ScenicCyclopaedicSB"
     static let ScenicTopicSB       = "ScenicTopicSB"
     static let ScenicBookSB        = "ScenicBookSB"
     static let ScenicVideoSB       = "ScenicVideoSB"
+    
+    // 收藏页面
+    static let CollectTopicSB      = "CollectTopicSB"
+    static let CollectSightSB      = "CollectSightSB"
+    static let CollectMotifSB      = "CollectMotifSB"
 }
 
 struct SceneColor {
@@ -74,8 +85,30 @@ struct SceneColor {
     
     static let white        = UIColor.whiteColor()
     static let crystalWhite = UIColor(hex: 0xFFFFFF, alpha:0.4)
+    /// 白色首页话题副标题文字颜色
+    static let whiteGrey   = UIColor(hex: 0x939393, alpha: 1.0)
+    /// 浅白 设置界面选择城市及性别pickView
+    static let shallowWhite = UIColor(hex: 0xDCD7D7, alpha: 1.0)
+    /// 浅灰
+    static let shallowGrey = UIColor(hex: 0x979797, alpha: 1.0)
+    /// 深灰
+    static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)
+    /// 首页热门景点底灰
+    static let sightGrey   = UIColor(hex: 0x2A2D2E, alpha: 1.0)
+    /// 首页底色
+    static let homeGrey    = UIColor(hex: 0x1F2223, alpha: 1.0)
 }
 
 struct SceneFont {
     static let heiti = "STHeitiSC-Light"
+}
+
+/// 占位图像
+struct placeholderImage {
+    static let userIcon = "user_icon"
+}
+
+/// 侧滑角度
+struct sideViewFrame {
+    static let sideOffsetX = UIScreen.mainScreen().bounds.width * 0.75
 }
