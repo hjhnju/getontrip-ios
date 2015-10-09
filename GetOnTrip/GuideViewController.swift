@@ -116,7 +116,7 @@ class NewFeatureCell: UICollectionViewCell {
         UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 10, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
             self.startButton.transform = CGAffineTransformIdentity
             }, completion: { (_) -> Void in
-//                print("OK")
+
                 self.startButton.userInteractionEnabled = true
         })
     }
@@ -124,7 +124,7 @@ class NewFeatureCell: UICollectionViewCell {
     /// 点击开始按钮
     func startButtonClicked() {
         
-        let slideVC = SlideMenuViewController()
+        let slideVC = SearchListPageController()
         UIApplication.sharedApplication().keyWindow?.rootViewController = slideVC
     }
     
@@ -136,7 +136,7 @@ class NewFeatureCell: UICollectionViewCell {
     // 开始按钮
     lazy var startButton: UIButton = {
         // 自定义按钮
-        let btn = UIButton()
+        let btn = UIButton(type: UIButtonType.Custom)
         btn.frame = CGRectMake(0, 0, 105, 36)
         
         btn.setTitle("立即体验", forState: UIControlState.Normal)
@@ -162,7 +162,6 @@ class NewFeatureCell: UICollectionViewCell {
         let x: CGFloat = (screen.width - w) * 0.5
         let y: CGFloat = screen.height - 220
         startButton.frame = CGRectMake(x, y, w, h)
-        let pageY: CGFloat = screen.height - 100
     }
     
     required init(coder aDecoder: NSCoder) {
