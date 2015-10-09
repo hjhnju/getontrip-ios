@@ -124,11 +124,13 @@ class CollectSight: NSObject {
     /// 话题名
     var name: String?
     /// 话题图片
+
     var image: String? {
         didSet {
             image = AppIni.BaseUri + image!
         }
     }
+
     /// 共几个话题
     var topicNum: String?
     
@@ -158,7 +160,7 @@ class CollectContent: NSObject {
     }
     /// 副标题
     var subtitle: String?
-    
+
     var type: String?
     
     init(dict: [String : String]) {
@@ -184,6 +186,7 @@ class CollectCity: NSObject {
     var name: String?
     
     var topicNum: String?
+
     
     init(dict: [String : String]) {
         super.init()

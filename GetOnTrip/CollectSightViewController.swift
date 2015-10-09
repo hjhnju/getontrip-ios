@@ -11,6 +11,7 @@ import FFAutoLayout
 
 let collectionSightViewIdentifier = "CollectionSightView_Cell"
 
+
 class CollectSightViewController: UICollectionViewController {
     
     /// 界面布局
@@ -33,7 +34,9 @@ class CollectSightViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         collectionView?.backgroundColor = UIColor.clearColor()
+
         let w: CGFloat = 170
         let h: CGFloat = 150
         
@@ -41,10 +44,12 @@ class CollectSightViewController: UICollectionViewController {
         layout.minimumLineSpacing = 15
         let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
         layout.minimumInteritemSpacing = lw
+
         layout.sectionInset = UIEdgeInsets(top: lw, left: lw, bottom: 0, right: lw)
 
         // Register cell classes
         collectionView?.registerClass(CollectionSightViewCell.self, forCellWithReuseIdentifier: collectionSightViewIdentifier)
+
 
         refresh()
     }
@@ -71,12 +76,15 @@ class CollectSightViewController: UICollectionViewController {
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(collectionSightViewIdentifier, forIndexPath: indexPath) as! CollectionSightViewCell
+
         
         cell.collectSight = collectSights[indexPath.row] as CollectSight
         return cell
     }
 }
+
 
 // 收藏景点的cell
 class CollectionSightViewCell: UICollectionViewCell {
@@ -86,6 +94,7 @@ class CollectionSightViewCell: UICollectionViewCell {
     lazy var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "北京", fontSize: 16, mutiLines: false)
     
     lazy var subtitle: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "共10个话题", fontSize: 11, mutiLines: false)
+
     
     var collectSight: CollectSight? {
         didSet {
@@ -94,7 +103,6 @@ class CollectionSightViewCell: UICollectionViewCell {
             subtitle.text = collectSight?.topicNum
         }
     }
-
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -110,6 +118,7 @@ class CollectionSightViewCell: UICollectionViewCell {
         iconView.frame    = self.bounds
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         subtitle.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -11))
+
     }
 
     required init(coder aDecoder: NSCoder) {
