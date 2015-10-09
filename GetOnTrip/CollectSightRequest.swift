@@ -59,7 +59,7 @@ class CollectSightRequest: NSObject {
 
                         collectSightM.append(collectM)
                     }
-
+//http://123.57.46.229:8301/api/search/label?pageSize=6&page=1&label=
                     // 回调
                     handler(collectSightM)
             }

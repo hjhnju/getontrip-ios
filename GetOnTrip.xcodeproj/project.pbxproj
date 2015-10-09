@@ -51,6 +51,8 @@
 		AE7B997D1BA1877F003034FB /* UserUploadInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B997C1BA1877F003034FB /* UserUploadInfoRequest.swift */; };
 		AE7F0AC21BB954730011F307 /* SightListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F0AC11BB954730011F307 /* SightListRequest.swift */; settings = {ASSET_TAGS = (); }; };
 		AE7F0AC91BB95D3E0011F307 /* SightListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F0AC81BB95D3E0011F307 /* SightListController.swift */; settings = {ASSET_TAGS = (); }; };
+		AE8586CB1BC7820500406BEF /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
 		AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B771B8644D200031FB8 /* VideoCell.swift */; };
 		AEA94F901B9AED30006D6998 /* UserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA94F8F1B9AED30006D6998 /* UserAccount.swift */; };
@@ -172,6 +174,8 @@
 		AE7B997C1BA1877F003034FB /* UserUploadInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserUploadInfoRequest.swift; sourceTree = "<group>"; };
 		AE7F0AC11BB954730011F307 /* SightListRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightListRequest.swift; sourceTree = "<group>"; };
 		AE7F0AC81BB95D3E0011F307 /* SightListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightListController.swift; sourceTree = "<group>"; };
+		AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsCell.swift; sourceTree = "<group>"; };
 		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		AE8D54A21B9A9EB9009F26DE /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AE8D54A41B9A9EFA009F26DE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -404,6 +408,7 @@
 				AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */,
 				AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */,
 				AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */,
+				AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */,
 				72D86E091B65E844004B72D0 /* Ucenter(收藏) */,
 			);
 			name = Controller;
@@ -416,6 +421,7 @@
 				AECAEE9C1BBAB45800FA31C7 /* SearchListTableViewCell.swift */,
 				AE79EED11BBA8A30005A7709 /* HomeCityCententTopicCell.swift */,
 				AE79B1341BC556330045CC3A /* BNSearchBar.swift */,
+				AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -754,6 +760,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */,
+				AE8586CB1BC7820500406BEF /* SearchResultsViewController.swift in Sources */,
 				AE6079B91BB26DCA00DB2955 /* UIView+Extension.swift in Sources */,
 				AEEA553B1BC0F92C009AF772 /* LandscapeRequest.swift in Sources */,
 				AECD22661B9ECDD5007F1D71 /* CollectSightViewController.swift in Sources */,
@@ -782,6 +789,7 @@
 				AE62E2CC1BB3DED900B91D33 /* UITextField+Extension.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,
 				AE62E2CE1BB3EF6500B91D33 /* UIPickerView+Extension.swift in Sources */,
+				AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */,
 				AE87C2141B85F285004C0998 /* BookCell.swift in Sources */,
 				AE7F0AC21BB954730011F307 /* SightListRequest.swift in Sources */,
 				AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */,

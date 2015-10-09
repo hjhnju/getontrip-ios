@@ -25,6 +25,7 @@ class SightListRequest: NSObject {
     var page    :Int = 1
     var pageSize:Int = 6
     var tags    :String?
+    var deviceId = appUUID
 //    http://123.57.67.165:8301/api/sight/detail?tags
     // 将数据回调外界
     func fetchSightListModels(handler: NSDictionary -> Void) {
@@ -35,10 +36,10 @@ class SightListRequest: NSObject {
     func fetchModels(handler: NSDictionary -> Void) {
         var post         = [String: String]()
         post["sightId"]  = String(4)
-        post["page"]     = String(self.page)
-        post["pageSize"] = String(self.pageSize)
-        post["tags"]     = String(self.tags)
-        
+        post["page"]     = String(page)
+        post["pageSize"] = String(pageSize)
+        post["tags"]     = String(tags)
+        post["deviceId"] = String(deviceId)
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/sight/detail",

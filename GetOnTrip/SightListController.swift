@@ -66,6 +66,9 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         }
     }
     
+    deinit {
+        print("我走了\(__FUNCTION__)")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

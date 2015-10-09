@@ -38,9 +38,8 @@ class SearchListTableViewCell: UITableViewCell {
         didSet {
             iconView.sd_setImageWithURL(NSURL(string: data!.image!))
             title.setTitle("   " + data!.name! + "   ", forState: UIControlState.Normal)
-//            title.setTitle("  测试测试测试  ", forState: UIControlState.Normal)
             btn1.setTitle("  " + data!.collect_num, forState: UIControlState.Normal)
-            btn2.setTitle("  " + data!.comment_num, forState: UIControlState.Normal)
+            btn2.setTitle("  " + data!.sight_num, forState: UIControlState.Normal)
             btn3.setTitle("  " + data!.topic_num, forState: UIControlState.Normal)
         }
     }
@@ -60,7 +59,11 @@ class SearchListTableViewCell: UITableViewCell {
         addSubview(btn2)
         addSubview(btn3)
         
-        
+        iconView.userInteractionEnabled = false
+        effect.userInteractionEnabled = false
+        shade.userInteractionEnabled = false
+        btnBlackground.userInteractionEnabled = false
+        title.userInteractionEnabled = false
         
         setupAutoLayout()
     }

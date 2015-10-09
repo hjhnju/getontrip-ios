@@ -173,5 +173,24 @@ class SearchListPageController: BaseHomeController, UITableViewDataSource, UITab
         
         return cell
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        
+        let array = dataSource!.objectForKey("datas") as! NSArray
+        let data = array[indexPath.row] as? SearchData
+        
+        if (data!.type == "1") {
+            let vc = SightListController()
+            vc.sightId = data!.id
+            addChildViewController(vc)
+            view.addSubview(vc.view)
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = CityCenterPageController()
+            vc.cityName.text = data?.name
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
 

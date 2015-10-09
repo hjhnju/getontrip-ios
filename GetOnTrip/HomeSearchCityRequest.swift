@@ -41,6 +41,7 @@ class HomeSearchCityRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 
+                print(respData["content"])
                 let searchModel = NSMutableDictionary()
                 
                 var searchLabels = [SearchLabel]()
@@ -50,7 +51,7 @@ class HomeSearchCityRequest: NSObject {
                     searchLabels.append(SearchLabel(dict: item as! [String : String]))
                 }
                 
-                for item in respData["data"] as! NSArray {
+                for item in respData["content"] as! NSArray {
                     searchDatas.append(SearchData(dict: item as! [String : String]))
                 }
                 
@@ -101,7 +102,9 @@ class SearchData : NSObject {
     
     var topic_num: String = ""
     
-    var comment_num: String = ""
+    var sight_num: String = ""
+    
+    var type: String?
     
     init(dict: [String: String]) {
         super.init()

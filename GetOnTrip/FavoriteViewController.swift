@@ -11,10 +11,6 @@ import FFAutoLayout
 
 class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent;
-    }
-    
     // MARK: - 属性
     lazy var titleBackground: UIView = UIView(color: SceneColor.lightBlack, alphaF: 1.0)
     
@@ -49,9 +45,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         setupProperty()
         setupAddSubViewAndAction()
         setupAutoLayout()
-//        setupDefaultSightTopic()
         setupChildControllerProperty()
-        
     }
     
     private func setupProperty() {
@@ -59,8 +53,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         title = "我的收藏"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        view.backgroundColor = UIColor.whiteColor()
-//        recordButtonStatus = sightBtn
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
     }
     
     private func setupAddSubViewAndAction() {
@@ -95,69 +88,30 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         contentBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         sightBtn.ff_AlignInner(ff_AlignType.CenterLeft, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         cityBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
+        selectView.frame = CGRectMake(27 * 0.5, 34, 73, 1.5)
     }
     
     
     /// MARK: - 切换收藏视图方法
-    /// 记录按钮的状态
-    var recordButtonStatus: UIButton?
+    var selectedIndex: Int?
     func switchCollectButtonClick(sender: UIButton) {
-        recordButtonStatus?.selected = false
-        sender.selected = true
-        recordButtonStatus = sender
         
         UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
             self.selectView.center.x = sender.center.x
         }
-        
-        if !sender.selected {
-            sender.selected = true
-            recordButtonStatus = sender
-        }
 
-        var selectedIndex: CGFloat = 0
         if sender == sightBtn { selectedIndex = 0 }
         else if sender == contentBtn { selectedIndex = 1 }
         else if sender == cityBtn { selectedIndex = 2 }
-//        contentScrollView.contentOffset.x = containView.bounds.width * selectedIndex
+        UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
+            self.contentScrollView.contentOffset.x = self.contentScrollView.bounds.width * CGFloat(self.selectedIndex!)
+        }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        selectView.frame = CGRectMake(27 * 0.5, 34, 73, 1.5)
-//        selectView.center.x = sightBtn.center.x
-        
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-    }
-    
-    
-    // 搜索
-    func searchButtonClicked(button: UIBarButtonItem) {
-        // 获得父控制器
-//        let pare = self.parentViewController?.parentViewController as! MasterViewController
-//        // 找到MainViewController并调用搜索方法
-//        for vc in pare.viewControllers {
-//            if vc.isKindOfClass(MainViewController) {
-//                let vc1 = vc as! MainViewController
-//                vc1.searchButtonClicked(button)
-//            }
-//        }
-    }
     
     func setupChildControllerProperty() {
         
         contentScrollView.contentOffset.x = 0
-        
-        //初始化scrollview
         contentScrollView.pagingEnabled = true
         contentScrollView.showsHorizontalScrollIndicator = false
         contentScrollView.delegate = self
@@ -172,14 +126,9 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         let hBounds = contentScrollView.bounds.height
         
         contentScrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds * 0.5)
-        
         sightViewController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
         contentController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
-//        contentScrollView.bringSubviewToFront(collectTopicController.view)
         cityController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
-//        scrollView.bringSubviewToFront(motifController.view)
-        
-        
     }
     
     
@@ -195,6 +144,39 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
             switchCollectButtonClick(cityBtn)
         }
     }
+    
+    // MARK: - 搜索(下一个控制器)
+    var searchController: UISearchController!
+    func searchButtonClicked(button: UIBarButtonItem) {
+        // 获得父控制器
+        
+        
+        let searchResultsController = SearchResultsViewController()
+        
+        
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController.searchResultsUpdater = searchResultsController
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+        
+        let imgView   = UIImageView(image: UIImage(named: "search-bg0")!)
+        imgView.frame = searchController.view.bounds
+        searchController.view.addSubview(imgView)
+        searchController.view.sendSubviewToBack(imgView)
+        
+        searchController.searchBar.barStyle = UIBarStyle.Black
+        searchController.searchBar.tintColor = UIColor.grayColor()
+        
+//        let textField = searchController.searchBar.valueForKey("searchField") as? UITextField
+//        textField?.textColor = UIColor.whiteColor()
+        searchController.searchBar.becomeFirstResponder()
+        searchController.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
+        
+        
+        presentViewController(searchController, animated: true, completion: nil)
+        
+    }
+
     
 }
 
