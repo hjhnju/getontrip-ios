@@ -24,7 +24,7 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     }()
     
     /// 底图图片
-    lazy var imageView: UIImageView = UIImageView(image: UIImage(named: "menu-bg")!)
+    lazy var imageView: UIImageView = UIImageView(image: UIImage(named: "default-theme")!)
     
     /// 登陆前，底view
     lazy var loginAge: UIView = UIView()
@@ -282,7 +282,9 @@ class SideBottomController: UIViewController, UITableViewDataSource, UITableView
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("开始定位，就定了一次")
         
+
         locationManager.stopUpdatingLocation()
+
         // 获取位置信息
         let coordinate = locations.first?.coordinate
         

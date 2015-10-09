@@ -37,6 +37,11 @@ struct StoryBoardIdentifier {
     static let DiscoveryViewCellID = "DiscoveryViewCellID"
     static let DiscoveryControllerID = "DiscoveryControllerID"
     
+    //theme
+    static let ThemeTabelViewCellID = "ThemeTabelViewCellID"
+    static let ThemeTableViewControllerID = "ThemeTableViewControllerID"
+    static let LandscapeCollectionViewCellID = "LandscapeCollectionViewCellID"
+    
     //man page
     static let NearbyControllerID = "NearbyControllerID"
     static let SearchResultsCell  = "SearchResultsCell"
@@ -48,6 +53,8 @@ struct StoryBoardIdentifier {
     static let ShowSightTopicsSegue = "ShowSightTopicsSegue"
     static let ShowCitySightsSegue = "ShowCitySightsSegue"
     static let ShowDiscoveryTopicDetailSegue = "ShowDiscoveryTopicDetailSegue"
+    static let ShowThemeSegue = "ShowThemeSegue"
+    static let ShowLandscapeSegue = "ShowLandscapeSegue"
     
     //左侧菜单
     static let SideslipSwitchCity  = "SideslipSwitchCity"
