@@ -15,7 +15,7 @@ class BaseHomeController: UIViewController {
     /// 搜索方法
     lazy var searchBar: UISearchBar = {
         let search = UISearchBar()
-        search.placeholder = "寻找你需要探索的城市、景点、话题等内容"
+        search.placeholder = "搜索城市、景点、内容等"
         return search
     }()
     
@@ -24,11 +24,10 @@ class BaseHomeController: UIViewController {
     
     var panGestureRecognizer: UIPanGestureRecognizer?
     
-    /// 遮罩层
+    //遮罩层
     var maskView: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.0)
-
     
-    /// 窗口滑动按钮
+    //窗口滑动按钮
     lazy var sideButton: UIBarButtonItem = {
         let side = UIBarButtonItem(image: UIImage(named: "hamburger"), style: UIBarButtonItemStyle.Plain, target: self, action: "openAndCloseView")
         return side
@@ -41,7 +40,7 @@ class BaseHomeController: UIViewController {
         
         if viewOpenAndClose { // 关闭
             maskView.alpha = 0.3
-            parent.view.frame = CGRectMake(sideViewFrame.sideOffsetX, 0, view.bounds.width, view.bounds.height)
+            parent.view.frame = CGRectMake(SideViewConstant.sideOffsetX, 0, view.bounds.width, view.bounds.height)
             UIView.animateWithDuration(0.7, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: { [unowned self] in
                     parent.view.frame.origin = CGPointMake(0, 0)
                     self.maskView.alpha = 0.000001
@@ -57,7 +56,7 @@ class BaseHomeController: UIViewController {
             UIView.animateWithDuration(0.7, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: { [unowned self] in
                 let parent = self.parentViewController as! UINavigationController
                 parent.view.frame = self.view.bounds
-                    parent.view.frame =  CGRectMake(sideViewFrame.sideOffsetX, 0, self.view.bounds.width, self.view.bounds.height)
+                    parent.view.frame =  CGRectMake(SideViewConstant.sideOffsetX, 0, self.view.bounds.width, self.view.bounds.height)
                     self.maskView.alpha = 0.3
                 }, completion: { (_) -> Void in
                     let vc = parent.parentViewController as! SideBottomController

@@ -107,8 +107,3 @@ struct SceneFont {
 struct placeholderImage {
     static let userIcon = "user_icon"
 }
-
-/// 侧滑角度
-struct sideViewFrame {
-    static let sideOffsetX = UIScreen.mainScreen().bounds.width * 0.75
-}
