@@ -6,7 +6,7 @@
 //  Copyright © 2015年 Joshua. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension UITextField {
     

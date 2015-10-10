@@ -18,7 +18,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     lazy var iconBack: UIView = UIView()
     
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "bg.jpg"))
+    lazy var iconView: UIImageView = UIImageView()
     
     lazy var webView: UIWebView = UIWebView()
     
@@ -42,13 +42,18 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     lazy var collectBtn: UIButton = UIButton(image: "favorite", title: "", fontSize: 0)
     
+    lazy var nameLabel: UILabel = UILabel(color: UIColor(hex: 0x9C9C9C, alpha: 1.0), title: "长白山", fontSize: 14, mutiLines: false)
+    
     var topicDetail: TopicDetail? {
         didSet {
-//            NSURLRequest(URL: NSURL(string: topicDetail!.url!)!)
-//            webView.loadRequest(NSURLRequest(URL: NSURL(string: topicDetail!.url!)!))
-            webView.loadRequest(NSURLRequest(URL: NSURL(string: "http://www.baidu.com")!, cachePolicy: NSURLRequestCachePolicy.ReturnCacheDataElseLoad, timeoutInterval: 30))
+            webView.loadRequest(NSURLRequest(URL: NSURL(string: topicDetail!.url!)!))
             iconView.sd_setImageWithURL(NSURL(string: topicDetail!.image!))
+            
         }
+    }
+    
+    deinit {
+        print("我走了没TopicDetailController")
     }
     
     /// 详情ID必有
@@ -104,7 +109,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         webView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 47), offset: CGPointMake(0, 0))
         bottomView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 47), offset: CGPointMake(0, 0))
         iconView.ff_Fill(bottomView)
-        labelBtn.ff_AlignInner(ff_AlignType.TopRight, referView: iconBack, size: CGSizeMake(32, 14), offset: CGPointMake(17, 7))
+        labelBtn.ff_AlignInner(ff_AlignType.TopRight, referView: iconBack, size: CGSizeMake(32, 14), offset: CGPointMake(-17, 7 + 44))
         collect.ff_AlignInner(ff_AlignType.BottomLeft, referView: iconBack, size: nil, offset: CGPointMake(10, -7))
         visit.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: collect, size: nil, offset: CGPointMake(11, 0))
         titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: collect, size: nil, offset: CGPointMake(0, 1))
@@ -114,12 +119,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         
         topHeightConstraint = iconBack.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
-        
-//        for constraint in bottomView.constraints {
-//            if constraint.firstAttribute == NSLayoutAttribute.Height {
-//                topHeightConstraint = constraint
-//            }
-//        }
         
     }
     
@@ -142,6 +141,16 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         
         //设置navigationbar
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        nameLabel.sizeToFit()
+        navigationItem.titleView = nameLabel
+        nameLabel.alpha = 0.0
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+
+        
+        
 //        navigationController?.navigationBar.barTintColor = SceneColor.crystalWhite
 //        navigationController?.navigationBar.tintColor = SceneColor.lightGray
 //        navigationController?.navigationBar.titleTextAttributes =
@@ -151,16 +160,30 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        
+//        NSURLCache.removeAllCachedResponses(<#T##NSURLCache#>)
         //还原navigationbar
 //        if let masterView = self.navigationController as? MasterViewController {
 //            masterView.refreshBar()
 //        }
 //        //还原statusbar
-//        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
     }
     
+    func imageWithColor(color: UIColor) -> UIImage {
+        
+        let rect = CGRectMake(0.0, 0.0, 1.0, 1.0)
+        UIGraphicsBeginImageContext(rect.size)
+        let ref = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(ref, color.CGColor)
+        CGContextFillRect(ref, rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
+        
+    }
     
+
     
     
 //    func loadWebURL() {
@@ -190,7 +213,24 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         if height < 44 {
             height = 44
         }
+
         topHeightConstraint?.constant = height
+
+        var alpha = abs(44/scrollView.contentOffset.y)
+        if scrollView.contentOffset.y > -44 {
+            alpha = 0.9
+        }
+        
+        let image = imageWithColor(UIColor(white: 1, alpha: alpha))
+        navigationController?.navigationBar.setBackgroundImage(image, forBarMetrics: UIBarMetrics.Default)
+        
+        if scrollView.contentOffset.y < -265 {
+            navigationController?.navigationBar.setBackgroundImage(imageWithColor(UIColor(white: 1, alpha: 0)), forBarMetrics: UIBarMetrics.Default)
+        }
+        
+
+        
+        
     }
     
     // TODO: 以截取Range方式进行应用间跳转，如果不是我方协议就跳转，但以后需改
@@ -334,7 +374,38 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     
     
-    
+    // MARK: - 搜索(下一个控制器)
+    var searchController: UISearchController!
+    func searchButtonClicked(button: UIBarButtonItem) {
+        // 获得父控制器
+        
+        
+        let searchResultsController = SearchResultsViewController()
+        
+        
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController.searchResultsUpdater = searchResultsController
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+        
+        let imgView   = UIImageView(image: UIImage(named: "search-bg0")!)
+        imgView.frame = searchController.view.bounds
+        searchController.view.addSubview(imgView)
+        searchController.view.sendSubviewToBack(imgView)
+        
+        searchController.searchBar.barStyle = UIBarStyle.Black
+        searchController.searchBar.tintColor = UIColor.grayColor()
+        
+        //        let textField = searchController.searchBar.valueForKey("searchField") as? UITextField
+        //        textField?.textColor = UIColor.whiteColor()
+        searchController.searchBar.becomeFirstResponder()
+        searchController.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
+        
+        
+        presentViewController(searchController, animated: true, completion: nil)
+        
+    }
+
     
 }
 

@@ -11,7 +11,7 @@ import UIKit
 class UserAccount: NSObject, NSCoding {
     
     /// 授权凭证， 为nil则表示尚未授权
-    var credential: SSDKCredential?
+//    var credential: SSDKCredential?
     
     /// 用户标识
     var uid: String?
@@ -45,20 +45,20 @@ class UserAccount: NSObject, NSCoding {
     
     /// 登陆类型
     var type: Int = 0
-    init(user: SSDKUser, type: Int) {
-        
-        credential = user.credential
-        uid        = user.uid
-        nickname   = user.nickname
-        icon       = user.icon
-        gender     = user.gender.hashValue
-        rawData    = user.rawData
-        self.type  = type
-        super.init()
-
-        // MARK: - 用户信息创建完毕，即刻保存
-        saveAccount()
-    }
+//    init(user: SSDKUser?, type: Int) {
+//        
+////        credential = user.credential
+//        uid        = user.uid
+//        nickname   = user.nickname
+//        icon       = user.icon
+//        gender     = user.gender.hashValue
+//        rawData    = user.rawData
+//        self.type  = type
+//        super.init()
+//
+//        // MARK: - 用户信息创建完毕，即刻保存
+//        saveAccount()
+//    }
     
     /// MARK: - 保存和加载文件
     static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("account.plist")

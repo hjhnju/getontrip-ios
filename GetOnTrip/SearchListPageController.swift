@@ -59,6 +59,15 @@ class SearchListPageController: BaseHomeController, UITableViewDataSource, UITab
         setupAutoLayout()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+    }
+    
     func enterButtonClick() {
         
         navigationController?.pushViewController(CityCenterPageController(), animated: true)
