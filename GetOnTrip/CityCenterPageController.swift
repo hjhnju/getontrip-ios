@@ -76,6 +76,7 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         loadHomeData()
 //        cityBackground.hidden = true
 //        collectionView.hidden = true
+        
     }
     
     /// 添加控件
@@ -259,7 +260,13 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("先中了这个话题")
+        
+        let homeTopic = dataSource?.valueForKey("topics") as? NSArray
+        let data = homeTopic![indexPath.row] as? HomeTopic
+        
+        let vc = TopicDetailController()
+        vc.topicId = data!.id
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     ///  使整体上面的view可以上下滚动，而且左右滚动使之不影响

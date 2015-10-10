@@ -18,9 +18,7 @@ class HttpRequest {
         
         request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
             
-            print(String(data: respData!, encoding: NSUTF8StringEncoding))
             let result = try? NSJSONSerialization.JSONObjectWithData(respData!, options: NSJSONReadingOptions(rawValue: 0)) as! [String: AnyObject]
-            print(result)
             
             if result != nil {
 

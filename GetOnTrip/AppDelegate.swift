@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         
         
-        UIApplication.sharedApplication().statusBarHidden = true
+//        UIApplication.sharedApplication().statusBarHidden = true
         
         let backButtonImage = UIImage(named: "back")
         UINavigationBar.appearance().backIndicatorImage = backButtonImage

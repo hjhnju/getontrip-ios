@@ -77,6 +77,9 @@
 		AEA94FCA1B9B150E006D6998 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FC91B9B150E006D6998 /* JavaScriptCore.framework */; };
 		AEA94FCC1B9B153A006D6998 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FCB1B9B153A006D6998 /* ImageIO.framework */; };
 		AEA94FCE1B9B154B006D6998 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FCD1B9B154B006D6998 /* libsqlite3.dylib */; };
+		AEAB95181BC7C79A00B6EE62 /* TopicDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB95171BC7C79A00B6EE62 /* TopicDetailController.swift */; settings = {ASSET_TAGS = (); }; };
+		AEAB951A1BC7C83300B6EE62 /* TopicDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB95191BC7C83300B6EE62 /* TopicDetailRequest.swift */; settings = {ASSET_TAGS = (); }; };
+		AEAB951C1BC7D5B500B6EE62 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AEAB951B1BC7D5B500B6EE62 /* bg.jpg */; settings = {ASSET_TAGS = (); }; };
 		AEB0B97D1BA15425006966FD /* UserLoghtRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */; };
 		AECAEE9D1BBAB45800FA31C7 /* SearchListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECAEE9C1BBAB45800FA31C7 /* SearchListTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */; };
@@ -215,6 +218,9 @@
 		AEA94FC91B9B150E006D6998 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		AEA94FCB1B9B153A006D6998 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		AEA94FCD1B9B154B006D6998 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		AEAB95171BC7C79A00B6EE62 /* TopicDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailController.swift; sourceTree = "<group>"; };
+		AEAB95191BC7C83300B6EE62 /* TopicDetailRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailRequest.swift; sourceTree = "<group>"; };
+		AEAB951B1BC7D5B500B6EE62 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLoghtRequest.swift; sourceTree = "<group>"; };
 		AECAEE9C1BBAB45800FA31C7 /* SearchListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchListTableViewCell.swift; sourceTree = "<group>"; };
 		AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -323,6 +329,7 @@
 				72D721321B6B9894005BDE55 /* Main */,
 				AE7F0AC41BB95CA90011F307 /* Sight(景点) */,
 				72D86E081B65E82B004B72D0 /* Common */,
+				AEAB95131BC7C2DF00B6EE62 /* Detail(详情) */,
 				72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */,
 				72D86DE41B65D94D004B72D0 /* AppDelegate.swift */,
 				72D86DE21B65D94D004B72D0 /* Supporting Files */,
@@ -575,6 +582,40 @@
 			path = WeChatSDK;
 			sourceTree = "<group>";
 		};
+		AEAB95131BC7C2DF00B6EE62 /* Detail(详情) */ = {
+			isa = PBXGroup;
+			children = (
+				AEAB95161BC7C38F00B6EE62 /* Controllers */,
+				AEAB95151BC7C38800B6EE62 /* Views */,
+				AEAB95141BC7C35200B6EE62 /* Models */,
+			);
+			name = "Detail(详情)";
+			sourceTree = "<group>";
+		};
+		AEAB95141BC7C35200B6EE62 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AEAB95191BC7C83300B6EE62 /* TopicDetailRequest.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		AEAB95151BC7C38800B6EE62 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		AEAB95161BC7C38F00B6EE62 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AEAB95171BC7C79A00B6EE62 /* TopicDetailController.swift */,
+				AEAB951B1BC7D5B500B6EE62 /* bg.jpg */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		AEC8007E1BA1354200099DD9 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,6 +734,7 @@
 				72D86DEF1B65D94D004B72D0 /* LaunchScreen.xib in Resources */,
 				AEA94FC31B9B14A7006D6998 /* ShareSDKUI.bundle in Resources */,
 				AEA94FB91B9B14A7006D6998 /* RennSDK.bundle in Resources */,
+				AEAB951C1BC7D5B500B6EE62 /* bg.jpg in Resources */,
 				72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -797,11 +839,13 @@
 				AE62E2CA1BB3D9B800B91D33 /* UIImageView+Extension.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */,
 				AE233ADF1BB0E98E002E6502 /* SearchListPageController.swift in Sources */,
+				AEAB951A1BC7C83300B6EE62 /* TopicDetailRequest.swift in Sources */,
 				AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */,
 				AECAEE9D1BBAB45800FA31C7 /* SearchListTableViewCell.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */,
 				AECD226D1B9EEC9B007F1D71 /* CollectContentViewController.swift in Sources */,
 				AE79EED41BBA8C83005A7709 /* HomeSearchCityRequest.swift in Sources */,
+				AEAB95181BC7C79A00B6EE62 /* TopicDetailController.swift in Sources */,
 				AEEA552B1BBFD5BE009AF772 /* HistoryTableViewController.swift in Sources */,
 				AE79B1351BC556330045CC3A /* BNSearchBar.swift in Sources */,
 				AEEA552D1BBFD7F7009AF772 /* HistoryCell.swift in Sources */,
