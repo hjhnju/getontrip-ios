@@ -170,7 +170,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.hidden = true
         tableView.rowHeight = view.bounds.height * 0.5 * 0.2
         tableView.registerClass(MenuSettingTableViewCell.self, forCellReuseIdentifier: "MenuTableView_Cell")
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
