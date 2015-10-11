@@ -70,7 +70,7 @@ class HomeSearchCityRequest: NSObject {
 class SearchLabel : NSObject {
     /// id
     var id: String?
-    /// 城市名
+    /// 标签名
     var name: String?
     /// 数字
     var num: String?

@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 
 /// 城市中间页
-class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class CityCenterPageController: MainViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     /// 顶部的背景高度
     let backgroundViewH: CGFloat = 198 + 24 + 34 + 196 + 34 + 8

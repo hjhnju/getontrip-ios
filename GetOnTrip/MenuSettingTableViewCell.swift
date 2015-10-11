@@ -13,6 +13,20 @@ class MenuSettingTableViewCell: UITableViewCell {
 
     lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 16, mutiLines: true)
     
+    // 设置底线
+    lazy var baseline: UIView! = {
+        var baselineView = UIView()
+        baselineView.backgroundColor = UIColor(white: 0xFFFFFF, alpha: 0.3)
+        return baselineView
+        }()
+    
+    var isBaseLineVisabled: Bool = true {
+        didSet {
+            baseline.hidden = !isBaseLineVisabled
+            setNeedsDisplay()
+        }
+    }
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -28,10 +42,5 @@ class MenuSettingTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // 设置底线
-    lazy var baseline: UIView! = {
-        var baselineView = UIView()
-        baselineView.backgroundColor = UIColor(white: 0xFFFFFF, alpha: 0.3)
-        return baselineView
-        }()
+
 }
