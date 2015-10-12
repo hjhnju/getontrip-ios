@@ -31,8 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
 //        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         
-        
-//        UIApplication.sharedApplication().statusBarHidden = true
+        // UIApplication.sharedApplication().statusBarHidden = true
         
         let backButtonImage = UIImage(named: "back")
         UINavigationBar.appearance().backIndicatorImage = backButtonImage
@@ -40,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.rootViewController = SideBottomController()
+        window?.rootViewController = SlideMenuViewController()
         window?.makeKeyAndVisible()
         
         
@@ -48,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSURLCache.setSharedURLCache(urlCache)
         
         // 打开数据库
-//        SQLiteManager.sharedSQLiteManager.openDB("status.db")
+        // SQLiteManager.sharedSQLiteManager.openDB("status.db")
         
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()
@@ -58,8 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         return true
     }
-    
-    
     
     // MARK: - 获取用户uuid
     private func gainUserUUID() {

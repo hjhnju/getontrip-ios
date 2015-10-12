@@ -10,11 +10,7 @@ import UIKit
 import FFAutoLayout
 
 /// 城市中间页
-class CityCenterPageController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
+class CityCenterPageController: MainViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     /// 顶部的背景高度
     let backgroundViewH: CGFloat = 198 + 24 + 34 + 196 + 34 + 8

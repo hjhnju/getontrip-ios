@@ -23,6 +23,9 @@ class AppIni:AppIniDev {
 ///  目前未使用
 struct StoryBoardIdentifier {
     
+    //search
+    static let SearchRecommendTableViewCellID = "SearchRecommendTableViewCellID"
+    
 }
 
 struct SceneColor {
@@ -57,9 +60,4 @@ struct SceneFont {
 /// 占位图像
 struct placeholderImage {
     static let userIcon = "user_icon"
-}
-
-/// 侧滑角度
-struct sideViewFrame {
-    static let sideOffsetX = UIScreen.mainScreen().bounds.width * 0.75
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeSearchCityRequest: NSObject {
+class SearchRecommendRequest: NSObject {
     /**
     * 接口2：/api/search/label
     * 搜索列表页   首页入口二
@@ -45,14 +45,14 @@ class HomeSearchCityRequest: NSObject {
                 let searchModel = NSMutableDictionary()
                 
                 var searchLabels = [SearchLabel]()
-                var searchDatas = [SearchData]()
+                var searchDatas = [RecommendCellData]()
                 
                 for item in respData["label"] as! NSArray {
                     searchLabels.append(SearchLabel(dict: item as! [String : String]))
                 }
                 
                 for item in respData["content"] as! NSArray {
-                    searchDatas.append(SearchData(dict: item as! [String : String]))
+                    searchDatas.append(RecommendCellData(dict: item as! [String : String]))
                 }
                 
                 let str = respData.objectForKey("image") as! String
@@ -70,7 +70,7 @@ class HomeSearchCityRequest: NSObject {
 class SearchLabel : NSObject {
     /// id
     var id: String?
-    /// 城市名
+    /// 标签名
     var name: String?
     /// 数字
     var num: String?
@@ -86,25 +86,30 @@ class SearchLabel : NSObject {
 }
 
 /// 搜索数据
-class SearchData : NSObject {
-    /// id
-    var id: String?
-    /// 景点名
-    var name: String?
-    /// 景点图片
+class RecommendCellData : NSObject {
+    //数据类型
+    static let TypeCity  = "2"
+    static let TypeSight = "1"
+    
+    //id
+    var id: String = ""
+    //标题
+    var name: String = ""
+    //图片
     var image: String? {
         didSet {
             image = AppIni.BaseUri + image!
         }
     }
-    /// 收藏
-    var collect_num: String = ""
     
-    var topic_num: String = ""
+    var param1: String = ""
     
-    var sight_num: String = ""
+    var param2: String = ""
     
-    var type: String?
+    var param3: String = ""
+    
+    //城市＝2，景点＝1
+    var type: String = RecommendCellData.TypeSight
     
     init(dict: [String: String]) {
         super.init()
@@ -113,5 +118,9 @@ class SearchData : NSObject {
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         
+    }
+    
+    func isTypeCity() -> Bool {
+        return self.type == RecommendCellData.TypeCity ? true : false
     }
 }
