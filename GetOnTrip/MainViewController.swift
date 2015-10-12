@@ -17,17 +17,32 @@ class MainViewController: UIViewController {
     //代理左侧菜单的操作
     var slideDelegate: SlideMenuViewControllerDelegate?
     
-    //窗口滑动按钮
-    lazy var sideButton: UIBarButtonItem = {
-        let side = UIBarButtonItem(image: UIImage(named: "menu-hamburger"), style: UIBarButtonItemStyle.Plain, target: self, action: "toggleMenu")
-        return side
+    lazy var leftView: UIView = {
+        let view = UIView()
+        view.addSubview(self.slideButton)
+        view.backgroundColor = UIColor.clearColor()
+        return view
         }()
     
-    //搜索框
-    lazy var searchBar: UISearchBar = {
-        let search = UISearchBar()
-        search.placeholder = "搜索城市、景点、内容等"
-        return search
+    lazy var rightView: UIView = {
+        let view = UIView()
+        view.addSubview(self.searchButton)
+        view.backgroundColor = UIColor.clearColor()
+        return view
+        }()
+    
+    lazy var slideButton: UIButton = {
+        let button = UIButton(type: UIButtonType.Custom)
+        button.setBackgroundImage(UIImage(named: "icon_hamburger"), forState: UIControlState.Normal)
+        button.addTarget(self, action: "toggleMenu", forControlEvents: UIControlEvents.TouchUpInside)
+        return button
+        }()
+    
+    lazy var searchButton: UIButton = {
+        let button = UIButton(type: UIButtonType.Custom)
+        button.setBackgroundImage(UIImage(named: "icon_search"), forState: UIControlState.Normal)
+        button.addTarget(self, action: "showSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        return button
         }()
     
     // MASK: View Life Circle
@@ -36,10 +51,15 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.whiteColor()
+        navigationItem.hidesBackButton = true
         
-        self.navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil);
-        self.navigationItem.leftBarButtonItem  = sideButton
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBar)
+        let fixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
+        fixspaceItem.width = -8
+        navigationItem.leftBarButtonItems = [fixspaceItem, UIBarButtonItem(customView: leftView)]
+        
+        let rightFixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
+        rightFixspaceItem.width = -8
+        navigationItem.rightBarButtonItems = [rightFixspaceItem, UIBarButtonItem(customView: rightView)]
         
         refreshBar()
     }
@@ -47,18 +67,29 @@ class MainViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        searchBar.bounds = CGRectMake(0, 0, view.bounds.width - 70, 0)
+        leftView.frame  = CGRectMake(0, 0, 21, 14)
+        rightView.frame = CGRectMake(0, 0, view.bounds.width-(414-356), 35)
+        
+        slideButton.frame  = leftView.bounds
+        searchButton.frame = rightView.bounds
     }
     
     func refreshBar() {
-        navigationController?.navigationBar.barTintColor = SceneColor.black
-        navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
+        //navigationController?.navigationBar.barTintColor = UIColor.clearColor()
+        navigationController?.navigationBar.tintColor    = UIColor.whiteColor()
+        //navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.white]
+        //navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     //MARK: 自定义方法
     
     func toggleMenu(){
         slideDelegate?.toggle()
+    }
+    
+    func showSearch(){
+        print("showing Searching")
     }
 }

@@ -44,7 +44,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     // MARK: Properties
     
     //定义窗体主体Controller
-    var mainViewController: MainViewController = SearchListPageController()
+    var mainViewController: MainViewController = SearchRecommendViewController()
     
     //带导航的主窗体
     lazy var mainNavViewController: UINavigationController = {
@@ -273,7 +273,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //跳转控制器
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.didClose()
+        
         if indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 4 {
             if sharedUserAccount == nil {
                 let alertView = UIAlertView(title: nil, message: "亲，请先登陆，么么哒", delegate: self, cancelButtonTitle: "亲一个")

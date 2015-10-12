@@ -27,6 +27,9 @@ struct StoryBoardIdentifier {
     static let MenuViewID    = "MenuViewID"
     static let MenuCellID    = "MenuCellID"
     
+    //search
+    static let SearchRecommendTableViewCellID = "SearchRecommendTableViewCellID"
+    
     //nearby
     static let NearbyTableViewCellID = "NearbyTableViewCellID"
     static let NearbyHeaderViewID    = "NearbyHeaderViewID"
