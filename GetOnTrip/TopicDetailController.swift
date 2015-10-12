@@ -21,7 +21,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: 相关属性
     var topHeightConstraint: NSLayoutConstraint?
-//    var iconBack: CGFloat?
     
     lazy var iconBack: UIView = UIView()
     
@@ -29,10 +28,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     lazy var webView: UIWebView = UIWebView()
     
-    /// 标题
     lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "长白山天池湖水只出不进，为何终年不减只出不进？", fontSize: 24, mutiLines: false)
     
-    /// 标签
     lazy var labelBtn: UIButton = UIButton(title: "历史", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
     
     lazy var collect: UIButton = UIButton(image: "collect_icon", title: " 18", fontSize: 12, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
@@ -67,6 +64,36 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     lazy var issueCommentBtn: UIButton = UIButton(title: "确认发布", fontSize: 12, radius: 10, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
     
+    lazy var shareView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 1.0)
+    
+    lazy var shareBtn1: shareButton = shareButton(image: "round", title: "微信好友", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    
+    lazy var shareBtn2: shareButton = shareButton(image: "round", title: "朋友圈", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    
+    lazy var shareBtn3: shareButton = shareButton(image: "round", title: "新浪微博", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    
+    lazy var shareBtn4: shareButton = shareButton(image: "round", title: "QQ空间", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    
+    lazy var shareBtn5: shareButton = shareButton(image: "round", title: "复制链接", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    
+    lazy var shareCancle: UIButton = UIButton(title: "取消", fontSize: 13, radius: 15)
+    
+    lazy var shareLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "分享至", fontSize: 13, mutiLines: true)
+    
+    var shareViewCY : NSLayoutConstraint?
+    
+    var shareBtnY1: NSLayoutConstraint?
+    
+    var shareBtnY2: NSLayoutConstraint?
+    
+    var shareBtnY3: NSLayoutConstraint?
+    
+    var shareBtnY4: NSLayoutConstraint?
+    
+    var shareBtnY5: NSLayoutConstraint?
+    
+    let shareParames = NSMutableDictionary()
+    
     var topicDetail: TopicDetail? {
         didSet {
             content = topicDetail!.content
@@ -78,6 +105,13 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
             visit.setTitle(" " + topicDetail!.visit!, forState: UIControlState.Normal)
             commentLab.text = topicDetail!.commentNum! + "条评论"
             nameLabel.text = topicDetail?.sight_name
+            
+            
+            shareParames.SSDKSetupShareParamsByText(topicDetail?.sight_name,
+                images : UIImage(named: "shareImg.png"),
+                url : NSURL(string: "http://123.57.46.229:8301/topic/detail?" + "id=\(topicDetail!.id)"),
+                title : topicDetail?.title,
+                type : SSDKContentType.Auto)
         }
     }
     
@@ -101,6 +135,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         refreshBar()
         loadSightData()
         setupAddProperty()
+        setupDefaultProperty()
         setupAutoLayout()
     }
     
@@ -138,13 +173,37 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         commentBottomView.addSubview(issueCommentView)
         issueCommentView.addSubview(issueTextfield)
         issueCommentView.addSubview(issueCommentBtn)
+        view.addSubview(shareView)
+        shareView.addSubview(shareLabel)
+        shareView.addSubview(shareBtn1)
+        shareView.addSubview(shareBtn2)
+        shareView.addSubview(shareBtn3)
+        shareView.addSubview(shareBtn4)
+        shareView.addSubview(shareBtn5)
+        shareView.addSubview(shareCancle)
+        shareBtn1.tag = 1
+        shareBtn2.tag = 2
+        shareBtn3.tag = 3
+        shareBtn4.tag = 4
+        shareBtn5.tag = 5
         
+        shareCancle.backgroundColor = UIColor(hex: 0xF3FD54, alpha: 1.0)
+        shareCancle.setTitleColor(UIColor(hex: 0x2A2D2E, alpha: 1.0), forState: UIControlState.Normal)
+    }
+    
+    private func setupDefaultProperty() {
         commentBottomView.clipsToBounds = true
         
         shareBtn.addTarget(self, action: "doSharing:", forControlEvents: UIControlEvents.TouchUpInside)
         collectBtn.addTarget(self, action: "doFavorite:", forControlEvents: UIControlEvents.TouchUpInside)
         commentBtn.addTarget(self, action: "doComment:", forControlEvents: UIControlEvents.TouchUpInside)
         cover.addTarget(self, action: "coverClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        shareCancle.addTarget(self, action: "shareCancleClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        shareBtn1.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        shareBtn2.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        shareBtn3.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        shareBtn4.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        shareBtn5.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
         titleLabel.numberOfLines = 2
         titleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
@@ -152,7 +211,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         iconView.clipsToBounds = true
         labelBtn.layer.borderWidth = 0.5
         labelBtn.layer.borderColor = UIColor.whiteColor().CGColor
-
+        
         webView.scalesPageToFit = true
         webView.dataDetectorTypes = .All
         webView.scrollView.showsHorizontalScrollIndicator = false
@@ -163,6 +222,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+
     }
     
     private func setupAutoLayout() {
@@ -181,7 +241,23 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: bottomView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
         topHeightConstraint = iconBack.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
-        
+        //shareView.frame = CGRectMake(0, view.bounds.height, view.bounds.width, 197)
+        let shareVCons = shareView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: view, size: CGSize(width: view.bounds.width, height: 197), offset: CGPoint(x: 0, y: 197))
+        shareLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: shareView, size: nil, offset: CGPointMake(0, 18))
+        shareViewCY = shareView.ff_Constraint(shareVCons, attribute: NSLayoutAttribute.Top)
+        let sbx: CGFloat = CGFloat((view.bounds.width - (50 * 5)) / 6)
+        let size = CGSizeMake(50, 73)
+        let s1 = shareBtn1.ff_AlignInner(ff_AlignType.CenterLeft, referView: shareView, size: size, offset: CGPoint(x: sbx, y: 150))
+        let s2 = shareBtn2.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn1, size: size, offset: CGPoint(x: sbx, y: 200))
+        let s3 = shareBtn3.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn2, size: size, offset: CGPoint(x: sbx, y: 250))
+        let s4 = shareBtn4.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn3, size: size, offset: CGPoint(x: sbx, y: 300))
+        let s5 = shareBtn5.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn4, size: size, offset: CGPoint(x: sbx, y: 350))
+        shareCancle.ff_AlignInner(ff_AlignType.BottomCenter, referView: shareView, size: CGSizeMake(93, 34), offset: CGPointMake(0, -17))
+        shareBtnY1 = shareBtn1.ff_Constraint(s1, attribute: NSLayoutAttribute.CenterY)
+        shareBtnY2 = shareBtn2.ff_Constraint(s2, attribute: NSLayoutAttribute.CenterY)
+        shareBtnY3 = shareBtn3.ff_Constraint(s3, attribute: NSLayoutAttribute.CenterY)
+        shareBtnY4 = shareBtn4.ff_Constraint(s4, attribute: NSLayoutAttribute.CenterY)
+        shareBtnY5 = shareBtn5.ff_Constraint(s5, attribute: NSLayoutAttribute.CenterY)
     }
     
     func refreshBar(){
@@ -208,16 +284,10 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     func showTopicDetail() {
         
         let html = NSMutableString()
-        html.appendString("<html>")
-        html.appendString("<head>")
+        html.appendString("<html><head>")
         html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
-        html.appendString("</head>")
-        html.appendString("<body>")
-        html.appendString(setupBody())
-        html.appendString("</body>")
-        html.appendString("</html>")
+        html.appendString("</head><body>\(setupBody())</body></html>")
         webView.loadHTMLString(html as String, baseURL: nil)
-//        webView.loadHTMLString(html as String, baseURL: nil)
     }
     
     func setupBody() -> String {
@@ -231,13 +301,9 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         let url = request.URL?.absoluteString
         let range = url?.rangeOfString("bn:src=")
         if range != nil {
-            
             print("跳转页面")
-            
             return false
         }
-        
-        
         return true
     }
     
@@ -290,20 +356,49 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     func doSharing(sender: UIButton) {
         print("分享")
         
-        // 1.创建分享参数
-        let shareParames = NSMutableDictionary()
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.shareViewCY?.constant = -197
+            self.shareView.layoutIfNeeded()
+            
+            }) { (_) -> Void in
+                
+                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
+                    self.shareBtnY1?.constant = 0
+                    self.shareBtnY2?.constant = 0
+                    self.shareBtnY3?.constant = 0
+                    self.shareBtnY4?.constant = 0
+                    self.shareBtnY5?.constant = 0
+                    self.shareBtn1.layoutSubviews()
+                    self.shareBtn2.layoutSubviews()
+                    self.shareBtn3.layoutSubviews()
+                    self.shareBtn4.layoutSubviews()
+                    self.shareBtn5.layoutSubviews()
+                    
+                    }, completion: nil)
+        }
+    }
+    
+    // MARK: - 分享 微信好友
+    func shareClick(sender: UIButton) {
         
-        shareParames.SSDKSetupShareParamsByText("分享内容",
-            images : UIImage(named: "shareImg.png"),
-            url : NSURL(string:"http://mob.com"),
-            title : "分享标题",
-            type : SSDKContentType.Image)
+        switch sender.tag {
+        case 1: shareFriendCircle(SSDKPlatformType.SubTypeWechatSession)
+        case 2: shareFriendCircle(SSDKPlatformType.SubTypeWechatTimeline)
+        case 3: shareFriendCircle(SSDKPlatformType.TypeSinaWeibo)
+        case 4: shareFriendCircle(SSDKPlatformType.SubTypeQZone)
+        case 5: shareFriendCircle(SSDKPlatformType.TypeCopy)
+        default:
+            break
+        }
         
-        //2.进行分享
-        ShareSDK.share(SSDKPlatformType.TypeSinaWeibo, parameters: shareParames) { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
+    }
+    
+    ///  朋友圈
+    func shareFriendCircle(type: SSDKPlatformType) {
+        
+        ShareSDK.share(type, parameters: self.shareParames) { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
             
             switch state{
-                
             case SSDKResponseState.Success:
                 print("分享成功")
                 let alert = UIAlertView(title: "分享成功", message: "分享成功", delegate: self, cancelButtonTitle: "取消")
@@ -315,8 +410,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 break
             }
         }
-
     }
+    
     
     func doComment(sender: UIButton) {
     
@@ -401,6 +496,32 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         }
 
 
+    }
+    
+    func shareCancleClick(serder: UIButton) {
+        
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.shareBtnY1?.constant = 150
+            self.shareBtnY2?.constant = 200
+            self.shareBtnY3?.constant = 250
+            self.shareBtnY4?.constant = 300
+            self.shareBtnY5?.constant = 350
+            self.shareBtn1.layoutSubviews()
+            self.shareBtn2.layoutSubviews()
+            self.shareBtn3.layoutSubviews()
+            self.shareBtn4.layoutSubviews()
+            self.shareBtn5.layoutSubviews()
+            }) { (_) -> Void in
+                
+                UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
+                    self.shareViewCY?.constant = self.view.bounds.height
+                    self.shareView.layoutIfNeeded()
+                }
+        }
+        
+
+        
     }
     
 }

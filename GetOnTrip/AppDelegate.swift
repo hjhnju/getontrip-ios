@@ -108,9 +108,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch platform {
                     
                 case SSDKPlatformType.TypeSinaWeibo:
-                    //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
-                    appInfo.SSDKSetupSinaWeiboByAppKey("2543743086",
-                        appSecret : "0ea741a8c5d9b3ffaeadf8d3a0659fb9",
+                    //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权 2543743086 0ea741a8c5d9b3ffaeadf8d3a0659fb9
+                    appInfo.SSDKSetupSinaWeiboByAppKey("1054799569",
+                        appSecret : "ae886763688eeb8a732e26c30f91318d",
                         redirectUri : "http://www.baidu.com",
                         authType : SSDKAuthTypeBoth)
                     break
@@ -123,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 
                 case SSDKPlatformType.TypeQQ:
-                    appInfo.SSDKSetupQQByAppId("1104828839", appKey: "vBDGLyCowfoWikog", authType: SSDKAuthTypeBoth)
+                    appInfo.SSDKSetupQQByAppId("100371282", appKey: "aed9b0303e3ed1e27bae87c33761161d", authType: SSDKAuthTypeBoth)
                     default:
                     break
                     
