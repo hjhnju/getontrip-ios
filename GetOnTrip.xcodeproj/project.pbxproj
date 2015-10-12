@@ -24,9 +24,11 @@
 		AE20EDEE1B9C4FC100F26074 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */; };
 		AE20EDF01B9C53B900F26074 /* MessageListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */; };
 		AE233ADD1BB0E8D5002E6502 /* CityCenterPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233ADC1BB0E8D5002E6502 /* CityCenterPageController.swift */; settings = {ASSET_TAGS = (); }; };
-		AE233ADF1BB0E98E002E6502 /* SearchListPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233ADE1BB0E98E002E6502 /* SearchListPageController.swift */; settings = {ASSET_TAGS = (); }; };
 		AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233B1C1BB0F7A2002E6502 /* SlideMenuViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233B421BB13D95002E6502 /* UILabel+Extension.swift */; settings = {ASSET_TAGS = (); }; };
+		AE488D691BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		AE488D6B1BCBDDAE0032B78B /* SearchRecommendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6A1BCBDDAE0032B78B /* SearchRecommendRequest.swift */; settings = {ASSET_TAGS = (); }; };
+		AE488D6D1BCBDDDB0032B78B /* SearchRecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6C1BCBDDDB0032B78B /* SearchRecommendViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		AE4E77A31BCB4346006480B1 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A21BCB4346006480B1 /* libicucore.tbd */; };
 		AE4E77A51BCB4350006480B1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A41BCB4350006480B1 /* libz.tbd */; };
 		AE4E77A71BCB435B006480B1 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A61BCB435B006480B1 /* libstdc++.tbd */; };
@@ -61,7 +63,6 @@
 		AE79EEC91BBA8440005A7709 /* SightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EEC81BBA8440005A7709 /* SightCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AE79EED21BBA8A30005A7709 /* HomeCityCententTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EED11BBA8A30005A7709 /* HomeCityCententTopicCell.swift */; settings = {ASSET_TAGS = (); }; };
-		AE79EED41BBA8C83005A7709 /* HomeSearchCityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EED31BBA8C83005A7709 /* HomeSearchCityRequest.swift */; settings = {ASSET_TAGS = (); }; };
 		AE7AD7531BA7C39E006857EB /* cityGroups.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE7AD7521BA7C39E006857EB /* cityGroups.plist */; };
 		AE7AD7571BA7E278006857EB /* seachCities.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE7AD7561BA7E278006857EB /* seachCities.plist */; };
 		AE7B997B1BA17DE4003034FB /* UserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */; };
@@ -78,7 +79,6 @@
 		AEAB951C1BC7D5B500B6EE62 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AEAB951B1BC7D5B500B6EE62 /* bg.jpg */; settings = {ASSET_TAGS = (); }; };
 		AEAB95941BC8D82700B6EE62 /* TopicDetail.css in Resources */ = {isa = PBXBuildFile; fileRef = AEAB95931BC8D82700B6EE62 /* TopicDetail.css */; settings = {ASSET_TAGS = (); }; };
 		AEB0B97D1BA15425006966FD /* UserLoghtRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */; };
-		AECAEE9D1BBAB45800FA31C7 /* SearchListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECAEE9C1BBAB45800FA31C7 /* SearchListTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */; };
 		AECD22601B9E9B9E007F1D71 /* SwitchCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD225F1B9E9B9E007F1D71 /* SwitchCityViewController.swift */; };
 		AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */; };
@@ -148,9 +148,11 @@
 		AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListRequest.swift; sourceTree = "<group>"; };
 		AE233ADC1BB0E8D5002E6502 /* CityCenterPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityCenterPageController.swift; sourceTree = "<group>"; };
-		AE233ADE1BB0E98E002E6502 /* SearchListPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchListPageController.swift; sourceTree = "<group>"; };
 		AE233B1C1BB0F7A2002E6502 /* SlideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideMenuViewController.swift; sourceTree = "<group>"; };
 		AE233B421BB13D95002E6502 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecommendTableViewCell.swift; sourceTree = "<group>"; };
+		AE488D6A1BCBDDAE0032B78B /* SearchRecommendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecommendRequest.swift; sourceTree = "<group>"; };
+		AE488D6C1BCBDDDB0032B78B /* SearchRecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecommendViewController.swift; sourceTree = "<group>"; };
 		AE4E77A21BCB4346006480B1 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		AE4E77A41BCB4350006480B1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		AE4E77A61BCB435B006480B1 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
@@ -197,7 +199,6 @@
 		AE79EEC81BBA8440005A7709 /* SightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuSettingTableViewCell.swift; sourceTree = "<group>"; };
 		AE79EED11BBA8A30005A7709 /* HomeCityCententTopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCityCententTopicCell.swift; sourceTree = "<group>"; };
-		AE79EED31BBA8C83005A7709 /* HomeSearchCityRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeSearchCityRequest.swift; sourceTree = "<group>"; };
 		AE7AD7521BA7C39E006857EB /* cityGroups.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cityGroups.plist; sourceTree = "<group>"; };
 		AE7AD7561BA7E278006857EB /* seachCities.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = seachCities.plist; sourceTree = "<group>"; };
 		AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoRequest.swift; sourceTree = "<group>"; };
@@ -217,7 +218,6 @@
 		AEAB951B1BC7D5B500B6EE62 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		AEAB95931BC8D82700B6EE62 /* TopicDetail.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = TopicDetail.css; sourceTree = "<group>"; };
 		AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLoghtRequest.swift; sourceTree = "<group>"; };
-		AECAEE9C1BBAB45800FA31C7 /* SearchListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchListTableViewCell.swift; sourceTree = "<group>"; };
 		AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		AECD225F1B9E9B9E007F1D71 /* SwitchCityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCityViewController.swift; sourceTree = "<group>"; };
 		AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectSightRequest.swift; sourceTree = "<group>"; };
@@ -466,13 +466,14 @@
 				AE553BB41B81E8D900C03737 /* GuideViewController.swift */,
 				AE233B1C1BB0F7A2002E6502 /* SlideMenuViewController.swift */,
 				AE6079B41BB2612D00DB2955 /* MainViewController.swift */,
-				AE233ADE1BB0E98E002E6502 /* SearchListPageController.swift */,
 				AE233ADC1BB0E8D5002E6502 /* CityCenterPageController.swift */,
 				AECD225F1B9E9B9E007F1D71 /* SwitchCityViewController.swift */,
 				AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */,
 				AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */,
+				AE488D6C1BCBDDDB0032B78B /* SearchRecommendViewController.swift */,
 				AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */,
 				AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */,
+				AE488D6A1BCBDDAE0032B78B /* SearchRecommendRequest.swift */,
 				72D86E091B65E844004B72D0 /* Ucenter(收藏) */,
 			);
 			name = Controller;
@@ -481,8 +482,8 @@
 		AE79EECD1BBA8861005A7709 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */,
 				AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */,
-				AECAEE9C1BBAB45800FA31C7 /* SearchListTableViewCell.swift */,
 				AE79EED11BBA8A30005A7709 /* HomeCityCententTopicCell.swift */,
 				AE79B1341BC556330045CC3A /* BNSearchBar.swift */,
 				AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */,
@@ -494,7 +495,6 @@
 			isa = PBXGroup;
 			children = (
 				AE4ECBCA1BB4FE4B00DC65F7 /* HomeCityCenterRequest.swift */,
-				AE79EED31BBA8C83005A7709 /* HomeSearchCityRequest.swift */,
 				AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */,
 				AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */,
 			);
@@ -805,23 +805,23 @@
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,
 				AE62E2CE1BB3EF6500B91D33 /* UIPickerView+Extension.swift in Sources */,
 				AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */,
+				AE488D6D1BCBDDDB0032B78B /* SearchRecommendViewController.swift in Sources */,
 				AE87C2141B85F285004C0998 /* BookCell.swift in Sources */,
 				AE7F0AC21BB954730011F307 /* SightListRequest.swift in Sources */,
 				AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */,
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
 				AE62E2CA1BB3D9B800B91D33 /* UIImageView+Extension.swift in Sources */,
+				AE488D691BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */,
-				AE233ADF1BB0E98E002E6502 /* SearchListPageController.swift in Sources */,
 				AEAB951A1BC7C83300B6EE62 /* TopicDetailRequest.swift in Sources */,
 				AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */,
-				AECAEE9D1BBAB45800FA31C7 /* SearchListTableViewCell.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* BookRequest.swift in Sources */,
 				AECD226D1B9EEC9B007F1D71 /* CollectContentViewController.swift in Sources */,
-				AE79EED41BBA8C83005A7709 /* HomeSearchCityRequest.swift in Sources */,
 				AEAB95181BC7C79A00B6EE62 /* TopicDetailController.swift in Sources */,
 				AEEA552B1BBFD5BE009AF772 /* HistoryTableViewController.swift in Sources */,
 				AE79B1351BC556330045CC3A /* BNSearchBar.swift in Sources */,
 				AEEA552D1BBFD7F7009AF772 /* HistoryCell.swift in Sources */,
+				AE488D6B1BCBDDAE0032B78B /* SearchRecommendRequest.swift in Sources */,
 				AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */,
 				AEEA552F1BC02363009AF772 /* LandscapeCell.swift in Sources */,
 				AE7B997B1BA17DE4003034FB /* UserInfoRequest.swift in Sources */,
