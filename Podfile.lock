@@ -8,7 +8,7 @@ PODS:
   - SSKeychain (1.2.3)
 
 DEPENDENCIES:
-  - Alamofire (~> 2.0)
+  - Alamofire
   - FFAutoLayout
   - MJRefresh
   - SDWebImage

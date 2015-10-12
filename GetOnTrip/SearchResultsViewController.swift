@@ -62,6 +62,7 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         tableView.separatorColor  = UIColor.grayColor()
         tableView.rowHeight = 60
         tableView.backgroundView = UIImageView(image: UIImage(named: "search-bg0")!)
+        tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
     }
     
     // MARK: UITableViewDataSource
@@ -91,7 +92,7 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.SearchResultsCell, forIndexPath: indexPath) as! SearchResultsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
 
 //        cell.resultImageUrl = resultData[indexPath.section][indexPath.row]["image"]?.stringValue
 //        cell.resultTitle = resultData[indexPath.section][indexPath.row]["name"]?.stringValue

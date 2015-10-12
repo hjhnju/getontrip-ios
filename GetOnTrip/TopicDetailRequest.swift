@@ -59,8 +59,6 @@ class TopicDetail: NSObject {
             image = AppIni.BaseUri + image!
         }
     }
-    /// url
-    var url: String?
     /// 评论数
     var commentNum: String?
     /// 访问数

@@ -28,8 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
+//        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+//        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         
         
 //        UIApplication.sharedApplication().statusBarHidden = true
@@ -83,66 +83,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
         */
         
-//        ShareSDK.registerApp("a28324e69186",
-//            
-//            activePlatforms: [SSDKPlatformType.TypeSinaWeibo.rawValue, // 新浪微博
-//                SSDKPlatformType.SubTypeWechatSession.rawValue,        // 微信好友
-//                SSDKPlatformType.SubTypeWechatTimeline.rawValue,       // 微信朋友圈
-//                SSDKPlatformType.SubTypeQZone.rawValue],               // qq空间
-//            onImport: {(platform : SSDKPlatformType) -> Void in
-//                
-//                switch platform{
-//                    // 调用微信接口
-//                case SSDKPlatformType.TypeWechat:
-//                    ShareSDKConnector.connectWeChat(WXApi.classForCoder())
-//                    // 调用qq接口
-//                case SSDKPlatformType.TypeQQ:
-//                    ShareSDKConnector.connectQQ(QQApiInterface.classForCoder(), tencentOAuthClass: TencentOAuth.classForCoder())
-//                    // 未调用新浪接口，文档说不调用并不影响授权及分享功能
-//                default:
-//                    break
-//                }
-//            },
-//            onConfiguration: {(platform : SSDKPlatformType,appInfo : NSMutableDictionary!) -> Void in
-//                switch platform {
-//                    // TODO: 以下应用均未在相关应用进行过注册，模拟器无法检测，只能使用真机
-//                case SSDKPlatformType.TypeSinaWeibo:
-//                    //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
-//                    appInfo.SSDKSetupSinaWeiboByAppKey("568898243",
-//                        appSecret : "38a4f8204cc784f81f9f0daaf31e02e3",
-//                        redirectUri : "http://www.sharesdk.cn",
-//                        authType : SSDKAuthTypeBoth)
-//                    break
-//                    
-//                case SSDKPlatformType.TypeWechat:
-//                    //设置微信应用信息
-////                    appInfo.SSDKSetupWeChatByAppId("wx4868b35061f87885", appSecret: "64020361b8ec4c99936c0e3999a9f249")
-//                    break
-//                    
-//                case SSDKPlatformType.TypeTencentWeibo:
-//                    //设置腾讯微博应用信息，其中authType设置为只用Web形式授权
-//                    appInfo.SSDKSetupTencentWeiboByAppKey("801307650",
-//                        appSecret : "ae36f4ee3946e1cbb98d6965b0b2ff5c",
-//                        redirectUri : "http://www.sharesdk.cn")
-//                    break
-//                case SSDKPlatformType.TypeFacebook:
-//                    //设置Facebook应用信息，其中authType设置为只用SSO形式授权
-//                    appInfo.SSDKSetupFacebookByAppKey("107704292745179",
-//                        appSecret : "38053202e1a5fe26c80c753071f0b573",
-//                        authType : SSDKAuthTypeBoth)
-//                    break
-//                default:
-//                    break
-//                    
-//                }
-//        })
-
+        ShareSDK.registerApp("b054f1b715c0",
+            
+            activePlatforms: [SSDKPlatformType.TypeSinaWeibo.rawValue,
+                SSDKPlatformType.TypeQQ.rawValue,
+                SSDKPlatformType.SubTypeQZone.rawValue,
+                SSDKPlatformType.TypeWechat.rawValue,
+                SSDKPlatformType.SubTypeWechatTimeline.rawValue],
+            onImport: {(platform : SSDKPlatformType) -> Void in
+                
+                switch platform {
+                    
+                case SSDKPlatformType.TypeWechat:
+                    ShareSDKConnector.connectWeChat(WXApi.classForCoder())
+                    
+                case SSDKPlatformType.TypeQQ:
+                    ShareSDKConnector.connectQQ(QQApiInterface.classForCoder(), tencentOAuthClass: TencentOAuth.classForCoder())
+                    
+                default:
+                    break
+                }
+            },
+            onConfiguration: {(platform : SSDKPlatformType,appInfo : NSMutableDictionary!) -> Void in
+                switch platform {
+                    
+                case SSDKPlatformType.TypeSinaWeibo:
+                    //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
+                    appInfo.SSDKSetupSinaWeiboByAppKey("2543743086",
+                        appSecret : "0ea741a8c5d9b3ffaeadf8d3a0659fb9",
+                        redirectUri : "http://www.baidu.com",
+                        authType : SSDKAuthTypeBoth)
+                    break
+                    
+                // TODO: 审核需要7天，目前未拿到appkey 10月12日
+                case SSDKPlatformType.TypeWechat:
+                    //设置微信应用信息
+                    appInfo.SSDKSetupWeChatByAppId("wx4868b35061f87885", appSecret: "64020361b8ec4c99936c0e3999a9f249")
+                    break
+                
+                
+                case SSDKPlatformType.TypeQQ:
+                    appInfo.SSDKSetupQQByAppId("1104828839", appKey: "vBDGLyCowfoWikog", authType: SSDKAuthTypeBoth)
+                    default:
+                    break
+                    
+                }
+        })
+        
     }
+
+
 
 
     // MARK: - 设置是否是第一次进入最新版本
 //    private func defaultViewController() -> UIViewController {
-//        
+//
 //        return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
 //    }
 

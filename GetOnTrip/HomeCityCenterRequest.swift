@@ -13,13 +13,13 @@ class HomeCityCenterRequest {
     * 接口1：/api/home
     * 城市中间页   首页入口一
     * @param string deviceId，设备ID
-    * @param string city,城市名称，如果不能给出城市名称，默认是北京
+    * @param string city,城市ID
     * @return json
     */
     
     // 请求参数
     var deviceId :String = appUUID!
-    var city: String     = "北京"
+    var city: String     = "2"
     
     // 将数据回调外界
     func fetchFeedBackModels(handler: NSDictionary -> Void) {

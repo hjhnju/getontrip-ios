@@ -10,7 +10,11 @@ import UIKit
 import FFAutoLayout
 
 /// 城市中间页
-class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class CityCenterPageController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
 
     /// 顶部的背景高度
     let backgroundViewH: CGFloat = 198 + 24 + 34 + 196 + 34 + 8
@@ -27,6 +31,8 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
     
     /// 城市名
     lazy var cityName: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 26, mutiLines: true)
+    
+    var cityID: String = "2"
     
     /// 收藏按钮
     lazy var collectBtn: UIButton = UIButton(title: "+ 收藏", fontSize: 14, radius: 10)
@@ -103,6 +109,7 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         tableView.backgroundColor = UIColor.clearColor()
         cityBackground.backgroundColor = UIColor.orangeColor()
         collectBtn.layer.borderColor = UIColor.whiteColor().CGColor
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         
         backgroundView.userInteractionEnabled = true
         cityBackground.userInteractionEnabled = true
@@ -118,8 +125,6 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         tableView.registerClass(HomeCityCententTopicCell.self, forCellReuseIdentifier: "HomeCityCententTopic_Cell")
         collectionView.registerClass(HomeSightCollectionViewCell.self, forCellWithReuseIdentifier: "HomeSightCollectionView_Cell")
         topicTopIcon.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        
         
         // 每个item的大小
         layout.itemSize = CGSizeMake(186, 196)
@@ -167,7 +172,7 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         
         if lastSuccessAddRequest == nil {
             lastSuccessAddRequest = HomeCityCenterRequest()
-            lastSuccessAddRequest?.city = "北京"
+            lastSuccessAddRequest?.city = cityID
         }
         
         lastSuccessAddRequest?.fetchFeedBackModels {[unowned self] (handler: NSDictionary) -> Void in
@@ -185,6 +190,13 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         cityBackground.sd_setImageWithURL(NSURL(string: cityData.image!))
         cityName.text = cityData.name
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+    }
+    
     
     // MARK: - collectionView代理及数据源方法
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -266,6 +278,7 @@ class CityCenterPageController: BaseHomeController, UITableViewDelegate, UITable
         
         let vc = TopicDetailController()
         vc.topicId = data!.id
+//        http://123.57.46.229:8301/api/home?city=北京&deviceId=583C5CED-BDC2-4B7A-896F-64C2CAB8DBD2
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -20,58 +20,9 @@ class AppIniDev {
 class AppIni:AppIniDev {
 }
 
+///  目前未使用
 struct StoryBoardIdentifier {
     
-    //menu
-    static let MainNavViewID = "MainNavViewID"
-    static let MenuViewID    = "MenuViewID"
-    static let MenuCellID    = "MenuCellID"
-    
-    //nearby
-    static let NearbyTableViewCellID = "NearbyTableViewCellID"
-    static let NearbyHeaderViewID    = "NearbyHeaderViewID"
-    static let TopicDetailViewControllerID = "TopicDetailViewControllerID"
-    static let TopicDetailNavViewControllerID = "TopicDetailNavViewControllerID"
-    
-    //discovery
-    static let DiscoveryViewCellID = "DiscoveryViewCellID"
-    static let DiscoveryControllerID = "DiscoveryControllerID"
-    
-    //theme
-    static let ThemeTabelViewCellID = "ThemeTabelViewCellID"
-    static let ThemeTableViewControllerID = "ThemeTableViewControllerID"
-    static let LandscapeCollectionViewCellID = "LandscapeCollectionViewCellID"
-    
-    //man page
-    static let NearbyControllerID = "NearbyControllerID"
-    static let SearchResultsCell  = "SearchResultsCell"
-    static let SearchResultsViewControllerID = "SearchResultsViewControllerID"
-    
-    //segues
-    static let ShowFavSegue         = "ShowFavSegue"
-    static let ShowTopicDetailSegue = "ShowTopicDetailSegue"
-    static let ShowSightTopicsSegue = "ShowSightTopicsSegue"
-    static let ShowCitySightsSegue = "ShowCitySightsSegue"
-    static let ShowDiscoveryTopicDetailSegue = "ShowDiscoveryTopicDetailSegue"
-    static let ShowThemeSegue = "ShowThemeSegue"
-    static let ShowLandscapeSegue = "ShowLandscapeSegue"
-    
-    //左侧菜单
-    static let SideslipSwitchCity  = "SideslipSwitchCity"
-    static let SidesMessage        = "SidesMessage"
-    static let SidesSetting        = "SidesSetting"
-    static let SidesFeedback       = "SidesFeedback"
-    
-    // storyboardID 附近二级页面
-    static let ScenicCyclopaedicSB = "ScenicCyclopaedicSB"
-    static let ScenicTopicSB       = "ScenicTopicSB"
-    static let ScenicBookSB        = "ScenicBookSB"
-    static let ScenicVideoSB       = "ScenicVideoSB"
-    
-    // 收藏页面
-    static let CollectTopicSB      = "CollectTopicSB"
-    static let CollectSightSB      = "CollectSightSB"
-    static let CollectMotifSB      = "CollectMotifSB"
 }
 
 struct SceneColor {
