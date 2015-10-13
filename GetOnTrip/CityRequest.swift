@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeCityCenterRequest {
+class CityRequest {
     /**
     * 接口1：/api/home
     * 城市中间页   首页入口一
@@ -40,12 +40,12 @@ class HomeCityCenterRequest {
 
                 let homeModel = NSMutableDictionary()
                 
-                let city   = HomeCity(dict: respData["city"] as! [String : AnyObject])
-                var sights = [HomeSight]()
+                let city   = City(dict: respData["city"] as! [String : AnyObject])
+                var sights = [Sight]()
                 var topics = [HomeTopic]()
                 
                 for item in respData["sight"] as! NSArray {
-                    sights.append(HomeSight(dict: item as! [String : String]))
+                    sights.append(Sight(dict: item as! [String : String]))
                 }
                 
                 for item in respData["topic"] as! NSArray {
@@ -63,7 +63,7 @@ class HomeCityCenterRequest {
     }
 }
 
-class HomeCity : NSObject {
+class City: NSObject {
      /// id
     var id: String?
      /// 城市名
@@ -85,7 +85,7 @@ class HomeCity : NSObject {
     }
 }
 
-class HomeSight : NSObject {
+class Sight: NSObject {
     /// id
     var id: String?
     /// 景点名

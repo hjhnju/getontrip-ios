@@ -65,7 +65,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
     
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: HomeCityCenterRequest?
+    var lastSuccessAddRequest: CityRequest?
     
     /// 数据源
     var dataSource: NSDictionary?
@@ -77,6 +77,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         initView()
         setupAutoLayout()
         loadCityData()
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.Default
     }
     
     /// 添加控件
@@ -157,12 +161,12 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func loadCityData() {
         
         if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = HomeCityCenterRequest()
+            lastSuccessAddRequest = CityRequest()
             lastSuccessAddRequest?.city = cityID
         }
         
         lastSuccessAddRequest?.fetchFeedBackModels {[unowned self] (handler: NSDictionary) -> Void in
-            self.loadProperty(handler.valueForKey("city") as! HomeCity)
+            self.loadProperty(handler.valueForKey("city") as! City)
             
             self.dataSource = handler
             
@@ -172,7 +176,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
 
-    private func loadProperty(cityData: HomeCity) {
+    private func loadProperty(cityData: City) {
         cityBackground.sd_setImageWithURL(NSURL(string: cityData.image!))
         cityName.text = cityData.name
     }
@@ -192,7 +196,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("HomeSightCollectionView_Cell", forIndexPath: indexPath) as! HomeSightCollectionViewCell
         let data = dataSource?.valueForKey("sights") as! NSArray
-        cell.data = data[indexPath.row] as? HomeSight
+        cell.data = data[indexPath.row] as? Sight
 
         layout.prepareLayout()
 
@@ -230,7 +234,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print("先中了这个景点")
         let vc = SightListController()
-        let sightId = dataSource?.valueForKey("sights")?[indexPath.row] as! HomeSight
+        let sightId = dataSource?.valueForKey("sights")?[indexPath.row] as! Sight
         vc.sightId = sightId.id
         addChildViewController(vc)
         view.addSubview(vc.view)
@@ -286,7 +290,7 @@ class HomeSightCollectionViewCell: UICollectionViewCell {
     /// 内容及收藏
     var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 09), title: "10个内容 | 480人收藏", fontSize: 10, mutiLines: false)
     
-    var data: HomeSight? {
+    var data: Sight? {
         didSet {
             icon.sd_setImageWithURL(NSURL(string: data!.image!))
             title.text = data?.name
