@@ -61,6 +61,10 @@ class SearchRecommendTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        //防止选择时白底
+        self.backgroundColor = UIColor.clearColor()
+        self.selectionStyle = UITableViewCellSelectionStyle.None
+        
         let titleFont = UIFont(name: SceneFont.heiti, size: 10)
         btn1.titleLabel?.font = titleFont
         btn2.titleLabel?.font = titleFont
