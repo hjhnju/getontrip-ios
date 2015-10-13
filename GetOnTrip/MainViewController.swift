@@ -72,18 +72,18 @@ class MainViewController: UIViewController {
         searchButton.frame = rightView.bounds
         
         //设置导航样式
-        navigationController?.navigationBar.tintColor    = UIColor.whiteColor()
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+//        navigationController?.navigationBar.tintColor    = UIColor.whiteColor()
+//        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+//        navigationController?.navigationBar.shadowImage = UIImage()
+//        navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
     }
     
     override func viewDidDisappear(animated: Bool) {
         //恢复导航样式
-        navigationController?.navigationBar.tintColor    = UIColor.whiteColor()
-        navigationController?.navigationBar.barTintColor = UIColor.clearColor()
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.white]
-        navigationController?.navigationBar.backgroundColor = SceneColor.black
+//        navigationController?.navigationBar.tintColor    = UIColor.whiteColor()
+//        navigationController?.navigationBar.barTintColor = UIColor.clearColor()
+//        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.white]
+//        navigationController?.navigationBar.backgroundColor = SceneColor.black
     }
     
     //MARK: 自定义方法

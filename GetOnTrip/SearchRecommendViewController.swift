@@ -162,20 +162,21 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let array = dataSource!.objectForKey("datas") as! NSArray
-        let data = array[indexPath.row] as? RecommendCellData
+        if let data = array[indexPath.row] as? RecommendCellData {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        if (!data!.isTypeCity()) {
-            let vc = SightListController()
-            vc.sightId = data!.id
-            addChildViewController(vc)
-            view.addSubview(vc.view)
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = CityViewController()
-            vc.cityName.text = data?.name
-            navigationController?.pushViewController(vc, animated: true)
+            if (!data.isTypeCity()) {
+                let vc = SightListController()
+                vc.sightId = data.id
+                addChildViewController(vc)
+                view.addSubview(vc.view)
+                navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let vc = CityViewController()
+                vc.cityName = data.name
+                vc.cityId   = data.id
+                navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     

@@ -62,7 +62,7 @@
 		AE79B1351BC556330045CC3A /* BNSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79B1341BC556330045CC3A /* BNSearchBar.swift */; settings = {ASSET_TAGS = (); }; };
 		AE79EEC91BBA8440005A7709 /* SightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EEC81BBA8440005A7709 /* SightCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		AE79EED21BBA8A30005A7709 /* HomeCityCententTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EED11BBA8A30005A7709 /* HomeCityCententTopicCell.swift */; settings = {ASSET_TAGS = (); }; };
+		AE79EED21BBA8A30005A7709 /* CityHotTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EED11BBA8A30005A7709 /* CityHotTopicTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AE7AD7531BA7C39E006857EB /* cityGroups.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE7AD7521BA7C39E006857EB /* cityGroups.plist */; };
 		AE7AD7571BA7E278006857EB /* seachCities.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE7AD7561BA7E278006857EB /* seachCities.plist */; };
 		AE7B997B1BA17DE4003034FB /* UserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */; };
@@ -198,7 +198,7 @@
 		AE79B1341BC556330045CC3A /* BNSearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BNSearchBar.swift; sourceTree = "<group>"; };
 		AE79EEC81BBA8440005A7709 /* SightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuSettingTableViewCell.swift; sourceTree = "<group>"; };
-		AE79EED11BBA8A30005A7709 /* HomeCityCententTopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCityCententTopicCell.swift; sourceTree = "<group>"; };
+		AE79EED11BBA8A30005A7709 /* CityHotTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityHotTopicTableViewCell.swift; sourceTree = "<group>"; };
 		AE7AD7521BA7C39E006857EB /* cityGroups.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cityGroups.plist; sourceTree = "<group>"; };
 		AE7AD7561BA7E278006857EB /* seachCities.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = seachCities.plist; sourceTree = "<group>"; };
 		AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoRequest.swift; sourceTree = "<group>"; };
@@ -482,8 +482,8 @@
 			isa = PBXGroup;
 			children = (
 				AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */,
+				AE79EED11BBA8A30005A7709 /* CityHotTopicTableViewCell.swift */,
 				AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */,
-				AE79EED11BBA8A30005A7709 /* HomeCityCententTopicCell.swift */,
 				AE79B1341BC556330045CC3A /* BNSearchBar.swift */,
 				AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */,
 			);
@@ -783,7 +783,7 @@
 				AECD226F1B9F045D007F1D71 /* CollectCityViewController.swift in Sources */,
 				AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */,
 				AE7F0AC91BB95D3E0011F307 /* SightListController.swift in Sources */,
-				AE79EED21BBA8A30005A7709 /* HomeCityCententTopicCell.swift in Sources */,
+				AE79EED21BBA8A30005A7709 /* CityHotTopicTableViewCell.swift in Sources */,
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,

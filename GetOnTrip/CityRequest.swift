@@ -42,14 +42,14 @@ class CityRequest {
                 
                 let city   = City(dict: respData["city"] as! [String : AnyObject])
                 var sights = [Sight]()
-                var topics = [HomeTopic]()
+                var topics = [CityHotTopic]()
                 
                 for item in respData["sight"] as! NSArray {
                     sights.append(Sight(dict: item as! [String : String]))
                 }
                 
                 for item in respData["topic"] as! NSArray {
-                    topics.append(HomeTopic(dict: item as! [String : String]))
+                    topics.append(CityHotTopic(dict: item as! [String : String]))
                 }
                 
                 homeModel.setValue(city, forKey: "city")
@@ -109,7 +109,7 @@ class Sight: NSObject {
     }
 }
 
-class HomeTopic : NSObject {
+class CityHotTopic : NSObject {
     /// id
     var id: String?
     /// 标题

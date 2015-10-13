@@ -26,6 +26,10 @@ struct StoryBoardIdentifier {
     //search
     static let SearchRecommendTableViewCellID = "SearchRecommendTableViewCellID"
     
+    //city
+    static let CityHotTopicTableViewCellID   = "CityHotTopicTableViewCellID"
+    static let CitySightCollectionViewCellID = "CitySightCollectionViewCellID"
+    
 }
 
 struct SceneColor {

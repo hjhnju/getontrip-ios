@@ -23,10 +23,16 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     lazy var cityBackground: UIImageView = UIImageView()
     
     /// 城市名
-    lazy var cityName: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 26, mutiLines: true)
+    lazy var cityNameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 26, mutiLines: true)
     
-    //默认北京
-    var cityID: String = "2"
+    var cityName: String = "" {
+        didSet {
+            cityNameLabel.text = cityName
+        }
+    }
+    
+    //默认无
+    var cityId: String = ""
     
     /// 收藏按钮
     lazy var favTextBtn: UIButton = UIButton(title: "收藏", fontSize: 12, radius: 0)
@@ -65,7 +71,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
     
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: CityRequest?
+    var lastRequest: CityRequest?
     
     /// 数据源
     var dataSource: NSDictionary?
@@ -88,7 +94,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.addSubview(tableView)
         view.addSubview(backgroundView)
         backgroundView.addSubview(cityBackground)
-        backgroundView.addSubview(cityName)
+        backgroundView.addSubview(cityNameLabel)
         backgroundView.addSubview(favTextBtn)
         backgroundView.addSubview(favIconBtn)
         backgroundView.addSubview(collectionView)
@@ -115,8 +121,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         collectionView.backgroundColor = UIColor.clearColor()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.registerClass(HomeCityCententTopicCell.self, forCellReuseIdentifier: "HomeCityCententTopic_Cell")
-        collectionView.registerClass(HomeSightCollectionViewCell.self, forCellWithReuseIdentifier: "HomeSightCollectionView_Cell")
+        tableView.registerClass(CityHotTopicTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.CityHotTopicTableViewCellID)
+        collectionView.registerClass(CitySightCollectionViewCell.self, forCellWithReuseIdentifier: StoryBoardIdentifier.CitySightCollectionViewCellID)
+        
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
         // 每个item的大小
@@ -142,7 +149,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func setupAutoLayout() {
         backgroundView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, backgroundViewH), offset: CGPointMake(0, 0))
         cityBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: backgroundView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 198), offset: CGPointMake(0, 0))
-        cityName.ff_AlignInner(ff_AlignType.BottomLeft, referView: cityBackground, size: nil, offset: CGPointMake(9, -13))
+        cityNameLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: cityBackground, size: nil, offset: CGPointMake(9, -13))
         favTextBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: cityBackground, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
         favIconBtn.ff_AlignVertical(ff_AlignType.TopCenter, referView: favTextBtn, size: CGSizeMake(21, 20), offset:CGPointMake(0, -5))
         
@@ -160,16 +167,15 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     /// 发送反馈消息
     private func loadCityData() {
         
-        if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = CityRequest()
-            lastSuccessAddRequest?.city = cityID
+        if lastRequest == nil {
+            lastRequest = CityRequest()
+            lastRequest?.city = cityId
         }
         
-        lastSuccessAddRequest?.fetchFeedBackModels {[unowned self] (handler: NSDictionary) -> Void in
+        lastRequest?.fetchFeedBackModels {[unowned self] (handler: NSDictionary) -> Void in
             self.loadProperty(handler.valueForKey("city") as! City)
             
             self.dataSource = handler
-            
             self.tableView.reloadData()
             self.collectionView.reloadData()
         }
@@ -178,15 +184,12 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     private func loadProperty(cityData: City) {
         cityBackground.sd_setImageWithURL(NSURL(string: cityData.image!))
-        cityName.text = cityData.name
+        cityNameLabel.text = cityData.name
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
     }
-    
     
     // MARK: - collectionView代理及数据源方法
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -194,7 +197,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("HomeSightCollectionView_Cell", forIndexPath: indexPath) as! HomeSightCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(StoryBoardIdentifier.CitySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
         let data = dataSource?.valueForKey("sights") as! NSArray
         cell.data = data[indexPath.row] as? Sight
 
@@ -229,10 +232,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print("先中了这个景点")
         let vc = SightListController()
         let sightId = dataSource?.valueForKey("sights")?[indexPath.row] as! Sight
         vc.sightId = sightId.id
@@ -249,9 +250,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("HomeCityCententTopic_Cell", forIndexPath: indexPath) as! HomeCityCententTopicCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.CityHotTopicTableViewCellID, forIndexPath: indexPath) as! CityHotTopicTableViewCell
         let homeTopic = dataSource?.valueForKey("topics") as? NSArray
-        cell.data = homeTopic![indexPath.row] as? HomeTopic
+        cell.data = homeTopic![indexPath.row] as? CityHotTopic
         
         return cell
     }
@@ -263,12 +264,11 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let homeTopic = dataSource?.valueForKey("topics") as? NSArray
-        let data = homeTopic![indexPath.row] as? HomeTopic
+        let hotTopic = dataSource?.valueForKey("topics") as? NSArray
+        let data = hotTopic![indexPath.row] as? CityHotTopic
         
         let vc = TopicDetailController()
         vc.topicId = data!.id
-//        http://123.57.46.229:8301/api/home?city=北京&deviceId=583C5CED-BDC2-4B7A-896F-64C2CAB8DBD2
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -281,8 +281,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
 }
 
 // MARK: - 首页景点cell
+
 /// 首页景点cell
-class HomeSightCollectionViewCell: UICollectionViewCell {
+class CitySightCollectionViewCell: UICollectionViewCell {
     /// 图片
     var icon: UIImageView = UIImageView()
     /// 标题
