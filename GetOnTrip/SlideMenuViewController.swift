@@ -47,9 +47,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     var mainViewController: MainViewController = SearchRecommendViewController()
     
     //带导航的主窗体
-    lazy var mainNavViewController: UINavigationController = {
+    lazy var mainNavViewController: UINavigationController = { [unowned self] in
         return UINavigationController(rootViewController: self.mainViewController)
-        }()
+    }()
     
     //主窗体的遮罩层
     var maskView: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.5)
@@ -121,7 +121,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action:"panGestureHandler:")
         return pan
-        }()
+    }()
     
     // MARK: - 初始化方法
     override func viewDidLoad() {
@@ -463,38 +463,38 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //微信登陆
     func wechatLogin() {
-        // thirdParthLogin(SSDKPlatformType.TypeWechat)
+         thirdParthLogin(SSDKPlatformType.TypeWechat)
     }
     
     //qq登陆
     func qqLogin() {
-        // thirdParthLogin(SSDKPlatformType.TypeQQ)
+         thirdParthLogin(SSDKPlatformType.TypeQQ)
     }
     
     //新浪微博登陆
     func weiboLogin() {
-        // thirdParthLogin(SSDKPlatformType.TypeSinaWeibo)
+         thirdParthLogin(SSDKPlatformType.TypeSinaWeibo)
     }
     
     //第三方登陆
-    //    func thirdParthLogin(type: SSDKPlatformType) {
-    //        //授权
-    //        ShareSDK.authorize(type, settings: nil, onStateChanged: { [unowned self] (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
-    //
-    //            switch state{
-    //
-    //            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-    //            let account = UserAccount(user: user, type: 3)
-    //            sharedUserAccount = account
-    //            self.refreshLoginStatus()
-    //
-    //            case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
-    //            case SSDKResponseState.Cancel:  print("操作取消")
-    //
-    //            default:
-    //                break
-    //            }
-    //        })
-    //    }
+        func thirdParthLogin(type: SSDKPlatformType) {
+            //授权
+            ShareSDK.authorize(type, settings: nil, onStateChanged: { [unowned self] (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
+    
+                switch state{
+    
+                case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+                let account = UserAccount(user: user, type: 3)
+                sharedUserAccount = account
+                self.refreshLoginStatus()
+    
+                case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
+                case SSDKResponseState.Cancel:  print("操作取消")
+    
+                default:
+                    break
+                }
+            })
+        }
 }
 

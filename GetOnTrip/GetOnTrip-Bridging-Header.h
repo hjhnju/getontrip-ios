@@ -18,3 +18,4 @@
 #import "WeiboSDK.h"
 
 //#import "FMDB.h"
+#import <Bugtags/Bugtags.h>

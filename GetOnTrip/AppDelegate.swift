@@ -11,7 +11,7 @@
 import UIKit
 import SSKeychain
 
-/// 全局变量记录用户账号
+/// 全局变量记录用户账号  $(inherited)
 var sharedUserAccount = UserAccount.loadAccount()
 /// 记录uuid
 var appUUID: String?
@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
+//        [Bugtags startWithAppKey:@"ec789dd0e94cd047205c87a0c9f05ac9" invocationEvent:BTGInvocationEventBubble];
 //        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
 //        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         
