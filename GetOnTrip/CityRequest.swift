@@ -29,12 +29,11 @@ class CityRequest {
     // 异步加载获取数据
     func fetchModels(handler: NSDictionary -> Void) {
         var post         = [String: String]()
-        post["deviceId"] = appUUID
         post["city"]     = String(city)
 
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIniDev.BaseUri,
-            path: "/api/home",
+            path: "/api/city",
             post: post,
             handler: {(respData: AnyObject) -> Void in
 
