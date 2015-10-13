@@ -299,6 +299,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
         html.appendString("</head><body>\(setupBody())</body></html>")
         webView.loadHTMLString(html as String, baseURL: nil)
+        
     }
     
     func setupBody() -> String {
