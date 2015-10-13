@@ -54,11 +54,11 @@ class MainViewController: UIViewController {
         navigationItem.hidesBackButton = true
         
         let fixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
-        fixspaceItem.width = -8
+        fixspaceItem.width = -10
         navigationItem.leftBarButtonItems = [fixspaceItem, UIBarButtonItem(customView: leftView)]
         
         let rightFixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
-        rightFixspaceItem.width = -8
+        rightFixspaceItem.width = -10
         navigationItem.rightBarButtonItems = [rightFixspaceItem, UIBarButtonItem(customView: rightView)]
         
         refreshBar()

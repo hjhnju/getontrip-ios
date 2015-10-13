@@ -164,7 +164,9 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         let array = dataSource!.objectForKey("datas") as! NSArray
         let data = array[indexPath.row] as? RecommendCellData
         
-        if (data!.type == "1") {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if (!data!.isTypeCity()) {
             let vc = SightListController()
             vc.sightId = data!.id
             addChildViewController(vc)
