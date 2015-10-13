@@ -128,9 +128,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         // 应用程序使用期间允许定位
+        /*
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
-        locationManager.startUpdatingLocation()
+        locationManager.startUpdatingLocation()*/
         
         setupInit()
         setupAutoLayout()
@@ -312,7 +313,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     }*/
     
     // MARK: - 地理定位代理方法
-    
+    /*
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NSLog("开始定位")
     
@@ -343,7 +344,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 })
             }
         }
-    }
+    }*/
     
     // MARK: 自定义方法
     

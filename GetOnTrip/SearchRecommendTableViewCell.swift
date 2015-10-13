@@ -27,14 +27,13 @@ class SearchRecommendTableViewCell: UITableViewCell {
     lazy var shade: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.5)
     
     //按钮1
-    lazy var btn1: UIButton = UIButton(image: "search_topic", title: " 15个话题", fontSize: 10, titleColor: UIColor.whiteColor())
+    lazy var btn1: UIButton = UIButton()
     
     //按钮2
-    lazy var btn2: UIButton = UIButton(image: "search_comment", title: " 8条评论", fontSize: 10, titleColor: UIColor.whiteColor())
+    lazy var btn2: UIButton = UIButton()
     
     //按钮3
-    lazy var btn3: UIButton = UIButton(image: "search_fav", title: " 25人收藏", fontSize: 10, titleColor: UIColor.whiteColor())
-    
+    lazy var btn3: UIButton = UIButton()
     
     lazy var effect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
     
@@ -50,6 +49,10 @@ class SearchRecommendTableViewCell: UITableViewCell {
                 btn1.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
                 btn2.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
                 btn3.setImage(UIImage(named: "search_fav"), forState: UIControlState.Normal)
+            } else {
+                btn1.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
+                btn2.setImage(UIImage(named: "search_comment"), forState: UIControlState.Normal)
+                btn3.setImage(UIImage(named: "search_fav"), forState: UIControlState.Normal)
             }
         }
     }
@@ -57,6 +60,14 @@ class SearchRecommendTableViewCell: UITableViewCell {
     // MARK: - 初始化相关
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        let titleFont = UIFont(name: SceneFont.heiti, size: 10)
+        btn1.titleLabel?.font = titleFont
+        btn2.titleLabel?.font = titleFont
+        btn3.titleLabel?.font = titleFont
+        btn1.titleLabel?.textColor = UIColor.whiteColor()
+        btn2.titleLabel?.textColor = UIColor.whiteColor()
+        btn3.titleLabel?.textColor = UIColor.whiteColor()
         
         addSubview(iconView)
         addSubview(titleBackgroud)

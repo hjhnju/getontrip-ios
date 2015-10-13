@@ -22,11 +22,6 @@ class SearchRecommendRequest: NSObject {
     var label   : String = ""
     var page    : Int = 1
     var pageSize: Int = 6
-
-    // 将数据回调外界
-    func fetchFeedBackModels(handler: NSDictionary -> Void) {
-        fetchModels(handler)
-    }
     
     // 异步加载获取数据
     func fetchModels(handler: NSDictionary -> Void) {
@@ -40,8 +35,6 @@ class SearchRecommendRequest: NSObject {
             path: "/api/search/label",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-                
-                print(respData["content"])
                 let searchModel = NSMutableDictionary()
                 
                 var searchLabels = [SearchLabel]()
@@ -67,7 +60,7 @@ class SearchRecommendRequest: NSObject {
 }
 
 /// 搜索标签
-class SearchLabel : NSObject {
+class SearchLabel: NSObject {
     /// id
     var id: String?
     /// 标签名
@@ -86,7 +79,7 @@ class SearchLabel : NSObject {
 }
 
 /// 搜索数据
-class RecommendCellData : NSObject {
+class RecommendCellData: NSObject {
     //数据类型
     static let TypeCity  = "2"
     static let TypeSight = "1"
