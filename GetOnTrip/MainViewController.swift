@@ -60,8 +60,6 @@ class MainViewController: UIViewController {
         let rightFixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
         rightFixspaceItem.width = -10
         navigationItem.rightBarButtonItems = [rightFixspaceItem, UIBarButtonItem(customView: rightView)]
-        
-        refreshBar()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -72,15 +70,20 @@ class MainViewController: UIViewController {
         
         slideButton.frame  = leftView.bounds
         searchButton.frame = rightView.bounds
-    }
-    
-    func refreshBar() {
-        //navigationController?.navigationBar.barTintColor = UIColor.clearColor()
+        
+        //设置导航样式
         navigationController?.navigationBar.tintColor    = UIColor.whiteColor()
-        //navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.white]
-        //navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        //恢复导航样式
+        navigationController?.navigationBar.tintColor    = UIColor.whiteColor()
+        navigationController?.navigationBar.barTintColor = UIColor.clearColor()
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.white]
+        navigationController?.navigationBar.backgroundColor = SceneColor.black
     }
     
     //MARK: 自定义方法

@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 
 /// 城市中间页
-class CityCenterPageController: MainViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class CityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     /// 顶部的背景高度
     let backgroundViewH: CGFloat = 198 + 24 + 34 + 196 + 34 + 8
@@ -22,16 +22,17 @@ class CityCenterPageController: MainViewController, UITableViewDelegate, UITable
     /// 城市背影图片
     lazy var cityBackground: UIImageView = UIImageView()
     
-    /// 地标图标
-    lazy var pilotingIcon: UIImageView = UIImageView(image: UIImage(named: "current_location"))
-    
     /// 城市名
     lazy var cityName: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 26, mutiLines: true)
     
+    //默认北京
     var cityID: String = "2"
     
     /// 收藏按钮
-    lazy var collectBtn: UIButton = UIButton(title: "+ 收藏", fontSize: 14, radius: 10)
+    lazy var favTextBtn: UIButton = UIButton(title: "收藏", fontSize: 12, radius: 0)
+    
+    /// 收藏按钮
+    lazy var favIconBtn: UIButton = UIButton(icon: "city_star", masksToBounds: false)
     
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
@@ -43,13 +44,13 @@ class CityCenterPageController: MainViewController, UITableViewDelegate, UITable
     }()
     
     /// 热门景点
-    lazy var sightBottomView: UIView = UIView(color: SceneColor.sightGrey, alphaF: 1.0)
+    lazy var sightView: UIView = UIView(color: SceneColor.sightGrey, alphaF: 1.0)
 
     /// 热点景点文字
     lazy var sightLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "热门景点", fontSize: 14)
 
     /// 热门景点图标
-    lazy var sightIcon: UIButton = UIButton(icon: "", masksToBounds: false)
+    lazy var moreSightButton: UIButton = UIButton(icon: "city_more", masksToBounds: false)
     
     /// 热门内容
     lazy var tableView: UITableView = UITableView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
@@ -61,7 +62,7 @@ class CityCenterPageController: MainViewController, UITableViewDelegate, UITable
     lazy var topicTopLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "热门内容", fontSize: 14)
     
     /// 热门话题图标
-    lazy var topicTopIcon: UIButton = UIButton(icon: "topic_refresh", masksToBounds: false)
+    lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
     
     /// 网络请求加载数据(添加)
     var lastSuccessAddRequest: HomeCityCenterRequest?
@@ -73,38 +74,30 @@ class CityCenterPageController: MainViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupAddProperty()
+        initView()
         setupAutoLayout()
-        loadHomeData()
-//        cityBackground.hidden = true
-//        collectionView.hidden = true
-        
+        loadCityData()
     }
     
     /// 添加控件
-    private func setupAddProperty() {
-        
+    private func initView() {
         view.addSubview(tableView)
         view.addSubview(backgroundView)
         backgroundView.addSubview(cityBackground)
         backgroundView.addSubview(cityName)
-        backgroundView.addSubview(collectBtn)
-        backgroundView.addSubview(pilotingIcon)
+        backgroundView.addSubview(favTextBtn)
+        backgroundView.addSubview(favIconBtn)
         backgroundView.addSubview(collectionView)
-        backgroundView.addSubview(sightBottomView)
-        sightBottomView.addSubview(sightIcon)
-        sightBottomView.addSubview(sightLabel)
+        backgroundView.addSubview(sightView)
+        sightView.addSubview(moreSightButton)
+        sightView.addSubview(sightLabel)
         backgroundView.addSubview(topicTopView)
-        topicTopView.addSubview(topicTopIcon)
+        topicTopView.addSubview(refreshTopicButton)
         topicTopView.addSubview(topicTopLabel)
         
-        cityName.text = "极梦"
-        collectBtn.layer.borderWidth = 1.0
         view.backgroundColor = SceneColor.homeGrey
-        cityBackground.image = UIImage(named: "f35b27ba5b053f475295a3dcecf87e6a.jpg")
         tableView.backgroundColor = UIColor.clearColor()
-        cityBackground.backgroundColor = UIColor.orangeColor()
-        collectBtn.layer.borderColor = UIColor.whiteColor().CGColor
+        
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         
         backgroundView.userInteractionEnabled = true
@@ -120,7 +113,7 @@ class CityCenterPageController: MainViewController, UITableViewDelegate, UITable
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(HomeCityCententTopicCell.self, forCellReuseIdentifier: "HomeCityCententTopic_Cell")
         collectionView.registerClass(HomeSightCollectionViewCell.self, forCellWithReuseIdentifier: "HomeSightCollectionView_Cell")
-        topicTopIcon.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
         // 每个item的大小
         layout.itemSize = CGSizeMake(186, 196)
@@ -132,7 +125,6 @@ class CityCenterPageController: MainViewController, UITableViewDelegate, UITable
     
     ///  话题刷新
     func topicRefreshButton(btn: UIButton) {
-        
         let anim = CABasicAnimation(keyPath: "transform.rotation")
         anim.toValue = -CGFloat(M_PI * 2);
         anim.removedOnCompletion = false
@@ -140,31 +132,29 @@ class CityCenterPageController: MainViewController, UITableViewDelegate, UITable
         anim.duration = 2;
         anim.repeatCount = 10
         btn.layer.addAnimation(anim, forKey: "transform.rotation")
-        
-
-        
     }
     
     /// 设置布局
     private func setupAutoLayout() {
-        
         backgroundView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, backgroundViewH), offset: CGPointMake(0, 0))
         cityBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: backgroundView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 198), offset: CGPointMake(0, 0))
-        pilotingIcon.ff_AlignInner(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(13, 17), offset: CGPointMake(9, -13))
-        cityName.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: pilotingIcon, size: nil, offset: CGPointMake(8, 0))
-        collectBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: cityBackground, size: CGSizeMake(57, 29), offset: CGPointMake(-9, -10))
-        sightBottomView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
-        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: sightBottomView, size: CGSizeMake(view.bounds.width, 196 + 16), offset: CGPointMake(0, 8))
-        sightLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: sightBottomView, size: nil, offset: CGPointMake(0, 0))
-        sightIcon.ff_AlignInner(ff_AlignType.CenterRight, referView: sightBottomView, size: CGSizeMake(8, 15), offset: CGPointMake(10, 0))
+        cityName.ff_AlignInner(ff_AlignType.BottomLeft, referView: cityBackground, size: nil, offset: CGPointMake(9, -13))
+        favTextBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: cityBackground, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
+        favIconBtn.ff_AlignVertical(ff_AlignType.TopCenter, referView: favTextBtn, size: CGSizeMake(21, 20), offset:CGPointMake(0, -5))
+        
+        sightView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
+        sightLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: sightView, size: nil, offset: CGPointMake(0, 0))
+        moreSightButton.ff_AlignInner(ff_AlignType.CenterRight, referView: sightView, size: CGSizeMake(8, 15), offset: CGPointMake(-10, 0))
+        
+        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: sightView, size: CGSizeMake(view.bounds.width, 196 + 16), offset: CGPointMake(0, 8))
         topicTopView.ff_AlignInner(ff_AlignType.BottomLeft, referView: backgroundView, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
         topicTopLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: topicTopView, size: nil, offset: CGPointMake(0, 0))
-        topicTopIcon.ff_AlignInner(ff_AlignType.CenterRight, referView: topicTopView, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
+        refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: topicTopView, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
         tableView.contentInset = UIEdgeInsets(top: (backgroundViewH - 64), left: 0, bottom: 0, right: 0)
     }
     
     /// 发送反馈消息
-    private func loadHomeData() {
+    private func loadCityData() {
         
         if lastSuccessAddRequest == nil {
             lastSuccessAddRequest = HomeCityCenterRequest()

@@ -173,7 +173,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
             view.addSubview(vc.view)
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = CityCenterPageController()
+            let vc = CityViewController()
             vc.cityName.text = data?.name
             navigationController?.pushViewController(vc, animated: true)
         }
