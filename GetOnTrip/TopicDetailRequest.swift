@@ -37,7 +37,7 @@ class TopicDetailRequest: NSObject {
             path: "/api/topic/detail",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-
+                print(respData)
                 // 回调
                 handler(TopicDetail(dict: respData as! [String : AnyObject]))
             }

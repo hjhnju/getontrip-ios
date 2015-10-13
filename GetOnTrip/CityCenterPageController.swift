@@ -273,7 +273,7 @@ class CityCenterPageController: MainViewController, UITableViewDelegate, UITable
         let data = homeTopic![indexPath.row] as? HomeTopic
         
         let vc = TopicDetailController()
-        vc.topicId = data!.id
+        vc.topicId = data!.id!
 //        http://123.57.46.229:8301/api/home?city=北京&deviceId=583C5CED-BDC2-4B7A-896F-64C2CAB8DBD2
         navigationController?.pushViewController(vc, animated: true)
     }

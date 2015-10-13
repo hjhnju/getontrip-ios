@@ -165,7 +165,9 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
 
         let data = dataType[indexPath.row] as! SightListTags
         
-        cell.VC.sightId = data.id
+        cell.VC.sightId = sightId!
+        let labId = channels![indexPath.row] as! SightListTags
+        cell.VC.tagId = labId.id!
         if (data.name == "文学" || data.name == "历史" || data.name == "地理") {
             
         } else if (data.name == "景观") {
