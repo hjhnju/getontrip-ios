@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 import SDWebImage
 
-class HomeCityCententTopicCell: UITableViewCell {
+class CityHotTopicTableViewCell: UITableViewCell {
 
     /// 图片
     var iconView: UIImageView = UIImageView()
@@ -25,7 +25,7 @@ class HomeCityCententTopicCell: UITableViewCell {
     /// 底线
     var baseView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
     
-    var data: HomeTopic? {
+    var data: CityHotTopic? {
         didSet {
             
             iconView.sd_setImageWithURL(NSURL(string: data!.image!))

@@ -74,7 +74,8 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         super.viewDidLoad()
     
         view.backgroundColor = UIColor.whiteColor()
-        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+
         view.addSubview(scrollViewBottomView)
         scrollViewBottomView.addSubview(scrollerViewLabel)
         view.addSubview(collectionView)
@@ -120,10 +121,16 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         /// 间隔
         var x: CGFloat = 0
         let h: CGFloat = 36
-        
+        var lW: CGFloat?
+        lW = UIScreen.mainScreen().bounds.width / CGFloat(channels!.count)
+        if channels!.count >= 7 {
+            lW = UIScreen.mainScreen().bounds.width / CGFloat(7)
+        } 
+        print(lW)
         for label in channels! {
             let tag: SightListTags = label as! SightListTags
-            let lab = UILabel.channelLabelWithTitle(tag.name!)
+            let lab = UILabel.channelLabelWithTitle(tag.name!, width: lW!, height: h, fontSize: 14)
+                //fontSize: CGFloat(UIScreen.mainScreen().bounds.width / CGFloat(channels!.count)))
             lab.textColor = UIColor.whiteColor()
             lab.backgroundColor = UIColor.clearColor()
 //            lab.tag = index
@@ -197,13 +204,17 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         for path in array {
             if path.item != currentIndex {
                 nextLabel = scrollerViewLabel.subviews[path.item] as? UILabel
-                
             }
         }
         
         if nextLabel == nil {
             return
         }
+        let count: Int = channels!.count
+        let x: CGFloat = scrollView.contentOffset.x / CGFloat(count)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.indicate.frame.origin.x = x
+        })
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {

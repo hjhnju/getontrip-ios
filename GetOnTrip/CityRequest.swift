@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeCityCenterRequest {
+class CityRequest {
     /**
     * 接口1：/api/home
     * 城市中间页   首页入口一
@@ -29,27 +29,27 @@ class HomeCityCenterRequest {
     // 异步加载获取数据
     func fetchModels(handler: NSDictionary -> Void) {
         var post         = [String: String]()
-        post["deviceId"] = appUUID
         post["city"]     = String(city)
 
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/home",
+        HttpRequest.ajax(AppIniDev.BaseUri,
+            path: "/api/city",
+
             post: post,
             handler: {(respData: AnyObject) -> Void in
 
                 let homeModel = NSMutableDictionary()
                 
-                let city   = HomeCity(dict: respData["city"] as! [String : AnyObject])
-                var sights = [HomeSight]()
-                var topics = [HomeTopic]()
+                let city   = City(dict: respData["city"] as! [String : AnyObject])
+                var sights = [Sight]()
+                var topics = [CityHotTopic]()
                 
                 for item in respData["sight"] as! NSArray {
-                    sights.append(HomeSight(dict: item as! [String : String]))
+                    sights.append(Sight(dict: item as! [String : String]))
                 }
                 
                 for item in respData["topic"] as! NSArray {
-                    topics.append(HomeTopic(dict: item as! [String : String]))
+                    topics.append(CityHotTopic(dict: item as! [String : String]))
                 }
                 
                 homeModel.setValue(city, forKey: "city")
@@ -63,7 +63,7 @@ class HomeCityCenterRequest {
     }
 }
 
-class HomeCity : NSObject {
+class City: NSObject {
      /// id
     var id: String?
      /// 城市名
@@ -85,7 +85,7 @@ class HomeCity : NSObject {
     }
 }
 
-class HomeSight : NSObject {
+class Sight: NSObject {
     /// id
     var id: String?
     /// 景点名
@@ -109,7 +109,7 @@ class HomeSight : NSObject {
     }
 }
 
-class HomeTopic : NSObject {
+class CityHotTopic : NSObject {
     /// id
     var id: String?
     /// 标题

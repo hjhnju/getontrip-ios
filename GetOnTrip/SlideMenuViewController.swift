@@ -30,8 +30,8 @@ struct SlideMenuOptions {
     static let DrawerWidth: CGFloat = UIScreen.mainScreen().bounds.width * 0.75
     //高度
     static let DrawerHeight: CGFloat = UIScreen.mainScreen().bounds.height
-    //定义侧边栏距离左边的距离，浮点型
-    static var LeftXOffset : CGFloat  = 60.0
+    //超过该滑动阀值开始自动展开/关闭菜单
+    static var AutoSlideXOffSet : CGFloat  = 60.0
 }
 
 protocol SlideMenuViewControllerDelegate {
@@ -128,9 +128,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         // 应用程序使用期间允许定位
+        /*
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
-        locationManager.startUpdatingLocation()
+        locationManager.startUpdatingLocation()*/
         
         setupInit()
         setupAutoLayout()
@@ -312,7 +313,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     }*/
     
     // MARK: - 地理定位代理方法
-    
+    /*
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NSLog("开始定位")
     
@@ -343,7 +344,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 })
             }
         }
-    }
+    }*/
     
     // MARK: 自定义方法
     
@@ -368,29 +369,29 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             self.panGestureStartLocation = location;
             break;
         case UIGestureRecognizerState.Changed:
-            var c = self.mainNavViewController.view.frame
-            if (sender.translationInView(self.mainNavViewController.view).x > 0){
+            var frame = self.mainNavViewController.view.frame
+            //相比起点Began的x轴距离
+            let xOffSet = sender.translationInView(self.view).x
+            //右滑动
+            if (xOffSet > 0 && xOffSet < SlideMenuOptions.DrawerWidth){
                 if (self.slideMenuState == SlideMenuState.Closing){
-                    c.origin.x = location.x - self.panGestureStartLocation.x;
+                    frame.origin.x = xOffSet + panGestureStartLocation.x
                 }
-            }else if (sender.translationInView(self.view).x > -SlideMenuOptions.DrawerWidth){
+            //左滑动
+            }else if (xOffSet < 0 && xOffSet > -SlideMenuOptions.DrawerWidth){
                 if (self.slideMenuState == SlideMenuState.Opening){
-                    c.origin.x = panGestureRecognizer.translationInView(self.mainNavViewController.view).x + SlideMenuOptions.DrawerWidth
+                    frame.origin.x = xOffSet + SlideMenuOptions.DrawerWidth
                 }
             }
-            self.mainNavViewController.view.frame = c ;
+            self.mainNavViewController.view.frame = frame;
             break;
         case UIGestureRecognizerState.Ended:
-            let c = self.mainNavViewController.view.frame
-            //表示用户需要展开
-            if (location.x - self.panGestureStartLocation.x > SlideMenuOptions.LeftXOffset){
-                self.didOpen()
-            }else {
-                if  (c.origin.x < (SlideMenuOptions.DrawerWidth - 40)){
-                    self.didClose()
-                }else {
-                    self.didOpen()
-                }
+            let xOffSet = abs(sender.translationInView(self.view).x)
+            //超过阀值需要自动
+            if xOffSet > SlideMenuOptions.AutoSlideXOffSet {
+                self.toggle()
+            } else {
+                self.reset()
             }
             break;
         default:
@@ -447,6 +448,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             self.didClose()
         } else {
             self.didOpen()
+        }
+    }
+    
+    func reset(){
+        if self.slideMenuState == SlideMenuState.Opening {
+            self.didOpen()
+        } else {
+            self.didClose()
         }
     }
     

@@ -77,7 +77,7 @@ class SendPopoverAnimator: NSObject, UIViewControllerTransitioningDelegate, UIVi
     }
     
     // 动画时长
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         
         return isPresented ? 0.8 : 0.25
     }
@@ -89,7 +89,7 @@ class SendPopoverAnimator: NSObject, UIViewControllerTransitioningDelegate, UIVi
         if isPresented {
             let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
             // 1. 将 toView 添加到容器视图
-            transitionContext.containerView()!.addSubview(toView)
+            transitionContext.containerView().addSubview(toView)
             
             // 2. 动画实现
             toView.transform = CGAffineTransformMakeScale(1.0, 0)

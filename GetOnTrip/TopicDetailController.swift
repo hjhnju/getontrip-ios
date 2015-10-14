@@ -452,17 +452,18 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     // MARK: - 评论
     func doComment(sender: UIButton) {
         
-        let sendPopoverAnimator = SendPopoverAnimator()
+//        let sendPopoverAnimator = SendPopoverAnimator()
+//                                    SendPopoverAnimator()
         
         let vc = commentVC
 
         // 1. 设置`转场 transitioning`代理
-        vc.transitioningDelegate = sendPopoverAnimator
+//        vc.transitioningDelegate = sendPopoverAnimator
         // 2. 设置视图的展现大小
         let h: CGFloat = 444
         let w: CGFloat = UIScreen.mainScreen().bounds.width
         let y: CGFloat = UIScreen.mainScreen().bounds.height - 44 - h
-        sendPopoverAnimator.presentFrame = CGRectMake(0, y, w, h)
+//        sendPopoverAnimator.presentFrame = CGRectMake(0, y, w, h)
         //        sendPopoverAnimator.presentFrame = CGRectMake(100, 100, 100, 100)
         vc.view.clipsToBounds = true
         // 3. 设置专场的模式 - 自定义转场动画

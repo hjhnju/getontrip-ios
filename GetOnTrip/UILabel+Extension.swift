@@ -54,14 +54,15 @@ extension UILabel {
         }
     }
     
-    class func channelLabelWithTitle(title: String) -> UILabel {
+    class func channelLabelWithTitle(title: String, width: CGFloat, height: CGFloat, fontSize: CGFloat) -> UILabel {
         
         let l: UILabel = UILabel()
         l.text = title
-        l.font = UIFont.systemFontOfSize(50)
+//        l.font = UIFont.systemFontOfSize(fontSize)
+        l.bounds = CGRectMake(0, 0, width, height)
         l.textAlignment = NSTextAlignment.Center
-        l.sizeToFit()
-        l.font = UIFont.systemFontOfSize(14)
+//        l.sizeToFit()
+        l.font = UIFont.systemFontOfSize(fontSize)
         l.userInteractionEnabled = true
         return l
     }

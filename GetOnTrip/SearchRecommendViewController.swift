@@ -39,7 +39,8 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = SceneColor.homeGrey
-        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+
         headerView.addSubview(iconView)
         headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
         
@@ -81,7 +82,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
             lastSuccessAddRequest = SearchRecommendRequest()
         }
         
-        lastSuccessAddRequest?.fetchFeedBackModels {[unowned self] (handler: NSDictionary) -> Void in
+        lastSuccessAddRequest?.fetchModels {[unowned self] (handler: NSDictionary) -> Void in
             self.dataSource = handler
             if self.searchLabels.count == 0 {
                 for lab in handler.objectForKey("labels") as! NSArray {
@@ -92,7 +93,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
                 }
                 self.addSearchLabelButton()
             }
-            self.iconView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String), placeholderImage: UIImage(named: "recommend_header"))
+            self.iconView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
             self.tableView.reloadData()
         }
     }
@@ -162,18 +163,23 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let array = dataSource!.objectForKey("datas") as! NSArray
-        let data = array[indexPath.row] as? RecommendCellData
+        if let data = array[indexPath.row] as? RecommendCellData {
         
-        if (data!.type == "1") {
-            let vc = SightListController()
-            vc.sightId = data!.id
-            addChildViewController(vc)
-            view.addSubview(vc.view)
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = CityCenterPageController()
-            vc.cityName.text = data?.name
-            navigationController?.pushViewController(vc, animated: true)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            if (!data.isTypeCity()) {
+                let vc = SightListController()
+                vc.sightId = data.id
+                addChildViewController(vc)
+                view.addSubview(vc.view)
+                navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let vc = CityViewController()
+                
+                
+                vc.cityName = data.name
+                vc.cityId   = data.id
+                navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     

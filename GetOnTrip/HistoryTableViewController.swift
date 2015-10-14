@@ -143,7 +143,6 @@ class HistoryTableViewController: UITableViewController {
             
             let c = tableView.dequeueReusableCellWithIdentifier("History_Cell", forIndexPath: indexPath) as! HistoryCell
             c.otherData = data![indexPath.row] as? SightListData
-            c.backgroundColor = UIColor.randomColor()
             cell = c
         }
         
