@@ -19,12 +19,7 @@ class CityRequest {
     
     // 请求参数
     var deviceId :String = appUUID!
-    var city: String     = "2"
-    
-    // 将数据回调外界
-    func fetchFeedBackModels(handler: NSDictionary -> Void) {
-        fetchModels(handler)
-    }
+    var city: String     = ""
     
     // 异步加载获取数据
     func fetchModels(handler: NSDictionary -> Void) {
