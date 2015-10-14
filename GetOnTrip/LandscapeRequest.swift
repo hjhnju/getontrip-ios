@@ -46,7 +46,8 @@ class LandscapeRequest: NSObject {
             handler: {(respData: AnyObject) -> Void in
                 
                 let sightLandscape = NSMutableArray() // [SightLandscape]()
-                for item in respData.objectForKey("list") as! NSArray {
+                for item in respData as! NSArray {
+                    
                     sightLandscape.addObject(SightLandscape(dict: item as! [String : AnyObject]))
                 }
                 
@@ -76,12 +77,12 @@ class SightLandscape: NSObject {
     init(dict: [String: AnyObject]) {
         super.init()
         
-        id = String(dict["id"]!)
-        name = String(dict["name"]!)
-        content = String(dict["content"]!)
-        image = AppIni.BaseUri + String(dict["image"]!)
+//        id = String(dict["id"]!)
+//        name = String(dict["name"]!)
+//        content = String(dict["content"]!)
+//        image = AppIni.BaseUri + String(dict["image"]!)
         
-//        setValuesForKeysWithDictionary(dict)
+        setValuesForKeysWithDictionary(dict)
         catalogs = NSMutableArray()
         for item in dict["catalog"] as! NSArray {
             let text = NSMutableString(string: item["name"] as! String)

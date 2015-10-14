@@ -61,7 +61,6 @@
 		AE6D9FB31B84AE46009A8A9D /* VideoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */; };
 		AE70C1991BCCB7EF00834130 /* CommentTopicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE70C1981BCCB7EF00834130 /* CommentTopicController.swift */; settings = {ASSET_TAGS = (); }; };
 		AE70C19B1BCCD9C200834130 /* TopicCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE70C19A1BCCD9C200834130 /* TopicCommentRequest.swift */; settings = {ASSET_TAGS = (); }; };
-		AE70C19D1BCCDD8700834130 /* SendPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE70C19C1BCCDD8700834130 /* SendPresentationController.swift */; settings = {ASSET_TAGS = (); }; };
 		AE70C19F1BCCE69600834130 /* SendCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE70C19E1BCCE69600834130 /* SendCommentRequest.swift */; settings = {ASSET_TAGS = (); }; };
 		AE79B1351BC556330045CC3A /* BNSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79B1341BC556330045CC3A /* BNSearchBar.swift */; settings = {ASSET_TAGS = (); }; };
 		AE79EEC91BBA8440005A7709 /* SightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EEC81BBA8440005A7709 /* SightCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -83,6 +82,7 @@
 		AEAB951C1BC7D5B500B6EE62 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AEAB951B1BC7D5B500B6EE62 /* bg.jpg */; settings = {ASSET_TAGS = (); }; };
 		AEAB95941BC8D82700B6EE62 /* TopicDetail.css in Resources */ = {isa = PBXBuildFile; fileRef = AEAB95931BC8D82700B6EE62 /* TopicDetail.css */; settings = {ASSET_TAGS = (); }; };
 		AEB0B97D1BA15425006966FD /* UserLoghtRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */; };
+		AEC2314F1BCE1F1D008C58C9 /* SightDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2314E1BCE1F1D008C58C9 /* SightDetailController.swift */; settings = {ASSET_TAGS = (); }; };
 		AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */; };
 		AECD22601B9E9B9E007F1D71 /* SwitchCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD225F1B9E9B9E007F1D71 /* SwitchCityViewController.swift */; };
 		AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */; };
@@ -226,6 +226,7 @@
 		AEAB951B1BC7D5B500B6EE62 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		AEAB95931BC8D82700B6EE62 /* TopicDetail.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = TopicDetail.css; sourceTree = "<group>"; };
 		AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLoghtRequest.swift; sourceTree = "<group>"; };
+		AEC2314E1BCE1F1D008C58C9 /* SightDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightDetailController.swift; sourceTree = "<group>"; };
 		AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		AECD225F1B9E9B9E007F1D71 /* SwitchCityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCityViewController.swift; sourceTree = "<group>"; };
 		AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectSightRequest.swift; sourceTree = "<group>"; };
@@ -559,6 +560,7 @@
 			children = (
 				AE7F0AC81BB95D3E0011F307 /* SightListController.swift */,
 				AEEA552A1BBFD5BE009AF772 /* HistoryTableViewController.swift */,
+				AEC2314E1BCE1F1D008C58C9 /* SightDetailController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -814,6 +816,7 @@
 				AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */,
 				AECD22601B9E9B9E007F1D71 /* SwitchCityViewController.swift in Sources */,
 				AE62E2CC1BB3DED900B91D33 /* UITextField+Extension.swift in Sources */,
+				AEC2314F1BCE1F1D008C58C9 /* SightDetailController.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,
 				AE62E2CE1BB3EF6500B91D33 /* UIPickerView+Extension.swift in Sources */,
 				AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */,

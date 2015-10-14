@@ -173,29 +173,35 @@ class HistoryTableViewController: UITableViewController {
             
             let dataI = data![indexPath.row] as! SightListData
             vc.topicId = dataI.id!
+            navigationController?.pushViewController(vc, animated: true)
+
             
         } else if cellReuseIdentifier == "Landscape_Cell" {
             
+            let sc = SightDetailController()
             let dataI = data![indexPath.row] as! SightLandscape
-            vc.topicId = dataI.id!
+            sc.url = dataI.url
+            navigationController?.pushViewController(sc, animated: true)
             
         } else if cellReuseIdentifier == "Book_Cell" {
             
             let dataI = data![indexPath.row] as! SightBook
             vc.topicId = dataI.id!
-            
+            navigationController?.pushViewController(vc, animated: true)
+
         } else if cellReuseIdentifier == "Video_Cell" {
             
             let dataI = data![indexPath.row] as! SightVideo
             vc.topicId = dataI.id!
+            navigationController?.pushViewController(vc, animated: true)
             
         } else {
             
             let dataI = data![indexPath.row] as! SightListData
             vc.topicId = dataI.id!
+            navigationController?.pushViewController(vc, animated: true)
         }
         
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     

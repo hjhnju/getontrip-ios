@@ -148,7 +148,11 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         }
         
         indicate.frame = CGRectMake(0, CGRectGetMaxY(scrollerViewLabel.frame) - 2.5, indicateW!, CGFloat(1.5))
-        scrollerViewLabel.contentSize = CGSizeMake(x, h)
+        scrollerViewLabel.contentSize = CGSizeMake(x, 0)
+        
+//        scrollView.alwaysBounceHorizontal
+        
+        scrollerViewLabel.alwaysBounceHorizontal = false
         currentIndex = 0
     }
 
@@ -201,7 +205,7 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
-        let a : UILabel = scrollerViewLabel.subviews[currentIndex!] as! UILabel
+        let labCenter : UILabel = scrollerViewLabel.subviews[currentIndex!] as! UILabel
         var nextLabel: UILabel?
         
         let array = collectionView.indexPathsForVisibleItems()
@@ -214,7 +218,7 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         if nextLabel == nil { return }
     
         // 计算当前选中标签的中心点
-        var offset: CGFloat = a.center.x - scrollerViewLabel.bounds.width * 0.5
+        var offset: CGFloat = labCenter.center.x - scrollerViewLabel.bounds.width * 0.5
         let maxOffset: CGFloat = scrollerViewLabel.contentSize.width - scrollerViewLabel.bounds.width
         if (offset < 0) {
             offset = 0
@@ -223,7 +227,8 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         }
         
         scrollerViewLabel.setContentOffset(CGPointMake(offset, 0), animated: true)
-        let x: CGFloat = scrollView.contentOffset.x / CGFloat(7) - offset
+        let lCount: Int = channels!.count >= 7 ? 7 : channels!.count
+        let x: CGFloat = scrollView.contentOffset.x / CGFloat(lCount) - offset
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.indicate.frame.origin.x = x
         })

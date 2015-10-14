@@ -303,7 +303,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     func setupBody() -> String {
-        let onload = "img onload=\"this.onclick = function() {window.location.href = 'bn:src='};\" src=\"http://123.57.46.229:8301"
+        let onload = "img onload=\"this.onclick = function() {window.location.href = 'bn:src='};\" src=\"\(AppIni.BaseUri)"
         return content!.stringByReplacingOccurrencesOfString("img src=\"", withString: onload, options: NSStringCompareOptions.LiteralSearch, range: nil)
     }
     
