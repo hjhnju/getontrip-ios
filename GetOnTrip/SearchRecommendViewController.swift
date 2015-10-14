@@ -38,13 +38,13 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     // MARK: - 初始化
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = SceneColor.homeGrey
+        view.backgroundColor = SceneColor.bgBlack
         
         headerView.addSubview(iconView)
         headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
         
         //添加黑色蒙板
-        let maskView = UIView(color: SceneColor.lightBlack, alphaF: 0.55)
+        let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
         headerView.addSubview(maskView)
         maskView.ff_Fill(headerView)
         
@@ -168,17 +168,25 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
             if (!data.isTypeCity()) {
                 let vc = SightListController()
                 vc.sightId = data.id
-                addChildViewController(vc)
-                view.addSubview(vc.view)
                 navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = CityViewController()
-                
-                
                 vc.cityName = data.name
                 vc.cityId   = data.id
                 navigationController?.pushViewController(vc, animated: true)
             }
+        }
+    }
+    
+    //MARK: ScrollViewDelegate
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        if offsetY > 0 {
+            let alpha:CGFloat = 1 - ((64 - offsetY) / 64);
+            navigationController?.navigationBar.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(alpha)
+        } else {
+            navigationController?.navigationBar.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
         }
     }
     

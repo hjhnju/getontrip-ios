@@ -34,10 +34,13 @@ struct StoryBoardIdentifier {
 
 struct SceneColor {
     static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
-    static let yellow      = UIColor.yellowColor()
     
-    static let black       = UIColor.blackColor()
-    static let lightBlack  = UIColor(hex: 0x2A2D2E, alpha:1)
+    //背景黑
+    static let bgBlack     = UIColor(hex: 0x2A2D2E, alpha:1)
+    //前景深黑
+    static let frontBlack   = UIColor(hex: 0x1C1C1C, alpha: 1.0)
+    
+    
     static let gray        = UIColor(hex: 0x3E3E3E, alpha:1)
     static let lightGray   = UIColor(hex: 0x9C9C9C, alpha:1)
     
@@ -51,10 +54,6 @@ struct SceneColor {
     static let shallowGrey = UIColor(hex: 0x979797, alpha: 1.0)
     /// 深灰
     static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)
-    /// 首页热门景点底灰
-    static let sightGrey   = UIColor(hex: 0x2A2D2E, alpha: 1.0)
-    /// 首页底色
-    static let homeGrey    = UIColor(hex: 0x1F2223, alpha: 1.0)
 }
 
 struct SceneFont {
