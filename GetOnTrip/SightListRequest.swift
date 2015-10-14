@@ -16,15 +16,18 @@ class SightListRequest: NSObject {
     * @param integer sightId
     * @param integer page
     * @param integer pageSize
-    * @param string tags:逗号隔开的id串，如："1,2"。对于用户点击通用标签的时候，不要传景点ID，只传通用标签ID及页码信息。对于用户点击书籍标签，视频标签，景观标签，分别调用书籍模块，景观模块，视频模块的接口。
+    * @param string deviceId，用户的设备ID（因为要统计UV）
+    * @param string tags:逗号隔开的id串，如："1,2"。
+    * 对于用户点击书籍标签，视频标签，景观标签，分别调用书籍模块，景观模块，视频模块的接口。
     * @return json
     */
+    
 //    http://123.57.46.229:8301/api/sight/detail?tags=1&sightId=4    
     // 请求参数
     var sightId :String?
     var page    :Int = 1
     var pageSize:Int = 6
-    var tags    :String?
+    var tag : String = ""
     var deviceId = appUUID
 //    http://123.57.67.165:8301/api/sight/detail?tags
     // 将数据回调外界
@@ -35,11 +38,11 @@ class SightListRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: NSDictionary -> Void) {
         var post         = [String: String]()
-        post["sightId"]  = String(4)
+        post["sightId"]  = String(sightId!)
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
-        post["tags"]     = String(tags)
-        post["deviceId"] = String(deviceId)
+        post["tags"]     = String(tag)
+        post["deviceId"] = String(deviceId!)
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/sight/detail",
@@ -109,7 +112,7 @@ class SightListData: NSObject {
     }
     
     /// 标签
-    var tags: NSMutableArray?
+    var tag: NSMutableArray?
     
     init(dict: [String: AnyObject]) {
         super.init()

@@ -42,10 +42,11 @@ class VideoRequest: NSObject {
             path: "/api/video",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-                print(respData)
+                
                 
                 let sightVideo = NSMutableArray() // [SightBook]()
-                for item in respData.objectForKey("list") as! NSArray {
+                
+                for item in respData as! NSArray {
                     sightVideo.addObject(SightVideo(dict: item as! [String : AnyObject]))
                 }
                 
@@ -56,7 +57,7 @@ class VideoRequest: NSObject {
     }
 }
 
-/// 景点列表Tags
+/// 视频模型
 class SightVideo: NSObject {
     /// id
     var id: String?
@@ -65,20 +66,18 @@ class SightVideo: NSObject {
     /// url
     var url: String?
     /// 图片
-    var image: String?
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
     ///  时长
     var len: String?
     
     init(dict: [String: AnyObject]) {
         super.init()
         
-        id = String(dict["id"]!)
-        title = String(dict["title"]!)
-        url = String(dict["url"]!)
-        image = AppIni.BaseUri + String(dict["image"]!)
-        len = String(dict["len"]!)
-        
-        //        setValuesForKeysWithDictionary(dict)
+        setValuesForKeysWithDictionary(dict)
         
     }
     

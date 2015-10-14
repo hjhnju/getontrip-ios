@@ -9,8 +9,9 @@
 import UIKit
 
 class UserUploadInfoRequest: NSObject {
+    
     /**
-    * 接口5：/api/user/addinfo
+    * 接口4：/api/user/addinfo
     * 用户信息添加接口
     * @param integer userid，用户ID
     * @param integer type,第三方登录类型，1:qq,2:weixin,3:weibo

@@ -30,4 +30,16 @@ extension String {
     func trim() -> String {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
     }
+    
+    ///  计算文字大小
+    ///
+    ///  - parameter font:    文字大小
+    ///  - parameter maxSize: 文字最大的大小，建议宽度有值，高度为CGFLOAT_MAX
+    ///
+    ///  - returns: 文字size
+    func sizeofStringWithFount(font: UIFont, maxSize: CGSize) -> CGSize {
+        let affe = [NSFontAttributeName : font]
+        return self.boundingRectWithSize(maxSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: affe, context: nil).size
+    }
+
 }

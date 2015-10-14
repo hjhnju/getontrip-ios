@@ -29,6 +29,7 @@ class CityRequest {
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIniDev.BaseUri,
             path: "/api/city",
+
             post: post,
             handler: {(respData: AnyObject) -> Void in
 

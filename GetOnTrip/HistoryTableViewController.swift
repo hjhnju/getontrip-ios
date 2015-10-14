@@ -14,9 +14,13 @@ class HistoryTableViewController: UITableViewController {
     var lastLandscapeRequest = LandscapeRequest()
     var lastBookRequest = BookRequest()
     var lastVideoRequest = VideoRequest()
+    var lastOtherRequest = SightListRequest()
     
     /// 景点id
-    var sightId: String?
+    var sightId: String = ""
+    
+     /// tagsId
+    var tagId: String = ""
     
     var data: NSArray? {
         didSet {
@@ -46,6 +50,7 @@ class HistoryTableViewController: UITableViewController {
                 
             } else {
                 
+                refresh("其他")
                 cellReuseIdentifier = "History_Cell"
                 
             }
@@ -72,6 +77,13 @@ class HistoryTableViewController: UITableViewController {
             lastVideoRequest.sightId = sightId
             lastVideoRequest.fetchSightListModels({ [unowned self] (handler: NSArray) -> Void in
                 self.data = handler
+            })
+        } else {
+            lastOtherRequest.sightId = sightId
+            lastOtherRequest.tag = tagId
+            lastOtherRequest.fetchSightListModels({ [unowned self] (handler: NSDictionary) -> Void in
+                
+                self.data = handler.objectForKey("sightDatas") as? NSArray
             })
         }
         
@@ -104,6 +116,7 @@ class HistoryTableViewController: UITableViewController {
         var cell: UITableViewCell?
         if cellReuseIdentifier == "HistoryCell" {
             let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! HistoryCell
+            c.otherData = data![indexPath.row] as? SightListData
             cell = c
         } else if cellReuseIdentifier == "Landscape_Cell" {
             
@@ -129,7 +142,7 @@ class HistoryTableViewController: UITableViewController {
         } else { // backgroundCell
             
             let c = tableView.dequeueReusableCellWithIdentifier("History_Cell", forIndexPath: indexPath) as! HistoryCell
-            c.backgroundColor = UIColor.randomColor()
+            c.otherData = data![indexPath.row] as? SightListData
             cell = c
         }
         
@@ -150,6 +163,45 @@ class HistoryTableViewController: UITableViewController {
         } else { // backgroundCell
             return 100
         }
+    }
+    
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let vc: TopicDetailController = TopicDetailController()
+        if cellReuseIdentifier == "HistoryCell" {
+            
+            let dataI = data![indexPath.row] as! SightListData
+            vc.topicId = dataI.id!
+            navigationController?.pushViewController(vc, animated: true)
+
+            
+        } else if cellReuseIdentifier == "Landscape_Cell" {
+            
+            let sc = SightDetailController()
+            let dataI = data![indexPath.row] as! SightLandscape
+            sc.url = dataI.url
+            navigationController?.pushViewController(sc, animated: true)
+            
+        } else if cellReuseIdentifier == "Book_Cell" {
+            
+            let dataI = data![indexPath.row] as! SightBook
+            vc.topicId = dataI.id!
+            navigationController?.pushViewController(vc, animated: true)
+
+        } else if cellReuseIdentifier == "Video_Cell" {
+            
+            let dataI = data![indexPath.row] as! SightVideo
+            vc.topicId = dataI.id!
+            navigationController?.pushViewController(vc, animated: true)
+            
+        } else {
+            
+            let dataI = data![indexPath.row] as! SightListData
+            vc.topicId = dataI.id!
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
     

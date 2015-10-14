@@ -26,6 +26,16 @@ class HistoryCell: UITableViewCell {
     ///  预览
     lazy var preview: UIButton = UIButton(image: "eye", title: "  90", fontSize: 12)
     
+    var otherData: SightListData? {
+        didSet {
+            iconView.sd_setImageWithURL(NSURL(string: otherData!.image! + "@_\(133)w_\(84)h"))
+            subtitleLabel.text = otherData?.subtitle
+            titleLabel.text = otherData?.title
+            collect.setTitle("  " + (otherData?.collect)!, forState: UIControlState.Normal)
+            preview.setTitle("  " + (otherData?.visit)!, forState: UIControlState.Normal)
+        }
+    }
+    
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -51,25 +61,4 @@ class HistoryCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
-
-//
-//    /// 数据
-//    var data: NSDictionary? {
-//        didSet {
-//
-//        }
-//    }
-//
-//    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//
-//
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
 }

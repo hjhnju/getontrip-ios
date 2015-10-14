@@ -265,7 +265,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         let data = hotTopic![indexPath.row] as? CityHotTopic
         
         let vc = TopicDetailController()
-        vc.topicId = data!.id
+        vc.topicId = data!.id!
+
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -10,7 +10,7 @@
 import UIKit
 import FFAutoLayout
 
-class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate  {
+class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
     
     ///  隐藏电池栏方法（有个ios6设置的方法，但有警告，如最后无解则采取那个办法）
     ///
@@ -20,6 +20,10 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     // MARK: 相关属性
+    
+    // TODO: 重之中之详情ID必有值
+    var topicId: String = ""
+    
     var topHeightConstraint: NSLayoutConstraint?
     
     lazy var iconBack: UIView = UIView()
@@ -53,16 +57,18 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     lazy var bottomLine: UIView = UIView(color: UIColor(hex: 0x9C9C9C, alpha: 1.0))
     
     lazy var cover: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
-    
-    lazy var commentBottomView: UIView = UIView()
-    
-    lazy var commentTableView: UITableView = UITableView()
-    
-    lazy var issueCommentView: UIView = UIView(color: UIColor.whiteColor())
-    
-    lazy var issueTextfield: UITextField = UITextField()
-    
-    lazy var issueCommentBtn: UIButton = UIButton(title: "确认发布", fontSize: 12, radius: 10, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+//    /// 评论底部view
+//    lazy var commentBottomView: UIView = UIView()
+//    
+//    var commentBottomConst: NSLayoutConstraint?
+//    /// 评论内容tableview
+//    lazy var commentTableView: UITableView = UITableView()
+//    /// 发布底部view
+//    lazy var issueCommentView: UIView = UIView(color: UIColor.whiteColor())
+//    /// 发布textfield
+//    lazy var issueTextfield: UITextField = UITextField()
+//    /// 发布按钮
+//    lazy var issueCommentBtn: UIButton = UIButton(title: "确认发布", fontSize: 12, radius: 10, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
     
     lazy var shareView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 1.0)
     
@@ -94,6 +100,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     let shareParames = NSMutableDictionary()
     
+    var commentVC: CommentTopicController = CommentTopicController()
+    
     var topicDetail: TopicDetail? {
         didSet {
             content = topicDetail!.content
@@ -105,7 +113,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
             visit.setTitle(" " + topicDetail!.visit!, forState: UIControlState.Normal)
             commentLab.text = topicDetail!.commentNum! + "条评论"
             nameLabel.text = topicDetail?.sight_name
-            
+            commentVC.topicId = topicDetail?.id
             
             shareParames.SSDKSetupShareParamsByText(topicDetail?.sight_name,
                 images : UIImage(named: "shareImg.png"),
@@ -117,11 +125,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     deinit {
         print("我走了没TopicDetailController")
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
-    /// 详情ID必有
-    var topicId: String? = "54"
     
     /// 网络请求加载数据(添加)
     var lastSuccessAddRequest: TopicDetailRequest?
@@ -169,10 +173,10 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         bottomView.addSubview(shareBtn)
         bottomView.addSubview(collectBtn)
         bottomView.addSubview(bottomLine)
-        commentBottomView.addSubview(commentTableView)
-        commentBottomView.addSubview(issueCommentView)
-        issueCommentView.addSubview(issueTextfield)
-        issueCommentView.addSubview(issueCommentBtn)
+//        commentBottomView.addSubview(commentTableView)
+//        commentBottomView.addSubview(issueCommentView)
+//        issueCommentView.addSubview(issueTextfield)
+//        issueCommentView.addSubview(issueCommentBtn)
         view.addSubview(shareView)
         shareView.addSubview(shareLabel)
         shareView.addSubview(shareBtn1)
@@ -187,12 +191,13 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         shareBtn4.tag = 4
         shareBtn5.tag = 5
         
+        
         shareCancle.backgroundColor = UIColor(hex: 0xF3FD54, alpha: 1.0)
         shareCancle.setTitleColor(UIColor(hex: 0x2A2D2E, alpha: 1.0), forState: UIControlState.Normal)
     }
     
     private func setupDefaultProperty() {
-        commentBottomView.clipsToBounds = true
+//        commentBottomView.clipsToBounds = true
         
         shareBtn.addTarget(self, action: "doSharing:", forControlEvents: UIControlEvents.TouchUpInside)
         collectBtn.addTarget(self, action: "doFavorite:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -221,7 +226,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         webView.delegate = self
         
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
 
     }
     
@@ -258,6 +262,13 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         shareBtnY3 = shareBtn3.ff_Constraint(s3, attribute: NSLayoutAttribute.CenterY)
         shareBtnY4 = shareBtn4.ff_Constraint(s4, attribute: NSLayoutAttribute.CenterY)
         shareBtnY5 = shareBtn5.ff_Constraint(s5, attribute: NSLayoutAttribute.CenterY)
+//        let commentBS = commentBottomView.ff_AlignInner(ff_AlignType.BottomRight, referView: view, size: CGSizeMake(view.bounds.width, 444), offset: CGPointMake(0, 47))
+//        commentBottomConst = commentBottomView.ff_Constraint(commentBS, attribute: NSLayoutAttribute.Bottom)
+//        issueCommentView.ff_AlignInner(ff_AlignType.BottomLeft, referView: commentBottomView, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
+//        issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(180, 34), offset: CGPointMake(9, 0))
+//        
+//        
+//        issueCommentView.backgroundColor = UIColor.orangeColor()
     }
     
     func refreshBar(){
@@ -288,10 +299,11 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
         html.appendString("</head><body>\(setupBody())</body></html>")
         webView.loadHTMLString(html as String, baseURL: nil)
+        
     }
     
     func setupBody() -> String {
-        let onload = "img onload=\"this.onclick = function() {window.location.href = 'bn:src='};\" src=\"http://123.57.46.229:8301"
+        let onload = "img onload=\"this.onclick = function() {window.location.href = 'bn:src='};\" src=\"\(AppIni.BaseUri)"
         return content!.stringByReplacingOccurrencesOfString("img src=\"", withString: onload, options: NSStringCompareOptions.LiteralSearch, range: nil)
     }
     
@@ -413,41 +425,9 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     
-    func doComment(sender: UIButton) {
+
     
-        UIApplication.sharedApplication().keyWindow?.addSubview(cover)
-        UIApplication.sharedApplication().keyWindow?.addSubview(commentBottomView)
-        cover.frame = UIScreen.mainScreen().bounds
-        commentBottomView.frame = CGRectMake(view.bounds.width - 24, view.bounds.height - 44, 0, 0)
-        commentTableView.frame = CGRectMake(0, 0, 0, 0)
-        issueCommentView.backgroundColor = UIColor.orangeColor()
-        issueTextfield.backgroundColor = UIColor.greenColor()
-        issueCommentBtn.backgroundColor = UIColor.yellowColor()
-        
-        UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
-            self.cover.alpha = 0.7
-            self.commentBottomView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.height - 444 - 44, UIScreen.mainScreen().bounds.width, 444)
-            self.commentTableView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 444)
-            self.issueCommentView.frame = CGRectMake(0, 444 - 50, self.view.bounds.width, 50)
-            self.issueTextfield.frame = CGRectMake(9, 8, UIScreen.mainScreen().bounds.width - 134, 34)
-            self.issueCommentBtn.frame = CGRectMake(CGRectGetMaxX(self.issueTextfield.frame) + 15, 8, 91, 34)
-        }
-    
-    }
-    
-    /// 当键盘弹出的时候，执行相关操作
-    func keyboardChanged(not: NSNotification) {
-        let duration = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
-        let r = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
-        print("键盘弹出来了")
-//        bottomConstraint.constant = UIScreen.mainScreen().bounds.size.height - r!.origin.y
-        UIView.animateWithDuration(duration, animations: { () -> Void in
-//            self.issueCommentView.frame.origin.y = UIScreen.mainScreen().bounds.size.height - r!.origin.y - 47 - 57
-            self.commentBottomView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.height - 444 - 44, self.view.bounds.width, 444 - r!.height)
-        }) { (_) -> Void in
-//            NSHTTPCookieStorage
-        }
-    }
+
     
     // MARK: - 搜索(下一个控制器)
     var searchController: UISearchController!
@@ -470,15 +450,46 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     
     // MARK: - 评论
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func doComment(sender: UIButton) {
         
-        return 0
+//        let sendPopoverAnimator = SendPopoverAnimator()
+//                                    SendPopoverAnimator()
+        
+        let vc = commentVC
+
+        // 1. 设置`转场 transitioning`代理
+//        vc.transitioningDelegate = sendPopoverAnimator
+        // 2. 设置视图的展现大小
+        let h: CGFloat = 444
+        let w: CGFloat = UIScreen.mainScreen().bounds.width
+        let y: CGFloat = UIScreen.mainScreen().bounds.height - 44 - h
+//        sendPopoverAnimator.presentFrame = CGRectMake(0, y, w, h)
+        //        sendPopoverAnimator.presentFrame = CGRectMake(100, 100, 100, 100)
+        vc.view.clipsToBounds = true
+        // 3. 设置专场的模式 - 自定义转场动画
+        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+        
+        presentViewController(vc, animated: true, completion: nil)
+
+        
+        // c
+//        addChildViewController(commentVC)
+//        view.addSubview(commentVC.view)
+//        commentVC.view.frame = CGRectMake(view.bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
+//        
+//        UIApplication.sharedApplication().keyWindow?.addSubview(cover)
+//        
+//        cover.frame = CGRectMake(0, 0, view.bounds.width, view.bounds.height - 47 - 444)
+////        commentVC.view.frame = CGRectMake(view.bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
+//        UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
+//            self.cover.alpha = 0.7
+//            self.commentVC.view.frame = CGRectMake(0, UIScreen.mainScreen().bounds.height - 47 - 444, UIScreen.mainScreen().bounds.width, 444)
+//            self.commentVC.view.layoutIfNeeded()
+//        }
+        
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        return UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
-    }
+
     
     
     // MARK: - 遮罩方法
@@ -487,19 +498,19 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         UIView.animateWithDuration(0.5, animations: { [unowned self] () -> Void in
             
                 self.cover.alpha = 0.0
-                self.commentBottomView.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 24, UIScreen.mainScreen().bounds.height - 44, 0, 0)
             
+//            self.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 24, UIScreen.mainScreen().bounds.height - 44, 0, 0)
+            self.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
             }) { [unowned self]  (_) -> Void in
                 
                 self.cover.removeFromSuperview()
-                self.commentBottomView.removeFromSuperview()
+                self.commentVC.view.removeFromSuperview()
         }
 
 
     }
     
     func shareCancleClick(serder: UIButton) {
-        
         
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.shareBtnY1?.constant = 150
