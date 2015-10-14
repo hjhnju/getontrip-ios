@@ -38,14 +38,11 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     // MARK: - 初始化
     override func viewDidLoad() {
         super.viewDidLoad()
-<<<<<<< HEAD
-        view.backgroundColor = SceneColor.homeGrey
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
 
-=======
         view.backgroundColor = SceneColor.bgBlack
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         
->>>>>>> origin/master
+
         headerView.addSubview(iconView)
         headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
         

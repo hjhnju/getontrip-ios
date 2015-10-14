@@ -48,7 +48,7 @@ class SightListRequest: NSObject {
             path: "/api/sight/detail",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-                print(respData)
+
                 let dict = NSMutableDictionary()
                 var sightTags = [SightListTags]()
                 for item in respData["tags"] as! NSArray {

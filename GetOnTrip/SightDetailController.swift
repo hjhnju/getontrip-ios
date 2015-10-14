@@ -15,9 +15,9 @@ class SightDetailController: UIViewController {
     
     var url: String? {
         didSet {
-//            webView.loadRequest(NSURLRequest(URL: NSURL(string: url!)!, cachePolicy: NSURLRequestCachePolicy.ReturnCacheDataElseLoad, timeoutInterval: 30))
-            print(url!)
-//            webView.loadRequest(NSURLRequest(URL: NSURL(string: url!)!))
+            
+            let urlStr = url?.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+            webView.loadRequest(NSURLRequest(URL: NSURL(string: urlStr!)!))
         }
     }
     

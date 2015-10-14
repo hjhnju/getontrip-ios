@@ -179,7 +179,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             lastRequest?.city = cityId
         }
         
-        lastRequest?.fetchFeedBackModels {[unowned self] (handler: NSDictionary) -> Void in
+        lastRequest?.fetchFeedBackModels {(handler: NSDictionary) -> Void in
             if let city = handler.valueForKey("city") as? City {
                 self.cityBackground.sd_setImageWithURL(NSURL(string: city.image))
                 self.cityNameLabel.text = city.name

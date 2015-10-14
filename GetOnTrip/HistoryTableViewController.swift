@@ -137,6 +137,8 @@ class HistoryTableViewController: UITableViewController {
             cell = c
         } else if cellReuseIdentifier == "Video_Cell" {
             let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! VideoCell
+            c.watchBtn.addTarget(self, action: "watchClick:", forControlEvents: UIControlEvents.TouchUpInside)
+            c.watchBtn.tag = indexPath.row
             c.video = data![indexPath.row] as? SightVideo
             cell = c
         } else { // backgroundCell
@@ -185,15 +187,17 @@ class HistoryTableViewController: UITableViewController {
             
         } else if cellReuseIdentifier == "Book_Cell" {
             
+            let bc = SightBookDetailController()
             let dataI = data![indexPath.row] as! SightBook
-            vc.topicId = dataI.id!
-            navigationController?.pushViewController(vc, animated: true)
+            bc.bookId = dataI.id!
+            navigationController?.pushViewController(bc, animated: true)
 
         } else if cellReuseIdentifier == "Video_Cell" {
-            
-            let dataI = data![indexPath.row] as! SightVideo
-            vc.topicId = dataI.id!
-            navigationController?.pushViewController(vc, animated: true)
+            print("神马都不做")
+//            let sc = SightDetailController()
+//            let dataI = data![indexPath.row] as! SightVideo
+//            sc.url = dataI.url
+//            navigationController?.pushViewController(vc, animated: true)
             
         } else {
             
@@ -204,6 +208,13 @@ class HistoryTableViewController: UITableViewController {
         
     }
     
+    func watchClick(btn: UIButton) {
+        
+        let sc = SightDetailController()
+        let dataI = data![btn.tag] as! SightVideo
+        sc.url = dataI.url
+        navigationController?.pushViewController(sc, animated: true)
+    }
     
     
 }
