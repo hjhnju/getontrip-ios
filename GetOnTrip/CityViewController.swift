@@ -50,7 +50,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }()
     
     /// 热门景点
-    lazy var sightView: UIView = UIView(color: SceneColor.sightGrey, alphaF: 1.0)
+    lazy var sightView: UIView = UIView(color: SceneColor.frontBlack, alphaF: 1.0)
 
     /// 热点景点文字
     lazy var sightLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "热门景点", fontSize: 14)
@@ -62,7 +62,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     lazy var tableView: UITableView = UITableView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
     
     /// 热门话题标题
-    lazy var topicTopView: UIView = UIView(color: SceneColor.sightGrey, alphaF: 1.0)
+    lazy var topicTopView: UIView = UIView(color: SceneColor.frontBlack, alphaF: 1.0)
     
     /// 热点话题文字
     lazy var topicTopLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "热门内容", fontSize: 14)
@@ -80,9 +80,18 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //nav bar
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
+        
         initView()
         setupAutoLayout()
         loadCityData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -91,8 +100,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     /// 添加控件
     private func initView() {
+        view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
         view.addSubview(backgroundView)
+        
         backgroundView.addSubview(cityBackground)
         backgroundView.addSubview(cityNameLabel)
         backgroundView.addSubview(favTextBtn)
@@ -105,23 +116,19 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         topicTopView.addSubview(refreshTopicButton)
         topicTopView.addSubview(topicTopLabel)
         
-        view.backgroundColor = SceneColor.homeGrey
-        tableView.backgroundColor = UIColor.clearColor()
-        
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        
         backgroundView.userInteractionEnabled = true
         cityBackground.userInteractionEnabled = true
         collectionView.userInteractionEnabled = true
         
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        collectionView.backgroundColor = UIColor.clearColor()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(CityHotTopicTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.CityHotTopicTableViewCellID)
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = UIColor.clearColor()
         collectionView.registerClass(CitySightCollectionViewCell.self, forCellWithReuseIdentifier: StoryBoardIdentifier.CitySightCollectionViewCellID)
         
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -164,7 +171,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.contentInset = UIEdgeInsets(top: (backgroundViewH - 64), left: 0, bottom: 0, right: 0)
     }
     
-    /// 发送反馈消息
+    //请求数据
     private func loadCityData() {
         
         if lastRequest == nil {
@@ -173,22 +180,15 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         lastRequest?.fetchFeedBackModels {[unowned self] (handler: NSDictionary) -> Void in
-            self.loadProperty(handler.valueForKey("city") as! City)
+            if let city = handler.valueForKey("city") as? City {
+                self.cityBackground.sd_setImageWithURL(NSURL(string: city.image))
+                self.cityNameLabel.text = city.name
+            }
             
             self.dataSource = handler
             self.tableView.reloadData()
             self.collectionView.reloadData()
         }
-    }
-    
-
-    private func loadProperty(cityData: City) {
-        cityBackground.sd_setImageWithURL(NSURL(string: cityData.image!))
-        cityNameLabel.text = cityData.name
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
     }
     
     // MARK: - collectionView代理及数据源方法
@@ -208,7 +208,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
         
         if (dataSource?.valueForKey("sights")?.count == 0) { return CGSizeZero }
         
@@ -237,8 +236,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         let vc = SightListController()
         let sightId = dataSource?.valueForKey("sights")?[indexPath.row] as! Sight
         vc.sightId = sightId.id
-        addChildViewController(vc)
-        view.addSubview(vc.view)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -273,47 +270,22 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    ///  使整体上面的view可以上下滚动，而且左右滚动使之不影响
+    //MARK: ScrollViewDelegate
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        //使整体上面的view可以上下滚动，而且左右滚动使之不影响
         if scrollView.contentOffset.x == 0 && scrollView.contentOffset.y != 0 {
             backgroundView.frame.origin.y = abs(scrollView.contentOffset.y) - backgroundViewH
         }
-    }
-}
-
-// MARK: - 首页景点cell
-
-/// 首页景点cell
-class CitySightCollectionViewCell: UICollectionViewCell {
-    /// 图片
-    var icon: UIImageView = UIImageView()
-    /// 标题
-    var title: UILabel = UILabel(color: UIColor.yellowColor(), title: "天坛", fontSize: 22, mutiLines: false)
-    /// 内容及收藏
-    var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 09), title: "10个内容 | 480人收藏", fontSize: 10, mutiLines: false)
-    
-    var data: Sight? {
-        didSet {
-            icon.sd_setImageWithURL(NSURL(string: data!.image!))
-            title.text = data?.name
-            desc.text  = data?.desc
+        
+        //导航变化
+        let offsetY = scrollView.contentOffset.y
+        if offsetY > 0 {
+            let alpha:CGFloat = 1 - ((64 - offsetY) / 64);
+            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(alpha)
+        } else {
+            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
         }
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        addSubview(icon)
-        addSubview(title)
-        addSubview(desc)
-        
-        icon.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: self.bounds.size, offset: CGPointMake(0, 0))
-        title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
-        desc.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -5))
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
-

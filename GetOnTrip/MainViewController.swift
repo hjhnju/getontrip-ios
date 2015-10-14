@@ -49,41 +49,28 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = SceneColor.bgBlack
         
-        view.backgroundColor = UIColor.whiteColor()
-        navigationItem.hidesBackButton = true
+        //设置导航样式
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
         
-        let fixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
-        fixspaceItem.width = -10
-        navigationItem.leftBarButtonItems = [fixspaceItem, UIBarButtonItem(customView: leftView)]
-        
+        //导航Items
+        let leftFixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
         let rightFixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
+        leftFixspaceItem.width = -10
         rightFixspaceItem.width = -10
+        navigationItem.leftBarButtonItems = [leftFixspaceItem, UIBarButtonItem(customView: leftView)]
         navigationItem.rightBarButtonItems = [rightFixspaceItem, UIBarButtonItem(customView: rightView)]
+    
+        leftView.frame  = CGRectMake(0, 0, 21, 14)
+        rightView.frame = CGRectMake(0, 0, view.bounds.width-(414-356), 35)
+        slideButton.frame  = leftView.bounds
+        searchButton.frame = rightView.bounds
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        leftView.frame  = CGRectMake(0, 0, 21, 14)
-        rightView.frame = CGRectMake(0, 0, view.bounds.width-(414-356), 35)
-        
-        slideButton.frame  = leftView.bounds
-        searchButton.frame = rightView.bounds
-        
-        //设置导航样式
-//        navigationController?.navigationBar.tintColor    = UIColor.whiteColor()
-//        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-//        navigationController?.navigationBar.shadowImage = UIImage()
-//        navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        //恢复导航样式
-//        navigationController?.navigationBar.tintColor    = UIColor.whiteColor()
-//        navigationController?.navigationBar.barTintColor = UIColor.clearColor()
-//        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.white]
-//        navigationController?.navigationBar.backgroundColor = SceneColor.black
     }
     
     //MARK: 自定义方法

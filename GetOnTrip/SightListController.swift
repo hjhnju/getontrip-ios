@@ -72,6 +72,9 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //nav bar
+        navigationController?.navigationBar.barTintColor = SceneColor.frontBlack
     
         view.backgroundColor = UIColor.whiteColor()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -80,14 +83,12 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         scrollViewBottomView.addSubview(scrollerViewLabel)
         view.addSubview(collectionView)
         scrollViewBottomView.addSubview(indicate)
-        scrollerViewLabel.backgroundColor = SceneColor.sightGrey
+        scrollerViewLabel.backgroundColor = SceneColor.bgBlack
         
         collectionView.dataSource = self
         collectionView.delegate   = self
-        
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
         
-        setupNavigationBar()
         loadSightData()
         
     }
@@ -103,15 +104,6 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     func setupAutlLayout() {
         
 //        scrollerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 30), offset: CGPointMake(0, 64))
-    }
-    
-    func setupNavigationBar() {
-
-//        navigationController?.navigationBar.backIndicatorImage = nil
-        
-        navigationController?.navigationBar.barTintColor = SceneColor.black
-        navigationController?.navigationBar.tintColor    = SceneColor.lightYellow
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : SceneColor.lightYellow]
     }
     
     ///  设置频道标签

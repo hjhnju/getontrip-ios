@@ -18,7 +18,7 @@ class SearchRecommendTableViewCell: UITableViewCell {
     lazy var iconView: UIImageView = UIImageView()
     
     //中部标题
-    lazy var title: UIButton = UIButton(title: "北京", fontSize: 16, radius: 5, titleColor: SceneColor.lightBlack)
+    lazy var title: UIButton = UIButton(title: "北京", fontSize: 16, radius: 5, titleColor: SceneColor.bgBlack)
     
     //标题底
     lazy var titleBackgroud: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.5)

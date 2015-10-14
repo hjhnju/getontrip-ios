@@ -65,13 +65,13 @@ class CityRequest {
 
 class City: NSObject {
      /// id
-    var id: String?
+    var id: String = ""
      /// 城市名
-    var name: String?
+    var name: String = ""
     /// 城市图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image
         }
     }
     

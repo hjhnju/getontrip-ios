@@ -16,37 +16,33 @@ var sharedUserAccount = UserAccount.loadAccount()
 /// 记录uuid
 var appUUID: String?
 
-// TODO: qq:key 4PgUEB1BmyOAQMl9  id:1104781543
-// TODO: 微信：
-// pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         // http://123.57.46.229:8301/api/sight/detail?tags=15&page=1&sightId=15&pageSize=6&deviceId=C58AA71A-D6A7-437F-BEC6-3087E401773A
         
         Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
-//        [Bugtags startWithAppKey:@"ec789dd0e94cd047205c87a0c9f05ac9" invocationEvent:BTGInvocationEventBubble];
-//        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-//        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
-        
-        // UIApplication.sharedApplication().statusBarHidden = true
-        
-        let backButtonImage = UIImage(named: "back")
-        UINavigationBar.appearance().backIndicatorImage = backButtonImage
-        UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.rootViewController = SlideMenuViewController()
         window?.makeKeyAndVisible()
         
+        //status bar
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         
+        //nav bar, 放在创建完NavigationController后才会生效
+        let backButtonImage = UIImage(named: "icon_back")
+        UINavigationBar.appearance().backIndicatorImage = backButtonImage
+        UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        
+        //cache
         let urlCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
         NSURLCache.setSharedURLCache(urlCache)
         

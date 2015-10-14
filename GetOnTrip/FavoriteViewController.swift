@@ -12,7 +12,7 @@ import FFAutoLayout
 class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - 属性
-    lazy var titleBackground: UIView = UIView(color: SceneColor.lightBlack, alphaF: 1.0)
+    lazy var titleBackground: UIView = UIView(color: SceneColor.bgBlack, alphaF: 1.0)
     
     /// 内容底部scrollview
     lazy var contentScrollView: UIScrollView = UIScrollView()
