@@ -54,16 +54,48 @@ extension UILabel {
         }
     }
     
-    class func channelLabelWithTitle(title: String, width: CGFloat, height: CGFloat, fontSize: CGFloat) -> UILabel {
+}
+
+protocol SightLabelDelegate: NSObjectProtocol {
+    func sightLabelDidSelected(label: SightLabel)
+}
+
+class SightLabel: UILabel {
+    
+    ///  代理方法
+    weak var delegate: SightLabelDelegate?
+    
+    ///  景点标签
+    ///
+    ///  - parameter title:    标签内容
+    ///  - parameter width:    宽度
+    ///  - parameter height:   高度
+    ///  - parameter fontSize: 字体大小
+    ///
+    ///  - returns: UILabel
+    class func channelLabelWithTitle(title: String, width: CGFloat, height: CGFloat, fontSize: CGFloat) -> SightLabel {
         
-        let l: UILabel = UILabel()
+        let l: SightLabel = SightLabel()
         l.text = title
-//        l.font = UIFont.systemFontOfSize(fontSize)
+        //        l.font = UIFont.systemFontOfSize(fontSize)
         l.bounds = CGRectMake(0, 0, width, height)
         l.textAlignment = NSTextAlignment.Center
-//        l.sizeToFit()
+        //        l.sizeToFit()
         l.font = UIFont.systemFontOfSize(fontSize)
         l.userInteractionEnabled = true
         return l
     }
+    
+    ///  景点标签代理方法
+    ///
+    ///  - parameter touches: 点击的点
+    ///  - parameter event:   单击事件
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        if (delegate?.respondsToSelector("sightLabelDidSelected:") != nil) {
+            delegate?.sightLabelDidSelected(self)
+        }
+        
+    }
+    
 }

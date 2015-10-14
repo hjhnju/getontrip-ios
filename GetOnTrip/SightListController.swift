@@ -9,7 +9,7 @@
 import UIKit
 import FFAutoLayout
 
-class SightListController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class SightListController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate {
 
     /// 景点列表id
     var sightId: String?
@@ -126,14 +126,16 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         if channels!.count >= 7 {
             lW = UIScreen.mainScreen().bounds.width / CGFloat(7)
         } 
-        print(lW)
+        var index: Int = 0
         for label in channels! {
             let tag: SightListTags = label as! SightListTags
-            let lab = UILabel.channelLabelWithTitle(tag.name!, width: lW!, height: h, fontSize: 14)
+            let lab = SightLabel.channelLabelWithTitle(tag.name!, width: lW!, height: h, fontSize: 14) 
                 //fontSize: CGFloat(UIScreen.mainScreen().bounds.width / CGFloat(channels!.count)))
+            
+            lab.delegate = self
             lab.textColor = UIColor.whiteColor()
             lab.backgroundColor = UIColor.clearColor()
-//            lab.tag = index
+            lab.tag = index
             lab.frame = CGRectMake(x, 0, lab.bounds.width, h)
             x += lab.bounds.width
             
@@ -141,6 +143,7 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
                 indicateW = lab.bounds.width
             }
             
+            index++
             scrollerViewLabel.addSubview(lab)
         }
         
@@ -195,9 +198,10 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     // MARK - scrollerView 代理方法
-    var offset1: CGFloat = 0
     func scrollViewDidScroll(scrollView: UIScrollView) {
-//        _: UILabel = scrollerViewLabel.subviews[currentIndex!] as! UILabel
+        
+        currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
+        let a : UILabel = scrollerViewLabel.subviews[currentIndex!] as! UILabel
         var nextLabel: UILabel?
         
         let array = collectionView.indexPathsForVisibleItems()
@@ -207,38 +211,30 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
             }
         }
         
-        if nextLabel == nil {
-            return
-        }
-        let count: Int = channels!.count
-        let x: CGFloat = scrollView.contentOffset.x / CGFloat(count)
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.indicate.frame.origin.x = x
-        })
-    }
+        if nextLabel == nil { return }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
-        
         // 计算当前选中标签的中心点
-        let l = scrollerViewLabel.subviews[currentIndex!]
-        var offset: CGFloat = l.center.x - scrollerViewLabel.bounds.width * 0.5
+        var offset: CGFloat = a.center.x - scrollerViewLabel.bounds.width * 0.5
         let maxOffset: CGFloat = scrollerViewLabel.contentSize.width - scrollerViewLabel.bounds.width
-        
         if (offset < 0) {
             offset = 0
         } else if (offset > maxOffset) {
             offset = maxOffset
         }
-
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.indicate.frame.origin.x = l.frame.origin.x
-        })
+        
         scrollerViewLabel.setContentOffset(CGPointMake(offset, 0), animated: true)
-        UIView.animateWithDuration(0.5) { () -> Void in
-            self.indicate.frame.origin.x -=  offset
-        }
-        offset1 = offset
+        let x: CGFloat = scrollView.contentOffset.x / CGFloat(7) - offset
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.indicate.frame.origin.x = x
+        })
+    }
+    
+    ///  标签选中方法
+    func sightLabelDidSelected(label: SightLabel) {
+        
+        currentIndex = label.tag
+        let indexPath = NSIndexPath(forItem: label.tag, inSection: 0)
+        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+        
     }
 }
