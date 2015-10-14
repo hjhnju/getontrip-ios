@@ -42,7 +42,6 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         view.backgroundColor = SceneColor.bgBlack
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         
-
         headerView.addSubview(iconView)
         headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
         

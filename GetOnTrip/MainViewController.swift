@@ -51,18 +51,15 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = SceneColor.bgBlack
         
-        //设置导航样式
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        
         //导航Items
-        let leftFixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
-        let rightFixspaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
-        leftFixspaceItem.width = -10
+        let leftFixspaceItem    = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
+        let rightFixspaceItem   = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
+        leftFixspaceItem.width  = -10
         rightFixspaceItem.width = -10
-        navigationItem.leftBarButtonItems = [leftFixspaceItem, UIBarButtonItem(customView: leftView)]
+        navigationItem.leftBarButtonItems  = [leftFixspaceItem, UIBarButtonItem(customView: leftView)]
         navigationItem.rightBarButtonItems = [rightFixspaceItem, UIBarButtonItem(customView: rightView)]
-    
+        navigationItem.backBarButtonItem   = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        
         leftView.frame  = CGRectMake(0, 0, 21, 14)
         rightView.frame = CGRectMake(0, 0, view.bounds.width-(414-356), 35)
         slideButton.frame  = leftView.bounds
@@ -71,6 +68,14 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        refreshBar()
+    }
+    
+    func refreshBar(){
+        //设置导航样式
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage   = UIImage()
+        navigationController?.navigationBar.clipsToBounds = true
     }
     
     //MARK: 自定义方法

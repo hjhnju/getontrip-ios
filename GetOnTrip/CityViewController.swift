@@ -20,7 +20,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     lazy var backgroundView: UIView = UIView()
     
     /// 城市背影图片
-    lazy var cityBackground: UIImageView = UIImageView()
+    var cityBackground: UIImageView = UIImageView()
     
     /// 城市名
     lazy var cityNameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 26, mutiLines: true)
@@ -81,9 +81,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         //nav bar
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
+        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = nil
         
         initView()
         setupAutoLayout()
@@ -178,16 +177,18 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             lastRequest = CityRequest()
             lastRequest?.city = cityId
         }
-        
-        lastRequest?.fetchFeedBackModels {(handler: NSDictionary) -> Void in
+
+        lastRequest?.fetchModels { [weak self]
+            (handler: NSDictionary) -> Void in
+
             if let city = handler.valueForKey("city") as? City {
-                self.cityBackground.sd_setImageWithURL(NSURL(string: city.image))
-                self.cityNameLabel.text = city.name
+                self?.cityBackground.sd_setImageWithURL(NSURL(string: city.image))
+                self?.cityNameLabel.text = city.name
             }
             
-            self.dataSource = handler
-            self.tableView.reloadData()
-            self.collectionView.reloadData()
+            self?.dataSource = handler
+            self?.tableView.reloadData()
+            self?.collectionView.reloadData()
         }
     }
     
@@ -279,13 +280,14 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         //导航变化
+        /*
         let offsetY = scrollView.contentOffset.y
         if offsetY > 0 {
             let alpha:CGFloat = 1 - ((64 - offsetY) / 64);
             navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(alpha)
         } else {
             navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
-        }
+        }*/
     }
     
 }
