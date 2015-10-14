@@ -39,6 +39,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = SceneColor.bgBlack
+        
         headerView.addSubview(iconView)
         headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
         
@@ -54,7 +55,14 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+        refreshBar()
+    }
+    
+    func refreshBar(){
+        //设置导航样式
+        navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
+        //        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        //        navigationController?.navigationBar.shadowImage   = UIImage()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -183,9 +191,9 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         let offsetY = scrollView.contentOffset.y
         if offsetY > 0 {
             let alpha:CGFloat = 1 - ((64 - offsetY) / 64);
-            navigationController?.navigationBar.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(alpha)
+            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(alpha)
         } else {
-            navigationController?.navigationBar.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
+            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
         }
     }
     

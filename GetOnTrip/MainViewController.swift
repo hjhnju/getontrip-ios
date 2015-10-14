@@ -49,7 +49,6 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = SceneColor.bgBlack
         
         //导航Items
         let leftFixspaceItem    = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
@@ -68,14 +67,6 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        refreshBar()
-    }
-    
-    func refreshBar(){
-        //设置导航样式
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.shadowImage   = UIImage()
-        navigationController?.navigationBar.clipsToBounds = true
     }
     
     //MARK: 自定义方法
