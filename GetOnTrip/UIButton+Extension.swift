@@ -62,8 +62,17 @@ class shareButton : UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView?.frame = CGRectMake(0, 0, 50, 50)
-//        titleLabel?.frame.origin.y = bounds.height - (titleLabel?.bounds.height)!
         titleLabel?.bounds = CGRectMake(0, 0, 50, 20)
         titleLabel?.center = CGPointMake(25, bounds.height - 10)
+    }
+}
+
+class homeSightButton : UIButton {
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let w: CGFloat = 8
+        let h: CGFloat = 14.85
+        imageView?.frame = CGRectMake(bounds.width - 10 - w, (bounds.height - h) * 0.5, w, h)
     }
 }

@@ -28,6 +28,8 @@
 		AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233ADC1BB0E8D5002E6502 /* CityViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233B1C1BB0F7A2002E6502 /* SlideMenuViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233B421BB13D95002E6502 /* UILabel+Extension.swift */; settings = {ASSET_TAGS = (); }; };
+		AE2EEE921BCF540000ED0937 /* SightListCityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE911BCF540000ED0937 /* SightListCityController.swift */; settings = {ASSET_TAGS = (); }; };
+		AE2EEE941BCF58ED00ED0937 /* SightListCityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE931BCF58ED00ED0937 /* SightListCityRequest.swift */; settings = {ASSET_TAGS = (); }; };
 		AE488D691BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AE488D6B1BCBDDAE0032B78B /* SearchRecommendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6A1BCBDDAE0032B78B /* SearchRecommendRequest.swift */; settings = {ASSET_TAGS = (); }; };
 		AE488D6D1BCBDDDB0032B78B /* SearchRecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6C1BCBDDDB0032B78B /* SearchRecommendViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -159,6 +161,8 @@
 		AE233ADC1BB0E8D5002E6502 /* CityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityViewController.swift; sourceTree = "<group>"; };
 		AE233B1C1BB0F7A2002E6502 /* SlideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideMenuViewController.swift; sourceTree = "<group>"; };
 		AE233B421BB13D95002E6502 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		AE2EEE911BCF540000ED0937 /* SightListCityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightListCityController.swift; sourceTree = "<group>"; };
+		AE2EEE931BCF58ED00ED0937 /* SightListCityRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightListCityRequest.swift; sourceTree = "<group>"; };
 		AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecommendTableViewCell.swift; sourceTree = "<group>"; };
 		AE488D6A1BCBDDAE0032B78B /* SearchRecommendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecommendRequest.swift; sourceTree = "<group>"; };
 		AE488D6C1BCBDDDB0032B78B /* SearchRecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecommendViewController.swift; sourceTree = "<group>"; };
@@ -542,6 +546,7 @@
 		AE7F0AC51BB95CC90011F307 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AE2EEE931BCF58ED00ED0937 /* SightListCityRequest.swift */,
 				AE7F0AC11BB954730011F307 /* SightListRequest.swift */,
 				AEEA553A1BC0F92C009AF772 /* LandscapeRequest.swift */,
 				AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */,
@@ -565,6 +570,7 @@
 		AE7F0AC71BB95CE60011F307 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				AE2EEE911BCF540000ED0937 /* SightListCityController.swift */,
 				AE7F0AC81BB95D3E0011F307 /* SightListController.swift */,
 				AEEA552A1BBFD5BE009AF772 /* HistoryTableViewController.swift */,
 				AEC2314E1BCE1F1D008C58C9 /* SightDetailController.swift */,
@@ -848,6 +854,7 @@
 				AECD226D1B9EEC9B007F1D71 /* CollectContentViewController.swift in Sources */,
 				AEAB95181BC7C79A00B6EE62 /* TopicDetailController.swift in Sources */,
 				AEEA552B1BBFD5BE009AF772 /* HistoryTableViewController.swift in Sources */,
+				AE2EEE941BCF58ED00ED0937 /* SightListCityRequest.swift in Sources */,
 				AE79B1351BC556330045CC3A /* BNSearchBar.swift in Sources */,
 				AEEA552D1BBFD7F7009AF772 /* HistoryCell.swift in Sources */,
 				AE488D6B1BCBDDAE0032B78B /* SearchRecommendRequest.swift in Sources */,
@@ -857,6 +864,7 @@
 				AEC2318B1BCE48BD008C58C9 /* SightBookDetailController.swift in Sources */,
 				AE79EEC91BBA8440005A7709 /* SightCollectionViewCell.swift in Sources */,
 				AE7B997D1BA1877F003034FB /* UserUploadInfoRequest.swift in Sources */,
+				AE2EEE921BCF540000ED0937 /* SightListCityController.swift in Sources */,
 				AE70C19B1BCCD9C200834130 /* TopicCommentRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
