@@ -32,7 +32,7 @@ class CityRequest {
 
             post: post,
             handler: {(respData: AnyObject) -> Void in
-
+                
                 let homeModel = NSMutableDictionary()
                 
                 let city   = City(dict: respData["city"] as! [String : AnyObject])
@@ -50,6 +50,7 @@ class CityRequest {
                 homeModel.setValue(city, forKey: "city")
                 homeModel.setValue(sights, forKey: "sights")
                 homeModel.setValue(topics, forKey: "topics")
+                homeModel.setValue(respData["page_num"], forKey: "pageNum")
                 
                 // 回调
                 handler(homeModel)
@@ -111,22 +112,16 @@ class CityHotTopic : NSObject {
     var title: String?
     /// 副标题
     var subtitle: String?
-    /// 话题内容(可能不需要)
-    var desc: String?
     /// 访问数
     var visit: String?
     /// 收藏数
     var collect: String?
-    /// 来自（可能不要）
-    var from: String?
     /// 图片
     var image: String? {
         didSet {
             image = AppIni.BaseUri + image!
         }
     }
-    /// 景点（可能不要）
-    var sight: String?
     /// 标签
     var tag: String?
     

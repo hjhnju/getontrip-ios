@@ -56,21 +56,33 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     lazy var tableView: UITableView = UITableView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
     
     /// 热门话题标题
-    lazy var topicTopButton: UIButton = UIButton(title: "热门内容", fontSize: 14, radius: 0, titleColor: .whiteColor()) //(color: SceneColor.frontBlack, alphaF: 1.0)
-    
-    /// 热点话题文字
-//    lazy var topicTopLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "热门内容", fontSize: 14)
+    lazy var topicTopButton: UIButton = UIButton(title: "热门内容", fontSize: 14, radius: 0, titleColor: .whiteColor())
     
     /// 热门话题图标
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
     
-    var collectionCacheRowHeight = NSMutableDictionary()
+//    var collectionCacheRowHeight = NSMutableDictionary()
     
     /// 网络请求加载数据(添加)
     var lastRequest: CityRequest?
     
+    /// 刷新话题请求
+    var refreshTopicRequest: TopicRefreshRequest?
+    
+    var pageNumber: Int = 1
+    
     /// 数据源
-    var dataSource: NSDictionary?
+    var tableViewDataSource: [CityHotTopic]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    var collectionDataSource: [Sight]? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     // MARK: - 初始化相关内容
     override func viewDidLoad() {
@@ -102,8 +114,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         backgroundView.addSubview(sightButton)
         backgroundView.addSubview(topicTopButton)
         topicTopButton.addSubview(refreshTopicButton)
-//        topicTopButton.addSubview(topicTopLabel)
-
         
         sightButton.backgroundColor = SceneColor.frontBlack
         topicTopButton.backgroundColor = SceneColor.frontBlack
@@ -133,12 +143,13 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     ///  话题刷新
     func topicRefreshButton(btn: UIButton) {
+        refreshSightListData()
         let anim = CABasicAnimation(keyPath: "transform.rotation")
         anim.toValue = -CGFloat(M_PI * 2);
         anim.removedOnCompletion = false
         anim.fillMode = kCAFillModeBackwards;
         anim.duration = 2;
-        anim.repeatCount = 10
+        anim.repeatCount = MAXFLOAT
         refreshTopicButton.layer.addAnimation(anim, forKey: "transform.rotation")
     }
     
@@ -152,7 +163,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         sightButton.ff_AlignVertical(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
         collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: sightButton, size: CGSizeMake(view.bounds.width, 196 + 16), offset: CGPointMake(0, 8))
         topicTopButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: backgroundView, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 4))
-//        topicTopLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: topicTopButton, size: nil, offset: CGPointMake(0, 0))
         refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: topicTopButton, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
     }
     
@@ -172,26 +182,40 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self?.cityNameLabel.text = city.name
             }
             
-            self?.dataSource = handler
-            self?.tableView.reloadData()
-            self?.collectionView.reloadData()
+            self?.collectionDataSource = handler.valueForKey("sights") as? [Sight]
+            self?.tableViewDataSource = handler.valueForKey("topics") as? [CityHotTopic]
+            self?.pageNumber = handler.valueForKey("pageNum")!.integerValue
+        }
+    }
+    
+    private func refreshSightListData() {
+        
+        refreshTopicRequest?.page++
+        if refreshTopicRequest?.page > pageNumber {
+            refreshTopicRequest?.page = 1
+        }
+        
+        if refreshTopicRequest == nil {
+            refreshTopicRequest = TopicRefreshRequest()
+            refreshTopicRequest?.city = cityId
+        }
+        
+        refreshTopicRequest?.fetchModels { [weak self] (handler: [CityHotTopic]) -> Void in
+            self?.tableViewDataSource = handler
+           self!.refreshTopicButton.layer.removeAllAnimations()
         }
     }
     
     // MARK: - collectionView代理及数据源方法
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (dataSource?.valueForKey("sights")!.count ?? 0)!
+        if collectionDataSource == nil { return 0 }
+        return collectionDataSource!.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(StoryBoardIdentifier.CitySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
-        let data = dataSource?.valueForKey("sights") as! NSArray
         cell.icon.image = nil
-//        let size = collectionCacheRowHeight.objectForKey("\(indexPath.row)") as! String
-//        cell.bounds.size = CGSizeFromString(size)
-        print(cell.icon.frame)
-        cell.data = data[indexPath.row] as? Sight
-        
+        cell.data = collectionDataSource![indexPath.row]
         return cell
     }
     
@@ -199,9 +223,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        if (dataSource?.valueForKey("sights")?.count == 0) { return CGSizeZero }
+        if (collectionDataSource!.count == 0) { return CGSizeZero }
         
-        switch dataSource!.valueForKey("sights")!.count {
+        switch collectionDataSource!.count {
         case 1:
             return CGSizeMake(collectionView.bounds.width - 16, collectionView.bounds.height)
         case 2:
@@ -229,7 +253,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let vc = SightListController()
-        let sightId = dataSource?.valueForKey("sights")?[indexPath.row] as! Sight
+        let sightId = tableViewDataSource![indexPath.row]
+        vc.title = cityId
         vc.sightId = sightId.id
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -245,15 +270,15 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (dataSource?.valueForKey("topics")!.count ?? 0)!
+        if tableViewDataSource == nil { return 0 }
+        return tableViewDataSource!.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.CityHotTopicTableViewCellID, forIndexPath: indexPath) as! CityHotTopicTableViewCell
-        let homeTopic = dataSource?.valueForKey("topics") as? NSArray
         
-        cell.data = homeTopic![indexPath.row] as? CityHotTopic
+        cell.data = tableViewDataSource![indexPath.row]
         
         return cell
     }
@@ -265,11 +290,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let hotTopic = dataSource?.valueForKey("topics") as? NSArray
-        let data = hotTopic![indexPath.row] as? CityHotTopic
+        let data = tableViewDataSource![indexPath.row]
         
         let vc = TopicDetailController()
-        vc.topicId = data!.id!
+        vc.topicId = data.id!
 
         navigationController?.pushViewController(vc, animated: true)
     }

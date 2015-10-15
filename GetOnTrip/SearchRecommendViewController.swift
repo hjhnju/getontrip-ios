@@ -170,6 +170,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
             if (!data.isTypeCity()) {
                 let vc = SightListController()
+                vc.title = data.name
                 vc.sightId = data.id
                 navigationController?.pushViewController(vc, animated: true)
             } else {

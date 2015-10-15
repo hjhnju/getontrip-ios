@@ -76,7 +76,8 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         
         //nav bar
         navigationController?.navigationBar.barTintColor = SceneColor.frontBlack
-    
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+
         view.backgroundColor = UIColor.whiteColor()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
 
@@ -93,8 +94,6 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         loadSightData()
 
     }
-    
-    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -128,7 +127,6 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         for label in channels! {
             let tag: SightListTags = label as! SightListTags
             let lab = SightLabel.channelLabelWithTitle(tag.name!, width: lW!, height: h, fontSize: 14) 
-                //fontSize: CGFloat(UIScreen.mainScreen().bounds.width / CGFloat(channels!.count)))
             
             lab.delegate = self
             lab.textColor = UIColor.whiteColor()
@@ -147,8 +145,9 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         
         
         indicate.frame = CGRectMake(0, CGRectGetMaxY(scrollerViewLabel.frame) - 2.5, indicateW!, CGFloat(1.5))
-        scrollerViewLabel.contentSize = CGSizeMake(x, h)
-        scrollerViewLabel.setContentOffset(CGPointMake(0, 18), animated: false)
+        scrollerViewLabel.contentSize = CGSizeMake(x, 0)
+        
+        scrollerViewLabel.contentInset = UIEdgeInsetsZero
         currentIndex = 0
     }
 
@@ -235,5 +234,25 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         let indexPath = NSIndexPath(forItem: label.tag, inSection: 0)
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
         
+    }
+    
+    // MARK: - 搜索(下一个控制器)
+    var searchController: UISearchController?
+    func searchButtonClicked(button: UIBarButtonItem) {
+        // 获得父控制器
+        let searchResultsController = SearchResultsViewController()
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController!.searchResultsUpdater = searchResultsController
+        searchController!.hidesNavigationBarDuringPresentation = false
+        let imgView   = UIImageView(image: UIImage(named: "search-bg0")!)
+        imgView.frame = searchController!.view.bounds
+        searchController!.view.addSubview(imgView)
+        searchController!.view.sendSubviewToBack(imgView)
+        searchController!.searchBar.barStyle = UIBarStyle.Black
+        searchController!.searchBar.tintColor = UIColor.grayColor()
+        searchController!.searchBar.becomeFirstResponder()
+        searchController!.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
+        
+        presentViewController(searchController!, animated: true, completion: nil)
     }
 }

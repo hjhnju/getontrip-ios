@@ -216,9 +216,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         webView.scrollView.contentInset = UIEdgeInsetsMake(267, 0, 0, 0)
         automaticallyAdjustsScrollViewInsets = false
         webView.delegate = self
-        
-        
-
     }
     
     private func setupAutoLayout() {
@@ -537,6 +534,12 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
 
         
     }
+    
+    
+    
+    
+    
+
     
 }
 
