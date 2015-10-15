@@ -32,7 +32,7 @@ class HistoryTableViewController: UITableViewController {
     
     var urlString: String? {
         didSet {
-            
+            data = nil
             if urlString == "landscape" { // 景观
                 
                 refresh("landscape")
@@ -100,7 +100,6 @@ class HistoryTableViewController: UITableViewController {
         tableView.registerClass(LandscapeCell1.self, forCellReuseIdentifier: "Landscape_Cell1")
         tableView.registerClass(BookCell.self, forCellReuseIdentifier: "Book_Cell")
         tableView.registerClass(VideoCell.self, forCellReuseIdentifier: "Video_Cell")
-        tableView.registerClass(BackgroundCell.self, forCellReuseIdentifier: "Background_Cell")
         
         tableView.rowHeight = 115
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
@@ -114,11 +113,7 @@ class HistoryTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell: UITableViewCell?
-        if cellReuseIdentifier == "HistoryCell" {
-            let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! HistoryCell
-            c.otherData = data![indexPath.row] as? SightListData
-            cell = c
-        } else if cellReuseIdentifier == "Landscape_Cell" {
+        if cellReuseIdentifier == "Landscape_Cell" {
             
             if indexPath.row == 0 {
                 let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! LandscapeCell
@@ -137,6 +132,8 @@ class HistoryTableViewController: UITableViewController {
             cell = c
         } else if cellReuseIdentifier == "Video_Cell" {
             let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! VideoCell
+            c.watchBtn.addTarget(self, action: "watchClick:", forControlEvents: UIControlEvents.TouchUpInside)
+            c.watchBtn.tag = indexPath.row
             c.video = data![indexPath.row] as? SightVideo
             cell = c
         } else { // backgroundCell
@@ -152,16 +149,14 @@ class HistoryTableViewController: UITableViewController {
     
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if cellReuseIdentifier == "HistoryCell" {
-            return 115
-        } else if cellReuseIdentifier == "Landscape_Cell" {
+        if cellReuseIdentifier == "Landscape_Cell" {
             return 115
         } else if cellReuseIdentifier == "Book_Cell" {
             return 172
         } else if cellReuseIdentifier == "Video_Cell" {
             return 200
-        } else { // backgroundCell
-            return 100
+        } else {
+            return 115
         }
     }
     
@@ -169,14 +164,7 @@ class HistoryTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let vc: TopicDetailController = TopicDetailController()
-        if cellReuseIdentifier == "HistoryCell" {
-            
-            let dataI = data![indexPath.row] as! SightListData
-            vc.topicId = dataI.id!
-            navigationController?.pushViewController(vc, animated: true)
-
-            
-        } else if cellReuseIdentifier == "Landscape_Cell" {
+        if cellReuseIdentifier == "Landscape_Cell" {
             
             let sc = SightDetailController()
             let dataI = data![indexPath.row] as! SightLandscape
@@ -185,15 +173,14 @@ class HistoryTableViewController: UITableViewController {
             
         } else if cellReuseIdentifier == "Book_Cell" {
             
+            let bc = SightBookDetailController()
             let dataI = data![indexPath.row] as! SightBook
-            vc.topicId = dataI.id!
-            navigationController?.pushViewController(vc, animated: true)
+            bc.bookId = dataI.id!
+            navigationController?.pushViewController(bc, animated: true)
 
         } else if cellReuseIdentifier == "Video_Cell" {
             
-            let dataI = data![indexPath.row] as! SightVideo
-            vc.topicId = dataI.id!
-            navigationController?.pushViewController(vc, animated: true)
+            print("神马都不做")
             
         } else {
             
@@ -204,6 +191,14 @@ class HistoryTableViewController: UITableViewController {
         
     }
     
+    
+    func watchClick(btn: UIButton) {
+        
+        let sc = SightDetailController()
+        let dataI = data![btn.tag] as! SightVideo
+        sc.url = dataI.url
+        navigationController?.pushViewController(sc, animated: true)
+    }
     
     
 }

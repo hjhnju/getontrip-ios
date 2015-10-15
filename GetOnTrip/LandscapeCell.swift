@@ -46,6 +46,7 @@ class LandscapeCell: UITableViewCell {
     
     var landscape: SightLandscape? {
         didSet {
+            iconView.image = nil
             iconView.sd_setImageWithURL(NSURL(string: landscape!.image!)!)
             titleLabel.text = landscape!.name
             subtitleLabel.text = landscape!.content

@@ -11,6 +11,9 @@ import FFAutoLayout
 
 /// 城市中间页
 class CityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    //导航标题
+    var titleLabel = UILabel()
 
     /// 顶部的背景高度
     let backgroundViewH: CGFloat = 198 + 24 + 34 + 196 + 34 + 8
@@ -28,6 +31,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     var cityName: String = "" {
         didSet {
             cityNameLabel.text = cityName
+            titleLabel.text = cityName
         }
     }
     
@@ -83,41 +87,44 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     var navBarAlpha:CGFloat = 0.0
     
     // MARK: - 初始化相关内容
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //nav bar
-        
-        //        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-        //        navigationController?.navigationBar.shadowImage = nil
+        navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
+        navigationItem.titleView = titleLabel
+        titleLabel.frame = CGRectMake(0, 0, 100, 21)
+        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.hidden = true //设置alpha=0会有Fade Out
         
         initView()
         setupAutoLayout()
         loadCityData()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         refreshBar()
-    }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.Default
     }
     
     func refreshBar(){
         //设置导航样式
-        navUnderlayView?.backgroundColor = SceneColor.frontBlack
-        navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
         navUnderlayView?.alpha = navBarAlpha
-        print("CityView-navBarAlphaInit=\(navBarAlpha)")
+        titleLabel.alpha       = navBarAlpha
+        titleLabel.hidden      = false
     }
     
     /// 添加控件
     private func initView() {
         view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
-        view.addSubview(backgroundView)
+        
+        titleLabel.textColor = UIColor.whiteColor()
         
         backgroundView.addSubview(cityBackground)
         backgroundView.addSubview(cityNameLabel)
@@ -125,16 +132,18 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         backgroundView.addSubview(favIconBtn)
         backgroundView.addSubview(collectionView)
         backgroundView.addSubview(sightView)
+        backgroundView.addSubview(topicTopView)
+        backgroundView.userInteractionEnabled = true
+        
         sightView.addSubview(moreSightButton)
         sightView.addSubview(sightLabel)
-        backgroundView.addSubview(topicTopView)
         topicTopView.addSubview(refreshTopicButton)
         topicTopView.addSubview(topicTopLabel)
         
-        backgroundView.userInteractionEnabled = true
         cityBackground.userInteractionEnabled = true
-        collectionView.userInteractionEnabled = true
         
+        automaticallyAdjustsScrollViewInsets = false
+        tableView.tableHeaderView = backgroundView
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
@@ -145,6 +154,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor.clearColor()
         collectionView.registerClass(CitySightCollectionViewCell.self, forCellWithReuseIdentifier: StoryBoardIdentifier.CitySightCollectionViewCellID)
+        collectionView.userInteractionEnabled = true
         
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -169,7 +179,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     /// 设置布局
     private func setupAutoLayout() {
-        backgroundView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, backgroundViewH), offset: CGPointMake(0, 0))
         cityBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: backgroundView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 198), offset: CGPointMake(0, 0))
         cityNameLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: cityBackground, size: nil, offset: CGPointMake(9, -13))
         favTextBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: cityBackground, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
@@ -178,29 +187,26 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         sightView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
         sightLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: sightView, size: nil, offset: CGPointMake(0, 0))
         moreSightButton.ff_AlignInner(ff_AlignType.CenterRight, referView: sightView, size: CGSizeMake(8, 15), offset: CGPointMake(-10, 0))
-        
         collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: sightView, size: CGSizeMake(view.bounds.width, 196 + 16), offset: CGPointMake(0, 8))
         topicTopView.ff_AlignInner(ff_AlignType.BottomLeft, referView: backgroundView, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
         topicTopLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: topicTopView, size: nil, offset: CGPointMake(0, 0))
         refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: topicTopView, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
-        tableView.contentInset = UIEdgeInsets(top: (backgroundViewH - 64), left: 0, bottom: 0, right: 0)
     }
     
     //请求数据
     private func loadCityData() {
-        
         if lastRequest == nil {
             lastRequest = CityRequest()
             lastRequest?.city = cityId
         }
-        
+
         lastRequest?.fetchModels { [weak self]
             (handler: NSDictionary) -> Void in
+
             if let city = handler.valueForKey("city") as? City {
                 self?.cityBackground.sd_setImageWithURL(NSURL(string: city.image))
-                self?.cityNameLabel.text = city.name
+                self?.cityName = city.name
             }
-            
             self?.dataSource = handler
             self?.tableView.reloadData()
             self?.collectionView.reloadData()
@@ -216,9 +222,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(StoryBoardIdentifier.CitySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
         let data = dataSource?.valueForKey("sights") as! NSArray
         cell.data = data[indexPath.row] as? Sight
-
-        layout.prepareLayout()
-
         return cell
     }
     
@@ -257,6 +260,14 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     // MARK: - tableView代理及数据源
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return backgroundView
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 489
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (dataSource?.valueForKey("topics")!.count ?? 0)!
     }
@@ -289,20 +300,16 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     //MARK: ScrollViewDelegate
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        //使整体上面的view可以上下滚动，而且左右滚动使之不影响
-        if scrollView.contentOffset.x == 0 && scrollView.contentOffset.y != 0 {
-            backgroundView.frame.origin.y = abs(scrollView.contentOffset.y) - backgroundViewH
-        }
-        
         //导航变化
+        let threshold:CGFloat = 198 - 64
         let offsetY = scrollView.contentOffset.y
         if offsetY > 0 {
-            navBarAlpha = 1 - ((64 - offsetY) / 64);
-            navUnderlayView?.alpha = navBarAlpha
-            print("CityView-navBarAlpha=\(navBarAlpha)")
-        } else {
-            navUnderlayView?.alpha = 0
+            navBarAlpha = offsetY / threshold;
+            if navBarAlpha > 1 {
+                navBarAlpha = 1
+            }
         }
+        refreshBar()
     }
     
 }

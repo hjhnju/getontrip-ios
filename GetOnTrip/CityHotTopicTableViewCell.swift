@@ -49,6 +49,9 @@ class CityHotTopicTableViewCell: UITableViewCell {
         backgroundColor = UIColor.clearColor()
         label.alpha = 0.5
         visit.setImage(UIImage(named: "visit_white"), forState: UIControlState.Normal)
+        title.numberOfLines = 2
+        subTitle.numberOfLines = 2
+//        title.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 124 -
         
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(124, 84), offset: CGPointMake(9, 0))
         subTitle.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))

@@ -49,6 +49,7 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         didSet {
             channels = dataSource!.objectForKey("sightTags") as? NSArray
             setupChannel()
+            
             collectionView.reloadData()
         }
     }
@@ -90,20 +91,25 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
         
         loadSightData()
-        
+
     }
+    
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollViewBottomView.frame = CGRectMake(0, 64, view.bounds.width, 36)
-        scrollerViewLabel.ff_Fill(scrollViewBottomView)
-        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: scrollViewBottomView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(scrollViewBottomView.frame)), offset: CGPointMake(0, 0))
-        setupLayout()
+        
+        setupAutlLayout()
+        scrollViewBottomView.layoutIfNeeded()
+        scrollerViewLabel.layoutIfNeeded()
+        
     }
     
     func setupAutlLayout() {
-        
-//        scrollerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 30), offset: CGPointMake(0, 64))
+        scrollViewBottomView.frame = CGRectMake(0, 64, view.bounds.width, 36)
+        scrollerViewLabel.frame = scrollViewBottomView.bounds
+        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: scrollViewBottomView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(scrollViewBottomView.frame)), offset: CGPointMake(0, 0))
+        setupLayout()
     }
     
     ///  设置频道标签
@@ -139,12 +145,10 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
             scrollerViewLabel.addSubview(lab)
         }
         
+        
         indicate.frame = CGRectMake(0, CGRectGetMaxY(scrollerViewLabel.frame) - 2.5, indicateW!, CGFloat(1.5))
-        scrollerViewLabel.contentSize = CGSizeMake(x, 0)
-        
-//        scrollView.alwaysBounceHorizontal
-        
-        scrollerViewLabel.alwaysBounceHorizontal = false
+        scrollerViewLabel.contentSize = CGSizeMake(x, h)
+        scrollerViewLabel.setContentOffset(CGPointMake(0, 18), animated: false)
         currentIndex = 0
     }
 
@@ -174,16 +178,14 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         cell.VC.sightId = sightId!
         let labId = channels![indexPath.row] as! SightListTags
         cell.VC.tagId = labId.id!
-        if (data.name == "文学" || data.name == "历史" || data.name == "地理") {
-            
-        } else if (data.name == "景观") {
+         if (data.name == "景观") {
             cell.urlString = "landscape"
         } else if (data.name == "书籍") {
             cell.urlString = "book"
         } else if (data.name == "视频") {
             cell.urlString = "video"
         } else {
-            cell.urlString = "bbbb"
+            cell.urlString = "其他"
         }
         
         if (!childViewControllers.contains(cell.VC)) {

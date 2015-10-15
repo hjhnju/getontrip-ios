@@ -12,15 +12,7 @@ import FFAutoLayout
 
 class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
     
-    ///  隐藏电池栏方法（有个ios6设置的方法，但有警告，如最后无解则采取那个办法）
-    ///
-    ///  - returns: 目前未调用，原因未查清
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
     // MARK: 相关属性
-    
     // TODO: 重之中之详情ID必有值
     var topicId: String = ""
     
@@ -133,9 +125,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     // MARK: - 初始化方法
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setNeedsStatusBarAppearanceUpdate()
-        prefersStatusBarHidden()
+        
         refreshBar()
         loadSightData()
         setupAddProperty()
@@ -158,6 +148,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     private func setupAddProperty() {
     
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
+
         view.backgroundColor = UIColor.whiteColor()
         
         view.addSubview(webView)
@@ -280,6 +272,17 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         navigationItem.titleView = nameLabel
         nameLabel.alpha = 0.0
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        // TODO: 临时设置
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
+        let backButtonImage = UIImage(named: "icon_back")
+        UINavigationBar.appearance().backIndicatorImage = backButtonImage
+        UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
     }
 
     // MARK: UIWebView and UIScrollView Delegate 代理方法

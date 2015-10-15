@@ -42,9 +42,20 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     var navBarAlpha:CGFloat = 0.0
     
     // MARK: - 初始化
+    
+    //电池栏状态
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
         view.backgroundColor = SceneColor.bgBlack
+        
+        //nav bar
+        navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         headerView.addSubview(iconView)
         headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
@@ -59,15 +70,13 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         setupAutoLayout()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         refreshBar()
     }
     
     func refreshBar(){
         //更新导航背景
-        navUnderlayView?.backgroundColor = SceneColor.frontBlack
-        navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
         navUnderlayView?.alpha = navBarAlpha
     }
     
@@ -95,6 +104,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         }
         
         lastSuccessAddRequest?.fetchModels {[unowned self] (handler: NSDictionary) -> Void in
+            
             self.dataSource = handler
             if self.searchLabels.count == 0 {
                 for lab in handler.objectForKey("labels") as! NSArray {
@@ -194,14 +204,16 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     //MARK: ScrollViewDelegate
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        //导航渐变
+        let threshold:CGFloat = 198 - 64
         let offsetY = scrollView.contentOffset.y
-        
         if offsetY > 0 {
-            navBarAlpha = 1 - ((64 - offsetY) / 64);
-            navUnderlayView?.alpha = navBarAlpha
-        } else {
-            navUnderlayView?.alpha = 0.0
+            navBarAlpha = offsetY / threshold;
+            if navBarAlpha > 1 {
+                navBarAlpha = 1
+            }
         }
+        refreshBar()
     }
     
     //MARK: 自定义方法

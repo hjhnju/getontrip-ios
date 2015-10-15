@@ -45,9 +45,9 @@ class BookRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
 
-                
+                    print(respData)
                 let sightBook = NSMutableArray() // [SightBook]()
-                for item in respData.objectForKey("list") as! NSArray {
+                for item in respData as! NSArray {
                     sightBook.addObject(SightBook(dict: item as! [String : AnyObject]))
                 }
                 
@@ -64,28 +64,23 @@ class SightBook: NSObject {
     var id: String?
     /// 标题
     var title: String?
-    /// 作者
-    var author: String?
     /// url
     var url: String?
     /// 图片
-    var image: String?
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
     /// 内容
     var content_desc: String?
-    
+    /// 作者
+    var author: String?
     
     init(dict: [String: AnyObject]) {
         super.init()
-        
-        id = String(dict["id"]!)
-        title = String(dict["title"]!)
-        author = String(dict["author"]!)
-        image = AppIni.BaseUri + String(dict["image"]!)
-        url = String(dict["url"])
-        content_desc = String(dict["content_desc"]!)
-        
-        //        setValuesForKeysWithDictionary(dict)
-        
+    
+        setValuesForKeysWithDictionary(dict)
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
