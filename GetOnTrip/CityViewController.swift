@@ -50,27 +50,21 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }()
     
     /// 热门景点
-    lazy var sightView: UIView = UIView(color: SceneColor.frontBlack, alphaF: 1.0)
-
-    /// 热点景点文字
-    lazy var sightLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "热门景点", fontSize: 14)
-
-    /// 热门景点图标
-    lazy var moreSightButton: UIButton = UIButton(icon: "city_more", masksToBounds: false)
+    lazy var sightButton: homeSightButton = homeSightButton(image: "city_more", title: "热门景点", fontSize: 14, titleColor: .whiteColor())
     
     /// 热门内容
     lazy var tableView: UITableView = UITableView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
     
     /// 热门话题标题
-    lazy var topicTopView: UIView = UIView(color: SceneColor.frontBlack, alphaF: 1.0)
+    lazy var topicTopButton: UIButton = UIButton(title: "热门内容", fontSize: 14, radius: 0, titleColor: .whiteColor()) //(color: SceneColor.frontBlack, alphaF: 1.0)
     
     /// 热点话题文字
-    lazy var topicTopLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "热门内容", fontSize: 14)
+//    lazy var topicTopLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "热门内容", fontSize: 14)
     
     /// 热门话题图标
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
     
-    
+    var collectionCacheRowHeight = NSMutableDictionary()
     
     /// 网络请求加载数据(添加)
     var lastRequest: CityRequest?
@@ -86,6 +80,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
 //        navigationController?.navigationBar.shadowImage = nil
 //        navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         automaticallyAdjustsScrollViewInsets = false
         tableView.tableHeaderView = backgroundView
         
@@ -104,16 +99,17 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         backgroundView.addSubview(favTextBtn)
         backgroundView.addSubview(favIconBtn)
         backgroundView.addSubview(collectionView)
-        backgroundView.addSubview(sightView)
-        sightView.addSubview(moreSightButton)
-        sightView.addSubview(sightLabel)
-        backgroundView.addSubview(topicTopView)
-        topicTopView.addSubview(refreshTopicButton)
-        topicTopView.addSubview(topicTopLabel)
+        backgroundView.addSubview(sightButton)
+        backgroundView.addSubview(topicTopButton)
+        topicTopButton.addSubview(refreshTopicButton)
+//        topicTopButton.addSubview(topicTopLabel)
+
         
-        backgroundView.userInteractionEnabled = true
-        cityBackground.userInteractionEnabled = true
-        collectionView.userInteractionEnabled = true
+        sightButton.backgroundColor = SceneColor.frontBlack
+        topicTopButton.backgroundColor = SceneColor.frontBlack
+        sightButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        topicTopButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
@@ -126,7 +122,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         collectionView.backgroundColor = UIColor.clearColor()
         collectionView.registerClass(CitySightCollectionViewCell.self, forCellWithReuseIdentifier: StoryBoardIdentifier.CitySightCollectionViewCellID)
         
-        refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
         // 每个item的大小
         layout.itemSize = CGSizeMake(186, 196)
@@ -144,7 +139,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         anim.fillMode = kCAFillModeBackwards;
         anim.duration = 2;
         anim.repeatCount = 10
-        btn.layer.addAnimation(anim, forKey: "transform.rotation")
+        refreshTopicButton.layer.addAnimation(anim, forKey: "transform.rotation")
     }
     
     /// 设置布局
@@ -154,13 +149,11 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         favTextBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: cityBackground, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
         favIconBtn.ff_AlignVertical(ff_AlignType.TopCenter, referView: favTextBtn, size: CGSizeMake(21, 20), offset:CGPointMake(0, -5))
         
-        sightView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
-        sightLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: sightView, size: nil, offset: CGPointMake(0, 0))
-        moreSightButton.ff_AlignInner(ff_AlignType.CenterRight, referView: sightView, size: CGSizeMake(8, 15), offset: CGPointMake(-10, 0))
-        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: sightView, size: CGSizeMake(view.bounds.width, 196 + 16), offset: CGPointMake(0, 8))
-        topicTopView.ff_AlignInner(ff_AlignType.BottomLeft, referView: backgroundView, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
-        topicTopLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: topicTopView, size: nil, offset: CGPointMake(0, 0))
-        refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: topicTopView, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
+        sightButton.ff_AlignVertical(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
+        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: sightButton, size: CGSizeMake(view.bounds.width, 196 + 16), offset: CGPointMake(0, 8))
+        topicTopButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: backgroundView, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 4))
+//        topicTopLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: topicTopButton, size: nil, offset: CGPointMake(0, 0))
+        refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: topicTopButton, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
     }
     
     //请求数据
@@ -193,9 +186,15 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(StoryBoardIdentifier.CitySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
         let data = dataSource?.valueForKey("sights") as! NSArray
+        cell.icon.image = nil
+//        let size = collectionCacheRowHeight.objectForKey("\(indexPath.row)") as! String
+//        cell.bounds.size = CGSizeFromString(size)
+        print(cell.icon.frame)
         cell.data = data[indexPath.row] as? Sight
+        
         return cell
     }
+    
     
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -214,13 +213,18 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
                 return CGSizeMake(collectionView.bounds.width * 0.5 - 16, collectionView.bounds.height * 0.5 - 6)
             }
         default:
+            var size = CGSizeMake(113, 100)
             if indexPath.row % 3 == 0 {
-                return CGSizeMake(collectionView.bounds.width * 0.5, collectionView.bounds.height)
-            } else {
-                return CGSizeMake(113, 100)
+                size = CGSizeMake(collectionView.bounds.width * 0.5, collectionView.bounds.height)
             }
+//            collectionCacheRowHeight.setValue("\(size)", forKey: "\(indexPath.row)")
+            return size
         }
     }
+    
+    
+    //layoutAttributesForElementsInRect
+    
     
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -237,7 +241,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 489
+        return 498
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -248,6 +252,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.CityHotTopicTableViewCellID, forIndexPath: indexPath) as! CityHotTopicTableViewCell
         let homeTopic = dataSource?.valueForKey("topics") as? NSArray
+        
         cell.data = homeTopic![indexPath.row] as? CityHotTopic
         
         return cell
@@ -276,7 +281,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        if scrollView.contentOffset.x == 0 && scrollView.contentOffset.y != 0 {
 //            backgroundView.frame.origin.y = abs(scrollView.contentOffset.y) - backgroundViewH
 //        }
-        print("--调用了吗--")
+
         //导航变化
         /*
         let offsetY = scrollView.contentOffset.y
@@ -286,6 +291,15 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
         }*/
+    }
+    
+    // MARK: 景点列表页
+    func sightButtonClick(btn: UIButton) {
+        
+        let vc = SightListCityController()
+        vc.title = cityName
+        vc.cityId = cityId
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }
