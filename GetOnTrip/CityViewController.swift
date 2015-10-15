@@ -76,13 +76,20 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     /// 数据源
     var dataSource: NSDictionary?
     
+    //导航背景，用于完成渐变
+    weak var navUnderlayView:UIView?
+    
+    //导航透明度
+    var navBarAlpha:CGFloat = 0.0
+    
     // MARK: - 初始化相关内容
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //nav bar
-        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.shadowImage = nil
+        
+        //        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+        //        navigationController?.navigationBar.shadowImage = nil
         
         initView()
         setupAutoLayout()
@@ -91,10 +98,19 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        refreshBar()
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.Default
+    }
+    
+    func refreshBar(){
+        //设置导航样式
+        navUnderlayView?.backgroundColor = SceneColor.frontBlack
+        navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
+        navUnderlayView?.alpha = navBarAlpha
+        print("CityView-navBarAlphaInit=\(navBarAlpha)")
     }
     
     /// 添加控件
@@ -279,14 +295,14 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         //导航变化
-        /*
         let offsetY = scrollView.contentOffset.y
         if offsetY > 0 {
-            let alpha:CGFloat = 1 - ((64 - offsetY) / 64);
-            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(alpha)
+            navBarAlpha = 1 - ((64 - offsetY) / 64);
+            navUnderlayView?.alpha = navBarAlpha
+            print("CityView-navBarAlpha=\(navBarAlpha)")
         } else {
-            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
-        }*/
+            navUnderlayView?.alpha = 0
+        }
     }
     
 }

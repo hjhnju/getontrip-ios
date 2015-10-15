@@ -35,6 +35,12 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     /// 记录状态按钮
     var currentSearchLabelButton: UIButton?
     
+    //导航背景，用于完成渐变
+    weak var navUnderlayView:UIView?
+    
+    //导航透明度
+    var navBarAlpha:CGFloat = 0.0
+    
     // MARK: - 初始化
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,10 +65,11 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     }
     
     func refreshBar(){
-        //设置导航样式
-        navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
-        //        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        //        navigationController?.navigationBar.shadowImage   = UIImage()
+        //更新导航背景
+        navUnderlayView?.backgroundColor = SceneColor.frontBlack
+        navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
+        navUnderlayView?.alpha = navBarAlpha
+        print("Search-navBarAlphaInit=\(navBarAlpha)")
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -189,11 +196,13 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
+        
         if offsetY > 0 {
-            let alpha:CGFloat = 1 - ((64 - offsetY) / 64);
-            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(alpha)
+            navBarAlpha = 1 - ((64 - offsetY) / 64);
+            navUnderlayView?.alpha = navBarAlpha
+            print("Search-navBarAlpha=\(navBarAlpha)")
         } else {
-            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
+            navUnderlayView?.alpha = 0.0
         }
     }
     
