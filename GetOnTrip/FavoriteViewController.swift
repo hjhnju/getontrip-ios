@@ -49,11 +49,13 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     }
     
     private func setupProperty() {
-        
+        //nav bar
+        view.backgroundColor = SceneColor.frontBlack //barStyle=Opaque时决定了导航颜色
         title = "我的收藏"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
     }
     
     private func setupAddSubViewAndAction() {
@@ -110,7 +112,6 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     
     
     func setupChildControllerProperty() {
-        
         contentScrollView.contentOffset.x = 0
         contentScrollView.pagingEnabled = true
         contentScrollView.showsHorizontalScrollIndicator = false
@@ -149,10 +150,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     var searchController: UISearchController!
     func searchButtonClicked(button: UIBarButtonItem) {
         // 获得父控制器
-        
-        
         let searchResultsController = SearchResultsViewController()
-        
         
         searchController = UISearchController(searchResultsController: searchResultsController)
         searchController.searchResultsUpdater = searchResultsController
@@ -167,11 +165,8 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         searchController.searchBar.barStyle = UIBarStyle.Black
         searchController.searchBar.tintColor = UIColor.grayColor()
         
-//        let textField = searchController.searchBar.valueForKey("searchField") as? UITextField
-//        textField?.textColor = UIColor.whiteColor()
         searchController.searchBar.becomeFirstResponder()
         searchController.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
-        
         
         presentViewController(searchController, animated: true, completion: nil)
         

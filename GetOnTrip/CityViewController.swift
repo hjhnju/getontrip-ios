@@ -92,6 +92,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         //nav bar
         navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
         navigationItem.titleView = titleLabel
+        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
         titleLabel.textAlignment = NSTextAlignment.Center
         titleLabel.hidden = true //设置alpha=0会有Fade Out
@@ -178,7 +179,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         sightButton.ff_AlignVertical(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
         collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: sightButton, size: CGSizeMake(view.bounds.width, 196 + 16), offset: CGPointMake(0, 8))
         topicTopButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: backgroundView, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 4))
-//        topicTopLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: topicTopButton, size: nil, offset: CGPointMake(0, 0))
         refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: topicTopButton, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
     }
     
@@ -211,15 +211,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(StoryBoardIdentifier.CitySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
         let data = dataSource?.valueForKey("sights") as! NSArray
         cell.icon.image = nil
-//        let size = collectionCacheRowHeight.objectForKey("\(indexPath.row)") as! String
-//        cell.bounds.size = CGSizeFromString(size)
-        print(cell.icon.frame)
         cell.data = data[indexPath.row] as? Sight
         
         return cell
     }
-    
-    
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
@@ -241,18 +236,13 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             if indexPath.row % 3 == 0 {
                 size = CGSizeMake(collectionView.bounds.width * 0.5, collectionView.bounds.height)
             }
-//            collectionCacheRowHeight.setValue("\(size)", forKey: "\(indexPath.row)")
             return size
         }
     }
     
-    
-    //layoutAttributesForElementsInRect
-    
-    
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let vc = SightListController()
+        let vc = SightViewController()
         let sightId = dataSource?.valueForKey("sights")?[indexPath.row] as! Sight
         vc.sightId = sightId.id
         navigationController?.pushViewController(vc, animated: true)
@@ -308,6 +298,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             navBarAlpha = offsetY / threshold;
             if navBarAlpha > 1 {
                 navBarAlpha = 1
+            } else if navBarAlpha < 0.1 {
+                navBarAlpha = 0
             }
         }
         refreshBar()
@@ -316,7 +308,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: 景点列表页
     func sightButtonClick(btn: UIButton) {
         
-        let vc = SightListCityController()
+        let vc = CitySightsViewController()
         vc.title = cityName
         vc.cityId = cityId
         navigationController?.pushViewController(vc, animated: true)

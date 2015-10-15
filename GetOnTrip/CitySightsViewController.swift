@@ -11,7 +11,7 @@ import FFAutoLayout
 
 let sightListCityIdentifier = "SightListCity_Cell"
 
-class SightListCityController: UICollectionViewController {
+class CitySightsViewController: UICollectionViewController {
     
     /// 城市ID
     var cityId: String?
@@ -90,7 +90,7 @@ class SightListCityController: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let vc = SightListController()
+        let vc = SightViewController()
         let sight = sightCityList![indexPath.row] as SightCityList
         vc.sightId = sight.id
         navigationController?.pushViewController(vc, animated: true)

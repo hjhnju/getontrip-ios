@@ -9,19 +9,22 @@
 import UIKit
 import FFAutoLayout
 
-class SightListController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate {
+class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate {
 
     /// 景点列表id
     var sightId: String?
     
-    /// scrollView底部view
-    lazy var scrollViewBottomView: UIView = UIView()
+    //景点名称
+    var sightName: String = ""
     
-    /// 指示view
-    lazy var indicate: UIView = UIView(color: UIColor.yellowColor())
+    //标签导航栏的主视图
+    lazy var labelNavView: UIView = UIView()
     
-    /// 标签视图
-    lazy var scrollerViewLabel = UIScrollView()
+    //指示view
+    lazy var indicateView: UIView = UIView(color: UIColor.yellowColor())
+    
+    //标签导航栏的scrollView
+    lazy var labelScrollView = UIScrollView()
     
     /// 标签数组
     var channels: NSArray?
@@ -29,13 +32,10 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     /// 网络请求加载数据(添加)
     var lastSuccessAddRequest: SightListRequest?
     
-    /// 标签底部view
-    lazy var labelBottomView: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.5)
-    
     /// 流水布局
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     
-    /// 底部view
+    /// 底部容器view
     lazy var collectionView: UICollectionView = { [unowned self] in
         let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self.layout)
         return cv
@@ -49,66 +49,44 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         didSet {
             channels = dataSource!.objectForKey("sightTags") as? NSArray
             setupChannel()
-            
             collectionView.reloadData()
         }
-    }
-    
-    /// 发送反馈消息
-    private func loadSightData() {
-        
-        if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = SightListRequest()
-            lastSuccessAddRequest?.sightId = sightId
-        }
-        
-        lastSuccessAddRequest?.fetchSightListModels {[unowned self] (handler: NSDictionary) -> Void in
-            self.dataSource = handler
-        }
-    }
-    
-    deinit {
-        print("我走了\(__FUNCTION__)")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //nav bar
-        navigationController?.navigationBar.barTintColor = SceneColor.frontBlack
-    
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = SceneColor.frontBlack //barStyle=Opaque时决定了导航颜色
+        navigationItem.title = sightName
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
 
-        view.addSubview(scrollViewBottomView)
-        scrollViewBottomView.addSubview(scrollerViewLabel)
-        view.addSubview(collectionView)
-        scrollViewBottomView.addSubview(indicate)
-        scrollerViewLabel.backgroundColor = SceneColor.bgBlack
+        view.addSubview(labelNavView)
+        labelNavView.addSubview(labelScrollView)
+        labelNavView.addSubview(indicateView)
+        labelScrollView.backgroundColor = SceneColor.bgBlack
         
+        view.addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
         
         loadSightData()
-
     }
-    
-    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         setupAutlLayout()
-        scrollViewBottomView.layoutIfNeeded()
-        scrollerViewLabel.layoutIfNeeded()
-        
+        labelNavView.layoutIfNeeded()
+        labelScrollView.layoutIfNeeded()
     }
     
     func setupAutlLayout() {
-        scrollViewBottomView.frame = CGRectMake(0, 64, view.bounds.width, 36)
-        scrollerViewLabel.frame = scrollViewBottomView.bounds
-        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: scrollViewBottomView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(scrollViewBottomView.frame)), offset: CGPointMake(0, 0))
+        labelNavView.frame = CGRectMake(0, 64, view.bounds.width, 36)
+        labelScrollView.frame = labelNavView.bounds
+        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: labelNavView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(labelNavView.frame)), offset: CGPointMake(0, 0))
         setupLayout()
     }
     
@@ -142,13 +120,12 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
             }
             
             index++
-            scrollerViewLabel.addSubview(lab)
+            labelScrollView.addSubview(lab)
         }
         
-        
-        indicate.frame = CGRectMake(0, CGRectGetMaxY(scrollerViewLabel.frame) - 2.5, indicateW!, CGFloat(1.5))
-        scrollerViewLabel.contentSize = CGSizeMake(x, h)
-        scrollerViewLabel.setContentOffset(CGPointMake(0, 18), animated: false)
+        indicateView.frame = CGRectMake(0, CGRectGetMaxY(labelScrollView.frame) - 2.5, indicateW!, CGFloat(1.5))
+        labelScrollView.contentSize = CGSizeMake(x, h)
+        labelScrollView.setContentOffset(CGPointMake(0, 18), animated: false)
         currentIndex = 0
     }
 
@@ -199,32 +176,32 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
-        let labCenter : UILabel = scrollerViewLabel.subviews[currentIndex!] as! UILabel
+        let labCenter : UILabel = labelScrollView.subviews[currentIndex!] as! UILabel
         var nextLabel: UILabel?
         
         let array = collectionView.indexPathsForVisibleItems()
         for path in array {
             if path.item != currentIndex {
-                nextLabel = scrollerViewLabel.subviews[path.item] as? UILabel
+                nextLabel = labelScrollView.subviews[path.item] as? UILabel
             }
         }
         
         if nextLabel == nil { return }
     
         // 计算当前选中标签的中心点
-        var offset: CGFloat = labCenter.center.x - scrollerViewLabel.bounds.width * 0.5
-        let maxOffset: CGFloat = scrollerViewLabel.contentSize.width - scrollerViewLabel.bounds.width
+        var offset: CGFloat = labCenter.center.x - labelScrollView.bounds.width * 0.5
+        let maxOffset: CGFloat = labelScrollView.contentSize.width - labelScrollView.bounds.width
         if (offset < 0) {
             offset = 0
         } else if (offset > maxOffset) {
             offset = maxOffset
         }
         
-        scrollerViewLabel.setContentOffset(CGPointMake(offset, 0), animated: true)
+        labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
         let lCount: Int = channels!.count >= 7 ? 7 : channels!.count
         let x: CGFloat = scrollView.contentOffset.x / CGFloat(lCount) - offset
         UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.indicate.frame.origin.x = x
+            self.indicateView.frame.origin.x = x
         })
     }
     
@@ -235,5 +212,18 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         let indexPath = NSIndexPath(forItem: label.tag, inSection: 0)
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
         
+    }
+    
+    //获取数据
+    private func loadSightData() {
+        
+        if lastSuccessAddRequest == nil {
+            lastSuccessAddRequest = SightListRequest()
+            lastSuccessAddRequest?.sightId = sightId
+        }
+        
+        lastSuccessAddRequest?.fetchSightListModels {[unowned self] (handler: NSDictionary) -> Void in
+            self.dataSource = handler
+        }
     }
 }

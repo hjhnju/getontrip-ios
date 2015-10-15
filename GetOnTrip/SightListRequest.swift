@@ -22,14 +22,14 @@ class SightListRequest: NSObject {
     * @return json
     */
     
-//    http://123.57.46.229:8301/api/sight/detail?tags=1&sightId=4    
+    //http://123.57.46.229:8301/api/sight/detail?tags=1&sightId=4
     // 请求参数
     var sightId :String?
     var page    :Int = 1
     var pageSize:Int = 6
     var tag : String = ""
     var deviceId = appUUID
-//    http://123.57.67.165:8301/api/sight/detail?tags
+    //http://123.57.67.165:8301/api/sight/detail?tags
     // 将数据回调外界
     func fetchSightListModels(handler: NSDictionary -> Void) {
         fetchModels(handler)
@@ -86,7 +86,6 @@ class SightListTags: NSObject {
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
     }
 }
 
