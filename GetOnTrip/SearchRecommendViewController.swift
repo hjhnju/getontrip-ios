@@ -84,6 +84,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         }
         
         lastSuccessAddRequest?.fetchModels {[unowned self] (handler: NSDictionary) -> Void in
+            
             self.dataSource = handler
             if self.searchLabels.count == 0 {
                 for lab in handler.objectForKey("labels") as! NSArray {

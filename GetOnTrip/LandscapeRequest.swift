@@ -69,7 +69,11 @@ class SightLandscape: NSObject {
     ///  url
     var url: String?
     /// 图片
-    var image: String? 
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
     /// 目录
     var catalogs: NSMutableArray?
     

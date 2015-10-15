@@ -178,16 +178,14 @@ class SightListController: UIViewController, UICollectionViewDataSource, UIColle
         cell.VC.sightId = sightId!
         let labId = channels![indexPath.row] as! SightListTags
         cell.VC.tagId = labId.id!
-        if (data.name == "文学" || data.name == "历史" || data.name == "地理") {
-            
-        } else if (data.name == "景观") {
+         if (data.name == "景观") {
             cell.urlString = "landscape"
         } else if (data.name == "书籍") {
             cell.urlString = "book"
         } else if (data.name == "视频") {
             cell.urlString = "video"
         } else {
-            cell.urlString = "bbbb"
+            cell.urlString = "其他"
         }
         
         if (!childViewControllers.contains(cell.VC)) {

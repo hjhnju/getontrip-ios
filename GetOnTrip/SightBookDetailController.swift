@@ -86,7 +86,8 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     ///  添加相关属性
     private func setupAddProperty() {
         
-        view.backgroundColor = UIColor.whiteColor()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        view.backgroundColor = .whiteColor()
         
         view.addSubview(webView)
         view.addSubview(iconBottomView)
@@ -103,6 +104,8 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         bottomView.addSubview(shareBtn)
         bottomView.addSubview(buyBtn)
         bottomView.addSubview(bottomLine)
+        
+        buyBtn.addTarget(self, action: "buyButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
         iconBottomView.userInteractionEnabled = true
         iconView.userInteractionEnabled = true
@@ -172,8 +175,14 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let y: CGFloat = -scrollView.contentOffset.y - iconOffsetH
-//        iconBottomView.frame.origin.y = y
         topConstraint?.constant = y
+    }
+    
+    // MARK: - 购买书籍
+    func buyButtonClick(btn: UIButton) {
+        let sc = SightDetailController()
+        sc.url = data?.url
+        navigationController?.pushViewController(sc, animated: true)
     }
 
 }

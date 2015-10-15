@@ -70,6 +70,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     /// 热门话题图标
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
     
+    
+    
     /// 网络请求加载数据(添加)
     var lastRequest: CityRequest?
     
@@ -81,27 +83,21 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         //nav bar
-        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.shadowImage = nil
+//        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+//        navigationController?.navigationBar.shadowImage = nil
+//        navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
+        automaticallyAdjustsScrollViewInsets = false
+        tableView.tableHeaderView = backgroundView
         
         initView()
         setupAutoLayout()
         loadCityData()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.Default
-    }
-    
     /// 添加控件
     private func initView() {
         view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
-        view.addSubview(backgroundView)
         
         backgroundView.addSubview(cityBackground)
         backgroundView.addSubview(cityNameLabel)
@@ -153,7 +149,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     /// 设置布局
     private func setupAutoLayout() {
-        backgroundView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, backgroundViewH), offset: CGPointMake(0, 0))
         cityBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: backgroundView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 198), offset: CGPointMake(0, 0))
         cityNameLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: cityBackground, size: nil, offset: CGPointMake(9, -13))
         favTextBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: cityBackground, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
@@ -162,12 +157,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         sightView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
         sightLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: sightView, size: nil, offset: CGPointMake(0, 0))
         moreSightButton.ff_AlignInner(ff_AlignType.CenterRight, referView: sightView, size: CGSizeMake(8, 15), offset: CGPointMake(-10, 0))
-        
         collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: sightView, size: CGSizeMake(view.bounds.width, 196 + 16), offset: CGPointMake(0, 8))
         topicTopView.ff_AlignInner(ff_AlignType.BottomLeft, referView: backgroundView, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
         topicTopLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: topicTopView, size: nil, offset: CGPointMake(0, 0))
         refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: topicTopView, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
-        tableView.contentInset = UIEdgeInsets(top: (backgroundViewH - 64), left: 0, bottom: 0, right: 0)
     }
     
     //请求数据
@@ -201,9 +194,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(StoryBoardIdentifier.CitySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
         let data = dataSource?.valueForKey("sights") as! NSArray
         cell.data = data[indexPath.row] as? Sight
-
-        layout.prepareLayout()
-
         return cell
     }
     
@@ -242,6 +232,14 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     // MARK: - tableView代理及数据源
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return backgroundView
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 489
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (dataSource?.valueForKey("topics")!.count ?? 0)!
     }
@@ -275,10 +273,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         //使整体上面的view可以上下滚动，而且左右滚动使之不影响
-        if scrollView.contentOffset.x == 0 && scrollView.contentOffset.y != 0 {
-            backgroundView.frame.origin.y = abs(scrollView.contentOffset.y) - backgroundViewH
-        }
-        
+//        if scrollView.contentOffset.x == 0 && scrollView.contentOffset.y != 0 {
+//            backgroundView.frame.origin.y = abs(scrollView.contentOffset.y) - backgroundViewH
+//        }
+        print("--调用了吗--")
         //导航变化
         /*
         let offsetY = scrollView.contentOffset.y

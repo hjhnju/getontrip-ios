@@ -23,8 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        // http://123.57.46.229:8301/api/sight/detail?tags=15&page=1&sightId=15&pageSize=6&deviceId=C58AA71A-D6A7-437F-BEC6-3087E401773A
-        
+        ///  bug调试代码仅一行
         Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
         
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -54,54 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 获取用户uuid
         gainUserUUID()
-        
-//        let htpCo = NSHTTPCookie(properties: ["device_id" : "123"])
-//        NSHTTPCookie.cookiesWithResponseHeaderFields(<#T##headerFields: [String : String]##[String : String]#>, forURL: <#T##NSURL#>)
-//        let cook = htpCo.first
-//        print(cook)
-//        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookies(htpCo, forURL: "", mainDocumentURL: <#T##NSURL?#>)
-//        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie()
-//        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie.cookiesWithResponseHeaderFields(["device_id" : appUUID!], forURL: NSURL(string: "http://123.57.46.229:8301/test/cookie")!))
-//        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookies(htpCo)
-       
-        
-        
-        
-        //第一次请求手动设置个cookie
-//        -(void)test1:(NSString*)urlString{
-//        let url = NSURL(string: "http://123.57.46.229:8301/test/cookie")
-//        let request = NSMutableURLRequest(URL: url!)
-//        let cookieProperties = NSMutableDictionary()
-//        cookieProperties.setObject("device_id", forKey: NSHTTPCookieName)
-//        cookieProperties.setObject(appUUID!, forKey: NSHTTPCookieValue)
-//        cookieProperties.setObject("api.skyfox.org", forKey: NSHTTPCookieDomain)
-//        cookieProperties.setObject("api.skyfox.org", forKey: NSHTTPCookieOriginURL)
-//        cookieProperties.setObject("/", forKey: NSHTTPCookiePath)
-//        cookieProperties.setObject("0", forKey: NSHTTPCookieValue)
-//        let cookie = NSHTTPCookie(properties: cookieProperties)
-//        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(cookie)
-        
-        
-        
-//        NSHTTPCookie(properties: <#T##[String : AnyObject]#>)
-//            NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
-//            [cookieProperties setObject:@"username" forKey:NSHTTPCookieName];
-//            [cookieProperties setObject:@"my ios cookie" forKey:NSHTTPCookieValue];
-//            [cookieProperties setObject:@"api.skyfox.org" forKey:NSHTTPCookieDomain];
-//            [cookieProperties setObject:@"api.skyfox.org" forKey:NSHTTPCookieOriginURL];
-//            [cookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
-//            [cookieProperties setObject:@"0" forKey:NSHTTPCookieVersion];
-//            NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
-//            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
-//            [self.myWebView loadRequest:request];
-//            }
-//            //第二次请求会自动带上cookie
-//            - (IBAction)test2:(id)sender {
-//                NSURL *url = [NSURL URLWithString:@"http://api.skyfox.org/cookie.php"];
-//                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-//                [self.mywebview2 loadRequest:request];
-//        }
-        
         
         
         return true

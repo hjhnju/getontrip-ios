@@ -28,6 +28,7 @@ class HistoryCell: UITableViewCell {
     
     var otherData: SightListData? {
         didSet {
+            iconView.image = nil
             iconView.sd_setImageWithURL(NSURL(string: otherData!.image! + "@\(133)w_\(84)h"))
             subtitleLabel.text = otherData?.subtitle
             titleLabel.text = otherData?.title

@@ -23,6 +23,7 @@ class VideoCell: UITableViewCell {
     
     var video: SightVideo? {
         didSet {
+            iconView.image = nil
             iconView.sd_setImageWithURL(NSURL(string: video!.image!), placeholderImage: UIImage(named: "2.jpg"))
             titleLabel.text = video!.title!
             timeLabel.text = video!.len!

@@ -22,6 +22,7 @@ class CitySightCollectionViewCell: UICollectionViewCell {
     
     var data: Sight? {
         didSet {
+            icon.image = nil
             icon.sd_setImageWithURL(NSURL(string: data!.image!))
             title.text = data?.name
             desc.text  = data?.desc

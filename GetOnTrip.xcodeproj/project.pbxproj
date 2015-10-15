@@ -95,7 +95,6 @@
 		AEEA552B1BBFD5BE009AF772 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA552A1BBFD5BE009AF772 /* HistoryTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		AEEA552D1BBFD7F7009AF772 /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA552C1BBFD7F7009AF772 /* HistoryCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AEEA552F1BC02363009AF772 /* LandscapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA552E1BC02363009AF772 /* LandscapeCell.swift */; settings = {ASSET_TAGS = (); }; };
-		AEEA55311BC0241F009AF772 /* BackgroundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA55301BC0241F009AF772 /* BackgroundCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AEEA553B1BC0F92C009AF772 /* LandscapeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA553A1BC0F92C009AF772 /* LandscapeRequest.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -242,7 +241,6 @@
 		AEEA552A1BBFD5BE009AF772 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		AEEA552C1BBFD7F7009AF772 /* HistoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		AEEA552E1BC02363009AF772 /* LandscapeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeCell.swift; sourceTree = "<group>"; };
-		AEEA55301BC0241F009AF772 /* BackgroundCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundCell.swift; sourceTree = "<group>"; };
 		AEEA553A1BC0F92C009AF772 /* LandscapeRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeRequest.swift; sourceTree = "<group>"; };
 		F7B4D58CAA793845FCC0F1A4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -557,7 +555,6 @@
 				AEEA552E1BC02363009AF772 /* LandscapeCell.swift */,
 				AE87C2131B85F285004C0998 /* BookCell.swift */,
 				AEA24B771B8644D200031FB8 /* VideoCell.swift */,
-				AEEA55301BC0241F009AF772 /* BackgroundCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -856,7 +853,6 @@
 				AEC2318B1BCE48BD008C58C9 /* SightBookDetailController.swift in Sources */,
 				AE79EEC91BBA8440005A7709 /* SightCollectionViewCell.swift in Sources */,
 				AE7B997D1BA1877F003034FB /* UserUploadInfoRequest.swift in Sources */,
-				AEEA55311BC0241F009AF772 /* BackgroundCell.swift in Sources */,
 				AE70C19B1BCCD9C200834130 /* TopicCommentRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
