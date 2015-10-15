@@ -11,6 +11,7 @@
 		7216432A1B7DB18F009C292C /* String+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721643291B7DB18F009C292C /* String+Extentions.swift */; };
 		7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7239FDEC1B7F25BB00238A25 /* UIColor+Extentions.swift */; };
 		729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		729574001BCF345600343F8F /* UIKitTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FF1BCF345600343F8F /* UIKitTools.swift */; settings = {ASSET_TAGS = (); }; };
 		72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5BF311B73351400F3AB26 /* HttpRequest.swift */; };
 		72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */; };
 		72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D721341B6C4500005BDE55 /* FavoriteViewController.swift */; };
@@ -139,6 +140,7 @@
 		721643291B7DB18F009C292C /* String+Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extentions.swift"; sourceTree = "<group>"; };
 		7239FDEC1B7F25BB00238A25 /* UIColor+Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extentions.swift"; sourceTree = "<group>"; };
 		729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightCollectionViewCell.swift; sourceTree = "<group>"; };
+		729573FF1BCF345600343F8F /* UIKitTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitTools.swift; sourceTree = "<group>"; };
 		72A5BF311B73351400F3AB26 /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
 		72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppIniAndConstants.swift; sourceTree = "<group>"; };
 		72D721341B6C4500005BDE55 /* FavoriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 				AE62E2CB1BB3DED900B91D33 /* UITextField+Extension.swift */,
 				AE62E2C91BB3D9B800B91D33 /* UIImageView+Extension.swift */,
 				AE62E2CD1BB3EF6500B91D33 /* UIPickerView+Extension.swift */,
+				729573FF1BCF345600343F8F /* UIKitTools.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -818,6 +821,7 @@
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
 				AE4ECBCD1BB5305D00DC65F7 /* NSArray+Print.swift in Sources */,
+				729574001BCF345600343F8F /* UIKitTools.swift in Sources */,
 				AE6079B71BB2677C00DB2955 /* UIButton+Extension.swift in Sources */,
 				AEB0B97D1BA15425006966FD /* UserLoghtRequest.swift in Sources */,
 				72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */,

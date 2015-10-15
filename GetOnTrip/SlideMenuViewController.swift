@@ -37,35 +37,28 @@ struct SlideMenuOptions {
 protocol SlideMenuViewControllerDelegate {
     //打开或关闭
     func toggle() -> Void
+    
+    //恢复
+    func reset() -> Void
 }
 
 class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, SlideMenuViewControllerDelegate {
     
-    // MARK: Properties
+    // MARK: Properties and Views    
     
-    //定义窗体主体Controller
+    //主窗体Controller
     var mainViewController: MainViewController = SearchRecommendViewController()
     
     //带导航的主窗体
     lazy var mainNavViewController: UINavigationController = { [unowned self] in
         return UINavigationController(rootViewController: self.mainViewController)
-    }()
+        }()
     
     //主窗体的遮罩层
     var maskView: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.5)
-
-    //遮罩层点击手势
-    var tapGestureRecognizer: UITapGestureRecognizer!
     
-    //定义当前侧边栏的状态
-    var slideMenuState: SlideMenuState = SlideMenuState.Closing
-    
-    //定义侧边列表项
-    lazy var tableView: UITableView = {
-        let tab = UITableView()
-        tab.backgroundColor = UIColor.clearColor()
-        return tab
-        }()
+    //左侧菜单
+    var menuView: UIView = UIView()
     
     //菜单底图图片
     lazy var bgImageView: UIImageView = UIImageView(image: UIImage(named: "menu-bg")!)
@@ -76,6 +69,13 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         return blur
         }()
     
+    //菜单侧边列表项
+    lazy var tableView: UITableView = {
+        let tab = UITableView()
+        tab.backgroundColor = UIColor.clearColor()
+        return tab
+        }()
+    
     //登陆后，底view
     lazy var loginAfter: UIView = UIView()
     
@@ -83,16 +83,13 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var loginBefore: UIView = UIView()
     
     //欢迎
-    lazy var welcome = UILabel(color: UIColor.whiteColor(), fontSize: 36, mutiLines: true)
-    
+    lazy var welcomeLabel = UILabel(color: UIColor.whiteColor(), fontSize: 36, mutiLines: true)
     //说明
-    lazy var state = UILabel(color: UIColor.whiteColor(), fontSize: 12, mutiLines: true)
-    
+    lazy var descLabel    = UILabel(color: UIColor.whiteColor(), fontSize: 12, mutiLines: true)
     //登陆后，头像
-    lazy var iconView: UIImageView = UIImageView()
-    
+    lazy var headerView: UIImageView = UIImageView()
     //登陆后，名称
-    lazy var name: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
+    lazy var nameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
     
     //微信
     lazy var wechatButton: UIButton = UIButton(icon: "icon_weixin", masksToBounds: true)
@@ -101,20 +98,23 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //微博
     lazy var weiboButton: UIButton = UIButton(icon: "icon_weibo", masksToBounds: true)
     
+    //当前城市
+    lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: "当前城市未知", fontSize: 10)
+    
     //设置菜单的数据源
     let tableViewDataSource = ["切换城市", "我的收藏", "消息", "设置", "反馈"]
     
-    //位置管理器
-    lazy var locationManager: CLLocationManager = CLLocationManager()
+    //定义当前侧边栏的状态
+    var slideMenuState: SlideMenuState = SlideMenuState.Closing
     
     //地理位置
     var city: String?
     
-    //当前城市
-    lazy var currentCity: UIButton = UIButton(image: "icon_locate", title: "当前城市未知", fontSize: 10)
-    
     //登陆状态
     var logined: Bool = true
+    
+    //主窗体遮罩层点击手势
+    var tapGestureRecognizer: UITapGestureRecognizer!
     
     //滑动手势
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
@@ -122,6 +122,15 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         pan.addTarget(self, action:"panGestureHandler:")
         return pan
     }()
+    
+    lazy var panGestureRecognizer2: UIPanGestureRecognizer = {
+        let pan = UIPanGestureRecognizer()
+        pan.addTarget(self, action:"panGestureHandler:")
+        return pan
+        }()
+    
+    //位置管理器
+    lazy var locationManager: CLLocationManager = CLLocationManager()
     
     // MARK: - 初始化方法
     override func viewDidLoad() {
@@ -136,33 +145,49 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         setupInit()
         setupAutoLayout()
         refreshLoginStatus()
-        setupSideController()
+    }
+    
+    //电池栏状态
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
     
     //初始化相关设置
     private func setupInit() {
-        view.addSubview(bgImageView)
-        view.sendSubviewToBack(bgImageView)
-        view.addSubview(tableView)
-        view.addSubview(loginAfter)
-        view.addSubview(loginBefore)
-        view.addSubview(currentCity)
+        menuView.addSubview(bgImageView)
+        menuView.sendSubviewToBack(bgImageView)
+        menuView.addSubview(tableView)
+        menuView.addSubview(loginAfter)
+        menuView.addSubview(loginBefore)
+        menuView.addSubview(currentCityButton)
         
-        view.addGestureRecognizer(self.panGestureRecognizer)
+        //初始菜单
+        view.addSubview(menuView)
         
+        //初始化主窗体
+        mainViewController.slideDelegate = self
+        addChildViewController(mainNavViewController)
+        view.addSubview(mainNavViewController.view)
+        
+        //菜单subviews
         bgImageView.addSubview(blurView)
         bgImageView.bringSubviewToFront(blurView)
-        loginAfter.addSubview(iconView)
-        loginAfter.addSubview(name)
+        
+        loginAfter.addSubview(headerView)
+        loginAfter.addSubview(nameLabel)
+        
         loginBefore.addSubview(wechatButton)
         loginBefore.addSubview(qqButton)
         loginBefore.addSubview(weiboButton)
-        loginBefore.addSubview(welcome)
-        loginBefore.addSubview(state)
+        loginBefore.addSubview(welcomeLabel)
+        loginBefore.addSubview(descLabel)
         
-        welcome.text = "Hello!"
-        state.text   = "使用以下账号直接登录"
-        currentCity.alpha = 0.7
+        headerView.layer.cornerRadius = min(headerView.bounds.width, headerView.bounds.height) * 0.5
+        headerView.clipsToBounds = true
+        
+        welcomeLabel.text = "Hello!"
+        descLabel.text   = "使用以下账号直接登录"
+        currentCityButton.alpha = 0.7
         
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
         weiboButton.addTarget(self, action: "weiboLogin", forControlEvents: UIControlEvents.TouchUpInside)
@@ -172,17 +197,21 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.delegate   = self
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.rowHeight = view.bounds.height * 0.5 * 0.2
-        tableView.registerClass(MenuSettingTableViewCell.self, forCellReuseIdentifier: "MenuTableView_Cell")
+        tableView.registerClass(MenuSettingTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.MenuTableViewCellID)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.scrollEnabled = false
         
         //初始化蒙板
         mainNavViewController.view.addSubview(maskView)
+        mainNavViewController.view.bringSubviewToFront(maskView)
         maskView.frame = mainNavViewController.view.bounds
+        refreshMask()
+        
         //添加手势
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureHandler:")
         maskView.addGestureRecognizer(tapGestureRecognizer)
-        refreshMask()
+        mainViewController.view.addGestureRecognizer(panGestureRecognizer)
+        menuView.addGestureRecognizer(panGestureRecognizer2)
     }
     
     func refreshMask() {
@@ -192,44 +221,24 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //初始化自动布局
     private func setupAutoLayout() {
-        bgImageView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
+        //menu
+        menuView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
+        bgImageView.ff_Fill(menuView)
         blurView.ff_Fill(bgImageView)
-        
-        tableView.ff_AlignInner(ff_AlignType.CenterCenter, referView: bgImageView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
-        loginAfter.ff_AlignInner(ff_AlignType.TopCenter, referView: bgImageView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
-        loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: bgImageView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
-        iconView.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
-        name.ff_AlignVertical(ff_AlignType.BottomCenter, referView: iconView, size: nil, offset: CGPointMake(0, 8))
+        tableView.ff_AlignInner(ff_AlignType.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
+        loginAfter.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
+        loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
+        headerView.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
+        nameLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
         wechatButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
         qqButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
         weiboButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
-        welcome.ff_AlignInner(ff_AlignType.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
-        state.ff_AlignVertical(ff_AlignType.BottomCenter, referView: welcome, size: nil, offset: CGPointMake(0, 8))
-        currentCity.ff_AlignInner(ff_AlignType.BottomCenter, referView: bgImageView, size: nil, offset: CGPointMake(0, -21))
+        welcomeLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
+        descLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: welcomeLabel, size: nil, offset: CGPointMake(0, 8))
+        currentCityButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: menuView, size: nil, offset: CGPointMake(0, -21))
         
+        //main
         maskView.ff_Fill(mainNavViewController.view)
-        mainNavViewController.view.bringSubviewToFront(maskView)
-    }
-    
-    //初始侧面控制器
-    private func setupSideController() {
-        mainViewController.slideDelegate = self
-        
-        addChildViewController(mainNavViewController)
-        view.addSubview(mainNavViewController.view)
-    }
-    
-    //设置
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        iconView.layer.cornerRadius = min(iconView.bounds.width, iconView.bounds.height) * 0.5
-        iconView.clipsToBounds = true
-    }
-    
-    //电池栏状态
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
     }
     
     //MARK: - 刷新登陆状态
@@ -237,8 +246,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         if sharedUserAccount != nil {
             loginAfter.hidden = false
             loginBefore.hidden = true
-            iconView.sd_setImageWithURL(NSURL(string: (sharedUserAccount?.icon)!), placeholderImage: UIImage(named: placeholderImage.userIcon))
-            name.text = sharedUserAccount?.nickname
+            headerView.sd_setImageWithURL(NSURL(string: (sharedUserAccount?.icon)!), placeholderImage: UIImage(named: placeholderImage.userIcon))
+            nameLabel.text = sharedUserAccount?.nickname
         } else {
             loginBefore.hidden = false
             loginAfter.hidden = true
@@ -253,7 +262,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MenuTableView_Cell", forIndexPath: indexPath) as! MenuSettingTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.MenuTableViewCellID, forIndexPath: indexPath) as! MenuSettingTableViewCell
         cell.titleLabel.text = tableViewDataSource[indexPath.row]
         
         // 添加tableview顶上的线
@@ -362,20 +371,22 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         //用户对视图操控的状态。
         let state    = sender.state;
         let location = sender.locationInView(self.mainNavViewController.view)
+        var frame    = self.mainNavViewController.view.frame
         
+        var startX:CGFloat = 0.0
         switch (state) {
         case UIGestureRecognizerState.Began:
             //记录用户开始点击的位置
             self.panGestureStartLocation = location;
+            startX = frame.origin.x
             break;
         case UIGestureRecognizerState.Changed:
-            var frame = self.mainNavViewController.view.frame
-            //相比起点Began的x轴距离
+            //相比起点Began的x轴距离(每次.Changed调用是累计的
             let xOffSet = sender.translationInView(self.view).x
             //右滑动
             if (xOffSet > 0 && xOffSet < SlideMenuOptions.DrawerWidth){
                 if (self.slideMenuState == SlideMenuState.Closing){
-                    frame.origin.x = xOffSet + panGestureStartLocation.x
+                    frame.origin.x = xOffSet + startX
                 }
             //左滑动
             }else if (xOffSet < 0 && xOffSet > -SlideMenuOptions.DrawerWidth){
@@ -386,10 +397,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             self.mainNavViewController.view.frame = frame;
             break;
         case UIGestureRecognizerState.Ended:
-            let xOffSet = abs(sender.translationInView(self.view).x)
+            let xOffSet = sender.translationInView(self.view).x
             //超过阀值需要自动
-            if xOffSet > SlideMenuOptions.AutoSlideXOffSet {
-                self.toggle()
+            if abs(xOffSet) > SlideMenuOptions.AutoSlideXOffSet {
+                if xOffSet < 0 && slideMenuState == SlideMenuState.Opening {
+                    self.didClose()
+                }else if xOffSet > 0 && slideMenuState == SlideMenuState.Closing {
+                    self.didOpen()
+                }
             } else {
                 self.reset()
             }

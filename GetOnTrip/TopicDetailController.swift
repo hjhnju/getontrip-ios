@@ -141,8 +141,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
             lastSuccessAddRequest?.topicId = topicId
         }
         
-        lastSuccessAddRequest?.fetchTopicDetailModels {[unowned self] (handler: TopicDetail) -> Void in
-            self.topicDetail = handler
+        lastSuccessAddRequest?.fetchTopicDetailModels {[weak self] (handler: TopicDetail) -> Void in
+            self?.topicDetail = handler
         }
     }
     

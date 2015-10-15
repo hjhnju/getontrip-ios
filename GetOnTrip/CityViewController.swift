@@ -11,6 +11,9 @@ import FFAutoLayout
 
 /// 城市中间页
 class CityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    //导航标题
+    var titleLabel = UILabel()
 
     /// 顶部的背景高度
     let backgroundViewH: CGFloat = 198 + 24 + 34 + 196 + 34 + 8
@@ -28,6 +31,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     var cityName: String = "" {
         didSet {
             cityNameLabel.text = cityName
+            titleLabel.text = cityName
         }
     }
     
@@ -56,11 +60,12 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     lazy var tableView: UITableView = UITableView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
     
     /// 热门话题标题
-    lazy var topicTopButton: UIButton = UIButton(title: "热门内容", fontSize: 14, radius: 0, titleColor: .whiteColor())
-    
+    lazy var topicTopButton: UIButton = UIButton(title: "热门内容", fontSize: 14, radius: 0, titleColor: .whiteColor()) //(color: SceneColor.frontBlack, alphaF: 1.0)
+
     /// 热门话题图标
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
     
+    //
 //    var collectionCacheRowHeight = NSMutableDictionary()
     
     /// 网络请求加载数据(添加)
@@ -84,27 +89,51 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    //导航背景，用于完成渐变
+    weak var navUnderlayView:UIView?
+    
+    //导航透明度
+    var navBarAlpha:CGFloat = 0.0
+    
     // MARK: - 初始化相关内容
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //nav bar
-//        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-//        navigationController?.navigationBar.shadowImage = nil
-//        navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        automaticallyAdjustsScrollViewInsets = false
-        tableView.tableHeaderView = backgroundView
+        navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
+        navigationItem.titleView = titleLabel
+        titleLabel.frame = CGRectMake(0, 0, 100, 21)
+        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.hidden = true //设置alpha=0会有Fade Out
         
         initView()
         setupAutoLayout()
         loadCityData()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        refreshBar()
+    }
+    
+    func refreshBar(){
+        //设置导航样式
+        navUnderlayView?.alpha = navBarAlpha
+        titleLabel.alpha       = navBarAlpha
+        titleLabel.hidden      = false
+    }
+    
     /// 添加控件
     private func initView() {
         view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
+        
+        titleLabel.textColor = UIColor.whiteColor()
         
         backgroundView.addSubview(cityBackground)
         backgroundView.addSubview(cityNameLabel)
@@ -121,6 +150,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         topicTopButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
+        automaticallyAdjustsScrollViewInsets = false
+        tableView.tableHeaderView = backgroundView
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
@@ -131,7 +162,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor.clearColor()
         collectionView.registerClass(CitySightCollectionViewCell.self, forCellWithReuseIdentifier: StoryBoardIdentifier.CitySightCollectionViewCellID)
-        
+        collectionView.userInteractionEnabled = true
         
         // 每个item的大小
         layout.itemSize = CGSizeMake(186, 196)
@@ -168,7 +199,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //请求数据
     private func loadCityData() {
-        
         if lastRequest == nil {
             lastRequest = CityRequest()
             lastRequest?.city = cityId
@@ -179,9 +209,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
 
             if let city = handler.valueForKey("city") as? City {
                 self?.cityBackground.sd_setImageWithURL(NSURL(string: city.image))
-                self?.cityNameLabel.text = city.name
+                self?.cityName = city.name
             }
-            
             self?.collectionDataSource = handler.valueForKey("sights") as? [Sight]
             self?.tableViewDataSource = handler.valueForKey("topics") as? [CityHotTopic]
             self?.pageNumber = handler.valueForKey("pageNum")!.integerValue
@@ -203,6 +232,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         refreshTopicRequest?.fetchModels { [weak self] (handler: [CityHotTopic]) -> Void in
             self?.tableViewDataSource = handler
            self!.refreshTopicButton.layer.removeAllAnimations()
+
         }
     }
     
@@ -301,20 +331,16 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     //MARK: ScrollViewDelegate
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        //使整体上面的view可以上下滚动，而且左右滚动使之不影响
-//        if scrollView.contentOffset.x == 0 && scrollView.contentOffset.y != 0 {
-//            backgroundView.frame.origin.y = abs(scrollView.contentOffset.y) - backgroundViewH
-//        }
-
         //导航变化
-        /*
+        let threshold:CGFloat = 198 - 64
         let offsetY = scrollView.contentOffset.y
         if offsetY > 0 {
-            let alpha:CGFloat = 1 - ((64 - offsetY) / 64);
-            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(alpha)
-        } else {
-            navigationController?.navigationBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(0)
-        }*/
+            navBarAlpha = offsetY / threshold;
+            if navBarAlpha > 1 {
+                navBarAlpha = 1
+            }
+        }
+        refreshBar()
     }
     
     // MARK: 景点列表页
