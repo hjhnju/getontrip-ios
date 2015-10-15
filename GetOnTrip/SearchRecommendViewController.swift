@@ -69,7 +69,6 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         navUnderlayView?.backgroundColor = SceneColor.frontBlack
         navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
         navUnderlayView?.alpha = navBarAlpha
-        print("Search-navBarAlphaInit=\(navBarAlpha)")
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -200,7 +199,6 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         if offsetY > 0 {
             navBarAlpha = 1 - ((64 - offsetY) / 64);
             navUnderlayView?.alpha = navBarAlpha
-            print("Search-navBarAlpha=\(navBarAlpha)")
         } else {
             navUnderlayView?.alpha = 0.0
         }

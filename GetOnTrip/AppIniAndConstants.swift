@@ -22,6 +22,8 @@ class AppIni:AppIniDev {
 
 ///  目前未使用
 struct StoryBoardIdentifier {
+    //menu
+    static let MenuTableViewCellID = "MenuTableViewCellID"
     
     //search
     static let SearchRecommendTableViewCellID = "SearchRecommendTableViewCellID"

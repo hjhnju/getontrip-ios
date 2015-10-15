@@ -63,14 +63,6 @@ class MainViewController: UIViewController {
         rightView.frame = CGRectMake(0, 0, view.bounds.width-(414-356), 35)
         slideButton.frame  = leftView.bounds
         searchButton.frame = rightView.bounds
-        
-        //初始化导航背景
-//        let statusBarHeight:CGFloat = 20
-//        let barFrame = CGRectMake(0, -statusBarHeight, navigationController!.navigationBar.frame.width, navigationController!.navigationBar.frame.height + statusBarHeight)
-//        navUnderlayView.frame = barFrame
-//        navUnderlayView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
-//        navUnderlayView.alpha = 0.0
-//        navigationController?.navigationBar.insertSubview(navUnderlayView, atIndex: 0)
     }
     
     override func viewWillAppear(animated: Bool) {

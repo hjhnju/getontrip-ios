@@ -64,26 +64,26 @@ class HistoryTableViewController: UITableViewController {
         
         if type == "landscape" { // 加载景观
             lastLandscapeRequest.sightId = sightId
-            lastLandscapeRequest.fetchSightListModels { [unowned self] (handler: NSArray) -> Void in
-                self.data = handler
+            lastLandscapeRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in
+                self?.data = handler
             }
             
         } else if type == "book" {
             lastBookRequest.sightId = sightId
-            lastBookRequest.fetchSightListModels { [unowned self] (handler: NSArray) -> Void in
-                self.data = handler
+            lastBookRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in
+                self?.data = handler
             }
         } else if type == "video" {
             lastVideoRequest.sightId = sightId
-            lastVideoRequest.fetchSightListModels({ [unowned self] (handler: NSArray) -> Void in
-                self.data = handler
+            lastVideoRequest.fetchSightListModels({ [weak self] (handler: NSArray) -> Void in
+                self?.data = handler
             })
         } else {
             lastOtherRequest.sightId = sightId
             lastOtherRequest.tag = tagId
-            lastOtherRequest.fetchSightListModels({ [unowned self] (handler: NSDictionary) -> Void in
+            lastOtherRequest.fetchSightListModels({ [weak self] (handler: NSDictionary) -> Void in
                 
-                self.data = handler.objectForKey("sightDatas") as? NSArray
+                self?.data = handler.objectForKey("sightDatas") as? NSArray
             })
         }
         
