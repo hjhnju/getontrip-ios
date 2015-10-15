@@ -39,9 +39,9 @@ class CitySightsViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "feedBack_background")!)
-
-        collectionView?.backgroundColor = UIColor.clearColor()
+        
+        view.backgroundColor = SceneColor.frontBlack
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         let w: CGFloat = 170
         let h: CGFloat = 150
@@ -52,9 +52,9 @@ class CitySightsViewController: UICollectionViewController {
         // item之间水平间距
         let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
         layout.minimumInteritemSpacing = lw
-        
         layout.sectionInset = UIEdgeInsets(top: lw, left: lw, bottom: 0, right: lw)
         
+        collectionView?.backgroundColor = SceneColor.bgBlack
         // Register cell classes
         collectionView?.registerClass(SightListCityCell.self, forCellWithReuseIdentifier: sightListCityIdentifier)
         
@@ -92,8 +92,29 @@ class CitySightsViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let vc = SightViewController()
         let sight = sightCityList![indexPath.row] as SightCityList
+        vc.title = cityId
         vc.sightId = sight.id
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    // MARK: - 搜索(下一个控制器)
+    var searchController: UISearchController?
+    func searchButtonClicked(button: UIBarButtonItem) {
+        // 获得父控制器
+        let searchResultsController = SearchResultsViewController()
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController!.searchResultsUpdater = searchResultsController
+        searchController!.hidesNavigationBarDuringPresentation = false
+        let imgView   = UIImageView(image: UIImage(named: "search-bg0")!)
+        imgView.frame = searchController!.view.bounds
+        searchController!.view.addSubview(imgView)
+        searchController!.view.sendSubviewToBack(imgView)
+        searchController!.searchBar.barStyle = UIBarStyle.Black
+        searchController!.searchBar.tintColor = UIColor.grayColor()
+        searchController!.searchBar.becomeFirstResponder()
+        searchController!.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
+
+        presentViewController(searchController!, animated: true, completion: nil)
     }
     
 }
@@ -159,5 +180,4 @@ class SightListCityCell: UICollectionViewCell {
         shadeBottom.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(bounds.width, 2), offset: CGPointMake(0, 0))
         collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil, offset: CGPointMake(-8, 8))
     }
-        
 }

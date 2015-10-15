@@ -60,7 +60,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         view.backgroundColor = SceneColor.frontBlack //barStyle=Opaque时决定了导航颜色
         navigationItem.title = sightName
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
 
         view.addSubview(labelNavView)
         labelNavView.addSubview(labelScrollView)
@@ -106,7 +105,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         for label in channels! {
             let tag: SightListTags = label as! SightListTags
             let lab = SightLabel.channelLabelWithTitle(tag.name!, width: lW!, height: h, fontSize: 14) 
-                //fontSize: CGFloat(UIScreen.mainScreen().bounds.width / CGFloat(channels!.count)))
             
             lab.delegate = self
             lab.textColor = UIColor.whiteColor()
@@ -124,8 +122,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
         
         indicateView.frame = CGRectMake(0, CGRectGetMaxY(labelScrollView.frame) - 2.5, indicateW!, CGFloat(1.5))
-        labelScrollView.contentSize = CGSizeMake(x, h)
-        labelScrollView.setContentOffset(CGPointMake(0, 18), animated: false)
+        labelScrollView.contentSize = CGSizeMake(x, 0)
+        labelScrollView.contentInset = UIEdgeInsetsZero
         currentIndex = 0
     }
 
@@ -225,5 +223,25 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         lastSuccessAddRequest?.fetchSightListModels {[unowned self] (handler: NSDictionary) -> Void in
             self.dataSource = handler
         }
+    }
+
+    // MARK: - 搜索(下一个控制器)
+    var searchController: UISearchController?
+    func searchButtonClicked(button: UIBarButtonItem) {
+        // 获得父控制器
+        let searchResultsController = SearchResultsViewController()
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController!.searchResultsUpdater = searchResultsController
+        searchController!.hidesNavigationBarDuringPresentation = false
+        let imgView   = UIImageView(image: UIImage(named: "search-bg0")!)
+        imgView.frame = searchController!.view.bounds
+        searchController!.view.addSubview(imgView)
+        searchController!.view.sendSubviewToBack(imgView)
+        searchController!.searchBar.barStyle = UIBarStyle.Black
+        searchController!.searchBar.tintColor = UIColor.grayColor()
+        searchController!.searchBar.becomeFirstResponder()
+        searchController!.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
+        
+        presentViewController(searchController!, animated: true, completion: nil)
     }
 }

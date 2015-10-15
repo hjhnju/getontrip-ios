@@ -38,7 +38,7 @@ class SightListCityRequest: NSObject {
         
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/city/detail",
+            path: "/api/city/sight",
             post: post,
             handler: {(respData: AnyObject) -> Void in
 

@@ -20,12 +20,16 @@ class CitySightCollectionViewCell: UICollectionViewCell {
     /// 内容及收藏
     var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 09), title: "", fontSize: 10, mutiLines: false)
     
+    lazy var shade: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.2)
+    
     var data: Sight? {
         didSet {
-            icon.image = nil
-            icon.sd_setImageWithURL(NSURL(string: data!.image!))
-            title.text = data?.name
-            desc.text  = data?.desc
+            if let sight = data {
+                icon.image = nil
+                icon.sd_setImageWithURL(NSURL(string: sight.image))
+                title.text = sight.name
+                desc.text  = sight.desc
+            }
         }
     }
     
@@ -33,10 +37,12 @@ class CitySightCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         addSubview(icon)
+        addSubview(shade)
         addSubview(title)
         addSubview(desc)
         
-        icon.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: self.bounds.size, offset: CGPointMake(0, 0))
+        icon.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
+        shade.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size)
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         desc.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -5))
     }

@@ -32,7 +32,7 @@ class CityRequest {
 
             post: post,
             handler: {(respData: AnyObject) -> Void in
-
+                
                 let homeModel = NSMutableDictionary()
                 
                 let city   = City(dict: respData["city"] as! [String : AnyObject])
@@ -50,6 +50,7 @@ class CityRequest {
                 homeModel.setValue(city, forKey: "city")
                 homeModel.setValue(sights, forKey: "sights")
                 homeModel.setValue(topics, forKey: "topics")
+                homeModel.setValue(respData["page_num"], forKey: "pageNum")
                 
                 // 回调
                 handler(homeModel)
@@ -82,17 +83,17 @@ class City: NSObject {
 
 class Sight: NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     /// 景点名
-    var name: String?
+    var name: String = ""
     /// 景点图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image
         }
     }
     /// 景点内容
-    var desc: String?
+    var desc: String = ""
     
     init(dict: [String: String]) {
         super.init()
@@ -106,27 +107,21 @@ class Sight: NSObject {
 
 class CityHotTopic : NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     /// 标题
-    var title: String?
+    var title: String = ""
     /// 副标题
-    var subtitle: String?
-    /// 话题内容(可能不需要)
-    var desc: String?
+    var subtitle: String = ""
     /// 访问数
-    var visit: String?
+    var visit: String = ""
     /// 收藏数
-    var collect: String?
-    /// 来自（可能不要）
-    var from: String?
+    var collect: String = ""
     /// 图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image
         }
     }
-    /// 景点（可能不要）
-    var sight: String?
     /// 标签
     var tag: String?
     

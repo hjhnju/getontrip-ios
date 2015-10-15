@@ -21,10 +21,12 @@ class HistoryCell: UITableViewCell {
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "故宫内真有密道吗？如果有入口在哪里？", fontSize: 18, mutiLines: false)
     
     ///  收藏
-    lazy var collect: UIButton = UIButton(image: "eye", title: "  18", fontSize: 12)
+    lazy var collect: UIButton = UIButton(image: "collect_grey", title: "  1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.7))
     
     ///  预览
-    lazy var preview: UIButton = UIButton(image: "eye", title: "  90", fontSize: 12)
+    lazy var preview: UIButton = UIButton(image: "eye_grey", title: "  1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.7))
+    
+    lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     
     var otherData: SightListData? {
         didSet {
@@ -43,12 +45,12 @@ class HistoryCell: UITableViewCell {
         
         backgroundColor = UIColor.clearColor()
         
-        print("调用了几次呢")
         addSubview(iconView)
         addSubview(subtitleLabel)
         addSubview(titleLabel)
         addSubview(collect)
         addSubview(preview)
+        addSubview(baseLine)
         
         titleLabel.numberOfLines = 2
         
@@ -57,6 +59,7 @@ class HistoryCell: UITableViewCell {
         titleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: subtitleLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 133 - 18 - 6, 44), offset: CGPointMake(0, 1))
         collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
         preview.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))
+        baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().backIndicatorImage = backButtonImage
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().tintColor = UIColor.yellowColor()
         //UINavigationBar.appearance().barTintColor = SceneColor.frontBlack
         //UINavigationBar.appearance().backgroundColor = SceneColor.frontBlack
         //UINavigationBar.appearance().backgroundColor = UIColor.clearColor()
