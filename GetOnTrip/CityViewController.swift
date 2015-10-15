@@ -106,6 +106,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //nav bar
         navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.titleView = titleLabel
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
         titleLabel.textAlignment = NSTextAlignment.Center
@@ -284,8 +285,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let vc = SightListController()
         let sightId = tableViewDataSource![indexPath.row]
-        vc.title = cityId
+        vc.title = titleLabel.text
         vc.sightId = sightId.id
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     
