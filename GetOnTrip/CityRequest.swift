@@ -83,17 +83,17 @@ class City: NSObject {
 
 class Sight: NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     /// 景点名
-    var name: String?
+    var name: String = ""
     /// 景点图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image
         }
     }
     /// 景点内容
-    var desc: String?
+    var desc: String = ""
     
     init(dict: [String: String]) {
         super.init()
@@ -107,19 +107,19 @@ class Sight: NSObject {
 
 class CityHotTopic : NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     /// 标题
-    var title: String?
+    var title: String = ""
     /// 副标题
-    var subtitle: String?
+    var subtitle: String = ""
     /// 访问数
-    var visit: String?
+    var visit: String = ""
     /// 收藏数
-    var collect: String?
+    var collect: String = ""
     /// 图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image
         }
     }
     /// 标签

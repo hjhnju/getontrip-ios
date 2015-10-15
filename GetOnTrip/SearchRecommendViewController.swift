@@ -30,10 +30,10 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244))
     
     /// 搜索顶部图片
-    var iconView = UIImageView(image: UIImage(named: "search_header"))
+    var headerImageView = UIImageView(image: UIImage(named: "search_header"))
 
     /// 记录状态按钮
-    var currentSearchLabelButton: UIButton?
+    weak var currentSearchLabelButton: UIButton?
     
     //导航背景，用于完成渐变
     weak var navUnderlayView:UIView?
@@ -57,7 +57,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
         navigationController?.navigationBar.shadowImage = UIImage()
         
-        headerView.addSubview(iconView)
+        headerView.addSubview(headerImageView)
         headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
         
         //添加黑色蒙板
@@ -115,7 +115,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
                 }
                 self.addSearchLabelButton()
             }
-            self.iconView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
+            self.headerImageView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
             self.tableView.reloadData()
         }
     }
@@ -161,7 +161,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     /// 布局
     private func setupAutoLayout() {
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, -64))
-        iconView.ff_Fill(headerView)
+        headerImageView.ff_Fill(headerView)
     }
     
     // MASK: - tableView 数据源及代理方法
@@ -189,9 +189,9 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
             if (!data.isTypeCity()) {
-                let vc = SightListController()
-                vc.title = data.name
-                vc.sightId = data.id
+                let vc = SightViewController()
+                vc.sightId   = data.id
+                vc.sightName = data.name
                 navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = CityViewController()
@@ -212,6 +212,8 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
             navBarAlpha = offsetY / threshold;
             if navBarAlpha > 1 {
                 navBarAlpha = 1
+            } else if navBarAlpha < 0.1 {
+                navBarAlpha = 0
             }
         }
         refreshBar()

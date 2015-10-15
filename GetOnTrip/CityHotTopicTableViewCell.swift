@@ -25,14 +25,15 @@ class CityHotTopicTableViewCell: UITableViewCell {
     /// 底线
     var baseView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
     
-    var data: CityHotTopic? {
+    var topic: CityHotTopic? {
         didSet {
-            
-            iconView.sd_setImageWithURL(NSURL(string: data!.image!))
-            title.text = data!.title
-            subTitle.text = data!.subtitle
-            label.text = data!.tag
-            visit.setTitle("   " + data!.visit!, forState: UIControlState.Normal)
+            if let topic = topic {
+                iconView.sd_setImageWithURL(NSURL(string: topic.image))
+                title.text = topic.title
+                subTitle.text = topic.subtitle
+                label.text = topic.tag
+                visit.setTitle("   " + topic.visit, forState: UIControlState.Normal)
+            }
         }
     }
     

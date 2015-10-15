@@ -11,7 +11,7 @@ import FFAutoLayout
 
 let sightListCityIdentifier = "SightListCity_Cell"
 
-class SightListCityController: UICollectionViewController {
+class CitySightsViewController: UICollectionViewController {
     
     /// 城市ID
     var cityId: String?
@@ -39,9 +39,9 @@ class SightListCityController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "feedBack_background")!)
+        
+        view.backgroundColor = SceneColor.frontBlack
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
-        collectionView?.backgroundColor = UIColor.clearColor()
         
         let w: CGFloat = 170
         let h: CGFloat = 150
@@ -51,6 +51,8 @@ class SightListCityController: UICollectionViewController {
         let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
         layout.minimumInteritemSpacing = lw
         layout.sectionInset = UIEdgeInsets(top: lw, left: lw, bottom: 0, right: lw)
+        
+        collectionView?.backgroundColor = SceneColor.bgBlack
         collectionView?.registerClass(SightListCityCell.self, forCellWithReuseIdentifier: sightListCityIdentifier)
         
         refresh()
@@ -85,7 +87,7 @@ class SightListCityController: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let vc = SightListController()
+        let vc = SightViewController()
         let sight = sightCityList![indexPath.row] as SightCityList
         vc.title = cityId
         vc.sightId = sight.id

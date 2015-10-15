@@ -65,9 +65,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     /// 热门话题图标
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
     
-    //
-//    var collectionCacheRowHeight = NSMutableDictionary()
-    
     /// 网络请求加载数据(添加)
     var lastRequest: CityRequest?
     
@@ -108,6 +105,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.titleView = titleLabel
+        navigationItem.backBarButtonItem   = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
         titleLabel.textAlignment = NSTextAlignment.Center
         titleLabel.hidden = true //设置alpha=0会有Fade Out
@@ -122,11 +120,17 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         refreshBar()
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
+    }
+    
     func refreshBar(){
         //设置导航样式
         navUnderlayView?.alpha = navBarAlpha
         titleLabel.alpha       = navBarAlpha
         titleLabel.hidden      = false
+        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
     }
     
     /// 添加控件
@@ -250,8 +254,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
         if (collectionDataSource!.count == 0) { return CGSizeZero }
@@ -272,22 +274,17 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             if indexPath.row % 3 == 0 {
                 size = CGSizeMake(collectionView.bounds.width * 0.5, collectionView.bounds.height)
             }
-//            collectionCacheRowHeight.setValue("\(size)", forKey: "\(indexPath.row)")
             return size
         }
     }
     
-    
-    //layoutAttributesForElementsInRect
-    
-    
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let vc = SightListController()
-        let sightId = tableViewDataSource![indexPath.row]
-        vc.title = titleLabel.text
-        vc.sightId = sightId.id
-        
+
+        let vc    = SightViewController()
+        let sight    = collectionDataSource![indexPath.row]
+        vc.sightId   = sight.id
+        vc.sightName = sight.name
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -310,7 +307,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.CityHotTopicTableViewCellID, forIndexPath: indexPath) as! CityHotTopicTableViewCell
         
-        cell.data = tableViewDataSource![indexPath.row]
+        cell.topic = tableViewDataSource![indexPath.row]
         
         return cell
     }
@@ -321,12 +318,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        let data = tableViewDataSource![indexPath.row]
-        
-        let vc = TopicDetailController()
-        vc.topicId = data.id!
-
+        let topic = tableViewDataSource![indexPath.row]
+        let vc    = TopicDetailController()
+        vc.topicId = topic.id
+        vc.title   = topic.title
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -340,6 +335,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             navBarAlpha = offsetY / threshold;
             if navBarAlpha > 1 {
                 navBarAlpha = 1
+            } else if navBarAlpha < 0.1 {
+                navBarAlpha = 0
             }
         }
         refreshBar()
@@ -347,9 +344,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: 景点列表页
     func sightButtonClick(btn: UIButton) {
-        
-        let vc = SightListCityController()
-        vc.title = cityName
+        let vc    = CitySightsViewController()
+        vc.title  = cityName
         vc.cityId = cityId
         navigationController?.pushViewController(vc, animated: true)
     }
