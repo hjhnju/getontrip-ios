@@ -74,7 +74,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     var pageNumber: Int = 1
     
     /// 数据源
-    var tableViewDataSource: [CityHotTopic]? {
+    var tableViewDataSource: [BriefTopic]? {
         didSet {
             tableView.reloadData()
         }
@@ -121,7 +121,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
     }
     
     func refreshBar(){
@@ -129,7 +128,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         navUnderlayView?.alpha = navBarAlpha
         titleLabel.alpha       = navBarAlpha
         titleLabel.hidden      = false
-        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
     }
     
     /// 添加控件
@@ -216,7 +214,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self?.cityName = city.name
             }
             self?.collectionDataSource = handler.valueForKey("sights") as? [Sight]
-            self?.tableViewDataSource = handler.valueForKey("topics") as? [CityHotTopic]
+            self?.tableViewDataSource = handler.valueForKey("topics") as? [BriefTopic]
             self?.pageNumber = handler.valueForKey("pageNum")!.integerValue
         }
     }
@@ -233,7 +231,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             refreshTopicRequest?.city = cityId
         }
         
-        refreshTopicRequest?.fetchModels { [weak self] (handler: [CityHotTopic]) -> Void in
+        refreshTopicRequest?.fetchModels { [weak self] (handler: [BriefTopic]) -> Void in
             self?.tableViewDataSource = handler
            self!.refreshTopicButton.layer.removeAllAnimations()
 
@@ -319,8 +317,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let topic = tableViewDataSource![indexPath.row]
         let vc    = TopicDetailController()
-        vc.topicId = topic.id
-        vc.title   = topic.title
+        vc.topicId    = topic.id
+        vc.topicTitle = topic.title
+        vc.sightName  = topic.sight
         navigationController?.pushViewController(vc, animated: true)
     }
     

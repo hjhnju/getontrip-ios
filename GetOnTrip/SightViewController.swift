@@ -57,9 +57,9 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         super.viewDidLoad()
         
         //nav bar
-        view.backgroundColor = SceneColor.frontBlack //barStyle=Opaque时决定了导航颜色
+        view.backgroundColor = SceneColor.frontBlack //barStyle=BlackOpaque时决定了导航颜色
         navigationItem.title = sightName
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
 
         view.addSubview(labelNavView)
@@ -222,8 +222,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             lastSuccessAddRequest?.sightId = sightId
         }
         
-        lastSuccessAddRequest?.fetchSightListModels {[unowned self] (handler: NSDictionary) -> Void in
-            self.dataSource = handler
+        lastSuccessAddRequest?.fetchSightListModels {[weak self] (handler: NSDictionary) -> Void in
+            self?.dataSource = handler
         }
     }
 

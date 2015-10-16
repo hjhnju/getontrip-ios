@@ -25,7 +25,7 @@ class CityHotTopicTableViewCell: UITableViewCell {
     /// 底线
     var baseView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
     
-    var topic: CityHotTopic? {
+    var topic: BriefTopic? {
         didSet {
             if let topic = topic {
                 iconView.sd_setImageWithURL(NSURL(string: topic.image))

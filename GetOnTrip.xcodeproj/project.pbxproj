@@ -10,6 +10,9 @@
 		4D75D0E977137034F17C0222 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 326CDB46E849AFE91A45AB37 /* Pods.framework */; };
 		7216432A1B7DB18F009C292C /* String+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721643291B7DB18F009C292C /* String+Extentions.swift */; };
 		7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7239FDEC1B7F25BB00238A25 /* UIColor+Extentions.swift */; };
+		727561821BD0F6240089CB27 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561811BD0F6240089CB27 /* City.swift */; settings = {ASSET_TAGS = (); }; };
+		727561841BD0F64A0089CB27 /* Sight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561831BD0F64A0089CB27 /* Sight.swift */; settings = {ASSET_TAGS = (); }; };
+		727561861BD0F6730089CB27 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561851BD0F6730089CB27 /* Topic.swift */; settings = {ASSET_TAGS = (); }; };
 		729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		729574001BCF345600343F8F /* UIKitTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FF1BCF345600343F8F /* UIKitTools.swift */; settings = {ASSET_TAGS = (); }; };
 		72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5BF311B73351400F3AB26 /* HttpRequest.swift */; };
@@ -138,6 +141,9 @@
 		326CDB46E849AFE91A45AB37 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		721643291B7DB18F009C292C /* String+Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extentions.swift"; sourceTree = "<group>"; };
 		7239FDEC1B7F25BB00238A25 /* UIColor+Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extentions.swift"; sourceTree = "<group>"; };
+		727561811BD0F6240089CB27 /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		727561831BD0F64A0089CB27 /* Sight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sight.swift; sourceTree = "<group>"; };
+		727561851BD0F6730089CB27 /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightCollectionViewCell.swift; sourceTree = "<group>"; };
 		729573FF1BCF345600343F8F /* UIKitTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitTools.swift; sourceTree = "<group>"; };
 		72A5BF311B73351400F3AB26 /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
@@ -312,6 +318,7 @@
 				AE79EED11BBA8A30005A7709 /* CityHotTopicTableViewCell.swift */,
 				729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */,
 				AE4ECBCA1BB4FE4B00DC65F7 /* CityRequest.swift */,
+				727561811BD0F6240089CB27 /* City.swift */,
 			);
 			name = City;
 			sourceTree = "<group>";
@@ -352,7 +359,7 @@
 				72D721321B6B9894005BDE55 /* Main */,
 				727561801BCFC7160089CB27 /* City */,
 				AE7F0AC41BB95CA90011F307 /* Sight */,
-				AEAB95131BC7C2DF00B6EE62 /* Detail */,
+				AEAB95131BC7C2DF00B6EE62 /* Topic */,
 				AEC8007E1BA1354200099DD9 /* Login */,
 				72D86E081B65E82B004B72D0 /* Common */,
 				72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */,
@@ -561,6 +568,7 @@
 				AEEA553A1BC0F92C009AF772 /* LandscapeRequest.swift */,
 				AE6D9FB01B84AE2A009A8A9D /* BookRequest.swift */,
 				AE6D9FB21B84AE46009A8A9D /* VideoRequest.swift */,
+				727561831BD0F64A0089CB27 /* Sight.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -587,14 +595,14 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		AEAB95131BC7C2DF00B6EE62 /* Detail */ = {
+		AEAB95131BC7C2DF00B6EE62 /* Topic */ = {
 			isa = PBXGroup;
 			children = (
 				AEAB95161BC7C38F00B6EE62 /* Controllers */,
 				AEAB95151BC7C38800B6EE62 /* Views */,
 				AEAB95141BC7C35200B6EE62 /* Models */,
 			);
-			name = Detail;
+			name = Topic;
 			sourceTree = "<group>";
 		};
 		AEAB95141BC7C35200B6EE62 /* Models */ = {
@@ -604,6 +612,7 @@
 				AE70C19A1BCCD9C200834130 /* TopicCommentRequest.swift */,
 				AE70C19E1BCCE69600834130 /* SendCommentRequest.swift */,
 				AEC2318C1BCE5519008C58C9 /* SightBookDetailRequest.swift */,
+				727561851BD0F6730089CB27 /* Topic.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -821,9 +830,11 @@
 				AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */,
 				AE7F0AC91BB95D3E0011F307 /* SightViewController.swift in Sources */,
 				AE79EED21BBA8A30005A7709 /* CityHotTopicTableViewCell.swift in Sources */,
+				727561821BD0F6240089CB27 /* City.swift in Sources */,
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
+				727561841BD0F64A0089CB27 /* Sight.swift in Sources */,
 				AE4ECBCD1BB5305D00DC65F7 /* NSArray+Print.swift in Sources */,
 				729574001BCF345600343F8F /* UIKitTools.swift in Sources */,
 				AE6079B71BB2677C00DB2955 /* UIButton+Extension.swift in Sources */,
@@ -841,6 +852,7 @@
 				AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */,
 				AECD22601B9E9B9E007F1D71 /* SwitchCityViewController.swift in Sources */,
 				AE62E2CC1BB3DED900B91D33 /* UITextField+Extension.swift in Sources */,
+				727561861BD0F6730089CB27 /* Topic.swift in Sources */,
 				AE2EEE961BCF833E00ED0937 /* TopicRefreshRequest.swift in Sources */,
 				AEC2314F1BCE1F1D008C58C9 /* SightDetailController.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,

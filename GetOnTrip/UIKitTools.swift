@@ -11,6 +11,7 @@ import UIKit
 
 class UIKitTools {
     
+    //获取导航有效着色背景
     class func getNavBackView(navBar: UINavigationBar?) -> UIView? {
         var backView:UIView? = nil
         if let superView = navBar {
@@ -19,11 +20,24 @@ class UIKitTools {
                     backView = view
                 }
                 if view.isKindOfClass(NSClassFromString("_UIBackdropView")!) {
-                    print("_UIBackdropView to hidden")
                     view.hidden = true
                 }
             }
         }
         return backView
+    }
+    
+    //获得颜色图片
+    class func imageWithColor(color: UIColor) -> UIImage {
+        
+        let rect = CGRectMake(0.0, 0.0, 1.0, 1.0)
+        UIGraphicsBeginImageContext(rect.size)
+        let ref = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(ref, color.CGColor)
+        CGContextFillRect(ref, rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
     }
 }
