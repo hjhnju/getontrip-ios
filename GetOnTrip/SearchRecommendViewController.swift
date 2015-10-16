@@ -9,8 +9,51 @@
 import UIKit
 import FFAutoLayout
 
+struct MainViewContant {
+    //状态栏高度
+    static let StatusBarHeight:CGFloat = 20
+    //初始化导航栏高度
+    static let MaxNavbarHeight:CGFloat = 74
+    //导航栏最小高度
+    static let MinNavbarHeight:CGFloat = 44
+    //搜索栏高度
+    static let SearchBarHeight:CGFloat = 34
+}
+
 class SearchRecommendViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
     
+    //导航栏容器，包含状态栏的高度
+    lazy var navContainerView:UIView = {
+        let view = UIView()
+        view.addSubview(self.custNavView)
+        return view
+        }()
+    
+    //自定义导航栏
+    lazy var custNavView:UIView = {
+        let view = UIView()
+        view.addSubview(self.slideButton)
+        view.addSubview(self.searchButton)
+        return view
+        }()
+    
+    lazy var searchButton: UIButton = {
+        let button = UIButton(type: UIButtonType.Custom)
+        button.setBackgroundImage(UIImage(named: "icon_search"), forState: UIControlState.Normal)
+        button.addTarget(self, action: "showSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        return button
+        }()
+    
+    //导航高度
+    var navBarHeight:CGFloat = 0.0
+    
+    //导航透明度
+    var navBarAlpha:CGFloat = 0.0 {
+        didSet{
+            refreshBar()
+        }
+    }
+
     /// 数据源
     var dataSource: NSDictionary?
     
@@ -35,12 +78,6 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     /// 记录状态按钮
     weak var currentSearchLabelButton: UIButton?
     
-    //导航背景，用于完成渐变
-    weak var navUnderlayView:UIView?
-    
-    //导航透明度
-    var navBarAlpha:CGFloat = 0.0
-    
     // MARK: - 初始化
     
     //电池栏状态
@@ -54,47 +91,74 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         view.backgroundColor = SceneColor.bgBlack
         
         //nav bar
-        navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
-        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBarHidden = true
+        self.automaticallyAdjustsScrollViewInsets = true
+        navigationController?.navigationBarHidden = true
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        view.addSubview(navContainerView)
+        navContainerView.addSubview(custNavView)
         
+        //header
         headerView.addSubview(headerImageView)
         headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
-        
-        //添加黑色蒙板
+        //为header添加黑色蒙板
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
         headerView.addSubview(maskView)
         maskView.ff_Fill(headerView)
         
-        addTableViewProperty()
-        loadSearchData()
-        setupAutoLayout()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        refreshBar()
-    }
-    
-    func refreshBar(){
-        //更新导航背景
-        navUnderlayView?.alpha = navBarAlpha
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
-    ///  添加tableview相关属性
-    private func addTableViewProperty() {
+        //添加tableview相关属性
         view.addSubview(tableView)
         tableView.dataSource      = self
         tableView.delegate        = self
         tableView.tableHeaderView = headerView
-        tableView.registerClass(SearchRecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.SearchRecommendTableViewCellID)
-        
         tableView.rowHeight       = SearchRecommendTableViewCell.RowHeight
         tableView.backgroundColor = UIColor.clearColor()
         tableView.separatorStyle  = UITableViewCellSeparatorStyle.None
+        tableView.registerClass(SearchRecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.SearchRecommendTableViewCellID)
+        
+        view.bringSubviewToFront(navContainerView)
+        
+        setupAutoLayout()
+        loadSearchData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBarHidden = true
+        refreshBar()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    func refreshBar(){
+        //更新导航背景
+        navContainerView.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)
+        
+        //更新导航高度
+        navBarHeight = (MainViewContant.MaxNavbarHeight - MainViewContant.MinNavbarHeight)  * (1-navBarAlpha) + MainViewContant.MinNavbarHeight
+        navContainerView.frame = CGRectMake(0, 0, view.bounds.width, MainViewContant.StatusBarHeight + navBarHeight)
+        custNavView.frame      = CGRectMake(0, MainViewContant.StatusBarHeight, view.bounds.width, navBarHeight)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.navigationBarHidden = false
+    }
+    
+    //布局
+    private func setupAutoLayout() {
+        //导航布局
+        slideButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: custNavView, size: CGSize(width: 21, height: 14), offset: CGPointMake(9, 0))
+        searchButton.ff_AlignInner(ff_AlignType.CenterRight, referView: custNavView, size: CGSize(width: view.bounds.width-(414-356), height: MainViewContant.SearchBarHeight), offset: CGPointMake(-9, 0))
+        
+        //表格
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, -20))
+        headerImageView.ff_Fill(headerView)
     }
     
     /// 发送搜索信息
@@ -157,12 +221,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
             btn.frame = CGRectMake(btnX, btnY, btnWidth, btnHeight)
         }
     }
-    
-    /// 布局
-    private func setupAutoLayout() {
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, -64))
-        headerImageView.ff_Fill(headerView)
-    }
+
     
     // MASK: - tableView 数据源及代理方法
     
@@ -216,7 +275,6 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
                 navBarAlpha = 0
             }
         }
-        refreshBar()
     }
     
     //MARK: 自定义方法

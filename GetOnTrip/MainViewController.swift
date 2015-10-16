@@ -17,20 +17,6 @@ class MainViewController: UIViewController {
     //代理左侧菜单的操作
     var slideDelegate: SlideMenuViewControllerDelegate?
     
-    lazy var leftView: UIView = {
-        let view = UIView()
-        view.addSubview(self.slideButton)
-        view.backgroundColor = UIColor.clearColor()
-        return view
-        }()
-    
-    lazy var rightView: UIView = {
-        let view = UIView()
-        view.addSubview(self.searchButton)
-        view.backgroundColor = UIColor.clearColor()
-        return view
-        }()
-    
     lazy var slideButton: UIButton = {
         let button = UIButton(type: UIButtonType.Custom)
         button.setBackgroundImage(UIImage(named: "icon_hamburger"), forState: UIControlState.Normal)
@@ -38,31 +24,11 @@ class MainViewController: UIViewController {
         return button
         }()
     
-    lazy var searchButton: UIButton = {
-        let button = UIButton(type: UIButtonType.Custom)
-        button.setBackgroundImage(UIImage(named: "icon_search"), forState: UIControlState.Normal)
-        button.addTarget(self, action: "showSearch", forControlEvents: UIControlEvents.TouchUpInside)
-        return button
-        }()
-    
     // MASK: View Life Circle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //导航Items
-        let leftFixspaceItem    = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
-        let rightFixspaceItem   = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
-        leftFixspaceItem.width  = -10
-        rightFixspaceItem.width = -10
-        navigationItem.leftBarButtonItems  = [leftFixspaceItem, UIBarButtonItem(customView: leftView)]
-        navigationItem.rightBarButtonItems = [rightFixspaceItem, UIBarButtonItem(customView: rightView)]
-        navigationItem.backBarButtonItem   = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
-        
-        leftView.frame  = CGRectMake(0, 0, 21, 14)
-        rightView.frame = CGRectMake(0, 0, view.bounds.width-(414-356), 35)
-        slideButton.frame  = leftView.bounds
-        searchButton.frame = rightView.bounds
+        slideButton.frame  = CGRectMake(0, 0, 21, 14)
     }
     
     override func viewWillAppear(animated: Bool) {
