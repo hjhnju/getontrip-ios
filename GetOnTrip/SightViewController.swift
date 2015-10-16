@@ -60,6 +60,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         view.backgroundColor = SceneColor.frontBlack //barStyle=Opaque时决定了导航颜色
         navigationItem.title = sightName
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
 
         view.addSubview(labelNavView)
         labelNavView.addSubview(labelScrollView)
@@ -121,7 +122,9 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             labelScrollView.addSubview(lab)
         }
         
-        indicateView.frame = CGRectMake(0, CGRectGetMaxY(labelScrollView.frame) - 2.5, indicateW!, CGFloat(1.5))
+//        indicateView.frame = CGRectMake(0, CGRectGetMaxY(labelScrollView.frame) - 2.5, indicateW!, CGFloat(1.5))
+        indicateView.bounds = CGRectMake(0, 0, 56, 1.5)
+        indicateView.center = CGPointMake(lW! * 0.5, CGRectGetMaxY(labelScrollView.frame) - 2.5)
         labelScrollView.contentSize = CGSizeMake(x, 0)
         labelScrollView.contentInset = UIEdgeInsetsZero
         currentIndex = 0
@@ -172,35 +175,34 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     // MARK - scrollerView 代理方法
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
+
         currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
         let labCenter : UILabel = labelScrollView.subviews[currentIndex!] as! UILabel
-        var nextLabel: UILabel?
         
-        let array = collectionView.indexPathsForVisibleItems()
-        for path in array {
-            if path.item != currentIndex {
-                nextLabel = labelScrollView.subviews[path.item] as? UILabel
-            }
-        }
-        
-        if nextLabel == nil { return }
-    
         // 计算当前选中标签的中心点
         var offset: CGFloat = labCenter.center.x - labelScrollView.bounds.width * 0.5
         let maxOffset: CGFloat = labelScrollView.contentSize.width - labelScrollView.bounds.width
-        if (offset < 0) {
-            offset = 0
-        } else if (offset > maxOffset) {
-            offset = maxOffset
-        }
+        if (offset < 0) { offset = 0 }
+        else if (offset > maxOffset) { offset = maxOffset }
         
-        labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
         let lCount: Int = channels!.count >= 7 ? 7 : channels!.count
-        let x: CGFloat = scrollView.contentOffset.x / CGFloat(lCount) - offset
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.indicateView.frame.origin.x = x
-        })
+        let x: CGFloat = scrollView.contentOffset.x / CGFloat(lCount)  - offset
+        let x1: CGFloat = scrollView.contentOffset.x / CGFloat(lCount) + labCenter.bounds.width * 0.5
+        if (offset == 0) || (offset == maxOffset) {
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                if lCount >= 7 { self.indicateView.frame.origin.x = x }
+                else { self.indicateView.center.x = x1 }
+                self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
+            })
+        } else {
+            self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
+            if self.indicateView.center.x != UIScreen.mainScreen().bounds.width * 0.5 {
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    self.indicateView.center.x = UIScreen.mainScreen().bounds.width * 0.5
+                })
+            }
+        }
     }
     
     ///  标签选中方法

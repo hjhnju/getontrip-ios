@@ -38,7 +38,6 @@ class TopicDetailRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
 
-                //
                 // 回调
                 handler(TopicDetail(dict: respData as! [String : AnyObject]))
             }

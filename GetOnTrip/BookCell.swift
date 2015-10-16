@@ -19,6 +19,8 @@ class BookCell: UITableViewCell {
     
     lazy var author: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "作者：张加冕", fontSize: 12, mutiLines: true)
     
+    lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
+
     var book: SightBook? {
         didSet {
             iconView.image = nil
@@ -46,6 +48,7 @@ class BookCell: UITableViewCell {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(author)
+        addSubview(baseLine)
         
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 115 - 18 - 7
         titleLabel.preferredMaxLayoutWidth    = w
@@ -60,5 +63,6 @@ class BookCell: UITableViewCell {
         titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 115 - 18 - 7, 20), offset: CGPointMake(7, 0))
         subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 12))
         author.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
     }
 }

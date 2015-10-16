@@ -41,7 +41,7 @@ class SightListCityRequest: NSObject {
             path: "/api/city/sight",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-
+                
                 var sightCityListM = [SightCityList]()
                 for it in respData as! NSArray {
                     

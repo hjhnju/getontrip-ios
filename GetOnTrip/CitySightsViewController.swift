@@ -47,17 +47,13 @@ class CitySightsViewController: UICollectionViewController {
         let h: CGFloat = 150
         // 每个item的大小
         layout.itemSize = CGSizeMake(w, h)
-        // 行间距
         layout.minimumLineSpacing = 15
-        // item之间水平间距
         let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
         layout.minimumInteritemSpacing = lw
         layout.sectionInset = UIEdgeInsets(top: lw, left: lw, bottom: 0, right: lw)
         
         collectionView?.backgroundColor = SceneColor.bgBlack
-        // Register cell classes
         collectionView?.registerClass(SightListCityCell.self, forCellWithReuseIdentifier: sightListCityIdentifier)
-        
         
         refresh()
     }
@@ -85,6 +81,7 @@ class CitySightsViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sightListCityIdentifier, forIndexPath: indexPath) as! SightListCityCell
+        cell.collectBtn.tag = indexPath.row
         cell.sightCity = sightCityList![indexPath.row] as SightCityList
         return cell
     }
@@ -145,6 +142,10 @@ class SightListCityCell: UICollectionViewCell {
             iconView.sd_setImageWithURL(NSURL(string: sightCity!.image!))
             cityName.text = sightCity!.name
             topicNum.text = sightCity!.topics
+            
+            if sightCity!.collected != "" {
+                collectBtn.selected = true
+            }
         }
     }
     
@@ -152,6 +153,15 @@ class SightListCityCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setupAddProperty()
+        setupAutoLayout()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupAddProperty() {
         addSubview(iconView)
         addSubview(shade)
         addSubview(shadeTop)
@@ -161,12 +171,9 @@ class SightListCityCell: UICollectionViewCell {
         addSubview(cityName)
         addSubview(topicNum)
         addSubview(collectBtn)
-        setupAutoLayout()
         
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        collectBtn.addTarget(self, action: "collectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
     }
     
     private func setupAutoLayout() {
@@ -180,4 +187,11 @@ class SightListCityCell: UICollectionViewCell {
         shadeBottom.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(bounds.width, 2), offset: CGPointMake(0, 0))
         collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil, offset: CGPointMake(-8, 8))
     }
+    
+    func collectButtonClick(btn: UIButton) {
+        
+        print(btn.tag)
+        print("这里点击了吗")
+    }
+    
 }

@@ -254,8 +254,8 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
                 navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = CityViewController()
-                vc.cityName = data.name
                 vc.cityId   = data.id
+                
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

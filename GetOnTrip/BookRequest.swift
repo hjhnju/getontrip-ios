@@ -45,7 +45,6 @@ class BookRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
 
-                    print(respData)
                 let sightBook = NSMutableArray() // [SightBook]()
                 for item in respData as! NSArray {
                     sightBook.addObject(SightBook(dict: item as! [String : AnyObject]))

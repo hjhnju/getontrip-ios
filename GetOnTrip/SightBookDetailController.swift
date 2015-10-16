@@ -87,6 +87,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     private func setupAddProperty() {
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         view.backgroundColor = .whiteColor()
         
         view.addSubview(webView)
@@ -184,5 +185,26 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         sc.url = data?.url
         navigationController?.pushViewController(sc, animated: true)
     }
+    
+    // MARK: - 搜索(下一个控制器)
+    var searchController: UISearchController?
+    func searchButtonClicked(button: UIBarButtonItem) {
+        // 获得父控制器
+        let searchResultsController = SearchResultsViewController()
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController!.searchResultsUpdater = searchResultsController
+        searchController!.hidesNavigationBarDuringPresentation = false
+        let imgView   = UIImageView(image: UIImage(named: "search-bg0")!)
+        imgView.frame = searchController!.view.bounds
+        searchController!.view.addSubview(imgView)
+        searchController!.view.sendSubviewToBack(imgView)
+        searchController!.searchBar.barStyle = UIBarStyle.Black
+        searchController!.searchBar.tintColor = UIColor.grayColor()
+        searchController!.searchBar.becomeFirstResponder()
+        searchController!.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
+        
+        presentViewController(searchController!, animated: true, completion: nil)
+    }
+
 
 }

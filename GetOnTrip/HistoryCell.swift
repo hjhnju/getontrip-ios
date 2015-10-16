@@ -52,11 +52,13 @@ class HistoryCell: UITableViewCell {
         addSubview(preview)
         addSubview(baseLine)
         
+        let w: CGFloat = UIScreen.mainScreen().bounds.width - 133 - 24
         titleLabel.numberOfLines = 2
+        titleLabel.preferredMaxLayoutWidth = w
         
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(133, 84), offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 133 - 18 - 6, 19), offset: CGPointMake(6, 0))
-        titleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: subtitleLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 133 - 18 - 6, 44), offset: CGPointMake(0, 1))
+        subtitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(w, 19), offset: CGPointMake(6, 0))
+        titleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: subtitleLabel, size: nil, offset: CGPointMake(0, 0))
         collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
         preview.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))

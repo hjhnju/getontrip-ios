@@ -25,7 +25,6 @@ class SightDetailController: UIViewController {
         super.viewDidLoad()
 
         view.addSubview(webView)
-//        view.ff_Fill(webView)
         webView.frame = view.bounds
     }
 

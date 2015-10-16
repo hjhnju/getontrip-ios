@@ -43,7 +43,6 @@ class VideoRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 
-                
                 let sightVideo = NSMutableArray() // [SightBook]()
                 
                 for item in respData as! NSArray {
