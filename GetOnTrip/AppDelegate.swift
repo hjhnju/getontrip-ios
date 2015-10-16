@@ -121,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // TODO: 审核需要7天，目前未拿到appkey 10月12日
                 case SSDKPlatformType.TypeWechat:
                     //设置微信应用信息
-                    appInfo.SSDKSetupWeChatByAppId("wx4868b35061f87885", appSecret: "64020361b8ec4c99936c0e3999a9f249")
+                    appInfo.SSDKSetupWeChatByAppId("wx2af0c4fd046e238f", appSecret: "bbc1c1086c1c5ef7bad02489c4e18ea5")
                     break
                 
                 

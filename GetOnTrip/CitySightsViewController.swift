@@ -114,9 +114,6 @@ class CitySightsViewController: UICollectionViewController {
         presentViewController(searchController!, animated: true, completion: nil)
     }
     
-    
-    
-    
 }
     
 // MARK: - SightListCityCell

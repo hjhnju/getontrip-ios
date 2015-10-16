@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 
 class HttpRequest {
+    
     class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: (AnyObject) -> Void) {
         
         let urlPath = (url ?? "") + (path ?? "")
@@ -28,7 +29,6 @@ class HttpRequest {
 
         }
     }
-    
     
     static let boundary = "bangni-upload"
     /// 上传一张及多张图片的方法

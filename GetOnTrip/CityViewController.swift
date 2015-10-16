@@ -60,7 +60,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     lazy var tableView: UITableView = UITableView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
     
     /// 热门话题标题
-    lazy var topicTopButton: UIButton = UIButton(title: "热门内容", fontSize: 14, radius: 0, titleColor: .whiteColor()) //(color: SceneColor.frontBlack, alphaF: 1.0)
+    lazy var topicTopButton: UIButton = UIButton(title: "热门内容", fontSize: 14, radius: 0, titleColor: .whiteColor())
 
     /// 热门话题图标
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
@@ -105,7 +105,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.titleView = titleLabel
-        navigationItem.backBarButtonItem   = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
         titleLabel.textAlignment = NSTextAlignment.Center
         titleLabel.hidden = true //设置alpha=0会有Fade Out
@@ -281,7 +280,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
-        let vc    = SightViewController()
+        let vc       = SightViewController()
         let sight    = collectionDataSource![indexPath.row]
         vc.sightId   = sight.id
         vc.sightName = sight.name

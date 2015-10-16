@@ -81,17 +81,15 @@ class SightLandscape: NSObject {
     init(dict: [String: AnyObject]) {
         super.init()
         
-//        id = String(dict["id"]!)
-//        name = String(dict["name"]!)
-//        content = String(dict["content"]!)
-//        image = AppIni.BaseUri + String(dict["image"]!)
-        
         setValuesForKeysWithDictionary(dict)
         catalogs = NSMutableArray()
         for item in dict["catalog"] as! NSArray {
-            let text = NSMutableString(string: item["name"] as! String)
-            let range = text.rangeOfString("\r\n")
-            text.deleteCharactersInRange(range)
+
+            var text = NSString(string: item["name"] as! String).substringWithRange(NSMakeRange(0, 4))
+            if text.containsString("\r\n") {
+                let range = text.rangeOfString("\r\n")
+                text.removeRange(range!)
+            }
             catalogs!.addObject(text)
         }
         
