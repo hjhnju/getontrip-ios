@@ -29,9 +29,9 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     lazy var labelBtn: UIButton = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
     
-    lazy var collect: UIButton = UIButton(image: "collect_icon", title: "", fontSize: 12, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
+    lazy var favNumLabel: UIButton = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
 
-    lazy var visit: UIButton = UIButton(image: "visit_icon", title: "", fontSize: 12, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
+    lazy var visitNumLabel: UIButton = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
     
     //webView
     lazy var webView: UIWebView = UIWebView()
@@ -41,11 +41,11 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     lazy var commentLab: UILabel = UILabel(color: UIColor(hex: 0x9C9C9C, alpha: 1.0), title: "", fontSize: 11, mutiLines: true)
     
-    lazy var commentBtn: UIButton = UIButton(image: "favorite", title: "", fontSize: 0)
+    lazy var commentBtn: UIButton = UIButton(image: "topic_comment", title: "", fontSize: 0)
 
-    lazy var shareBtn: UIButton = UIButton(image: "shares_icon", title: "", fontSize: 0)
+    lazy var shareBtn: UIButton = UIButton(image: "topic_share", title: "", fontSize: 0)
     
-    lazy var collectBtn: UIButton = UIButton(image: "star_icon", title: "", fontSize: 0)
+    lazy var collectBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
     
     var content: String?
     
@@ -113,8 +113,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 commentLab.text    = topic.comment
                 
                 labelBtn.setTitle(topic.label, forState: UIControlState.Normal)
-                collect.setTitle(" " + topic.collect, forState: UIControlState.Normal)
-                visit.setTitle(" " + topic.visit, forState: UIControlState.Normal)
+                favNumLabel.setTitle(" " + topic.collect, forState: UIControlState.Normal)
+                visitNumLabel.setTitle(" " + topic.visit, forState: UIControlState.Normal)
                 headerImageView.sd_setImageWithURL(NSURL(string: topic.image))
                 
                 showTopicDetail()
@@ -136,7 +136,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     weak var navUnderlayView:UIView?
     
     //导航透明度
-    var navBarAlpha:CGFloat = 0.0
+    var headerAlpha:CGFloat = 1.0
     
     // MARK: - 初始化方法
     override func viewDidLoad() {
@@ -146,8 +146,13 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         navigationItem.titleView = navTitleLabel
         navigationController?.navigationBar.tintColor = SceneColor.lightGray
-        navigationController?.navigationBar.barTintColor = UIColor.orangeColor()
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+        
+        let bgImage = UIKitTools.imageWithColor(UIColor.whiteColor().colorWithAlphaComponent(0.5))
+        navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
+        
+        refreshTitle()
         
         navTitleLabel.frame = CGRectMake(0, 0, 100, 21)
         navTitleLabel.textAlignment = NSTextAlignment.Center
@@ -156,6 +161,20 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         setupAddProperty()
         setupDefaultProperty()
         setupAutoLayout()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        //还原
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
+    }
+    
+    func refreshTitle(){
+        titleLabel.alpha = headerAlpha
+        favNumLabel.alpha = headerAlpha
+        visitNumLabel.alpha = headerAlpha
     }
     
     /// 发送反馈消息
@@ -183,8 +202,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         headerView.addSubview(headerImageView)
         headerView.addSubview(titleLabel)
         headerView.addSubview(labelBtn)
-        headerView.addSubview(collect)
-        headerView.addSubview(visit)
+        headerView.addSubview(favNumLabel)
+        headerView.addSubview(visitNumLabel)
         toolbarView.addSubview(commentLab)
         toolbarView.addSubview(commentBtn)
         toolbarView.addSubview(shareBtn)
@@ -244,9 +263,9 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 47), offset: CGPointMake(0, 0))
         headerImageView.ff_Fill(toolbarView)
         labelBtn.ff_AlignInner(ff_AlignType.TopRight, referView: headerView, size: CGSizeMake(32, 14), offset: CGPointMake(-17, 7 + 44))
-        collect.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(10, -7))
-        visit.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: collect, size: nil, offset: CGPointMake(11, 0))
-        titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: collect, size: nil, offset: CGPointMake(0, 1))
+        favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(10, -7))
+        visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
+        titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, 1))
         commentLab.ff_AlignInner(ff_AlignType.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
         commentBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
         shareBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: commentBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
@@ -270,15 +289,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         shareBtnY3 = shareBtn3.ff_Constraint(s3, attribute: NSLayoutAttribute.CenterY)
         shareBtnY4 = shareBtn4.ff_Constraint(s4, attribute: NSLayoutAttribute.CenterY)
         shareBtnY5 = shareBtn5.ff_Constraint(s5, attribute: NSLayoutAttribute.CenterY)
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        //还原
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        
-        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
     }
 
     // MARK: UIWebView and UIScrollView Delegate 代理方法
@@ -328,6 +338,16 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
             height = 44
         }
         headerHeightConstraint?.constant = height
+        
+        //header文字渐变
+        let threshold:CGFloat = 100
+        headerAlpha = (height - 44) / threshold
+        if headerAlpha > 1 {
+            headerAlpha = 1
+        } else if headerAlpha < 0.1 {
+            headerAlpha = 0
+        }
+        refreshTitle()
     }
     
     // MARK: - 评论、分享、收藏

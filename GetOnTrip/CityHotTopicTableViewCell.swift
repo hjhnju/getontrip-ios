@@ -15,13 +15,13 @@ class CityHotTopicTableViewCell: UITableViewCell {
     /// 图片
     var iconView: UIImageView = UIImageView()
     /// 标题
-    var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "北京什么时候叫做燕京的？又是什么时候改回来的？", fontSize: 15, mutiLines: true)
+    var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 15, mutiLines: true)
     /// 副标题
-    var subTitle: UILabel = UILabel(color: SceneColor.whiteGrey, title: "明末崇祯年间当时首都叫什么叫燕京还是北京", fontSize: 11, mutiLines: false)
+    var subTitle: UILabel = UILabel(color: SceneColor.whiteGrey, title: "", fontSize: 11, mutiLines: false)
     /// 标签
-    var label: UILabel = UILabel(color: SceneColor.whiteGrey, title: "故宫历史", fontSize: 9, mutiLines: false)
+    var label: UILabel = UILabel(color: SceneColor.whiteGrey, title: "", fontSize: 9, mutiLines: false)
     /// 浏览数
-    var visit: UIButton = UIButton(title: "  100", fontSize: 9, radius: 0, titleColor: SceneColor.whiteGrey)
+    var visit: UIButton = UIButton(title: "", fontSize: 9, radius: 0, titleColor: SceneColor.whiteGrey)
     /// 底线
     var baseView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
     
@@ -49,7 +49,7 @@ class CityHotTopicTableViewCell: UITableViewCell {
         
         backgroundColor = UIColor.clearColor()
         label.alpha = 0.5
-        visit.setImage(UIImage(named: "visit_white"), forState: UIControlState.Normal)
+        visit.setImage(UIImage(named: "topic_eye_gray"), forState: UIControlState.Normal)
         title.numberOfLines = 2
         subTitle.numberOfLines = 2
         title.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 148
