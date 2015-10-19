@@ -234,5 +234,8 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         presentViewController(searchController!, animated: true, completion: nil)
     }
 
-
+    ///  搜索跳入之后消失控制器
+    func dismissViewController() {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 }

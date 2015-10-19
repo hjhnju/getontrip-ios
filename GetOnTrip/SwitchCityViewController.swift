@@ -83,7 +83,6 @@ class SwitchCityViewController: UIViewController, UISearchBarDelegate, UITableVi
         tableView.sectionIndexBackgroundColor = UIColor.clearColor()
         
 //        tableView.cell.selectionStyle=UITableViewCellSelectionStyleNone
-        navigationController?.navigationBarHidden = true
     }
     
     override func viewWillAppear(animated: Bool) {

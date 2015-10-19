@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 
 class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate {
-
+    
     /// 景点列表id
     var sightId: String?
     
@@ -57,6 +57,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         super.viewDidLoad()
         
         //nav bar
+        automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = SceneColor.frontBlack //barStyle=BlackOpaque时决定了导航颜色
         navigationItem.title = sightName
         navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -75,12 +76,22 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         loadSightData()
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         setupAutlLayout()
         labelNavView.layoutIfNeeded()
         labelScrollView.layoutIfNeeded()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     func setupAutlLayout() {
@@ -245,5 +256,10 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         searchController!.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
         
         presentViewController(searchController!, animated: true, completion: nil)
+    }
+    
+    ///  搜索跳入之后消失控制器
+    func dismissViewController() {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }
