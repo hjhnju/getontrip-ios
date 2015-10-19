@@ -8,13 +8,13 @@
 
 import UIKit
 
-class HistoryTableViewController: UITableViewController {
+class TopicTableViewController: UITableViewController {
     
     // 网络请求，加载数据
     var lastLandscapeRequest = LandscapeRequest()
     var lastBookRequest = BookRequest()
     var lastVideoRequest = VideoRequest()
-    var lastOtherRequest = SightListRequest()
+    var lastOtherRequest = SightTopicRequest()
     
     /// 景点id
     var sightId: String = ""
@@ -37,22 +37,18 @@ class HistoryTableViewController: UITableViewController {
                 
                 refresh("landscape")
                 cellReuseIdentifier = "Landscape_Cell"
-                
             } else if urlString == "book" {
                 
                 refresh("book")
                 cellReuseIdentifier = "Book_Cell"
-                
             } else if urlString == "video" {
                 
                 refresh("video")
                 cellReuseIdentifier = "Video_Cell"
-                
             } else {
                 
                 refresh("其他")
                 cellReuseIdentifier = "History_Cell"
-                
             }
             
             
@@ -95,7 +91,7 @@ class HistoryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.registerClass(HistoryCell.self, forCellReuseIdentifier: "History_Cell")
+        tableView.registerClass(TopicCell.self, forCellReuseIdentifier: "History_Cell")
         tableView.registerClass(LandscapeCell.self, forCellReuseIdentifier: "Landscape_Cell")
         tableView.registerClass(LandscapeCell1.self, forCellReuseIdentifier: "Landscape_Cell1")
         tableView.registerClass(BookCell.self, forCellReuseIdentifier: "Book_Cell")
@@ -138,7 +134,7 @@ class HistoryTableViewController: UITableViewController {
             cell = c
         } else { // backgroundCell
             
-            let c = tableView.dequeueReusableCellWithIdentifier("History_Cell", forIndexPath: indexPath) as! HistoryCell
+            let c = tableView.dequeueReusableCellWithIdentifier("History_Cell", forIndexPath: indexPath) as! TopicCell
             c.otherData = data![indexPath.row] as? SightListData
             cell = c
         }
@@ -163,27 +159,23 @@ class HistoryTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let vc: TopicDetailController = TopicDetailController()
         if cellReuseIdentifier == "Landscape_Cell" {
             
-            let sc = SightDetailController()
+            let sc = DetailWebViewController()
             let dataI = data![indexPath.row] as! SightLandscape
             sc.url = dataI.url
             navigationController?.pushViewController(sc, animated: true)
-            
         } else if cellReuseIdentifier == "Book_Cell" {
             
             let bc = SightBookDetailController()
             let dataI = data![indexPath.row] as! SightBook
             bc.bookId = dataI.id!
             navigationController?.pushViewController(bc, animated: true)
-
         } else if cellReuseIdentifier == "Video_Cell" {
             
             print("神马都不做")
-            
         } else {
-            
+            let vc: TopicDetailController = TopicDetailController()
             let dataI = data![indexPath.row] as! SightListData
             vc.topicId = dataI.id!
             navigationController?.pushViewController(vc, animated: true)
@@ -194,7 +186,7 @@ class HistoryTableViewController: UITableViewController {
     
     func watchClick(btn: UIButton) {
         
-        let sc = SightDetailController()
+        let sc = DetailWebViewController()
         let dataI = data![btn.tag] as! SightVideo
         sc.url = dataI.url
         navigationController?.pushViewController(sc, animated: true)

@@ -11,18 +11,18 @@ import UIKit
 class SightCollectionViewCell: UICollectionViewCell {
     
     /// 子控制器
-    var VC: HistoryTableViewController = HistoryTableViewController()
+    var vc: TopicTableViewController = TopicTableViewController()
     
     var urlString: String? {
         didSet {
-            VC.urlString = urlString
+            vc.urlString = urlString
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(VC.view)
+        addSubview(vc.view)
         backgroundColor = UIColor.clearColor()
     }
     
@@ -33,7 +33,7 @@ class SightCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        VC.view.frame = bounds
+        vc.view.frame = bounds
     }
 
 }

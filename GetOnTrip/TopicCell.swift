@@ -9,7 +9,7 @@
 import UIKit
 import FFAutoLayout
 
-class HistoryCell: UITableViewCell {
+class TopicCell: UITableViewCell {
     
     /// 图片
     lazy var iconView: UIImageView = UIImageView()

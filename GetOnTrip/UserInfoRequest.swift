@@ -30,7 +30,7 @@ class UserInfoRequest: NSObject {
 //        post["deviceId"]  = String(self.deviceId)
 //        
 //        // 发送网络请求加载数据
-//        HttpRequest.ajax(AppIniOnline.BaseUri,
+//        HttpRequest.ajax(AppIni.BaseUri,
 //            path: "/api/user/info",
 //            post: post,
 //            handler: {(respData: AnyObject) -> Void in
@@ -41,7 +41,7 @@ class UserInfoRequest: NSObject {
 ////                let title           = respData["title"].stringValue
 //                //topic?.subtitle = respData[""].stringValue
 ////                topic = Topic(topicid: id, title: title, subtitle: "")
-//                topic.image     = AppIniOnline.BaseUri + String(respData[0]["image"])
+//                topic.image     = AppIni.BaseUri + String(respData[0]["image"])
 //                
 ////                topic!.favorites    = respData["collect"].intValue
 ////                topic!.visits       = respData["visits"].intValue

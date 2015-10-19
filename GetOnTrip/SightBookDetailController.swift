@@ -181,7 +181,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     // MARK: - 购买书籍
     func buyButtonClick(btn: UIButton) {
-        let sc = SightDetailController()
+        let sc = DetailWebViewController()
         sc.url = data?.url
         navigationController?.pushViewController(sc, animated: true)
     }

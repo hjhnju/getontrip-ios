@@ -116,6 +116,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
         refreshBar()
     }
     

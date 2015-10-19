@@ -30,7 +30,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     var channels: NSArray?
     
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: SightListRequest?
+    var lastSuccessAddRequest: SightTopicRequest?
     
     /// 流水布局
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -122,7 +122,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             labelScrollView.addSubview(lab)
         }
         
-//        indicateView.frame = CGRectMake(0, CGRectGetMaxY(labelScrollView.frame) - 2.5, indicateW!, CGFloat(1.5))
         indicateView.bounds = CGRectMake(0, 0, 56, 1.5)
         indicateView.center = CGPointMake(lW! * 0.5, CGRectGetMaxY(labelScrollView.frame) - 2.5)
         labelScrollView.contentSize = CGSizeMake(x, 0)
@@ -153,9 +152,9 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         let data = dataType[indexPath.row] as! SightListTags
         
-        cell.VC.sightId = sightId!
+        cell.vc.sightId = sightId!
         let labId = channels![indexPath.row] as! SightListTags
-        cell.VC.tagId = labId.id!
+        cell.vc.tagId = labId.id!
          if (data.name == "景观") {
             cell.urlString = "landscape"
         } else if (data.name == "书籍") {
@@ -166,8 +165,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             cell.urlString = "其他"
         }
         
-        if (!childViewControllers.contains(cell.VC)) {
-            addChildViewController(cell.VC)
+        if (!childViewControllers.contains(cell.vc)) {
+            addChildViewController(cell.vc)
         }
         
         return cell
@@ -218,7 +217,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     private func loadSightData() {
         
         if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = SightListRequest()
+            lastSuccessAddRequest = SightTopicRequest()
             lastSuccessAddRequest?.sightId = sightId
         }
         

@@ -11,11 +11,11 @@ import FFAutoLayout
 
 class LandscapeCell: UITableViewCell {
     
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
+    lazy var iconView: UIImageView = UIImageView(image: UIImage())
     
-    lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "颐和园", fontSize: 20, mutiLines: true)
+    lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 20, mutiLines: true)
     
-    lazy var subtitleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "圆明园是坐落在北京西北郊，与颐和园相邻，由圆明园、长春园和万春园组成，也叫圆明三园…", fontSize: 12, mutiLines: true)
+    lazy var subtitleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 12, mutiLines: true)
     
     /// 标签底部view
     lazy var labelBottomBackground: UIView = UIView()
@@ -126,7 +126,7 @@ class LandscapeCell: UITableViewCell {
 
 class LandscapeCell1: UITableViewCell {
     
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
+    lazy var iconView: UIImageView = UIImageView(image: UIImage())
     
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "颐和园", fontSize: 18, mutiLines: true)
     

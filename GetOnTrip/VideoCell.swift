@@ -11,7 +11,7 @@ import FFAutoLayout
 
 class VideoCell: UITableViewCell {
 
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
+    lazy var iconView: UIImageView = UIImageView(image: UIImage())
     
     lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "故宫的至宝", fontSize: 18, mutiLines: true)
     
@@ -24,7 +24,7 @@ class VideoCell: UITableViewCell {
     var video: SightVideo? {
         didSet {
             iconView.image = nil
-            iconView.sd_setImageWithURL(NSURL(string: video!.image!), placeholderImage: UIImage(named: "2.jpg"))
+            iconView.sd_setImageWithURL(NSURL(string: video!.image!), placeholderImage: UIImage())
             titleLabel.text = video!.title!
             timeLabel.text = video!.len!
         }

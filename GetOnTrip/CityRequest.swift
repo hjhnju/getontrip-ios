@@ -27,7 +27,7 @@ class CityRequest {
         post["city"]     = String(city)
 
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIniDev.BaseUri,
+        HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/city",
 
             post: post,
