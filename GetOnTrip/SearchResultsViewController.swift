@@ -14,13 +14,16 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
     
     // MARK: Properties
     
-    var resultData = [[Dictionary<String, AnyObject>]]()
+    var resultData = NSMutableDictionary()
     
     var sectionTitle = [String]()
     
     var titleMap = ["sight":"景点", "city":"城市", "content":"内容"]
     
-    var sectionTypes = ["sight", "city", "content"]
+    var sectionTypes = ["city", "sight", "content"]
+    
+    var page    : Int = 1
+    var pageSize: Int = 6
     
     var scrollLock:Bool = false
     
@@ -30,24 +33,59 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
                 if query.isEmpty {
                     return
                 }
-                self.resultData.removeAll(keepCapacity: true)
-                self.sectionTitle.removeAll(keepCapacity: true)
-                HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: ["query":query], handler: {(respData: AnyObject) -> Void in
+//                self.resultData.removeAll(keepCapacity: true)
+//                self.sectionTitle.removeAll(keepCapacity: true)
+                var post       = [String: String]()
+                post["query"]  = String(query)
+                post["page"]   = String(page)
+                post["pageSize"] = String(pageSize)
+                HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: post, handler: {(respData: AnyObject) -> Void in
                     
+                    let rows = NSMutableDictionary()
                     for section in self.sectionTypes {
                         
-                        let secRows = respData[section] // as! NSDictionary
-                        if secRows!!.count > 0 {
-                            var rows = [Dictionary<String, AnyObject>]()
-                            for row in secRows as! NSArray {
-                                rows.append(row as! Dictionary)
+                        switch section {
+                        case "city":
+                            var searchCitys = [SearchCity]()
+                            for item in respData["city"] as! NSArray {
+                                searchCitys.append(SearchCity(dict: item as! [String : String]))
                             }
-                            self.resultData.append(rows)
-                            let title = self.titleMap[section] ?? section
-                            self.sectionTitle.append(title)
+                            rows.setValue(searchCitys, forKey: "searchCitys")
+                        case "sight":
+                            var searchSights = [SearchSight]()
+                            for item in respData["sight"] as! NSArray {
+                                searchSights.append(SearchSight(dict: item as! [String : String]))
+                            }
+                            rows.setValue(searchSights, forKey: "searchSights")
+
+                        case "content":
+                           let searchContent = NSMutableArray()
+                           
+                           let content = respData["content"] as? NSDictionary
+                           
+                           for item in content?.objectForKey("topic") as! NSArray {
+                            searchContent.addObject(SearchContentTopic(dict: item as! [String : AnyObject]))
+                           }
+                           
+                           for item in content?.objectForKey("book") as! NSArray {
+                            searchContent.addObject(SearchContentBook(dict: item as! [String : AnyObject]))
+                           }
+                           
+                           for item in content?.objectForKey("video") as! NSArray {
+                            searchContent.addObject(SearchContentVideo(dict: item as! [String : AnyObject]))
+                           }
+                           
+                           for item in content?.objectForKey("wiki") as! NSArray {
+                            searchContent.addObject(SearchContentWiki(dict: item as! [String : AnyObject]))
+                           }
+                            
+                        rows.setValue(searchContent, forKey: "searchContent")
+
+                        default:
+                            break
                         }
                     }
-                    
+                    self.resultData = rows 
                     self.tableView.reloadData()
                 })
                 
@@ -71,9 +109,12 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         return resultData.count
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitle[section]
-    }
+    
+//    
+//    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        
+//        return resultData[section]
+//    }
     
     override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clearColor()
@@ -88,17 +129,47 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return resultData[section].count
+        
+        switch section {
+        case 0:
+            return (resultData.objectForKey("searchCitys")?.count)!
+        case 1:
+            return (resultData.objectForKey("searchSights")?.count)!
+        default:
+            return (resultData.objectForKey("searchContent")?.count)!
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
+        
+        
+        switch indexPath.section {
+        case 0:
+            let data = resultData.objectForKey("searchCitys") as! [SearchCity]
+            cell.searchCity = data[indexPath.row]
+        case 1:
+            let data = resultData.objectForKey("searchSights") as! [SearchSight]
+            cell.searchSight = data[indexPath.row]
+        case 2:
+            let Contentdata = resultData.objectForKey("searchContent") as! NSArray
 
-//        cell.resultImageUrl = resultData[indexPath.section][indexPath.row]["image"]?.stringValue
-//        cell.resultTitle = resultData[indexPath.section][indexPath.row]["name"]?.stringValue
-//        cell.resultDesc  = resultData[indexPath.section][indexPath.row]["desc"]?.stringValue
-        cell.resultType  = self.sectionTypes[indexPath.section]
-        cell.resultId  = Int(resultData[indexPath.section][indexPath.row]["id"] as! String)!
+            let ContentType = Contentdata[indexPath.row]
+            if ContentType.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentTopic")!) {
+                cell.searchContentTopic = ContentType as? SearchContentTopic
+            } else if (ContentType.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentBook")!)) {
+                cell.searchContentBook = ContentType as? SearchContentBook
+            } else if (ContentType.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentVideo")!)) {
+                cell.searchContentVideo = ContentType as? SearchContentVideo
+            } else {
+                cell.searchContentWiki = ContentType as? SearchContentWiki
+            }
+
+        default:
+            break
+        }
+
+        
         return cell
     }
     
@@ -110,8 +181,8 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         searchResultsCell.layoutMargins = UIEdgeInsetsZero
         searchResultsCell.backgroundColor = UIColor.clearColor()
         
-        searchResultsCell.resultTitleLabel.textColor = UIColor.whiteColor()
-        searchResultsCell.resultDescLabel.textColor = UIColor.lightGrayColor()
+//        searchResultsCell.resultTitleLabel.textColor = UIColor.whiteColor()
+//        searchResultsCell.resultDescLabel.textColor = UIColor.lightGrayColor()
     }
     
     // MARK: UISearchResultsUpdating
@@ -123,5 +194,153 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         }
         
         filterString = searchController.searchBar.text
+    }
+}
+
+// MARK: - 模型
+class SearchCity: NSObject {
+    
+    var id: String?
+    
+    var name: String?
+    
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
+    
+    var desc: String?
+    
+    init(dict: [String : AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
+}
+
+class SearchSight: NSObject {
+    
+    var id: String?
+    
+    var name: String?
+    
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
+    
+    var desc: String?
+    
+    init(dict: [String : AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
+}
+
+
+class SearchContentTopic: NSObject {
+    
+    var id: String?
+    
+    var title: String?
+    
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
+    
+    var subtitle: String?
+    
+    init(dict: [String : AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
+}
+
+
+class SearchContentBook: NSObject {
+    
+    var id: String?
+    
+    var title: String?
+    
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
+    
+    var desc: String?
+    
+    init(dict: [String : AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
+}
+
+
+class SearchContentVideo: NSObject {
+    
+    var id: String?
+    
+    var title: String?
+    
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
+    
+    var from: String?
+    
+    init(dict: [String : AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
+}
+
+class SearchContentWiki: NSObject {
+    
+    var id: String?
+    
+    var name: String?
+    
+    var image: String? {
+        didSet {
+            image = AppIni.BaseUri + image!
+        }
+    }
+    
+    var desc: String?
+    
+    init(dict: [String : AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
     }
 }

@@ -20,7 +20,7 @@ class AppIniDev {
 class AppIni:AppIniDev {
 }
 
-///  目前未使用
+
 struct StoryBoardIdentifier {
     //menu
     static let MenuTableViewCellID = "MenuTableViewCellID"
@@ -56,6 +56,15 @@ struct SceneColor {
     static let shallowGrey = UIColor(hex: 0x979797, alpha: 1.0)
     /// 深灰
     static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)
+}
+
+struct categoryLabel {
+    /// 5
+    static let sightLabel = 5
+    /// 6
+    static let videoLabel = 6
+    /// 7
+    static let bookLabel  = 7
 }
 
 struct SceneFont {

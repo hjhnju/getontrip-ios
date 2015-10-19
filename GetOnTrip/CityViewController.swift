@@ -108,6 +108,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
         titleLabel.textAlignment = NSTextAlignment.Center
         titleLabel.hidden = true //设置alpha=0会有Fade Out
+//        cell.selectionStyle = UITableViewCellSelectionStyle.None
+//        tableView.separatorStyle
+        
         
         initView()
         setupAutoLayout()
@@ -317,11 +320,14 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let topic = tableViewDataSource![indexPath.row]
         let vc    = TopicDetailController()
         vc.topicId = topic.id
         vc.title   = topic.title
         navigationController?.pushViewController(vc, animated: true)
+
     }
     
     //MARK: ScrollViewDelegate

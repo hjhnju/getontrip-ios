@@ -23,6 +23,7 @@ class BookCell: UITableViewCell {
 
     var book: SightBook? {
         didSet {
+            if book == nil { return }
             iconView.image = nil
             iconView.sd_setImageWithURL(NSURL(string: book!.image!), placeholderImage: UIImage(named: "2.jpg"))
             titleLabel.text = book!.title!

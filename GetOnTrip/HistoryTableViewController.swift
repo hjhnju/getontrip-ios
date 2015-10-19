@@ -8,19 +8,67 @@
 
 import UIKit
 
+public let HistoryTableViewControllerSightCell: String = "Landscape_Cell"
+public let HistoryTableViewControllerBookCell : String = "Book_Cell"
+public let HistoryTableViewControllerVideoCell: String = "Video_Cell"
+public let HistoryTableViewControllerElseCell : String = "History_Cell"
+public let HistoryTableViewControllerSightCell1:String = "History_Cell1"
+
 class HistoryTableViewController: UITableViewController {
     
     // 网络请求，加载数据
     var lastLandscapeRequest = LandscapeRequest()
+    
     var lastBookRequest = BookRequest()
+    
     var lastVideoRequest = VideoRequest()
+    
     var lastOtherRequest = SightListRequest()
     
+    var cellReuseIdentifier: String?
+    
+    var type: Int? {
+        didSet {
+            data = nil
+            
+            switch type! {
+            case categoryLabel.sightLabel:
+                refresh(categoryLabel.sightLabel)
+                cellReuseIdentifier = HistoryTableViewControllerSightCell
+                
+            case categoryLabel.bookLabel:
+                refresh(categoryLabel.bookLabel)
+                cellReuseIdentifier = HistoryTableViewControllerBookCell
+                
+            case categoryLabel.videoLabel:
+                refresh(categoryLabel.videoLabel)
+                cellReuseIdentifier = HistoryTableViewControllerVideoCell
+                
+            default:
+                refresh(0)
+                cellReuseIdentifier = HistoryTableViewControllerElseCell
+                break
+            }
+            
+        }
+    }
+    
     /// 景点id
-    var sightId: String = ""
+    var sightId: String? {
+        didSet {
+            lastLandscapeRequest.sightId = sightId
+            lastBookRequest.sightId      = sightId
+            lastVideoRequest.sightId     = sightId
+            lastOtherRequest.sightId     = sightId
+        }
+    }
     
      /// tagsId
-    var tagId: String = ""
+    var tagId: String? {
+        didSet {
+            lastOtherRequest.tag = tagId!
+        }
+    }
     
     var data: NSArray? {
         didSet {
@@ -28,120 +76,85 @@ class HistoryTableViewController: UITableViewController {
         }
     }
     
-    var cellReuseIdentifier: String?
-    
-    var urlString: String? {
-        didSet {
-            data = nil
-            if urlString == "landscape" { // 景观
-                
-                refresh("landscape")
-                cellReuseIdentifier = "Landscape_Cell"
-                
-            } else if urlString == "book" {
-                
-                refresh("book")
-                cellReuseIdentifier = "Book_Cell"
-                
-            } else if urlString == "video" {
-                
-                refresh("video")
-                cellReuseIdentifier = "Video_Cell"
-                
-            } else {
-                
-                refresh("其他")
-                cellReuseIdentifier = "History_Cell"
-                
-            }
-            
-            
-        }
-    }
     
     // MARK: 加载更新数据
-    private func refresh(type: String) {
+    private func refresh(type: Int) {
         
-        if type == "landscape" { // 加载景观
-            lastLandscapeRequest.sightId = sightId
-            lastLandscapeRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in
-                self?.data = handler
-            }
+        switch type {
+        case categoryLabel.sightLabel:
+            lastLandscapeRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in self?.data = handler }
             
-        } else if type == "book" {
-            lastBookRequest.sightId = sightId
-            lastBookRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in
-                self?.data = handler
-            }
-        } else if type == "video" {
-            lastVideoRequest.sightId = sightId
-            lastVideoRequest.fetchSightListModels({ [weak self] (handler: NSArray) -> Void in
-                self?.data = handler
-            })
-        } else {
-            lastOtherRequest.sightId = sightId
-            lastOtherRequest.tag = tagId
-            lastOtherRequest.fetchSightListModels({ [weak self] (handler: NSDictionary) -> Void in
-                
-                self?.data = handler.objectForKey("sightDatas") as? NSArray
-            })
-        }
-        
-        
-        
+        case categoryLabel.bookLabel:
+            lastBookRequest.fetchSightListModels      { [weak self] (handler: NSArray) -> Void in self?.data = handler }
 
+            
+        case categoryLabel.videoLabel:
+            lastVideoRequest.fetchSightListModels     { [weak self] (handler: NSArray) -> Void in self?.data = handler }
+            
+        default:
+            lastOtherRequest.fetchSightListModels     { [weak self] (handler: NSDictionary) -> Void in
+            self?.data = handler.objectForKey("sightDatas") as? NSArray }
+            break
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.registerClass(HistoryCell.self, forCellReuseIdentifier: "History_Cell")
-        tableView.registerClass(LandscapeCell.self, forCellReuseIdentifier: "Landscape_Cell")
-        tableView.registerClass(LandscapeCell1.self, forCellReuseIdentifier: "Landscape_Cell1")
-        tableView.registerClass(BookCell.self, forCellReuseIdentifier: "Book_Cell")
-        tableView.registerClass(VideoCell.self, forCellReuseIdentifier: "Video_Cell")
+        tableView.registerClass(HistoryCell.self,    forCellReuseIdentifier : HistoryTableViewControllerElseCell)
+        tableView.registerClass(LandscapeCell.self,  forCellReuseIdentifier : HistoryTableViewControllerSightCell)
+        tableView.registerClass(LandscapeCell1.self, forCellReuseIdentifier : HistoryTableViewControllerSightCell1)
+        tableView.registerClass(BookCell.self,       forCellReuseIdentifier : HistoryTableViewControllerBookCell)
+        tableView.registerClass(VideoCell.self,      forCellReuseIdentifier : HistoryTableViewControllerVideoCell)
         
         tableView.rowHeight = 115
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return data == nil ? 0 : data!.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell: UITableViewCell?
-        if cellReuseIdentifier == "Landscape_Cell" {
-            
+        switch cellReuseIdentifier! {
+
+        case HistoryTableViewControllerSightCell:
             if indexPath.row == 0 {
-                let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! LandscapeCell
                 
+                let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! LandscapeCell
                 c.landscape = data![indexPath.row] as? SightLandscape
                 cell = c
+                
             } else {
-                let c = tableView.dequeueReusableCellWithIdentifier("Landscape_Cell1", forIndexPath: indexPath) as! LandscapeCell1
+                
+                let c = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1, forIndexPath: indexPath) as! LandscapeCell1
                 c.landscape = data![indexPath.row] as? SightLandscape
                 cell = c
             }
+
+        case HistoryTableViewControllerBookCell:
             
-        } else if cellReuseIdentifier == "Book_Cell" {
             let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! BookCell
             c.book = data![indexPath.row] as? SightBook
             cell = c
-        } else if cellReuseIdentifier == "Video_Cell" {
+            
+        case HistoryTableViewControllerVideoCell:
+            
             let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! VideoCell
             c.watchBtn.addTarget(self, action: "watchClick:", forControlEvents: UIControlEvents.TouchUpInside)
             c.watchBtn.tag = indexPath.row
             c.video = data![indexPath.row] as? SightVideo
             cell = c
-        } else { // backgroundCell
             
-            let c = tableView.dequeueReusableCellWithIdentifier("History_Cell", forIndexPath: indexPath) as! HistoryCell
+        default:
+            let c = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerElseCell, forIndexPath: indexPath) as! HistoryCell
             c.otherData = data![indexPath.row] as? SightListData
             cell = c
-        }
+            
+        break
+    }
         
         return cell!
         
@@ -149,44 +162,54 @@ class HistoryTableViewController: UITableViewController {
     
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if cellReuseIdentifier == "Landscape_Cell" {
-            return 115
-        } else if cellReuseIdentifier == "Book_Cell" {
-            return 172
-        } else if cellReuseIdentifier == "Video_Cell" {
-            return 200
-        } else {
-            return 115
+        
+        var h: CGFloat?
+        switch cellReuseIdentifier! {
+        case HistoryTableViewControllerSightCell:
+            h = 115
+        case HistoryTableViewControllerBookCell:
+            h = 172
+        case HistoryTableViewControllerVideoCell:
+            h = 200
+        default:
+            h = 115
+            break
         }
+
+        return h!
     }
     
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let vc: TopicDetailController = TopicDetailController()
-        if cellReuseIdentifier == "Landscape_Cell" {
+        
+        switch cellReuseIdentifier! {
+        case HistoryTableViewControllerSightCell:
             
             let sc = SightDetailController()
             let dataI = data![indexPath.row] as! SightLandscape
             sc.url = dataI.url
             navigationController?.pushViewController(sc, animated: true)
             
-        } else if cellReuseIdentifier == "Book_Cell" {
+        case HistoryTableViewControllerBookCell:
             
             let bc = SightBookDetailController()
             let dataI = data![indexPath.row] as! SightBook
             bc.bookId = dataI.id!
             navigationController?.pushViewController(bc, animated: true)
-
-        } else if cellReuseIdentifier == "Video_Cell" {
+            
+        case HistoryTableViewControllerVideoCell:
             
             print("神马都不做")
             
-        } else {
+        default:
             
             let dataI = data![indexPath.row] as! SightListData
             vc.topicId = dataI.id!
             navigationController?.pushViewController(vc, animated: true)
+            
+            break
         }
         
     }

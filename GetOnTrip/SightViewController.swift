@@ -36,8 +36,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     
     /// 底部容器view
-    lazy var collectionView: UICollectionView = { [unowned self] in
-        let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self.layout)
+    lazy var collectionView: UICollectionView = { [weak self] in
+        let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
         return cv
     }()
     
@@ -156,14 +156,14 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         cell.VC.sightId = sightId!
         let labId = channels![indexPath.row] as! SightListTags
         cell.VC.tagId = labId.id!
-         if (data.name == "景观") {
-            cell.urlString = "landscape"
-        } else if (data.name == "书籍") {
-            cell.urlString = "book"
-        } else if (data.name == "视频") {
-            cell.urlString = "video"
+         if (Int(data.type!) == categoryLabel.sightLabel) {
+            cell.type = categoryLabel.sightLabel
+        } else if (Int(data.type!) == categoryLabel.videoLabel) {
+            cell.type = categoryLabel.videoLabel
+        } else if (Int(data.type!) == categoryLabel.bookLabel) {
+            cell.type = categoryLabel.bookLabel
         } else {
-            cell.urlString = "其他"
+            cell.type = 0
         }
         
         if (!childViewControllers.contains(cell.VC)) {

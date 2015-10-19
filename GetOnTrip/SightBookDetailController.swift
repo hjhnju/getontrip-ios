@@ -17,10 +17,19 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     // TODO: bookId 必须有值
     var bookId: String?
     /// 顶部图片下View
-    lazy var iconBottomView: UIView = UIView()
+//    lazy var iconBottomView: UIView = UIView()
     
+    var topHeightConstraint: NSLayoutConstraint?
+    
+
     /// 底部图片
     lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
+    
+    /// 图片的view
+//    lazy var pictureView
+    
+    /// 拉伸图片的view在图片的底部
+    lazy var pullIconView: UIView = UIView()
     
     /// 书籍图片
     lazy var bookIcon: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
@@ -89,17 +98,20 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         view.backgroundColor = .whiteColor()
-        
+        iconView.contentMode = UIViewContentMode.ScaleAspectFill
+
+        //        view.addSubview(iconBottomView)
         view.addSubview(webView)
-        view.addSubview(iconBottomView)
+        view.addSubview(pullIconView)
         view.addSubview(bottomView)
+        view.addSubview(titleLab)
+        view.addSubview(author)
+        view.addSubview(baseLine)
         
-        iconBottomView.addSubview(iconView)
+        pullIconView.clipsToBounds = true
+        pullIconView.addSubview(iconView)
+        pullIconView.addSubview(bookIcon)
         iconView.addSubview(effect)
-        iconBottomView.addSubview(bookIcon)
-        iconBottomView.addSubview(titleLab)
-        iconBottomView.addSubview(author)
-        iconBottomView.addSubview(baseLine)
         
         bottomView.addSubview(collectBtn)
         bottomView.addSubview(shareBtn)
@@ -108,7 +120,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         
         buyBtn.addTarget(self, action: "buyButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        iconBottomView.userInteractionEnabled = true
+        pullIconView.userInteractionEnabled = true
         iconView.userInteractionEnabled = true
         bookIcon.userInteractionEnabled = true
         effect.alpha = 0.9
@@ -126,31 +138,40 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         webView.backgroundColor = UIColor.whiteColor()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        let a = CGRectGetMaxY(baseLine.frame) - 15
+//        print(iconOffsetH)
+        webView.scrollView.contentInset = UIEdgeInsetsMake(a , 0, 0, 0)
+//        iconOffsetH = topHeightConstraint!.constant
         
-        iconOffsetH = CGRectGetMaxY(baseLine.frame) + 15
-        webView.scrollView.contentInset = UIEdgeInsetsMake(iconOffsetH, 0, 0, 0)
 
     }
     
     ///  添加布局
     private func setupAutoLayout() {
         let w = view.bounds.width
-        let cons = iconBottomView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(w, 267), offset: CGPointMake(0, 0))
-        bottomView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(w, 47), offset: CGPointMake(0, 0))
-        webView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(w, view.bounds.height - 47), offset: CGPointMake(0, 0))
-        iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: iconBottomView, size: CGSizeMake(w, 267), offset: CGPointMake(0, 0))
-        bookIcon.ff_AlignInner(ff_AlignType.CenterCenter, referView: iconView, size: CGSizeMake(142, 181), offset: CGPointMake(0, 0))
-        titleLab.ff_AlignVertical(ff_AlignType.BottomLeft, referView: iconView, size: nil, offset: CGPointMake(10, 17))
+                
+        webView.ff_Fill(view)
+        let cons = pullIconView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(w, 267), offset: CGPointMake(0, 0))
+        iconView.ff_Fill(pullIconView)
+        effect.ff_Fill(pullIconView)
+        bookIcon.ff_AlignInner(ff_AlignType.CenterCenter, referView: pullIconView, size: CGSizeMake(142, 181), offset: CGPointMake(0, 0))
+        titleLab.ff_AlignVertical(ff_AlignType.BottomLeft, referView: pullIconView, size: nil, offset: CGPointMake(10, 17))
         author.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLab, size: nil, offset: CGPointMake(0, 0))
-        baseLine.ff_AlignVertical(ff_AlignType.BottomCenter, referView: author, size: CGSizeMake(w - 18, 0.5), offset: CGPointMake(0, 15))
+        baseLine.ff_AlignVertical(ff_AlignType.BottomCenter, referView: author, size: CGSizeMake(w - 18, 0.5), offset: CGPointMake(0, 17))
+        bottomView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(w, 47), offset: CGPointMake(0, 0))
         buyBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: bottomView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
         shareBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: buyBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopLeft, referView: bottomView, size: CGSizeMake(w, 0.5), offset: CGPointMake(0, 0))
-        topConstraint = iconBottomView.ff_Constraint(cons, attribute: NSLayoutAttribute.Top)
-        effect.ff_AlignInner(ff_AlignType.TopLeft, referView: iconView, size: CGSizeMake(w, 267), offset: CGPointMake(0, 0))
+        topHeightConstraint = pullIconView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
     }
     
     
@@ -173,10 +194,17 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         webView.loadHTMLString(html as String, baseURL: nil)
         
     }
-
+    
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        let y: CGFloat = -scrollView.contentOffset.y - iconOffsetH
-        topConstraint?.constant = y
+
+
+        var height = -(scrollView.contentOffset.y)
+//        if height < 44 {
+//            height = 44
+//        }
+//        print(topHeightConstraint?.constant)
+        topHeightConstraint?.constant = height
     }
     
     // MARK: - 购买书籍

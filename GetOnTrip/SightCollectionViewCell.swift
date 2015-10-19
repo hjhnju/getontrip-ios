@@ -13,9 +13,9 @@ class SightCollectionViewCell: UICollectionViewCell {
     /// 子控制器
     var VC: HistoryTableViewController = HistoryTableViewController()
     
-    var urlString: String? {
+    var type: Int? {
         didSet {
-            VC.urlString = urlString
+            VC.type = type
         }
     }
     

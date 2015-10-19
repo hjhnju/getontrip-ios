@@ -23,31 +23,16 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
 			<key>CFBundleURLName</key>
 			<string>cn.getontrip.GetOnTrip</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>QQ5FB8B52</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>cn.getontrip.GetOnTrip</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>wb2543743086</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>cn.getontrip.GetOnTrip</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
+				<string>QQ41DA59A7</string>
+				<string>wb1054799569</string>
 				<string>wx2af0c4fd046e238f</string>
+				<string>tencent1104828839</string>
 			</array>
 		</dict>
 	</array>
