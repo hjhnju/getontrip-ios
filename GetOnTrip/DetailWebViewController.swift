@@ -22,12 +22,14 @@ class DetailWebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = SceneColor.frontBlack
+        webView.backgroundColor = UIColor.clearColor()
+        
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
+        navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
 
         view.addSubview(webView)
         webView.frame = view.bounds
-        
-        view.backgroundColor = SceneColor.frontBlack //barStyle=BlackOpaque时决定了导航颜色
-        navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
 
 }

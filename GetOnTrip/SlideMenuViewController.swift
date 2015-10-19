@@ -217,7 +217,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     func refreshMask() {
         let masked = self.slideMenuState == SlideMenuState.Opening ? true : false
-        self.maskView.hidden = !masked
+        maskView.hidden = !masked
+        menuView.hidden = !masked
     }
     
     //初始化自动布局

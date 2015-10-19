@@ -62,6 +62,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         automaticallyAdjustsScrollViewInsets = false
+        
 
         view.addSubview(labelNavView)
         labelNavView.addSubview(labelScrollView)
@@ -76,14 +77,14 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         loadSightData()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //不能放在willAppear
         self.navigationController?.interactivePopGestureRecognizer?.enabled = false
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
     override func viewDidLayoutSubviews() {
