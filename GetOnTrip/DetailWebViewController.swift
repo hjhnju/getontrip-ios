@@ -15,8 +15,9 @@ class DetailWebViewController: UIViewController {
     
     var url: String? {
         didSet {
-            let urlStr = url?.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-            webView.loadRequest(NSURLRequest(URL: NSURL(string: urlStr!)!))
+            if let urlStr = url?.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
+                webView.loadRequest(NSURLRequest(URL: NSURL(string: urlStr)!))
+            }
         }
     }
     
@@ -31,5 +32,9 @@ class DetailWebViewController: UIViewController {
         view.addSubview(webView)
         webView.frame = view.bounds
     }
-
+    
+    ///  搜索跳入之后消失控制器
+    func dismissViewController() {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 }

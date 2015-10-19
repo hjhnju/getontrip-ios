@@ -93,7 +93,6 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         //nav bar
         navigationController?.navigationBarHidden = true
         self.automaticallyAdjustsScrollViewInsets = true
-        navigationController?.navigationBarHidden = true
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         view.addSubview(navContainerView)
         navContainerView.addSubview(custNavView)
@@ -125,6 +124,8 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBarHidden = true
+        
+        navigationController?.navigationBar.hidden = true
         refreshBar()
     }
     

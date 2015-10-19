@@ -192,18 +192,11 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
         html.appendString("</head><body>\(body)</body></html>")
         webView.loadHTMLString(html as String, baseURL: nil)
-        
     }
     
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-
-
-        var height = -(scrollView.contentOffset.y)
-//        if height < 44 {
-//            height = 44
-//        }
-//        print(topHeightConstraint?.constant)
+        let height = -(scrollView.contentOffset.y)
         topHeightConstraint?.constant = height
     }
     
@@ -234,5 +227,8 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         presentViewController(searchController!, animated: true, completion: nil)
     }
 
-
+    ///  搜索跳入之后消失控制器
+    func dismissViewController() {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 }

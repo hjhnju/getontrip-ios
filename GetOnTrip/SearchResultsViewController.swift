@@ -9,7 +9,6 @@
 import UIKit
 
 
-
 class SearchResultsViewController: UITableViewController, UISearchResultsUpdating {
     
     // MARK: Properties
@@ -101,15 +100,22 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         tableView.rowHeight = 60
         tableView.backgroundView = UIImageView(image: UIImage(named: "search-bg0")!)
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
+        navigationController?.navigationBarHidden = true
     }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBarHidden = true
+        navigationController?.navigationBar.hidden = true
+    }
+    
     
     // MARK: UITableViewDataSource
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return resultData.count
     }
-    
-    
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
@@ -124,9 +130,76 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
             if resultData.objectForKey("searchContent")?.count == 0 { return "" }
             return "内容"
         }
-        
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        switch indexPath.section {
+        case 0:
+            if let searchCity = resultData.objectForKey("searchCitys") {
+                
+                let vc = CityViewController()
+                let searchC = searchCity[indexPath.row] as! SearchCity
+                vc.cityId = searchC.id!
+                let nav = UINavigationController(rootViewController: vc)
+                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                presentViewController(nav, animated: true, completion: nil)
+            }
+
+        case 1:
+            if let searchSight = resultData.objectForKey("searchSights") {
+                
+                let vc = SightViewController()
+                let searchC = searchSight[indexPath.row] as! SearchSight
+                vc.sightId = searchC.id
+                let nav = UINavigationController(rootViewController: vc)
+                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                presentViewController(nav, animated: true, completion: nil)
+                
+            }
+
+        default:
+            
+            if let searchContent = resultData.objectForKey("searchContent") {
+                
+                let searchC = searchContent[indexPath.row]
+                
+                if searchC.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentTopic")!) {
+                    let topic = searchC as! SearchContentTopic
+                    let vc = TopicDetailController()
+                    vc.topicId = topic.id!
+                    let nav = UINavigationController(rootViewController: vc)
+                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                    presentViewController(nav, animated: true, completion: nil)
+                } else if (searchC.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentBook")!)) {
+                    
+                    let book = searchC as! SearchContentBook
+                    let vc = SightBookDetailController()
+                    vc.bookId = book.id!
+                    let nav = UINavigationController(rootViewController: vc)
+                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                    presentViewController(nav, animated: true, completion: nil)
+                } else if (searchC.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentVideo")!)) {
+                    
+                    let video = searchC as! SearchContentVideo
+                    let vc = DetailWebViewController()
+                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                    vc.url = video.url
+                    let nav = UINavigationController(rootViewController: vc)
+                    presentViewController(nav, animated: true, completion: nil)
+                } else {
+                    let wiki = searchC as! SearchContentWiki
+                    let vc = DetailWebViewController()
+                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                    vc.url = wiki.url
+                    let nav = UINavigationController(rootViewController: vc)
+                    presentViewController(nav, animated: true, completion: nil)
+                }
+            }
+            
+
+        }
+    }
     
     
     
@@ -195,13 +268,9 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         searchResultsCell.preservesSuperviewLayoutMargins = false
         searchResultsCell.layoutMargins = UIEdgeInsetsZero
         searchResultsCell.backgroundColor = UIColor.clearColor()
-        
-//        searchResultsCell.resultTitleLabel.textColor = UIColor.whiteColor()
-//        searchResultsCell.resultDescLabel.textColor = UIColor.lightGrayColor()
     }
     
     // MARK: UISearchResultsUpdating
-    
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         // updateSearchResultsForSearchController(_:) is called when the controller is being dismissed to allow those who are using the controller they are search as the results controller a chance to reset their state. No need to update anything if we're being dismissed.
         if !searchController.active {
@@ -239,7 +308,7 @@ class SearchCity: NSObject {
 
 class SearchSight: NSObject {
     
-    var id: String?
+    var id: String = ""
     
     var name: String?
     
@@ -314,7 +383,7 @@ class SearchContentBook: NSObject {
 
 class SearchContentVideo: NSObject {
     
-    var id: String?
+    var url: String?
     
     var title: String?
     
@@ -338,7 +407,7 @@ class SearchContentVideo: NSObject {
 
 class SearchContentWiki: NSObject {
     
-    var id: String?
+    var url: String?
     
     var name: String?
     

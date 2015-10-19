@@ -497,6 +497,11 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 }
         }
     }
+    
+    ///  搜索跳入之后消失控制器
+    func dismissViewController() {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 }
 
 
