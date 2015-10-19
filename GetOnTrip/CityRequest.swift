@@ -37,14 +37,14 @@ class CityRequest {
                 
                 let city   = City(dict: respData["city"] as! [String : AnyObject])
                 var sights = [Sight]()
-                var topics = [CityHotTopic]()
+                var topics = [BriefTopic]()
                 
                 for item in respData["sight"] as! NSArray {
                     sights.append(Sight(dict: item as! [String : String]))
                 }
                 
                 for item in respData["topic"] as! NSArray {
-                    topics.append(CityHotTopic(dict: item as! [String : String]))
+                    topics.append(BriefTopic(dict: item as! [String : String]))
                 }
                 
                 homeModel.setValue(city, forKey: "city")
@@ -56,82 +56,5 @@ class CityRequest {
                 handler(homeModel)
             }
         )
-    }
-}
-
-class City: NSObject {
-     /// id
-    var id: String = ""
-     /// 城市名
-    var name: String = ""
-    /// 城市图片
-    var image: String = "" {
-        didSet {
-            image = AppIni.BaseUri + image
-        }
-    }
-    
-    init(dict: [String: AnyObject]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
-}
-
-class Sight: NSObject {
-    /// id
-    var id: String = ""
-    /// 景点名
-    var name: String = ""
-    /// 景点图片
-    var image: String = "" {
-        didSet {
-            image = AppIni.BaseUri + image
-        }
-    }
-    /// 景点内容
-    var desc: String = ""
-    
-    init(dict: [String: String]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
-}
-
-class CityHotTopic : NSObject {
-    /// id
-    var id: String = ""
-    /// 标题
-    var title: String = ""
-    /// 副标题
-    var subtitle: String = ""
-    /// 访问数
-    var visit: String = ""
-    /// 收藏数
-    var collect: String = ""
-    /// 图片
-    var image: String = "" {
-        didSet {
-            image = AppIni.BaseUri + image
-        }
-    }
-    /// 标签
-    var tag: String?
-    
-    
-    init(dict: [String: String]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
     }
 }

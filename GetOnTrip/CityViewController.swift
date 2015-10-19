@@ -74,7 +74,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     var pageNumber: Int = 1
     
     /// 数据源
-    var tableViewDataSource: [CityHotTopic]? {
+    var tableViewDataSource: [BriefTopic]? {
         didSet {
             tableView.reloadData()
         }
@@ -85,9 +85,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             collectionView.reloadData()
         }
     }
-    
-    //导航背景，用于完成渐变
-    weak var navUnderlayView:UIView?
     
     //导航透明度
     var navBarAlpha:CGFloat = 0.0
@@ -102,7 +99,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         //nav bar
-        navUnderlayView = UIKitTools.getNavBackView(navigationController?.navigationBar)
+        let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha))
+        navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.titleView = titleLabel
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
@@ -124,15 +124,15 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
     }
     
     func refreshBar(){
         //设置导航样式
-        navUnderlayView?.alpha = navBarAlpha
         titleLabel.alpha       = navBarAlpha
         titleLabel.hidden      = false
-        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        
+        let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha))
+        navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
     }
     
     /// 添加控件
@@ -219,7 +219,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self?.cityName = city.name
             }
             self?.collectionDataSource = handler.valueForKey("sights") as? [Sight]
-            self?.tableViewDataSource = handler.valueForKey("topics") as? [CityHotTopic]
+            self?.tableViewDataSource = handler.valueForKey("topics") as? [BriefTopic]
             self?.pageNumber = handler.valueForKey("pageNum")!.integerValue
         }
     }
@@ -236,7 +236,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             refreshTopicRequest?.city = cityId
         }
         
-        refreshTopicRequest?.fetchModels { [weak self] (handler: [CityHotTopic]) -> Void in
+        refreshTopicRequest?.fetchModels { [weak self] (handler: [BriefTopic]) -> Void in
             self?.tableViewDataSource = handler
            self!.refreshTopicButton.layer.removeAllAnimations()
 
@@ -320,12 +320,13 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let topic = tableViewDataSource![indexPath.row]
         let vc    = TopicDetailController()
-        vc.topicId = topic.id
-        vc.title   = topic.title
+        vc.topicId    = topic.id
+        vc.topicTitle = topic.title
+        vc.sightName  = topic.sight
         navigationController?.pushViewController(vc, animated: true)
 
     }

@@ -24,7 +24,7 @@ class TopicRefreshRequest: NSObject {
     var city    : String?
     
     // 异步加载获取数据
-    func fetchModels(handler: [CityHotTopic] -> Void) {
+    func fetchModels(handler: [BriefTopic] -> Void) {
         var post         = [String: String]()
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
@@ -37,10 +37,10 @@ class TopicRefreshRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 
-                var topics = [CityHotTopic]()
+                var topics = [BriefTopic]()
 
                 for item in respData as! NSArray {
-                    topics.append(CityHotTopic(dict: item as! [String : String]))
+                    topics.append(BriefTopic(dict: item as! [String : String]))
                 }
                 // 回调
                 handler(topics)

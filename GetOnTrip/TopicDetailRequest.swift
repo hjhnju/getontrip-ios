@@ -30,7 +30,6 @@ class TopicDetailRequest: NSObject {
     func fetchModels(handler: TopicDetail -> Void) {
         var post         = [String: String]()
         post["topicId"]  = String(topicId!)
-        post["deviceId"] = appUUID
         
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIni.BaseUri,
@@ -48,27 +47,32 @@ class TopicDetailRequest: NSObject {
 /// 景点列表Tags
 class TopicDetail: NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     /// 标题
-    var title: String?
+    var title: String = ""
     /// 内容
-    var content: String?
+    var content: String = ""
     /// 图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image
         }
     }
     /// 评论数
-    var commentNum: String?
+    var commentNum: String = ""
+    //显示评论
+    var comment:String {
+        return self.commentNum + "条评论"
+    }
+    
     /// 访问数
-    var visit: String?
+    var visit: String = ""
     /// 收藏
-    var collect: String?
+    var collect: String = ""
     /// 标签
-    var label: String?
-    /// 标题
-    var sight_name: String?
+    var label: String = ""
+    /// 景点
+    var sight_name: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()
@@ -76,7 +80,7 @@ class TopicDetail: NSObject {
        setValuesForKeysWithDictionary(dict)
         if dict["tags"] != nil {
             let lab = dict["tags"] as! NSArray
-            label = lab.firstObject as? String
+            label = (lab.firstObject as? String) ?? ""
         }
     }
     

@@ -169,9 +169,10 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
             break
         }
 
-        
         return cell
     }
+    
+    
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let searchResultsCell = cell as! SearchResultsCell

@@ -100,6 +100,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //当前城市
     lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: "当前城市未知", fontSize: 10)
+//    var currentCityButton = UIButton()
     
     //设置菜单的数据源
     let tableViewDataSource = ["切换城市", "我的收藏", "消息", "设置", "反馈"]
