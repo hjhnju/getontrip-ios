@@ -31,7 +31,7 @@ class SearchRecommendRequest: NSObject {
         post["pageSize"] = String(pageSize)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIniOnline.BaseUri,
+        HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/search/label",
             post: post,
             handler: {(respData: AnyObject) -> Void in

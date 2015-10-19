@@ -36,7 +36,7 @@ class MessageListRequest: NSObject {
         post["pageSize"] = String(self.pageSize)
         post["page"]     = String(self.curPage)
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIniDev.BaseUri,
+        HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/msg/list",
             post: post,
             handler: {(respData: AnyObject) -> Void in

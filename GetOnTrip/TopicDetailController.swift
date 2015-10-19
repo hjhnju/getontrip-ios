@@ -168,13 +168,14 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         //还原
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
+        UINavigationBar.appearance().tintColor = UIColor.yellowColor()
     }
     
     func refreshTitle(){
         titleLabel.alpha = headerAlpha
         favNumLabel.alpha = headerAlpha
         visitNumLabel.alpha = headerAlpha
+        labelBtn.alpha = headerAlpha
     }
     
     /// 发送反馈消息
@@ -191,8 +192,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     private func setupAddProperty() {
-    
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
 
         view.backgroundColor = UIColor.whiteColor()
         
@@ -301,14 +300,24 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         webView.loadHTMLString(errorHTML, baseURL: nil)
     }
     
-    func showTopicDetail() {
+    func showTopicDetail1() {
         
         let html = NSMutableString()
         html.appendString("<html><head>")
         html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
-        html.appendString("</head><body>\(setupBody())</body></html>")
+        let body = setupBody()
+        html.appendString("</head><body>\(body)</body></html>")
+        print("======");print(html);print("======")
         webView.loadHTMLString(html as String, baseURL: nil)
         
+    }
+    
+    func showTopicDetail() {
+        let url =  AppIni.BaseUri + "/topic/detail?isapp=1&id=\(self.topicId)"
+        if let requestURL = NSURL(string: url) {
+            let request = NSURLRequest(URL: requestURL)
+            webView.loadRequest(request)
+        }
     }
     
     func setupBody() -> String {

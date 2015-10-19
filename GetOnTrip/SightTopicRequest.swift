@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SightListRequest: NSObject {
+class SightTopicRequest: NSObject {
     
     /**
     * 接口1：/api/sight/detail
@@ -42,7 +42,6 @@ class SightListRequest: NSObject {
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
         post["tags"]     = String(tag)
-        post["deviceId"] = String(deviceId!)
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/sight/detail",

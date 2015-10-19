@@ -11,7 +11,7 @@ import FFAutoLayout
 
 class BookCell: UITableViewCell {
 
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
+    lazy var iconView: UIImageView = UIImageView(image: UIImage())
     
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "带本书去颐和园：长廊画和故事", fontSize: 18, mutiLines: true)
     
@@ -25,7 +25,7 @@ class BookCell: UITableViewCell {
         didSet {
             if book == nil { return }
             iconView.image = nil
-            iconView.sd_setImageWithURL(NSURL(string: book!.image!), placeholderImage: UIImage(named: "2.jpg"))
+            iconView.sd_setImageWithURL(NSURL(string: book!.image!), placeholderImage: UIImage())
             titleLabel.text = book!.title!
             subtitleLabel.text = book!.content_desc!
             author.text = book!.author!

@@ -110,11 +110,25 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
     }
     
     
-//    
-//    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        
-//        return resultData[section]
-//    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        switch section {
+        case 0:
+            if resultData.objectForKey("searchCitys")?.count == 0 { return "" }
+            return "城市"
+        case 1:
+            if resultData.objectForKey("searchSights")?.count == 0 { return "" }
+            return "景点"
+        default:
+            if resultData.objectForKey("searchContent")?.count == 0 { return "" }
+            return "内容"
+        }
+        
+    }
+    
+    
+    
     
     override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clearColor()

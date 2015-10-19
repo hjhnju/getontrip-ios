@@ -9,7 +9,7 @@
 import UIKit
 import FFAutoLayout
 
-class SightDetailController: UIViewController {
+class DetailWebViewController: UIViewController {
 
     lazy var webView: UIWebView = UIWebView()
     
