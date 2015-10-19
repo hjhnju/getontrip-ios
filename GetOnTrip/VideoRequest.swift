@@ -20,7 +20,7 @@ class VideoRequest: NSObject {
     */
     
     // 请求参数
-    var sightId :String?
+    var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 6
     

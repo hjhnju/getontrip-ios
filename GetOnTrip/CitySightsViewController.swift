@@ -17,12 +17,12 @@ class CitySightsViewController: UICollectionViewController {
     var cityId: String?
     
     /// 网络请求加载数据
-    var lastSuccessRequest: SightListCityRequest?
+    var lastSuccessRequest: CitySightsRequest?
     
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
     
-    var sightCityList: [SightCityList]? {
+    var sightCityList: [CitySightBrief]? {
         didSet {
             collectionView?.reloadData()
         }
@@ -63,11 +63,11 @@ class CitySightsViewController: UICollectionViewController {
         
         //获取数据更新tableview
         if lastSuccessRequest == nil {
-            lastSuccessRequest = SightListCityRequest()
+            lastSuccessRequest = CitySightsRequest()
             lastSuccessRequest?.cityId = cityId
         }
         
-        lastSuccessRequest?.fetchSightCityModels { (handler: [SightCityList]) -> Void in
+        lastSuccessRequest?.fetchSightCityModels { (handler: [CitySightBrief]) -> Void in
             self.sightCityList = handler
         }
     }
@@ -82,13 +82,13 @@ class CitySightsViewController: UICollectionViewController {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sightListCityIdentifier, forIndexPath: indexPath) as! SightListCityCell
         cell.collectBtn.tag = indexPath.row
-        cell.sightCity = sightCityList![indexPath.row] as SightCityList
+        cell.sightBrief = sightCityList![indexPath.row] as CitySightBrief
         return cell
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let vc = SightViewController()
-        let sight = sightCityList![indexPath.row] as SightCityList
+        let sight = sightCityList![indexPath.row] as CitySightBrief
         vc.title = cityId
         vc.sightId = sight.id
         navigationController?.pushViewController(vc, animated: true)
@@ -137,18 +137,17 @@ class SightListCityCell: UICollectionViewCell {
     
     lazy var shadeBottom: UIView = UIView(color: UIColor(hex: 0x747474, alpha: 0.7))
     
-    var sightCity: SightCityList? {
+    var sightBrief: CitySightBrief? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: sightCity!.image!))
-            cityName.text = sightCity!.name
-            topicNum.text = sightCity!.topics
+            iconView.sd_setImageWithURL(NSURL(string: sightBrief!.image))
+            cityName.text = sightBrief!.name
+            topicNum.text = sightBrief!.topics
             
-            if sightCity!.collected != "" {
+            if sightBrief!.collected != "" {
                 collectBtn.selected = true
             }
         }
     }
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -21,7 +21,7 @@ class BookRequest: NSObject {
     
     
     // 请求参数
-    var sightId :String?
+    var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 6
     
@@ -34,7 +34,7 @@ class BookRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: NSArray -> Void) {
         var post         = [String: String]()
-        post["sightId"]  = String(sightId)
+        post["sightId"]  = sightId
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
         

@@ -11,7 +11,7 @@ import UIKit
 class SightCollectionViewCell: UICollectionViewCell {
     
     /// 子控制器
-    var vc: TopicTableViewController = TopicTableViewController()
+    var vc: SightTableViewController = SightTableViewController()
     
     var type: Int? {
         didSet {

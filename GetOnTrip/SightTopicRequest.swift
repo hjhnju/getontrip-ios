@@ -24,7 +24,7 @@ class SightTopicRequest: NSObject {
     
     //http://123.57.46.229:8301/api/sight/detail?tags=1&sightId=4
     // 请求参数
-    var sightId :String?
+    var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 6
     var tag : String = ""
@@ -38,7 +38,7 @@ class SightTopicRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: NSDictionary -> Void) {
         var post         = [String: String]()
-        post["sightId"]  = String(sightId!)
+        post["sightId"]  = sightId
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
         post["tags"]     = String(tag)
@@ -56,7 +56,6 @@ class SightTopicRequest: NSObject {
                 
                 var sightData = [SightListData]()
                 for item in respData["data"] as! NSArray {
-                    print(item)
                     sightData.append(SightListData(dict: item as! [String : AnyObject]))
                 }
                 

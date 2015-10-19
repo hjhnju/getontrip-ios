@@ -40,7 +40,7 @@ class SearchRecommendTableViewCell: UITableViewCell {
     var data: RecommendCellData? {
         didSet {
 
-            iconView.sd_setImageWithURL(NSURL(string: data!.image! + "@\(UIScreen.mainScreen().bounds.width)w_\(SearchRecommendTableViewCell.RowHeight-2)h"))
+            iconView.sd_setImageWithURL(NSURL(string: data!.image!))
             title.setTitle("   " + data!.name + "   ", forState: UIControlState.Normal)
             btn1.setTitle(" " + data!.param1, forState: UIControlState.Normal)
             btn2.setTitle(" " + data!.param2, forState: UIControlState.Normal)

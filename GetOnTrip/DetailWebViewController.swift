@@ -15,7 +15,6 @@ class DetailWebViewController: UIViewController {
     
     var url: String? {
         didSet {
-            
             let urlStr = url?.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
             webView.loadRequest(NSURLRequest(URL: NSURL(string: urlStr!)!))
         }
@@ -26,6 +25,9 @@ class DetailWebViewController: UIViewController {
 
         view.addSubview(webView)
         webView.frame = view.bounds
+        
+        view.backgroundColor = SceneColor.frontBlack //barStyle=BlackOpaque时决定了导航颜色
+        navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
 
 }

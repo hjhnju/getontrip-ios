@@ -13,13 +13,15 @@ class VideoCell: UITableViewCell {
 
     lazy var iconView: UIImageView = UIImageView(image: UIImage())
     
-    lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "故宫的至宝", fontSize: 18, mutiLines: true)
+    //故宫至宝
+    lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 18, mutiLines: true)
     
-    lazy var timeLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.5), title: "时长：2小时", fontSize: 12, mutiLines: true)
+    //时长：2小时
+    lazy var timeLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.5), title: "", fontSize: 12, mutiLines: true)
     
-    lazy var watchBtn: UIButton = UIButton(title: "点击观看", fontSize: 12, radius: 12)
+    lazy var watchBtn: UIButton = UIButton(title: "点击观看", fontSize: 12, radius: 12, titleColor: UIColor.yellowColor())
     
-    lazy var visual: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+    lazy var visual: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
     
     var video: SightVideo? {
         didSet {
@@ -47,9 +49,9 @@ class VideoCell: UITableViewCell {
         addSubview(titleLabel)
         addSubview(timeLabel)
         addSubview(watchBtn)
-        iconView.addSubview(visual)
+        //iconView.addSubview(visual)
         
-        visual.alpha = 0.5
+        visual.alpha = 0.1
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
     }

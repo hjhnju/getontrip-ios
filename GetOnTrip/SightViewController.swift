@@ -11,8 +11,8 @@ import FFAutoLayout
 
 class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate {
 
-    /// 景点列表id
-    var sightId: String?
+    /// 景点id
+    var sightId: String = ""
     
     //景点名称
     var sightName: String = ""
@@ -61,6 +61,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         navigationItem.title = sightName
         navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+        automaticallyAdjustsScrollViewInsets = false
 
         view.addSubview(labelNavView)
         labelNavView.addSubview(labelScrollView)
@@ -73,6 +74,16 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
         
         loadSightData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -152,7 +163,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         let data = dataType[indexPath.row] as! SightListTags
         
-        cell.vc.sightId = sightId!
+        cell.vc.sightId = sightId
         let labId = channels![indexPath.row] as! SightListTags
         cell.vc.tagId = labId.id!
          if (Int(data.type!) == categoryLabel.sightLabel) {

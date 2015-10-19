@@ -245,8 +245,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let array = dataSource!.objectForKey("datas") as! NSArray
         if let data = array[indexPath.row] as? RecommendCellData {
-        
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
             if (!data.isTypeCity()) {
                 let vc = SightViewController()
                 vc.sightId   = data.id

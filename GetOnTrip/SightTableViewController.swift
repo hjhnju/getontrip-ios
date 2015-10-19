@@ -14,7 +14,7 @@ public let HistoryTableViewControllerVideoCell: String = "Video_Cell"
 public let HistoryTableViewControllerElseCell : String = "History_Cell"
 public let HistoryTableViewControllerSightCell1:String = "History_Cell1"
 
-class TopicTableViewController: UITableViewController {
+class SightTableViewController: UITableViewController {
     
     // 网络请求，加载数据
     var lastLandscapeRequest = LandscapeRequest()
@@ -50,7 +50,7 @@ class TopicTableViewController: UITableViewController {
     }
     
     /// 景点id
-    var sightId: String? {
+    var sightId: String = "" {
         didSet {
             lastLandscapeRequest.sightId = sightId
             lastBookRequest.sightId      = sightId
@@ -176,14 +176,15 @@ class TopicTableViewController: UITableViewController {
     
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         switch cellReuseIdentifier! {
         case HistoryTableViewControllerSightCell:
             
             let sc = DetailWebViewController()
-            let dataI = data![indexPath.row] as! SightLandscape
-            sc.url = dataI.url
+            let landscape = data![indexPath.row] as! SightLandscape
+            sc.url = landscape.url
+            sc.title = landscape.name
             navigationController?.pushViewController(sc, animated: true)
         case HistoryTableViewControllerBookCell:
             let bc = SightBookDetailController()
@@ -191,7 +192,10 @@ class TopicTableViewController: UITableViewController {
             bc.bookId = dataI.id!
             navigationController?.pushViewController(bc, animated: true)
         case HistoryTableViewControllerVideoCell:
-            print("神马都不做")
+            let sc = DetailWebViewController()
+            let dataI = data![indexPath.row] as! SightVideo
+            sc.url = dataI.url
+            navigationController?.pushViewController(sc, animated: true)
         default:
             let vc: TopicDetailController = TopicDetailController()
             let dataI = data![indexPath.row] as! SightListData
@@ -201,7 +205,6 @@ class TopicTableViewController: UITableViewController {
         }
         
     }
-    
     
     func watchClick(btn: UIButton) {
         
