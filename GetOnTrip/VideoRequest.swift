@@ -32,7 +32,7 @@ class VideoRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: NSArray -> Void) {
         var post         = [String: String]()
-        post["sightId"]  = String(4)
+        post["sightId"]  = sightId
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
         
