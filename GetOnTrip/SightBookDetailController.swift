@@ -43,11 +43,11 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     lazy var bottomView: UIView = UIView()
     
-    lazy var collectBtn: UIButton = UIButton(image: "favorite", title: "", fontSize: 0)
+    lazy var collectBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
     
-    lazy var shareBtn: UIButton = UIButton(image: "shares_icon", title: "", fontSize: 0)
+    lazy var shareBtn: UIButton = UIButton(image: "topic_share", title: "", fontSize: 0)
     
-    lazy var buyBtn: UIButton = UIButton(image: "star_icon", title: "", fontSize: 0)
+    lazy var buyBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
     
     lazy var bottomLine: UIView = UIView(color: UIColor(hex: 0x9C9C9C, alpha: 1.0))
     
@@ -118,6 +118,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         bottomView.addSubview(buyBtn)
         bottomView.addSubview(bottomLine)
         
+        collectBtn.addTarget(self, action: "doFavorite:", forControlEvents: UIControlEvents.TouchUpInside)
         buyBtn.addTarget(self, action: "buyButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
         pullIconView.userInteractionEnabled = true
@@ -205,6 +206,23 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
 //        }
 //        print(topHeightConstraint?.constant)
         topHeightConstraint?.constant = height
+    }
+    
+    func doFavorite(sender: UIButton) {
+        print("收藏")
+        
+        if sharedUserAccount == nil {
+            let lv = LoginView(frame: UIScreen.mainScreen().bounds)
+            UIApplication.sharedApplication().keyWindow?.addSubview(lv)
+            lv.alpha = 0
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                lv.alpha = 1
+            })
+        } else {
+            print("调用收藏功能")
+        }
+        
     }
     
     // MARK: - 购买书籍
