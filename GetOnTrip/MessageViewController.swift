@@ -11,6 +11,8 @@ import UIKit
 import FFAutoLayout
 
 class MessageViewController: UITableViewController {
+    
+    static let name = "消息"
 
     var lastSuccessRequest: MessageListRequest?
     

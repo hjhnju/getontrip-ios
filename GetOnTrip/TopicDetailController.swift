@@ -366,6 +366,19 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     // MARK: - 评论、分享、收藏
     func doFavorite(sender: UIButton) {
         print("收藏")
+        
+        if sharedUserAccount == nil {
+            let lv = LoginView(frame: UIScreen.mainScreen().bounds)
+            UIApplication.sharedApplication().keyWindow?.addSubview(lv)
+            lv.alpha = 0
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                lv.alpha = 1
+            })
+        } else {
+            print("调用收藏功能")
+        }
+
     }
     
     

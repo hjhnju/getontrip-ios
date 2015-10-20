@@ -9,6 +9,8 @@
 import UIKit
 
 class FeedBackViewController: UIViewController/*,UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate */{
+    
+    static let name = "反馈"
 
 //    lazy var tableView: UITableView = UITableView()
 //    

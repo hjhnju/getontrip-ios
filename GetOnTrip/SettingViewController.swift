@@ -23,6 +23,8 @@ struct SettingCell {
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
+    static let name = "设置"
+    
     lazy var tableView: UITableView = UITableView()
     
     /// 头像

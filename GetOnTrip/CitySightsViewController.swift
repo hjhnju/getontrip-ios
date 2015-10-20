@@ -191,7 +191,21 @@ class SightListCityCell: UICollectionViewCell {
     func collectButtonClick(btn: UIButton) {
         
         print(btn.tag)
-        print("这里点击了吗")
+        
+        if sharedUserAccount == nil {
+            let lv = LoginView(frame: UIScreen.mainScreen().bounds)
+            UIApplication.sharedApplication().keyWindow?.addSubview(lv)
+            lv.alpha = 0
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                lv.alpha = 1
+            })
+        } else {
+            print("调用收藏功能")
+        }
+        
+        
+        
     }
     
 }
