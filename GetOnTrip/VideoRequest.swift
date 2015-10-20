@@ -65,9 +65,9 @@ class SightVideo: NSObject {
     /// url
     var url: String?
     /// 图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image
         }
     }
     ///  时长

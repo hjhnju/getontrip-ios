@@ -25,10 +25,12 @@ class VideoCell: UITableViewCell {
     
     var video: SightVideo? {
         didSet {
-            iconView.image = nil
-            iconView.sd_setImageWithURL(NSURL(string: video!.image!), placeholderImage: UIImage())
-            titleLabel.text = video!.title!
-            timeLabel.text = video!.len!
+            if let video = video {
+                iconView.image = nil
+                iconView.sd_setImageWithURL(NSURL(string: video.image), placeholderImage: UIImage())
+                titleLabel.text = video.title!
+                timeLabel.text = video.len!
+            }
         }
     }
     
