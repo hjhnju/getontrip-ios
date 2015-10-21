@@ -9,7 +9,7 @@
 import UIKit
 import FFAutoLayout
 
-class FavoriteViewController: UIViewController, UIScrollViewDelegate {
+class FavoriteViewController: MainViewController, UIScrollViewDelegate {
     
     static let name = "我的收藏"
     
@@ -39,7 +39,6 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     // 城市控制器
     lazy var cityController: CollectCityViewController = CollectCityViewController()
 
-    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +47,10 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         titleBackground.backgroundColor = SceneColor.bgBlack
         
         title = FavoriteViewController.name
+        navigationController?.navigationBarHidden = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         setupAddSubViewAndAction()
         setupAutoLayout()
@@ -143,30 +144,12 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    // MARK: - 搜索(下一个控制器)
-    var searchController: UISearchController!
     func searchButtonClicked(button: UIBarButtonItem) {
-        // 获得父控制器
-        let searchResultsController = SearchResultsViewController()
-        
-        searchController = UISearchController(searchResultsController: searchResultsController)
-        searchController.searchResultsUpdater = searchResultsController
-        searchController.hidesNavigationBarDuringPresentation = false
-        
-        
-        let imgView   = UIImageView(image: UIImage(named: "search-bg0")!)
-        imgView.frame = searchController.view.bounds
-        searchController.view.addSubview(imgView)
-        searchController.view.sendSubviewToBack(imgView)
-        
-        searchController.searchBar.barStyle = UIBarStyle.Black
-        searchController.searchBar.tintColor = UIColor.grayColor()
-        
-        searchController.searchBar.becomeFirstResponder()
-        searchController.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
-        
-        presentViewController(searchController, animated: true, completion: nil)
-        
+        super.showSearch()
+    }
+    
+    func showMenu(sender: UIBarButtonItem) {
+        print("show menuing")
     }
 
     
