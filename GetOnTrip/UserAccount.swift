@@ -96,8 +96,8 @@ class UserAccount: NSObject, NSCoding {
             if user.type == "1" {
                 self.nickname = user.nick_name
                 self.icon     = user.image
-                // TODO: 目前后台返回数据有错
-//                self.gender   = Int(user.sex)
+                self.city     = user.city
+                self.gender   = Int(user.sex)
                 
             } else { // 此用户后台没有记录在册
                 
@@ -173,13 +173,13 @@ class UserAccount: NSObject, NSCoding {
     ///  解档，将保存在磁盘的二进制文件转换成 对象
     required init(coder aDecoder: NSCoder) {
         access_token = aDecoder.decodeObjectForKey("access_token") as? String
-//        expires_in = aDecoder.decodeDoubleForKey("expires_in")
         expiresDate = aDecoder.decodeObjectForKey("expiresDate") as? NSDate
         uid = aDecoder.decodeObjectForKey("uid") as? String
         nickname = aDecoder.decodeObjectForKey("nickname") as? String
         icon = aDecoder.decodeObjectForKey("icon") as? String
         gender = aDecoder.decodeIntegerForKey("gender") as Int
         city = aDecoder.decodeObjectForKey("city") as? String
+        type = aDecoder.decodeIntegerForKey("type") as Int
     }
     
     ///  归档，aCoder 编码器，将对象转换成二进制数据保存到磁盘
@@ -192,5 +192,6 @@ class UserAccount: NSObject, NSCoding {
         aCoder.encodeObject(icon, forKey: "icon")
         aCoder.encodeInteger(gender!, forKey: "gender")
         aCoder.encodeObject(city, forKey: "city")
+        aCoder.encodeInteger(type, forKey: "type")
     }
 }

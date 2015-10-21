@@ -62,13 +62,15 @@ class UserInfo : NSObject {
     /// 自己添加的不是后端返回的数据，用于判断此用户是否是后台记录在册的用户,记录在册为1
     var type: String = "1"
     
+    var city: String = ""
+    
     convenience init(dict: [String : AnyObject]) {
         self.init()
         
-//        setValuesForKeysWithDictionary(dict)
-        nick_name = dict["nick_name"] as! String
-        image = AppIni.BaseUri + (dict["image"] as! String)
-        sex = String(dict["sex"])
+        setValuesForKeysWithDictionary(dict)
+//        nick_name = dict["nick_name"] as! String
+//        image = AppIni.BaseUri + (dict["image"] as! String)
+//        sex = String(dict["sex"])
         
     }
     

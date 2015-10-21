@@ -36,18 +36,7 @@ class UserAddRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 print(respData)
-//                if (respData.count == 0) {
-//                    let user = UserInfo()
-//                    user.type = "0"
-//                } else {
-//                    handler(UserInfo(dict: respData as! [String : AnyObject]))
-//                }
-                
-                let cookieJar = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-                for c in cookieJar.cookies! {
-                    print(c)
-                }
-                
+                print("添加成功")
             }
         )
     }
