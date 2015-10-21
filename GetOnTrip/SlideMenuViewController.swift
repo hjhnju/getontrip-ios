@@ -42,6 +42,8 @@ protocol SlideMenuViewControllerDelegate {
     func reset() -> Void
 }
 
+let UserInfoChangeNotification = "UserInfoChangeNotification"
+
 class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, SlideMenuViewControllerDelegate {
     
     // MARK: Properties and Views    
@@ -52,7 +54,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //带导航的主窗体
     lazy var mainNavViewController: UINavigationController = { [unowned self] in
         return UINavigationController(rootViewController: self.mainViewController)
-        }()
+    }()
     
     //主窗体的遮罩层
     var maskView: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.5)
@@ -146,6 +148,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         setupInit()
         setupAutoLayout()
         refreshLoginStatus()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userInfoDidChangeNotification:", name: UserInfoChangeNotification, object: nil)
     }
     
     //电池栏状态
@@ -182,9 +185,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         loginBefore.addSubview(weiboButton)
         loginBefore.addSubview(welcomeLabel)
         loginBefore.addSubview(descLabel)
-        
-        headerView.layer.cornerRadius = min(headerView.bounds.width, headerView.bounds.height) * 0.5
-        headerView.clipsToBounds = true
         
         welcomeLabel.text = "Hello!"
         descLabel.text   = "使用以下账号直接登录"
@@ -242,17 +242,34 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         maskView.ff_Fill(mainNavViewController.view)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        headerView.layer.cornerRadius = min(headerView.bounds.width, headerView.bounds.height) * 0.5
+        headerView.clipsToBounds = true
+    }
+    
     //MARK: - 刷新登陆状态
     func refreshLoginStatus() {
         if sharedUserAccount != nil {
             loginAfter.hidden = false
             loginBefore.hidden = true
-            headerView.sd_setImageWithURL(NSURL(string: (sharedUserAccount?.icon)!), placeholderImage: UIImage(named: placeholderImage.userIcon))
-            nameLabel.text = sharedUserAccount?.nickname
         } else {
             loginBefore.hidden = false
             loginAfter.hidden = true
         }
+        if sharedUserAccount == nil { return }
+        headerView.sd_setImageWithURL(NSURL(string: (sharedUserAccount?.icon)!), placeholderImage: UIImage(named: placeholderImage.userIcon))
+        nameLabel.text = sharedUserAccount?.nickname
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UserInfoChangeNotification, object: nil)
+    }
+    
+    
+    func userInfoDidChangeNotification(notification: NSNotification) {
+        refreshLoginStatus()
     }
     
     // MARK: tableView数据源方法
@@ -501,7 +518,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
                 case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
                 let account = UserAccount(user: user, type: 3)
-                sharedUserAccount = account
+//                sharedUserAccount = account
                 self.refreshLoginStatus()
     
                 case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")

@@ -58,6 +58,17 @@ struct SceneColor {
     static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)
 }
 
+///  登陆类型 1:qq,2:weixin,3:weibo
+struct LoginType {
+    /// 1
+    static let qqLogin     = 1
+    /// 2
+    static let weixinLogin = 2
+    /// 3
+    static let weiboLogin  = 3
+}
+
+
 struct categoryLabel {
     /// 5
     static let sightLabel = 5

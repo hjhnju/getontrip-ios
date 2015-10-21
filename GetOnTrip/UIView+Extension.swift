@@ -88,28 +88,29 @@ class LoginView: UIView {
     
     //微信登陆
     func wechatLogin() {
-        thirdParthLogin(SSDKPlatformType.TypeWechat)
+
+        thirdParthLogin(SSDKPlatformType.TypeWechat, loginType: LoginType.weixinLogin)
     }
     
     //qq登陆
     func qqLogin() {
-        thirdParthLogin(SSDKPlatformType.TypeQQ)
+        thirdParthLogin(SSDKPlatformType.TypeQQ, loginType: LoginType.qqLogin)
     }
     
     //新浪微博登陆
     func weiboLogin() {
-        thirdParthLogin(SSDKPlatformType.TypeSinaWeibo)
+        thirdParthLogin(SSDKPlatformType.TypeSinaWeibo, loginType: LoginType.weiboLogin)
     }
     
     //第三方登陆
-    func thirdParthLogin(type: SSDKPlatformType) {
+    func thirdParthLogin(type: SSDKPlatformType, loginType: Int) {
         //授权
         ShareSDK.authorize(type, settings: nil, onStateChanged: { [weak self] (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
                 
             case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-            let account = UserAccount(user: user, type: 3)
+            let account = UserAccount(user: user, type: loginType)
             sharedUserAccount = account
             self!.loginBackgroundClick()
             case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")

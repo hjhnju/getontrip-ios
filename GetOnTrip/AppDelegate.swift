@@ -10,6 +10,7 @@
 
 import UIKit
 import SSKeychain
+import Alamofire
 
 /// 全局变量记录用户账号  $(inherited)
 var sharedUserAccount = UserAccount.loadAccount()
@@ -26,6 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ///  bug调试代码仅一行
         Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
         
+        ///  获取uuid
+        gainUserUUID()
+        ///  写入cookie
+        writeCookie()
+        
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.rootViewController = SlideMenuViewController()
         window?.makeKeyAndVisible()
@@ -40,10 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         UINavigationBar.appearance().tintColor = UIColor.yellowColor()
-        //UINavigationBar.appearance().barTintColor = SceneColor.frontBlack
-        //UINavigationBar.appearance().backgroundColor = SceneColor.frontBlack
-        //UINavigationBar.appearance().backgroundColor = UIColor.clearColor()
-        //UINavigationBar.appearance().barTintColor = UIColor.clearColor()
         UINavigationBar.appearance().barStyle = UIBarStyle.BlackOpaque
         UINavigationBar.appearance().clipsToBounds = false //包含状态栏
         
@@ -57,11 +59,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()
         
-        // 获取用户uuid
-        gainUserUUID()
         
         
         return true
+    }
+    
+    ///  将设备id写入cookie
+    private func writeCookie() {
+        
+        var cookieProperties = [String: AnyObject]()
+        cookieProperties[NSHTTPCookieName] = "device_id"
+        cookieProperties[NSHTTPCookieValue] = appUUID!
+        cookieProperties[NSHTTPCookieDomain] = "123.57.46.229"
+        cookieProperties[NSHTTPCookieOriginURL] = "123.57.46.229"
+        cookieProperties[NSHTTPCookiePath] = "/"
+        cookieProperties[NSHTTPCookieVersion] = "0"
+        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties)!)
+        
+        var cookieProperties1 = [String: AnyObject]()
+        cookieProperties1[NSHTTPCookieName] = "current_user"
+        cookieProperties1[NSHTTPCookieValue] = "z5K%2bXZURRu4%3d"
+        cookieProperties1[NSHTTPCookieDomain] = "123.57.46.229"
+        cookieProperties1[NSHTTPCookieOriginURL] = "123.57.46.229"
+        cookieProperties1[NSHTTPCookiePath] = "/"
+        cookieProperties1[NSHTTPCookieVersion] = "0"
+        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties1)!)
+
     }
     
     // MARK: - 获取用户uuid

@@ -33,7 +33,6 @@ class TopicRefreshRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIniDev.BaseUri,
             path: "/api/city/topic",
-            
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 
