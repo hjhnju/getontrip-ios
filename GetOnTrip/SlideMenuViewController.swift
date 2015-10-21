@@ -57,7 +57,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     }()
     
     //主窗体的遮罩层
-    var maskView: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.5)
+    var maskView: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.1)
     
     //左侧菜单
     var menuView: UIView = UIView()
@@ -102,16 +102,24 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //当前城市
     lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: "当前城市未知", fontSize: 10)
-//    var currentCityButton = UIButton()
     
     //设置菜单的数据源
-    let tableViewDataSource = ["切换城市", "我的收藏", "消息", "设置", "反馈"]
+    let tableViewDataSource = [FavoriteViewController.name, MessageViewController.name, SettingViewController.name, FeedBackViewController.name]
+    
+    //菜单对应元类
+    let usingVCTypes: [AnyClass] = [FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
     
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
     
     //地理位置
-    var city: String?
+    var city: String? {
+        didSet {
+            if let city = city {
+                currentCityButton.setTitle(city, forState: UIControlState.Normal)
+            }
+        }
+    }
     
     //登陆状态
     var logined: Bool = true
@@ -140,10 +148,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         // 应用程序使用期间允许定位
-        /*
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
-        locationManager.startUpdatingLocation()*/
+        locationManager.startUpdatingLocation()
         
         setupInit()
         setupAutoLayout()
@@ -203,9 +210,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.scrollEnabled = false
         
         //初始化蒙板
-        mainNavViewController.view.addSubview(maskView)
-        mainNavViewController.view.bringSubviewToFront(maskView)
-        maskView.frame = mainNavViewController.view.bounds
+        mainViewController.view.addSubview(maskView)
+        mainViewController.view.bringSubviewToFront(maskView)
+        maskView.frame = mainViewController.view.bounds
         refreshMask()
         
         //添加手势
@@ -217,7 +224,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     func refreshMask() {
         let masked = self.slideMenuState == SlideMenuState.Opening ? true : false
-        self.maskView.hidden = !masked
+        maskView.hidden = !masked
     }
     
     //初始化自动布局
@@ -227,13 +234,16 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         bgImageView.ff_Fill(menuView)
         blurView.ff_Fill(bgImageView)
         tableView.ff_AlignInner(ff_AlignType.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
+        
         loginAfter.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
-        loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
         headerView.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
         nameLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
-        wechatButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
-        qqButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
-        weiboButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
+        
+        loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
+        qqButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
+        wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
+        weiboButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
+        
         welcomeLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
         descLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: welcomeLabel, size: nil, offset: CGPointMake(0, 8))
         currentCityButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: menuView, size: nil, offset: CGPointMake(0, -21))
@@ -281,6 +291,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.MenuTableViewCellID, forIndexPath: indexPath) as! MenuSettingTableViewCell
+        //cell选中效果
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        
         cell.titleLabel.text = tableViewDataSource[indexPath.row]
         
         // 添加tableview顶上的线
@@ -302,30 +315,17 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        //TODO:未登录情况
+        
+        //调整
+        if let vcType = usingVCTypes[indexPath.row] as? UIViewController.Type {
+            let vc = vcType.init()
+            mainNavViewController.pushViewController(vc, animated: true)
+        }
+        
+        //关闭侧边栏
         self.didClose()
-        
-        if indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 4 {
-            if sharedUserAccount == nil {
-                let alertView = UIAlertView(title: nil, message: "亲，请先登陆，么么哒", delegate: self, cancelButtonTitle: "亲一个")
-                alertView.show()
-                return
-            }
-        }
-        
-        var VC: UIViewController?
-        if indexPath.row == 0 {
-            VC = SwitchCityViewController()
-        } else if indexPath.row == 1 {
-            VC = FavoriteViewController()
-        } else if indexPath.row == 2 {
-            VC = MessageViewController()
-        } else if indexPath.row == 3 {
-            VC = SettingViewController()
-        } else  {
-            VC = FeedBackViewController()
-        }
-        
-        mainNavViewController.pushViewController(VC!, animated: true)
     }
     
     //侧滑菜单动画效果
@@ -340,7 +340,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     }*/
     
     // MARK: - 地理定位代理方法
-    /*
+    
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NSLog("开始定位")
     
@@ -352,26 +352,16 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
 
-        geocoder.reverseGeocodeLocation(location) { [unowned self] (placemarks, error) -> Void in
-            if (placemarks?.count == 0 || error != nil) {
-                NSLog("无地理位置信息")
-                return
-            } else {
-                let firstPlacemark: NSString = NSString(string: "\(placemarks!.first!.locality!)")
-                self.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
-                
-                struct Static {
-                    static var onceToken: dispatch_once_t = 0
-                }
-                
-                //TODO: 地理位置 是异步加载的，在获取到地理位置之前应该先显示什么
-                dispatch_once(&Static.onceToken, { [unowned self] in
-                    self.setupSideController()
-                    self.currentCity.setTitle("  当前在" + self.city!, forState: UIControlState.Normal)
-                })
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
+            
+            print("placemarks=\(placemarks)")
+            if let locality = placemarks?.first?.locality {
+                print("loc=\(locality)")
+                let firstPlacemark: NSString = NSString(string: "\(locality)")
+                self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
             }
         }
-    }*/
+    }
     
     // MARK: 自定义方法
     

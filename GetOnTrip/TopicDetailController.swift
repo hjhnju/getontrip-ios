@@ -163,8 +163,13 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         setupAutoLayout()
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.tintColor = SceneColor.lightGray
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         //还原
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
@@ -331,7 +336,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         let url = request.URL?.absoluteString
         let range = url?.rangeOfString("bn:src=")
         if range != nil {
-            print("跳转页面")
             return false
         }
         return true

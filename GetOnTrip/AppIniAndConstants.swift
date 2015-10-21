@@ -18,6 +18,7 @@ class AppIniDev {
 }
 
 class AppIni:AppIniDev {
+    static let ImageSliceMultipler:CGFloat = 3
 }
 
 

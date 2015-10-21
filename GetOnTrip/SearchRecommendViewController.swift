@@ -40,8 +40,16 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     
     lazy var searchButton: UIButton = {
         let button = UIButton(type: UIButtonType.Custom)
-        button.setBackgroundImage(UIImage(named: "icon_search"), forState: UIControlState.Normal)
+        button.setBackgroundImage(UIImage(named: "search_box"), forState: UIControlState.Normal)
         button.addTarget(self, action: "showSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        button.adjustsImageWhenDisabled = false
+        button.adjustsImageWhenHighlighted = false
+        let descLabel = UILabel(color: UIColor.whiteColor(), title: "搜索景点、城市等内容", fontSize: 12)
+        let iconView = UIImageView(image: UIImage(named: "search_icon"))
+        button.addSubview(descLabel)
+        button.addSubview(iconView)
+        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: button, size: CGSize(width: 15, height: 16.5), offset: CGPoint(x:8, y:0))
+        descLabel.ff_AlignInner(ff_AlignType.CenterLeft, referView: button, size: CGSize(width: 120, height: 12), offset: CGPoint(x: 26, y: 0))
         return button
         }()
     
@@ -247,8 +255,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let array = dataSource!.objectForKey("datas") as! NSArray
         if let data = array[indexPath.row] as? RecommendCellData {
-        
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
             if (!data.isTypeCity()) {
                 let vc = SightViewController()
                 vc.sightId   = data.id

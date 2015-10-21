@@ -127,18 +127,18 @@ class UserAccount: NSObject, NSCoding {
     func uploadUserInfo(imageData: NSData, sex: Int, nick_name: String, city: String) {
         
         
-        let str = "http://123.57.46.229:8301/api/user/editinfo"
+        let str = "/api/user/editinfo"
         let params = "sex:\(sex),nick_name:\(nick_name),city:\(city)"
         
         var post         = [String: String]()
-        post["type"]  = String(3)
+        post["type"]  = String(self.type)
         post["param"] = String(params)
     
         HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, error) -> () in
             if error != nil {
                 print("网络加载失败")
             }
-            self.userInfoGain(3)
+            self.userInfoGain(self.type)
         }
 
     }

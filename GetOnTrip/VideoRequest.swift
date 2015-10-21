@@ -20,7 +20,7 @@ class VideoRequest: NSObject {
     */
     
     // 请求参数
-    var sightId :String?
+    var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 6
     
@@ -65,9 +65,9 @@ class SightVideo: NSObject {
     /// url
     var url: String?
     /// 图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image
         }
     }
     ///  时长

@@ -308,7 +308,7 @@ class SearchCity: NSObject {
 
 class SearchSight: NSObject {
     
-    var id: String?
+    var id: String = ""
     
     var name: String?
     

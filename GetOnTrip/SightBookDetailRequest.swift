@@ -35,9 +35,6 @@ class SightBookDetailRequest: NSObject {
             path: "/api/book/detail",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-                
-                print(respData)
-                //
                 // 回调
                 handler(BookDetail(dict: respData as! [String : AnyObject]))
             }

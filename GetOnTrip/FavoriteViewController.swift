@@ -11,6 +11,8 @@ import FFAutoLayout
 
 class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     
+    static let name = "我的收藏"
+    
     // MARK: - 属性
     lazy var titleBackground: UIView = UIView(color: SceneColor.bgBlack, alphaF: 1.0)
     

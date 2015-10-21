@@ -65,8 +65,9 @@ class HttpRequest {
     /// - parameter finished:   完成回调
     func upload(urlString: String, data: NSData, parameters: [String: AnyObject]?, finished: RequestFinishedCallBack) {
         
+        let urlStr = AppIni.BaseUri + urlString
         Alamofire.upload(.POST,
-            urlString,
+            urlStr,
             multipartFormData: { (multipartFormData) in
                 
                 multipartFormData.appendBodyPart(data: data, name: "file", fileName: "123.png", mimeType: "image/png")

@@ -36,9 +36,10 @@ class TopicDetailRequest: NSObject {
             path: "/api/topic/detail",
             post: post,
             handler: {(respData: AnyObject) -> Void in
-
                 // 回调
-                handler(TopicDetail(dict: respData as! [String : AnyObject]))
+                if let data = respData as? [String : AnyObject] {
+                    handler(TopicDetail(dict: data))
+                }
             }
         )
     }

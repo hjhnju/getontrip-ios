@@ -91,7 +91,7 @@ class RecommendCellData: NSObject {
     //图片
     var image: String? {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image! + "@\(UIScreen.mainScreen().bounds.width * AppIni.ImageSliceMultipler)w_\(SearchRecommendTableViewCell.RowHeight*AppIni.ImageSliceMultipler-2))h"
         }
     }
     

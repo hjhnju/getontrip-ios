@@ -336,10 +336,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         //导航变化
-        let threshold:CGFloat = 198 - 64
+        let threshold:CGFloat = 40
         let offsetY = scrollView.contentOffset.y
         if offsetY > 0 {
-            navBarAlpha = offsetY / threshold;
+            navBarAlpha = (offsetY - 137) / threshold;
             if navBarAlpha > 1 {
                 navBarAlpha = 1
             } else if navBarAlpha < 0.1 {

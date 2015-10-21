@@ -1,5 +1,5 @@
 //
-//  SightListCityRequest.swift
+//  CitySightsRequest.swift
 //  GetOnTrip
 //
 //  Created by 王振坤 on 15/10/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SightListCityRequest: NSObject {
+class CitySightsRequest: NSObject {
     
     /**
     * 接口3：/api/city/detail
@@ -25,12 +25,12 @@ class SightListCityRequest: NSObject {
     var pageSize: Int = 6
     
     /// 将收藏景点数据回调外界
-    func fetchSightCityModels(handler: [SightCityList] -> Void) {
+    func fetchSightCityModels(handler: [CitySightBrief] -> Void) {
         fetchSightModels(handler)
     }
 
     // 异步加载景点获取数据
-    func fetchSightModels(handler: [SightCityList] -> Void) {
+    func fetchSightModels(handler: [CitySightBrief] -> Void) {
         var post       = [String: String]()
         post["page"]   = String(page)
         post["pageSize"]=String(pageSize)
@@ -42,10 +42,10 @@ class SightListCityRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 
-                var sightCityListM = [SightCityList]()
+                var sightCityListM = [CitySightBrief]()
                 for it in respData as! NSArray {
                     
-                    let sightM = SightCityList(dict: it as! [String : String])
+                    let sightM = CitySightBrief(dict: it as! [String : String])
                     
                     sightCityListM.append(sightM)
                 }
@@ -59,25 +59,25 @@ class SightListCityRequest: NSObject {
 }
 
 
-/// 景点城市列表
-class SightCityList: NSObject {
+/// 城市的景点
+class CitySightBrief: NSObject {
     
     /// 收藏话题id
-    var id: String?
+    var id: String = ""
     /// 话题名
-    var name: String?
+    var name: String = ""
     /// 话题图片
-    
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            let mp = AppIni.ImageSliceMultipler
+            image = AppIni.BaseUri + image + "@\(133*mp)w_\(84*mp)h"
         }
     }
     
     /// 共几个话题
-    var topics: String?
+    var topics: String = ""
     /// 是否收藏
-    var collected: String?
+    var collected: String = ""
     
     init(dict: [String : String]) {
         super.init()
