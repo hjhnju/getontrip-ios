@@ -317,6 +317,25 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         //TODO:未登录情况
+        if sharedUserAccount == nil {
+
+            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
+                let resultB = result as! Bool
+                if resultB == true {
+                    //调整
+                    if let vcType = self.usingVCTypes[indexPath.row] as? UIViewController.Type {
+                        let vc = vcType.init()
+                        self.mainNavViewController.pushViewController(vc, animated: true)
+                    }
+                    
+                    //关闭侧边栏
+                    self.didClose()
+                }
+            })
+            
+            return
+        }
+        
         
         //调整
         if let vcType = usingVCTypes[indexPath.row] as? UIViewController.Type {
@@ -507,8 +526,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 switch state{
     
                 case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-                let account = UserAccount(user: user, type: 3)
-//                sharedUserAccount = account
+               UserAccount(user: user, type: 3)
                 self.refreshLoginStatus()
     
                 case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")

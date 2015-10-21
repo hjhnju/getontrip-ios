@@ -89,9 +89,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         
         setupAddProperty()
-        setupInitSetting()
         setupBarButtonItem()
         loadInitSetting()
+        setupInitSetting()
     }
     
     private func setupAddProperty() {
@@ -124,13 +124,14 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         /// TPDO: 先注释
         iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!))
-        nickName.text = sharedUserAccount?.nickname
+        
         
         if      sharedUserAccount?.gender?.hashValue == 0 { gender.text = "男" }
         else if sharedUserAccount?.gender?.hashValue == 1 { gender.text = "女" }
         else                                              { gender.text = "未知"}
         
         city.text = sharedUserAccount?.city
+        nickName.text = sharedUserAccount?.nickname
     }
     
     private func setupBarButtonItem() {
@@ -175,6 +176,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func exitLoginClick() {
         print("退出登陆")
+        sharedUserAccount?.exitLogin()
         sharedUserAccount = nil
         // 将页面返回到首页
         navigationController!.popViewControllerAnimated(true)
@@ -229,7 +231,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
                 cell.left.text = "昵称"
                 cell.addSubview(nickName)
                 nickName.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: CGSizeMake(200, 17), offset: CGPointMake(-10, 0))
-                nickName.text = "美女，亲一个"
                 
             } else if indexPath.row == SettingCell.sexCell {
                 
@@ -256,13 +257,13 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
             
-            if indexPath.row == 0      { return 102}
+            if      indexPath.row == 0 { return 102}
             else if indexPath.row == 1 { return 51 }
             else if indexPath.row == 2 { return 51 }
             else                       { return 51 }
         } else {
-            if indexPath.row == 0      { return 51 }
-            else                       { return 200 }
+            if      indexPath.row == 0 { return 51 }
+            else                       { return 200}
         }
     }
 
@@ -437,7 +438,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             sex = 2
         }
 
-        sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: "中国")
+        sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text!)
     }
     
     private func saveUserInfo() {

@@ -146,6 +146,13 @@ class UserAccount: NSObject, NSCoding {
     /// MARK: - 保存和加载文件
     static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("account.plist")
     
+    // MARK: - 退出登陆
+    func exitLogin() {
+        sharedUserAccount = nil
+        NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
+        try! NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
+    }
+    
     ///  将当前对象归档保存至沙盒 `Keyed` 键值归档/解档
     func saveAccount() {
         sharedUserAccount = self
