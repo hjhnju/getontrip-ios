@@ -119,8 +119,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     private func setupInitSetting() {
-        title = "设置"
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        title = SettingViewController.name
         /// TPDO: 先注释
         iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!))
         nickName.text = sharedUserAccount?.nickname

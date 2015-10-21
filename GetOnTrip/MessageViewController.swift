@@ -20,6 +20,7 @@ class MessageViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.whiteColor()
         
         setupProperty()
         loadFeedBackHistory()
@@ -29,7 +30,6 @@ class MessageViewController: UITableViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(MessageTableViewCell.self, forCellReuseIdentifier: "Message_Cell")
         title = "消息"
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
     }
     
     
@@ -56,8 +56,6 @@ class MessageViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Message_Cell", forIndexPath: indexPath) as! MessageTableViewCell
         cell.message = messageLists![indexPath.row] as MessageList
-//        cell.iconView.layer.cornerRadius = max(cell.iconView.bounds.width, cell.iconView.bounds.height) * 0.5
-//        cell.iconView.clipsToBounds = true
         return cell
     }
     

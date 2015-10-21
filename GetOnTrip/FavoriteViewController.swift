@@ -14,7 +14,7 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     static let name = "我的收藏"
     
     // MARK: - 属性
-    lazy var titleBackground: UIView = UIView(color: SceneColor.bgBlack, alphaF: 1.0)
+    lazy var titleBackground: UIView = UIView()
     
     /// 内容底部scrollview
     lazy var contentScrollView: UIScrollView = UIScrollView()
@@ -44,27 +44,22 @@ class FavoriteViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupProperty()
+        view.backgroundColor = UIColor.whiteColor()
+        titleBackground.backgroundColor = SceneColor.bgBlack
+        
+        title = FavoriteViewController.name
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+        
         setupAddSubViewAndAction()
         setupAutoLayout()
         setupChildControllerProperty()
-    }
-    
-    private func setupProperty() {
-        //nav bar
-        view.backgroundColor = SceneColor.frontBlack //barStyle=Opaque时决定了导航颜色
-        title = "我的收藏"
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
-        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
     }
     
     private func setupAddSubViewAndAction() {
         
         view.addSubview(titleBackground)
         view.addSubview(contentScrollView)
-        contentScrollView.backgroundColor = UIColor.whiteColor()
         titleBackground.addSubview(cityBtn)
         titleBackground.addSubview(sightBtn)
         titleBackground.addSubview(contentBtn)

@@ -26,26 +26,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ///  bug调试代码仅一行
         //Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
         
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.rootViewController = SlideMenuViewController()
-        window?.makeKeyAndVisible()
-        
         //status bar
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         
-        //nav bar, 放在创建完NavigationController后才会生效
+        //nav bar
         let backButtonImage = UIImage(named: "icon_back")
         UINavigationBar.appearance().backIndicatorImage = backButtonImage
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         UINavigationBar.appearance().tintColor = UIColor.yellowColor()
-        //UINavigationBar.appearance().barTintColor = SceneColor.frontBlack
-        //UINavigationBar.appearance().backgroundColor = SceneColor.frontBlack
-        //UINavigationBar.appearance().backgroundColor = UIColor.clearColor()
-        //UINavigationBar.appearance().barTintColor = UIColor.clearColor()
-        UINavigationBar.appearance().barStyle = UIBarStyle.BlackOpaque
+        UINavigationBar.appearance().barTintColor = SceneColor.frontBlack
+        UINavigationBar.appearance().backgroundColor = UIColor.clearColor()
+        UINavigationBar.appearance().barStyle = UIBarStyle.Default //白色半透明模糊
         UINavigationBar.appearance().clipsToBounds = false //包含状态栏
+        UINavigationBar.appearance().shadowImage = UIImage() //1px line
+        UINavigationBar.appearance().translucent = true
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.rootViewController = SlideMenuViewController()
+        window?.makeKeyAndVisible()
         
         //cache
         let urlCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)

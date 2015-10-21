@@ -133,7 +133,6 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         super.viewWillAppear(animated)
         navigationController?.navigationBarHidden = true
         
-        navigationController?.navigationBar.hidden = true
         refreshBar()
     }
     
@@ -153,10 +152,10 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        navigationController?.navigationBarHidden = false
     }
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        navigationController?.navigationBarHidden = false
     }
     
     //布局

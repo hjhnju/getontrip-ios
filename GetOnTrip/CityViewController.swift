@@ -97,30 +97,29 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //nav bar
-        let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha))
-        navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        
+
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.titleView = titleLabel
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
         titleLabel.textAlignment = NSTextAlignment.Center
         titleLabel.hidden = true //设置alpha=0会有Fade Out
-//        cell.selectionStyle = UITableViewCellSelectionStyle.None
-//        tableView.separatorStyle
-        
         
         initView()
         setupAutoLayout()
         loadCityData()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        refreshBar()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
-        refreshBar()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -134,6 +133,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha))
         navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
     }
     
     /// 添加控件

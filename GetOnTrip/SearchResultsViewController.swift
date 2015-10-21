@@ -100,14 +100,12 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         tableView.rowHeight = 60
         tableView.backgroundView = UIImageView(image: UIImage(named: "search-bg0")!)
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
-        navigationController?.navigationBarHidden = true
     }
     
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBarHidden = true
-        navigationController?.navigationBar.hidden = true
     }
     
     
@@ -145,7 +143,6 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
                 vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
                 presentViewController(nav, animated: true, completion: nil)
             }
-
         case 1:
             if let searchSight = resultData.objectForKey("searchSights") {
                 
@@ -157,9 +154,7 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
                 presentViewController(nav, animated: true, completion: nil)
                 
             }
-
         default:
-            
             if let searchContent = resultData.objectForKey("searchContent") {
                 
                 let searchC = searchContent[indexPath.row]
@@ -196,12 +191,8 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
                     presentViewController(nav, animated: true, completion: nil)
                 }
             }
-            
-
         }
     }
-    
-    
     
     override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clearColor()
@@ -212,7 +203,7 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
         
         let headerView = view as! UITableViewHeaderFooterView
         headerView.textLabel!.textColor = UIColor.lightGrayColor()
-        headerView.textLabel!.font = UIFont(name: "Helvetica Neue", size: 11)
+        headerView.textLabel!.font = UIFont.systemFontOfSize(11)
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -229,7 +220,6 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
-        
         
         switch indexPath.section {
         case 0:
@@ -258,8 +248,6 @@ class SearchResultsViewController: UITableViewController, UISearchResultsUpdatin
 
         return cell
     }
-    
-    
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let searchResultsCell = cell as! SearchResultsCell

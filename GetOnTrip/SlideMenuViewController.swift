@@ -99,7 +99,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var weiboButton: UIButton = UIButton(icon: "icon_weibo", masksToBounds: true)
     
     //当前城市
-    lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: "当前城市未知", fontSize: 10)
+    lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: " 当前城市未知", fontSize: 10)
     
     //设置菜单的数据源
     let tableViewDataSource = [FavoriteViewController.name, MessageViewController.name, SettingViewController.name, FeedBackViewController.name]
@@ -336,11 +336,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
 
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
-            
-            print("placemarks=\(placemarks)")
             if let locality = placemarks?.first?.locality {
-                print("loc=\(locality)")
-                let firstPlacemark: NSString = NSString(string: "\(locality)")
+                let firstPlacemark: NSString = NSString(string: " 当前城市\(locality)")
                 self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
             }
         }
@@ -356,6 +353,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //用户touch的点位置
     var panGestureStartLocation : CGPoint!
+    
+    var menuAlpha:CGFloat = 0.0 {
+        didSet{
+            menuView.alpha = menuAlpha
+        }
+    }
     
     //左右滑动效果
     func panGestureHandler(sender: UIPanGestureRecognizer){
@@ -379,11 +382,13 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 if (self.slideMenuState == SlideMenuState.Closing){
                     frame.origin.x = xOffSet + startX
                 }
+                menuAlpha = xOffSet / SlideMenuOptions.DrawerWidth + 0.3
             //左滑动
             }else if (xOffSet < 0 && xOffSet > -SlideMenuOptions.DrawerWidth){
                 if (self.slideMenuState == SlideMenuState.Opening){
                     frame.origin.x = xOffSet + SlideMenuOptions.DrawerWidth
                 }
+                menuAlpha = 1 - xOffSet / SlideMenuOptions.DrawerWidth
             }
             self.mainNavViewController.view.frame = frame;
             break;
@@ -416,13 +421,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
-            animations:{ self.mainNavViewController.view.frame = mainSize; },
+            animations:{ self.mainNavViewController.view.frame = mainSize },
             completion: { (finished: Bool) -> Void in }
         )
         
         //将侧边栏的装填标记为打开状态
         self.slideMenuState = SlideMenuState.Opening
         
+        menuAlpha = 1.0
         refreshMask()
     }
     
@@ -435,13 +441,16 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         //将主窗体的起始位置恢复到原始状态
         var mainSize = self.mainNavViewController.view.frame
         mainSize.origin.x = 0
+        menuAlpha = 1.0
         UIView.animateWithDuration(0.7,
             delay: 0,
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
-            animations: { self.mainNavViewController.view.frame = mainSize; },
-            completion: { (finished: Bool) -> Void in }
+            animations: { self.mainNavViewController.view.frame = mainSize;
+                self.menuAlpha = 0.5},
+            completion: { (finished: Bool) -> Void in
+                self.menuAlpha = 0.0 }
         )
         
         refreshMask()

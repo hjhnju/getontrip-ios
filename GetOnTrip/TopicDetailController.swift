@@ -145,12 +145,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         //nav bar
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         navigationItem.titleView = navTitleLabel
-        navigationController?.navigationBar.tintColor = SceneColor.lightGray
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
-        
-        let bgImage = UIKitTools.imageWithColor(UIColor.whiteColor().colorWithAlphaComponent(0.5))
-        navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
         
         refreshTitle()
         
@@ -165,15 +160,29 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.tintColor = SceneColor.lightGray
+        refreshBar()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        //不能放在willAppear
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         //还原
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         UINavigationBar.appearance().tintColor = UIColor.yellowColor()
+        navigationController?.navigationBar.barTintColor = SceneColor.frontBlack
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
+    }
+    
+    func refreshBar() {
+        navigationController?.navigationBar.tintColor = SceneColor.lightGray
+        navigationController?.navigationBar.barTintColor = nil
     }
     
     func refreshTitle(){
