@@ -335,9 +335,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 let resultB = result as! Bool
                 if resultB == true {
                     //调整
-                    if let vcType = self.usingVCTypes[indexPath.row] as? UIViewController.Type {
-                        let vc = vcType.init()
-                        self.mainNavViewController.pushViewController(vc, animated: true)
+                    if self.curVCType != self.usingVCTypes[indexPath.row] {
+                        self.curVCType = self.usingVCTypes[indexPath.row]
                     }
                     //关闭侧边栏
                     self.didClose()
