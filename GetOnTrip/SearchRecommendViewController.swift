@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import Alamofire
 
 struct MainViewContant {
     //状态栏高度

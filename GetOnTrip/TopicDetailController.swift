@@ -377,12 +377,13 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         print("收藏")
         
         if sharedUserAccount == nil {
-            let lv = LoginView(frame: UIScreen.mainScreen().bounds)
-            UIApplication.sharedApplication().keyWindow?.addSubview(lv)
-            lv.alpha = 0
-            
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                lv.alpha = 1
+            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
+                let resultB = result as! Bool
+                if resultB == true {
+                    
+                    print("调用收藏功能")
+                    
+                }
             })
         } else {
             print("调用收藏功能")

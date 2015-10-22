@@ -9,54 +9,72 @@
 import UIKit
 
 class UserInfoRequest: NSObject {
+    
     /**
-    * 接口4：/api/user/info
+    * 接口3：/api/user/getinfo
     * 用户信息获取接口
-    * @param integer deviceId
+    * @param integer type,第三方登录类型，1:qq,2:weixin,3:weibo
     * @return json
     */
+
     
     // 请求参数
-//    var deviceId = appUUID!
-//    
-//    // 将数据回调外界
-//    func fetchBookModels(handler: Topic -> Void) {
-//        fetchModels(handler)
-//    }
-//    
-//    // 异步加载获取数据
-//    func fetchModels(handler: Topic -> Void) {
-//        var post         = [String: String]()
-//        post["deviceId"]  = String(self.deviceId)
-//        
-//        // 发送网络请求加载数据
-//        HttpRequest.ajax(AppIni.BaseUri,
-//            path: "/api/user/info",
-//            post: post,
-//            handler: {(respData: AnyObject) -> Void in
-//
-//                let topic = Topic(dict: respData[0] as! [String : String])
-//                // 转换话题详情
-////                let id              = respData["id"].intValue
-////                let title           = respData["title"].stringValue
-//                //topic?.subtitle = respData[""].stringValue
-////                topic = Topic(topicid: id, title: title, subtitle: "")
-//                topic.image     = AppIni.BaseUri + String(respData[0]["image"])
-//                
-////                topic!.favorites    = respData["collect"].intValue
-////                topic!.visits       = respData["visits"].intValue
-////                topic!.desc         = respData["content"].stringValue
-////                topic!.from         = respData["from"].stringValue
-////                topic!.commentCount = respData["commentNum"].intValue
-//                
-////                var tags = [String]()
-////                for it in respData[0]["tags"] {
-////                    tags.append(it.stringValue)
-////                }
-////                topic!.tags = tags
-//                // 回调
-//                handler(topic)
-//            }
-//        )
-//    }
+    var type: Int?
+
+    
+    // 异步加载获取数据
+    func userInfoGainMeans(handler: UserInfo -> Void) {
+        
+        var post         = [String: String]()
+        post["type"]  = String(type!)
+        
+        // 发送网络请求加载数据
+        HttpRequest.ajax(AppIni.BaseUri,
+            path: "/api/user/getinfo",
+            post: post,
+            handler: {(respData: AnyObject) -> Void in
+                
+                if (respData.count == 0) {
+                    let user = UserInfo()
+                    user.type = "0"
+                    handler(user)
+                    
+                } else {
+                    handler(UserInfo(dict: respData as! [String : AnyObject]))
+                }
+            }
+        )
+    }
+}
+
+class UserInfo : NSObject {
+    
+    var nick_name: String = ""
+    
+    var image: String = "" {
+        didSet {
+            image = AppIni.BaseUri + image
+        }
+    }
+    
+    var sex: String = ""
+    
+    /// 自己添加的不是后端返回的数据，用于判断此用户是否是后台记录在册的用户,记录在册为1
+    var type: String = "1"
+    
+    var city: String = ""
+    
+    convenience init(dict: [String : AnyObject]) {
+        self.init()
+        
+        setValuesForKeysWithDictionary(dict)
+//        nick_name = dict["nick_name"] as! String
+//        image = AppIni.BaseUri + (dict["image"] as! String)
+//        sex = String(dict["sex"])
+        
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import Alamofire
 
 /// 定义选中的是第几行
 struct SettingCell {
@@ -94,9 +95,9 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         setupAddProperty()
-        setupInitSetting()
         setupBarButtonItem()
         loadInitSetting()
+        setupInitSetting()
     }
     
     private func setupAddProperty() {
@@ -128,13 +129,14 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         title = SettingViewController.name
         /// TPDO: 先注释
         iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!))
-        nickName.text = sharedUserAccount?.nickname
+        
         
         if      sharedUserAccount?.gender?.hashValue == 0 { gender.text = "男" }
         else if sharedUserAccount?.gender?.hashValue == 1 { gender.text = "女" }
         else                                              { gender.text = "未知"}
         
         city.text = sharedUserAccount?.city
+        nickName.text = sharedUserAccount?.nickname
     }
     
     private func setupBarButtonItem() {
@@ -179,6 +181,7 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     
     func exitLoginClick() {
         print("退出登陆")
+        sharedUserAccount?.exitLogin()
         sharedUserAccount = nil
         // 将页面返回到首页
         navigationController!.popViewControllerAnimated(true)
@@ -233,7 +236,6 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
                 cell.left.text = "昵称"
                 cell.addSubview(nickName)
                 nickName.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: CGSizeMake(200, 17), offset: CGPointMake(-10, 0))
-                nickName.text = "美女，亲一个"
                 
             } else if indexPath.row == SettingCell.sexCell {
                 
@@ -260,13 +262,13 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
             
-            if indexPath.row == 0      { return 102}
+            if      indexPath.row == 0 { return 102}
             else if indexPath.row == 1 { return 51 }
             else if indexPath.row == 2 { return 51 }
             else                       { return 51 }
         } else {
-            if indexPath.row == 0      { return 51 }
-            else                       { return 200 }
+            if      indexPath.row == 0 { return 51 }
+            else                       { return 200}
         }
     }
 
@@ -332,7 +334,8 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         
-        iconView.image = image
+        
+        iconView.image = image.scaleImage(200)
         dismissViewControllerAnimated(true, completion: nil)
         // 重新设回导航栏样式
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
@@ -414,7 +417,6 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         if pickViewSourceNameAndCity {
             // 设置性别
             gender.text = saveGender
-//            pickerView(pickView, didSelectRow: 0, inComponent: 0)
             pickView.selectedRowInComponent(0)
         } else {
             // 设置城市
@@ -423,113 +425,22 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         shadeViewClick()
         saveItem?.enabled = true
     }
-    
-    
-    /*
-    - (NSData *)formData:(NSData *)fileData fieldName:(NSString *)fieldName fileName:(NSString *)fileName {
-        NSMutableData *dataM = [NSMutableData data];
-        
-        NSMutableString *strM = [NSMutableString string];
-        
-        [strM appendFormat:@"--%@\r\n", boundary];
-        [strM appendFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fieldName, fileName];
-        [strM appendString:@"Content-Type: application/octet-stream\r\n\r\n"];
-        
-        // 先插入 strM
-        [dataM appendData:[strM dataUsingEncoding:NSUTF8StringEncoding]];
-        // 插入文件数据
-        [dataM appendData:fileData];
-        
-        NSString *tail = [NSString stringWithFormat:@"\r\n--%@--", boundary];
-        [dataM appendData:[tail dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        return dataM.copy;
-    }
-*/
-    
-    /*
-    - (void)postUpload:(NSString *)fieldName dataDict:(NSDictionary *)dataDict params:(NSDictionary *)params {
-        // 1. url － 负责上传文件的脚本路径
-        NSURL *url = [NSURL URLWithString:@"http://192.168.13.85/post/upload-m.php"];
-        
-        // 2. request
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        
-        // 2.1 method
-        request.HTTPMethod = @"POST";
-        // 2.2 content-type
-        NSString *typeValue = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-        [request setValue:typeValue forHTTPHeaderField:@"Content-Type"];
-        
-        // 2.3 httpbody !!! - uploadTask 不需要
-        // *** session 通过 fromData 来指定
-        NSData *data = [self formData:fieldName dataDict:dataDict params:params];
-        
-        [[[NSURLSession sharedSession] uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL]);
-        }] resume];
-    }
-*/
-    func postUpload(fieldName: String, dataDict: NSDictionary, params: NSDictionary) {
-        let url = NSURL(string: "http://127.0.0.1/uploads/upload-m.php")
-        
-        let request = NSMutableURLRequest(URL: url!)
-        
-        request.HTTPMethod = "POST"
-        
-        let typeValue = "multipart/form-data; boundary=upload"
-        request.setValue(typeValue, forHTTPHeaderField: "Content-Type")
-        
-        _ = UIImagePNGRepresentation(iconView.image!)
-        let data = formData(fieldName, dataDict: dataDict, params: params)
-
-        NSURLSession.sharedSession().uploadTaskWithRequest(request, fromData: data) { (data, response, error) -> Void in
-//            print(data)
-            
-        }.resume()
-    }
-
-    func formData(fieldName: String, dataDict: NSDictionary, params: NSDictionary) -> NSData {
-        
-        let dataM = NSMutableData()
-        
-        dataDict.enumerateKeysAndObjectsUsingBlock { (fileName, fileData, stop) -> Void in
-            
-            let strM = NSMutableString()
-            
-            strM.appendFormat("--%@\r\n", "xxx")
-            strM.appendFormat("Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fieldName as String, fileName as! String)
-            strM.appendString("Content-Type: application/octet-stream\r\n\r\n")
-            dataM.appendData(strM.dataUsingEncoding(NSUTF8StringEncoding)!)
-            dataM.appendData(fileData as! NSData)
-            let tail = NSString(format: "\r\n--%@--", "xxx")
-            dataM.appendData(tail.dataUsingEncoding(NSUTF8StringEncoding)!)
-            
-        }
-        
-        return dataM.copy() as! NSData
-    }
 
     
     /// MARK: - 保存用户信息
     func saveUserInfo(item: UIBarButtonItem) {
-        
+    
+        iconView.image?.scaleImage(200)
         let imageData = UIImagePNGRepresentation(iconView.image!)
-        var post       = [String: String]()
-        post["userid"] = String(stringInterpolationSegment: appUUID)
-        post["type"]   = String(stringInterpolationSegment: 3)
-        post["param"]  = String(stringInterpolationSegment: [["nick_name": "aa"], ["type": "png"], ["sex": "1"]])
-        post["image"]  = String(stringInterpolationSegment: imageData)
-        HttpRequest.uploadPicture("http://127.0.0.1", fieldName: "123", dataList: ["123" : imageData!], parameters: post) { (JSON) -> () in
-            print(JSON)
+        var sex: Int?
+        if gender.text == "男" {
+            sex = 0
+        } else if gender.text == "女" {
+            sex = 1
+        } else {
+            sex = 2
         }
-        
-        var params = [String:String]()
-        params["userid"] = appUUID
-        params["type"] = "3"
-        params["param"] = "nick_name:aa,type:jpg,sex:1"
-        print("保存用户信息\(item)")
+        sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text!)
     }
     
     private func saveUserInfo() {

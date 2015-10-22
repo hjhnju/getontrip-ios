@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class UserAccount: NSObject, NSCoding {
     
@@ -39,11 +40,17 @@ class UserAccount: NSObject, NSCoding {
     /// 过期日期
     var expiresDate: NSDate?
     
+    /// 告诉后台用户登陆
+    var informLoginRequest: UserLoghtRequest?
+
     /// 获取用户信息请求
-    /// 网络请求，加载数据
-    var lastSuccessRequest: UserInfoRequest?
+    var userInfoGainRequest: UserInfoRequest?
     
-    /// 登陆类型
+    /// 添加用户信息
+    var userAddRequest: UserAddRequest?
+    
+    
+    /// 登陆类型 1:qq,2:weixin,3:weibo
     var type: Int = 0
     init(user: SSDKUser?, type: Int) {
         
@@ -56,19 +63,103 @@ class UserAccount: NSObject, NSCoding {
         self.type  = type
         super.init()
 
-        // MARK: - 用户信息创建完毕，即刻保存
-        saveAccount()
+        // MARK: - 用户一旦登陆成功即刻告诉后台设置用户登陆状态
+        informLoginStatus(type, openId: user!.uid)
+        
+        ///  替换服务器用户的个人信息
+        userInfoGain(type)
+    }
+    
+    ///  设置用户登陆状态
+    ///
+    ///  - parameter loginType: 登陆平台类型
+    ///  - parameter openId:    openId
+    private func informLoginStatus(loginType: Int, openId: String) {
+        if informLoginRequest == nil {
+            informLoginRequest = UserLoghtRequest()
+            informLoginRequest?.openId = openId
+            informLoginRequest?.type = loginType
+        }
+        informLoginRequest?.fetchLoginModels()
+    }
+    
+    ///  获取用户信息
+    ///
+    ///  - parameter loginType: 登陆平台
+    private func userInfoGain(loginType: Int) {
+        if userInfoGainRequest == nil {
+            userInfoGainRequest = UserInfoRequest()
+            userInfoGainRequest?.type = loginType
+        }
+        userInfoGainRequest?.userInfoGainMeans({ (handler) -> Void in
+            let user = handler as UserInfo
+            if user.type == "1" {
+                self.nickname = user.nick_name
+                self.icon     = user.image
+                self.city     = user.city
+                self.gender   = Int(user.sex)
+                
+            } else { // 此用户后台没有记录在册
+                
+                ///  添加用户
+                self.userAddInfo()
+            }
+            self.saveAccount()
+        })
+    }
+    
+    // MARK: - 用户登陆后添加用户信息
+    private func userAddInfo() {
+        
+        if userAddRequest == nil {
+            userAddRequest = UserAddRequest()
+            userAddRequest?.type = type
+
+            let params = "sex:\(gender!),nick_name:\(nickname!),image:\(icon!)"
+            userAddRequest?.param = params
+            // file
+        }
+        userAddRequest?.userAddInfoMeans()
+        
+    }
+    
+     // MARK: - 上传用户个人信息
+    func uploadUserInfo(imageData: NSData, sex: Int, nick_name: String, city: String) {
+        
+        
+        let str = "/api/user/editinfo"
+        let params = "sex:\(sex),nick_name:\(nick_name),city:\(city)"
+        
+        var post         = [String: String]()
+        post["type"]  = String(self.type)
+        post["param"] = String(params)
+    
+        HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, error) -> () in
+            if error != nil {
+                print("网络加载失败")
+            }
+            self.userInfoGain(self.type)
+        }
+
     }
     
     /// MARK: - 保存和加载文件
     static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("account.plist")
     
+    // MARK: - 退出登陆
+    func exitLogin() {
+        sharedUserAccount = nil
+        NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
+        try! NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
+    }
+    
     ///  将当前对象归档保存至沙盒 `Keyed` 键值归档/解档
     func saveAccount() {
-        print(UserAccount.accountPath)
+        sharedUserAccount = self
         NSKeyedArchiver.archiveRootObject(self, toFile: UserAccount.accountPath)
-        
+        NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
     }
+    
     
     class func loadAccount() -> UserAccount? {
         
@@ -85,30 +176,17 @@ class UserAccount: NSObject, NSCoding {
         return nil
     }
     
-    private func loadUserData() {
-        
-        //获取数据更新tableview
-//        if lastSuccessRequest == nil {
-//            lastSuccessRequest = UserInfoRequest()
-//        }
-//        
-//        lastSuccessRequest?.fetchBookModels { (handler: Topic) -> Void in
-////           print(handler)
-//        }
-        
-    }
-    
     // MARK: - NSCoding 归档解档
     ///  解档，将保存在磁盘的二进制文件转换成 对象
     required init(coder aDecoder: NSCoder) {
         access_token = aDecoder.decodeObjectForKey("access_token") as? String
-//        expires_in = aDecoder.decodeDoubleForKey("expires_in")
         expiresDate = aDecoder.decodeObjectForKey("expiresDate") as? NSDate
         uid = aDecoder.decodeObjectForKey("uid") as? String
         nickname = aDecoder.decodeObjectForKey("nickname") as? String
         icon = aDecoder.decodeObjectForKey("icon") as? String
         gender = aDecoder.decodeIntegerForKey("gender") as Int
         city = aDecoder.decodeObjectForKey("city") as? String
+        type = aDecoder.decodeIntegerForKey("type") as Int
     }
     
     ///  归档，aCoder 编码器，将对象转换成二进制数据保存到磁盘
@@ -121,5 +199,6 @@ class UserAccount: NSObject, NSCoding {
         aCoder.encodeObject(icon, forKey: "icon")
         aCoder.encodeInteger(gender!, forKey: "gender")
         aCoder.encodeObject(city, forKey: "city")
+        aCoder.encodeInteger(type, forKey: "type")
     }
 }
