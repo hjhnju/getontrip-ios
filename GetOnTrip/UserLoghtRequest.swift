@@ -30,7 +30,7 @@ class UserLoghtRequest: NSObject {
         post["openId"]   = String(openId!)
         post["type"]     = String(type)
         
-        // 发送网络请求加载数据  http://123.57.46.229:8301/api/user/login?openId=C58AA71A-D6A7-437F-BEC6-3087E401773A&type=3
+        // 发送网络请求加载数据 
         HttpRequest.ajax(AppIni.BaseUri,
             path: "/api/user/login",
             post: post,
@@ -40,3 +40,30 @@ class UserLoghtRequest: NSObject {
         )
     }
 }
+
+
+class UserExitLoghtRequest: NSObject {
+    
+    
+    /**
+    * 接口2：/api/user/signOut
+    * 退出登录接口
+    * @return json
+    */
+    
+    // TODO: 当用户登陆后，只需要让后台知道此用户已登陆过即可，目前后台无返回值
+    func fetchExitLoginModels() {
+        
+        let post         = [String: String]()
+        
+        // 发送网络请求加载数据
+        HttpRequest.ajax(AppIni.BaseUri,
+            path: "/api/user/signOut",
+            post: post,
+            handler: {(respData: AnyObject) -> Void in
+                print(respData)
+            }
+        )
+    }
+}
+

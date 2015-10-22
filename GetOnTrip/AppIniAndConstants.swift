@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+let GetonTripCn = "www.getontrip.cn"
+
 class AppIniOnline {
     static let BaseUri = "http://123.57.67.165:8301"
 }

@@ -49,6 +49,9 @@ class UserAccount: NSObject, NSCoding {
     /// 添加用户信息
     var userAddRequest: UserAddRequest?
     
+    /// 退出登陆
+    var userExitLoginRequest: UserExitLoghtRequest?
+    
     
     /// 登陆类型 1:qq,2:weixin,3:weibo
     var type: Int = 0
@@ -143,12 +146,21 @@ class UserAccount: NSObject, NSCoding {
 
     }
     
+    func userExitLoginAction() {
+        if userExitLoginRequest == nil {
+            userExitLoginRequest = UserExitLoghtRequest()
+        }
+        userExitLoginRequest?.fetchExitLoginModels()
+
+    }
+    
     /// MARK: - 保存和加载文件
     static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("account.plist")
     
     // MARK: - 退出登陆
     func exitLogin() {
         sharedUserAccount = nil
+        userExitLoginAction()
         NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
         try! NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
     }

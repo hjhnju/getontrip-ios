@@ -9,6 +9,7 @@
 import UIKit
 import FFAutoLayout
 import Alamofire
+import SVProgressHUD
 
 /// 定义选中的是第几行
 struct SettingCell {
@@ -78,9 +79,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     /// 保存按钮
     var saveItem: UIBarButtonItem?
     
-    /// 保存用户信息请求
-    var lastSuccessRequest: UserUploadInfoRequest?
-
     /// 退出登陆按钮
     lazy var exitLogin: UIButton = UIButton(title: "退出登陆", fontSize: 14, radius: 0, titleColor: UIColor.blackColor())
     
@@ -439,25 +437,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         }
 
         sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text!)
+//        SVProgressHUD.showInfoWithStatus("登陆成功")
     }
     
-    private func saveUserInfo() {
-        
-        //获取数据更新tableview
-        if lastSuccessRequest == nil {
-//            param=nick_name:aa,type:jpg,image:bb,sex:1
-            var param = [[String: String]]()
-            
-            param.append(["nick_name": nickName.text!])
-            param.append(["type": "png"])
-            let imageData = UIImageJPEGRepresentation(iconView.image!, 1)
-//            param.append(["image": "\(imageData)"])
-            let sex = gender.text == "男" ? "1" : "2"
-            param.append(["sex":  sex])
-            lastSuccessRequest = UserUploadInfoRequest(userid: Int(sharedUserAccount!.uid!)!, type: sharedUserAccount!.type, param: param, image: "\(imageData)")
-        }
-    }
-
 }
 
 // MARK: - settingTableViewCell

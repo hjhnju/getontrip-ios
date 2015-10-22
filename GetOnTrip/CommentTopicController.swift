@@ -46,7 +46,8 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         issueTextfield.backgroundColor = UIColor.purpleColor()
         issueCommentBtn.backgroundColor = UIColor.cyanColor()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+        
+        
 
 //        loadCommentData()
         setupAutoLayout()
@@ -64,13 +65,11 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    deinit {
-        print("让我走不\(__FUNCTION__)")
-        NSNotificationCenter.defaultCenter().removeObserver(self)
 
-    }
     
     private func setupAutoLayout() {
+        
+        
         commentTableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 444 - 50), offset: CGPointMake(0, 0))
         let const = issueCommentView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
         issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91, 34), offset: CGPointMake(9, 0))
@@ -78,25 +77,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         commentBottomConst = issueCommentView.ff_Constraint(const, attribute: NSLayoutAttribute.Bottom)
     }
     
-    /// 当键盘弹出的时候，执行相关操作
-    func keyboardChanged(not: NSNotification) {
-        let duration = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
-        let r = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
-        print("键盘弹出来了")
 
-
-        print(r?.origin.y)
-        let y: CGFloat = UIScreen.mainScreen().bounds.height - r!.origin.y 
-        
-        view.bounds = CGRectMake(0, y, UIScreen.mainScreen().bounds.width, 444)
-//        issueCommentView.frame.origin.y = -r!.origin.y
-//        commentBottomConst?.constant = r!.origin.y
-        UIView.animateWithDuration(duration, animations: { () -> Void in
-            self.view.layoutIfNeeded()
-        }) { (_) -> Void in
-
-        }
-    }
     
     // MARK: - tableview datasource and delegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -105,6 +86,10 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         return UITableViewCell()
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        issueTextfield.resignFirstResponder()
     }
     
 }
