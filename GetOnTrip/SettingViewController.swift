@@ -21,7 +21,7 @@ struct SettingCell {
     static let cityCell = 3
 }
 
-class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class SettingViewController: MainViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     static let name = "设置"
     
@@ -86,6 +86,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        navigationController?.navigationBarHidden = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         setupAddProperty()
         setupInitSetting()
@@ -523,18 +529,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         params["userid"] = appUUID
         params["type"] = "3"
         params["param"] = "nick_name:aa,type:jpg,sex:1"
-        
-        
-    
-    
         print("保存用户信息\(item)")
-        
-
-        
-        
-
-        
-
     }
     
     private func saveUserInfo() {
@@ -552,10 +547,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
             param.append(["sex":  sex])
             lastSuccessRequest = UserUploadInfoRequest(userid: Int(sharedUserAccount!.uid!)!, type: sharedUserAccount!.type, param: param, image: "\(imageData)")
         }
-        
-//        lastSuccessRequest!.fetchAddInfoModels { (handler: Topic) -> Void in
-//        
-//        }
+    }
+    
+    // MARK: 自定义
+    
+    func searchButtonClicked(button: UIBarButtonItem) {
+        super.showSearch()
     }
 
 }

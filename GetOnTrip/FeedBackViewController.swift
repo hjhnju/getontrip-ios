@@ -8,9 +8,24 @@
 
 import UIKit
 
-class FeedBackViewController: UIViewController/*,UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate */{
+class FeedBackViewController: MainViewController /*,UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate */{
     
     static let name = "反馈"
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationController?.navigationBarHidden = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+    }
+    
+    
+    // MARK: 自定义
+    
+    func searchButtonClicked(button: UIBarButtonItem) {
+        super.showSearch()
+    }
 
 //    lazy var tableView: UITableView = UITableView()
 //    

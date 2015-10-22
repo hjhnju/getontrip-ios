@@ -148,10 +148,5 @@ class FavoriteViewController: MainViewController, UIScrollViewDelegate {
         super.showSearch()
     }
     
-    func showMenu(sender: UIBarButtonItem) {
-        print("show menuing")
-    }
-
-    
 }
 
