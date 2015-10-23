@@ -49,11 +49,11 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     var content: String?
     
-    lazy var bottomLine: UIView = UIView(color: UIColor(hex: 0x9C9C9C, alpha: 1.0))
+    lazy var bottomLine: UIView = UIView(color: SceneColor.lightGray)
     
     lazy var cover: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
   
-    lazy var shareView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 1.0)
+    lazy var shareView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
     
     lazy var shareBtn1: shareButton = shareButton(image: "round", title: "微信好友", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
     
@@ -231,6 +231,11 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         toolbarView.addSubview(bottomLine)
         
         view.addSubview(shareView)
+        shareView.alpha = 1
+        shareView.contentView.backgroundColor = UIColor.whiteColor()
+        shareView.contentView.alpha = 0.5
+
+
         shareView.addSubview(shareLabel)
         shareView.addSubview(shareBtn1)
         shareView.addSubview(shareBtn2)
