@@ -23,7 +23,7 @@ struct SettingCell {
     static let cityCell = 3
 }
 
-class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class SettingViewController: MainViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     static let name = "设置"
     
@@ -86,6 +86,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        navigationController?.navigationBarHidden = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+        
         setupAddProperty()
         setupBarButtonItem()
         loadInitSetting()
@@ -118,8 +124,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     private func setupInitSetting() {
-        title = "设置"
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        title = SettingViewController.name
         /// TPDO: 先注释
         iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!))
         
@@ -422,10 +427,8 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     
     /// MARK: - 保存用户信息
     func saveUserInfo(item: UIBarButtonItem) {
-        
+    
         iconView.image?.scaleImage(200)
-        
-        
         let imageData = UIImagePNGRepresentation(iconView.image!)
         var sex: Int?
         if gender.text == "男" {
@@ -435,7 +438,6 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         } else {
             sex = 2
         }
-
         sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text!)
 //        SVProgressHUD.showInfoWithStatus("登陆成功")
     }

@@ -146,10 +146,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         //nav bar
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         navigationItem.titleView = navTitleLabel
-        navigationController?.navigationBar.tintColor = SceneColor.lightGray
-        
-        let bgImage = UIKitTools.imageWithColor(UIColor.whiteColor().colorWithAlphaComponent(0.5))
-        navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         refreshTitle()
         
@@ -166,15 +163,29 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.tintColor = SceneColor.lightGray
+        refreshBar()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        //不能放在willAppear
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         //还原
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         UINavigationBar.appearance().tintColor = UIColor.yellowColor()
+        navigationController?.navigationBar.barTintColor = SceneColor.frontBlack
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
+    }
+    
+    func refreshBar() {
+        navigationController?.navigationBar.tintColor = SceneColor.lightGray
+        navigationController?.navigationBar.barTintColor = nil
     }
     
     func refreshTitle(){
@@ -234,8 +245,9 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         
         view.addSubview(cover)
         addChildViewController(commentVC)
-
+        commentVC.topicId = topicId
         cover.backgroundColor = UIColor.blackColor()
+        commentVC.view.clipsToBounds = true
         
         shareCancle.backgroundColor = SceneColor.lightYellow
         shareCancle.setTitleColor(SceneColor.bgBlack, forState: UIControlState.Normal)
@@ -488,33 +500,17 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         view.addSubview(cover)
         view.addSubview(vc.view)
         
-        vc.view.clipsToBounds = true
+//        vc.view.clipsToBounds = true
         vc.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
         cover.frame = UIScreen.mainScreen().bounds
-        UIView.animateWithDuration(0.5) { () -> Void in
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            
             vc.view.frame = CGRectMake(0, 248, w, h - 248 - 44)
             self.cover.alpha = 0.7
+            }) { (_) -> Void in
+                self.commentVC.view.clipsToBounds = false
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-//        let pop = SendPopoverAnimator()
-        // 1. 设置`转场 transitioning`代理
-//        vc.transitioningDelegate = pop
-        // 2. 设置视图的展现大小
-//        pop.presentFrame = CGRectMake(0, 248, view.bounds.width, view.bounds.height - 248 - 44)
-//        vc.view.clipsToBounds = true
-        // 3. 设置专场的模式 - 自定义转场动画
-//        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
-        
-//        presentViewController(vc, animated: true, completion: nil)
     }
     
 
@@ -523,12 +519,13 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         
         
         
+        self.commentVC.view.clipsToBounds = true
         commentVC.issueTextfield.resignFirstResponder()
         UIView.animateWithDuration(0.5, animations: { [unowned self] () -> Void in
             self.cover.alpha = 0.0
             self.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
             }) { [unowned self]  (_) -> Void in
-//                
+//
 //                self.cover.removeFromSuperview()
 //                self.commentVC.view.removeFromSuperview()
         }
@@ -571,21 +568,20 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
 //        commentVC.view.layoutIfNeeded()
 //        commentVC.view.frame.origin.y = transFromValue + commentVC.vie
         
-        if transFromValue == -271{
-            transFromValue = transFromValue + 44
-        } else {
-            
+        if transFromValue == 0{
             transFromValue = 0
+        } else {
+            transFromValue = transFromValue + 44
         }
         print(transFromValue)
-        commentVC.view.transform = CGAffineTransformMakeTranslation(0, transFromValue)
         
 //        NSIndexPath *idxPat = [NSIndexPath indexPathForRow:self.messagesFrame.count - 1 inSection:0];
 //        [self.tableView scrollToRowAtIndexPath:idxPat atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        self.commentVC.view.transform = CGAffineTransformMakeTranslation(0, transFromValue)
 //        UIView.animateWithDuration(duration, animations: { () -> Void in
-//            self.view.layoutIfNeeded()
+////            self.view.layoutIfNeeded()
 //            }) { (_) -> Void in
-        
+//        
 //        }
     }
 }

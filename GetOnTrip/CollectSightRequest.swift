@@ -21,55 +21,54 @@ class CollectSightRequest: NSObject {
     */
 
     // 请求参数
-    var type    :Int?
-    var device  :String = appUUID!
+    var type    : Int?
+    var device  : String = appUUID!
     var page    : Int = 1
     var pageSize: Int = 6
     
     /// 将收藏景点数据回调外界
-    func fetchCollectSightModels(handler: [CollectSight] -> Void) {
-        fetchSightModels(handler)
-    }
+//    func fetchCollectSightModels(handler: [CollectSight] -> Void) {
+//        fetchSightModels(handler)
+//    }
     
     /// 将收藏话题数据回调外界
-    func fetchCollectTopicModels(handler: [CollectContent] -> Void) {
-        fetchTopicModels(handler)
+    func fetchCollectTopicModels(handler: [AnyObject] -> Void) {
+        fetchCollectionModels(handler)
     }
-    
-    /// 将收藏主题数据回调外界
-    func fetchCollectMotifModels(handler: [CollectCity] -> Void) {
-        fetchMotifModels(handler)
-    }
+//
+//    /// 将收藏主题数据回调外界
+//    func fetchCollectMotifModels(handler: [CollectCity] -> Void) {
+//        fetchMotifModels(handler)
+//    }
     // 异步加载景点获取数据
-    func fetchSightModels(handler: [CollectSight] -> Void) {
-        var post       = [String: String]()
-        post["type"]   = String(2)
-        post["device"] = String(self.device)
-        
-        // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/collect/list",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-
-                var collectSightM = [CollectSight]()
-                    for it in respData as! NSArray {
-                        
-                        let collectM = CollectSight(dict: it as! [String : String])
-
-                        collectSightM.append(collectM)
-                    }
-//http://123.57.46.229:8301/api/search/label?pageSize=6&page=1&label=
-                    // 回调
-                    handler(collectSightM)
-            }
-        )
-    }
+//    func fetchSightModels(handler: [CollectSight] -> Void) {
+//        var post       = [String: String]()
+//        post["type"]   = String(2)
+//        post["device"] = String(self.device)
+//        
+//        // 发送网络请求加载数据
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/collect/list",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//
+//                var collectSightM = [CollectSight]()
+//                    for it in respData as! NSArray {
+//                        
+//                        let collectM = CollectSight(dict: it as! [String : String])
+//
+//                        collectSightM.append(collectM)
+//                    }
+//                    // 回调
+//                    handler(collectSightM)
+//            }
+//        )
+//    }
     
     // 异步加载话题获取数据
-    func fetchTopicModels(handler: [CollectContent] -> Void) {
+    func fetchCollectionModels(handler: [AnyObject] -> Void) {
         var post       = [String: String]()
-        post["type"]   = String(1)
+        post["type"]   = String(type)
         post["device"] = String(self.device)
         
         // 发送网络请求加载数据
@@ -91,28 +90,28 @@ class CollectSightRequest: NSObject {
     }
     
     // 异步加载主题获取数据
-    func fetchMotifModels(handler: [CollectCity] -> Void) {
-        var post       = [String: String]()
-        post["type"]   = String(3)
-        post["device"] = String(self.device)
-        
-        // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/collect/list",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                
-                var collectSightM = [CollectCity]()
-                    for it in respData as! NSArray {
-                        
-                        collectSightM.append(CollectCity(dict: it as! [String : String]))
-                    }
-                    
-                    // 回调
-                    handler(collectSightM)
-            }
-        )
-    }
+//    func fetchMotifModels(handler: [CollectCity] -> Void) {
+//        var post       = [String: String]()
+//        post["type"]   = String(3)
+//        post["device"] = String(self.device)
+//        
+//        // 发送网络请求加载数据
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/collect/list",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                
+//                var collectSightM = [CollectCity]()
+//                    for it in respData as! NSArray {
+//                        
+//                        collectSightM.append(CollectCity(dict: it as! [String : String]))
+//                    }
+//                    
+//                    // 回调
+//                    handler(collectSightM)
+//            }
+//        )
+//    }
 }
 
 

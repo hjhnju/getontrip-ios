@@ -111,7 +111,6 @@ class CitySightsViewController: UICollectionViewController {
         searchController!.searchBar.becomeFirstResponder()
         searchController!.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
 
-//        navigationController?.pushViewController(searchController!, animated: true)
         presentViewController(searchController!, animated: true, completion: nil)
     }
     

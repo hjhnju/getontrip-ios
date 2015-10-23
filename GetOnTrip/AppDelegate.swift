@@ -32,22 +32,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ///  写入cookie
         writeCookie()
         
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.rootViewController = SlideMenuViewController()
-        window?.makeKeyAndVisible()
-        
         //status bar
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         
-        //nav bar, 放在创建完NavigationController后才会生效
+        //nav bar
         let backButtonImage = UIImage(named: "icon_back")
         UINavigationBar.appearance().backIndicatorImage = backButtonImage
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         UINavigationBar.appearance().tintColor = UIColor.yellowColor()
-        UINavigationBar.appearance().barStyle = UIBarStyle.BlackOpaque
+        UINavigationBar.appearance().barTintColor = SceneColor.frontBlack
+        UINavigationBar.appearance().backgroundColor = UIColor.clearColor()
+        UINavigationBar.appearance().barStyle = UIBarStyle.Default //白色半透明模糊
         UINavigationBar.appearance().clipsToBounds = false //包含状态栏
+        UINavigationBar.appearance().shadowImage = UIImage() //1px line
+        UINavigationBar.appearance().translucent = true
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.rootViewController = SlideMenuViewController()
+        window?.makeKeyAndVisible()
         
         //cache
         let urlCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
@@ -70,8 +74,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var cookieProperties = [String: AnyObject]()
         cookieProperties[NSHTTPCookieName] = "device_id"
         cookieProperties[NSHTTPCookieValue] = appUUID!
-        cookieProperties[NSHTTPCookieDomain] = "www.getontrip.cn"
-        cookieProperties[NSHTTPCookieOriginURL] = "www.getontrip.cn"
+        cookieProperties[NSHTTPCookieDomain] = "123.57.46.229"
+        cookieProperties[NSHTTPCookieOriginURL] = "123.57.46.229"
         cookieProperties[NSHTTPCookiePath] = "/"
         cookieProperties[NSHTTPCookieVersion] = "0"
         NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties)!)
@@ -79,8 +83,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var cookieProperties1 = [String: AnyObject]()
         cookieProperties1[NSHTTPCookieName] = "current_user"
         cookieProperties1[NSHTTPCookieValue] = "z5K%2bXZURRu4%3d"
-        cookieProperties1[NSHTTPCookieDomain] = "www.getontrip.cn"
-        cookieProperties1[NSHTTPCookieOriginURL] = "www.getontrip.cn"
+        cookieProperties1[NSHTTPCookieDomain] = "123.57.46.229"
+        cookieProperties1[NSHTTPCookieOriginURL] = "123.57.46.229"
         cookieProperties1[NSHTTPCookiePath] = "/"
         cookieProperties1[NSHTTPCookieVersion] = "0"
         NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties1)!)
@@ -132,6 +136,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             },
             onConfiguration: {(platform : SSDKPlatformType,appInfo : NSMutableDictionary!) -> Void in
                 switch platform {
+                    
+                    
                     
                 case SSDKPlatformType.TypeSinaWeibo:
                     //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权 2543743086 0ea741a8c5d9b3ffaeadf8d3a0659fb9

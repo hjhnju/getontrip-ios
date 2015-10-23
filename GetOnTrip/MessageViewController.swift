@@ -10,7 +10,7 @@
 import UIKit
 import FFAutoLayout
 
-class MessageViewController: UITableViewController {
+class MessageViewController: MainViewController, UITableViewDataSource, UITableViewDelegate{
     
     static let name = "消息"
 
@@ -18,8 +18,20 @@ class MessageViewController: UITableViewController {
     
     var messageLists: [MessageList]?
     
+    lazy var tableView: UITableView = UITableView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.whiteColor()
+        
+        navigationController?.navigationBarHidden = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.frame = view.bounds
         
         setupProperty()
         loadFeedBackHistory()
@@ -29,7 +41,6 @@ class MessageViewController: UITableViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(MessageTableViewCell.self, forCellReuseIdentifier: "Message_Cell")
         title = "消息"
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
     }
     
     
@@ -48,21 +59,25 @@ class MessageViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return messageLists?.count ?? 0
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Message_Cell", forIndexPath: indexPath) as! MessageTableViewCell
         cell.message = messageLists![indexPath.row] as MessageList
-//        cell.iconView.layer.cornerRadius = max(cell.iconView.bounds.width, cell.iconView.bounds.height) * 0.5
-//        cell.iconView.clipsToBounds = true
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 72
+    }
+    
+    // MARK: 自定义
+    
+    func searchButtonClicked(button: UIBarButtonItem) {
+        super.showSearch()
     }
 }
 

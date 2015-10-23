@@ -62,10 +62,11 @@ class CollectCityViewController: UICollectionViewController {
         //获取数据更新tableview
         if lastSuccessRequest == nil {
             lastSuccessRequest = CollectSightRequest()
+            lastSuccessRequest?.type = 3
         }
         
-        lastSuccessRequest?.fetchCollectMotifModels { (handler: [CollectCity]) -> Void in
-            self.collectCity = handler as [CollectCity]
+        lastSuccessRequest?.fetchCollectionModels { (handler: [AnyObject]) -> Void in
+            self.collectCity = handler as! [CollectCity]
             self.collectionView!.reloadData()
         }
     }

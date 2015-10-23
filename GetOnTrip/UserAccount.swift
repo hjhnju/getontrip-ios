@@ -175,9 +175,24 @@ class UserAccount: NSObject, NSCoding {
     
     class func loadAccount() -> UserAccount? {
         
+         /// 程序启动先调用登陆状态如果后台说未登陆就让它下线
+        
+        
         // 判断 token 是否已经过期，如果过期，直接返回 nil
         if let account = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount {
-        
+            
+            if account.userInfoGainRequest == nil {
+                account.userInfoGainRequest = UserInfoRequest()
+                account.userInfoGainRequest?.type = account.type
+            }
+            
+            account.userInfoGainRequest?.userInfoGainMeans({ (handler) -> Void in
+                let user = handler as UserInfo
+                if user.type == "0" {
+                    account.exitLogin()
+                }
+            })
+            
             // 判断日期是否过期，根当前系统时间进行`比较`，低于当前系统时间，就认为过期
             // 过期日期`大于`当前日期，结果应该是降序
 //            if account.credential!.expired!.compare(NSDate()) == NSComparisonResult.OrderedDescending {

@@ -41,8 +41,8 @@ class MainViewController: UIViewController {
         slideDelegate?.toggle()
     }
     
-    
     var searchController: UISearchController!
+    
     func showSearch(){
         // 获得父控制器
         let searchResultsController = SearchResultsViewController()
@@ -63,7 +63,6 @@ class MainViewController: UIViewController {
         searchController.searchBar.becomeFirstResponder()
         searchController.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
         
-//        navigationController?.pushViewController(searchController, animated: true)
         presentViewController(searchController, animated: true, completion: nil)
 
     }

@@ -97,5 +97,10 @@ class SightLabel: UILabel {
         }
         
     }
+}
+
+/// 评论人姓名
+class CommentPersonLabel : UILabel {
+    
     
 }

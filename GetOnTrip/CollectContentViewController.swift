@@ -41,10 +41,11 @@ class CollectContentViewController: UITableViewController {
         //获取数据更新tableview
         if lastSuccessRequest == nil {
             lastSuccessRequest = CollectSightRequest()
+            lastSuccessRequest?.type = 1
         }
         
-        lastSuccessRequest?.fetchCollectTopicModels { (handler: [CollectContent]) -> Void in
-            self.collectContent = handler as [CollectContent]
+        lastSuccessRequest?.fetchCollectTopicModels { (handler: [AnyObject]) -> Void in
+            self.collectContent = handler as! [CollectContent]
 
             self.tableView.reloadData()
         }

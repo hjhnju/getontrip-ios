@@ -48,13 +48,36 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     // MARK: Properties and Views    
     
+    //当前选择的主窗体对象
+    var curVCType: AnyClass! {
+        didSet {
+            if let vcType =  curVCType as? UIViewController.Type {
+                let vc = vcType.init()
+                mainViewController = vc as! MainViewController
+            }
+        }
+    }
+    
     //主窗体Controller
-    var mainViewController: MainViewController = SearchRecommendViewController()
+    var mainViewController: MainViewController! {
+        didSet{
+            self.mainNavViewController.setViewControllers([mainViewController], animated: true)
+            //初始化蒙板
+            maskView = UIView(color: UIColor.blackColor(), alphaF: 0.1)
+            mainViewController.view.addSubview(maskView)
+            mainViewController.view.bringSubviewToFront(maskView)
+            maskView.frame = mainViewController.view.bounds
+            
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureHandler:")
+            maskView.addGestureRecognizer(tapGestureRecognizer)
+            mainViewController.view.addGestureRecognizer(panGestureRecognizer)
+            mainViewController.slideDelegate = self
+            refreshMask()
+        }
+    }
     
     //带导航的主窗体
-    lazy var mainNavViewController: UINavigationController = { [unowned self] in
-        return UINavigationController(rootViewController: self.mainViewController)
-    }()
+    lazy var mainNavViewController: UINavigationController = UINavigationController()
     
     //主窗体的遮罩层
     var maskView: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.1)
@@ -101,13 +124,13 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var weiboButton: UIButton = UIButton(icon: "icon_weibo", masksToBounds: true)
     
     //当前城市
-    lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: "当前城市未知", fontSize: 10)
+    lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: " 当前城市未知", fontSize: 10)
     
     //设置菜单的数据源
-    let tableViewDataSource = [FavoriteViewController.name, MessageViewController.name, SettingViewController.name, FeedBackViewController.name]
+    let tableViewDataSource = ["首页", FavoriteViewController.name, MessageViewController.name, SettingViewController.name, FeedBackViewController.name]
     
     //菜单对应元类
-    let usingVCTypes: [AnyClass] = [FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
+    let usingVCTypes: [AnyClass] = [SearchRecommendViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
     
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
@@ -123,9 +146,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //登陆状态
     var logined: Bool = true
-    
-    //主窗体遮罩层点击手势
-    var tapGestureRecognizer: UITapGestureRecognizer!
     
     //滑动手势
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
@@ -152,6 +172,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         
+        //default
+        curVCType = self.usingVCTypes[0]
+        
         setupInit()
         setupAutoLayout()
         refreshLoginStatus()
@@ -176,7 +199,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         view.addSubview(menuView)
         
         //初始化主窗体
-        mainViewController.slideDelegate = self
         addChildViewController(mainNavViewController)
         view.addSubview(mainNavViewController.view)
         
@@ -209,16 +231,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.scrollEnabled = false
         
-        //初始化蒙板
-        mainViewController.view.addSubview(maskView)
-        mainViewController.view.bringSubviewToFront(maskView)
-        maskView.frame = mainViewController.view.bounds
-        refreshMask()
-        
         //添加手势
-        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureHandler:")
-        maskView.addGestureRecognizer(tapGestureRecognizer)
-        mainViewController.view.addGestureRecognizer(panGestureRecognizer)
         menuView.addGestureRecognizer(panGestureRecognizer2)
     }
     
@@ -249,7 +262,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         currentCityButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: menuView, size: nil, offset: CGPointMake(0, -21))
         
         //main
-        maskView.ff_Fill(mainNavViewController.view)
+        maskView.ff_Fill(mainViewController.view)
     }
     
     override func viewDidLayoutSubviews() {
@@ -317,30 +330,24 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         //TODO:未登录情况
-        if sharedUserAccount == nil {
-
+        if indexPath.row != 0 && sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
                 if resultB == true {
                     //调整
-                    if let vcType = self.usingVCTypes[indexPath.row] as? UIViewController.Type {
-                        let vc = vcType.init()
-                        self.mainNavViewController.pushViewController(vc, animated: true)
+                    if self.curVCType != self.usingVCTypes[indexPath.row] {
+                        self.curVCType = self.usingVCTypes[indexPath.row]
                     }
-                    
                     //关闭侧边栏
                     self.didClose()
                 }
             })
-            
             return
         }
         
-        
         //调整
-        if let vcType = usingVCTypes[indexPath.row] as? UIViewController.Type {
-            let vc = vcType.init()
-            mainNavViewController.pushViewController(vc, animated: true)
+        if curVCType != usingVCTypes[indexPath.row] {
+            curVCType = usingVCTypes[indexPath.row]
         }
         
         //关闭侧边栏
@@ -372,11 +379,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
 
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
-            
-            print("placemarks=\(placemarks)")
             if let locality = placemarks?.first?.locality {
-                print("loc=\(locality)")
-                let firstPlacemark: NSString = NSString(string: "\(locality)")
+                let firstPlacemark: NSString = NSString(string: " 当前城市\(locality)")
                 self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
             }
         }
@@ -392,6 +396,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //用户touch的点位置
     var panGestureStartLocation : CGPoint!
+    
+    var menuAlpha:CGFloat = 0.0 {
+        didSet{
+            menuView.alpha = menuAlpha
+        }
+    }
     
     //左右滑动效果
     func panGestureHandler(sender: UIPanGestureRecognizer){
@@ -415,11 +425,13 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 if (self.slideMenuState == SlideMenuState.Closing){
                     frame.origin.x = xOffSet + startX
                 }
+                menuAlpha = xOffSet / SlideMenuOptions.DrawerWidth + 0.3
             //左滑动
             }else if (xOffSet < 0 && xOffSet > -SlideMenuOptions.DrawerWidth){
                 if (self.slideMenuState == SlideMenuState.Opening){
                     frame.origin.x = xOffSet + SlideMenuOptions.DrawerWidth
                 }
+                menuAlpha = 1 - xOffSet / SlideMenuOptions.DrawerWidth
             }
             self.mainNavViewController.view.frame = frame;
             break;
@@ -452,13 +464,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
-            animations:{ self.mainNavViewController.view.frame = mainSize; },
+            animations:{ self.mainNavViewController.view.frame = mainSize },
             completion: { (finished: Bool) -> Void in }
         )
         
         //将侧边栏的装填标记为打开状态
         self.slideMenuState = SlideMenuState.Opening
         
+        menuAlpha = 1.0
         refreshMask()
     }
     
@@ -471,13 +484,16 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         //将主窗体的起始位置恢复到原始状态
         var mainSize = self.mainNavViewController.view.frame
         mainSize.origin.x = 0
+        menuAlpha = 1.0
         UIView.animateWithDuration(0.7,
             delay: 0,
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
-            animations: { self.mainNavViewController.view.frame = mainSize; },
-            completion: { (finished: Bool) -> Void in }
+            animations: { self.mainNavViewController.view.frame = mainSize;
+                self.menuAlpha = 0.5},
+            completion: { (finished: Bool) -> Void in
+                self.menuAlpha = 0.0 }
         )
         
         refreshMask()

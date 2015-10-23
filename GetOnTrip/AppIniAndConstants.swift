@@ -43,7 +43,7 @@ struct SceneColor {
     //背景黑
     static let bgBlack     = UIColor(hex: 0x2A2D2E, alpha:1)
     //前景深黑
-    static let frontBlack   = UIColor(hex: 0x1C1C1C, alpha: 1.0)
+    static let frontBlack   = UIColor(hex: 0x1C1C1C, alpha: 1)
     
     
     static let gray        = UIColor(hex: 0x3E3E3E, alpha:1)
@@ -59,6 +59,11 @@ struct SceneColor {
     static let shallowGrey = UIColor(hex: 0x979797, alpha: 1.0)
     /// 深灰
     static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)
+    
+    /// 696969 评论内容
+    static let dilutedGrey   = UIColor(hex: 0x696969, alpha: 1.0)
+    /// F3FD54 浅黄
+    static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
 }
 
 ///  登陆类型 1:qq,2:weixin,3:weibo
