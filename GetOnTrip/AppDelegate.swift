@@ -139,6 +139,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             onConfiguration: {(platform : SSDKPlatformType,appInfo : NSMutableDictionary!) -> Void in
                 switch platform {
                     
+                    
+                    
                 case SSDKPlatformType.TypeSinaWeibo:
                     //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权 2543743086 0ea741a8c5d9b3ffaeadf8d3a0659fb9
                     appInfo.SSDKSetupSinaWeiboByAppKey("1054799569",

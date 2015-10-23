@@ -16,11 +16,9 @@ class UserInfoRequest: NSObject {
     * @param integer type,第三方登录类型，1:qq,2:weixin,3:weibo
     * @return json
     */
-
     
     // 请求参数
     var type: Int?
-
     
     // 异步加载获取数据
     func userInfoGainMeans(handler: UserInfo -> Void) {
@@ -68,10 +66,6 @@ class UserInfo : NSObject {
         self.init()
         
         setValuesForKeysWithDictionary(dict)
-//        nick_name = dict["nick_name"] as! String
-//        image = AppIni.BaseUri + (dict["image"] as! String)
-//        sex = String(dict["sex"])
-        
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

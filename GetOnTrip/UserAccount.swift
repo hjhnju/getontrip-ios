@@ -49,6 +49,9 @@ class UserAccount: NSObject, NSCoding {
     /// 添加用户信息
     var userAddRequest: UserAddRequest?
     
+    /// 退出登陆
+    var userExitLoginRequest: UserExitLoghtRequest?
+    
     
     /// 登陆类型 1:qq,2:weixin,3:weibo
     var type: Int = 0
@@ -143,12 +146,21 @@ class UserAccount: NSObject, NSCoding {
 
     }
     
+    func userExitLoginAction() {
+        if userExitLoginRequest == nil {
+            userExitLoginRequest = UserExitLoghtRequest()
+        }
+        userExitLoginRequest?.fetchExitLoginModels()
+
+    }
+    
     /// MARK: - 保存和加载文件
     static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("account.plist")
     
     // MARK: - 退出登陆
     func exitLogin() {
         sharedUserAccount = nil
+        userExitLoginAction()
         NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
         try! NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
     }
@@ -163,9 +175,24 @@ class UserAccount: NSObject, NSCoding {
     
     class func loadAccount() -> UserAccount? {
         
+         /// 程序启动先调用登陆状态如果后台说未登陆就让它下线
+        
+        
         // 判断 token 是否已经过期，如果过期，直接返回 nil
         if let account = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount {
-        
+            
+            if account.userInfoGainRequest == nil {
+                account.userInfoGainRequest = UserInfoRequest()
+                account.userInfoGainRequest?.type = account.type
+            }
+            
+            account.userInfoGainRequest?.userInfoGainMeans({ (handler) -> Void in
+                let user = handler as UserInfo
+                if user.type == "0" {
+                    account.exitLogin()
+                }
+            })
+            
             // 判断日期是否过期，根当前系统时间进行`比较`，低于当前系统时间，就认为过期
             // 过期日期`大于`当前日期，结果应该是降序
 //            if account.credential!.expired!.compare(NSDate()) == NSComparisonResult.OrderedDescending {

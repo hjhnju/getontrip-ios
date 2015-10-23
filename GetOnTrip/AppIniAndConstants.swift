@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+let GetonTripCn = "www.getontrip.cn"
+
 class AppIniOnline {
     static let BaseUri = "http://123.57.67.165:8301"
 }
@@ -57,6 +59,11 @@ struct SceneColor {
     static let shallowGrey = UIColor(hex: 0x979797, alpha: 1.0)
     /// 深灰
     static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)
+    
+    /// 696969 评论内容
+    static let dilutedGrey   = UIColor(hex: 0x696969, alpha: 1.0)
+    /// F3FD54 浅黄
+    static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
 }
 
 ///  登陆类型 1:qq,2:weixin,3:weibo

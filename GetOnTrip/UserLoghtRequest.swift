@@ -36,7 +36,38 @@ class UserLoghtRequest: NSObject {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 print(respData)
+                
+                let cookieJar = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+                for c in cookieJar.cookies! {
+                    print(c)
+                }
             }
         )
     }
 }
+
+
+class UserExitLoghtRequest: NSObject {
+    
+    
+    /**
+    * 接口2：/api/user/signOut
+    * 退出登录接口
+    * @return json
+    */
+    
+    
+    func fetchExitLoginModels() {
+        
+        let post         = [String: String]()
+        // 发送网络请求加载数据
+        HttpRequest.ajax(AppIni.BaseUri,
+            path: "/api/user/signOut",
+            post: post,
+            handler: {(respData: AnyObject) -> Void in
+                print(respData)
+            }
+        )
+    }
+}
+

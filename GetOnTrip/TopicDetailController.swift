@@ -145,12 +145,16 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+<<<<<<< HEAD
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+=======
         view.backgroundColor = UIColor.whiteColor()
         webView.backgroundColor = UIColor.whiteColor()
         
         //原则：如果和默认设置不同，controller自己定义新值，退出时自己还原
         oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
         
+>>>>>>> 738936b5a83367591816bb5fdbf63258de1ddf3e
         //nav bar
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
         navigationItem.titleView = navTitleLabel
@@ -165,6 +169,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         setupAddProperty()
         setupDefaultProperty()
         setupAutoLayout()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -249,6 +255,15 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         shareBtn4.tag = 4
         shareBtn5.tag = 5
         
+        headerView.userInteractionEnabled = true
+        headerImageView.userInteractionEnabled = true
+        
+        view.addSubview(cover)
+        addChildViewController(commentVC)
+        commentVC.topicId = topicId
+        cover.backgroundColor = UIColor.blackColor()
+        commentVC.view.clipsToBounds = true
+        
         shareCancle.backgroundColor = SceneColor.lightYellow
         shareCancle.setTitleColor(SceneColor.bgBlack, forState: UIControlState.Normal)
     }
@@ -314,8 +329,16 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         shareBtnY3 = shareBtn3.ff_Constraint(s3, attribute: NSLayoutAttribute.CenterY)
         shareBtnY4 = shareBtn4.ff_Constraint(s4, attribute: NSLayoutAttribute.CenterY)
         shareBtnY5 = shareBtn5.ff_Constraint(s5, attribute: NSLayoutAttribute.CenterY)
+        cover.ff_Fill(view)
     }
 
+    deinit {
+        print("让我走不\(__FUNCTION__)")
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+
+    }
+    
     // MARK: UIWebView and UIScrollView Delegate 代理方法
     func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
         
@@ -484,31 +507,42 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     
     // MARK: - 评论
+//    let popoverAnimator = SendPopoverAnimator()
     func doComment(sender: UIButton) {
-        
+        let w = view.bounds.width
+        let h = view.bounds.height
         let vc = commentVC
-
-        // 1. 设置`转场 transitioning`代理
-        //vc.transitioningDelegate = sendPopoverAnimator
-        // 2. 设置视图的展现大小
-        vc.view.clipsToBounds = true
-        // 3. 设置专场的模式 - 自定义转场动画
-        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+        view.addSubview(cover)
+        view.addSubview(vc.view)
         
-        presentViewController(vc, animated: true, completion: nil)
+//        vc.view.clipsToBounds = true
+        vc.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
+        cover.frame = UIScreen.mainScreen().bounds
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            
+            vc.view.frame = CGRectMake(0, 248, w, h - 248 - 44)
+            self.cover.alpha = 0.7
+            }) { (_) -> Void in
+                self.commentVC.view.clipsToBounds = false
+        }
     }
     
 
     // MARK: - 遮罩方法
     func coverClick(serder: UIButton) {
         
+        
+        
+        self.commentVC.view.clipsToBounds = true
+        commentVC.issueTextfield.resignFirstResponder()
         UIView.animateWithDuration(0.5, animations: { [unowned self] () -> Void in
             self.cover.alpha = 0.0
             self.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
             }) { [unowned self]  (_) -> Void in
-                
-                self.cover.removeFromSuperview()
-                self.commentVC.view.removeFromSuperview()
+//
+//                self.cover.removeFromSuperview()
+//                self.commentVC.view.removeFromSuperview()
         }
     }
     
@@ -536,6 +570,34 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     ///  搜索跳入之后消失控制器
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+    /// 当键盘弹出的时候，执行相关操作
+    func keyboardChanged(not: NSNotification) {
+        let duration = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
+        let keyBoardFrame = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
+        let keyBoardY = keyBoardFrame?.origin.y
+        
+        var transFromValue = keyBoardY! - view.bounds.height //+ 44
+//        commentVC.view.layoutIfNeeded()
+//        commentVC.view.frame.origin.y = transFromValue + commentVC.vie
+        
+        if transFromValue == 0{
+            transFromValue = 0
+        } else {
+            transFromValue = transFromValue + 44
+        }
+        print(transFromValue)
+        
+//        NSIndexPath *idxPat = [NSIndexPath indexPathForRow:self.messagesFrame.count - 1 inSection:0];
+//        [self.tableView scrollToRowAtIndexPath:idxPat atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        self.commentVC.view.transform = CGAffineTransformMakeTranslation(0, transFromValue)
+//        UIView.animateWithDuration(duration, animations: { () -> Void in
+////            self.view.layoutIfNeeded()
+//            }) { (_) -> Void in
+//        
+//        }
     }
 }
 

@@ -29,6 +29,7 @@
 			<string>cn.getontrip.GetOnTrip</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>cn.getontrip.www</string>
 				<string>QQ41DA59A7</string>
 				<string>wb1054799569</string>
 				<string>wx2af0c4fd046e238f</string>

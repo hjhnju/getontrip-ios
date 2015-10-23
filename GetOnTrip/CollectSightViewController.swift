@@ -62,10 +62,11 @@ class CollectSightViewController: UICollectionViewController {
         //获取数据更新tableview
         if lastSuccessRequest == nil {
             lastSuccessRequest = CollectSightRequest()
+            lastSuccessRequest?.type = 2
         }
         
-        lastSuccessRequest?.fetchCollectSightModels { (handler: [CollectSight]) -> Void in
-            self.collectSights = handler
+        lastSuccessRequest?.fetchCollectTopicModels { (handler: [AnyObject]) -> Void in
+            self.collectSights = handler as! [CollectSight]
             self.collectionView?.reloadData()
         }
     }
