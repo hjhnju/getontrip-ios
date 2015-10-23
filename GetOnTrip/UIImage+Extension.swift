@@ -43,4 +43,25 @@ extension UIImage {
         // 5> 返回结果
         return result
     }
+    
+    //http://stackoverflow.com/questions/5084845/how-to-set-the-opacity-alpha-of-a-uiimage
+    //image with alpha
+    func imageByApplyingAlpha(alpha:CGFloat) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.size, false, 0.0)
+    
+        let ctx = UIGraphicsGetCurrentContext();
+        let area = CGRectMake(0, 0, self.size.width, self.size.height);
+    
+        CGContextScaleCTM(ctx, 1, -1);
+        CGContextTranslateCTM(ctx, 0, -area.size.height);
+        CGContextSetBlendMode(ctx, CGBlendMode.Multiply);
+        CGContextSetAlpha(ctx, alpha);
+        CGContextDrawImage(ctx, area, self.CGImage);
+    
+        let newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+        UIGraphicsEndImageContext();
+    
+        return newImage;
+    }
 }

@@ -89,6 +89,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     //导航透明度
     var navBarAlpha:CGFloat = 0.0
     
+    //原导航底图
+    var oldBgImage: UIImage?
+    
     // MARK: - 初始化相关内容
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -97,7 +100,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        //原则：如果和默认设置不同，controller自己定义新值，退出时自己还原
+        oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
+            
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.titleView = titleLabel
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
@@ -119,7 +125,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func viewWillDisappear(animated: Bool) {
-        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+        super.viewWillDisappear(animated)
+        //在viewDidDisappear中无法生效
+        navigationController?.navigationBar.setBackgroundImage(oldBgImage, forBarMetrics: UIBarMetrics.Default)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -131,9 +139,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         titleLabel.alpha       = navBarAlpha
         titleLabel.hidden      = false
         
+        //let bgImage = UIImage(named: "icon_bar_crystal")?.imageByApplyingAlpha(navBarAlpha)
         let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha))
         navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.tintColor = UIColor.yellowColor()
     }
     
     /// 添加控件

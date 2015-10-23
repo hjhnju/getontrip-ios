@@ -22,12 +22,13 @@ class MessageViewController: MainViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.whiteColor()
-        
+        view.backgroundColor = SceneColor.bgBlack
+        view.addSubview(tableView)
+        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.frame = CGRectMake(0, 64, view.bounds.width, view.bounds.height)
+
         navigationController?.navigationBarHidden = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         tableView.dataSource = self
         tableView.delegate = self
