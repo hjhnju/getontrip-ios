@@ -42,12 +42,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         UINavigationBar.appearance().tintColor = UIColor.yellowColor()
-        UINavigationBar.appearance().barTintColor = SceneColor.frontBlack
-        UINavigationBar.appearance().backgroundColor = UIColor.clearColor()
         UINavigationBar.appearance().barStyle = UIBarStyle.Default //白色半透明模糊
         UINavigationBar.appearance().clipsToBounds = false //包含状态栏
         UINavigationBar.appearance().shadowImage = UIImage() //1px line
-        UINavigationBar.appearance().translucent = true
+        UINavigationBar.appearance().translucent = true //为false默认0点会下移
+        //导航背景色
+        UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
+        let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack)
+        UINavigationBar.appearance().setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
         
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.rootViewController = SlideMenuViewController()

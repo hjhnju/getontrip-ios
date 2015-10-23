@@ -55,14 +55,13 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = SceneColor.bgBlack
         
         //nav bar
         automaticallyAdjustsScrollViewInsets = false
-        view.backgroundColor = SceneColor.frontBlack //barStyle=BlackOpaque时决定了导航颜色
         navigationItem.title = sightName
         navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
-        
 
         view.addSubview(labelNavView)
         labelNavView.addSubview(labelScrollView)
@@ -79,7 +78,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -90,6 +88,11 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
+        super.viewDidDisappear(animated)
     }
     
     override func viewDidLayoutSubviews() {

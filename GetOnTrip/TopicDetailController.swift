@@ -138,15 +138,27 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     //导航透明度
     var headerAlpha:CGFloat = 1.0
     
+    //原导航底图
+    var oldBgImage: UIImage?
+    
     // MARK: - 初始化方法
     override func viewDidLoad() {
         super.viewDidLoad()
         
+<<<<<<< HEAD
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+=======
+        view.backgroundColor = UIColor.whiteColor()
+        webView.backgroundColor = UIColor.whiteColor()
+        
+        //原则：如果和默认设置不同，controller自己定义新值，退出时自己还原
+        oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
+        
+>>>>>>> 738936b5a83367591816bb5fdbf63258de1ddf3e
         //nav bar
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
         navigationItem.titleView = navTitleLabel
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+        //navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         refreshTitle()
         
@@ -167,25 +179,26 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         //不能放在willAppear
         self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        //还原
-        UINavigationBar.appearance().tintColor = UIColor.yellowColor()
-        navigationController?.navigationBar.barTintColor = SceneColor.frontBlack
+        //在viewDidDisappear中无法生效
+        navigationController?.navigationBar.setBackgroundImage(oldBgImage, forBarMetrics: UIBarMetrics.Default)
     }
     
+    
     override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
+        //还原
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
+        super.viewDidDisappear(animated)
     }
     
     func refreshBar() {
-        navigationController?.navigationBar.tintColor = SceneColor.lightGray
-        navigationController?.navigationBar.barTintColor = nil
+        navigationController?.navigationBar.setBackgroundImage(UIImage(named: "icon_bar_crystal"), forBarMetrics: UIBarMetrics.Default)
     }
     
     func refreshTitle(){
@@ -209,9 +222,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     private func setupAddProperty() {
-
-        view.backgroundColor = UIColor.whiteColor()
-        
         view.addSubview(webView)
         view.addSubview(headerView)
         view.addSubview(toolbarView)
