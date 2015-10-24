@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import SVProgressHUD
 
 class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
 
@@ -43,7 +44,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     lazy var bottomView: UIView = UIView()
     
-    lazy var collectBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
+    lazy var collectBtn: UIButton = UIButton(image: "icon_star_gray", title: "", fontSize: 0)
     
     lazy var shareBtn: UIButton = UIButton(image: "topic_share", title: "", fontSize: 0)
     
@@ -61,7 +62,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     var data: BookDetail? {
         didSet {
-            
+            collectBtn.selected = data?.collected == "" ? false : true
             iconView.sd_setImageWithURL(NSURL(string: data!.image!))
             bookIcon.sd_setImageWithURL(NSURL(string: data!.image!))
             titleLab.text = data?.title
@@ -118,6 +119,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         bottomView.addSubview(buyBtn)
         bottomView.addSubview(bottomLine)
         
+        collectBtn.setImage(UIImage(named: "topic_star"), forState: UIControlState.Selected)
         collectBtn.addTarget(self, action: "doFavorite:", forControlEvents: UIControlEvents.TouchUpInside)
         buyBtn.addTarget(self, action: "buyButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -202,19 +204,34 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     }
     
     func doFavorite(sender: UIButton) {
-        print("收藏")
         
         if sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
                 if resultB == true {
-                    
-                    print("调用收藏功能")
-                    
+                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(5, objid:self.bookId!, isAdd: !sender.selected) { (handler) -> Void in
+                        print(handler)
+                        if handler as! String == "1" {
+                            sender.selected = !sender.selected
+                            SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                        }
+                        
+                    }
                 }
             })
         } else {
-            print("调用收藏功能")
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid:bookId!, isAdd: !sender.selected) { (handler) -> Void in
+                print(handler)
+                if handler as! String == "1" {
+                    sender.selected = !sender.selected
+                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                } else {
+                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                }
+                
+            }
         }
         
     }

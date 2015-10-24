@@ -28,7 +28,7 @@ class BookCell: UITableViewCell {
             iconView.sd_setImageWithURL(NSURL(string: book!.image!), placeholderImage: UIImage())
             titleLabel.text = book!.title!
             subtitleLabel.text = book!.content_desc!
-            author.text = book!.author!
+            author.text = "作者：" + book!.author!
         }
     }
     

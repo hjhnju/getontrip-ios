@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import SVProgressHUD
 
 struct CityConstant {
     static let headerViewHeight:CGFloat = 198
@@ -179,6 +180,15 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableHeaderView.addSubview(collectionView)
         tableHeaderView.addSubview(hotTopBarButton)
         hotTopBarButton.addSubview(refreshTopicButton)
+
+        moreSightsButton.backgroundColor = SceneColor.frontBlack
+        hotTopBarButton.backgroundColor = SceneColor.frontBlack
+        moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        moreSightsButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+
+        favIconBtn.addTarget(self, action: "favIconBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        favIconBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
         
         tableView.tableHeaderView = tableHeaderView
         tableView.backgroundColor = UIColor.clearColor()
@@ -251,6 +261,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let city = handler.valueForKey("city") as? City {
                 self?.headerImageView.sd_setImageWithURL(NSURL(string: city.image))
                 self?.cityName = city.name
+                self?.favIconBtn.selected = city.collected == "" ? false : true
             }
             self?.collectionDataSource = handler.valueForKey("sights") as? [Sight]
             self?.tableViewDataSource = handler.valueForKey("topics") as? [BriefTopic]
@@ -406,6 +417,39 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         vc.title  = cityName
         vc.cityId = cityId
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func favIconBtnClick(btn: UIButton) {
+        print("favIconBtnClick")
+        if sharedUserAccount == nil {
+            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
+                let resultB = result as! Bool
+                if resultB == true {
+                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid:self.cityId, isAdd: !btn.selected) { (handler) -> Void in
+                        print(handler)
+                        if handler as! String == "1" {
+                            btn.selected = !btn.selected
+                            SVProgressHUD.showInfoWithStatus(btn.selected ? "已收藏" : "已取消")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                        }
+                        
+                    }
+                }
+            })
+        } else {
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid:cityId, isAdd: !btn.selected) { (handler) -> Void in
+                print(handler)
+                if handler as! String == "1" {
+                    btn.selected = !btn.selected
+                    SVProgressHUD.showInfoWithStatus(btn.selected ? "已收藏" : "已取消")
+                } else {
+                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                }
+
+            }
+        }
+        
     }
     
     ///  搜索跳入之后消失控制器

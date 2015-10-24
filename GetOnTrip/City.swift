@@ -19,6 +19,7 @@ class City: NSObject {
             image = AppIni.BaseUri + image
         }
     }
+    var collected: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()
