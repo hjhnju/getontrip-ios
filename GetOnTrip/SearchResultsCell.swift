@@ -86,8 +86,9 @@ class SearchResultsCell: UITableViewCell {
     
     private func setupAutoLayout() {
         
+        let w: CGFloat = UIScreen.mainScreen().bounds.width - 18 - 52 - 6
         resultImageView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
-        resultTitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: resultImageView, size: nil, offset: CGPointMake(6, 0))
-        resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: resultImageView, size: nil, offset: CGPointMake(6, 0))
+        resultTitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: resultImageView, size: CGSizeMake(w, 16), offset: CGPointMake(6, 0))
+        resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: resultImageView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
     }
 }
