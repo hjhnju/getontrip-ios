@@ -9,17 +9,7 @@
 import UIKit
 
 class CollectSightRequest: NSObject {
-   
-    /**
-    * 接口1：/api/collect/list
-    * 获取收藏列表内容
-    * @param integer type,1：话题;2：景点；3：城市
-    * @param string  device,设备ID
-    * @param integer page，页码
-    * @param integer pageSize，页面大小
-    * @return json
-    */
-
+    
     // 请求参数
     var type    : Int?
     var device  : String = appUUID!
@@ -35,6 +25,33 @@ class CollectSightRequest: NSObject {
     func fetchCollectTopicModels(handler: [AnyObject] -> Void) {
         fetchCollectionModels(handler)
     }
+    
+    // 异步加载话题获取数据
+    func fetchCollectionModels(handler: [AnyObject] -> Void) {
+        var post       = [String: String]()
+        post["type"]   = String(type)
+        post["device"] = String(self.device)
+        
+        // 发送网络请求加载数据
+        HttpRequest.ajax(AppIni.BaseUri,
+            path: "/api/collect/list",
+            post: post,
+            handler: {(respData: AnyObject) -> Void in
+                
+                
+                
+                var collectSightM = [CollectContent]()
+                for it in respData as! NSArray {
+                    
+                    collectSightM.append(CollectContent(dict: it as! [String : String]))
+                }
+                
+                // 回调
+                handler(collectSightM)
+            }
+        )
+    }
+    
 //
 //    /// 将收藏主题数据回调外界
 //    func fetchCollectMotifModels(handler: [CollectCity] -> Void) {
@@ -65,29 +82,7 @@ class CollectSightRequest: NSObject {
 //        )
 //    }
     
-    // 异步加载话题获取数据
-    func fetchCollectionModels(handler: [AnyObject] -> Void) {
-        var post       = [String: String]()
-        post["type"]   = String(type)
-        post["device"] = String(self.device)
-        
-        // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/collect/list",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-
-                var collectSightM = [CollectContent]()
-                    for it in respData as! NSArray {
-                        
-                        collectSightM.append(CollectContent(dict: it as! [String : String]))
-                    }
-                    
-                    // 回调
-                    handler(collectSightM)
-            }
-        )
-    }
+    
     
     // 异步加载主题获取数据
 //    func fetchMotifModels(handler: [CollectCity] -> Void) {
