@@ -88,10 +88,10 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
     override func viewDidDisappear(animated: Bool) {
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
         super.viewDidDisappear(animated)
     }
     
