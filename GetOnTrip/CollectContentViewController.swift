@@ -19,7 +19,11 @@ class CollectContentViewController: UITableViewController {
     var lastSuccessRequest: CollectSightRequest?
     
 
-    var collectContent = [CollectContent]()
+    var collectContent = [CollectContent]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     
     override func viewDidLoad() {
@@ -36,18 +40,9 @@ class CollectContentViewController: UITableViewController {
     }
     
     private func refresh() {
-        NSLog("notice:refreshing nearby data.")
         
-        //获取数据更新tableview
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = CollectSightRequest()
-            lastSuccessRequest?.type = 1
-        }
-        
-        lastSuccessRequest?.fetchCollectTopicModels { (handler: [AnyObject]) -> Void in
+        CollectSightRequest.sharedCollectType.fetchCollectionModels(1) { (handler) -> Void in
             self.collectContent = handler as! [CollectContent]
-
-            self.tableView.reloadData()
         }
     }
 
@@ -125,7 +120,7 @@ class CollectContentCell: UITableViewCell {
     
     var collectContent: CollectContent? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectContent!.image!))
+            iconView.sd_setImageWithURL(NSURL(string: collectContent!.image))
             titleLabel.text = collectContent!.title
             subtitleLabel.text = collectContent!.subtitle
             collect.setTitle(collectContent!.collect, forState: UIControlState.Normal)

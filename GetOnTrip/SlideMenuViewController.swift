@@ -330,7 +330,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         //TODO:未登录情况
-        if indexPath.row >= 2  && sharedUserAccount == nil {
+        if indexPath.row >= 1  && sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
                 if resultB == true {

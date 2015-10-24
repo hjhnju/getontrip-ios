@@ -16,12 +16,13 @@ class CollectSightViewController: UICollectionViewController {
     
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
-    
-    /// 网络请求加载数据
-    var lastSuccessRequest: CollectSightRequest?
 
     /// 数据模型
-    var collectSights = [CollectSight]()
+    var collectSights = [CollectSight]() {
+        didSet {
+            collectionView?.reloadData()
+        }
+    }
     
     init() {
         super.init(collectionViewLayout: layout)
@@ -57,18 +58,11 @@ class CollectSightViewController: UICollectionViewController {
 
     
     private func refresh() {
-        NSLog("notice:refreshing nearby data.")
-        
-        //获取数据更新tableview
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = CollectSightRequest()
-            lastSuccessRequest?.type = 2
-        }
-        
-        lastSuccessRequest?.fetchCollectTopicModels { (handler: [AnyObject]) -> Void in
+
+        CollectSightRequest.sharedCollectType.fetchCollectionModels(2) { (handler) -> Void in
             self.collectSights = handler as! [CollectSight]
-            self.collectionView?.reloadData()
         }
+        
     }
 
     // MARK: UICollectionViewDataSource
@@ -99,7 +93,7 @@ class CollectionSightViewCell: UICollectionViewCell {
     
     var collectSight: CollectSight? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectSight!.image!))
+            iconView.sd_setImageWithURL(NSURL(string: collectSight!.image))
             title.text = collectSight?.name
             subtitle.text = collectSight?.topicNum
         }

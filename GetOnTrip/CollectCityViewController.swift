@@ -21,7 +21,11 @@ class CollectCityViewController: UICollectionViewController {
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
     
-    var collectCity = [CollectCity]()
+    var collectCity = [CollectCity]() {
+        didSet {
+            collectionView?.reloadData()
+        }
+    }
     
     init() {
         super.init(collectionViewLayout: layout)
@@ -57,17 +61,8 @@ class CollectCityViewController: UICollectionViewController {
     }
     
     private func refresh() {
-        NSLog("notice:refreshing nearby data.")
-        
-        //获取数据更新tableview
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = CollectSightRequest()
-            lastSuccessRequest?.type = 3
-        }
-        
-        lastSuccessRequest?.fetchCollectionModels { (handler: [AnyObject]) -> Void in
+        CollectSightRequest.sharedCollectType.fetchCollectionModels(3) { (handler) -> Void in
             self.collectCity = handler as! [CollectCity]
-            self.collectionView!.reloadData()
         }
     }
     
@@ -102,7 +97,7 @@ class CollectCityCell: UICollectionViewCell {
     
     var collectCity: CollectCity? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectCity!.image!))
+            iconView.sd_setImageWithURL(NSURL(string: collectCity!.image))
             cityName.text = collectCity!.name
             topicNum.text = collectCity!.topicNum
         }
