@@ -176,20 +176,20 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
             lastSuccessAddRequest = SearchRecommendRequest()
         }
         
-        lastSuccessAddRequest?.fetchModels {[unowned self] (handler: NSDictionary) -> Void in
+        lastSuccessAddRequest?.fetchModels {[weak self] (handler: NSDictionary) -> Void in
             
-            self.dataSource = handler
-            if self.searchLabels.count == 0 {
+            self?.dataSource = handler
+            if self?.searchLabels.count == 0 {
                 for lab in handler.objectForKey("labels") as! NSArray {
                     let labM = lab as! SearchLabel
                     let label = labM.name! + "    " + labM.num!
-                    self.searchLabels.addObject(label)
-                    self.searchLabelIds.addObject(labM.id!)
+                    self?.searchLabels.addObject(label)
+                    self?.searchLabelIds.addObject(labM.id!)
                 }
-                self.addSearchLabelButton()
+                self?.addSearchLabelButton()
             }
-            self.headerImageView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
-            self.tableView.reloadData()
+            self?.headerImageView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
+            self?.tableView.reloadData()
         }
     }
     

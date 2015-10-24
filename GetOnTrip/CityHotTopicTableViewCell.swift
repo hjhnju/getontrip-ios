@@ -31,7 +31,7 @@ class CityHotTopicTableViewCell: UITableViewCell {
                 iconView.sd_setImageWithURL(NSURL(string: topic.image))
                 title.text = topic.title
                 subTitle.text = topic.subtitle
-                label.text = topic.tag
+                label.text = "\(topic.sight)・\(topic.tag)"
                 visit.setTitle("   " + topic.visit, forState: UIControlState.Normal)
             }
         }
