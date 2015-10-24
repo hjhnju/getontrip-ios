@@ -169,6 +169,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         sightButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         topicTopButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+
+        favIconBtn.addTarget(self, action: "favIconBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        favIconBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
         
         automaticallyAdjustsScrollViewInsets = false
         tableView.tableHeaderView = backgroundView
@@ -230,6 +233,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let city = handler.valueForKey("city") as? City {
                 self?.cityBackground.sd_setImageWithURL(NSURL(string: city.image))
                 self?.cityName = city.name
+                self?.favIconBtn.selected = city.collected == "" ? false : true
             }
             self?.collectionDataSource = handler.valueForKey("sights") as? [Sight]
             self?.tableViewDataSource = handler.valueForKey("topics") as? [BriefTopic]
@@ -370,6 +374,14 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         vc.title  = cityName
         vc.cityId = cityId
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func favIconBtnClick(btn: UIButton) {
+        
+        CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid:cityId, isAdd: !btn.selected) { (handler) -> Void in
+            print(handler)
+        }
+        btn.selected = !btn.selected
     }
     
     ///  搜索跳入之后消失控制器

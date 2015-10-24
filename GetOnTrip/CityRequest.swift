@@ -33,6 +33,7 @@ class CityRequest {
             post: post,
             handler: {(respData: AnyObject) -> Void in
                 
+
                 let homeModel = NSMutableDictionary()
                 
                 let city   = City(dict: respData["city"] as! [String : AnyObject])
