@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import SVProgressHUD
 
 /// 城市中间页
 class CityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -378,10 +379,35 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func favIconBtnClick(btn: UIButton) {
         
-        CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid:cityId, isAdd: !btn.selected) { (handler) -> Void in
-            print(handler)
+        if sharedUserAccount == nil {
+            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
+                let resultB = result as! Bool
+                if resultB == true {
+                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid:self.cityId, isAdd: !btn.selected) { (handler) -> Void in
+                        print(handler)
+                        if handler as! String == "1" {
+                            btn.selected = !btn.selected
+                            SVProgressHUD.showInfoWithStatus(btn.selected ? "已收藏" : "已取消")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                        }
+                        
+                    }
+                }
+            })
+        } else {
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid:cityId, isAdd: !btn.selected) { (handler) -> Void in
+                print(handler)
+                if handler as! String == "1" {
+                    btn.selected = !btn.selected
+                    SVProgressHUD.showInfoWithStatus(btn.selected ? "已收藏" : "已取消")
+                } else {
+                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                }
+
+            }
         }
-        btn.selected = !btn.selected
+        
     }
     
     ///  搜索跳入之后消失控制器

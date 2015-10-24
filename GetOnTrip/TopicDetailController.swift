@@ -9,6 +9,7 @@
 
 import UIKit
 import FFAutoLayout
+import SVProgressHUD
 
 class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
     
@@ -45,7 +46,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
 
     lazy var shareBtn: UIButton = UIButton(image: "topic_share", title: "", fontSize: 0)
     
-    lazy var collectBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
+    lazy var collectBtn: UIButton = UIButton(image: "icon_star_gray", title: "", fontSize: 0)
     
     var content: String?
     
@@ -109,6 +110,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 sightName  = topic.sight_name
                 topicTitle = topic.title
                 
+                collectBtn.selected = topicDetail?.collect == "" ? false : true
                 commentVC.topicId  = topic.id
                 commentLab.text    = topic.comment
                 
@@ -149,6 +151,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         
         view.backgroundColor = UIColor.whiteColor()
         webView.backgroundColor = UIColor.whiteColor()
+        collectBtn.setImage(UIImage(named: "topic_star"), forState: UIControlState.Selected)
         
         //原则：如果和默认设置不同，controller自己定义新值，退出时自己还原
         oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
@@ -410,19 +413,34 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: - 评论、分享、收藏
     func doFavorite(sender: UIButton) {
-        print("收藏")
         
         if sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
                 if resultB == true {
-                    
-                    print("调用收藏功能")
-                    
+                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid:self.topicId, isAdd: !sender.selected) { (handler) -> Void in
+                        print(handler)
+                        if handler as! String == "1" {
+                            sender.selected = !sender.selected
+                            SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                        }
+                        
+                    }
                 }
             })
         } else {
-            print("调用收藏功能")
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid:topicId, isAdd: !sender.selected) { (handler) -> Void in
+                print(handler)
+                if handler as! String == "1" {
+                    sender.selected = !sender.selected
+                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                } else {
+                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                }
+                
+            }
         }
     }
     
