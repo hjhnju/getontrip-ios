@@ -105,7 +105,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
             
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        navigationItem.titleView = titleLabel
+        
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
         titleLabel.textAlignment = NSTextAlignment.Center
         titleLabel.hidden = true //设置alpha=0会有Fade Out
@@ -128,6 +128,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewWillDisappear(animated)
         //在viewDidDisappear中无法生效
         navigationController?.navigationBar.setBackgroundImage(oldBgImage, forBarMetrics: UIBarMetrics.Default)
+        navigationItem.titleView = nil
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -137,11 +138,14 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     func refreshBar(){
         //设置导航样式
         titleLabel.alpha       = navBarAlpha
-        titleLabel.hidden      = false
+        if navBarAlpha > 0.5 {
+            titleLabel.hidden = false //设置alpha=0会有Fade Out
+        }
+        navigationItem.titleView = titleLabel
         
-        //let bgImage = UIImage(named: "icon_bar_crystal")?.imageByApplyingAlpha(navBarAlpha)
         let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha))
         navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
+        
     }
     
     /// 添加控件
@@ -317,6 +321,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.CityHotTopicTableViewCellID, forIndexPath: indexPath) as! CityHotTopicTableViewCell
+        
+        //cell无选中效果
+        cell.selectionStyle = UITableViewCellSelectionStyle.None
         
         cell.topic = tableViewDataSource![indexPath.row]
         

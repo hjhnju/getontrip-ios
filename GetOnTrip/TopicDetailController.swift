@@ -141,20 +141,19 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     //原导航底图
     var oldBgImage: UIImage?
     
+    var oldNavTintColor: UIColor?
+    
     // MARK: - 初始化方法
     override func viewDidLoad() {
         super.viewDidLoad()
         
-<<<<<<< HEAD
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
-=======
         view.backgroundColor = UIColor.whiteColor()
         webView.backgroundColor = UIColor.whiteColor()
         
         //原则：如果和默认设置不同，controller自己定义新值，退出时自己还原
         oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
+        oldNavTintColor = navigationController?.navigationBar.tintColor
         
->>>>>>> 738936b5a83367591816bb5fdbf63258de1ddf3e
         //nav bar
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
         navigationItem.titleView = navTitleLabel
@@ -188,6 +187,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         super.viewWillDisappear(animated)
         //在viewDidDisappear中无法生效
         navigationController?.navigationBar.setBackgroundImage(oldBgImage, forBarMetrics: UIBarMetrics.Default)
+         navigationController?.navigationBar.tintColor = oldNavTintColor
     }
     
     
@@ -199,6 +199,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     func refreshBar() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: "icon_bar_crystal"), forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.tintColor = SceneColor.lightGray
     }
     
     func refreshTitle(){
@@ -423,7 +424,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         } else {
             print("调用收藏功能")
         }
-
     }
     
     
@@ -454,7 +454,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: - 分享 微信好友
     func shareClick(sender: UIButton) {
-        
         switch sender.tag {
         case 1: shareFriendCircle(SSDKPlatformType.SubTypeWechatSession)
         case 2: shareFriendCircle(SSDKPlatformType.SubTypeWechatTimeline)
@@ -464,7 +463,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         default:
             break
         }
-        
     }
     
     ///  朋友圈
@@ -531,9 +529,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
 
     // MARK: - 遮罩方法
     func coverClick(serder: UIButton) {
-        
-        
-        
         self.commentVC.view.clipsToBounds = true
         commentVC.issueTextfield.resignFirstResponder()
         UIView.animateWithDuration(0.5, animations: { [unowned self] () -> Void in
