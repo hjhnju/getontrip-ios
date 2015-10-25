@@ -95,23 +95,11 @@ class CitySightsViewController: UICollectionViewController {
     }
     
     // MARK: - 搜索(下一个控制器)
-    var searchController: UISearchController?
     func searchButtonClicked(button: UIBarButtonItem) {
-        // 获得父控制器
-        let searchResultsController = SearchResultsViewController()
-        searchController = UISearchController(searchResultsController: searchResultsController)
-        searchController!.searchResultsUpdater = searchResultsController
-        searchController!.hidesNavigationBarDuringPresentation = false
-        let imgView   = UIImageView(image: UIImage(named: "search-bg0")!)
-        imgView.frame = searchController!.view.bounds
-        searchController!.view.addSubview(imgView)
-        searchController!.view.sendSubviewToBack(imgView)
-        searchController!.searchBar.barStyle = UIBarStyle.Black
-        searchController!.searchBar.tintColor = UIColor.grayColor()
-        searchController!.searchBar.becomeFirstResponder()
-        searchController!.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
-
-        presentViewController(searchController!, animated: true, completion: nil)
+        
+        let search = SearchViewController()
+        
+        presentViewController(search, animated: true, completion: nil)
     }
     
 }

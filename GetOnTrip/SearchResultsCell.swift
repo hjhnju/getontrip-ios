@@ -18,51 +18,69 @@ class SearchResultsCell: UITableViewCell {
     
     lazy var resultDescLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "5景点，210个话题", fontSize: 13, mutiLines: true)
     
+    var searchCruxCharacter: String = ""
+    
+    func searchCruxCharacterAction(title: String) -> NSAttributedString {
+        
+        let attr = NSMutableAttributedString(string: title)
+        
+        let range1 = (title as NSString).rangeOfString(searchCruxCharacter)
+        attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blueColor(), range: range1)
+
+        return attr
+    }
+    
     var searchCity: SearchCity? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchCity!.image!))
-            resultTitleLabel.text = searchCity?.name
-            resultDescLabel.text = searchCity?.desc
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchCity!.name!)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchCity!.desc!)
         }
     }
     
     var searchSight: SearchSight? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchSight!.image!))
-            resultTitleLabel.text = searchSight?.name
-            resultDescLabel.text = searchSight?.desc
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchSight!.name!)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchSight!.desc!)
+
         }
     }
     
     var searchContentTopic: SearchContentTopic? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentTopic!.image!))
-            resultTitleLabel.text = searchContentTopic?.title
-            resultDescLabel.text = searchContentTopic?.subtitle
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.title!)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.subtitle!)
+
         }
     }
     
     var searchContentBook: SearchContentBook? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentBook!.image!))
-            resultTitleLabel.text = searchContentBook?.title
-            resultDescLabel.text = searchContentBook?.desc
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentBook!.title!)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentBook!.desc!)
+
         }
     }
     
     var searchContentVideo: SearchContentVideo? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentVideo!.image!))
-            resultTitleLabel.text = searchContentVideo?.title
-            resultDescLabel.text = searchContentVideo?.from
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.title!)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.from!)
+
         }
+        
     }
     
     var searchContentWiki: SearchContentWiki? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentWiki!.image!))
-            resultTitleLabel.text = searchContentWiki?.name
-            resultDescLabel.text = searchContentWiki?.desc
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.name!)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.desc!)
+
         }
     }
     

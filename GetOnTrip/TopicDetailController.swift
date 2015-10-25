@@ -160,7 +160,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         //nav bar
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
         navigationItem.titleView = navTitleLabel
-        //navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         refreshTitle()
         
@@ -316,7 +315,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
-        //shareView.frame = CGRectMake(0, view.bounds.height, view.bounds.width, 197)
+        
         let shareVCons = shareView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: view, size: CGSize(width: view.bounds.width, height: 197), offset: CGPoint(x: 0, y: 197))
         shareLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: shareView, size: nil, offset: CGPointMake(0, 18))
         shareViewCY = shareView.ff_Constraint(shareVCons, attribute: NSLayoutAttribute.Top)
@@ -503,22 +502,10 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     // MARK: - 搜索(下一个控制器)
-    var searchController: UISearchController!
     func searchButtonClicked(button: UIBarButtonItem) {
         // 获得父控制器
-        let searchResultsController = SearchResultsViewController()
-        searchController = UISearchController(searchResultsController: searchResultsController)
-        searchController.searchResultsUpdater = searchResultsController
-        searchController.hidesNavigationBarDuringPresentation = false
-        let imgView   = UIImageView(image: UIImage(named: "search-bg0")!)
-        imgView.frame = searchController.view.bounds
-        searchController.view.addSubview(imgView)
-        searchController.view.sendSubviewToBack(imgView)
-        searchController.searchBar.barStyle = UIBarStyle.Black
-        searchController.searchBar.tintColor = UIColor.grayColor()
-        searchController.searchBar.becomeFirstResponder()
-        searchController.searchBar.keyboardAppearance = UIKeyboardAppearance.Default
-        presentViewController(searchController, animated: true, completion: nil)
+       
+        presentViewController(SearchViewController(), animated: true, completion: nil)
     }
     
     

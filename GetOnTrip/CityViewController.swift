@@ -10,24 +10,16 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
+struct CityConstant {
+    static let headerViewHeight:CGFloat = 198
+    static let collectionViewHeight:CGFloat = 196
+    static let subtitleButtonHeight:CGFloat = 34
+}
+
 /// 城市中间页
 class CityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    //导航标题
-    var titleLabel = UILabel()
-
-    /// 顶部的背景高度
-    let backgroundViewH: CGFloat = 198 + 24 + 34 + 196 + 34 + 8
-    
-    // MARK: - 属性
-    /// collectionview及imageView底部的view
-    lazy var backgroundView: UIView = UIView()
-    
-    /// 城市背影图片
-    var cityBackground: UIImageView = UIImageView()
-    
-    /// 城市名
-    lazy var cityNameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 26, mutiLines: true)
+    //MARK: Properties and Outlets
     
     var cityName: String = "" {
         didSet {
@@ -39,9 +31,25 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     //默认无
     var cityId: String = ""
     
+    //导航标题
+    var titleLabel = UILabel()
+    
+    /// 城市背影图片
+    var headerImageView: UIImageView = UIImageView()
+    
+    //头部视图高度约束
+    var headerHeightConstraint: NSLayoutConstraint?
+    
+    /// collectionview及imageView底部的view
+    lazy var tableHeaderView: UIView = UIView()
+    
+    /// 热门景点＋热门内容
+    lazy var tableView: UITableView = UITableView()
+    
+    /// 城市名
+    lazy var cityNameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 26, mutiLines: true)
     /// 收藏按钮
     lazy var favTextBtn: UIButton = UIButton(title: "收藏", fontSize: 12, radius: 0)
-    
     /// 收藏按钮
     lazy var favIconBtn: UIButton = UIButton(icon: "city_star", masksToBounds: false)
     
@@ -49,19 +57,16 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     let layout = UICollectionViewFlowLayout()
     
     /// 热门景点内容
-    lazy var collectionView: UICollectionView =  { [unowned self] in
-        let collect = UICollectionView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 246), collectionViewLayout: self.layout)
+    lazy var collectionView: UICollectionView =  { [weak self] in
+        let collect = UICollectionView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, CityConstant.collectionViewHeight), collectionViewLayout: (self?.layout)!)
         return collect
     }()
     
     /// 热门景点
-    lazy var sightButton: homeSightButton = homeSightButton(image: "city_more", title: "热门景点", fontSize: 14, titleColor: .whiteColor())
-    
-    /// 热门内容
-    lazy var tableView: UITableView = UITableView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+    lazy var moreSightsButton: homeSightButton = homeSightButton(image: "city_more", title: "热门景点", fontSize: 14, titleColor: .whiteColor())
     
     /// 热门话题标题
-    lazy var topicTopButton: UIButton = UIButton(title: "热门内容", fontSize: 14, radius: 0, titleColor: .whiteColor())
+    lazy var hotTopBarButton: UIButton = UIButton(title: "热门内容", fontSize: 14, radius: 0, titleColor: .whiteColor())
 
     /// 热门话题图标
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
@@ -138,49 +143,70 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func refreshBar(){
         //设置导航样式
-        titleLabel.alpha       = navBarAlpha
-        if navBarAlpha > 0.5 {
+        titleLabel.alpha = navBarAlpha
+        if navBarAlpha > 0.2 {
             titleLabel.hidden = false //设置alpha=0会有Fade Out
+        } else {
+            titleLabel.hidden = true
         }
         navigationItem.titleView = titleLabel
         
         let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha))
         navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
         
+        //headerImage标题
+        cityNameLabel.alpha = 1 - navBarAlpha
+        favIconBtn.alpha = 1 - navBarAlpha
+        favTextBtn.alpha = 1 - navBarAlpha
     }
     
     /// 添加控件
     private func initView() {
         view.backgroundColor = SceneColor.bgBlack
+        automaticallyAdjustsScrollViewInsets = false
+        view.addSubview(headerImageView)
         view.addSubview(tableView)
+        view.bringSubviewToFront(headerImageView)
         
         titleLabel.textColor = UIColor.whiteColor()
         
-        backgroundView.addSubview(cityBackground)
-        backgroundView.addSubview(cityNameLabel)
-        backgroundView.addSubview(favTextBtn)
-        backgroundView.addSubview(favIconBtn)
-        backgroundView.addSubview(collectionView)
-        backgroundView.addSubview(sightButton)
-        backgroundView.addSubview(topicTopButton)
-        topicTopButton.addSubview(refreshTopicButton)
+        headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        headerImageView.clipsToBounds = true
+        headerImageView.addSubview(cityNameLabel)
+        headerImageView.addSubview(favTextBtn)
+        headerImageView.addSubview(favIconBtn)
         
-        sightButton.backgroundColor = SceneColor.frontBlack
-        topicTopButton.backgroundColor = SceneColor.frontBlack
-        sightButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        topicTopButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        tableHeaderView.addSubview(moreSightsButton)
+        tableHeaderView.addSubview(collectionView)
+        tableHeaderView.addSubview(hotTopBarButton)
+        hotTopBarButton.addSubview(refreshTopicButton)
+
+        moreSightsButton.backgroundColor = SceneColor.frontBlack
+        hotTopBarButton.backgroundColor = SceneColor.frontBlack
+        moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        moreSightsButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
 
         favIconBtn.addTarget(self, action: "favIconBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
         favIconBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
         
-        automaticallyAdjustsScrollViewInsets = false
-        tableView.tableHeaderView = backgroundView
+        tableView.tableHeaderView = tableHeaderView
         tableView.backgroundColor = UIColor.clearColor()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(CityHotTopicTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.CityHotTopicTableViewCellID)
+        
+        //内容初始位置偏移
+        tableView.frame = CGRectMake(0, 0, view.frame.width, view.frame.height)
+        tableView.contentInset = UIEdgeInsets(top: CityConstant.headerViewHeight, left: 0, bottom: 0, right: 0)
+        
+        moreSightsButton.backgroundColor = SceneColor.frontBlack
+        hotTopBarButton.backgroundColor = SceneColor.frontBlack
+        moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        hotTopBarButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -189,10 +215,10 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         collectionView.userInteractionEnabled = true
         
         // 每个item的大小
-        layout.itemSize = CGSizeMake(186, 196)
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.itemSize = CGSizeMake(186, CityConstant.collectionViewHeight)
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
     }
     
@@ -210,15 +236,16 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     /// 设置布局
     private func setupAutoLayout() {
-        cityBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: backgroundView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 198), offset: CGPointMake(0, 0))
-        cityNameLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: cityBackground, size: nil, offset: CGPointMake(9, -13))
-        favTextBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: cityBackground, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
+        let cons = headerImageView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, CityConstant.headerViewHeight), offset: CGPointMake(0, 0))
+        headerHeightConstraint = headerImageView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
+        cityNameLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerImageView, size: nil, offset: CGPointMake(9, -13))
+        favTextBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: headerImageView, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
         favIconBtn.ff_AlignVertical(ff_AlignType.TopCenter, referView: favTextBtn, size: CGSizeMake(21, 20), offset:CGPointMake(0, -5))
         
-        sightButton.ff_AlignVertical(ff_AlignType.BottomLeft, referView: cityBackground, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 8))
-        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: sightButton, size: CGSizeMake(view.bounds.width, 196 + 16), offset: CGPointMake(0, 8))
-        topicTopButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: backgroundView, size: CGSizeMake(view.bounds.width, 34), offset: CGPointMake(0, 4))
-        refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: topicTopButton, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
+        moreSightsButton.ff_AlignInner(.TopLeft, referView: tableHeaderView, size: CGSizeMake(view.bounds.width, CityConstant.subtitleButtonHeight), offset: CGPointMake(0, 8))
+        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: moreSightsButton, size: CGSizeMake(view.bounds.width, CityConstant.collectionViewHeight), offset: CGPointMake(0, 8))
+        hotTopBarButton.ff_AlignVertical(ff_AlignType.BottomLeft, referView: collectionView, size: CGSizeMake(view.bounds.width, CityConstant.subtitleButtonHeight), offset: CGPointMake(0, 8))
+        refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: hotTopBarButton, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
     }
     
     //请求数据
@@ -232,7 +259,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             (handler: NSDictionary) -> Void in
 
             if let city = handler.valueForKey("city") as? City {
-                self?.cityBackground.sd_setImageWithURL(NSURL(string: city.image))
+                self?.headerImageView.sd_setImageWithURL(NSURL(string: city.image))
                 self?.cityName = city.name
                 self?.favIconBtn.selected = city.collected == "" ? false : true
             }
@@ -276,26 +303,35 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        if (collectionDataSource!.count == 0) { return CGSizeZero }
-        
-        switch collectionDataSource!.count {
-        case 1:
-            return CGSizeMake(collectionView.bounds.width - 16, collectionView.bounds.height)
-        case 2:
-            return CGSizeMake(collectionView.bounds.width * 0.5 - 8, collectionView.bounds.height)
-        case 3:
-            if indexPath.row == 0 {
-                return CGSizeMake(collectionView.bounds.width * 0.5 - 16, collectionView.bounds.height)
-            } else {
-                return CGSizeMake(collectionView.bounds.width * 0.5 - 16, collectionView.bounds.height * 0.5 - 6)
+        if let dataSource = collectionDataSource {
+            let width:CGFloat = collectionView.bounds.width
+            let height:CGFloat = collectionView.bounds.height
+            
+            switch dataSource.count {
+            case 0: return CGSizeZero
+            case 1:
+                return CGSizeMake(width - 16, height)
+            case 2:
+                return CGSizeMake((width - 24) * 0.5, height)
+            case 3:
+                if indexPath.row == 0 {
+                    return CGSizeMake((width - 24) * 0.5, height)
+                } else {
+                    return CGSizeMake((width - 24) * 0.5, (height - 8) * 0.5)
+                }
+            default:
+                var size = CGSizeZero
+                if indexPath.row % 3 == 0 {
+                    size = CGSizeMake((width - 24) * 0.5, height)
+                } else if indexPath.row % 3 == 1 {
+                    size = CGSizeMake(113, (height - 8) * 0.5 + 8)
+                } else {
+                    size = CGSizeMake(113, (height - 8) * 0.5 - 8)
+                }
+                return size
             }
-        default:
-            var size = CGSizeMake(113, 100)
-            if indexPath.row % 3 == 0 {
-                size = CGSizeMake(collectionView.bounds.width * 0.5, collectionView.bounds.height)
-            }
-            return size
         }
+        return CGSizeZero
     }
     
     ///  选中某一行
@@ -311,11 +347,11 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: - tableView代理及数据源
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return backgroundView
+        return tableHeaderView
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 498
+        return CityConstant.collectionViewHeight + 2 * CityConstant.subtitleButtonHeight + 3 * 8
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -356,17 +392,23 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         //导航变化
-        let threshold:CGFloat = 40
         let offsetY = scrollView.contentOffset.y
-        if offsetY > 0 {
-            navBarAlpha = (offsetY - 137) / threshold;
-            if navBarAlpha > 1 {
+        let gap = CityConstant.headerViewHeight + offsetY
+        if gap > 0 {
+            let threshold = CityConstant.headerViewHeight - 64 - 40
+            navBarAlpha = gap / threshold
+            if navBarAlpha > 0.8 {
                 navBarAlpha = 1
-            } else if navBarAlpha < 0.1 {
+            } else if navBarAlpha < 0.2 {
                 navBarAlpha = 0
             }
         }
         refreshBar()
+    
+        //headerView高度动态变化
+        let navigationBarHeight: CGFloat = 64
+        let height = max(-offsetY, navigationBarHeight)
+        headerHeightConstraint?.constant = height
     }
     
     // MARK: 景点列表页
@@ -378,7 +420,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func favIconBtnClick(btn: UIButton) {
-        
+        print("favIconBtnClick")
         if sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool

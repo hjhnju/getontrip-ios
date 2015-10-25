@@ -20,13 +20,11 @@ class HttpRequest {
         
         let urlPath = (url ?? "") + (path ?? "")
         
-        NSLog("[HttpRequest]:url=\(urlPath), post=\(post)")
+        print("[HttpRequest]:url=\(urlPath), post=\(post)")
         
         request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
             
             let result = try? NSJSONSerialization.JSONObjectWithData(respData!, options: NSJSONReadingOptions(rawValue: 0)) as! [String: AnyObject]
-            
-            print(result)
             
             if result != nil {
                 let data = result!["data"]
@@ -84,7 +82,6 @@ class HttpRequest {
                 case .Success(let upload, _, _):
                     upload.responseJSON { response in
                         finished(result: response.result.value, error: response.result.error)
-                        print(response)
                     }
                 case .Failure(let encodingError):
                     print(encodingError)
