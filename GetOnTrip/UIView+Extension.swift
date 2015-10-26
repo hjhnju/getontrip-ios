@@ -18,12 +18,6 @@ extension UIView {
         backgroundColor = color
         alpha = alphaF
     }
-    
-//    convenience init(color: UIColor, ) {
-//        let baselineView = UIView()
-//        baselineView.backgroundColor = UIColor(white: 0xFFFFFF, alpha: 0.3)
-//        cell.addSubview(baselineView)
-//    }
 }
 
 
