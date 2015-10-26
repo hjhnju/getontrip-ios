@@ -395,24 +395,27 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     //MARK: ScrollViewDelegate
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        //导航变化
+        
         let offsetY = scrollView.contentOffset.y
-        let gap = CityConstant.headerViewHeight + offsetY
-        if gap > 0 {
-            let threshold = CityConstant.headerViewHeight - 64 - 40
-            navBarAlpha = gap / threshold
-            if navBarAlpha > 0.8 {
-                navBarAlpha = 1
-            } else if navBarAlpha < 0.2 {
-                navBarAlpha = 0
+        if offsetY != 0 { //防止collectionView 左右滑动
+            //导航变化
+            let gap = CityConstant.headerViewHeight + offsetY
+            if gap > 0 {
+                let threshold = CityConstant.headerViewHeight - 64 - 40
+                navBarAlpha = gap / threshold
+                if navBarAlpha > 0.8 {
+                    navBarAlpha = 1
+                } else if navBarAlpha < 0.2 {
+                    navBarAlpha = 0
+                }
             }
+            refreshBar()
+            
+            //headerView高度动态变化
+            let navigationBarHeight: CGFloat = 64
+            let height = max(-offsetY, navigationBarHeight)
+            headerHeightConstraint?.constant = height
         }
-        refreshBar()
-    
-        //headerView高度动态变化
-        let navigationBarHeight: CGFloat = 64
-        let height = max(-offsetY, navigationBarHeight)
-        headerHeightConstraint?.constant = height
     }
     
     // MARK: 景点列表页

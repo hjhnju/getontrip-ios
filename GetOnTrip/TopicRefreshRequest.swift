@@ -47,3 +47,31 @@ class TopicRefreshRequest: NSObject {
         )
     }
 }
+
+/// 用位置换取城市
+class LocateBarterCity: NSObject {
+    
+    /**
+    * 接口5：/api/city/locate
+    * 获取城市定位信息，判断是否开启，如果名称没错并已开启则返回城市ID，否则返回''
+    * @param string city，城市名称可以是中文或英文
+    * @return json
+    */
+    
+    class func locateBarterCityAction(city: String, handler: AnyObject -> Void) {
+        var post         = [String: String]()
+        post["city"]     = String(city)
+        
+        // 发送网络请求加载数据
+        HttpRequest.ajax(AppIniDev.BaseUri,
+            path: "/api/city/locate",
+            post: post,
+            handler: {(respData: AnyObject) -> Void in
+                
+                // 回调
+                handler(respData)
+            }
+        )
+    }
+    
+}

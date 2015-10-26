@@ -18,21 +18,20 @@ class CollectContentViewController: UITableViewController {
     /// 网络请求加载数据
     var lastSuccessRequest: CollectSightRequest?
     
-    let collectPrompt = UILabel(color: UIColor.blackColor(), title: "还木有内容......\n收藏点喜欢的吧(n-n)", fontSize: 18, mutiLines: true)
+    let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "还木有内容...\n收藏点喜欢的吧(∩_∩)", fontSize: 13, mutiLines: true)
     
     var collectContent = [CollectContent]() {
         didSet {
-            collectPrompt.hidden = true
             tableView.reloadData()
         }
     }
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView?.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: tableView!, size: nil, offset: CGPointMake(0, 150))
+        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: tableView!, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = NSTextAlignment.Center
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
@@ -54,7 +53,7 @@ class CollectContentViewController: UITableViewController {
 
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if collectContent.count == 0 { collectPrompt.hidden = true }
+        if collectContent.count == 0 { collectPrompt.hidden = false } else { collectPrompt.hidden = true }
         return collectContent.count
     }
 
@@ -91,7 +90,7 @@ class CollectContentViewController: UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let collect = collectContent[indexPath.row] as CollectContent
-        return collect.type == "4" ? 125 : 107
+        return collect.type == "4" ? 107 : 125
     }
     
 

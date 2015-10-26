@@ -14,7 +14,13 @@ public let HistoryTableViewControllerVideoCell: String = "Video_Cell"
 public let HistoryTableViewControllerElseCell : String = "History_Cell"
 public let HistoryTableViewControllerSightCell1:String = "History_Cell1"
 
+protocol SightTableViewControllerDelegate: NSObjectProtocol {
+    func collectionViewCellCache(data: NSArray, type: String)
+}
+
 class SightTableViewController: UITableViewController {
+    
+    weak var delegate: SightTableViewControllerDelegate?
     
     // 网络请求，加载数据
     var lastLandscapeRequest = LandscapeRequest()
@@ -23,29 +29,29 @@ class SightTableViewController: UITableViewController {
     var lastOtherRequest = SightTopicRequest()
     var cellReuseIdentifier: String?
     
+    /// 缓存cell
+    var cache = [String : NSArray]()
+    
     var type: Int? {
         didSet {
-            //data = nil
-            
-            switch type! {
-            case categoryLabel.sightLabel:
-                refresh(categoryLabel.sightLabel)
-                cellReuseIdentifier = HistoryTableViewControllerSightCell
-                
-            case categoryLabel.bookLabel:
-                refresh(categoryLabel.bookLabel)
-                cellReuseIdentifier = HistoryTableViewControllerBookCell
-                
-            case categoryLabel.videoLabel:
-                refresh(categoryLabel.videoLabel)
-                cellReuseIdentifier = HistoryTableViewControllerVideoCell
-                
-            default:
-                refresh(0)
-                cellReuseIdentifier = HistoryTableViewControllerElseCell
-                break
+            data = nil
+            if let type = type {
+                switch type {
+                case categoryLabel.sightLabel:
+                    cellReuseIdentifier = HistoryTableViewControllerSightCell
+                    refresh(categoryLabel.sightLabel)
+                case categoryLabel.bookLabel:
+                    cellReuseIdentifier = HistoryTableViewControllerBookCell
+                    refresh(categoryLabel.bookLabel)
+                case categoryLabel.videoLabel:
+                    cellReuseIdentifier = HistoryTableViewControllerVideoCell
+                    refresh(categoryLabel.videoLabel)
+                default:
+                    cellReuseIdentifier = HistoryTableViewControllerElseCell
+                    refresh(0)
+                    break
+                }
             }
-            
         }
     }
     
@@ -60,9 +66,9 @@ class SightTableViewController: UITableViewController {
     }
     
      /// tagsId
-    var tagId: String? {
+    var tagId: String = ""{
         didSet {
-            lastOtherRequest.tag = tagId!
+            lastOtherRequest.tag = tagId
         }
     }
     
@@ -72,24 +78,48 @@ class SightTableViewController: UITableViewController {
         }
     }
     
+    /// 缓存cell
+//    lazy var collectionViewCellCache = [Int : NSArray]()
+    
     
     // MARK: 加载更新数据
     private func refresh(type: Int) {
+        if cache[tagId] != nil {
+            data = cache[tagId]
+            return
+        }
         
         switch type {
         case categoryLabel.sightLabel:
-            lastLandscapeRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in self?.data = handler }
+            lastLandscapeRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in self?.data = handler
+                if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
+                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
+                }
+            }
             
         case categoryLabel.bookLabel:
-            lastBookRequest.fetchSightListModels      { [weak self] (handler: NSArray) -> Void in self?.data = handler }
+            lastBookRequest.fetchSightListModels      { [weak self] (handler: NSArray) -> Void in self?.data = handler
+                if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
+                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
+                }
+            }
 
             
         case categoryLabel.videoLabel:
-            lastVideoRequest.fetchSightListModels     { [weak self] (handler: NSArray) -> Void in self?.data = handler }
+            lastVideoRequest.fetchSightListModels     { [weak self] (handler: NSArray) -> Void in self?.data = handler
+                if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
+                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
+                }
+            }
             
         default:
             lastOtherRequest.fetchSightListModels     { [weak self] (handler: NSDictionary) -> Void in
-            self?.data = handler.objectForKey("sightDatas") as? NSArray }
+            self?.data = handler.objectForKey("sightDatas") as? NSArray
+//                self!.collectionViewCellCache[type] = handler.objectForKey("sightDatas") as? NSArray
+                if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
+                    self!.delegate?.collectionViewCellCache(handler.objectForKey("sightDatas") as! NSArray, type: self!.tagId)
+                }
+            }
             break
         }
     }

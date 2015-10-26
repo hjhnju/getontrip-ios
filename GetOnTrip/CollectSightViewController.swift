@@ -8,20 +8,19 @@
 
 import UIKit
 import FFAutoLayout
+import SVProgressHUD
 
 let collectionSightViewIdentifier = "CollectionSightView_Cell"
-
 
 class CollectSightViewController: UICollectionViewController {
     
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
 
-    let collectPrompt = UILabel(color: UIColor.blackColor(), title: "还木有内容......\n收藏点喜欢的吧(n-n)", fontSize: 18, mutiLines: true)
+    let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "还木有内容...\n收藏点喜欢的吧(∩_∩)", fontSize: 13, mutiLines: true)
     /// 数据模型
     var collectSights = [CollectSight]() {
         didSet {
-            collectPrompt.hidden = true
             collectionView?.reloadData()
         }
     }
@@ -40,7 +39,7 @@ class CollectSightViewController: UICollectionViewController {
 
         collectionView?.backgroundColor = UIColor.clearColor()
         collectionView?.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 150))
+        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = NSTextAlignment.Center
         
         let w: CGFloat = 170
@@ -72,7 +71,7 @@ class CollectSightViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectSights.count == 0 { collectPrompt.hidden = true }
+        if collectSights.count == 0 { collectPrompt.hidden = false } else { collectPrompt.hidden = true }
         return collectSights.count
     }
 
@@ -80,7 +79,8 @@ class CollectSightViewController: UICollectionViewController {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(collectionSightViewIdentifier, forIndexPath: indexPath) as! CollectionSightViewCell
 
-        
+        cell.collectBtn.addTarget(self, action: "collectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        cell.collectBtn.tag = indexPath.row
         cell.collectSight = collectSights[indexPath.row] as CollectSight
         return cell
     }
@@ -94,6 +94,43 @@ class CollectSightViewController: UICollectionViewController {
         vc.title = cs.name
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    ///  收藏功能
+    ///
+    ///  - parameter sender: 收藏按钮
+    func collectButtonClick(sender: UIButton) {
+        
+        let sight = collectSights[sender.tag] as CollectSight
+        if sharedUserAccount == nil {
+            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
+                let resultB = result as! Bool
+                if resultB == true {
+                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid:sight.id, isAdd: !sender.selected) { (handler) -> Void in
+                        print(handler)
+                        if handler as! String == "1" {
+                            sender.selected = !sender.selected
+                            SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                        }
+                        
+                    }
+                }
+            })
+        } else {
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid:sight.id, isAdd: !sender.selected) { (handler) -> Void in
+                print(handler)
+                if handler as! String == "1" {
+                    sender.selected = !sender.selected
+                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                } else {
+                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                }
+                
+            }
+        }
+    }
+
 }
 
 
@@ -106,6 +143,7 @@ class CollectionSightViewCell: UICollectionViewCell {
     
     lazy var subtitle: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "共10个话题", fontSize: 11, mutiLines: false)
 
+    lazy var collectBtn: UIButton = UIButton(image: "search_fav", title: "", fontSize: 0)
     
     var collectSight: CollectSight? {
         didSet {
@@ -121,15 +159,18 @@ class CollectionSightViewCell: UICollectionViewCell {
         addSubview(iconView)
         addSubview(title)
         addSubview(subtitle)
+        addSubview(collectBtn)
+        collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
+        collectBtn.selected = true
+        setupAutoLayout()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    private func setupAutoLayout() {
         
         iconView.frame    = self.bounds
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         subtitle.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -11))
-
+        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil, offset: CGPointMake(-8, 8))
     }
 
     required init(coder aDecoder: NSCoder) {

@@ -50,13 +50,18 @@ class SightTopicRequest: NSObject {
 
                 let dict = NSMutableDictionary()
                 var sightTags = [SightListTags]()
-                for item in respData["tags"] as! NSArray {
-                    sightTags.append(SightListTags(dict: item as! [String : String]))
+                
+                if respData["tags"] != nil {
+                    for item in respData["tags"] as! NSArray {
+                        sightTags.append(SightListTags(dict: item as! [String : AnyObject]))
+                    }
                 }
                 
                 var sightData = [SightListData]()
-                for item in respData["data"] as! NSArray {
-                    sightData.append(SightListData(dict: item as! [String : AnyObject]))
+                if respData["data"] != nil {
+                    for item in respData["data"] as! NSArray {
+                        sightData.append(SightListData(dict: item as! [String : AnyObject]))
+                    }
                 }
                 
                 dict.setValue(sightTags, forKey: "sightTags")
@@ -78,7 +83,7 @@ class SightListTags: NSObject {
     ///  标签名字
     var name: String?
     
-    init(dict: [String: String]) {
+    init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
     }
