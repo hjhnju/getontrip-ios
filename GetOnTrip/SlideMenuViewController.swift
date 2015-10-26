@@ -9,6 +9,7 @@
 
 import UIKit
 import FFAutoLayout
+import CoreLocation
 
 //定义侧边栏的两种状态（打开，关闭）枚举类型
 enum SlideMenuState: Int {
@@ -43,7 +44,7 @@ protocol SlideMenuViewControllerDelegate {
 
 let UserInfoChangeNotification = "UserInfoChangeNotification"
 
-class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SlideMenuViewControllerDelegate {
+class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, SlideMenuViewControllerDelegate {
     
     // MARK: Properties and Views    
     
@@ -159,10 +160,17 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         return pan
         }()
     
-        
+    //位置管理器
+    lazy var locationManager: CLLocationManager = CLLocationManager()
+    
     // MARK: - 初始化方法
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // 应用程序使用期间允许定位
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
         
         //default
         curVCType = self.usingVCTypes[0]
@@ -356,6 +364,27 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             cell.transform = CGAffineTransformIdentity
         }, completion: nil)
     }*/
+    
+    // MARK: - 地理定位代理方法
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        NSLog("开始定位")
+    
+        locationManager.stopUpdatingLocation()
+
+        // 获取位置信息
+        let coordinate = locations.first?.coordinate
+        // 反地理编码
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
+
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
+            if let locality = placemarks?.first?.locality {
+                let firstPlacemark: NSString = NSString(string: " 当前城市\(locality)")
+                self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
+            }
+        }
+    }
     
     // MARK: 自定义方法
     

@@ -28,6 +28,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     var page    : String = "1"
     var pageSize: String = "6"
     
+    var cityId = ""
+    
     /// 搜索提示
     var searchResult: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "当前搜索无内容", fontSize: 14, mutiLines: true)
     /// 定位城市
@@ -36,9 +38,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     var scrollLock:Bool = false
     
     var tableView = UITableView()
-    
-    //位置管理器
-    lazy var locationManager: CLLocationManager = CLLocationManager()
     
     var filterString: String = "" {
         didSet {
@@ -62,22 +61,15 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         
         
     }
-    
-    func startUpdatingLocations(btn: UIButton) {
-        // 应用程序使用期间允许定位
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
-        locationManager.startUpdatingLocation()
-        
-    }
-    
+
     private func setupAddProperty() {
         
         view.addSubview(tableView)
         view.addSubview(searchResult)
         view.addSubview(locationCity)
         
-        locationCity.addTarget(self, action: "startUpdatingLocations:", forControlEvents: UIControlEvents.TouchUpInside)
+        automaticallyAdjustsScrollViewInsets = false
+        locationCity.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
         searchResult.sendSubviewToBack(view)
         
         tableView.delegate = self
@@ -89,9 +81,14 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
     }
     
+    func switchCurrentCity(btn: UIButton) {
+        
+        
+    }
+    
     private func setupAutoLayout() {
         
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size)
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height))
         locationCity.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
         searchResult.ff_AlignInner(ff_AlignType.BottomCenter, referView: locationCity, size: nil, offset: CGPointMake(0, 81))
     }
@@ -102,28 +99,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     
-    // MARK: - 地理定位代理方法
-    
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        NSLog("开始定位")
-        
-        locationManager.stopUpdatingLocation()
-        
-        // 获取位置信息
-        let coordinate = locations.first?.coordinate
-        // 反地理编码
-        let geocoder = CLGeocoder()
-        let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
-        
-        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
-            if let locality = placemarks?.first?.locality {
-                let firstPlacemark: NSString = NSString(string: " 当前城市\(locality)")
-//                self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
-                
-                print(self?.parentViewController)
-            }
-        }
-    }
+
     
     // MARK: UITableViewDataSource
     
@@ -290,8 +266,4 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             locationCity.hidden = false
         }
     }
-}
-
-class SearchSectionTitle: UIView {
-    
 }

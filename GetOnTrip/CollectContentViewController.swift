@@ -26,7 +26,7 @@ class CollectContentViewController: UITableViewController {
             tableView.reloadData()
         }
     }
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +91,7 @@ class CollectContentViewController: UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let collect = collectContent[indexPath.row] as CollectContent
-        return collect.type == "4" ? 125 : 107
+        return collect.type == "4" ? 107 : 125
     }
     
 

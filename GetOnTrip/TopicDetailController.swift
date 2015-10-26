@@ -151,7 +151,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         
         view.backgroundColor = UIColor.whiteColor()
         webView.backgroundColor = UIColor.whiteColor()
-        collectBtn.setImage(UIImage(named: "topic_star"), forState: UIControlState.Selected)
+        collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
         
         //原则：如果和默认设置不同，controller自己定义新值，退出时自己还原
         oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)

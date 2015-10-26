@@ -119,7 +119,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         bottomView.addSubview(buyBtn)
         bottomView.addSubview(bottomLine)
         
-        collectBtn.setImage(UIImage(named: "topic_star"), forState: UIControlState.Selected)
+        collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
         collectBtn.addTarget(self, action: "doFavorite:", forControlEvents: UIControlEvents.TouchUpInside)
         buyBtn.addTarget(self, action: "buyButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         

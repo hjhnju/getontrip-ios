@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import SVProgressHUD
 
 let sightListCityIdentifier = "SightListCity_Cell"
 
@@ -81,6 +82,7 @@ class CitySightsViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sightListCityIdentifier, forIndexPath: indexPath) as! SightListCityCell
+        cell.collectBtn.addTarget(self, action: "collectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.collectBtn.tag = indexPath.row
         cell.sightBrief = sightCityList![indexPath.row] as CitySightBrief
         return cell
@@ -102,8 +104,43 @@ class CitySightsViewController: UICollectionViewController {
         presentViewController(search, animated: true, completion: nil)
     }
     
+    ///  收藏功能
+    ///
+    ///  - parameter sender: 收藏按钮
+    func collectButtonClick(sender: UIButton) {
+        
+        let sight = sightCityList![sender.tag] as CitySightBrief
+        if sharedUserAccount == nil {
+            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
+                let resultB = result as! Bool
+                if resultB == true {
+                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid:sight.id, isAdd: !sender.selected) { (handler) -> Void in
+                        print(handler)
+                        if handler as! String == "1" {
+                            sender.selected = !sender.selected
+                            SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                        }
+                        
+                    }
+                }
+            })
+        } else {
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid:sight.id, isAdd: !sender.selected) { (handler) -> Void in
+                print(handler)
+                if handler as! String == "1" {
+                    sender.selected = !sender.selected
+                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                } else {
+                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                }
+                
+            }
+        }
+    }
 }
-    
+
 // MARK: - SightListCityCell
 class SightListCityCell: UICollectionViewCell {
     
@@ -159,7 +196,6 @@ class SightListCityCell: UICollectionViewCell {
         addSubview(topicNum)
         addSubview(collectBtn)
         
-        collectBtn.addTarget(self, action: "collectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
     }
     
@@ -174,26 +210,4 @@ class SightListCityCell: UICollectionViewCell {
         shadeBottom.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(bounds.width, 2), offset: CGPointMake(0, 0))
         collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil, offset: CGPointMake(-8, 8))
     }
-    
-    func collectButtonClick(btn: UIButton) {
-        
-        print(btn.tag)
-        
-        if sharedUserAccount == nil {
-            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
-                let resultB = result as! Bool
-                if resultB == true {
-                    
-                    print("调用收藏功能")
-
-                }
-            })
-        } else {
-            print("调用收藏功能")
-        }
-        
-        
-        
-    }
-    
 }
