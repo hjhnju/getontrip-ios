@@ -91,6 +91,8 @@ struct SceneFont {
 }
 
 /// 占位图像
-struct placeholderImage {
+struct PlaceholderImage {
     static let userIcon = "user_icon"
+    static let defaultSmall = UIImage(named: "default_small")
+    static let defaultLarge = UIImage(named: "default_large")
 }

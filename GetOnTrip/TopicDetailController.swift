@@ -117,7 +117,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 labelBtn.setTitle(topic.label, forState: UIControlState.Normal)
                 favNumLabel.setTitle(" " + topic.collect, forState: UIControlState.Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: UIControlState.Normal)
-                headerImageView.sd_setImageWithURL(NSURL(string: topic.image))
+                headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage: PlaceholderImage.defaultLarge)
                 
                 showTopicDetail()
                 

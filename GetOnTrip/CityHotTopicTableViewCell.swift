@@ -28,7 +28,7 @@ class CityHotTopicTableViewCell: UITableViewCell {
     var topic: BriefTopic? {
         didSet {
             if let topic = topic {
-                iconView.sd_setImageWithURL(NSURL(string: topic.image))
+                iconView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage:PlaceholderImage.defaultSmall)
                 title.text = topic.title
                 subTitle.text = topic.subtitle
                 label.text = "\(topic.sight)・\(topic.tag)"

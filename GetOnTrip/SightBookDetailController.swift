@@ -63,8 +63,8 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     var data: BookDetail? {
         didSet {
             collectBtn.selected = data?.collected == "" ? false : true
-            iconView.sd_setImageWithURL(NSURL(string: data!.image!))
-            bookIcon.sd_setImageWithURL(NSURL(string: data!.image!))
+            iconView.sd_setImageWithURL(NSURL(string: data!.image!), placeholderImage: PlaceholderImage.defaultSmall)
+            bookIcon.sd_setImageWithURL(NSURL(string: data!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             titleLab.text = data?.title
             author.text = data?.info
             showBookDetail(data!.content_desc!)

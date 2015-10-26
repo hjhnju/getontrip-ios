@@ -109,7 +109,7 @@ class CollectCityCell: UICollectionViewCell {
     
     var collectCity: CollectCity? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectCity!.image))
+            iconView.sd_setImageWithURL(NSURL(string: collectCity!.image), placeholderImage:PlaceholderImage.defaultSmall)
             cityName.text = collectCity!.name
             topicNum.text = collectCity!.topicNum
         }

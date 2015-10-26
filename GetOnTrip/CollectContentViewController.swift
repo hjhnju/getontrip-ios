@@ -131,7 +131,7 @@ class CollectContentCell: UITableViewCell {
     
     var collectContent: CollectContent? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectContent!.image))
+            iconView.sd_setImageWithURL(NSURL(string: collectContent!.image), placeholderImage:PlaceholderImage.defaultSmall)
             titleLabel.text = collectContent!.title
             subtitleLabel.text = collectContent!.subtitle
             collect.setTitle(collectContent!.collect, forState: UIControlState.Normal)

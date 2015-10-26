@@ -123,7 +123,7 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     private func setupInitSetting() {
         title = SettingViewController.name
         /// TPDO: 先注释
-        iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!))
+        iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!), placeholderImage: PlaceholderImage.defaultSmall)
         
         
         if      sharedUserAccount?.gender?.hashValue == 0 { gender.text = "男" }

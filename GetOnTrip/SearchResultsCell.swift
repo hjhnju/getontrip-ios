@@ -32,7 +32,7 @@ class SearchResultsCell: UITableViewCell {
     
     var searchCity: SearchCity? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchCity!.image!))
+            resultImageView.sd_setImageWithURL(NSURL(string: searchCity!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchCity!.name!)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchCity!.desc!)
         }
@@ -40,7 +40,7 @@ class SearchResultsCell: UITableViewCell {
     
     var searchSight: SearchSight? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchSight!.image!))
+            resultImageView.sd_setImageWithURL(NSURL(string: searchSight!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchSight!.name!)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchSight!.desc!)
 
@@ -49,7 +49,7 @@ class SearchResultsCell: UITableViewCell {
     
     var searchContentTopic: SearchContentTopic? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchContentTopic!.image!))
+            resultImageView.sd_setImageWithURL(NSURL(string: searchContentTopic!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.title!)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.subtitle!)
 
@@ -58,7 +58,7 @@ class SearchResultsCell: UITableViewCell {
     
     var searchContentBook: SearchContentBook? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchContentBook!.image!))
+            resultImageView.sd_setImageWithURL(NSURL(string: searchContentBook!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentBook!.title!)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchContentBook!.desc!)
 
@@ -67,7 +67,7 @@ class SearchResultsCell: UITableViewCell {
     
     var searchContentVideo: SearchContentVideo? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchContentVideo!.image!))
+            resultImageView.sd_setImageWithURL(NSURL(string: searchContentVideo!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.title!)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.from!)
 
@@ -77,7 +77,7 @@ class SearchResultsCell: UITableViewCell {
     
     var searchContentWiki: SearchContentWiki? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchContentWiki!.image!))
+            resultImageView.sd_setImageWithURL(NSURL(string: searchContentWiki!.image!), placeholderImage:PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.name!)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.desc!)
 

@@ -262,7 +262,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             (handler: NSDictionary) -> Void in
 
             if let city = handler.valueForKey("city") as? City {
-                self?.headerImageView.sd_setImageWithURL(NSURL(string: city.image))
+                self?.headerImageView.sd_setImageWithURL(NSURL(string: city.image), placeholderImage:PlaceholderImage.defaultSmall)
                 self?.cityName = city.name
                 self?.favIconBtn.selected = city.collected == "" ? false : true
             }

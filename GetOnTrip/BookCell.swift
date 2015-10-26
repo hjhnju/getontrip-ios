@@ -25,7 +25,7 @@ class BookCell: UITableViewCell {
         didSet {
             if book == nil { return }
             iconView.image = nil
-            iconView.sd_setImageWithURL(NSURL(string: book!.image!), placeholderImage: UIImage())
+            iconView.sd_setImageWithURL(NSURL(string: book!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             titleLabel.text = book!.title!
             subtitleLabel.text = book!.content_desc!
             author.text = "作者：" + book!.author!

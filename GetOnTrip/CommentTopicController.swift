@@ -212,7 +212,7 @@ class commentTableViewCell : UITableViewCell {
     
     var data: CommentList? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: data!.avatar)!)
+            iconView.sd_setImageWithURL(NSURL(string: data!.avatar)!, placeholderImage:PlaceholderImage.defaultSmall)
             titleName.text = data!.from_name
             content.text = data!.content
             time.text = data!.create_time
