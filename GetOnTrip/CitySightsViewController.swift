@@ -44,6 +44,7 @@ class CitySightsViewController: UICollectionViewController {
         view.backgroundColor = SceneColor.frontBlack
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: "", action: "")
         let w: CGFloat = 170
         let h: CGFloat = 150
         // 每个item的大小
@@ -128,7 +129,7 @@ class CitySightsViewController: UICollectionViewController {
         } else {
             CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid:sight.id, isAdd: !sender.selected) { (handler) -> Void in
                 print(handler)
-                if handler as! String == "1" {
+                if handler["data"] as! String == "1" {
                     sender.selected = !sender.selected
                     SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
                 } else {
@@ -149,7 +150,7 @@ class SightListCityCell: UICollectionViewCell {
     
     lazy var topicNum: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "共10个话题", fontSize: 11, mutiLines: false)
     
-    lazy var collectBtn: UIButton = UIButton(image: "search_fav", title: "", fontSize: 0)
+    lazy var collectBtn: CitySightCollectButton = CitySightCollectButton(image: "search_fav", title: "", fontSize: 0)
     
     lazy var shade: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.2)
     
@@ -207,6 +208,6 @@ class SightListCityCell: UICollectionViewCell {
         shadeLeft.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(2, bounds.height), offset: CGPointMake(0, 0))
         shadeRight.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(2, bounds.height), offset: CGPointMake(0, 0))
         shadeBottom.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(bounds.width, 2), offset: CGPointMake(0, 0))
-        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil, offset: CGPointMake(-8, 8))
+        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
     }
 }

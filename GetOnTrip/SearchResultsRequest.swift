@@ -26,55 +26,107 @@ class SearchResultsRequest: NSObject {
         post["query"]    = String(filterString)
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
-        
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: post, handler: {(respData: AnyObject) -> Void in
-            print(respData)
-            let rows = NSMutableDictionary()
-            for section in self.sectionTypes {
-                
-                switch section {
-                case "city":
-                    var searchCitys = [SearchCity]()
-                    for item in respData["city"] as! NSArray {
-                        searchCitys.append(SearchCity(dict: item as! [String : String]))
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: post) { (result, error) -> () in
+            if error == nil {
+                print(result!)
+                let data = result!["data"]
+                let rows = NSMutableDictionary()
+                for section in self.sectionTypes {
+                    switch section {
+                    case "city":
+                        var searchCitys = [SearchCity]()
+                        for item in data!!["city"] as! NSArray {
+                            searchCitys.append(SearchCity(dict: item as! [String : String]))
+                        }
+                        rows.setValue(searchCitys, forKey: "searchCitys")
+                        rows.setValue(data!!["city_num"], forKey: "city_num")
+                    case "sight":
+                        var searchSights = [SearchSight]()
+                        for item in data!!["sight"] as! NSArray {
+                            searchSights.append(SearchSight(dict: item as! [String : String]))
+                        }
+                        rows.setValue(searchSights, forKey: "searchSights")
+                        rows.setValue(data!!["sight_num"], forKey: "sight_num")
+                    case "content":
+                        let searchContent = NSMutableArray()
+                        
+                        let content = data!!["content"] as? NSDictionary
+                        
+                        for item in content?.objectForKey("topic") as! NSArray {
+                            searchContent.addObject(SearchContentTopic(dict: item as! [String : AnyObject]))
+                        }
+                        
+                        for item in content?.objectForKey("book") as! NSArray {
+                            searchContent.addObject(SearchContentBook(dict: item as! [String : AnyObject]))
+                        }
+                        
+                        for item in content?.objectForKey("video") as! NSArray {
+                            searchContent.addObject(SearchContentVideo(dict: item as! [String : AnyObject]))
+                        }
+                        
+                        for item in content?.objectForKey("wiki") as! NSArray {
+                            searchContent.addObject(SearchContentWiki(dict: item as! [String : AnyObject]))
+                        }
+                        
+                        rows.setValue(searchContent, forKey: "searchContent")
+                        rows.setValue(data!!["content_num"], forKey: "content_num")
+                    default:
+                        break
                     }
-                    rows.setValue(searchCitys, forKey: "searchCitys")
-                case "sight":
-                    var searchSights = [SearchSight]()
-                    for item in respData["sight"] as! NSArray {
-                        searchSights.append(SearchSight(dict: item as! [String : String]))
-                    }
-                    rows.setValue(searchSights, forKey: "searchSights")
-                    
-                case "content":
-                    let searchContent = NSMutableArray()
-                    
-                    let content = respData["content"] as? NSDictionary
-                    
-                    for item in content?.objectForKey("topic") as! NSArray {
-                        searchContent.addObject(SearchContentTopic(dict: item as! [String : AnyObject]))
-                    }
-                    
-                    for item in content?.objectForKey("book") as! NSArray {
-                        searchContent.addObject(SearchContentBook(dict: item as! [String : AnyObject]))
-                    }
-                    
-                    for item in content?.objectForKey("video") as! NSArray {
-                        searchContent.addObject(SearchContentVideo(dict: item as! [String : AnyObject]))
-                    }
-                    
-                    for item in content?.objectForKey("wiki") as! NSArray {
-                        searchContent.addObject(SearchContentWiki(dict: item as! [String : AnyObject]))
-                    }
-                    
-                    rows.setValue(searchContent, forKey: "searchContent")
-                    
-                default:
-                    break
                 }
+                handler(rows)
+
             }
-            handler(rows)
-        })
+        }
+//        HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: post, handler: {(respData: AnyObject) -> Void in
+//            print(respData)
+//            let rows = NSMutableDictionary()
+//            for section in self.sectionTypes {
+//                
+//                switch section {
+//                case "city":
+//                    var searchCitys = [SearchCity]()
+//                    for item in respData["city"] as! NSArray {
+//                        searchCitys.append(SearchCity(dict: item as! [String : String]))
+//                    }
+//                    rows.setValue(searchCitys, forKey: "searchCitys")
+//                    rows.setValue(respData["city_num"], forKey: "city_num")
+//                case "sight":
+//                    var searchSights = [SearchSight]()
+//                    for item in respData["sight"] as! NSArray {
+//                        searchSights.append(SearchSight(dict: item as! [String : String]))
+//                    }
+//                    rows.setValue(searchSights, forKey: "searchSights")
+//                    rows.setValue(respData["sight_num"], forKey: "sight_num")
+//                case "content":
+//                    let searchContent = NSMutableArray()
+//                    
+//                    let content = respData["content"] as? NSDictionary
+//                    
+//                    for item in content?.objectForKey("topic") as! NSArray {
+//                        searchContent.addObject(SearchContentTopic(dict: item as! [String : AnyObject]))
+//                    }
+//                    
+//                    for item in content?.objectForKey("book") as! NSArray {
+//                        searchContent.addObject(SearchContentBook(dict: item as! [String : AnyObject]))
+//                    }
+//                    
+//                    for item in content?.objectForKey("video") as! NSArray {
+//                        searchContent.addObject(SearchContentVideo(dict: item as! [String : AnyObject]))
+//                    }
+//                    
+//                    for item in content?.objectForKey("wiki") as! NSArray {
+//                        searchContent.addObject(SearchContentWiki(dict: item as! [String : AnyObject]))
+//                    }
+//                    
+//                    rows.setValue(searchContent, forKey: "searchContent")
+//                    rows.setValue(respData["content_num"], forKey: "content_num")
+//                default:
+//                    break
+//                }
+//            }
+//            handler(rows)
+//        })
     
     }
     

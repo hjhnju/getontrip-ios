@@ -209,7 +209,7 @@ class UserAccount: NSObject, NSCoding {
         uid = aDecoder.decodeObjectForKey("uid") as? String
         nickname = aDecoder.decodeObjectForKey("nickname") as? String
         icon = aDecoder.decodeObjectForKey("icon") as? String
-        gender = aDecoder.decodeIntegerForKey("gender") as Int
+        gender = aDecoder.decodeObjectForKey("gender") as? Int
         city = aDecoder.decodeObjectForKey("city") as? String
         type = aDecoder.decodeIntegerForKey("type") as Int
     }
@@ -222,7 +222,7 @@ class UserAccount: NSObject, NSCoding {
         aCoder.encodeObject(uid, forKey: "uid")
         aCoder.encodeObject(nickname, forKey: "nickname")
         aCoder.encodeObject(icon, forKey: "icon")
-        aCoder.encodeInteger(gender!, forKey: "gender")
+        aCoder.encodeObject(gender, forKey: "gender")
         aCoder.encodeObject(city, forKey: "city")
         aCoder.encodeInteger(type, forKey: "type")
     }

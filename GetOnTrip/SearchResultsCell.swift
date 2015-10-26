@@ -20,12 +20,12 @@ class SearchResultsCell: UITableViewCell {
     
     var searchCruxCharacter: String = ""
     
-    func searchCruxCharacterAction(title: String) -> NSAttributedString {
+    func searchCruxCharacterAction(title: String, titleColor: UIColor) -> NSAttributedString {
         
         let attr = NSMutableAttributedString(string: title)
         
         let range = (title as NSString).rangeOfString(searchCruxCharacter)
-        attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blueColor(), range: range)
+        attr.addAttribute(NSForegroundColorAttributeName, value: titleColor, range: range)
 
         return attr
     }
@@ -33,16 +33,16 @@ class SearchResultsCell: UITableViewCell {
     var searchCity: SearchCity? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchCity!.image!))
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchCity!.name!)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchCity!.desc!)
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchCity!.name!, titleColor: SceneColor.lightYellow)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchCity!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
         }
     }
     
     var searchSight: SearchSight? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchSight!.image!))
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchSight!.name!)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchSight!.desc!)
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchSight!.name!, titleColor: SceneColor.lightYellow)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchSight!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
 
         }
     }
@@ -50,8 +50,8 @@ class SearchResultsCell: UITableViewCell {
     var searchContentTopic: SearchContentTopic? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentTopic!.image!))
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.title!)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.subtitle!)
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.title!, titleColor: SceneColor.lightYellow)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.subtitle!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
 
         }
     }
@@ -59,8 +59,8 @@ class SearchResultsCell: UITableViewCell {
     var searchContentBook: SearchContentBook? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentBook!.image!))
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentBook!.title!)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentBook!.desc!)
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentBook!.title!, titleColor: SceneColor.lightYellow)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentBook!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
 
         }
     }
@@ -68,8 +68,8 @@ class SearchResultsCell: UITableViewCell {
     var searchContentVideo: SearchContentVideo? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentVideo!.image!))
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.title!)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.from!)
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.title!, titleColor: SceneColor.lightYellow)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.from!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
 
         }
         
@@ -78,8 +78,8 @@ class SearchResultsCell: UITableViewCell {
     var searchContentWiki: SearchContentWiki? {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentWiki!.image!))
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.name!)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.desc!)
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.name!, titleColor: SceneColor.lightYellow)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
 
         }
     }
@@ -108,5 +108,21 @@ class SearchResultsCell: UITableViewCell {
         resultImageView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
         resultTitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: resultImageView, size: CGSizeMake(w, 16), offset: CGPointMake(6, 0))
         resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: resultImageView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
+    }
+}
+
+class ShowMoreTableViewCell: UITableViewCell {
+    
+    let showMore: UIButton = UIButton(title: "显示全部景点", fontSize: 12, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.8))
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+       
+        addSubview(showMore)
+        showMore.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

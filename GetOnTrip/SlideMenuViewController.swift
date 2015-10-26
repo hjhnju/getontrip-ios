@@ -386,7 +386,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 LocateBarterCity.locateBarterCityAction(locality, handler: { (result) -> Void in
                     
                     ///  无论返回何值都代表获取权限成功/
-                    if result as! String == "" {
+                    if result["data"] as! String == "" {
                         self!.mainViewController.cityId = ""
                     } else {
                         self!.mainViewController.cityId = result as! String

@@ -40,21 +40,34 @@ class LandscapeRequest: NSObject {
         
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/landscape",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/landscape", post: post) { (result, error) -> () in
+            if error == nil {
                 
                 let sightLandscape = NSMutableArray() // [SightLandscape]()
-                for item in respData as! NSArray {
-                    
+                for item in result!["data"] as! NSArray {
                     sightLandscape.addObject(SightLandscape(dict: item as! [String : AnyObject]))
                 }
                 
                 // 回调
                 handler(sightLandscape)
             }
-        )
+        }
+        
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/landscape",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                
+//                let sightLandscape = NSMutableArray() // [SightLandscape]()
+//                for item in respData as! NSArray {
+//                    
+//                    sightLandscape.addObject(SightLandscape(dict: item as! [String : AnyObject]))
+//                }
+//                
+//                // 回调
+//                handler(sightLandscape)
+//            }
+//        )
     }
 }
 

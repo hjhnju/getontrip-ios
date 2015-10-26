@@ -37,13 +37,10 @@ class CitySightsRequest: NSObject {
         post["cityId"] = String(cityId!)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/city/sight",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/city/sight", post: post) { (result, error) -> () in
+            if error == nil {
                 var sightCityListM = [CitySightBrief]()
-                for it in respData as! NSArray {
+                for it in result!["data"] as! NSArray {
                     
                     let sightM = CitySightBrief(dict: it as! [String : String])
                     
@@ -53,7 +50,24 @@ class CitySightsRequest: NSObject {
                 // 回调
                 handler(sightCityListM)
             }
-        )
+        }
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/city/sight",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                
+//                var sightCityListM = [CitySightBrief]()
+//                for it in respData as! NSArray {
+//                    
+//                    let sightM = CitySightBrief(dict: it as! [String : String])
+//                    
+//                    sightCityListM.append(sightM)
+//                }
+//                
+//                // 回调
+//                handler(sightCityListM)
+//            }
+//        )
     }
 
 }

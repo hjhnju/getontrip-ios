@@ -31,31 +31,55 @@ class SearchRecommendRequest: NSObject {
         post["pageSize"] = String(pageSize)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/search/label",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/search/label", post: post) { (result, error) -> () in
+            if error == nil {
+                let data = result!["data"]
                 let searchModel = NSMutableDictionary()
                 
                 var searchLabels = [SearchLabel]()
                 var searchDatas = [RecommendCellData]()
-                
-                for item in respData["label"] as! NSArray {
+                print(data)
+                for item in data!!["label"] as! NSArray {
                     searchLabels.append(SearchLabel(dict: item as! [String : String]))
                 }
                 
-                for item in respData["content"] as! NSArray {
+                for item in data!!["content"] as! NSArray {
                     searchDatas.append(RecommendCellData(dict: item as! [String : String]))
                 }
                 
-                let str = respData.objectForKey("image") as! String
+                let str = data!!["image"] as! String
                 searchModel.setValue(searchLabels, forKey: "labels")
                 searchModel.setValue(searchDatas, forKey: "datas")
                 searchModel.setValue(String(AppIni.BaseUri + str), forKey: "image")
                 // 回调
                 handler(searchModel)
             }
-        )
+        }
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/search/label",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                let searchModel = NSMutableDictionary()
+//                
+//                var searchLabels = [SearchLabel]()
+//                var searchDatas = [RecommendCellData]()
+//                
+//                for item in respData["label"] as! NSArray {
+//                    searchLabels.append(SearchLabel(dict: item as! [String : String]))
+//                }
+//                
+//                for item in respData["content"] as! NSArray {
+//                    searchDatas.append(RecommendCellData(dict: item as! [String : String]))
+//                }
+//                
+//                let str = respData.objectForKey("image") as! String
+//                searchModel.setValue(searchLabels, forKey: "labels")
+//                searchModel.setValue(searchDatas, forKey: "datas")
+//                searchModel.setValue(String(AppIni.BaseUri + str), forKey: "image")
+//                // 回调
+//                handler(searchModel)
+//            }
+//        )
     }
 }
 

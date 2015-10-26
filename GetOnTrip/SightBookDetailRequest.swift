@@ -31,14 +31,11 @@ class SightBookDetailRequest: NSObject {
         post["book"]  = String(book!)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/book/detail",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                // 回调
-                handler(BookDetail(dict: respData as! [String : AnyObject]))
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/book/detail", post: post) { (result, error) -> () in
+            if error == nil {
+                handler(BookDetail(dict: result!["data"] as! [String : AnyObject]))
             }
-        )
+        }
     }
 }
 

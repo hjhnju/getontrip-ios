@@ -31,21 +31,33 @@ class TopicRefreshRequest: NSObject {
         post["city"]     = String(city!)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/city/topic",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                
-                print(respData)
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/city/topic", post: post) { (result, error) -> () in
+            if error == nil {
+                print(result)
                 var topics = [BriefTopic]()
-
-                for item in respData as! NSArray {
+                
+                for item in result!["data"] as! NSArray {
                     topics.append(BriefTopic(dict: item as! [String : String]))
                 }
                 // 回调
                 handler(topics)
             }
-        )
+        }
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/city/topic",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                
+//                print(respData)
+//                var topics = [BriefTopic]()
+//
+//                for item in respData as! NSArray {
+//                    topics.append(BriefTopic(dict: item as! [String : String]))
+//                }
+//                // 回调
+//                handler(topics)
+//            }
+//        )
     }
 }
 
@@ -64,15 +76,20 @@ class LocateBarterCity: NSObject {
         post["city"]     = String(city)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIniDev.BaseUri,
-            path: "/api/city/locate",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                
-                // 回调
-                handler(respData)
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/city/locate", post: post) { (result, error) -> () in
+            if error == nil {
+                handler(result!)
             }
-        )
+        }
+//        HttpRequest.ajax(AppIniDev.BaseUri,
+//            path: "/api/city/locate",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                
+//                // 回调
+//                handler(respData)
+//            }
+//        )
     }
     
 }

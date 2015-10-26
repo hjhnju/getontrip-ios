@@ -27,21 +27,18 @@ class UserInfoRequest: NSObject {
         post["type"]  = String(type!)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/user/getinfo",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                
-                if (respData.count == 0) {
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/getinfo", post: post) { (result, error) -> () in
+            if error == nil {
+                if (result!["data"]!!.count == 0) {
                     let user = UserInfo()
                     user.type = "0"
                     handler(user)
                     
                 } else {
-                    handler(UserInfo(dict: respData as! [String : AnyObject]))
+                    handler(UserInfo(dict: result!["data"] as! [String : AnyObject]))
                 }
             }
-        )
+        }
     }
 }
 

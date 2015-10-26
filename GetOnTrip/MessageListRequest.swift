@@ -36,13 +36,11 @@ class MessageListRequest: NSObject {
         post["pageSize"] = String(self.pageSize)
         post["page"]     = String(self.curPage)
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/msg/list",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                print(respData)
+        HttpRequest.ajax(AppIni.BaseUri, path: "api/msg/list", post: post) { (result, error) -> () in
+            if error == nil {
+                print(result)
                 var messageLists = [MessageList]()
-                for item in respData as! NSArray {
+                for item in result as! NSArray {
                     
                     messageLists.append(MessageList(dict: item as! [String : AnyObject]))
                 }
@@ -50,7 +48,22 @@ class MessageListRequest: NSObject {
                 // 回调
                 handler(messageLists)
             }
-        )
+        }
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/msg/list",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                print(respData)
+//                var messageLists = [MessageList]()
+//                for item in respData as! NSArray {
+//                    
+//                    messageLists.append(MessageList(dict: item as! [String : AnyObject]))
+//                }
+//                
+//                // 回调
+//                handler(messageLists)
+//            }
+//        )
     }
 }
 
