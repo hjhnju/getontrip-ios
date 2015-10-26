@@ -30,6 +30,7 @@ class TopicCell: UITableViewCell {
     
     var otherData: SightListData? {
         didSet {
+            if otherData == nil { return }
             iconView.image = nil
             iconView.sd_setImageWithURL(NSURL(string: otherData!.image!))
             subtitleLabel.text = otherData?.subtitle

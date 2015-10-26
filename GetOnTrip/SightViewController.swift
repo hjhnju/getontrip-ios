@@ -9,7 +9,8 @@
 import UIKit
 import FFAutoLayout
 
-class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate {
+class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate, SightTableViewControllerDelegate {
+    
     
     /// 景点id
     var sightId: String = ""
@@ -44,9 +45,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     /// 索引
     var currentIndex: Int?
     
-    /// 缓存cell
-    lazy var collectionViewCellCache = [Int: SightCollectionViewCell]()
-    
     /// 数据
     var dataSource: NSDictionary? {
         didSet {
@@ -55,6 +53,9 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             collectionView.reloadData()
         }
     }
+    
+    /// 缓存cell
+    lazy var collectionViewCellCache = [Int : NSArray]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,7 +102,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
-        collectionViewCellCache.removeAll()
+//        collectionViewCellCache.removeAll()
     }
     
     override func viewDidLayoutSubviews() {
@@ -177,36 +178,49 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         // 判断是否缓存了cell，如果有直接返回
-        if collectionViewCellCache[indexPath.row] != nil {
-            return collectionViewCellCache[indexPath.row]!
-        }
-        
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
+//        let cell = UICollectionViewCell
         let dataType = dataSource?.objectForKey("sightTags") as! NSArray
-
+        
         let data = dataType[indexPath.row] as! SightListTags
         
-        cell.vc.sightId = sightId
-        let labId = channels![indexPath.row] as! SightListTags
-        cell.vc.tagId = labId.id!
-         if (Int(data.type!) == categoryLabel.sightLabel) {
-            cell.type = categoryLabel.sightLabel
-        } else if (Int(data.type!) == categoryLabel.videoLabel) {
-            cell.type = categoryLabel.videoLabel
-        } else if (Int(data.type!) == categoryLabel.bookLabel) {
-            cell.type = categoryLabel.bookLabel
-
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
+        
+        if collectionViewCellCache[Int(data.type!)!] != nil {
+            cell.vc.type = Int(data.type!)
+            cell.vc.data = collectionViewCellCache[Int(data.type!)!]
+            return cell
         } else {
-            cell.type = 0
+            cell.vc.sightId = sightId
+            let labId = channels![indexPath.row] as! SightListTags
+            cell.vc.tagId = labId.id!
+            if (Int(data.type!) == categoryLabel.sightLabel) {
+                cell.type = categoryLabel.sightLabel
+            } else if (Int(data.type!) == categoryLabel.videoLabel) {
+                cell.type = categoryLabel.videoLabel
+            } else if (Int(data.type!) == categoryLabel.bookLabel) {
+                cell.type = categoryLabel.bookLabel
+            } else {
+                cell.type = 0
+            }
         }
+        
+        
         
         if (!childViewControllers.contains(cell.vc)) {
             addChildViewController(cell.vc)
         }
-        collectionViewCellCache[indexPath.row] = cell
+        
+        
+        
+        cell.vc.delegate = self
         
         return cell
     }
+    
+    func collectionViewCellCache(data: NSArray, type: Int) {
+        collectionViewCellCache[type] = data
+    }
+    
     
     // MARK - scrollerView 代理方法
     func scrollViewDidScroll(scrollView: UIScrollView) {

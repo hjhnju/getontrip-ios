@@ -32,6 +32,7 @@ class SearchViewController: UISearchController {
         view.addSubview(searchResult.view)
         hidesNavigationBarDuringPresentation = false
         view.backgroundColor = UIColor(patternImage: UIImage(named: "search-bg0")!)
+//        view.backgroundColor = UIColor.orangeColor()
         searchBar.barStyle = UIBarStyle.Black
         searchBar.tintColor = UIColor.grayColor()
         searchBar.becomeFirstResponder()

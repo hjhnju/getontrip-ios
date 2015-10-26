@@ -167,10 +167,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 应用程序使用期间允许定位
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
-        locationManager.startUpdatingLocation()
         
         //default
         curVCType = self.usingVCTypes[0]
@@ -179,6 +175,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         setupAutoLayout()
         refreshLoginStatus()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userInfoDidChangeNotification:", name: UserInfoChangeNotification, object: nil)
+        // 应用程序使用期间允许定位
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
     }
     
     //电池栏状态
@@ -368,7 +368,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     // MARK: - 地理定位代理方法
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        NSLog("开始定位")
+        print("开始定位")
     
         locationManager.stopUpdatingLocation()
 
@@ -382,6 +382,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             if let locality = placemarks?.first?.locality {
                 let firstPlacemark: NSString = NSString(string: " 当前城市\(locality)")
                 self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
+                LocateBarterCity.locateBarterCityAction(locality, handler: { (result) -> Void in
+                    ///  无论返回何值都代表获取权限成功/
+                    if result as! String != "" {
+                        self!.mainViewController.cityId = result as! String
+                    } else {
+                        self!.mainViewController.cityId = "-1"
+                    }
+                })
             }
         }
     }

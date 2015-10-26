@@ -8,9 +8,9 @@
 
 import UIKit
 import FFAutoLayout
-import CoreLocation
+import SVProgressHUD
 
-class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
+class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
     
@@ -39,13 +39,20 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     var tableView = UITableView()
     
+    var textLenght: String?
+    
     var filterString: String = "" {
         didSet {
+
             if filterString == "" { return }
             
             SearchResultsRequest.sharedSearchResultRection.fetchSearchResultsModels(page, pageSize: pageSize, filterString: filterString) { (rows) -> Void in
                 if self.filterString != "" {
                     self.resultData = rows as! NSMutableDictionary
+                    if self.textLenght == "" {
+                        self.resultData.removeAllObjects()
+                        self.tableView.reloadData()
+                    }
                 }
             }
         }
@@ -58,8 +65,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         
         setupAddProperty()
         setupAutoLayout()
-        
-        
     }
 
     private func setupAddProperty() {
@@ -68,7 +73,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         view.addSubview(searchResult)
         view.addSubview(locationCity)
         
-        automaticallyAdjustsScrollViewInsets = false
         locationCity.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
         searchResult.sendSubviewToBack(view)
         
@@ -83,12 +87,23 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     func switchCurrentCity(btn: UIButton) {
         
-        
+        if cityId == "-1" {
+            SVProgressHUD.showErrorWithStatus("您的网络有问题定位失败!")
+        } else {
+            
+            if cityId == "" { SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!"); return }
+            let vc = CityViewController()
+            vc.cityId = cityId
+            let nav = UINavigationController(rootViewController: vc)
+            vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+            presentViewController(nav, animated: true, completion: nil)
+
+        }
     }
     
     private func setupAutoLayout() {
         
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height))
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height), offset: CGPointMake(0, 64))
         locationCity.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
         searchResult.ff_AlignInner(ff_AlignType.BottomCenter, referView: locationCity, size: nil, offset: CGPointMake(0, 81))
     }
@@ -253,6 +268,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     // MARK: UISearchResultsUpdating
     func updateSearchResultsForSearchController(searchController: UISearchController) {
+        textLenght = searchController.searchBar.text
         tableView.hidden = true
         if !searchController.active { return }
         print(searchController.searchBar.text)

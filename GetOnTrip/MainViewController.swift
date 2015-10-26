@@ -24,6 +24,7 @@ class MainViewController: UIViewController {
         return button
         }()
     
+    var cityId: String = ""
     // MASK: View Life Circle
     
     override func viewDidLoad() {
@@ -51,7 +52,10 @@ class MainViewController: UIViewController {
     
     func showSearch(){
         
-        presentViewController(SearchViewController(), animated: true, completion: nil)
+        let svc = SearchViewController()
+        svc.searchResult.cityId = cityId
+        print(parentViewController)
+        presentViewController(svc, animated: true, completion: nil)
 
     }
     
