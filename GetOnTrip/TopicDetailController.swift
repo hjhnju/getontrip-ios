@@ -165,6 +165,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         
         navTitleLabel.frame = CGRectMake(0, 0, 100, 21)
         navTitleLabel.textAlignment = NSTextAlignment.Center
+        navTitleLabel.hidden = false
+        navTitleLabel.alpha  = 1.0
         
         loadSightData()
         setupAddProperty()
@@ -305,7 +307,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         webView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 47), offset: CGPointMake(0, 0))
         toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 47), offset: CGPointMake(0, 0))
         headerImageView.ff_Fill(toolbarView)
-        labelBtn.ff_AlignInner(ff_AlignType.TopRight, referView: headerView, size: CGSizeMake(32, 14), offset: CGPointMake(-17, 7 + 44))
+        labelBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: headerView, size: CGSizeMake(32, 14), offset: CGPointMake(-17, -CityConstant.headerViewHeight))
         favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(10, -7))
         visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
         titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, 1))
@@ -336,7 +338,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
 
     deinit {
-        print("让我走不\(__FUNCTION__)")
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().removeObserver(self)
 

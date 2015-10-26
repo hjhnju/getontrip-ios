@@ -111,6 +111,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
             
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
         titleLabel.textAlignment = NSTextAlignment.Center
@@ -423,7 +424,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func favIconBtnClick(btn: UIButton) {
-        print("favIconBtnClick")
         if sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
@@ -458,5 +458,11 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     ///  搜索跳入之后消失控制器
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: - 搜索(下一个控制器)
+    func searchButtonClicked(button: UIBarButtonItem) {
+        
+        presentViewController(SearchViewController(), animated: true, completion: nil)
     }
 }

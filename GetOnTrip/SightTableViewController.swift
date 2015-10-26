@@ -25,7 +25,7 @@ class SightTableViewController: UITableViewController {
     
     var type: Int? {
         didSet {
-            data = nil
+            //data = nil
             
             switch type! {
             case categoryLabel.sightLabel:
