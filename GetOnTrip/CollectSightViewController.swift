@@ -17,9 +17,11 @@ class CollectSightViewController: UICollectionViewController {
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
 
+    let collectPrompt = UILabel(color: UIColor.blackColor(), title: "还木有内容......\n收藏点喜欢的吧(n-n)", fontSize: 18, mutiLines: true)
     /// 数据模型
     var collectSights = [CollectSight]() {
         didSet {
+            collectPrompt.hidden = true
             collectionView?.reloadData()
         }
     }
@@ -37,7 +39,10 @@ class CollectSightViewController: UICollectionViewController {
         super.viewDidLoad()
 
         collectionView?.backgroundColor = UIColor.clearColor()
-
+        collectionView?.addSubview(collectPrompt)
+        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 150))
+        collectPrompt.textAlignment = NSTextAlignment.Center
+        
         let w: CGFloat = 170
         let h: CGFloat = 150
         
@@ -67,6 +72,7 @@ class CollectSightViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectSights.count == 0 { collectPrompt.hidden = true }
         return collectSights.count
     }
 

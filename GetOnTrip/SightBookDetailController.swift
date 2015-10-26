@@ -96,7 +96,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     ///  添加相关属性
     private func setupAddProperty() {
         
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         view.backgroundColor = .whiteColor()
         iconView.contentMode = UIViewContentMode.ScaleAspectFill

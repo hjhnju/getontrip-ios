@@ -24,8 +24,8 @@ class SearchResultsCell: UITableViewCell {
         
         let attr = NSMutableAttributedString(string: title)
         
-        let range1 = (title as NSString).rangeOfString(searchCruxCharacter)
-        attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blueColor(), range: range1)
+        let range = (title as NSString).rangeOfString(searchCruxCharacter)
+        attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blueColor(), range: range)
 
         return attr
     }

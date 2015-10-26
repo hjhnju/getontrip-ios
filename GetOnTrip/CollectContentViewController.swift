@@ -18,9 +18,11 @@ class CollectContentViewController: UITableViewController {
     /// 网络请求加载数据
     var lastSuccessRequest: CollectSightRequest?
     
-
+    let collectPrompt = UILabel(color: UIColor.blackColor(), title: "还木有内容......\n收藏点喜欢的吧(n-n)", fontSize: 18, mutiLines: true)
+    
     var collectContent = [CollectContent]() {
         didSet {
+            collectPrompt.hidden = true
             tableView.reloadData()
         }
     }
@@ -28,7 +30,10 @@ class CollectContentViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tableView?.addSubview(collectPrompt)
+        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: tableView!, size: nil, offset: CGPointMake(0, 150))
+        collectPrompt.textAlignment = NSTextAlignment.Center
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
         tableView.backgroundColor = UIColor.clearColor()
@@ -49,8 +54,8 @@ class CollectContentViewController: UITableViewController {
 
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if collectContent.count == 0 { collectPrompt.hidden = true }
         return collectContent.count
-
     }
 
     

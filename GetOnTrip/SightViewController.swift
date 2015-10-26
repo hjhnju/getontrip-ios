@@ -44,6 +44,9 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     /// 索引
     var currentIndex: Int?
     
+    /// 缓存cell
+    lazy var collectionViewCellCache = [Int: SightCollectionViewCell]()
+    
     /// 数据
     var dataSource: NSDictionary? {
         didSet {
@@ -93,6 +96,12 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        collectionViewCellCache.removeAll()
     }
     
     override func viewDidLayoutSubviews() {
@@ -167,6 +176,11 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
+        // 判断是否缓存了cell，如果有直接返回
+        if collectionViewCellCache[indexPath.row] != nil {
+            return collectionViewCellCache[indexPath.row]!
+        }
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
         let dataType = dataSource?.objectForKey("sightTags") as! NSArray
 
@@ -189,6 +203,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         if (!childViewControllers.contains(cell.vc)) {
             addChildViewController(cell.vc)
         }
+        collectionViewCellCache[indexPath.row] = cell
         
         return cell
     }

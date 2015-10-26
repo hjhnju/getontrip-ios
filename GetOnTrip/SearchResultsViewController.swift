@@ -42,10 +42,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     var filterString: String = "" {
         didSet {
-            if filterString == "" {
-                
-                return
-            }
+            if filterString == "" { return }
+            
             SearchResultsRequest.sharedSearchResultRection.fetchSearchResultsModels(page, pageSize: pageSize, filterString: filterString) { (rows) -> Void in
                 if self.filterString != "" {
                     self.resultData = rows as! NSMutableDictionary
