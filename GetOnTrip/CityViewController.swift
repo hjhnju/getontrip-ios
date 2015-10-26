@@ -116,6 +116,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         titleLabel.textAlignment = NSTextAlignment.Center
         titleLabel.hidden = true //设置alpha=0会有Fade Out
         
+        headerImageView.userInteractionEnabled = true
+        
         initView()
         setupAutoLayout()
         loadCityData()

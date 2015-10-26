@@ -8,8 +8,9 @@
 
 import UIKit
 import FFAutoLayout
+import CoreLocation
 
-class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate {
+class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
     
     // MARK: Properties
     
@@ -36,6 +37,9 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     var tableView = UITableView()
     
+    //位置管理器
+    lazy var locationManager: CLLocationManager = CLLocationManager()
+    
     var filterString: String = "" {
         didSet {
             if filterString == "" {
@@ -58,15 +62,24 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         setupAddProperty()
         setupAutoLayout()
         
+        
+    }
+    
+    func startUpdatingLocations(btn: UIButton) {
+        // 应用程序使用期间允许定位
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
+        
     }
     
     private func setupAddProperty() {
-        
         
         view.addSubview(tableView)
         view.addSubview(searchResult)
         view.addSubview(locationCity)
         
+        locationCity.addTarget(self, action: "startUpdatingLocations:", forControlEvents: UIControlEvents.TouchUpInside)
         searchResult.sendSubviewToBack(view)
         
         tableView.delegate = self
@@ -90,6 +103,29 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         navigationController?.navigationBarHidden = true
     }
     
+    
+    // MARK: - 地理定位代理方法
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        NSLog("开始定位")
+        
+        locationManager.stopUpdatingLocation()
+        
+        // 获取位置信息
+        let coordinate = locations.first?.coordinate
+        // 反地理编码
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
+        
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
+            if let locality = placemarks?.first?.locality {
+                let firstPlacemark: NSString = NSString(string: " 当前城市\(locality)")
+//                self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
+                
+                print(self?.parentViewController)
+            }
+        }
+    }
     
     // MARK: UITableViewDataSource
     
@@ -177,7 +213,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-//        view.tintColor = UIColor.clearColor()
+        view.tintColor = UIColor.clearColor()
 //        let frame = CGRectMake(0, view.frame.size.height-1, view.frame.width, 0.5)
 //        let line  = UIView(frame: frame)
 //        line.backgroundColor = UIColor.grayColor()

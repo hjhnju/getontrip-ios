@@ -20,7 +20,7 @@ class CitySightCollectionViewCell: UICollectionViewCell {
     /// 内容及收藏
     var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 09), title: "", fontSize: 10, mutiLines: false)
     
-    lazy var shade: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.2)
+    lazy var shade: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.35)
     
     var data: Sight? {
         didSet {

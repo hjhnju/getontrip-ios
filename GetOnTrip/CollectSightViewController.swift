@@ -78,6 +78,16 @@ class CollectSightViewController: UICollectionViewController {
         cell.collectSight = collectSights[indexPath.row] as CollectSight
         return cell
     }
+    
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cs = collectSights[indexPath.row] as CollectSight
+        
+        let vc = SightViewController()
+        vc.sightId = cs.id
+        // TODO: 未生效
+        vc.title = cs.name
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 

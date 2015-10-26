@@ -68,12 +68,18 @@ class CollectContentViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-
-//        let topicId = collectTopic[indexPath.row].id
-
         
-//        loadData(topicId.intValue)
+        let col = collectContent[indexPath.row] as CollectContent
+        if col.type == "4" {
+            let vc = TopicDetailController()
+            vc.topicId = col.id
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = SightBookDetailController()
+            vc.bookId = col.id
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
 
