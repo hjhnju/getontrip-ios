@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
         return button
         }()
     
-    var cityId: String = ""
+    var cityId: String = "-1"
     // MASK: View Life Circle
     
     override func viewDidLoad() {

@@ -82,6 +82,7 @@ class CitySightsViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sightListCityIdentifier, forIndexPath: indexPath) as! SightListCityCell
+        cell.collectBtn.addTarget(self, action: "collectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.collectBtn.tag = indexPath.row
         cell.sightBrief = sightCityList![indexPath.row] as CitySightBrief
         return cell
@@ -121,7 +122,6 @@ class CitySightsViewController: UICollectionViewController {
                         } else {
                             SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                         }
-                        
                     }
                 }
             })

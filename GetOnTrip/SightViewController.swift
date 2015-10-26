@@ -55,7 +55,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     /// 缓存cell
-    lazy var collectionViewCellCache = [Int : NSArray]()
+    lazy var collectionViewCellCache = [String : NSArray]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,7 +153,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
         
         indicateView.bounds = CGRectMake(0, 0, 56, 1.5)
-        indicateView.center = CGPointMake(lW! * 0.5, CGRectGetMaxY(labelScrollView.frame) - 2.5)
+        indicateView.center = CGPointMake(lW! * 0.5, CGRectGetMaxY(labelScrollView.frame) - 1.5)
         labelScrollView.contentSize = CGSizeMake(x, 0)
         labelScrollView.contentInset = UIEdgeInsetsZero
         currentIndex = 0
@@ -184,15 +184,19 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         let data = dataType[indexPath.row] as! SightListTags
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
+        let labId = channels![indexPath.row] as! SightListTags
+        cell.vc.tagId = labId.id!
         
-        if collectionViewCellCache[Int(data.type!)!] != nil {
+        if collectionViewCellCache[labId.id!] != nil {
+            cell.vc.cache = collectionViewCellCache
             cell.vc.type = Int(data.type!)
-            cell.vc.data = collectionViewCellCache[Int(data.type!)!]
+            cell.vc.sightId = sightId
+//            cell.vc.data = collectionViewCellCache[String(labId.id!)]
             return cell
         } else {
-            cell.vc.sightId = sightId
             let labId = channels![indexPath.row] as! SightListTags
             cell.vc.tagId = labId.id!
+            cell.vc.sightId = sightId
             if (Int(data.type!) == categoryLabel.sightLabel) {
                 cell.type = categoryLabel.sightLabel
             } else if (Int(data.type!) == categoryLabel.videoLabel) {
@@ -205,19 +209,16 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
         
         
-        
         if (!childViewControllers.contains(cell.vc)) {
             addChildViewController(cell.vc)
-        }
-        
-        
+        }        
         
         cell.vc.delegate = self
         
         return cell
     }
     
-    func collectionViewCellCache(data: NSArray, type: Int) {
+    func collectionViewCellCache(data: NSArray, type: String) {
         collectionViewCellCache[type] = data
     }
     

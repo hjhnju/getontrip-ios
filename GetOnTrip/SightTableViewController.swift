@@ -15,7 +15,7 @@ public let HistoryTableViewControllerElseCell : String = "History_Cell"
 public let HistoryTableViewControllerSightCell1:String = "History_Cell1"
 
 protocol SightTableViewControllerDelegate: NSObjectProtocol {
-    func collectionViewCellCache(data: NSArray, type: Int)
+    func collectionViewCellCache(data: NSArray, type: String)
 }
 
 class SightTableViewController: UITableViewController {
@@ -30,27 +30,27 @@ class SightTableViewController: UITableViewController {
     var cellReuseIdentifier: String?
     
     /// 缓存cell
-    var collectionViewCellCache = [Int : NSArray]()
+    var cache = [String : NSArray]()
     
     var type: Int? {
         didSet {
-//            data = nil
+            data = nil
             switch type! {
             case categoryLabel.sightLabel:
                 cellReuseIdentifier = HistoryTableViewControllerSightCell
-                if data != nil { return }
+//                if data != nil { return }
 
                 refresh(categoryLabel.sightLabel)
                 
             case categoryLabel.bookLabel:
                 cellReuseIdentifier = HistoryTableViewControllerBookCell
-                if data != nil { return }
+//                if data != nil { return }
 
                 refresh(categoryLabel.bookLabel)
                 
             case categoryLabel.videoLabel:
                 cellReuseIdentifier = HistoryTableViewControllerVideoCell
-                if data != nil { return }
+//                if data != nil { return }
 
                 refresh(categoryLabel.videoLabel)
                 
@@ -95,20 +95,26 @@ class SightTableViewController: UITableViewController {
     // MARK: 加载更新数据
     private func refresh(type: Int) {
 
-        if data != nil { return }
+//        if data != nil { return }
+        
+        if cache[tagId!] != nil {
+            
+            data = cache[tagId!]
+            return
+        }
         
         switch type {
         case categoryLabel.sightLabel:
             lastLandscapeRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in self?.data = handler
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(self!.data!, type: type)
+                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId!)
                 }
             }
             
         case categoryLabel.bookLabel:
             lastBookRequest.fetchSightListModels      { [weak self] (handler: NSArray) -> Void in self?.data = handler
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(self!.data!, type: type)
+                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId!)
                 }
             }
 
@@ -116,7 +122,7 @@ class SightTableViewController: UITableViewController {
         case categoryLabel.videoLabel:
             lastVideoRequest.fetchSightListModels     { [weak self] (handler: NSArray) -> Void in self?.data = handler
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(self!.data!, type: type)
+                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId!)
                 }
             }
             
@@ -125,7 +131,7 @@ class SightTableViewController: UITableViewController {
             self?.data = handler.objectForKey("sightDatas") as? NSArray
 //                self!.collectionViewCellCache[type] = handler.objectForKey("sightDatas") as? NSArray
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(handler.objectForKey("sightDatas") as! NSArray, type: type)
+                    self!.delegate?.collectionViewCellCache(handler.objectForKey("sightDatas") as! NSArray, type: self!.tagId!)
                 }
             }
             break

@@ -383,11 +383,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 let firstPlacemark: NSString = NSString(string: " 当前城市\(locality)")
                 self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
                 LocateBarterCity.locateBarterCityAction(locality, handler: { (result) -> Void in
+                    
                     ///  无论返回何值都代表获取权限成功/
-                    if result as! String != "" {
-                        self!.mainViewController.cityId = result as! String
+                    if result as! String == "" {
+                        self!.mainViewController.cityId = ""
                     } else {
-                        self!.mainViewController.cityId = "-1"
+                        self!.mainViewController.cityId = result as! String
                     }
                 })
             }

@@ -87,11 +87,13 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     func switchCurrentCity(btn: UIButton) {
         
-        if cityId == "-1" {
-            SVProgressHUD.showErrorWithStatus("您的网络有问题定位失败!")
+        if cityId == "" {
+//            SVProgressHUD.showErrorWithStatus("您的网络有问题定位失败!")
+            locationCity.hidden = true
+            searchResult.text = "当前城市未开通"
         } else {
             
-            if cityId == "" { SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!"); return }
+            if cityId == "-1" { SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!"); return }
             let vc = CityViewController()
             vc.cityId = cityId
             let nav = UINavigationController(rootViewController: vc)
