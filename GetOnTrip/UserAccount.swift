@@ -146,6 +146,7 @@ class UserAccount: NSObject, NSCoding {
 
     }
     
+    ///  用户退出方法
     func userExitLoginAction() {
         if userExitLoginRequest == nil {
             userExitLoginRequest = UserExitLoghtRequest()
@@ -176,9 +177,6 @@ class UserAccount: NSObject, NSCoding {
     class func loadAccount() -> UserAccount? {
         
          /// 程序启动先调用登陆状态如果后台说未登陆就让它下线
-        
-        
-        // 判断 token 是否已经过期，如果过期，直接返回 nil
         if let account = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount {
             
             if account.userInfoGainRequest == nil {

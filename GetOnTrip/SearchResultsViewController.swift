@@ -16,7 +16,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     var resultData = NSMutableDictionary() {
         didSet {
-//            self.tableView.hidden = false
             self.tableView.reloadData()
         }
     }
@@ -26,6 +25,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     var titleMap = ["sight":"景点", "city":"城市", "content":"内容"]
         
     var page    : String = "1"
+    
     var pageSize: String = "6"
     
     var cityId = ""
@@ -38,8 +38,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     var scrollLock:Bool = false
     
     var tableView = UITableView()
-    
-    var textLenght: String?
     
     var filterString: String = "" {
         didSet {
@@ -88,7 +86,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     func switchCurrentCity(btn: UIButton) {
         
         if cityId == "" {
-//            SVProgressHUD.showErrorWithStatus("您的网络有问题定位失败!")
             locationCity.hidden = true
             searchResult.text = "当前城市未开通"
         } else {
@@ -104,8 +101,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     private func setupAutoLayout() {
-        
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height), offset: CGPointMake(0, 64))
+        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height), offset: CGPointMake(0, 0))
         locationCity.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
         searchResult.ff_AlignInner(ff_AlignType.BottomCenter, referView: locationCity, size: nil, offset: CGPointMake(0, 81))
     }
