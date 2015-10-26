@@ -16,7 +16,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     var resultData = NSMutableDictionary() {
         didSet {
-            self.tableView.hidden = false
+//            self.tableView.hidden = false
             self.tableView.reloadData()
         }
     }
@@ -44,15 +44,15 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     var filterString: String = "" {
         didSet {
 
-            if filterString == "" { return }
+            if self.filterString == "" {
+                self.resultData.removeAllObjects()
+                self.tableView.reloadData()
+                return
+            }
             
             SearchResultsRequest.sharedSearchResultRection.fetchSearchResultsModels(page, pageSize: pageSize, filterString: filterString) { (rows) -> Void in
                 if self.filterString != "" {
                     self.resultData = rows as! NSMutableDictionary
-                    if self.textLenght == "" {
-                        self.resultData.removeAllObjects()
-                        self.tableView.reloadData()
-                    }
                 }
             }
         }
@@ -268,15 +268,14 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     // MARK: UISearchResultsUpdating
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        textLenght = searchController.searchBar.text
-        tableView.hidden = true
+
         if !searchController.active { return }
-        print(searchController.searchBar.text)
+        
+        filterString = searchController.searchBar.text!
+        
         if searchController.searchBar.text != "" {
             searchResult.hidden = true
             locationCity.hidden = true
-            filterString = searchController.searchBar.text!
-
         } else {
             searchResult.hidden = false
             locationCity.hidden = false
