@@ -59,7 +59,7 @@ class HttpRequest {
         HttpRequest.sharedManager.request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
             //异常
             if error != nil {
-                NSLog("[HttpRequest]:error=\(error)")
+                print("[HttpRequest]:error=\(error)")
                 return handler(result: nil, status: RetCode.NETWORK_ERROR)
             }
             //处理数据
