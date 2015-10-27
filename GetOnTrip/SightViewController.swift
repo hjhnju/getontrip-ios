@@ -48,9 +48,11 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     /// 数据
     var dataSource: NSDictionary? {
         didSet {
-            channels = dataSource!.objectForKey("sightTags") as? NSArray
-            setupChannel()
-            collectionView.reloadData()
+            if let ds = dataSource {
+                channels = ds.objectForKey("sightTags") as? NSArray
+                setupChannel()
+                collectionView.reloadData()
+            }
         }
     }
     

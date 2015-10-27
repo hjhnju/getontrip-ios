@@ -67,7 +67,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     var dataSource: NSDictionary?
     
     // 搜索标签文本列表
-    var searchLabels: NSMutableArray    = NSMutableArray()
+    var searchLabels: NSMutableArray = NSMutableArray()
     
     // 搜索标签id列表
     var searchLabelIds: NSMutableArray = NSMutableArray()
@@ -120,14 +120,14 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         tableView.delegate        = self
         tableView.tableHeaderView = headerView
         tableView.rowHeight       = SearchRecommendTableViewCell.RowHeight
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.backgroundColor = UIColor.orangeColor()
         tableView.separatorStyle  = UITableViewCellSeparatorStyle.None
         tableView.registerClass(SearchRecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.SearchRecommendTableViewCellID)
         
         view.bringSubviewToFront(navContainerView)
         
         setupAutoLayout()
-        loadSearchData()
+        loadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -171,25 +171,33 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     }
     
     /// 发送搜索信息
-    private func loadSearchData() {
+    private func loadData() {
         if lastSuccessAddRequest == nil {
             lastSuccessAddRequest = SearchRecommendRequest()
         }
         
-        lastSuccessAddRequest?.fetchModels {[weak self] (handler: NSDictionary) -> Void in
-            
-            self?.dataSource = handler
-            if self?.searchLabels.count == 0 {
-                for lab in handler.objectForKey("labels") as! NSArray {
-                    let labM = lab as! SearchLabel
-                    let label = labM.name! + "    " + labM.num!
-                    self?.searchLabels.addObject(label)
-                    self?.searchLabelIds.addObject(labM.id!)
-                }
-                self?.addSearchLabelButton()
+        lastSuccessAddRequest?.fetchModels {[weak self] (data, status) -> Void in
+            //处理异常状态
+            if RetCode.SUCCESS != status {
+                print("网络异常处理")
+                return
             }
-            self?.headerImageView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
-            self?.tableView.reloadData()
+            
+            //处理数据
+            if let dataSource = data {
+                self?.dataSource = dataSource
+                if self?.searchLabels.count == 0 {
+                    for lab in dataSource.objectForKey("labels") as! NSArray {
+                        let labM = lab as! RecommendLabel
+                        let label = labM.name! + "    " + labM.num!
+                        self?.searchLabels.addObject(label)
+                        self?.searchLabelIds.addObject(labM.id!)
+                    }
+                    self?.addSearchLabelButton()
+                }
+                self?.headerImageView.sd_setImageWithURL(NSURL(string: dataSource.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
+                self?.tableView.reloadData()
+            }
         }
     }
     
@@ -294,7 +302,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         currentSearchLabelButton = sender
         
         lastSuccessAddRequest!.label = String(sender.tag)
-        loadSearchData()
+        loadData()
     }
 }
 
