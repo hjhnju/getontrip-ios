@@ -24,11 +24,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         }
     }
     
-    var contentData = [SearchContent]() {
-        didSet {
-//            self.tableView.reloadData()
-        }
-    }
+    var contentData = [SearchContent]()
     
     var sectionTitle = [String]()
     
@@ -66,6 +62,9 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             SearchResultsRequest.sharedSearchResultRection.fetchSearchResultsModels(page, pageSize: pageSize, filterString: filterString) { (rows) -> Void in
                 if self.filterString != "" {
                     self.resultData = rows as! [String : AnyObject]
+                    if (rows["content_num"]!!.intValue == 0) && (rows["city_num"]!!.intValue == 0) && (rows["sight_num"]!!.intValue == 0) {
+                        self.searchResult.hidden = false
+                    }
                 }
             }
         }
@@ -86,8 +85,10 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         view.addSubview(searchResult)
         view.addSubview(locationCity)
         
+        
         locationCity.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
         searchResult.sendSubviewToBack(view)
+        searchResult.hidden = true
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -153,6 +154,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        let sc = parentViewController as! SearchViewController
+        sc.recordData.insert(filterString, atIndex: 0)
+        if sc.recordData.count >= 6 {
+            sc.recordData.removeLast()
+        }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         switch indexPath.section {
@@ -357,7 +364,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             searchResult.hidden = true
             locationCity.hidden = true
         } else {
-            searchResult.hidden = false
+            searchResult.hidden = true
             locationCity.hidden = false
         }
     }

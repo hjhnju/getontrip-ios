@@ -9,31 +9,52 @@
 import Foundation
 
 class RetCode: NSObject {
-    static let  SUCCESS           = 0;//成功
+    /// 成功
+    static let  SUCCESS           = 0
+    /// 需要图片验证码
+    static let  NEED_PICTURE      = 101
     
-    static let  NEED_PICTURE      = 101; //需要图片验证码
-    static let  CSRFTOKEN_INVALID = 102; //CSRF验证不通过
+    /// CSRF验证不通过
+    static let  CSRFTOKEN_INVALID = 102
     
-    //前端跳转
-    static let  NEED_REDIRECT     = 302;
+    /// 前端跳转
+    static let  NEED_REDIRECT     = 302
     
-    //默认错误
-    static let  UNKNOWN_ERROR     = 999; //未知错误
+    /// 默认错误 未知错误
+    static let  UNKNOWN_ERROR     = 999
     
-    //验证会话
-    static let  SESSION_INVALID   = 410; //会话无效
-    static let  SESSION_DENY      = 411; //非法请求
-    static let  SESSION_NOT_LOGIN = 412; //未登录
+    /// 验证会话 会话无效
+    static let  SESSION_INVALID   = 410
+    
+    /// 非法请求
+    static let  SESSION_DENY      = 411
+    
+    /// 未登录
+    static let  SESSION_NOT_LOGIN = 412
 
-    //其他错误
-    static let  DB_ERROR          = 501; //数据库操作错误
-    static let  PARAM_ERROR       = 502; //接口参数错误
-    static let  NOT_FINISHED      = 503; //功能未实现
-    static let  DATA_NULL         = 504; //数据为空
-    static let  SERVICE_DEGRADED  = 505; //服务降级
-    static let  CONFIG_FAIL       = 506; //配置错误
-    static let  LOCK_ERROR        = 507; //并发加锁失败
-    static let  NETWORK_ERROR     = 508; //网络请求失败
+    /// 其他错误 数据库操作错误
+    static let  DB_ERROR          = 501
+    
+    /// 接口参数错误
+    static let  PARAM_ERROR       = 502
+    
+    /// 功能未实现
+    static let  NOT_FINISHED      = 503
+    
+    /// 数据为空
+    static let  DATA_NULL         = 504
+    
+    /// 服务降级
+    static let  SERVICE_DEGRADED  = 505
+    
+    /// 配置错误
+    static let  CONFIG_FAIL       = 506
+    
+    /// 并发加锁失败
+    static let  LOCK_ERROR        = 507
+    
+    /// 网络请求失败
+    static let  NETWORK_ERROR     = 508
     
     static let arrErrMap: [Int:String] = [
         RetCode.SUCCESS           : "成功",

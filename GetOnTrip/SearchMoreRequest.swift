@@ -27,10 +27,27 @@ class SearchMoreRequest: NSObject {
         
         HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: post) { (result, error) -> () in
             if error == nil {
-                print("===============")
                 handler(result!)
             }
         }
     }
     
+    /**
+     * 接口3：/api/search/hotWord
+     * 热门搜索词接口
+     * @param integer size,条数，默认是10
+     */
+    class func fetchSearchMuchLabel(handler: ([String]?, Int) -> Void){
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search/hotWord", post: [String: String]()) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                var data = [String]()
+                for it in result.arrayValue {
+                    data.append(it.stringValue)
+                }
+                handler(data, status)
+                return
+            }
+            handler(nil, status)
+        }
+    }
 }
