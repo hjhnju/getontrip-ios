@@ -10,15 +10,21 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
+public let SearchContentKeyWordType: String = "keyword"
+public let SearchContentTopicType  : String = "topic"
+public let SearchContentBookType   : String = "book"
+
 class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
     
-    var resultData = NSMutableDictionary() {
+    var resultData = [String : AnyObject]() {
         didSet {
             self.tableView.reloadData()
         }
     }
+    
+    var contentData = [SearchContent]()
     
     var sectionTitle = [String]()
     
@@ -26,7 +32,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         
     var page    : String = "1"
     
-    var pageSize: String = "6"
+    let pageSize: String = "6"
     
     var cityId = ""
     
@@ -39,18 +45,26 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     var tableView = UITableView()
     
+    var pageNum = 1
+    
+    var recordLoadButton: UIButton?
+    
     var filterString: String = "" {
         didSet {
 
             if self.filterString == "" {
-                self.resultData.removeAllObjects()
+                self.resultData.removeAll()
+                self.contentData.removeAll()
                 self.tableView.reloadData()
                 return
             }
             
             SearchResultsRequest.sharedSearchResultRection.fetchSearchResultsModels(page, pageSize: pageSize, filterString: filterString) { (rows) -> Void in
                 if self.filterString != "" {
-                    self.resultData = rows as! NSMutableDictionary
+                    self.resultData = rows as! [String : AnyObject]
+                    if (rows["content_num"]!!.intValue == 0) && (rows["city_num"]!!.intValue == 0) && (rows["sight_num"]!!.intValue == 0) {
+                        self.searchResult.hidden = false
+                    }
                 }
             }
         }
@@ -71,8 +85,10 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         view.addSubview(searchResult)
         view.addSubview(locationCity)
         
+        
         locationCity.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
         searchResult.sendSubviewToBack(view)
+        searchResult.hidden = true
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -81,6 +97,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.rowHeight = 60
         tableView.backgroundView = UIImageView(image: UIImage(named: "search-bg0")!)
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
+        tableView.registerClass(ShowMoreTableViewCell.self, forCellReuseIdentifier: "ShowMoreTableView_Cell")
     }
     
     func switchCurrentCity(btn: UIButton) {
@@ -112,91 +129,102 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         navigationController?.navigationBarHidden = true
     }
     
-    
-
-    
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        if contentData.count != 0 { return 1 }
         return resultData.count
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
+        if contentData.count != 0 { return "" }
         switch section {
         case 0:
-            if resultData.objectForKey("searchCitys")?.count == 0 { return "" }
+            if resultData["searchCitys"]!.count == 0 { return "" }
             return "城市"
         case 1:
-            if resultData.objectForKey("searchSights")?.count == 0 { return "" }
+            if resultData["searchSights"]!.count == 0 { return "" }
             return "景点"
-        default:
-            if resultData.objectForKey("searchContent")?.count == 0 { return "" }
+        case 2:
+            if resultData["searchContent"]!.count == 0 { return "" }
             return "内容"
+        default:
+            return ""
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        let sc = parentViewController as! SearchViewController
+        sc.recordData.insert(filterString, atIndex: 0)
+        if sc.recordData.count >= 6 {
+            sc.recordData.removeLast()
+        }
+        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         switch indexPath.section {
         case 0:
-            if let searchCity = resultData.objectForKey("searchCitys") {
+            let data = resultData["searchCitys"] as! [SearchResult]
+            if data.count == indexPath.row { return }
+        case 1:
+            let data = resultData["searchSights"] as! [SearchResult]
+            if data.count == indexPath.row { return }
+        case 2:
+            let Contentdata = resultData["searchContent"] as! [SearchContent]
+            if Contentdata.count == indexPath.row { return }
+        default:
+            break
+        }
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        switch indexPath.section {
+        case 0:
+            if let searchCity = resultData["searchCitys"] {
                 
                 let vc = CityViewController()
-                let searchC = searchCity[indexPath.row] as! SearchCity
+                let searchC = searchCity[indexPath.row] as! SearchResult
                 vc.cityId = searchC.id!
                 let nav = UINavigationController(rootViewController: vc)
                 vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
                 presentViewController(nav, animated: true, completion: nil)
             }
         case 1:
-            if let searchSight = resultData.objectForKey("searchSights") {
+            if let searchSight = resultData["searchSights"] {
                 
                 let vc = SightViewController()
-                let searchC = searchSight[indexPath.row] as! SearchSight
-                vc.sightId = searchC.id
+                let searchC = searchSight[indexPath.row] as! SearchResult
+                vc.sightId = searchC.id!
                 let nav = UINavigationController(rootViewController: vc)
                 vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
                 presentViewController(nav, animated: true, completion: nil)
                 
             }
-        default:
-            if let searchContent = resultData.objectForKey("searchContent") {
+        case 2:
+            if let searchContent = resultData["searchContent"] as? [SearchContent] {
                 
-                let searchC = searchContent[indexPath.row]
-                
-                if searchC.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentTopic")!) {
-                    let topic = searchC as! SearchContentTopic
+                let searchType = searchContent[indexPath.row]
+                if searchType.search_type == SearchContentKeyWordType {
+                    let vc = DetailWebViewController()
+                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                    vc.url = searchType.url
+                    let nav = UINavigationController(rootViewController: vc)
+                    presentViewController(nav, animated: true, completion: nil)
+                } else if searchType.search_type == SearchContentTopicType {
                     let vc = TopicDetailController()
-                    vc.topicId = topic.id!
+                    vc.topicId = searchType.id!
                     let nav = UINavigationController(rootViewController: vc)
                     vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
                     presentViewController(nav, animated: true, completion: nil)
-                } else if (searchC.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentBook")!)) {
-                    
-                    let book = searchC as! SearchContentBook
+                } else if searchType.search_type ==  SearchContentBookType {
                     let vc = SightBookDetailController()
-                    vc.bookId = book.id!
+                    vc.bookId = searchType.id!
                     let nav = UINavigationController(rootViewController: vc)
                     vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
-                    presentViewController(nav, animated: true, completion: nil)
-                } else if (searchC.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentVideo")!)) {
-                    
-                    let video = searchC as! SearchContentVideo
-                    let vc = DetailWebViewController()
-                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
-                    vc.url = video.url
-                    let nav = UINavigationController(rootViewController: vc)
-                    presentViewController(nav, animated: true, completion: nil)
-                } else {
-                    let wiki = searchC as! SearchContentWiki
-                    let vc = DetailWebViewController()
-                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
-                    vc.url = wiki.url
-                    let nav = UINavigationController(rootViewController: vc)
                     presentViewController(nav, animated: true, completion: nil)
                 }
             }
+        default:
+            break
         }
     }
     
@@ -213,41 +241,102 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        if contentData.count != 0 { return contentData.count }
         switch section {
         case 0:
-            return (resultData.objectForKey("searchCitys")?.count)!
+            let num = resultData["city_num"]?.intValue
+                let resultCount = (resultData["searchCitys"]!.count)!
+                if Int(num!) <= resultCount {
+                    return resultCount
+                } else {
+                    return resultCount + 1
+                }
+            
         case 1:
-            return (resultData.objectForKey("searchSights")?.count)!
+             let num = resultData["sight_num"]?.intValue
+                let resultCount = (resultData["searchSights"]!.count)!
+                if Int(num!) <= resultCount {
+                    return resultCount
+                } else {
+                    return resultCount + 1
+            }
+            
+        case 2:
+             let num = resultData["content_num"]?.intValue
+                let resultCount = (resultData["searchContent"]!.count)!
+                if Int(num!) <= resultCount {
+                    return resultCount
+                } else {
+                    return resultCount + 1
+            }
+            
         default:
-            return (resultData.objectForKey("searchContent")?.count)!
+            return 0
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
-            cell.searchCruxCharacter = filterString
+        if contentData.count != 0 {
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
+            cell.searchContent = contentData[indexPath.row]
+            
+            if contentData.count - 1 == indexPath.row {
+                
+                if pageNum != -1 {
+                    pageNum++
+                    loadMoreAction(recordLoadButton!)
+                }
+            }
+            return cell
+        }
+
         switch indexPath.section {
         case 0:
-            let data = resultData.objectForKey("searchCitys") as! [SearchCity]
-            cell.searchCity = data[indexPath.row]
+            let data = resultData["searchCitys"]! as! [SearchResult]
+            if data.count == indexPath.row {
+                let cellMore = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
+                cellMore.showMore.addTarget(self, action: "loadMoreAction:", forControlEvents: UIControlEvents.TouchUpInside)
+                cellMore.showMore.setTitle("显示全部城市", forState: UIControlState.Normal)
+                cellMore.showMore.tag = 2
+                return cellMore
+            }
         case 1:
-            let data = resultData.objectForKey("searchSights") as! [SearchSight]
-            cell.searchSight = data[indexPath.row]
+            let data = resultData["searchSights"] as! [SearchResult]
+            if data.count == indexPath.row {
+                let cellMore = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
+                cellMore.showMore.addTarget(self, action: "loadMoreAction:", forControlEvents: UIControlEvents.TouchUpInside)
+                cellMore.showMore.setTitle("显示全部景点", forState: UIControlState.Normal)
+                cellMore.showMore.tag = 1
+                return cellMore
+            }
         case 2:
-            let Contentdata = resultData.objectForKey("searchContent") as! NSArray
+            let Contentdata = resultData["searchContent"] as! [SearchContent]
+            if Contentdata.count == indexPath.row {
+                let cellMore = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
+                cellMore.showMore.addTarget(self, action: "loadMoreAction:", forControlEvents: UIControlEvents.TouchUpInside)
+                cellMore.showMore.setTitle("显示全部内容", forState: UIControlState.Normal)
+                cellMore.showMore.tag = 3
+                return cellMore
+            }
+        default:
+            break
+        }
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
+        cell.searchCruxCharacter = filterString
+        switch indexPath.section {
+        case 0:
+            let data = resultData["searchCitys"] as! [SearchResult]
+            cell.searchResult = data[indexPath.row]
+        case 1:
+            let data = resultData["searchSights"] as! [SearchResult]
+            cell.searchResult = data[indexPath.row]
+        case 2:
+            let Contentdata = resultData["searchContent"] as! [SearchContent]
 
             let ContentType = Contentdata[indexPath.row]
-            if ContentType.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentTopic")!) {
-                cell.searchContentTopic = ContentType as? SearchContentTopic
-            } else if (ContentType.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentBook")!)) {
-                cell.searchContentBook = ContentType as? SearchContentBook
-            } else if (ContentType.isKindOfClass(NSClassFromString("GetOnTrip.SearchContentVideo")!)) {
-                cell.searchContentVideo = ContentType as? SearchContentVideo
-            } else {
-                cell.searchContentWiki = ContentType as? SearchContentWiki
-            }
-
+                cell.searchContent = ContentType
         default:
             break
         }
@@ -256,13 +345,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let searchResultsCell = cell as! SearchResultsCell
         
         //Apperance of cell
-        searchResultsCell.separatorInset = UIEdgeInsetsZero
-        searchResultsCell.preservesSuperviewLayoutMargins = false
-        searchResultsCell.layoutMargins = UIEdgeInsetsZero
-        searchResultsCell.backgroundColor = UIColor.clearColor()
+        cell.separatorInset = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
+        cell.layoutMargins = UIEdgeInsetsZero
+        cell.backgroundColor = UIColor.clearColor()
     }
     
     // MARK: UISearchResultsUpdating
@@ -276,8 +364,30 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             searchResult.hidden = true
             locationCity.hidden = true
         } else {
-            searchResult.hidden = false
+            searchResult.hidden = true
             locationCity.hidden = false
+        }
+    }
+    
+    
+    func loadMoreAction(btn: UIButton) {
+        recordLoadButton = btn
+        SearchMoreRequest.fetchMoreResult(btn.tag, page: pageNum, pageSize: 15, query: filterString) { (result) -> Void in
+            
+            let data = result["data"] as! [String : AnyObject]
+            
+            
+            for item in data["data"] as! [[String : AnyObject]] {
+                self.contentData.append(SearchContent(dict: item))
+            }
+
+            self.tableView.reloadData()
+            
+            if let pageN = data["num"]?.intValue {
+                if Int(pageN / 15) <= self.pageNum {
+                    self.pageNum = -1
+                }
+            }
         }
     }
 }

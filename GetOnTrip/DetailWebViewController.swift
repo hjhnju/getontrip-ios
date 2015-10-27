@@ -15,7 +15,7 @@ class DetailWebViewController: UIViewController {
     
     var url: String? {
         didSet {
-            if let urlStr = url?.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
+            if let urlStr = url?.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) {
                 webView.loadRequest(NSURLRequest(URL: NSURL(string: urlStr)!))
             }
         }

@@ -56,7 +56,7 @@ struct SceneColor {
     static let whiteGrey   = UIColor(hex: 0x939393, alpha: 1.0)
     /// 浅白 设置界面选择城市及性别pickView
     static let shallowWhite = UIColor(hex: 0xDCD7D7, alpha: 1.0)
-    /// 浅灰
+    /// 979797 浅灰
     static let shallowGrey = UIColor(hex: 0x979797, alpha: 1.0)
     /// 深灰
     static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)

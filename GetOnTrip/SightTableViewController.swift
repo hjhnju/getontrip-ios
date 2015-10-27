@@ -163,10 +163,8 @@ class SightTableViewController: UITableViewController {
             
             let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! BookCell
             c.book = data![indexPath.row] as? SightBook
-            cell = c
-            
+            cell = c            
         case HistoryTableViewControllerVideoCell:
-            
             let c = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier!, forIndexPath: indexPath) as! VideoCell
             c.watchBtn.addTarget(self, action: "watchClick:", forControlEvents: UIControlEvents.TouchUpInside)
             c.watchBtn.tag = indexPath.row
