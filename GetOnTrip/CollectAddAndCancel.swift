@@ -26,7 +26,7 @@ class CollectAddAndCancel: NSObject {
         
         HttpRequest.ajax(AppIni.BaseUri, path: path, post: post) { (result, error) -> () in
             if error == nil {
-                handler(result!)
+                handler(result!["data"]!!)
             }
         }
     }
