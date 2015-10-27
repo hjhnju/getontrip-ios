@@ -52,22 +52,6 @@ class LandscapeRequest: NSObject {
                 handler(sightLandscape)
             }
         }
-        
-//        HttpRequest.ajax(AppIni.BaseUri,
-//            path: "/api/landscape",
-//            post: post,
-//            handler: {(respData: AnyObject) -> Void in
-//                
-//                let sightLandscape = NSMutableArray() // [SightLandscape]()
-//                for item in respData as! NSArray {
-//                    
-//                    sightLandscape.addObject(SightLandscape(dict: item as! [String : AnyObject]))
-//                }
-//                
-//                // 回调
-//                handler(sightLandscape)
-//            }
-//        )
     }
 }
 

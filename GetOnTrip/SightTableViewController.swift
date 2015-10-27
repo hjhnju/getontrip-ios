@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MJRefresh
 
 public let HistoryTableViewControllerSightCell: String = "Landscape_Cell"
 public let HistoryTableViewControllerBookCell : String = "Book_Cell"
@@ -78,10 +79,6 @@ class SightTableViewController: UITableViewController {
         }
     }
     
-    /// 缓存cell
-//    lazy var collectionViewCellCache = [Int : NSArray]()
-    
-    
     // MARK: 加载更新数据
     private func refresh(type: Int) {
         if cache[tagId] != nil {
@@ -91,14 +88,16 @@ class SightTableViewController: UITableViewController {
         
         switch type {
         case categoryLabel.sightLabel:
-            lastLandscapeRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in self?.data = handler
+            lastLandscapeRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in
+                self?.data = handler
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
                     self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
                 }
             }
             
         case categoryLabel.bookLabel:
-            lastBookRequest.fetchSightListModels      { [weak self] (handler: NSArray) -> Void in self?.data = handler
+            lastBookRequest.fetchSightListModels      { [weak self] (handler: NSArray) -> Void in
+                self?.data = handler
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
                     self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
                 }
@@ -106,7 +105,8 @@ class SightTableViewController: UITableViewController {
 
             
         case categoryLabel.videoLabel:
-            lastVideoRequest.fetchSightListModels     { [weak self] (handler: NSArray) -> Void in self?.data = handler
+            lastVideoRequest.fetchSightListModels     { [weak self] (handler: NSArray) -> Void in
+                self?.data = handler
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
                     self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
                 }
@@ -114,8 +114,9 @@ class SightTableViewController: UITableViewController {
             
         default:
             lastOtherRequest.fetchSightListModels     { [weak self] (handler: NSDictionary) -> Void in
-            self?.data = handler.objectForKey("sightDatas") as? NSArray
-//                self!.collectionViewCellCache[type] = handler.objectForKey("sightDatas") as? NSArray
+            
+                self?.data = handler.objectForKey("sightDatas") as? NSArray
+                
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
                     self!.delegate?.collectionViewCellCache(handler.objectForKey("sightDatas") as! NSArray, type: self!.tagId)
                 }
@@ -134,8 +135,40 @@ class SightTableViewController: UITableViewController {
         tableView.registerClass(VideoCell.self,      forCellReuseIdentifier : HistoryTableViewControllerVideoCell)
         tableView.rowHeight = 115
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        setupRefreshDataAction()
     }
     
+    private func setupRefreshDataAction() {
+        let header = MJRefreshNormalHeader { () -> Void in
+            
+//            switch self.cellReuseIdentifier! {
+//            case HistoryTableViewControllerSightCell:
+//                
+//            case HistoryTableViewControllerBookCell:
+//
+//            case HistoryTableViewControllerVideoCell:
+//
+//            case HistoryTableViewControllerElseCell:
+//                
+//            default:
+//                break
+//            }
+        }
+        
+        header.setTitle("下拉刷新", forState: MJRefreshStateIdle)
+        header.setTitle("松开刷新", forState: MJRefreshStatePulling)
+        header.setTitle("正在刷新中，请稍候...", forState: MJRefreshStateRefreshing)
+        
+        header.stateLabel?.font = UIFont.systemFontOfSize(15)
+        header.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(14)
+        
+        header.stateLabel?.textColor = UIColor.redColor()
+        header.lastUpdatedTimeLabel?.textColor = UIColor.blueColor()
+        
+        tableView.header = header
+    }
+    
+    //  MARK: - tableView 数据源及代理方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data == nil ? 0 : data!.count
     }

@@ -22,14 +22,12 @@ class SightTopicRequest: NSObject {
     * @return json
     */
     
-    //http://123.57.46.229:8301/api/sight/detail?tags=1&sightId=4
     // 请求参数
     var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 6
     var tag : String = ""
     var deviceId = appUUID
-    //http://123.57.67.165:8301/api/sight/detail?tags
     // 将数据回调外界
     func fetchSightListModels(handler: NSDictionary -> Void) {
         fetchModels(handler)
@@ -69,35 +67,6 @@ class SightTopicRequest: NSObject {
                 handler(dict.copy() as! NSDictionary)
             }
         }
-        
-//        HttpRequest.ajax(AppIni.BaseUri,
-//            path: "/api/sight/detail",
-//            post: post,
-//            handler: {(respData: AnyObject) -> Void in
-//
-//                let dict = NSMutableDictionary()
-//                var sightTags = [SightListTags]()
-//                
-//                if respData["tags"] != nil {
-//                    for item in respData["tags"] as! NSArray {
-//                        sightTags.append(SightListTags(dict: item as! [String : AnyObject]))
-//                    }
-//                }
-//                
-//                var sightData = [SightListData]()
-//                if respData["data"] != nil {
-//                    for item in respData["data"] as! NSArray {
-//                        sightData.append(SightListData(dict: item as! [String : AnyObject]))
-//                    }
-//                }
-//                
-//                dict.setValue(sightTags, forKey: "sightTags")
-//                dict.setValue(sightData, forKey: "sightDatas")
-//                
-//                // 回调
-//                handler(dict.copy() as! NSDictionary)
-//            }
-//        )
     }
 }
 
