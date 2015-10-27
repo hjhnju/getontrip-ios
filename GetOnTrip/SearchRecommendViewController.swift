@@ -67,7 +67,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     var dataSource: NSDictionary?
     
     // 搜索标签文本列表
-    var searchLabels: NSMutableArray    = NSMutableArray()
+    var searchLabels: NSMutableArray = NSMutableArray()
     
     // 搜索标签id列表
     var searchLabelIds: NSMutableArray = NSMutableArray()
@@ -120,14 +120,14 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         tableView.delegate        = self
         tableView.tableHeaderView = headerView
         tableView.rowHeight       = SearchRecommendTableViewCell.RowHeight
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.backgroundColor = UIColor.orangeColor()
         tableView.separatorStyle  = UITableViewCellSeparatorStyle.None
         tableView.registerClass(SearchRecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.SearchRecommendTableViewCellID)
         
         view.bringSubviewToFront(navContainerView)
         
         setupAutoLayout()
-        loadSearchData()
+        loadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -171,13 +171,13 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     }
     
     /// 发送搜索信息
-    private func loadSearchData() {
+    private func loadData() {
         if lastSuccessAddRequest == nil {
             lastSuccessAddRequest = SearchRecommendRequest()
         }
         
         lastSuccessAddRequest?.fetchModels {[weak self] (handler: NSDictionary) -> Void in
-            
+            print("callBackFromsearch...")
             self?.dataSource = handler
             if self?.searchLabels.count == 0 {
                 for lab in handler.objectForKey("labels") as! NSArray {
@@ -189,6 +189,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
                 self?.addSearchLabelButton()
             }
             self?.headerImageView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
+            print("reloadData=\(handler)")
             self?.tableView.reloadData()
         }
     }
@@ -294,7 +295,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         currentSearchLabelButton = sender
         
         lastSuccessAddRequest!.label = String(sender.tag)
-        loadSearchData()
+        loadData()
     }
 }
 

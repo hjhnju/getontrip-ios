@@ -93,6 +93,7 @@ class CitySightsViewController: UICollectionViewController {
         let sight = sightCityList![indexPath.row] as CitySightBrief
         vc.title = cityId
         vc.sightId = sight.id
+        vc.sightName = sight.name
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -143,7 +144,7 @@ class CitySightsViewController: UICollectionViewController {
 // MARK: - SightListCityCell
 class SightListCityCell: UICollectionViewCell {
     
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
+    lazy var iconView: UIImageView = UIImageView()
     
     lazy var cityName: UILabel = UILabel(color: UIColor.whiteColor(), title: "北京", fontSize: 16, mutiLines: true)
     
