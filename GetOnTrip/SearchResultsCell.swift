@@ -32,7 +32,6 @@ class SearchResultsCell: UITableViewCell {
     
     var searchCity: SearchCity? {
         didSet {
-
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchCity!.name!, titleColor: SceneColor.lightYellow)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchCity!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
             resultImageView.sd_setImageWithURL(NSURL(string: searchCity!.image!), placeholderImage: PlaceholderImage.defaultSmall)

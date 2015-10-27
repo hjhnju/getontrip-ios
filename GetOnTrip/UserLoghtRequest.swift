@@ -63,3 +63,20 @@ class UserExitLoghtRequest: NSObject {
     }
 }
 
+class UserLoginInsepctRequest: NSObject {
+    
+    /**
+    * 接口6：/api/user/checkLogin
+    * 检查用户是否登录
+    */
+    
+    func fetchInsepctUserLogin(handler: AnyObject -> Void) {
+        
+        let post = [String : String]()
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/checkLogin", post: post) { (result, error) -> () in
+        if error == nil {
+            handler(result!["data"]!! ?? "")
+        }
+        }
+    }
+}

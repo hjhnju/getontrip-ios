@@ -23,7 +23,7 @@ class UserInfoRequest: NSObject {
     // 异步加载获取数据
     func userInfoGainMeans(handler: UserInfo -> Void) {
         
-        var post         = [String: String]()
+        var post      = [String: String]()
         post["type"]  = String(type!)
         
         // 发送网络请求加载数据

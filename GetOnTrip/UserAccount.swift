@@ -52,6 +52,8 @@ class UserAccount: NSObject, NSCoding {
     /// 退出登陆
     var userExitLoginRequest: UserExitLoghtRequest?
     
+    /// 检查用户是否登陆
+    var userLoginInsepctRequest: UserLoginInsepctRequest?
     
     /// 登陆类型 1:qq,2:weixin,3:weibo
     var type: Int = 0
@@ -129,7 +131,6 @@ class UserAccount: NSObject, NSCoding {
      // MARK: - 上传用户个人信息
     func uploadUserInfo(imageData: NSData, sex: Int, nick_name: String, city: String) {
         
-        
         let str = "/api/user/editinfo"
         let params = "sex:\(sex),nick_name:\(nick_name),city:\(city)"
         
@@ -179,14 +180,12 @@ class UserAccount: NSObject, NSCoding {
          /// 程序启动先调用登陆状态如果后台说未登陆就让它下线
         if let account = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount {
             
-            if account.userInfoGainRequest == nil {
-                account.userInfoGainRequest = UserInfoRequest()
-                account.userInfoGainRequest?.type = account.type
+            if account.userLoginInsepctRequest == nil {
+                account.userLoginInsepctRequest = UserLoginInsepctRequest()
             }
             
-            account.userInfoGainRequest?.userInfoGainMeans({ (handler) -> Void in
-                let user = handler as UserInfo
-                if user.type == "0" {
+            account.userLoginInsepctRequest?.fetchInsepctUserLogin({ (handler) -> Void in
+                if handler as? String == "" {
                     account.exitLogin()
                 }
             })
@@ -205,13 +204,13 @@ class UserAccount: NSObject, NSCoding {
     ///  解档，将保存在磁盘的二进制文件转换成 对象
     required init(coder aDecoder: NSCoder) {
         access_token = aDecoder.decodeObjectForKey("access_token") as? String
-        expiresDate = aDecoder.decodeObjectForKey("expiresDate") as? NSDate
-        uid = aDecoder.decodeObjectForKey("uid") as? String
-        nickname = aDecoder.decodeObjectForKey("nickname") as? String
-        icon = aDecoder.decodeObjectForKey("icon") as? String
-        gender = aDecoder.decodeObjectForKey("gender") as? Int
-        city = aDecoder.decodeObjectForKey("city") as? String
-        type = aDecoder.decodeIntegerForKey("type") as Int
+        expiresDate  = aDecoder.decodeObjectForKey("expiresDate")  as? NSDate
+        uid          = aDecoder.decodeObjectForKey("uid")          as? String
+        nickname     = aDecoder.decodeObjectForKey("nickname")     as? String
+        icon         = aDecoder.decodeObjectForKey("icon")         as? String
+        gender       = aDecoder.decodeObjectForKey("gender")       as? Int
+        city         = aDecoder.decodeObjectForKey("city")         as? String
+        type         = aDecoder.decodeIntegerForKey("type")        as  Int
     }
     
     ///  归档，aCoder 编码器，将对象转换成二进制数据保存到磁盘
