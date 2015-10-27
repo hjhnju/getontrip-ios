@@ -47,7 +47,7 @@ class LandscapeCell: UITableViewCell {
     var landscape: SightLandscape? {
         didSet {
             iconView.image = nil
-            iconView.sd_setImageWithURL(NSURL(string: landscape!.image!)!)
+            iconView.sd_setImageWithURL(NSURL(string: landscape!.image!)!, placeholderImage: PlaceholderImage.defaultSmall)
             titleLabel.text = landscape!.name
             subtitleLabel.text = landscape!.content
             for (var i: Int = 0; i < landscape!.catalogs!.count; i++ ) {
@@ -161,7 +161,7 @@ class LandscapeCell1: UITableViewCell {
     
     var landscape: SightLandscape? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: landscape!.image!))
+            iconView.sd_setImageWithURL(NSURL(string: landscape!.image!), placeholderImage:PlaceholderImage.defaultSmall)
             titleLabel.text = landscape!.name
             subtitleLabel.text = landscape!.content
             for (var i: Int = 0; i < landscape!.catalogs!.count; i++ ) {

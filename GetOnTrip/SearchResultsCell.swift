@@ -32,18 +32,18 @@ class SearchResultsCell: UITableViewCell {
     
     var searchCity: SearchCity? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchCity!.image!))
+
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchCity!.name!, titleColor: SceneColor.lightYellow)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchCity!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+            resultImageView.sd_setImageWithURL(NSURL(string: searchCity!.image!), placeholderImage: PlaceholderImage.defaultSmall)
         }
     }
     
     var searchSight: SearchSight? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchSight!.image!))
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchSight!.name!, titleColor: SceneColor.lightYellow)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchSight!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-
+            resultImageView.sd_setImageWithURL(NSURL(string: searchSight!.image!), placeholderImage: PlaceholderImage.defaultSmall)
         }
     }
     
@@ -51,17 +51,15 @@ class SearchResultsCell: UITableViewCell {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentTopic!.image!))
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.title!, titleColor: SceneColor.lightYellow)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentTopic!.subtitle!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-
+            resultImageView.sd_setImageWithURL(NSURL(string: searchContentTopic!.image!), placeholderImage: PlaceholderImage.defaultSmall)
         }
     }
     
     var searchContentBook: SearchContentBook? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchContentBook!.image!))
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentBook!.title!, titleColor: SceneColor.lightYellow)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchContentBook!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-
+            resultImageView.sd_setImageWithURL(NSURL(string: searchContentBook!.image!), placeholderImage: PlaceholderImage.defaultSmall)
         }
     }
     
@@ -69,18 +67,16 @@ class SearchResultsCell: UITableViewCell {
         didSet {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContentVideo!.image!))
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.title!, titleColor: SceneColor.lightYellow)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.from!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-
+            resultImageView.sd_setImageWithURL(NSURL(string: searchContentVideo!.image!), placeholderImage: PlaceholderImage.defaultSmall)
         }
         
     }
     
     var searchContentWiki: SearchContentWiki? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchContentWiki!.image!))
+            resultImageView.sd_setImageWithURL(NSURL(string: searchContentWiki!.image!), placeholderImage:PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.name!, titleColor: SceneColor.lightYellow)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-
         }
     }
     

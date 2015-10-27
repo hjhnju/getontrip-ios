@@ -111,6 +111,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
             
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         
         titleLabel.frame = CGRectMake(0, 0, 100, 21)
         titleLabel.textAlignment = NSTextAlignment.Center
@@ -261,7 +262,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             (handler: NSDictionary) -> Void in
 
             if let city = handler.valueForKey("city") as? City {
-                self?.headerImageView.sd_setImageWithURL(NSURL(string: city.image))
+                self?.headerImageView.sd_setImageWithURL(NSURL(string: city.image), placeholderImage:PlaceholderImage.defaultSmall)
                 self?.cityName = city.name
                 self?.favIconBtn.selected = city.collected == "" ? false : true
             }
@@ -394,24 +395,27 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     //MARK: ScrollViewDelegate
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        //导航变化
+        
         let offsetY = scrollView.contentOffset.y
-        let gap = CityConstant.headerViewHeight + offsetY
-        if gap > 0 {
-            let threshold = CityConstant.headerViewHeight - 64 - 40
-            navBarAlpha = gap / threshold
-            if navBarAlpha > 0.8 {
-                navBarAlpha = 1
-            } else if navBarAlpha < 0.2 {
-                navBarAlpha = 0
+        if offsetY != 0 { //防止collectionView 左右滑动
+            //导航变化
+            let gap = CityConstant.headerViewHeight + offsetY
+            if gap > 0 {
+                let threshold = CityConstant.headerViewHeight - 64 - 40
+                navBarAlpha = gap / threshold
+                if navBarAlpha > 0.8 {
+                    navBarAlpha = 1
+                } else if navBarAlpha < 0.2 {
+                    navBarAlpha = 0
+                }
             }
+            refreshBar()
+            
+            //headerView高度动态变化
+            let navigationBarHeight: CGFloat = 64
+            let height = max(-offsetY, navigationBarHeight)
+            headerHeightConstraint?.constant = height
         }
-        refreshBar()
-    
-        //headerView高度动态变化
-        let navigationBarHeight: CGFloat = 64
-        let height = max(-offsetY, navigationBarHeight)
-        headerHeightConstraint?.constant = height
     }
     
     // MARK: 景点列表页
@@ -423,7 +427,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func favIconBtnClick(btn: UIButton) {
-        print("favIconBtnClick")
         if sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
@@ -458,5 +461,11 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     ///  搜索跳入之后消失控制器
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: - 搜索(下一个控制器)
+    func searchButtonClicked(button: UIBarButtonItem) {
+        
+        presentViewController(SearchViewController(), animated: true, completion: nil)
     }
 }

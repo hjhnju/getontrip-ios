@@ -35,33 +35,23 @@ class SightTableViewController: UITableViewController {
     var type: Int? {
         didSet {
             data = nil
-            switch type! {
-            case categoryLabel.sightLabel:
-                cellReuseIdentifier = HistoryTableViewControllerSightCell
-//                if data != nil { return }
-
-                refresh(categoryLabel.sightLabel)
-                
-            case categoryLabel.bookLabel:
-                cellReuseIdentifier = HistoryTableViewControllerBookCell
-//                if data != nil { return }
-
-                refresh(categoryLabel.bookLabel)
-                
-            case categoryLabel.videoLabel:
-                cellReuseIdentifier = HistoryTableViewControllerVideoCell
-//                if data != nil { return }
-
-                refresh(categoryLabel.videoLabel)
-                
-            default:
-                cellReuseIdentifier = HistoryTableViewControllerElseCell
-
-                refresh(0)
-                break
+            if let type = type {
+                switch type {
+                case categoryLabel.sightLabel:
+                    cellReuseIdentifier = HistoryTableViewControllerSightCell
+                    refresh(categoryLabel.sightLabel)
+                case categoryLabel.bookLabel:
+                    cellReuseIdentifier = HistoryTableViewControllerBookCell
+                    refresh(categoryLabel.bookLabel)
+                case categoryLabel.videoLabel:
+                    cellReuseIdentifier = HistoryTableViewControllerVideoCell
+                    refresh(categoryLabel.videoLabel)
+                default:
+                    cellReuseIdentifier = HistoryTableViewControllerElseCell
+                    refresh(0)
+                    break
+                }
             }
-//
-            
         }
     }
     
@@ -76,9 +66,9 @@ class SightTableViewController: UITableViewController {
     }
     
      /// tagsId
-    var tagId: String? {
+    var tagId: String = ""{
         didSet {
-            lastOtherRequest.tag = tagId!
+            lastOtherRequest.tag = tagId
         }
     }
     
@@ -94,12 +84,8 @@ class SightTableViewController: UITableViewController {
     
     // MARK: 加载更新数据
     private func refresh(type: Int) {
-
-//        if data != nil { return }
-        
-        if cache[tagId!] != nil {
-            
-            data = cache[tagId!]
+        if cache[tagId] != nil {
+            data = cache[tagId]
             return
         }
         
@@ -107,14 +93,14 @@ class SightTableViewController: UITableViewController {
         case categoryLabel.sightLabel:
             lastLandscapeRequest.fetchSightListModels { [weak self] (handler: NSArray) -> Void in self?.data = handler
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId!)
+                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
                 }
             }
             
         case categoryLabel.bookLabel:
             lastBookRequest.fetchSightListModels      { [weak self] (handler: NSArray) -> Void in self?.data = handler
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId!)
+                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
                 }
             }
 
@@ -122,7 +108,7 @@ class SightTableViewController: UITableViewController {
         case categoryLabel.videoLabel:
             lastVideoRequest.fetchSightListModels     { [weak self] (handler: NSArray) -> Void in self?.data = handler
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId!)
+                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
                 }
             }
             
@@ -131,7 +117,7 @@ class SightTableViewController: UITableViewController {
             self?.data = handler.objectForKey("sightDatas") as? NSArray
 //                self!.collectionViewCellCache[type] = handler.objectForKey("sightDatas") as? NSArray
                 if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(handler.objectForKey("sightDatas") as! NSArray, type: self!.tagId!)
+                    self!.delegate?.collectionViewCellCache(handler.objectForKey("sightDatas") as! NSArray, type: self!.tagId)
                 }
             }
             break

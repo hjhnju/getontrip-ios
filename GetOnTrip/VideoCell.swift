@@ -27,7 +27,7 @@ class VideoCell: UITableViewCell {
         didSet {
             if let video = video {
                 iconView.image = nil
-                iconView.sd_setImageWithURL(NSURL(string: video.image), placeholderImage: UIImage())
+                iconView.sd_setImageWithURL(NSURL(string: video.image), placeholderImage: PlaceholderImage.defaultLarge)
                 titleLabel.text = video.title!
                 timeLabel.text = video.len!
             }

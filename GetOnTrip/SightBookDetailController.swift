@@ -24,7 +24,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     
 
     /// 底部图片
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
+    lazy var iconView: UIImageView = UIImageView()
     
     /// 图片的view
 //    lazy var pictureView
@@ -33,24 +33,25 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     lazy var pullIconView: UIView = UIView()
     
     /// 书籍图片
-    lazy var bookIcon: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
+    lazy var bookIcon: UIImageView = UIImageView()
     
-    /// 书籍标题
-    lazy var titleLab: UILabel = UILabel(color: UIColor.blackColor(), title: "解读颐和园", fontSize: 24, mutiLines: true)
+    /// 书籍标题 - "解读颐和园"
+    lazy var titleLab: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 24, mutiLines: true)
     
-    lazy var author: UILabel = UILabel(color: UIColor(hex: 0x1C1C1C, alpha: 1.0), title: "张加冕／黄山书社出版社／2015-5／ISBN:345566743566", fontSize: 12, mutiLines: true)
+    //"张加冕／黄山书社出版社／2015-5／ISBN:345566743566"
+    lazy var author: UILabel = UILabel(color: SceneColor.frontBlack, title: "", fontSize: 12, mutiLines: true)
     
-    lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
+    lazy var baseLine: UIView = UIView(color: SceneColor.shallowGrey.colorWithAlphaComponent(0.3))
     
     lazy var bottomView: UIView = UIView()
     
-    lazy var collectBtn: UIButton = UIButton(image: "icon_star_gray", title: "", fontSize: 0)
+    lazy var collectBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
     
     lazy var shareBtn: UIButton = UIButton(image: "topic_share", title: "", fontSize: 0)
     
-    lazy var buyBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
+    lazy var buyBtn: UIButton = UIButton(image: "topic_buy", title: "", fontSize: 0)
     
-    lazy var bottomLine: UIView = UIView(color: UIColor(hex: 0x9C9C9C, alpha: 1.0))
+    lazy var bottomLine: UIView = UIView(color: SceneColor.lightGray)
     
     lazy var webView: UIWebView = UIWebView()
     
@@ -63,8 +64,8 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     var data: BookDetail? {
         didSet {
             collectBtn.selected = data?.collected == "" ? false : true
-            iconView.sd_setImageWithURL(NSURL(string: data!.image!))
-            bookIcon.sd_setImageWithURL(NSURL(string: data!.image!))
+            iconView.sd_setImageWithURL(NSURL(string: data!.image!), placeholderImage: PlaceholderImage.defaultSmall)
+            bookIcon.sd_setImageWithURL(NSURL(string: data!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             titleLab.text = data?.title
             author.text = data?.info
             showBookDetail(data!.content_desc!)
@@ -119,7 +120,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         bottomView.addSubview(buyBtn)
         bottomView.addSubview(bottomLine)
         
-        collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
+        collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
         collectBtn.addTarget(self, action: "doFavorite:", forControlEvents: UIControlEvents.TouchUpInside)
         buyBtn.addTarget(self, action: "buyButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -199,8 +200,8 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        let height = -(scrollView.contentOffset.y)
-        topHeightConstraint?.constant = height
+//        let height = -(scrollView.contentOffset.y)
+//        topHeightConstraint?.constant = height
     }
     
     func doFavorite(sender: UIButton) {

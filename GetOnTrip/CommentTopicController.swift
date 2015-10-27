@@ -194,7 +194,7 @@ class commentTableViewCell : UITableViewCell {
     
     lazy var titleName: UILabel = UILabel(color: SceneColor.bgBlack, title: "Clara J", fontSize: 14, mutiLines: true)
     
-    lazy var content: UILabel = UILabel(color: SceneColor.dilutedGrey, title: "真的假的，我倒是挺想看看有什么好玩的，真的么，太好咯哈哈哈哈哈哈哈哈真有那么神奇的时期...", fontSize: 12, mutiLines: true)
+    lazy var content: UILabel = UILabel(color: SceneColor.fontGray, title: "真的假的，我倒是挺想看看有什么好玩的，真的么，太好咯哈哈哈哈哈哈哈哈真有那么神奇的时期...", fontSize: 12, mutiLines: true)
     
     lazy var time: UILabel = UILabel(color: UIColor(hex: 0x696969, alpha: 0.5), title: "1年前", fontSize: 8, mutiLines: true)
     
@@ -202,7 +202,7 @@ class commentTableViewCell : UITableViewCell {
     
     lazy var commentAnswersView: UIView = UIView(color: UIColor(hex: 0x696969, alpha: 0.2))
     
-    lazy var answerCommentContent: CommentPersonLabel = CommentPersonLabel(color: SceneColor.dilutedGrey, title: "Clara J:来看看就知道了 ", fontSize: 11, mutiLines: true)
+    lazy var answerCommentContent: CommentPersonLabel = CommentPersonLabel(color: SceneColor.fontGray, title: "Clara J:来看看就知道了 ", fontSize: 11, mutiLines: true)
     
     lazy var baseLine = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
@@ -212,7 +212,7 @@ class commentTableViewCell : UITableViewCell {
     
     var data: CommentList? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: data!.avatar)!)
+            iconView.sd_setImageWithURL(NSURL(string: data!.avatar)!, placeholderImage:PlaceholderImage.defaultSmall)
             titleName.text = data!.from_name
             content.text = data!.content
             time.text = data!.create_time

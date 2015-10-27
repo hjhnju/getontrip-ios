@@ -49,7 +49,7 @@ struct SceneColor {
     static let gray        = UIColor(hex: 0x3E3E3E, alpha:1)
     static let lightGray   = UIColor(hex: 0x9C9C9C, alpha:1)
     
-    static let white        = UIColor.whiteColor()
+    static let white        = UIColor(hex: 0xFFFFFF, alpha: 1)
     static let crystalWhite = UIColor(hex: 0xFFFFFF, alpha:0.4)
     /// 白色首页话题副标题文字颜色
     static let whiteGrey   = UIColor(hex: 0x939393, alpha: 1.0)
@@ -61,7 +61,7 @@ struct SceneColor {
     static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)
     
     /// 696969 评论内容
-    static let dilutedGrey   = UIColor(hex: 0x696969, alpha: 1.0)
+    static let fontGray = UIColor(hex: 0x696969, alpha: 1.0)
     /// F3FD54 浅黄
     static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
 }
@@ -91,6 +91,8 @@ struct SceneFont {
 }
 
 /// 占位图像
-struct placeholderImage {
+struct PlaceholderImage {
     static let userIcon = "user_icon"
+    static let defaultSmall = UIImage(named: "default_small")
+    static let defaultLarge = UIImage(named: "default_large")
 }

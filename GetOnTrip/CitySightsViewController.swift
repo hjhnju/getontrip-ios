@@ -164,7 +164,7 @@ class SightListCityCell: UICollectionViewCell {
     
     var sightBrief: CitySightBrief? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: sightBrief!.image))
+            iconView.sd_setImageWithURL(NSURL(string: sightBrief!.image), placeholderImage:PlaceholderImage.defaultSmall)
             cityName.text = sightBrief!.name
             topicNum.text = sightBrief!.topics
             

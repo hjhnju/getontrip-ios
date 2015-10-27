@@ -26,7 +26,7 @@ class CitySightCollectionViewCell: UICollectionViewCell {
         didSet {
             if let sight = data {
                 icon.image = nil
-                icon.sd_setImageWithURL(NSURL(string: sight.image))
+                icon.sd_setImageWithURL(NSURL(string: sight.image), placeholderImage:PlaceholderImage.defaultSmall)
                 title.text = sight.name
                 desc.text  = sight.desc
             }

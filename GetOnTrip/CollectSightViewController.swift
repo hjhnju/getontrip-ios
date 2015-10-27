@@ -147,7 +147,7 @@ class CollectionSightViewCell: UICollectionViewCell {
     
     var collectSight: CollectSight? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectSight!.image))
+            iconView.sd_setImageWithURL(NSURL(string: collectSight!.image), placeholderImage: PlaceholderImage.defaultSmall)
             title.text = collectSight?.name
             subtitle.text = collectSight?.topicNum
         }

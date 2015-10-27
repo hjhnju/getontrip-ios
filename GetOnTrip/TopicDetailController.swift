@@ -30,9 +30,9 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     lazy var labelBtn: UIButton = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
     
-    lazy var favNumLabel: UIButton = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
+    lazy var favNumLabel: UIButton = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
 
-    lazy var visitNumLabel: UIButton = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
+    lazy var visitNumLabel: UIButton = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
     
     //webView
     lazy var webView: UIWebView = UIWebView()
@@ -46,7 +46,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
 
     lazy var shareBtn: UIButton = UIButton(image: "topic_share", title: "", fontSize: 0)
     
-    lazy var collectBtn: UIButton = UIButton(image: "icon_star_gray", title: "", fontSize: 0)
+    lazy var collectBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
     
     var content: String?
     
@@ -56,15 +56,15 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
   
     lazy var shareView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
     
-    lazy var shareBtn1: shareButton = shareButton(image: "round", title: "微信好友", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    lazy var shareBtn1: shareButton = shareButton(image: "share_weixin", title: "微信好友", fontSize: 12, titleColor: SceneColor.fontGray)
     
-    lazy var shareBtn2: shareButton = shareButton(image: "round", title: "朋友圈", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    lazy var shareBtn2: shareButton = shareButton(image: "share_weixinfri", title: "朋友圈", fontSize: 12, titleColor: SceneColor.fontGray)
     
-    lazy var shareBtn3: shareButton = shareButton(image: "round", title: "新浪微博", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    lazy var shareBtn3: shareButton = shareButton(image: "share_weibo", title: "新浪微博", fontSize: 12, titleColor: SceneColor.fontGray)
     
-    lazy var shareBtn4: shareButton = shareButton(image: "round", title: "QQ空间", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    lazy var shareBtn4: shareButton = shareButton(image: "share_qq", title: "QQ空间", fontSize: 12, titleColor: SceneColor.fontGray)
     
-    lazy var shareBtn5: shareButton = shareButton(image: "round", title: "复制链接", fontSize: 12, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    lazy var shareBtn5: shareButton = shareButton(image: "share_link", title: "复制链接", fontSize: 12, titleColor: SceneColor.fontGray)
     
     lazy var shareCancle: UIButton = UIButton(title: "取消", fontSize: 13, radius: 15)
     
@@ -117,7 +117,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 labelBtn.setTitle(topic.label, forState: UIControlState.Normal)
                 favNumLabel.setTitle(" " + topic.collect, forState: UIControlState.Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: UIControlState.Normal)
-                headerImageView.sd_setImageWithURL(NSURL(string: topic.image))
+                headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage: PlaceholderImage.defaultLarge)
                 
                 showTopicDetail()
                 
@@ -151,7 +151,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         
         view.backgroundColor = UIColor.whiteColor()
         webView.backgroundColor = UIColor.whiteColor()
-        collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
+        collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
         
         //原则：如果和默认设置不同，controller自己定义新值，退出时自己还原
         oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
@@ -165,6 +165,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         
         navTitleLabel.frame = CGRectMake(0, 0, 100, 21)
         navTitleLabel.textAlignment = NSTextAlignment.Center
+        navTitleLabel.hidden = false
+        navTitleLabel.alpha  = 1.0
         
         loadSightData()
         setupAddProperty()
@@ -305,7 +307,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         webView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 47), offset: CGPointMake(0, 0))
         toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 47), offset: CGPointMake(0, 0))
         headerImageView.ff_Fill(toolbarView)
-        labelBtn.ff_AlignInner(ff_AlignType.TopRight, referView: headerView, size: CGSizeMake(32, 14), offset: CGPointMake(-17, 7 + 44))
+        labelBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: headerView, size: CGSizeMake(32, 14), offset: CGPointMake(-17, -CityConstant.headerViewHeight))
         favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(10, -7))
         visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
         titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, 1))
@@ -336,7 +338,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
 
     deinit {
-        print("让我走不\(__FUNCTION__)")
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
