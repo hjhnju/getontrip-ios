@@ -176,21 +176,28 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
             lastSuccessAddRequest = SearchRecommendRequest()
         }
         
-        lastSuccessAddRequest?.fetchModels {[weak self] (handler: NSDictionary) -> Void in
-            print("callBackFromsearch...")
-            self?.dataSource = handler
-            if self?.searchLabels.count == 0 {
-                for lab in handler.objectForKey("labels") as! NSArray {
-                    let labM = lab as! SearchLabel
-                    let label = labM.name! + "    " + labM.num!
-                    self?.searchLabels.addObject(label)
-                    self?.searchLabelIds.addObject(labM.id!)
-                }
-                self?.addSearchLabelButton()
+        lastSuccessAddRequest?.fetchModels {[weak self] (data, status) -> Void in
+            //处理异常状态
+            if RetCode.SUCCESS != status {
+                print("网络异常处理")
+                return
             }
-            self?.headerImageView.sd_setImageWithURL(NSURL(string: handler.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
-            print("reloadData=\(handler)")
-            self?.tableView.reloadData()
+            
+            //处理数据
+            if let dataSource = data {
+                self?.dataSource = dataSource
+                if self?.searchLabels.count == 0 {
+                    for lab in dataSource.objectForKey("labels") as! NSArray {
+                        let labM = lab as! RecommendLabel
+                        let label = labM.name! + "    " + labM.num!
+                        self?.searchLabels.addObject(label)
+                        self?.searchLabelIds.addObject(labM.id!)
+                    }
+                    self?.addSearchLabelButton()
+                }
+                self?.headerImageView.sd_setImageWithURL(NSURL(string: dataSource.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
+                self?.tableView.reloadData()
+            }
         }
     }
     

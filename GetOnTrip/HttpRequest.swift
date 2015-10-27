@@ -8,13 +8,23 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 class HttpRequest {
     
     typealias RequestFinishedCallBack = (result: AnyObject?, error: NSError?) -> ()
     
+    typealias RequestJSONCallBack = (result: JSON, status: Int) -> ()
+    
     /// 网络工具单例
     static let sharedHttpRequest = HttpRequest()
+    
+    static let sharedManager: Manager = {
+        let configuration: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest  = 15
+        configuration.timeoutIntervalForResource = 15
+        return Manager(configuration: configuration)
+        }()
     
     ///  网络访问方法
     ///
@@ -31,6 +41,32 @@ class HttpRequest {
         request(.POST, urlPath, parameters:post).responseJSON { (response) -> Void in
             
             handler(result: response.result.value, error: response.result.error)
+        }
+    }
+    
+    ///  网络访问方法
+    ///
+    ///  - parameter url:     访问环境
+    ///  - parameter path:    访问网络路径
+    ///  - parameter post:    参数
+    ///  - parameter handler: 回调数据及错误
+    class func ajax2(url: String?, path: String?, post: Dictionary<String, String>, handler: RequestJSONCallBack) {
+        
+        let urlPath = (url ?? "") + (path ?? "")
+        
+        print("[HttpRequest]:url=\(urlPath), post=\(post)")
+        
+        HttpRequest.sharedManager.request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
+            //异常
+            if error != nil {
+                NSLog("[HttpRequest]:error=\(error)")
+                return handler(result: nil, status: RetCode.NETWORK_ERROR)
+            }
+            //处理数据
+            if let data = respData {
+                let json = JSON(data: data)
+                return handler(result: json["data"], status: json["status"].intValue)
+            }
         }
     }
     

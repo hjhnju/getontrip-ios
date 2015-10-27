@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class SearchRecommendRequest: NSObject {
     /**
@@ -24,67 +25,47 @@ class SearchRecommendRequest: NSObject {
     var pageSize: Int = 6
     
     // 异步加载获取数据
-    func fetchModels(handler: NSDictionary -> Void) {
+    func fetchModels(handler: (NSDictionary?, Int) -> Void) {
         var post         = [String: String]()
         post["label"]    = String(label)
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/search/label", post: post) { (result, error) -> () in
-            if error == nil {
-                let data = result!["data"]
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search/label", post: post) { (data, status) -> () in
+            if status == RetCode.SUCCESS {
                 let searchModel = NSMutableDictionary()
                 
-                var searchLabels = [SearchLabel]()
+                var searchLabels = [RecommendLabel]()
                 var searchDatas = [RecommendCellData]()
-                print(data)
-                for item in data!!["label"] as! NSArray {
-                    searchLabels.append(SearchLabel(dict: item as! [String : String]))
+                
+                for item in data["label"].arrayValue {
+                    if let item = item.dictionaryObject {
+                        searchLabels.append(RecommendLabel(dict: item))
+                    }
                 }
                 
-                for item in data!!["content"] as! NSArray {
-                    searchDatas.append(RecommendCellData(dict: item as! [String : String]))
+                for item in data["content"].arrayValue {
+                    if let item = item.dictionaryObject {
+                        searchDatas.append(RecommendCellData(dict: item))
+                    }
                 }
                 
-                let str = data!!["image"] as! String
+                let str = data["image"].stringValue
                 searchModel.setValue(searchLabels, forKey: "labels")
                 searchModel.setValue(searchDatas, forKey: "datas")
                 searchModel.setValue(String(AppIni.BaseUri + str), forKey: "image")
                 // 回调
-                handler(searchModel)
+                handler(searchModel, status)
+                return
             }
+            handler(nil, status)
         }
-//        HttpRequest.ajax(AppIni.BaseUri,
-//            path: "/api/search/label",
-//            post: post,
-//            handler: {(respData: AnyObject) -> Void in
-//                let searchModel = NSMutableDictionary()
-//                
-//                var searchLabels = [SearchLabel]()
-//                var searchDatas = [RecommendCellData]()
-//                
-//                for item in respData["label"] as! NSArray {
-//                    searchLabels.append(SearchLabel(dict: item as! [String : String]))
-//                }
-//                
-//                for item in respData["content"] as! NSArray {
-//                    searchDatas.append(RecommendCellData(dict: item as! [String : String]))
-//                }
-//                
-//                let str = respData.objectForKey("image") as! String
-//                searchModel.setValue(searchLabels, forKey: "labels")
-//                searchModel.setValue(searchDatas, forKey: "datas")
-//                searchModel.setValue(String(AppIni.BaseUri + str), forKey: "image")
-//                // 回调
-//                handler(searchModel)
-//            }
-//        )
     }
 }
 
 /// 搜索标签
-class SearchLabel: NSObject {
+class RecommendLabel: NSObject {
     /// id
     var id: String?
     /// 标签名
@@ -128,7 +109,7 @@ class RecommendCellData: NSObject {
     //城市＝2，景点＝1
     var type: String = RecommendCellData.TypeSight
     
-    init(dict: [String: String]) {
+    init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
     }

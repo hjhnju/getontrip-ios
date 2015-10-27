@@ -20,6 +20,7 @@ class AppIniDev {
 }
 
 class AppIni:AppIniDev {
+    static let Domain:String = "www.getontrip.cn"
     static let ImageSliceMultipler:CGFloat = 3
 }
 
