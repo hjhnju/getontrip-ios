@@ -37,15 +37,22 @@ class TopicCommentRequest: NSObject {
         post["pageSize"] = String(pageSize)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/topic/detail",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                print(respData)
-                // 回调  http://123.57.46.229:8301/api/topic/detail?topicId=54&pageSize=6&page=1
-//                handler(TopicDetail(dict: respData as! [String : AnyObject]))
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic/detail", post: post) { (result, error) -> () in
+            
+            if error == nil {
+                handler(TopicDetail(dict: result as! [String : AnyObject]))
             }
-        )
+        }
+        
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/topic/detail",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                print(respData)
+//                // 回调  http://123.57.46.229:8301/api/topic/detail?topicId=54&pageSize=6&page=1
+////                handler(TopicDetail(dict: respData as! [String : AnyObject]))
+//            }
+//        )
     }
 }
 

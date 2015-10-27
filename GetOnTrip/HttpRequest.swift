@@ -16,43 +16,23 @@ class HttpRequest {
     /// 网络工具单例
     static let sharedHttpRequest = HttpRequest()
     
-    class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: (AnyObject) -> Void) {
+    ///  网络访问方法
+    ///
+    ///  - parameter url:     访问环境
+    ///  - parameter path:    访问网络路径
+    ///  - parameter post:    参数
+    ///  - parameter handler: 回调数据及错误
+    class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: RequestFinishedCallBack) {
         
         let urlPath = (url ?? "") + (path ?? "")
         
         print("[HttpRequest]:url=\(urlPath), post=\(post)")
         
-        request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
+        request(.POST, urlPath, parameters:post).responseJSON { (response) -> Void in
             
-            let result = try? NSJSONSerialization.JSONObjectWithData(respData!, options: NSJSONReadingOptions(rawValue: 0)) as! [String: AnyObject]
-            
-            if result != nil {
-                let data = result!["data"]
-                if ((data as? String) != nil) {
-                    return handler(result!["data"]!)
-                }
-                
-                return handler(data as? NSArray ?? (data as? NSDictionary)!)
-            }
-
+            handler(result: response.result.value, error: response.result.error)
         }
     }
-    
-    
-    // MARK: - 封装 Alamofire 网络访问方法(暂时未使用)
-    /// 发起网络请求
-    ///
-    /// - parameter method:     method GET / POST
-    /// - parameter urlString:  urlString
-    /// - parameter parameters: 参数字典
-    /// - parameter finished:   完成回调
-//    private func request(method: Alamofire.Method, urlString: String, parameters: [String: AnyObject]?, finished: RequestFinishedCallBack) {
-//        
-//        Alamofire.request(method, urlString, parameters: parameters).responseJSON { (response) -> Void in
-//            finished(result: response.result.value, error: response.result.error)
-//        }
-//    }
-    
     
     /// 上传文件
     ///

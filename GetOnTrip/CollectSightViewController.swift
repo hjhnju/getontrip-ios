@@ -143,7 +143,7 @@ class CollectionSightViewCell: UICollectionViewCell {
     
     lazy var subtitle: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "共10个话题", fontSize: 11, mutiLines: false)
 
-    lazy var collectBtn: UIButton = UIButton(image: "search_fav", title: "", fontSize: 0)
+    lazy var collectBtn: CitySightCollectButton = CitySightCollectButton(image: "search_fav", title: "", fontSize: 0)
     
     var collectSight: CollectSight? {
         didSet {
@@ -170,7 +170,7 @@ class CollectionSightViewCell: UICollectionViewCell {
         iconView.frame    = self.bounds
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         subtitle.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -11))
-        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil, offset: CGPointMake(-8, 8))
+        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil)
     }
 
     required init(coder aDecoder: NSCoder) {

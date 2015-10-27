@@ -43,23 +43,21 @@ class SightTopicRequest: NSObject {
         post["pageSize"] = String(pageSize)
         post["tags"]     = String(tag)
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/sight/detail",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/sight/detail", post: post) { (result, error) -> () in
+            if error == nil {
+                let data = result!["data"]
                 let dict = NSMutableDictionary()
                 var sightTags = [SightListTags]()
                 
-                if respData["tags"] != nil {
-                    for item in respData["tags"] as! NSArray {
+                if data!!["tags"] != nil {
+                    for item in data!!["tags"] as! NSArray {
                         sightTags.append(SightListTags(dict: item as! [String : AnyObject]))
                     }
                 }
                 
                 var sightData = [SightListData]()
-                if respData["data"] != nil {
-                    for item in respData["data"] as! NSArray {
+                if data!!["data"] != nil {
+                    for item in data!!["data"] as! NSArray {
                         sightData.append(SightListData(dict: item as! [String : AnyObject]))
                     }
                 }
@@ -70,7 +68,36 @@ class SightTopicRequest: NSObject {
                 // 回调
                 handler(dict.copy() as! NSDictionary)
             }
-        )
+        }
+        
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/sight/detail",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//
+//                let dict = NSMutableDictionary()
+//                var sightTags = [SightListTags]()
+//                
+//                if respData["tags"] != nil {
+//                    for item in respData["tags"] as! NSArray {
+//                        sightTags.append(SightListTags(dict: item as! [String : AnyObject]))
+//                    }
+//                }
+//                
+//                var sightData = [SightListData]()
+//                if respData["data"] != nil {
+//                    for item in respData["data"] as! NSArray {
+//                        sightData.append(SightListData(dict: item as! [String : AnyObject]))
+//                    }
+//                }
+//                
+//                dict.setValue(sightTags, forKey: "sightTags")
+//                dict.setValue(sightData, forKey: "sightDatas")
+//                
+//                // 回调
+//                handler(dict.copy() as! NSDictionary)
+//            }
+//        )
     }
 }
 

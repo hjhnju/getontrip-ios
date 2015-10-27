@@ -32,16 +32,23 @@ class TopicDetailRequest: NSObject {
         post["topicId"]  = String(topicId!)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/topic/detail",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                // 回调
-                if let data = respData as? [String : AnyObject] {
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic/detail", post: post) { (result, error) -> () in
+            if error == nil {
+                if let data = result as? [String : AnyObject] {
                     handler(TopicDetail(dict: data))
                 }
             }
-        )
+        }
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/topic/detail",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                // 回调
+//                if let data = respData as? [String : AnyObject] {
+//                    handler(TopicDetail(dict: data))
+//                }
+//            }
+//        )
     }
 }
 

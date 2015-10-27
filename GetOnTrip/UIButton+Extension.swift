@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FFAutoLayout
 
 // MARK: 扩展
 extension UIButton {
@@ -67,12 +68,28 @@ class shareButton : UIButton {
     }
 }
 
+/// 首页热门景点的按钮
 class homeSightButton : UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         let w: CGFloat = 8
         let h: CGFloat = 14.85
         imageView?.frame = CGRectMake(bounds.width - 10 - w, (bounds.height - h) * 0.5, w, h)
+    }
+}
+
+/// 收藏景点图标点击区域变大
+class CitySightCollectButton: UIButton {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        imageView?.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(17, 16), offset: CGPointMake(-8, 8))
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

@@ -223,7 +223,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
                 }
             })
         } else {
-            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid:bookId!, isAdd: !sender.selected) { (handler) -> Void in
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(5, objid:bookId!, isAdd: !sender.selected) { (handler) -> Void in
                 print(handler)
                 if handler as! String == "1" {
                     sender.selected = !sender.selected

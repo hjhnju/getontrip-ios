@@ -31,13 +31,11 @@ class UserAddRequest: NSObject {
         post["param"] = String(param!)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/user/addinfo",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                print(respData)
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/addinfo", post: post) { (result, error) -> () in
+            if error == nil {
+                print(result)
                 print("添加成功")
             }
-        )
+        }
     }
 }

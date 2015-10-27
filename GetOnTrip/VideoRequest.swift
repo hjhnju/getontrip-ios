@@ -38,21 +38,33 @@ class VideoRequest: NSObject {
         
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: "/api/video",
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/video", post: post) { (result, error) -> () in
+            if error == nil {
                 let sightVideo = NSMutableArray() // [SightBook]()
-                
-                for item in respData as! NSArray {
+
+                for item in result!["data"] as! NSArray {
                     sightVideo.addObject(SightVideo(dict: item as! [String : AnyObject]))
                 }
-                
+
                 // 回调
                 handler(sightVideo)
             }
-        )
+        }
+//        HttpRequest.ajax(AppIni.BaseUri,
+//            path: "/api/video",
+//            post: post,
+//            handler: {(respData: AnyObject) -> Void in
+//                
+//                let sightVideo = NSMutableArray() // [SightBook]()
+//                
+//                for item in respData as! NSArray {
+//                    sightVideo.addObject(SightVideo(dict: item as! [String : AnyObject]))
+//                }
+//                
+//                // 回调
+//                handler(sightVideo)
+//            }
+//        )
     }
 }
 

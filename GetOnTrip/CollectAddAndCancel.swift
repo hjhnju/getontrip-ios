@@ -23,16 +23,12 @@ class CollectAddAndCancel: NSObject {
         post["objid"] = String(objid)
         post["type"]  = String(type)
         let path = isAdd == true ? "/api/collect/add" : "/api/collect/del"
-
-        HttpRequest.ajax(AppIni.BaseUri,
-            path: path,
-            post: post,
-            handler: {(respData: AnyObject) -> Void in
-                
-                /// 回调
-                handler(respData)
+        
+        HttpRequest.ajax(AppIni.BaseUri, path: path, post: post) { (result, error) -> () in
+            if error == nil {
+                handler(result!)
             }
-        )
+        }
     }
 
 }
