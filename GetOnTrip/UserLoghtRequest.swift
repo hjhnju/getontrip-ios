@@ -75,7 +75,11 @@ class UserLoginInsepctRequest: NSObject {
         let post = [String : String]()
         HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/checkLogin", post: post) { (result, error) -> () in
         if error == nil {
-            handler(result!["data"]!! ?? "")
+            if result!["status"] as? Int == 0 {
+                handler(result!["data"]!! ?? "")
+        } else {
+                handler("")
+            }
         }
         }
     }

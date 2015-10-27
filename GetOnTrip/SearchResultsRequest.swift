@@ -30,46 +30,31 @@ class SearchResultsRequest: NSObject {
             if error == nil {
                 print(result!)
                 let data = result!["data"]
-                let rows = NSMutableDictionary()
+                var rows = [String : AnyObject]()
                 for section in self.sectionTypes {
                     switch section {
                     case "city":
-                        var searchCitys = [SearchCity]()
+                        var searchCitys = [SearchResult]()
                         for item in data!!["city"] as! NSArray {
-                            searchCitys.append(SearchCity(dict: item as! [String : String]))
+                            searchCitys.append(SearchResult(dict: item as! [String : String]))
                         }
-                        rows.setValue(searchCitys, forKey: "searchCitys")
-                        rows.setValue(data!!["city_num"], forKey: "city_num")
+                        rows["searchCitys"] = searchCitys
+                        rows["city_num"]    = data!!["city_num"]
                     case "sight":
-                        var searchSights = [SearchSight]()
+                        var searchSights = [SearchResult]()
                         for item in data!!["sight"] as! NSArray {
-                            searchSights.append(SearchSight(dict: item as! [String : String]))
+                            searchSights.append(SearchResult(dict: item as! [String : String]))
                         }
-                        rows.setValue(searchSights, forKey: "searchSights")
-                        rows.setValue(data!!["sight_num"], forKey: "sight_num")
+                        rows["searchSights"] = searchSights
+                        rows["sight_num"]    = data!!["sight_num"]
                     case "content":
-                        let searchContent = NSMutableArray()
+                        var searchContent = [SearchContent]()
                         
-                        let content = data!!["content"] as? NSDictionary
-                        
-                        for item in content?.objectForKey("topic") as! NSArray {
-                            searchContent.addObject(SearchContentTopic(dict: item as! [String : AnyObject]))
+                        for item in data!!["content"] as! NSArray {
+                            searchContent.append(SearchContent(dict: item as! [String : AnyObject]))
                         }
-                        
-                        for item in content?.objectForKey("book") as! NSArray {
-                            searchContent.addObject(SearchContentBook(dict: item as! [String : AnyObject]))
-                        }
-                        
-                        for item in content?.objectForKey("video") as! NSArray {
-                            searchContent.addObject(SearchContentVideo(dict: item as! [String : AnyObject]))
-                        }
-                        
-                        for item in content?.objectForKey("wiki") as! NSArray {
-                            searchContent.addObject(SearchContentWiki(dict: item as! [String : AnyObject]))
-                        }
-                        
-                        rows.setValue(searchContent, forKey: "searchContent")
-                        rows.setValue(data!!["content_num"], forKey: "content_num")
+                        rows["searchContent"] = searchContent
+                        rows["content_num"]    = data!!["content_num"]
                     default:
                         break
                     }
@@ -78,65 +63,14 @@ class SearchResultsRequest: NSObject {
 
             }
         }
-//        HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: post, handler: {(respData: AnyObject) -> Void in
-//            print(respData)
-//            let rows = NSMutableDictionary()
-//            for section in self.sectionTypes {
-//                
-//                switch section {
-//                case "city":
-//                    var searchCitys = [SearchCity]()
-//                    for item in respData["city"] as! NSArray {
-//                        searchCitys.append(SearchCity(dict: item as! [String : String]))
-//                    }
-//                    rows.setValue(searchCitys, forKey: "searchCitys")
-//                    rows.setValue(respData["city_num"], forKey: "city_num")
-//                case "sight":
-//                    var searchSights = [SearchSight]()
-//                    for item in respData["sight"] as! NSArray {
-//                        searchSights.append(SearchSight(dict: item as! [String : String]))
-//                    }
-//                    rows.setValue(searchSights, forKey: "searchSights")
-//                    rows.setValue(respData["sight_num"], forKey: "sight_num")
-//                case "content":
-//                    let searchContent = NSMutableArray()
-//                    
-//                    let content = respData["content"] as? NSDictionary
-//                    
-//                    for item in content?.objectForKey("topic") as! NSArray {
-//                        searchContent.addObject(SearchContentTopic(dict: item as! [String : AnyObject]))
-//                    }
-//                    
-//                    for item in content?.objectForKey("book") as! NSArray {
-//                        searchContent.addObject(SearchContentBook(dict: item as! [String : AnyObject]))
-//                    }
-//                    
-//                    for item in content?.objectForKey("video") as! NSArray {
-//                        searchContent.addObject(SearchContentVideo(dict: item as! [String : AnyObject]))
-//                    }
-//                    
-//                    for item in content?.objectForKey("wiki") as! NSArray {
-//                        searchContent.addObject(SearchContentWiki(dict: item as! [String : AnyObject]))
-//                    }
-//                    
-//                    rows.setValue(searchContent, forKey: "searchContent")
-//                    rows.setValue(respData["content_num"], forKey: "content_num")
-//                default:
-//                    break
-//                }
-//            }
-//            handler(rows)
-//        })
-    
     }
-    
-    
 }
 
 
 
 // MARK: - 模型
-class SearchCity: NSObject {
+/// 搜索城市
+class SearchResult: NSObject {
     
     var id: String?
     
@@ -160,32 +94,10 @@ class SearchCity: NSObject {
     }
 }
 
-class SearchSight: NSObject {
+/// 搜索内容
+class SearchContent: NSObject {
     
-    var id: String = ""
-    
-    var name: String?
-    
-    var image: String? {
-        didSet {
-            image = AppIni.BaseUri + image!
-        }
-    }
-    
-    var desc: String?
-    
-    init(dict: [String : AnyObject]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
-}
-
-
-class SearchContentTopic: NSObject {
+    var search_type: String?
     
     var id: String?
     
@@ -197,81 +109,9 @@ class SearchContentTopic: NSObject {
         }
     }
     
-    var subtitle: String?
-    
-    init(dict: [String : AnyObject]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
-}
-
-
-class SearchContentBook: NSObject {
-    
-    var id: String?
-    
-    var title: String?
-    
-    var image: String? {
-        didSet {
-            image = AppIni.BaseUri + image!
-        }
-    }
-    
-    var desc: String?
-    
-    init(dict: [String : AnyObject]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
-}
-
-
-class SearchContentVideo: NSObject {
+    var content: String?
     
     var url: String?
-    
-    var title: String?
-    
-    var image: String? {
-        didSet {
-            image = AppIni.BaseUri + image!
-        }
-    }
-    
-    var from: String?
-    
-    init(dict: [String : AnyObject]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
-}
-
-class SearchContentWiki: NSObject {
-    
-    var url: String?
-    
-    var name: String?
-    
-    var image: String? {
-        didSet {
-            image = AppIni.BaseUri + image!
-        }
-    }
-    
-    var desc: String?
     
     init(dict: [String : AnyObject]) {
         super.init()
