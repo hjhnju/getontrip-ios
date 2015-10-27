@@ -21,6 +21,10 @@ struct MainViewContant {
     static let SearchBarHeight:CGFloat = 34
 }
 
+struct RecommendContant {
+    static let headerViewHeight:CGFloat = 244
+}
+
 class SearchRecommendViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
     
     //导航栏容器，包含状态栏的高度
@@ -79,10 +83,12 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     var lastSuccessAddRequest: SearchRecommendRequest?
     
     /// 搜索顶部
-    var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244))
+    var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight))
     
     /// 搜索顶部图片
     var headerImageView = UIImageView(image: UIImage(named: "search_header"))
+    
+    var headerViewTopConstraint: NSLayoutConstraint?
 
     /// 记录状态按钮
     weak var currentSearchLabelButton: UIButton?
@@ -101,14 +107,15 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         
         //nav bar
         navigationController?.navigationBarHidden = true
-        self.automaticallyAdjustsScrollViewInsets = true
+        self.automaticallyAdjustsScrollViewInsets = false
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         view.addSubview(navContainerView)
         navContainerView.addSubview(custNavView)
         
         //header
+        view.addSubview(headerView)
         headerView.addSubview(headerImageView)
-        headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
+        //headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
         //为header添加黑色蒙板
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
         headerView.addSubview(maskView)
@@ -118,12 +125,15 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         view.addSubview(tableView)
         tableView.dataSource      = self
         tableView.delegate        = self
-        tableView.tableHeaderView = headerView
+        tableView.tableHeaderView = nil
         tableView.rowHeight       = SearchRecommendTableViewCell.RowHeight
-        tableView.backgroundColor = UIColor.orangeColor()
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.separatorStyle  = UITableViewCellSeparatorStyle.None
-        tableView.registerClass(SearchRecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.SearchRecommendTableViewCellID)
+        tableView.contentInset    = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 64, right: 0)
         
+        tableView.registerClass(SearchRecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.SearchRecommendTableViewCellID)
+        view.sendSubviewToBack(tableView)
+
         view.bringSubviewToFront(navContainerView)
         
         setupAutoLayout()
@@ -165,8 +175,12 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         slideButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: custNavView, size: CGSize(width: 21, height: 14), offset: CGPointMake(9, 0))
         searchButton.ff_AlignInner(ff_AlignType.CenterRight, referView: custNavView, size: CGSize(width: view.bounds.width-(414-356), height: MainViewContant.SearchBarHeight), offset: CGPointMake(-9, 0))
         
+        let cons = headerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, RecommendContant.headerViewHeight), offset: CGPointMake(0, 0))
+        headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Top)
+        
+        
         //表格
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, -20))
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
         headerImageView.ff_Fill(headerView)
     }
     
@@ -283,14 +297,20 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         //导航渐变
         let threshold:CGFloat = 198 - 64
         let offsetY = scrollView.contentOffset.y
-        if offsetY > 0 {
-            navBarAlpha = offsetY / threshold;
+        let gap = RecommendContant.headerViewHeight + offsetY
+        if gap > 0 {
+            navBarAlpha = gap / threshold;
             if navBarAlpha > 1 {
                 navBarAlpha = 1
             } else if navBarAlpha < 0.1 {
                 navBarAlpha = 0
             }
         }
+        
+        //headerView高度动态变化
+        let initTop: CGFloat = 0.0
+        let newTop = min(-gap, initTop)
+        headerViewTopConstraint?.constant = newTop
     }
     
     //MARK: 自定义方法
