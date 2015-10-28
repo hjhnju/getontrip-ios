@@ -173,7 +173,7 @@ class SightTableViewController: UITableViewController {
             
         default:
             let c = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerElseCell, forIndexPath: indexPath) as! TopicCell
-            c.otherData = data![indexPath.row] as? SightListData
+            c.topicCellData = data![indexPath.row] as? TopicCellData
             cell = c
             
         break
@@ -226,8 +226,9 @@ class SightTableViewController: UITableViewController {
             navigationController?.pushViewController(sc, animated: true)
         default:
             let vc: TopicDetailController = TopicDetailController()
-            let dataI = data![indexPath.row] as! SightListData
-            vc.topicId = dataI.id!
+            let dataI = data![indexPath.row] as! TopicCellData
+            vc.topicId = dataI.id
+            vc.sightName = dataI.title
             navigationController?.pushViewController(vc, animated: true)
             break
         }

@@ -28,15 +28,16 @@ class TopicCell: UITableViewCell {
     
     lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     
-    var otherData: SightListData? {
+    var topicCellData: TopicCellData? {
         didSet {
-            if otherData == nil { return }
-            iconView.image = nil
-            iconView.sd_setImageWithURL(NSURL(string: otherData!.image!), placeholderImage: PlaceholderImage.defaultSmall)
-            subtitleLabel.text = otherData?.subtitle
-            titleLabel.text = otherData?.title
-            collect.setTitle(" " + (otherData?.collect)!, forState: UIControlState.Normal)
-            preview.setTitle(" " + (otherData?.visit)!, forState: UIControlState.Normal)
+            if let topicCellData = topicCellData {
+                iconView.image = nil
+                iconView.sd_setImageWithURL(NSURL(string: topicCellData.image), placeholderImage: PlaceholderImage.defaultSmall)
+                subtitleLabel.text = topicCellData.subtitle
+                titleLabel.text = topicCellData.title
+                collect.setTitle(" " + topicCellData.collect, forState: UIControlState.Normal)
+                preview.setTitle(" " + topicCellData.visit, forState: UIControlState.Normal)
+            }
         }
     }
     
