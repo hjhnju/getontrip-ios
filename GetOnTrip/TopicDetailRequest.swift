@@ -42,7 +42,7 @@ class TopicDetailRequest: NSObject {
     }
 }
 
-/// 景点列表Tags
+/// 话题详情
 class TopicDetail: NSObject {
     /// id
     var id: String = ""
@@ -71,6 +71,8 @@ class TopicDetail: NSObject {
     var label: String = ""
     /// 景点
     var sight_name: String = ""
+    /// 当前用户是否已收藏
+    var collected: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()

@@ -53,10 +53,10 @@ class SightTopicRequest: NSObject {
                     }
                 }
                 
-                var sightData = [SightListData]()
+                var sightData = [TopicCellData]()
                 if data!!["data"] != nil {
                     for item in data!!["data"] as! NSArray {
-                        sightData.append(SightListData(dict: item as! [String : AnyObject]))
+                        sightData.append(TopicCellData(dict: item as! [String : AnyObject]))
                     }
                 }
                 
@@ -89,7 +89,7 @@ class SightListTags: NSObject {
 }
 
 /// 景点列表数据
-class SightListData: NSObject {
+class TopicCellData: NSObject {
     ///  默认数据的id
     var id: String = ""
     /// 标题
@@ -105,7 +105,7 @@ class SightListData: NSObject {
     ///  图片
     var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image
+            image = UIKitTools.sliceImageUrl(image, width: 133, height: 84)
         }
     }
     

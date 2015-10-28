@@ -109,8 +109,8 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 content    = topic.content
                 sightName  = topic.sight_name
                 topicTitle = topic.title
-                
-                collectBtn.selected = topicDetail?.collect == "" ? false : true
+                print("topic.fav=\(topicDetail?.collect)")
+                collectBtn.selected = topicDetail?.collected == "" ? false : true
                 commentVC.topicId  = topic.id
                 commentLab.text    = topic.comment
                 
