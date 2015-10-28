@@ -9,6 +9,7 @@
 import UIKit
 import FFAutoLayout
 import Alamofire
+import MJRefresh
 
 struct MainViewContant {
     //状态栏高度
@@ -19,6 +20,10 @@ struct MainViewContant {
     static let MinNavbarHeight:CGFloat = 44
     //搜索栏高度
     static let SearchBarHeight:CGFloat = 34
+}
+
+struct RecommendContant {
+    static let headerViewHeight:CGFloat = 244
 }
 
 class SearchRecommendViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
@@ -62,28 +67,54 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
             refreshBar()
         }
     }
-
-    /// 数据源
-    var dataSource: NSDictionary?
     
-    // 搜索标签文本列表
-    var searchLabels: NSMutableArray = NSMutableArray()
+    /// 网络请求加载数据(添加)
+    var lastSuccessRequest: SearchRecommendRequest?
     
-    // 搜索标签id列表
-    var searchLabelIds: NSMutableArray = NSMutableArray()
+    /// 数据源 - 推荐标签
+    var recommendLabels = [RecommendLabel]() {
+        didSet{
+            if currentSearchLabelButton == nil {
+                self.addSearchLabelButton()
+            }
+        }
+    }
+    
+    /// 数据源 - 推荐列表数据
+    var recommendCells  = [RecommendCellData]()
+    
+    /// 搜索顶部
+    var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight))
+    
+    /// 搜索顶部图片
+    var headerImageView = UIImageView(image: UIImage(named: "search_header"))
+    
+    /// headerView的顶部约束
+    var headerViewTopConstraint: NSLayoutConstraint?
     
     /// 底部的tableView
     lazy var tableView = UITableView()
     
-    /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: SearchRecommendRequest?
-    
-    /// 搜索顶部
-    var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244))
-    
-    /// 搜索顶部图片
-    var headerImageView = UIImageView(image: UIImage(named: "search_header"))
-
+    lazy var errorView: UIView = {
+        let view = UIView()
+        let refreshButton = UIButton(icon: "icon_refresh", masksToBounds: true)
+        let refreshHint1   = UILabel(color: SceneColor.white.colorWithAlphaComponent(0.5), title: "网速好像不给力", fontSize: 13)
+        let refreshHint2   = UILabel(color: SceneColor.white.colorWithAlphaComponent(0.5), title: "点击此处重新加载", fontSize: 13)
+        view.frame = CGRectMake(0, RecommendContant.headerViewHeight, UIScreen.mainScreen().bounds.width, 123)
+        view.addSubview(refreshButton)
+        view.addSubview(refreshHint1)
+        view.addSubview(refreshHint2)
+        refreshButton.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: CGSize(width: 26, height: 26), offset: CGPointMake(0, 30))
+        refreshHint1.ff_AlignVertical(ff_AlignType.BottomCenter, referView: refreshButton, size: nil, offset: CGPointMake(0, 12))
+        refreshHint2.ff_AlignVertical(ff_AlignType.BottomCenter, referView: refreshHint1, size: nil, offset: CGPointMake(0, 0))
+        
+        //add target
+        refreshButton.addTarget(self, action: "refreshFromErrorView:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(view)
+        self.view.sendSubviewToBack(view)
+        view.hidden = true
+        return view
+    }()
     /// 记录状态按钮
     weak var currentSearchLabelButton: UIButton?
     
@@ -101,29 +132,54 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         
         //nav bar
         navigationController?.navigationBarHidden = true
-        self.automaticallyAdjustsScrollViewInsets = true
+        self.automaticallyAdjustsScrollViewInsets = false
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         view.addSubview(navContainerView)
         navContainerView.addSubview(custNavView)
         
         //header
+        view.addSubview(headerView)
         headerView.addSubview(headerImageView)
-        headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
+        //headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
         //为header添加黑色蒙板
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
         headerView.addSubview(maskView)
         maskView.ff_Fill(headerView)
         
+        //上拉刷新
+        let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
+        tbHeaderView.automaticallyChangeAlpha = true
+        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
+        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
+        
+        //上拉刷新
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
+        tbFooterView.automaticallyRefresh = true
+        tbFooterView.automaticallyChangeAlpha = true
+        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
+        
+        
+        self.tableView.header = tbHeaderView
+        self.tableView.footer = tbFooterView
+        
         //添加tableview相关属性
         view.addSubview(tableView)
         tableView.dataSource      = self
         tableView.delegate        = self
-        tableView.tableHeaderView = headerView
+        tableView.tableHeaderView = nil
         tableView.rowHeight       = SearchRecommendTableViewCell.RowHeight
-        tableView.backgroundColor = UIColor.orangeColor()
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.separatorStyle  = UITableViewCellSeparatorStyle.None
-        tableView.registerClass(SearchRecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.SearchRecommendTableViewCellID)
+        tableView.contentInset    = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 64, right: 0)
         
+        tableView.registerClass(SearchRecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.SearchRecommendTableViewCellID)
+        view.sendSubviewToBack(tableView)
+
         view.bringSubviewToFront(navContainerView)
         
         setupAutoLayout()
@@ -165,40 +221,13 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         slideButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: custNavView, size: CGSize(width: 21, height: 14), offset: CGPointMake(9, 0))
         searchButton.ff_AlignInner(ff_AlignType.CenterRight, referView: custNavView, size: CGSize(width: view.bounds.width-(414-356), height: MainViewContant.SearchBarHeight), offset: CGPointMake(-9, 0))
         
-        //表格
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, -20))
-        headerImageView.ff_Fill(headerView)
-    }
-    
-    /// 发送搜索信息
-    private func loadData() {
-        if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = SearchRecommendRequest()
-        }
+        let cons = headerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, RecommendContant.headerViewHeight), offset: CGPointMake(0, 0))
+        headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Top)
         
-        lastSuccessAddRequest?.fetchModels {[weak self] (data, status) -> Void in
-            //处理异常状态
-            if RetCode.SUCCESS != status {
-                print("网络异常处理")
-                return
-            }
-            
-            //处理数据
-            if let dataSource = data {
-                self?.dataSource = dataSource
-                if self?.searchLabels.count == 0 {
-                    for lab in dataSource.objectForKey("labels") as! NSArray {
-                        let labM = lab as! RecommendLabel
-                        let label = labM.name! + "    " + labM.num!
-                        self?.searchLabels.addObject(label)
-                        self?.searchLabelIds.addObject(labM.id!)
-                    }
-                    self?.addSearchLabelButton()
-                }
-                self?.headerImageView.sd_setImageWithURL(NSURL(string: dataSource.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
-                self?.tableView.reloadData()
-            }
-        }
+        
+        //表格
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
+        headerImageView.ff_Fill(headerView)
     }
     
     ///  添加搜索标签按钮
@@ -211,16 +240,16 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         let marginX:CGFloat   = (headerView.bounds.size.width - btnWidth * CGFloat(totalCol)) / CGFloat(totalCol + 1)
         let yOffset:CGFloat   = 105
         let marginY:CGFloat   = 26
-        
-        for (var i = 0; i < searchLabels.count; i++) {
-            let btn = UIButton(title: searchLabels[i] as! String, fontSize: 14, radius: 0)
+
+        for (var i = 0; i < recommendLabels.count; i++) {
+            let btn = UIButton(title: recommendLabels[i].toString(), fontSize: 14, radius: 0)
             
             headerView.addSubview(btn)
             
             btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-            btn.tag = searchLabelIds[i].integerValue
+            btn.tag = Int(recommendLabels[i].id)!
             if i == 0 {
                 btn.selected = true
                 currentSearchLabelButton = btn
@@ -243,37 +272,31 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     // MASK: - tableView 数据源及代理方法
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if dataSource != nil {
-            return dataSource!.objectForKey("datas")!.count!
-        }
-        return 0
+        return self.recommendCells.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.SearchRecommendTableViewCellID, forIndexPath: indexPath) as! SearchRecommendTableViewCell
-        
-        let array = dataSource!.objectForKey("datas") as! NSArray
         cell.backgroundColor = UIColor.clearColor()
-        cell.data = array[indexPath.row] as? RecommendCellData
+        cell.data = self.recommendCells[indexPath.row]
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let array = dataSource!.objectForKey("datas") as! NSArray
-        if let data = array[indexPath.row] as? RecommendCellData {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
-            if (!data.isTypeCity()) {
-                let vc = SightViewController()
-                vc.sightId   = data.id
-                vc.sightName = data.name
-                navigationController?.pushViewController(vc, animated: true)
-            } else {
-                let vc = CityViewController()
-                vc.cityId   = data.id
-                vc.cityName = data.name
-                navigationController?.pushViewController(vc, animated: true)
-            }
+        let data = self.recommendCells[indexPath.row]
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if (!data.isTypeCity()) {
+            let vc = SightViewController()
+            vc.sightId   = data.id
+            vc.sightName = data.name
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = CityViewController()
+            vc.cityId   = data.id
+            vc.cityName = data.name
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -283,14 +306,20 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         //导航渐变
         let threshold:CGFloat = 198 - 64
         let offsetY = scrollView.contentOffset.y
-        if offsetY > 0 {
-            navBarAlpha = offsetY / threshold;
+        let gap = RecommendContant.headerViewHeight + offsetY
+        if gap > 0 {
+            navBarAlpha = gap / threshold;
             if navBarAlpha > 1 {
                 navBarAlpha = 1
             } else if navBarAlpha < 0.1 {
                 navBarAlpha = 0
             }
         }
+        
+        //headerView高度动态变化
+        let initTop: CGFloat = 0.0
+        let newTop = min(-gap, initTop)
+        headerViewTopConstraint?.constant = newTop
     }
     
     //MARK: 自定义方法
@@ -301,7 +330,83 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         currentSearchLabelButton?.selected = false
         currentSearchLabelButton = sender
         
-        lastSuccessAddRequest!.label = String(sender.tag)
+        lastSuccessRequest!.label = String(sender.tag)
+        loadData()
+    }
+    
+    /// 发送搜索信息
+    private func loadData() {
+        tableView.header.beginRefreshing()
+        self.errorView.hidden = true
+        
+        //清空footer的“加载完成”
+        tableView.footer.endRefreshing()
+        if lastSuccessRequest == nil {
+            lastSuccessRequest = SearchRecommendRequest()
+            lastSuccessRequest?.label = "" //默认返回带所有搜索标签
+        }
+        
+        lastSuccessRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
+            //处理异常状态
+            if RetCode.SUCCESS != status {
+                //TODO:断网时有一直闪的bug
+                self?.tableView.header.endRefreshing()
+                if self?.recommendCells.count == 0 {
+                    self?.tableView.hidden = true
+                    self?.errorView.hidden = false
+                }
+                return
+            }
+            
+            //处理数据
+            if let dataSource = data {
+                let cells  = dataSource.objectForKey("cells") as! [RecommendCellData]
+                //有数据才更新
+                if cells.count > 0 {
+                    self?.recommendCells = cells
+                }
+                let labels = dataSource.objectForKey("labels") as! [RecommendLabel]
+                if labels.count > 0 {
+                    self?.recommendLabels = labels
+                }
+                self?.headerImageView.sd_setImageWithURL(NSURL(string: dataSource.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
+                self?.tableView.reloadData()
+            }
+            self?.tableView.header.endRefreshing()
+        }
+    }
+    
+    //底部加载更多
+    var isLoadingMore:Bool = false
+    
+    func loadMore(){
+        if self.isLoadingMore {
+            return
+        }
+        self.isLoadingMore = true
+        //请求下一页
+        self.lastSuccessRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
+
+            if let dataSource = data {
+                let newCells  = dataSource.objectForKey("cells") as! [RecommendCellData]
+                if newCells.count > 0 {
+                    if let cells = self?.recommendCells {
+                        self?.recommendCells = cells + newCells
+                        self?.tableView.reloadData()
+                    }
+                    self?.tableView.footer.endRefreshing()
+                } else {
+                    self?.tableView.footer.endRefreshingWithNoMoreData()
+                }
+                self?.isLoadingMore = false
+            }
+        }
+    }
+    
+    /// 网络异常重现加载
+    func refreshFromErrorView(sender: UIButton){
+        self.errorView.hidden = true
+        self.tableView.hidden = false
         loadData()
     }
 }

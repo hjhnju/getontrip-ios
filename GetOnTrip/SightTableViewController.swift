@@ -75,6 +75,7 @@ class SightTableViewController: UITableViewController {
     
     var data: NSArray? {
         didSet {
+            tableView.header.endRefreshing()
             tableView.reloadData()
         }
     }
@@ -136,34 +137,24 @@ class SightTableViewController: UITableViewController {
         tableView.rowHeight = 115
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         setupRefreshDataAction()
+        tableView.header.beginRefreshing()
     }
     
     private func setupRefreshDataAction() {
         let header = MJRefreshNormalHeader { () -> Void in
-            
-//            switch self.cellReuseIdentifier! {
-//            case HistoryTableViewControllerSightCell:
-//                
-//            case HistoryTableViewControllerBookCell:
-//
-//            case HistoryTableViewControllerVideoCell:
-//
-//            case HistoryTableViewControllerElseCell:
-//                
-//            default:
-//                break
-//            }
+            self.refresh(self.type!)
+            self.tableView.header.beginRefreshing()
         }
         
-        header.setTitle("下拉刷新", forState: MJRefreshStateIdle)
-        header.setTitle("松开刷新", forState: MJRefreshStatePulling)
-        header.setTitle("正在刷新中，请稍候...", forState: MJRefreshStateRefreshing)
-        
-        header.stateLabel?.font = UIFont.systemFontOfSize(15)
-        header.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(14)
-        
-        header.stateLabel?.textColor = UIColor.redColor()
-        header.lastUpdatedTimeLabel?.textColor = UIColor.blueColor()
+//        header.setTitle("下拉刷新", forState: MJRefreshStateIdle)
+//        header.setTitle("松开刷新", forState: MJRefreshStatePulling)
+//        header.setTitle("正在刷新中，请稍候...", forState: MJRefreshStateRefreshing)
+//        
+//        header.stateLabel?.font = UIFont.systemFontOfSize(15)
+//        header.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(14)
+//        
+//        header.stateLabel?.textColor = UIColor.redColor()
+//        header.lastUpdatedTimeLabel?.textColor = UIColor.blueColor()
         
         tableView.header = header
     }

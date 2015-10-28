@@ -79,12 +79,12 @@ struct LoginType {
 
 
 struct categoryLabel {
-    /// 5
-    static let sightLabel = 5
-    /// 6
-    static let videoLabel = 6
-    /// 7
-    static let bookLabel  = 7
+    /// 10
+    static let sightLabel = 10
+    /// 11
+    static let bookLabel  = 11
+    /// 12
+    static let videoLabel = 12
 }
 
 struct SceneFont {

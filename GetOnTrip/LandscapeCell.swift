@@ -46,20 +46,22 @@ class LandscapeCell: UITableViewCell {
     
     var landscape: SightLandscape? {
         didSet {
-            iconView.image = nil
-            iconView.sd_setImageWithURL(NSURL(string: landscape!.image!)!, placeholderImage: PlaceholderImage.defaultSmall)
-            titleLabel.text = landscape!.name
-            subtitleLabel.text = landscape!.content
-            for (var i: Int = 0; i < landscape!.catalogs!.count; i++ ) {
-                let tagsLabel: String = landscape!.catalogs![i] as! String
-                if (i == 0){
-                    label1.text = tagsLabel
-                } else if(i == 1){
-                    label2.text = tagsLabel
-                } else if (i == 2){
-                    label3.text = tagsLabel
-                } else if(i == 3){
-                    label4.text = tagsLabel
+            if let landscape = landscape {
+                iconView.image = nil
+                iconView.sd_setImageWithURL(NSURL(string: landscape.image), placeholderImage: PlaceholderImage.defaultSmall)
+                titleLabel.text = landscape.name
+                subtitleLabel.text = landscape.content
+                for (var i: Int = 0; i < landscape.catalogs!.count; i++ ) {
+                    let tagsLabel: String = landscape.catalogs![i] as! String
+                    if (i == 0){
+                        label1.text = tagsLabel
+                    } else if(i == 1){
+                        label2.text = tagsLabel
+                    } else if (i == 2){
+                        label3.text = tagsLabel
+                    } else if(i == 3){
+                        label4.text = tagsLabel
+                    }
                 }
             }
         }
@@ -161,19 +163,21 @@ class LandscapeCell1: UITableViewCell {
     
     var landscape: SightLandscape? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: landscape!.image!), placeholderImage:PlaceholderImage.defaultSmall)
-            titleLabel.text = landscape!.name
-            subtitleLabel.text = landscape!.content
-            for (var i: Int = 0; i < landscape!.catalogs!.count; i++ ) {
-                let tagsLabel: String = landscape!.catalogs![i] as! String
-                if (i == 0){
-                    label1.text = tagsLabel
-                } else if(i == 1){
-                    label2.text = tagsLabel
-                } else if (i == 2){
-                    label3.text = tagsLabel
-                } else if(i == 3){
-                    label4.text = tagsLabel
+            if let landscape = landscape {
+                iconView.sd_setImageWithURL(NSURL(string: landscape.image), placeholderImage:PlaceholderImage.defaultSmall)
+                titleLabel.text = landscape.name
+                subtitleLabel.text = landscape.content
+                for (var i: Int = 0; i < landscape.catalogs!.count; i++ ) {
+                    let tagsLabel: String = landscape.catalogs![i] as! String
+                    if (i == 0){
+                        label1.text = tagsLabel
+                    } else if(i == 1){
+                        label2.text = tagsLabel
+                    } else if (i == 2){
+                        label3.text = tagsLabel
+                    } else if(i == 3){
+                        label4.text = tagsLabel
+                    }
                 }
             }
         }

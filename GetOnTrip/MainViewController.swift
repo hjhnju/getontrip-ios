@@ -49,14 +49,12 @@ class MainViewController: UIViewController {
         slideDelegate?.toggle()
     }
     
-    
+    /// 显示搜索页
     func showSearch(){
-        
         let svc = SearchViewController()
         svc.searchResult.cityId = cityId
         print(parentViewController)
         presentViewController(svc, animated: true, completion: nil)
-
     }
     
 

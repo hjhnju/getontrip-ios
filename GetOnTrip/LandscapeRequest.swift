@@ -55,20 +55,20 @@ class LandscapeRequest: NSObject {
     }
 }
 
-/// 景点列表Tags
+/// 景点景观Cell数据
 class SightLandscape: NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     ///  标题名称
-    var name: String?
+    var name: String = ""
     ///  副标题内容
-    var content: String?
+    var content: String = ""
     ///  url
-    var url: String?
+    var url: String = ""
     /// 图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = UIKitTools.sliceImageUrl(image, width: 119, height: 84)
         }
     }
     /// 目录

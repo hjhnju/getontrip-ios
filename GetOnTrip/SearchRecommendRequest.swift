@@ -24,6 +24,16 @@ class SearchRecommendRequest: NSObject {
     var page    : Int = 1
     var pageSize: Int = 6
     
+    func fetchNextPageModels(handler: (NSDictionary?, Int) -> Void) {
+        page = page + 1
+        return fetchModels(handler)
+    }
+    
+    func fetchFirstPageModels(handler: (NSDictionary?, Int) -> Void) {
+        page = 1
+        return fetchModels(handler)
+    }
+
     // 异步加载获取数据
     func fetchModels(handler: (NSDictionary?, Int) -> Void) {
         var post         = [String: String]()
@@ -51,10 +61,10 @@ class SearchRecommendRequest: NSObject {
                     }
                 }
                 
-                let str = data["image"].stringValue
                 searchModel.setValue(searchLabels, forKey: "labels")
-                searchModel.setValue(searchDatas, forKey: "datas")
-                searchModel.setValue(String(AppIni.BaseUri + str), forKey: "image")
+                searchModel.setValue(searchDatas, forKey: "cells")
+                let url = UIKitTools.sliceImageUrl(data["image"].stringValue, width: 414, height: 244)
+                searchModel.setValue(url, forKey: "image")
                 // 回调
                 handler(searchModel, status)
                 return
@@ -67,11 +77,11 @@ class SearchRecommendRequest: NSObject {
 /// 搜索标签
 class RecommendLabel: NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     /// 标签名
-    var name: String?
+    var name: String = ""
     /// 数字
-    var num: String?
+    var num: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()
@@ -80,6 +90,10 @@ class RecommendLabel: NSObject {
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         
+    }
+    
+    func toString() -> String {
+        return self.name + "    " + self.num
     }
 }
 
