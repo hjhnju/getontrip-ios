@@ -389,7 +389,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                     if result["data"] as! String == "" {
                         self!.mainViewController.cityId = ""
                     } else {
-                        self!.mainViewController.cityId = result as! String
+//                        self!.mainViewController.cityId = result ?? ""
                     }
                 })
             }
