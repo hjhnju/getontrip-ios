@@ -76,7 +76,9 @@ class SightTableViewController: UITableViewController {
     var data: NSArray? {
         didSet {
             tableView.header.endRefreshing()
-            tableView.reloadData()
+            if data != nil {
+                tableView.reloadData()
+            }
         }
     }
     
