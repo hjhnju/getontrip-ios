@@ -16,6 +16,16 @@ class SightTopicRequest: NSObject {
     var pageSize:Int = 6
     var tag     :String = ""
     
+    func fetchNextPageModels(handler: ([String : AnyObject]?, Int) -> Void) {
+        page = page + 1
+        return fetchSightListModels(handler)
+    }
+    
+    func fetchFirstPageModels(handler: ([String : AnyObject]?, Int) -> Void) {
+        page = 1
+        return fetchSightListModels(handler)
+    }
+    
     // 将数据回调外界
     func fetchSightListModels(handler: ([String : AnyObject]?, Int) -> Void) {
         var post         = [String: String]()

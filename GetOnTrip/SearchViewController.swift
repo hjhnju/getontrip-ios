@@ -147,7 +147,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("SearchMuch_Cell", forIndexPath: indexPath) as! SearchMuchCell
-//            cell.btnData = searchMuch
             addSearchMuchButtonAction(cell)
             return cell
         }
@@ -166,7 +165,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 46
+        return indexPath.section == 0 ? 46 : 100
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -175,8 +174,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
-        searchBar.text = recordData[indexPath.row]
-        tableView.hidden = true
+        if indexPath.section != 1 {
+            searchBar.text = recordData[indexPath.row]
+            tableView.hidden = true
+        }
     }
     
     // MARK: - 删除历史记录方法
@@ -271,5 +272,13 @@ class SearchMuchCell: UITableViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        
     }
 }
