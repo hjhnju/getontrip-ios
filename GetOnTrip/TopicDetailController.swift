@@ -14,6 +14,7 @@ import SVProgressHUD
 struct TopicViewContant {
     static let headerViewHeight:CGFloat = 267
     static let toolBarHeight:CGFloat    = 47
+    static let commentViewHeight:CGFloat = 248
 }
 
 class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
@@ -99,7 +100,9 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     let shareParames = NSMutableDictionary()
     
-    var commentVC: CommentTopicController = CommentTopicController()
+    lazy var commentVC: CommentTopicController = {
+        return CommentTopicController()
+        }()
     
     //话题ID
     var topicId: String = ""
@@ -258,12 +261,21 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         toolbarView.addSubview(collectBtn)
         toolbarView.addSubview(bottomLine)
         
+        headerView.userInteractionEnabled = true
+        headerImageView.userInteractionEnabled = true
+        labelBtn.hidden      = true
+        favNumLabel.hidden   = true
+        visitNumLabel.hidden = true
+        
+        view.addSubview(cover)
+        cover.backgroundColor = UIColor.blackColor()
+        
+        //share view
         view.addSubview(shareView)
         shareView.alpha = 1
         shareView.contentView.backgroundColor = UIColor.whiteColor()
         shareView.contentView.alpha = 0.5
-
-
+        
         shareView.addSubview(shareLabel)
         shareView.addSubview(shareBtn1)
         shareView.addSubview(shareBtn2)
@@ -276,18 +288,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         shareBtn3.tag = 3
         shareBtn4.tag = 4
         shareBtn5.tag = 5
-        
-        headerView.userInteractionEnabled = true
-        headerImageView.userInteractionEnabled = true
-        labelBtn.hidden      = true
-        favNumLabel.hidden   = true
-        visitNumLabel.hidden = true
-        
-        view.addSubview(cover)
-        addChildViewController(commentVC)
-        commentVC.topicId = topicId
-        cover.backgroundColor = UIColor.blackColor()
-        commentVC.view.clipsToBounds = true
         
         shareCancle.backgroundColor = SceneColor.lightYellow
         shareCancle.setTitleColor(SceneColor.bgBlack, forState: UIControlState.Normal)
@@ -327,7 +327,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         webView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - TopicViewContant.toolBarHeight), offset: CGPointMake(0, 0))
         toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, TopicViewContant.toolBarHeight), offset: CGPointMake(0, 0))
         
-        //header view
+        //header views
         headerImageView.ff_Fill(headerView)
         labelBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: headerView, size: CGSizeMake(32, 14), offset: CGPointMake(-17, -CityConstant.headerViewHeight))
         favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(8, -7))
@@ -335,13 +335,14 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(-2, 1))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         
-        //toolbar view
+        //toolbar views
         commentLab.ff_AlignInner(ff_AlignType.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
         commentBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
         shareBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: commentBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
         
+        //share views
         let shareVCons = shareView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: view, size: CGSize(width: view.bounds.width, height: 197), offset: CGPoint(x: 0, y: 197))
         shareLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: shareView, size: nil, offset: CGPointMake(0, 18))
         shareViewCY = shareView.ff_Constraint(shareVCons, attribute: NSLayoutAttribute.Top)
@@ -391,6 +392,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     func showTopicDetail() {
         let url =  AppIni.BaseUri + "/topic/detail?isapp=1&id=\(self.topicId)"
+        print("[WebView]Loading: \(url)")
         if let requestURL = NSURL(string: url) {
             let request = NSURLRequest(URL: requestURL)
             webView.loadRequest(request)
@@ -443,7 +445,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 let resultB = result as! Bool
                 if resultB == true {
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid:self.topicId, isAdd: !sender.selected) { (handler) -> Void in
-                        print(handler)
                         if handler as! String == "1" {
                             sender.selected = !sender.selected
                             SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
@@ -456,7 +457,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
             })
         } else {
             CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid:topicId, isAdd: !sender.selected) { (handler) -> Void in
-                print(handler)
                 if handler as! String == "1" {
                     sender.selected = !sender.selected
                     SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
@@ -472,14 +472,14 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     func doSharing(sender: UIButton) {
         print("分享")
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.shareViewCY?.constant = -197
             self.shareView.layoutIfNeeded()
             
             }) { (_) -> Void in
                 
-                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
-                    self.shareBtnY1?.constant = 0
+                UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
+                    self.shareBtnY1?.constant = -10
                     self.shareBtnY2?.constant = 0
                     self.shareBtnY3?.constant = 0
                     self.shareBtnY4?.constant = 0
@@ -535,21 +535,18 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     
     // MARK: - 评论
-//    let popoverAnimator = SendPopoverAnimator()
     func doComment(sender: UIButton) {
         let w = view.bounds.width
         let h = view.bounds.height
-        let vc = commentVC
-        view.addSubview(cover)
-        view.addSubview(vc.view)
         
-//        vc.view.clipsToBounds = true
-        vc.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
+        view.addSubview(commentVC.view)
+        commentVC.topicId = topicId
+        commentVC.view.clipsToBounds = true
+        commentVC.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
         cover.frame = UIScreen.mainScreen().bounds
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            
-            vc.view.frame = CGRectMake(0, 248, w, h - 248 - 44)
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, h - TopicViewContant.commentViewHeight - 44)
             self.cover.alpha = 0.7
             }) { (_) -> Void in
                 self.commentVC.view.clipsToBounds = false
@@ -557,20 +554,19 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
 
-    // MARK: - 遮罩方法
+    /// 评论时遮罩层的点击方法
     func coverClick(serder: UIButton) {
         self.commentVC.view.clipsToBounds = true
-        commentVC.issueTextfield.resignFirstResponder()
-        UIView.animateWithDuration(0.5, animations: { [unowned self] () -> Void in
-            self.cover.alpha = 0.0
-            self.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
-            }) { [unowned self]  (_) -> Void in
-//
-//                self.cover.removeFromSuperview()
-//                self.commentVC.view.removeFromSuperview()
+        self.commentVC.issueTextfield.resignFirstResponder()
+        UIView.animateWithDuration(0.3, animations: { [weak self] () -> Void in
+            self?.cover.alpha = 0.0
+            self?.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
+            }) { [weak self]  (_) -> Void in
+                self?.commentVC.view.removeFromSuperview()
         }
     }
     
+    // MARK: 分享
     func shareCancleClick(serder: UIButton) {
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.shareBtnY1?.constant = 150
@@ -613,7 +609,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         } else {
             transFromValue = transFromValue + 44
         }
-        print(transFromValue)
         
 //        NSIndexPath *idxPat = [NSIndexPath indexPathForRow:self.messagesFrame.count - 1 inSection:0];
 //        [self.tableView scrollToRowAtIndexPath:idxPat atScrollPosition:UITableViewScrollPositionTop animated:YES];
