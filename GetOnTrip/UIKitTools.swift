@@ -40,4 +40,9 @@ class UIKitTools {
         
         return image
     }
+    
+    class func sliceImageUrl(path:String, width: Int, height: Int) -> String {
+        let url = "\(AppIni.BaseUri)\(path)@\(width)w_@\(height)h"
+        return url
+    }
 }

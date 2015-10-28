@@ -21,8 +21,8 @@ class HttpRequest {
     
     static let sharedManager: Manager = {
         let configuration: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.timeoutIntervalForRequest  = 15
-        configuration.timeoutIntervalForResource = 15
+        configuration.timeoutIntervalForRequest  = 20
+        configuration.timeoutIntervalForResource = 20
         return Manager(configuration: configuration)
         }()
     

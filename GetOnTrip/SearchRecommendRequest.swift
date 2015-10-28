@@ -61,10 +61,10 @@ class SearchRecommendRequest: NSObject {
                     }
                 }
                 
-                let str = data["image"].stringValue
                 searchModel.setValue(searchLabels, forKey: "labels")
                 searchModel.setValue(searchDatas, forKey: "cells")
-                searchModel.setValue(String(AppIni.BaseUri + str), forKey: "image")
+                let url = UIKitTools.sliceImageUrl(data["image"].stringValue, width: 414, height: 244)
+                searchModel.setValue(url, forKey: "image")
                 // 回调
                 handler(searchModel, status)
                 return
