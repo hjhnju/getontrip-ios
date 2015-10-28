@@ -10,62 +10,47 @@ import UIKit
 
 class SightTopicRequest: NSObject {
     
-    /**
-    * 接口1：/api/sight/detail
-    * 景点话题列表接口
-    * @param integer sightId
-    * @param integer page
-    * @param integer pageSize
-    * @param string deviceId，用户的设备ID（因为要统计UV）
-    * @param string tags:逗号隔开的id串，如："1,2"。
-    * 对于用户点击书籍标签，视频标签，景观标签，分别调用书籍模块，景观模块，视频模块的接口。
-    * @return json
-    */
-    
     // 请求参数
     var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 6
-    var tag : String = ""
-    var deviceId = appUUID
-    // 将数据回调外界
-    func fetchSightListModels(handler: NSDictionary -> Void) {
-        fetchModels(handler)
-    }
+    var tag     :String = ""
     
-    // 异步加载获取数据
-    func fetchModels(handler: NSDictionary -> Void) {
+    // 将数据回调外界
+    func fetchSightListModels(handler: ([String : AnyObject]?, Int) -> Void) {
         var post         = [String: String]()
         post["sightId"]  = sightId
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
         post["tags"]     = String(tag)
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/sight/detail", post: post) { (result, error) -> () in
-            if error == nil {
-                let data = result!["data"]
-                let dict = NSMutableDictionary()
-                var sightTags = [SightListTags]()
+        
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/detail", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
                 
-                if data!!["tags"] != nil {
-                    for item in data!!["tags"] as! NSArray {
-                        sightTags.append(SightListTags(dict: item as! [String : AnyObject]))
+                var dict = [String : AnyObject]()
+                var sightTags = [SightListTags]()
+                if result["tags"] != nil {
+                    for item in result["tags"].arrayValue {
+                        if let item = item.dictionaryObject {
+                            sightTags.append(SightListTags(dict: item))
+                        }
                     }
                 }
                 
                 var sightData = [TopicCellData]()
-                if data!!["data"] != nil {
-                    for item in data!!["data"] as! NSArray {
-                        sightData.append(TopicCellData(dict: item as! [String : AnyObject]))
+                for item in result["data"].arrayValue {
+                    if let item = item.dictionaryObject {
+                        sightData.append(TopicCellData(dict: item))
                     }
                 }
                 
-                dict.setValue(sightTags, forKey: "sightTags")
-                dict.setValue(sightData, forKey: "sightDatas")
-                
-                // 回调
-                handler(dict.copy() as! NSDictionary)
+                dict["sightTags"] = sightTags
+                dict["sightDatas"] = sightData
+                handler(dict, status)
+                return
             }
+            handler(nil, status)
         }
     }
 }

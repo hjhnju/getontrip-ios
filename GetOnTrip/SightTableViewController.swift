@@ -84,9 +84,11 @@ class SightTableViewController: UITableViewController {
     
     // MARK: 加载更新数据
     private func refresh(type: Int) {
-        if cache[tagId] != nil {
-            data = cache[tagId]
-            return
+        if !tableView.header.isRefreshing() {
+            if cache[tagId] != nil {
+                data = cache[tagId]
+                return
+            }
         }
         
         switch type {
@@ -105,25 +107,26 @@ class SightTableViewController: UITableViewController {
                     self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
                 }
             }
-
             
         case categoryLabel.videoLabel:
-            lastVideoRequest.fetchSightListModels     { [weak self] (handler: NSArray) -> Void in
-                self?.data = handler
-                if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
+            lastVideoRequest.fetchVideoListModels({ [weak self] (data, status) -> Void in
+                if status != RetCode.SUCCESS {
+                    self?.data = data
+                    if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
+                        self!.delegate?.collectionViewCellCache(self!.data!, type: self!.tagId)
+                    }
                 }
-            }
+            })
             
         default:
-            lastOtherRequest.fetchSightListModels     { [weak self] (handler: NSDictionary) -> Void in
-            
-                self?.data = handler.objectForKey("sightDatas") as? NSArray
-                
-                if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-                    self!.delegate?.collectionViewCellCache(handler.objectForKey("sightDatas") as! NSArray, type: self!.tagId)
+            lastOtherRequest.fetchSightListModels({ [weak self] (data, status) -> Void in
+                if status != RetCode.SUCCESS {
+                    self!.data = data!["sightDatas"] as? NSArray
+                    if ((self!.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
+                        self!.delegate?.collectionViewCellCache(data!["sightDatas"] as! NSArray, type: self!.tagId)
+                    }
                 }
-            }
+            })
             break
         }
     }
@@ -131,7 +134,7 @@ class SightTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.registerClass(TopicCell.self,    forCellReuseIdentifier : HistoryTableViewControllerElseCell)
+        tableView.registerClass(TopicCell.self,      forCellReuseIdentifier : HistoryTableViewControllerElseCell)
         tableView.registerClass(LandscapeCell.self,  forCellReuseIdentifier : HistoryTableViewControllerSightCell)
         tableView.registerClass(LandscapeCell1.self, forCellReuseIdentifier : HistoryTableViewControllerSightCell1)
         tableView.registerClass(BookCell.self,       forCellReuseIdentifier : HistoryTableViewControllerBookCell)
@@ -143,22 +146,16 @@ class SightTableViewController: UITableViewController {
     }
     
     private func setupRefreshDataAction() {
-        let header = MJRefreshNormalHeader { () -> Void in
-            self.refresh(self.type!)
-            self.tableView.header.beginRefreshing()
-        }
-        
-//        header.setTitle("下拉刷新", forState: MJRefreshStateIdle)
-//        header.setTitle("松开刷新", forState: MJRefreshStatePulling)
-//        header.setTitle("正在刷新中，请稍候...", forState: MJRefreshStateRefreshing)
-//        
-//        header.stateLabel?.font = UIFont.systemFontOfSize(15)
-//        header.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(14)
-//        
-//        header.stateLabel?.textColor = UIColor.redColor()
-//        header.lastUpdatedTimeLabel?.textColor = UIColor.blueColor()
-        
+        let header = MJRefreshNormalHeader { () -> Void in self.refresh(self.type!) }
         tableView.header = header
+        
+        let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.refresh(self.type!) })
+        
+        footer.automaticallyHidden = false
+        footer.automaticallyChangeAlpha = true
+        footer.automaticallyRefresh = true
+        tableView.footer = footer
+
     }
     
     //  MARK: - tableView 数据源及代理方法

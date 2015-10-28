@@ -40,6 +40,12 @@ class LandscapeRequest: NSObject {
         
         
         // 发送网络请求加载数据
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/landscape", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                
+            }
+        }
+        
         HttpRequest.ajax(AppIni.BaseUri, path: "/api/landscape", post: post) { (result, error) -> () in
             if error == nil {
                 

@@ -11,7 +11,6 @@ import FFAutoLayout
 
 class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate, SightTableViewControllerDelegate {
     
-    
     /// 景点id
     var sightId: String = ""
     
@@ -163,7 +162,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
 
 
     private func setupLayout() {
-        layout.itemSize = collectionView.bounds.size
+        layout.itemSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 36)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
@@ -274,9 +273,9 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             lastSuccessAddRequest?.sightId = sightId
         }
         
-        lastSuccessAddRequest?.fetchSightListModels {[weak self] (handler: NSDictionary) -> Void in
-            self?.dataSource = handler
-        }
+        lastSuccessAddRequest?.fetchSightListModels({[weak self] (data, status) -> Void in
+            self!.dataSource = data
+        })
     }
 
     // MARK: - 搜索(下一个控制器)
