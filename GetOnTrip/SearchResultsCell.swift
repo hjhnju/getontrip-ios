@@ -38,46 +38,13 @@ class SearchResultsCell: UITableViewCell {
         }
     }
     
-//    var searchSight: SearchSight? {
-//        didSet {
-//            resultTitleLabel.attributedText = searchCruxCharacterAction(searchSight!.name!, titleColor: SceneColor.lightYellow)
-//            resultDescLabel.attributedText = searchCruxCharacterAction(searchSight!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-//            resultImageView.sd_setImageWithURL(NSURL(string: searchSight!.image!), placeholderImage: PlaceholderImage.defaultSmall)
-//        }
-//    }
-    
     var searchContent: SearchContent? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchContent!.image!))
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContent!.title!, titleColor: SceneColor.lightYellow)
             resultImageView.sd_setImageWithURL(NSURL(string: searchContent!.image!), placeholderImage: PlaceholderImage.defaultSmall)
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContent!.title!, titleColor: SceneColor.lightYellow)
+            resultDescLabel.attributedText = searchCruxCharacterAction((searchContent?.content)!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
         }
     }
-    
-//    var searchContentBook: SearchContentBook? {
-//        didSet {
-//            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentBook!.title!, titleColor: SceneColor.lightYellow)
-//            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentBook!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-//            resultImageView.sd_setImageWithURL(NSURL(string: searchContentBook!.image!), placeholderImage: PlaceholderImage.defaultSmall)
-//        }
-//    }
-//    
-//    var searchContentVideo: SearchContentVideo? {
-//        didSet {
-//            resultImageView.sd_setImageWithURL(NSURL(string: searchContentVideo!.image!))
-//            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentVideo!.title!, titleColor: SceneColor.lightYellow)
-//            resultImageView.sd_setImageWithURL(NSURL(string: searchContentVideo!.image!), placeholderImage: PlaceholderImage.defaultSmall)
-//        }
-//        
-//    }
-//    
-//    var searchContentWiki: SearchContentWiki? {
-//        didSet {
-//            resultImageView.sd_setImageWithURL(NSURL(string: searchContentWiki!.image!), placeholderImage:PlaceholderImage.defaultSmall)
-//            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.name!, titleColor: SceneColor.lightYellow)
-//            resultDescLabel.attributedText = searchCruxCharacterAction(searchContentWiki!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-//        }
-//    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

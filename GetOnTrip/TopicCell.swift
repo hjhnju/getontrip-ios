@@ -32,10 +32,10 @@ class TopicCell: UITableViewCell {
         didSet {
             if otherData == nil { return }
             iconView.image = nil
-            iconView.sd_setImageWithURL(NSURL(string: otherData!.image!), placeholderImage: PlaceholderImage.defaultSmall)
+            iconView.sd_setImageWithURL(NSURL(string: otherData!.image), placeholderImage: PlaceholderImage.defaultSmall)
             subtitleLabel.text = otherData?.subtitle
             titleLabel.text = otherData?.title
-            collect.setTitle(" " + (otherData?.collect)!, forState: UIControlState.Normal)
+            collect.setTitle(" " + (otherData?.collect)! ?? "", forState: UIControlState.Normal)
             preview.setTitle(" " + (otherData?.visit)!, forState: UIControlState.Normal)
         }
     }

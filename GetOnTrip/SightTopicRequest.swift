@@ -91,26 +91,26 @@ class SightListTags: NSObject {
 /// 景点列表数据
 class SightListData: NSObject {
     ///  默认数据的id
-    var id: String?
+    var id: String = ""
     /// 标题
-    var title: String?
+    var title: String = ""
     ///  副标题
-    var subtitle: String?
+    var subtitle: String = ""
     ///  访问数
-    var visit: String?
+    var visit: String = ""
     ///  收集数
-    var collect: String?
+    var collect: String = ""
     ///  来源
-    var from: String?
+    var from: String = ""
     ///  图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = AppIni.BaseUri + image
         }
     }
     
     /// 标签
-    var tag: NSMutableArray?
+    var tag: NSMutableArray = NSMutableArray()
     
     init(dict: [String: AnyObject]) {
         super.init()

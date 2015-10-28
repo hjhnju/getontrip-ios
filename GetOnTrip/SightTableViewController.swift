@@ -260,7 +260,7 @@ class SightTableViewController: UITableViewController {
         default:
             let vc: TopicDetailController = TopicDetailController()
             let dataI = data![indexPath.row] as! SightListData
-            vc.topicId = dataI.id!
+            vc.topicId = dataI.id
             navigationController?.pushViewController(vc, animated: true)
             break
         }

@@ -13,6 +13,7 @@ import SVProgressHUD
 public let SearchContentKeyWordType: String = "keyword"
 public let SearchContentTopicType  : String = "topic"
 public let SearchContentBookType   : String = "book"
+public let SearchContentVideoType   : String = "video"
 
 class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate {
     
@@ -24,7 +25,10 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         }
     }
     
+    /// 搜索更多内容
     var contentData = [SearchContent]()
+    /// 搜索更多城市
+    var resultMuchData  = [SearchResult]()
     
     var sectionTitle = [String]()
     
@@ -47,6 +51,9 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     var pageNum = 1
     
+    var cityNum = 1
+    
+    var citySightType: Int?
     var recordLoadButton: UIButton?
     
     var filterString: String = "" {
@@ -55,6 +62,9 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             if self.filterString == "" {
                 self.resultData.removeAll()
                 self.contentData.removeAll()
+                self.resultMuchData.removeAll()
+                pageNum = 1
+                cityNum = 1
                 self.tableView.reloadData()
                 return
             }
@@ -132,12 +142,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if contentData.count != 0 { return 1 }
+        if contentData.count != 0 || resultMuchData.count != 0 { return 1 }
         return resultData.count
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if contentData.count != 0 { return "" }
+        if contentData.count != 0 || resultMuchData.count != 0 { return "" }
         switch section {
         case 0:
             if resultData["searchCitys"]!.count == 0 { return "" }
@@ -154,12 +164,65 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
+        /// 保存搜索记录
         let sc = parentViewController as! SearchViewController
-        sc.recordData.insert(filterString, atIndex: 0)
-        if sc.recordData.count >= 6 {
-            sc.recordData.removeLast()
+        if filterString != sc.recordData.last {
+//            sc.recordData.insert(filterString, atIndex: 0)
+            sc.recordData.append(filterString)
+            if sc.recordData.count >= 6 {
+                sc.recordData.removeLast()
+            }
         }
+        
+        if resultMuchData.count != 0 {
+            let city = resultMuchData[indexPath.row]
+            if citySightType == 0 {
+                
+                let vc = CityViewController()
+                vc.cityId = city.id!
+                let nav = UINavigationController(rootViewController: vc)
+                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                presentViewController(nav, animated: true, completion: nil)
+                return
+                
+            } else {
+                let vc = SightViewController()
+                vc.sightId = city.id!
+                let nav = UINavigationController(rootViewController: vc)
+                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                presentViewController(nav, animated: true, completion: nil)
+                return
+            }
+        }
+        
+        if contentData.count != 0 {
+            let content = contentData[indexPath.row]
+            if content.search_type == SearchContentKeyWordType || content.search_type == SearchContentVideoType {
+                let vc = DetailWebViewController()
+                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                vc.url = content.url
+                let nav = UINavigationController(rootViewController: vc)
+                presentViewController(nav, animated: true, completion: nil)
+                return
+            } else if content.search_type == SearchContentTopicType {
+                let vc = TopicDetailController()
+                vc.topicId = content.id!
+                let nav = UINavigationController(rootViewController: vc)
+                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                presentViewController(nav, animated: true, completion: nil)
+                return
+            } else if content.search_type ==  SearchContentBookType {
+                let vc = SightBookDetailController()
+                vc.bookId = content.id!
+                let nav = UINavigationController(rootViewController: vc)
+                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                presentViewController(nav, animated: true, completion: nil)
+                return
+            }
+            return
+        }
+    
+
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         switch indexPath.section {
@@ -199,11 +262,11 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 presentViewController(nav, animated: true, completion: nil)
                 
             }
-        case 2:
+        default:
             if let searchContent = resultData["searchContent"] as? [SearchContent] {
                 
                 let searchType = searchContent[indexPath.row]
-                if searchType.search_type == SearchContentKeyWordType {
+                if searchType.search_type == SearchContentKeyWordType || searchType.search_type == SearchContentVideoType {
                     let vc = DetailWebViewController()
                     vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
                     vc.url = searchType.url
@@ -223,7 +286,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                     presentViewController(nav, animated: true, completion: nil)
                 }
             }
-        default:
             break
         }
     }
@@ -241,7 +303,9 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if contentData.count != 0 { return contentData.count }
+        if resultMuchData.count != 0 { return resultMuchData.count }
         switch section {
         case 0:
             let num = resultData["city_num"]?.intValue
@@ -276,10 +340,22 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        if resultMuchData.count != 0 {
+            let muchCell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
+            muchCell.searchResult = resultMuchData[indexPath.row]
+            if resultMuchData.count - 1 == indexPath.row {
+                if cityNum != -1 {
+                    cityNum++
+                    loadMoreAction(recordLoadButton!)
+                }
+            }
+            return muchCell
+        }
+        
         if contentData.count != 0 {
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
-            cell.searchContent = contentData[indexPath.row]
+            let muchCell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
+            muchCell.searchContent = contentData[indexPath.row]
             
             if contentData.count - 1 == indexPath.row {
                 
@@ -288,7 +364,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                     loadMoreAction(recordLoadButton!)
                 }
             }
-            return cell
+            return muchCell
         }
 
         switch indexPath.section {
@@ -373,21 +449,30 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     func loadMoreAction(btn: UIButton) {
         recordLoadButton = btn
         SearchMoreRequest.fetchMoreResult(btn.tag, page: pageNum, pageSize: 15, query: filterString) { (result) -> Void in
-            
+            print(result)
             let data = result["data"] as! [String : AnyObject]
             
-            
-            for item in data["data"] as! [[String : AnyObject]] {
-                self.contentData.append(SearchContent(dict: item))
-            }
-
-            self.tableView.reloadData()
-            
-            if let pageN = data["num"]?.intValue {
-                if Int(pageN / 15) <= self.pageNum {
-                    self.pageNum = -1
+            if btn.tag == 1 || btn.tag == 2 {
+                self.citySightType = btn.tag
+                for item in data ["data"] as! [[String : AnyObject]] {
+                    self.resultMuchData.append(SearchResult(dict: item))
+                }
+                if let pageN = data["num"]?.intValue {
+                    if Int(pageN / 15) <= self.cityNum {
+                        self.cityNum = -1
+                    }
+                }
+            } else {
+                for item in data["data"] as! [[String : AnyObject]] {
+                    self.contentData.append(SearchContent(dict: item))
+                }
+                if let pageN = data["num"]?.intValue {
+                    if Int(pageN / 15) <= self.pageNum {
+                        self.pageNum = -1
+                    }
                 }
             }
+            self.tableView.reloadData()
         }
     }
 }
