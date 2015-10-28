@@ -22,7 +22,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     // MARK: 相关属性
     
     //导航景点名
-    lazy var navTitleLabel: UILabel = UILabel(color: SceneColor.lightGray, title: "", fontSize: 14, mutiLines: false)
+    lazy var navTitleLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "", fontSize: 14, mutiLines: false)
     
     //头部视图
     lazy var headerView: UIView = UIView()
@@ -222,8 +222,10 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     func refreshBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(named: "icon_bar_crystal"), forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.tintColor = SceneColor.lightGray
+        //navigationController?.navigationBar.setBackgroundImage(UIImage(named: "icon_bar_crystal"), forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+        navigationController?.navigationBar.barTintColor = nil
+        navigationController?.navigationBar.tintColor = SceneColor.frontBlack
     }
     
     func refreshTitle(){

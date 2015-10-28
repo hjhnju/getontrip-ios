@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().shadowImage = UIImage() //1px line
         UINavigationBar.appearance().translucent = true //为false默认0点会下移
         //导航背景色
-        UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
+        //UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
         let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack)
         UINavigationBar.appearance().setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
         
