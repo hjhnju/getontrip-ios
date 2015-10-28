@@ -63,7 +63,7 @@ class SearchRecommendRequest: NSObject {
                 
                 searchModel.setValue(searchLabels, forKey: "labels")
                 searchModel.setValue(searchDatas, forKey: "cells")
-                let url = UIKitTools.sliceImageUrl(data["image"].stringValue, width: 414, height: 244)
+                let url = UIKitTools.sliceImageUrl(data["image"].stringValue, width: Int(UIScreen.mainScreen().bounds.width), height: 244)
                 searchModel.setValue(url, forKey: "image")
                 // 回调
                 handler(searchModel, status)
@@ -108,9 +108,9 @@ class RecommendCellData: NSObject {
     //标题
     var name: String = ""
     //图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image! + "@\(UIScreen.mainScreen().bounds.width * AppIni.ImageSliceMultipler)w_\(SearchRecommendTableViewCell.RowHeight*AppIni.ImageSliceMultipler-2))h"
+            image = UIKitTools.sliceImageUrl(image, width: Int(UIScreen.mainScreen().bounds.width), height: Int(SearchRecommendTableViewCell.RowHeight))
         }
     }
     

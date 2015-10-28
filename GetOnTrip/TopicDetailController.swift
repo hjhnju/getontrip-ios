@@ -11,6 +11,11 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
+struct TopicViewContant {
+    static let headerViewHeight:CGFloat = 267
+    static let toolBarHeight:CGFloat    = 47
+}
+
 class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
     
     // MARK: 相关属性
@@ -24,10 +29,20 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     //头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
     
-    lazy var headerImageView: UIImageView = UIImageView()
+    /// 头部图片url
+    var headerImageUrl:String = "" {
+        didSet {
+            //初始处用placeholder，以免跳转前设置的图片被覆盖
+            self.headerImageView.sd_setImageWithURL(NSURL(string: headerImageUrl))
+        }
+    }
     
+    lazy var headerImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
+    
+    /// 文章标题
     lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false)
     
+    /// 标签 - 历史
     lazy var labelBtn: UIButton = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
     
     lazy var favNumLabel: UIButton = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
@@ -109,7 +124,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 content    = topic.content
                 sightName  = topic.sight_name
                 topicTitle = topic.title
-                print("topic.fav=\(topicDetail?.collect)")
                 collectBtn.selected = topicDetail?.collected == "" ? false : true
                 commentVC.topicId  = topic.id
                 commentLab.text    = topic.comment
@@ -117,8 +131,11 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
                 labelBtn.setTitle(topic.label, forState: UIControlState.Normal)
                 favNumLabel.setTitle(" " + topic.collect, forState: UIControlState.Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: UIControlState.Normal)
-                headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage: PlaceholderImage.defaultLarge)
-                
+                labelBtn.hidden      = false
+                favNumLabel.hidden   = false
+                visitNumLabel.hidden = false
+                headerImageUrl = topic.image
+
                 showTopicDetail()
                 
                 shareParames.SSDKSetupShareParamsByText(topic.sight_name,
@@ -262,6 +279,9 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
+        labelBtn.hidden      = true
+        favNumLabel.hidden   = true
+        visitNumLabel.hidden = true
         
         view.addSubview(cover)
         addChildViewController(commentVC)
@@ -296,27 +316,31 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         webView.dataDetectorTypes = .All
         webView.scrollView.showsHorizontalScrollIndicator = false
         webView.scrollView.delegate = self
-        webView.scrollView.contentInset = UIEdgeInsetsMake(267, 0, 0, 0)
+        webView.scrollView.contentInset = UIEdgeInsetsMake(TopicViewContant.headerViewHeight, 0, 0, 0)
         automaticallyAdjustsScrollViewInsets = false
         webView.delegate = self
     }
     
     private func setupAutoLayout() {
         
-        let cons = headerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 267), offset: CGPointMake(0, 0))
-        webView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 47), offset: CGPointMake(0, 0))
-        toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 47), offset: CGPointMake(0, 0))
-        headerImageView.ff_Fill(toolbarView)
+        let cons = headerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, TopicViewContant.headerViewHeight), offset: CGPointMake(0, 0))
+        webView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - TopicViewContant.toolBarHeight), offset: CGPointMake(0, 0))
+        toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, TopicViewContant.toolBarHeight), offset: CGPointMake(0, 0))
+        
+        //header view
+        headerImageView.ff_Fill(headerView)
         labelBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: headerView, size: CGSizeMake(32, 14), offset: CGPointMake(-17, -CityConstant.headerViewHeight))
-        favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(10, -7))
+        favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(8, -7))
         visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
-        titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, 1))
+        titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(-2, 1))
+        headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
+        
+        //toolbar view
         commentLab.ff_AlignInner(ff_AlignType.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
         commentBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
         shareBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: commentBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
-        headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         
         let shareVCons = shareView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: view, size: CGSize(width: view.bounds.width, height: 197), offset: CGPoint(x: 0, y: 197))
         shareLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: shareView, size: nil, offset: CGPointMake(0, 18))
@@ -576,7 +600,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     /// 当键盘弹出的时候，执行相关操作
     func keyboardChanged(not: NSNotification) {
-        let duration = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
+        _ = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]!.doubleValue
         let keyBoardFrame = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
         let keyBoardY = keyBoardFrame?.origin.y
         

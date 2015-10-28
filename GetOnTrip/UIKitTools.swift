@@ -41,8 +41,9 @@ class UIKitTools {
         return image
     }
     
+    /// 获取压缩图片的URL
     class func sliceImageUrl(path:String, width: Int, height: Int) -> String {
-        let url = "\(AppIni.BaseUri)\(path)@\(width)w_@\(height)h"
+        let url = "\(AppIni.BaseUri)\(path)@e\(width)w_e\(height)h"
         return url
     }
 }

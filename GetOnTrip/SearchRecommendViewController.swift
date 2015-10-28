@@ -299,6 +299,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
             let vc = CityViewController()
             vc.cityId   = data.id
             vc.cityName = data.name
+            vc.headerImageUrl = data.image
             navigationController?.pushViewController(vc, animated: true)
         }
     }
