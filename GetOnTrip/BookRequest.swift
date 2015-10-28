@@ -51,20 +51,6 @@ class BookRequest: NSObject {
                 handler(sightBook)
             }
         }
-//        HttpRequest.ajax(AppIni.BaseUri,
-//            path: "/api/book",
-//            post: post,
-//            handler: {(respData: AnyObject) -> Void in
-//
-//                let sightBook = NSMutableArray() // [SightBook]()
-//                for item in respData as! NSArray {
-//                    sightBook.addObject(SightBook(dict: item as! [String : AnyObject]))
-//                }
-//                
-//                // 回调
-//                handler(sightBook)
-//            }
-//        )
     }
 }
 

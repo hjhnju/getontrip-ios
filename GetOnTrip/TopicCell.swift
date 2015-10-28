@@ -30,6 +30,7 @@ class TopicCell: UITableViewCell {
     
     var topicCellData: TopicCellData? {
         didSet {
+
             if let topicCellData = topicCellData {
                 iconView.image = nil
                 iconView.sd_setImageWithURL(NSURL(string: topicCellData.image), placeholderImage: PlaceholderImage.defaultSmall)
