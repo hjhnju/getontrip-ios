@@ -10,6 +10,7 @@ import UIKit
 import FFAutoLayout
 import Alamofire
 import MJRefresh
+import SVProgressHUD
 
 struct MainViewContant {
     //状态栏高度
@@ -183,7 +184,9 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         view.bringSubviewToFront(navContainerView)
         
         setupAutoLayout()
-        loadData()
+        if !tableView.header.isRefreshing() {
+            tableView.header.beginRefreshing()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -331,12 +334,20 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         currentSearchLabelButton = sender
         
         lastSuccessRequest!.label = String(sender.tag)
-        loadData()
+        tableView.header.beginRefreshing()
     }
     
+    /// 是否正在加载中
+    var isLoading:Bool = false
+    
     /// 发送搜索信息
+    /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     private func loadData() {
-        tableView.header.beginRefreshing()
+        if self.isLoading {
+            return
+        }
+        
+        self.isLoading = true
         self.errorView.hidden = true
         
         //清空footer的“加载完成”
@@ -349,12 +360,14 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         lastSuccessRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                //TODO:断网时有一直闪的bug
-                self?.tableView.header.endRefreshing()
                 if self?.recommendCells.count == 0 {
                     self?.tableView.hidden = true
                     self?.errorView.hidden = false
+                } else {
+                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                 }
+                self?.tableView.header.endRefreshing()
+                self?.isLoading = false
                 return
             }
             
@@ -373,17 +386,16 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
                 self?.tableView.reloadData()
             }
             self?.tableView.header.endRefreshing()
+            self?.isLoading = false
         }
     }
     
-    //底部加载更多
-    var isLoadingMore:Bool = false
-    
+    /// 底部加载更多
     func loadMore(){
-        if self.isLoadingMore {
+        if self.isLoading {
             return
         }
-        self.isLoadingMore = true
+        self.isLoading = true
         //请求下一页
         self.lastSuccessRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
 
@@ -398,8 +410,8 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
                 } else {
                     self?.tableView.footer.endRefreshingWithNoMoreData()
                 }
-                self?.isLoadingMore = false
             }
+            self?.isLoading = false
         }
     }
     
@@ -407,7 +419,10 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     func refreshFromErrorView(sender: UIButton){
         self.errorView.hidden = true
         self.tableView.hidden = false
-        loadData()
+        //重新加载
+        if !self.tableView.header.isRefreshing() {
+            self.tableView.header.beginRefreshing()
+        }
     }
 }
 
