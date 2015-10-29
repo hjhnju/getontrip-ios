@@ -39,8 +39,6 @@ class SightCollectionViewCell: UICollectionViewCell {
     
     var type: Int? {
         didSet {
-//            vc.type = type!
-            
             switch type! {
             case categoryLabel.sightLabel:
                 addSubview(landscapeVC.view)
@@ -57,7 +55,6 @@ class SightCollectionViewCell: UICollectionViewCell {
             default:
                 break
             }
-            
         }
     }
     

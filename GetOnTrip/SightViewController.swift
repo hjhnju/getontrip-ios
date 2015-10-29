@@ -44,6 +44,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     /// 索引
     var currentIndex: Int?
     
+    var isPopGesture: Bool = false
+    
     /// 数据
     var dataSource: NSDictionary? {
         didSet {
@@ -85,16 +87,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         super.viewWillAppear(animated)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        //不能放在willAppear
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
-    }
+
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
@@ -178,45 +171,32 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        // 判断是否缓存了cell，如果有直接返回
-//        let cell = UICollectionViewCell
         let dataType = dataSource!["sightTags"] as! NSArray
         
         let data = dataType[indexPath.row] as! SightListTags
-
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
-        let labId = channels![indexPath.row] as! SightListTags
-        cell.tagId = labId.id!
-        
-        if collectionViewCellCache[labId.id!] != nil {
-//            cell.vc.cache = collectionViewCellCache
-//            cell.vc.type = Int(data.type!)!
-//            cell.vc.sightId = sightId
-//            cell.vc.data = collectionViewCellCache[String(labId.id!)]
-            return cell
-        } else {
-            cell.tagId = labId.id!
-            cell.sightId = sightId
-            if (Int(data.type!) == categoryLabel.sightLabel) {
-                cell.type = categoryLabel.sightLabel
-            } else if (Int(data.type!) == categoryLabel.videoLabel) {
-                cell.type = categoryLabel.videoLabel
-            } else if (Int(data.type!) == categoryLabel.bookLabel) {
-                cell.type = categoryLabel.bookLabel
-            } else { /// 后台返回数据出错情况下
-                cell.type = categoryLabel.otherLabel
-            }
-        }
-        
-        
         if (!childViewControllers.contains(cell.landscapeVC)) {
             addChildViewController(cell.landscapeVC)
             addChildViewController(cell.bookVC)
             addChildViewController(cell.videoVC)
             addChildViewController(cell.otherVC)
         }
+        let labId = channels![indexPath.row] as! SightListTags
+        cell.tagId = labId.id!
         
-//        cell.vc.delegate = self
+        cell.sightId = sightId
+        if (Int(data.type!) == categoryLabel.sightLabel) {
+            cell.type = categoryLabel.sightLabel
+        } else if (Int(data.type!) == categoryLabel.videoLabel) {
+            cell.type = categoryLabel.videoLabel
+        } else if (Int(data.type!) == categoryLabel.bookLabel) {
+            cell.type = categoryLabel.bookLabel
+        } else {
+            cell.type = categoryLabel.otherLabel
+        }
+        
+        
         
         return cell
     }
@@ -282,7 +262,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     // MARK: - 搜索(下一个控制器)
     func searchButtonClicked(button: UIBarButtonItem) {
-        
         presentViewController(SearchViewController(), animated: true, completion: nil)
     }
     

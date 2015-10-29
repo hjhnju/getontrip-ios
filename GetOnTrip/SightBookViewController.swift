@@ -51,9 +51,11 @@ class SightBookViewController: UITableViewController {
     
     // MARK: - 刷新方法
     func refresh() {
-//        if tableView.header.isRefreshing() {
-//            return
-//        }
+        if isLoading == false {
+            if tableView.header.isRefreshing() {
+                return
+            }
+        }
         
         self.isLoading = true
         lastBookRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
@@ -61,20 +63,13 @@ class SightBookViewController: UITableViewController {
             if RetCode.SUCCESS != status {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                 self.isLoading = false
-                //                    self.isLoading = false
                 return
             }
             
-            //                self.tableView.header.endRefreshing()
             //处理数据
             if dataSource!.count > 0 {
-//                if ((self.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-//                    self.delegate?.collectionViewCellCache(dataSource!.copy() as! NSArray, type: self.tagId)
-//                }
                 self.dataSource = NSMutableArray(array: dataSource!)
             }
-            //                self.tableView.header.endRefreshing()
-            //                self.isLoading = false
         })
     }
     

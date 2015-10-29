@@ -115,7 +115,7 @@ class LandscapeCell: UITableViewCell {
         label2.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView2, size:nil, offset: CGPointMake(0, 0))
         vertical2.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView2, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
         label3.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView3, size: nil, offset: CGPointMake(0, 0))
-        label4.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
+        label4.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
         vertical3.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView4, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
@@ -232,7 +232,7 @@ class LandscapeCell1: UITableViewCell {
         label2.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView2, size: nil, offset: CGPointMake(0, 0))
         vertical2.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView2, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
         label3.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView3, size: nil, offset: CGPointMake(0, 0))
-        label4.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
+        label4.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
         vertical3.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView4, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }

@@ -55,13 +55,25 @@ class SightOtherViewController: UITableViewController {
         refresh()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //不能放在willAppear
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
+    }
     
     
     // MARK: - 刷新方法
     func refresh() {
-//        if !tableView.header.isRefreshing() {
-//            return
-//        }
+        if self.isLoading == false {
+            if tableView.header.isRefreshing() {
+                return
+            }
+        }
         
         self.isLoading = true
         lastOtherRequest.fetchFirstPageModels({ [weak self] (dataS, status) -> Void in

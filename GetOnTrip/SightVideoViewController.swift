@@ -49,19 +49,19 @@ class SightVideoViewController: UITableViewController {
         refresh()
     }
 
+
     // MARK: - 刷新方法
     func refresh() {
-//        if !tableView.header.isRefreshing() {
-//            return
-//        }
+        if isLoading == false {
+            if tableView.header.isRefreshing() {
+                return
+            }
+        }
         
         self.isLoading = true
         lastVideoRequest.fetchFirstPageModels({ [weak self] (dataSource, status) -> Void in
             if status == RetCode.SUCCESS {
                 if dataSource!.count > 0 {
-//                    if ((self?.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-//                        self!.delegate?.collectionViewCellCache(dataSource!.copy() as! NSArray, type: self!.tagId)
-//                    }
                     self?.dataSource = NSMutableArray(array: dataSource!)
                 }
             } else {

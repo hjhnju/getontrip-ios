@@ -53,9 +53,11 @@ class SightLandscapeController: UITableViewController {
     
     // MARK: - 刷新方法
     func refresh() {
-//        if tableView.header.isRefreshing() {
-//            return
-//        }
+        if isLoading == false {
+            if tableView.header.isRefreshing() {
+                return
+            }
+        }
         
         self.isLoading = true
         lastLandscapeRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
@@ -71,12 +73,8 @@ class SightLandscapeController: UITableViewController {
             //处理数据
             if dataSource!.count > 0 {
                 self.dataSource = NSMutableArray(array: dataSource!)
-//                if ((self.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-//                    self.delegate?.collectionViewCellCache(dataSource!.copy() as! NSArray, type: self.tagId)
-//                }
             }
             self.tableView.header.endRefreshing()
-            //                self.isLoading = false
         })
     }
     
