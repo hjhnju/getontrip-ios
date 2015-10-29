@@ -83,8 +83,7 @@ class CitySightBrief: NSObject {
     /// 话题图片
     var image: String = "" {
         didSet {
-            let mp = AppIni.ImageSliceMultipler
-            image = AppIni.BaseUri + image + "@\(133*mp)w_\(84*mp)h"
+            image = UIKitTools.sliceImageUrl(image, width: 133, height: 84)
         }
     }
     

@@ -304,6 +304,7 @@ class SightTableViewController: UITableViewController {
             let dataI = data[indexPath.row] as! TopicCellData
             vc.topicId = dataI.id
             vc.sightName = dataI.title
+            vc.headerImageUrl = dataI.image
             navigationController?.pushViewController(vc, animated: true)
         default:
             break

@@ -28,11 +28,18 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    //默认无
+    /// 默认无
     var cityId: String = ""
     
-    //导航标题
+    /// 导航标题
     var titleLabel = UILabel()
+    
+    /// 顶部图片url
+    var headerImageUrl:String = "" {
+        didSet {
+            headerImageView.sd_setImageWithURL(NSURL(string: headerImageUrl), placeholderImage:PlaceholderImage.defaultLarge)
+        }
+    }
     
     /// 城市背影图片
     var headerImageView: UIImageView = UIImageView()
@@ -262,7 +269,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
             (handler: NSDictionary) -> Void in
 
             if let city = handler.valueForKey("city") as? City {
-                self?.headerImageView.sd_setImageWithURL(NSURL(string: city.image), placeholderImage:PlaceholderImage.defaultSmall)
+                self?.headerImageUrl = city.image
                 self?.cityName = city.name
                 self?.favIconBtn.selected = city.collected == "" ? false : true
             }
@@ -388,6 +395,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         vc.topicId    = topic.id
         vc.topicTitle = topic.title
         vc.sightName  = topic.sight
+        vc.headerImageUrl = topic.image
         navigationController?.pushViewController(vc, animated: true)
 
     }
