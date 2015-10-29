@@ -79,7 +79,7 @@ class CollectContentViewController: UITableViewController {
             vc.topicId = col.id
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = SightBookDetailController()
+            let vc = BookViewController()
             vc.bookId = col.id
             navigationController?.pushViewController(vc, animated: true)
         }
@@ -187,8 +187,6 @@ class CollectContentCell: UITableViewCell {
         addSubview(baseline)
         
         iconView.contentMode = UIViewContentMode.ScaleAspectFit
-        
-
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 120 - 27
         titleLabel.preferredMaxLayoutWidth = w
         subtitleLabel.preferredMaxLayoutWidth = w

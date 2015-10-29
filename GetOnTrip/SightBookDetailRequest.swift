@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SightBookDetailRequest: NSObject {
+class BookDetailRequest: NSObject {
     
     /**
     * 接口2:/api/book/detail
@@ -21,20 +21,28 @@ class SightBookDetailRequest: NSObject {
     var book :String?
     
     // 将数据回调外界
-    func fetchTopicDetailModels(handler: BookDetail -> Void) {
+    func fetchTopicDetailModels(handler: (BookDetail?, Int) -> Void) {
         fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: BookDetail -> Void) {
+    func fetchModels(handler: (BookDetail?, Int) -> Void) {
         var post         = [String: String]()
         post["book"]  = String(book!)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/book/detail", post: post) { (result, error) -> () in
+        /*HttpRequest.ajax(AppIni.BaseUri, path: "/api/book/detail", post: post) { (result, error) -> () in
             if error == nil {
                 handler(BookDetail(dict: result!["data"] as! [String : AnyObject]))
             }
+        }*/
+        
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/book/detail", post: post) { (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                handler(BookDetail(dict: result.dictionaryObject), status)
+            }
+            handler(nil, status)
+            
         }
     }
 }
@@ -42,29 +50,29 @@ class SightBookDetailRequest: NSObject {
 /// 书籍详情
 class BookDetail: NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     /// 标题
-    var title: String?
+    var title: String = ""
     /// 内容
-    var content_desc: String?
+    var content_desc: String = ""
     /// 图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = UIKitTools.sliceImageUrl(image, width: 142, height: 181)
         }
     }
     /// 京东购买url
-    var url: String?
+    var url: String = ""
     /// 书籍信息例：作者
-    var info: String?
+    var info: String = ""
     /// 收藏数
-    var collected: String?
+    var collected: String = ""
     
-    
-    init(dict: [String: AnyObject]) {
+    init(dict: [String: AnyObject]?) {
         super.init()
-        
-        setValuesForKeysWithDictionary(dict)
+        if let dict = dict {
+            setValuesForKeysWithDictionary(dict)
+        }
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

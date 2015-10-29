@@ -190,7 +190,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     func refreshBar() {
-        //navigationController?.navigationBar.setBackgroundImage(UIImage(named: "icon_bar_crystal"), forBarMetrics: UIBarMetrics.Default)
         navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
         navigationController?.navigationBar.barTintColor = nil
         navigationController?.navigationBar.tintColor = SceneColor.frontBlack
