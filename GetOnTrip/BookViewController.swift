@@ -9,6 +9,7 @@
 import UIKit
 import FFAutoLayout
 import SVProgressHUD
+import WebKit
 
 struct BookViewContant {
     static let headerViewHeight:CGFloat      = 267 + 82
@@ -17,7 +18,7 @@ struct BookViewContant {
     static let toolBarHeight:CGFloat    = 47
 }
 
-class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
+class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDelegate, UIWebViewDelegate {
 
     // MARK: - 属性
     /// 网络请求加载数据(添加)
@@ -64,7 +65,7 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     lazy var toolLineView: UIView = UIView(color: SceneColor.lightGray)
     
     /// 书籍内容
-    lazy var webView: UIWebView = UIWebView()
+    var webView: WKWebView!
     
     var data: BookDetail? {
         didSet {
@@ -95,6 +96,8 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "clickSearchButton:")
         view.backgroundColor = .whiteColor()
 
+        let config = WKWebViewConfiguration()
+        webView = WKWebView(frame: CGRectMake(0, 0, view.bounds.width, view.bounds.height - BookViewContant.toolBarHeight), configuration: config)
         view.addSubview(webView)
         view.addSubview(headerView)
         view.addSubview(toolbarView)
@@ -129,14 +132,15 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         authorLabel.preferredMaxLayoutWidth = w
         
         automaticallyAdjustsScrollViewInsets = false
-        webView.scalesPageToFit = true
-        webView.dataDetectorTypes = .All
         webView.scrollView.showsHorizontalScrollIndicator = false
         webView.scrollView.showsVerticalScrollIndicator   = false
         webView.scrollView.delegate = self
-        webView.delegate = self
+        webView.navigationDelegate  = self
         webView.backgroundColor = UIColor.whiteColor()
         webView.scrollView.contentInset = UIEdgeInsetsMake(BookViewContant.headerViewHeight, 10, 10, 0)
+        
+        //允许手势，后退前进等操作
+        //webView.allowsBackForwardNavigationGestures = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -145,6 +149,12 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        //避免webkit iOS回退bug https://bugs.webkit.org/show_bug.cgi?id=139662
+        self.webView.scrollView.delegate = nil
+        super.viewDidDisappear(animated)
     }
     
     ///  添加布局
@@ -159,8 +169,6 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         authorLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 6))
         headerLineView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: headerImageView, size: CGSizeMake(w - 18, 0.5), offset: CGPointMake(9, BookViewContant.headerViewHeight - BookViewContant.headerImageViewHeight))
         
-        webView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - BookViewContant.toolBarHeight), offset: CGPointMake(0, 0))
-        
         toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, BookViewContant.toolBarHeight), offset: CGPointMake(0, 0))
         
         buyBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
@@ -174,15 +182,16 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
     }
     
     
-    // MARK: UIWebView and UIScrollView Delegate 代理方法
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        
-        let localizedErrorMessage = NSLocalizedString("An error occured:", comment: "")
-        
-        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">\(localizedErrorMessage) \(error!.localizedDescription)</div></body></html>"
-        
-        webView.loadHTMLString(errorHTML, baseURL: nil)
-    }
+//    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+//        
+//        let localizedErrorMessage = NSLocalizedString("An error occured:", comment: "")
+//        
+//        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">\(localizedErrorMessage) \(error!.localizedDescription)</div></body></html>"
+//        
+//        webView.loadHTMLString(errorHTML, baseURL: nil)
+//    }
+    
+    // MARK: UIScrollView Delegate 代理方法
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
@@ -202,18 +211,53 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
         }
     }
     
+    // MARK: WKNavigationDelegate
+    
+    // 页面开始加载时调用
+//    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+//        print("didStartProvisionalNavigation")
+//    }
+    // 当内容开始返回时调用
+//    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
+//        print("didCommitNavigation")
+//    }
+    // 页面加载完成之后调用
+//    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+//        print("didFinishNavigation")
+//    }
+    // 页面加载失败时调用
+//    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+//        print("didFailProvisionalNavigation")
+//    }
+    
+    // 接收到服务器跳转请求之后调用
+//    func webView(webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+//        print("didReceiveServerRedirectForProvisionalNavigation")
+//    }
+    // 在收到响应后，决定是否跳转
+//    func webView(webView: WKWebView, decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse, decisionHandler: (WKNavigationResponsePolicy) -> Void) {
+//        print("decidePolicyForNavigationResponse")
+//    }
+    // 在发送请求之前，决定是否跳转
+//    func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
+//        print("decidePolicyForNavigationAction")
+//    }
+    
     // MARK: 自定义方法
     
     /// 展示内容书籍
     func showBookDetail(body: String) {
-        
         let html = NSMutableString()
-        html.appendString("<html><head>")
-        html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
+        html.appendString("<!DOCTYPE html><html><head><meta charset=\"utf-8\">")
+        html.appendString("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no, minimal-ui\">")
+        html.appendString("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">")
+        html.appendString("<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\">")
+        html.appendString("<meta name=\"format-detection\" content=\"telephone=no, email=no\">")
+        html.appendString("<title>Examples</title>")
+        html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("BookDetail.css", withExtension: nil)!)
         html.appendString("</head><body>\(body)</body></html>")
         webView.loadHTMLString(html as String, baseURL: nil)
     }
-    
     
     /// 获取数据
     private func loadData() {
@@ -222,9 +266,9 @@ class SightBookDetailController: UIViewController, UIScrollViewDelegate, UIWebVi
             lastSuccessAddRequest?.book = bookId
         }
         
-        lastSuccessAddRequest?.fetchTopicDetailModels {[weak self] (data: BookDetail?, status: Int) -> Void in
+        lastSuccessAddRequest?.fetchTopicDetailModels {(data: BookDetail?, status: Int) -> Void in
             if status == RetCode.SUCCESS {
-                self?.data = data
+                self.data = data
             } else {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
             }

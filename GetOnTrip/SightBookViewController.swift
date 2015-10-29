@@ -88,7 +88,7 @@ class SightBookViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let bc = SightBookDetailController()
+        let bc = BookViewController()
         let dataI = dataSource[indexPath.row] as! SightBook
         bc.bookId = dataI.id!
         navigationController?.pushViewController(bc, animated: true)

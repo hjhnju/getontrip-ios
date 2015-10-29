@@ -79,7 +79,7 @@ class CollectContentViewController: UITableViewController {
             vc.topicId = col.id
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = SightBookDetailController()
+            let vc = BookViewController()
             vc.bookId = col.id
             navigationController?.pushViewController(vc, animated: true)
         }

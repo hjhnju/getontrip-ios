@@ -212,7 +212,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 presentViewController(nav, animated: true, completion: nil)
                 return
             } else if content.search_type ==  SearchContentBookType {
-                let vc = SightBookDetailController()
+                let vc = BookViewController()
                 vc.bookId = content.id!
                 let nav = UINavigationController(rootViewController: vc)
                 vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
@@ -279,7 +279,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                     vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
                     presentViewController(nav, animated: true, completion: nil)
                 } else if searchType.search_type ==  SearchContentBookType {
-                    let vc = SightBookDetailController()
+                    let vc = BookViewController()
                     vc.bookId = searchType.id!
                     let nav = UINavigationController(rootViewController: vc)
                     vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")

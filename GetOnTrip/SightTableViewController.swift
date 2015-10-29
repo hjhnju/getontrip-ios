@@ -290,7 +290,7 @@ class SightTableViewController: UITableViewController {
             sc.title = landscape.name
             navigationController?.pushViewController(sc, animated: true)
         case HistoryTableViewControllerBookCell:
-            let bc = SightBookDetailController()
+            let bc = BookViewController()
             let dataI = data[indexPath.row] as! SightBook
             bc.bookId = dataI.id!
             navigationController?.pushViewController(bc, animated: true)
