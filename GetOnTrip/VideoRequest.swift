@@ -15,8 +15,18 @@ class VideoRequest: NSObject {
     var page    :Int = 1
     var pageSize:Int = 6
     
+    func fetchNextPageModels(handler: (NSArray?, Int) -> Void) {
+        page = page + 1
+        return fetchVideoListModels(handler)
+    }
+    
+    func fetchFirstPageModels(handler: (NSArray?, Int) -> Void) {
+        page = 1
+        return fetchVideoListModels(handler)
+    }
+    
     // 异步加载获取数据
-    func fetchVideoListModels(handler: ([SightVideo]?, Int) -> Void) {
+    func fetchVideoListModels(handler: (NSArray?, Int) -> Void) {
         var post         = [String: String]()
         post["sightId"]  = sightId
         post["page"]     = String(self.page)
@@ -26,7 +36,7 @@ class VideoRequest: NSObject {
             
             if status == RetCode.SUCCESS {
                 var sightVideo = [SightVideo]()
-                for item in result["data"].arrayValue {
+                for item in result.arrayValue {
                     if let item = item.dictionaryObject {
                         sightVideo.append(SightVideo(dict: item))
                     }

@@ -19,7 +19,7 @@ class AppIniDev {
     static let BaseUri = "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniDev {
+class AppIni:AppIniOnline {
     static let Domain:String = "www.getontrip.cn"
     static let ImageSliceMultipler:CGFloat = 3
 }
@@ -85,6 +85,8 @@ struct categoryLabel {
     static let bookLabel  = 11
     /// 12
     static let videoLabel = 12
+    /// 1
+    static let otherLabel = 3
 }
 
 struct SceneFont {

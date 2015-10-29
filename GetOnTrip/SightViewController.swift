@@ -47,8 +47,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     /// 数据
     var dataSource: NSDictionary? {
         didSet {
-            if let ds = dataSource {
-                channels = ds.objectForKey("sightTags") as? NSArray
+            if let data = dataSource {
+                channels = data["sightTags"] as? NSArray
                 setupChannel()
                 collectionView.reloadData()
             }
@@ -180,41 +180,43 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         // 判断是否缓存了cell，如果有直接返回
 //        let cell = UICollectionViewCell
-        let dataType = dataSource?.objectForKey("sightTags") as! NSArray
+        let dataType = dataSource!["sightTags"] as! NSArray
         
         let data = dataType[indexPath.row] as! SightListTags
-        
+
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
         let labId = channels![indexPath.row] as! SightListTags
-        cell.vc.tagId = labId.id!
+        cell.tagId = labId.id!
         
         if collectionViewCellCache[labId.id!] != nil {
-            cell.vc.cache = collectionViewCellCache
-            cell.vc.type = Int(data.type!)
-            cell.vc.sightId = sightId
+//            cell.vc.cache = collectionViewCellCache
+//            cell.vc.type = Int(data.type!)!
+//            cell.vc.sightId = sightId
 //            cell.vc.data = collectionViewCellCache[String(labId.id!)]
             return cell
         } else {
-            let labId = channels![indexPath.row] as! SightListTags
-            cell.vc.tagId = labId.id!
-            cell.vc.sightId = sightId
+            cell.tagId = labId.id!
+            cell.sightId = sightId
             if (Int(data.type!) == categoryLabel.sightLabel) {
                 cell.type = categoryLabel.sightLabel
             } else if (Int(data.type!) == categoryLabel.videoLabel) {
                 cell.type = categoryLabel.videoLabel
             } else if (Int(data.type!) == categoryLabel.bookLabel) {
                 cell.type = categoryLabel.bookLabel
-            } else {
-                cell.type = 0
+            } else { /// 后台返回数据出错情况下
+                cell.type = categoryLabel.otherLabel
             }
         }
         
         
-        if (!childViewControllers.contains(cell.vc)) {
-            addChildViewController(cell.vc)
-        }        
+        if (!childViewControllers.contains(cell.landscapeVC)) {
+            addChildViewController(cell.landscapeVC)
+            addChildViewController(cell.bookVC)
+            addChildViewController(cell.videoVC)
+            addChildViewController(cell.otherVC)
+        }
         
-        cell.vc.delegate = self
+//        cell.vc.delegate = self
         
         return cell
     }

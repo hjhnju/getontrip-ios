@@ -10,7 +10,7 @@
 		4D75D0E977137034F17C0222 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 326CDB46E849AFE91A45AB37 /* Pods.framework */; };
 		7216432A1B7DB18F009C292C /* String+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721643291B7DB18F009C292C /* String+Extentions.swift */; };
 		7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7239FDEC1B7F25BB00238A25 /* UIColor+Extentions.swift */; };
-		726974281BDF168A000C0ABF /* RetCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726974271BDF168A000C0ABF /* RetCode.swift */; settings = {ASSET_TAGS = (); }; };
+		726974281BDF168A000C0ABF /* RetCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726974271BDF168A000C0ABF /* RetCode.swift */; };
 		727561821BD0F6240089CB27 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561811BD0F6240089CB27 /* City.swift */; };
 		727561841BD0F64A0089CB27 /* Sight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561831BD0F64A0089CB27 /* Sight.swift */; };
 		727561861BD0F6730089CB27 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561851BD0F6730089CB27 /* Topic.swift */; };
@@ -91,6 +91,10 @@
 		AEAB951A1BC7C83300B6EE62 /* TopicDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB95191BC7C83300B6EE62 /* TopicDetailRequest.swift */; };
 		AEAB95941BC8D82700B6EE62 /* TopicDetail.css in Resources */ = {isa = PBXBuildFile; fileRef = AEAB95931BC8D82700B6EE62 /* TopicDetail.css */; };
 		AEB0B97D1BA15425006966FD /* UserLoghtRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */; };
+		AEB98F331BE1CAB500183261 /* SightOtherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F321BE1CAB500183261 /* SightOtherViewController.swift */; };
+		AEB98F351BE1CAC400183261 /* SightVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */; };
+		AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F361BE1CAD700183261 /* SightBookViewController.swift */; };
+		AEB98F391BE1CAF300183261 /* SightLandscapeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */; };
 		AEC2318B1BCE48BD008C58C9 /* SightBookDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2318A1BCE48BD008C58C9 /* SightBookDetailController.swift */; };
 		AEC2318D1BCE5519008C58C9 /* SightBookDetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2318C1BCE5519008C58C9 /* SightBookDetailRequest.swift */; };
 		AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC9D2B71BD7387E00B28464 /* UIImage+Extension.swift */; };
@@ -245,6 +249,10 @@
 		AEAB95191BC7C83300B6EE62 /* TopicDetailRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailRequest.swift; sourceTree = "<group>"; };
 		AEAB95931BC8D82700B6EE62 /* TopicDetail.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = TopicDetail.css; sourceTree = "<group>"; };
 		AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLoghtRequest.swift; sourceTree = "<group>"; };
+		AEB98F321BE1CAB500183261 /* SightOtherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightOtherViewController.swift; sourceTree = "<group>"; };
+		AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightVideoViewController.swift; sourceTree = "<group>"; };
+		AEB98F361BE1CAD700183261 /* SightBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightBookViewController.swift; sourceTree = "<group>"; };
+		AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightLandscapeController.swift; sourceTree = "<group>"; };
 		AEC2318A1BCE48BD008C58C9 /* SightBookDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightBookDetailController.swift; sourceTree = "<group>"; };
 		AEC2318C1BCE5519008C58C9 /* SightBookDetailRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightBookDetailRequest.swift; sourceTree = "<group>"; };
 		AEC9D2B71BD7387E00B28464 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -606,6 +614,10 @@
 				AE7F0AC81BB95D3E0011F307 /* SightViewController.swift */,
 				AEEA552A1BBFD5BE009AF772 /* SightTableViewController.swift */,
 				727561871BD4A92A0089CB27 /* DetailWebViewController.swift */,
+				AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */,
+				AEB98F361BE1CAD700183261 /* SightBookViewController.swift */,
+				AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */,
+				AEB98F321BE1CAB500183261 /* SightOtherViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -834,6 +846,7 @@
 			files = (
 				AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */,
 				AE8586CB1BC7820500406BEF /* SearchResultsViewController.swift in Sources */,
+				AEB98F351BE1CAC400183261 /* SightVideoViewController.swift in Sources */,
 				AEC2318D1BCE5519008C58C9 /* SightBookDetailRequest.swift in Sources */,
 				AE6079B91BB26DCA00DB2955 /* UIView+Extension.swift in Sources */,
 				AEEA553B1BC0F92C009AF772 /* LandscapeRequest.swift in Sources */,
@@ -841,8 +854,10 @@
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
 				AECD226F1B9F045D007F1D71 /* CollectCityViewController.swift in Sources */,
 				AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */,
+				AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */,
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,
 				AE7F0AC91BB95D3E0011F307 /* SightViewController.swift in Sources */,
+				AEB98F331BE1CAB500183261 /* SightOtherViewController.swift in Sources */,
 				AE79EED21BBA8A30005A7709 /* CityHotTopicTableViewCell.swift in Sources */,
 				727561821BD0F6240089CB27 /* City.swift in Sources */,
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
@@ -880,6 +895,7 @@
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
 				AE62E2CA1BB3D9B800B91D33 /* UIImageView+Extension.swift in Sources */,
 				AE488D691BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift in Sources */,
+				AEB98F391BE1CAF300183261 /* SightLandscapeController.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */,
 				AEAB951A1BC7C83300B6EE62 /* TopicDetailRequest.swift in Sources */,
 				AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */,

@@ -1,0 +1,137 @@
+//
+//  SightBookViewController.swift
+//  GetOnTrip
+//
+//  Created by 王振坤 on 15/10/29.
+//  Copyright © 2015年 Joshua. All rights reserved.
+//
+
+import UIKit
+import MJRefresh
+import SVProgressHUD
+
+public let HistoryTableViewControllerBookCell : String = "Book_Cell"
+
+
+class SightBookViewController: UITableViewController {
+
+    var lastBookRequest = BookRequest()
+    
+    /// 是否正在加载中
+    var isLoading:Bool = false
+
+    var sightId: String = "" {
+        didSet {
+            lastBookRequest.sightId = sightId
+        }
+    }
+    
+    var dataSource: NSMutableArray = NSMutableArray() {
+        didSet {
+            tableView.header.endRefreshing()
+            tableView.reloadData()
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.registerClass(BookCell.self, forCellReuseIdentifier : HistoryTableViewControllerBookCell)
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
+        tableView.header = header
+        
+        let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
+        
+        footer.automaticallyHidden = false
+        footer.automaticallyChangeAlpha = true
+        footer.automaticallyRefresh = true
+        tableView.footer = footer
+        refresh()
+    }
+    
+    // MARK: - 刷新方法
+    func refresh() {
+//        if tableView.header.isRefreshing() {
+//            return
+//        }
+        
+        self.isLoading = true
+        lastBookRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
+            //处理异常状态
+            if RetCode.SUCCESS != status {
+                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                self.isLoading = false
+                //                    self.isLoading = false
+                return
+            }
+            
+            //                self.tableView.header.endRefreshing()
+            //处理数据
+            if dataSource!.count > 0 {
+//                if ((self.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
+//                    self.delegate?.collectionViewCellCache(dataSource!.copy() as! NSArray, type: self.tagId)
+//                }
+                self.dataSource = NSMutableArray(array: dataSource!)
+            }
+            //                self.tableView.header.endRefreshing()
+            //                self.isLoading = false
+        })
+    }
+    
+    
+    // MARK: - tableview 数据源及代理方法
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerBookCell, forIndexPath: indexPath) as! BookCell
+        cell.book = dataSource[indexPath.row] as? SightBook
+        
+        return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let bc = SightBookDetailController()
+        let dataI = dataSource[indexPath.row] as! SightBook
+        bc.bookId = dataI.id!
+        navigationController?.pushViewController(bc, animated: true)
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 172
+    }
+    
+    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 172
+    }
+    
+    /// 底部加载更多
+    func loadMore(){
+            
+            lastBookRequest.fetchNextPageModels({ (nextData, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if nextData != nil {
+                        if nextData!.count > 0 {
+                            self.dataSource.addObjectsFromArray(nextData! as [AnyObject])
+//                            if ((self.delegate?.respondsToSelector("collectionViewCellCache::")) != nil || self.data.count != 0) {
+//                                self.delegate?.collectionViewCellCache(self.data, type: self.tagId)
+//                            }
+                            self.tableView.reloadData()
+                            self.tableView.footer.endRefreshing()
+                        } else {
+                            self.tableView.footer.endRefreshingWithNoMoreData()
+                        }
+                    } else {
+                        self.isLoading = false
+                    }
+                    
+                } else {
+                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                    return
+                }
+                //                self.isLoading = false
+            })
+    }
+
+}
