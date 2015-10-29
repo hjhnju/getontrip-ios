@@ -116,28 +116,29 @@ class CitySightsViewController: UICollectionViewController {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
                 if resultB == true {
-                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid:sight.id, isAdd: !sender.selected) { (handler) -> Void in
-                        print(handler)
-                        if handler as! String == "1" {
-                            sender.selected = !sender.selected
-                            SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                        } else {
-                            SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid: sight.id, isAdd: !sender.selected, handler: { (result, status) -> Void in
+                        if status == RetCode.SUCCESS {
+                            if result == "1" {
+                                sender.selected = !sender.selected
+                                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                            } else {
+                                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                            }
                         }
-                    }
+                    })
                 }
             })
         } else {
-            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid:sight.id, isAdd: !sender.selected) { (handler) -> Void in
-                print(handler)
-                if handler["data"] as! String == "1" {
-                    sender.selected = !sender.selected
-                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                } else {
-                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid: sight.id, isAdd: !sender.selected, handler: { (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if result == "1" {
+                        sender.selected = !sender.selected
+                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    } else {
+                        SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                    }
                 }
-                
-            }
+            })
         }
     }
 }

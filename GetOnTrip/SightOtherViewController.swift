@@ -53,33 +53,35 @@ class SightOtherViewController: UITableViewController {
         footer.automaticallyRefresh = true
         tableView.footer = footer
         tableView.footer.automaticallyHidden = true
-        refresh()
+        if !tableView.header.isRefreshing() {
+            tableView.header.beginRefreshing()
+            print("===============")
+
+        }
     }
     
     // MARK: - 刷新方法
     func refresh() {
-        if self.isLoading == false {
-            if tableView.header.isRefreshing() {
-                return
-            }
+        if self.isLoading {
+            return
         }
         
         self.isLoading = true
-        lastOtherRequest.fetchFirstPageModels({ [weak self] (dataS, status) -> Void in
+        lastOtherRequest.fetchFirstPageModels({ [weak self] (data, status) -> Void in
             if status == RetCode.SUCCESS {
-                let s = dataS! as [String : AnyObject]
+                self!.tableView.header.endRefreshing()
+            } else {
+                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+            }
+            self!.isLoading = false
+            if let s = data {
                 if s["sightDatas"]!.count > 0 {
                     self!.dataSource = NSMutableArray(array:s["sightDatas"]?.copy() as! [AnyObject])
                     self?.tableView.reloadData()
                 }
-            } else {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                self?.tableView.header.endRefreshing()
-                self?.isLoading = false
             }
             })
     }
-    
     
     // MARK: - tableview 数据源及代理方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

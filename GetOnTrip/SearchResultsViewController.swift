@@ -166,13 +166,13 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         /// 保存搜索记录
         let sc = parentViewController as! SearchViewController
-//        if filterString != sc.recordData.last {
+
+        if filterString != sc.recordData.first {
             sc.recordData.insert(filterString, atIndex: 0)
-//            sc.recordData.append(filterString)
             if sc.recordData.count >= 6 {
                 sc.recordData.removeLast()
             }
-//        }
+        }
         
         if resultMuchData.count != 0 {
             let city = resultMuchData[indexPath.row]

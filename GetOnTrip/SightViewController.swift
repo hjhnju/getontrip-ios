@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
-class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate, SightTableViewControllerDelegate {
+class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate {
     
     /// 景点id
     var sightId: String = ""
@@ -187,16 +187,29 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         let data = dataType[indexPath.row] as! SightListTags
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
+
+//        if let vc = cell.landscapeVC {
+//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
+//        } else if let vc = cell.bookVC {
+//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
+//        } else if let vc = cell.videoVC {
+//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
+//        } else if let vc = cell.otherVC {
+//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
+//        }
+        
         if (!childViewControllers.contains(cell.landscapeVC)) {
             addChildViewController(cell.landscapeVC)
             addChildViewController(cell.bookVC)
             addChildViewController(cell.videoVC)
             addChildViewController(cell.otherVC)
         }
+
+        
+        
         let labId = channels![indexPath.row] as! SightListTags
         cell.tagId = labId.id!
         
-        cell.sightId = sightId
         if (Int(data.type!) == categoryLabel.sightLabel) {
             cell.type = categoryLabel.sightLabel
         } else if (Int(data.type!) == categoryLabel.videoLabel) {
@@ -207,6 +220,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             cell.type = categoryLabel.otherLabel
         }
         
+        cell.sightId = sightId
         
         
         return cell
