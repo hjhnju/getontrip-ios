@@ -41,6 +41,9 @@ extension UILabel {
         }
     }
     
+    
+
+    
     //根据文字设置标签显示宽度
     func resizeWidthToFit(widthConstraint: NSLayoutConstraint) {
         let attributes = [NSFontAttributeName : font]

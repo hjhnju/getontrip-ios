@@ -25,14 +25,18 @@ class LandscapeRequest: NSObject {
     var page    :Int = 1
     var pageSize:Int = 6
     
-    //    http://123.57.67.165:8301/api/sight/detail?tags
-    // 将数据回调外界
-    func fetchSightListModels(handler: NSArray -> Void) {
-        fetchModels(handler)
+    func fetchNextPageModels(handler: (NSArray?, Int) -> Void) {
+        page = page + 1
+        return fetchModels(handler)
+    }
+    
+    func fetchFirstPageModels(handler: (NSArray?, Int) -> Void) {
+        page = 1
+        return fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: NSArray -> Void) {
+    func fetchModels(handler: (NSArray?, Int) -> Void) {
         var post         = [String: String]()
         post["sightId"]  = sightId
         post["page"]     = String(self.page)
@@ -40,17 +44,18 @@ class LandscapeRequest: NSObject {
         
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/landscape", post: post) { (result, error) -> () in
-            if error == nil {
-                
-                let sightLandscape = NSMutableArray() // [SightLandscape]()
-                for item in result!["data"] as! NSArray {
-                    sightLandscape.addObject(SightLandscape(dict: item as! [String : AnyObject]))
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/landscape", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                var sightLandscape = [SightLandscape]()
+                for item in result.arrayValue {
+                    if let item = item.dictionaryObject {
+                        sightLandscape.append(SightLandscape(dict: item))
+                    }
                 }
-                
-                // 回调
-                handler(sightLandscape)
+                handler(sightLandscape, status)
+                return
             }
+            handler(nil, status)
         }
     }
 }

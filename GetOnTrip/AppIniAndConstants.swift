@@ -84,6 +84,8 @@ struct categoryLabel {
     static let bookLabel  = 11
     /// 12
     static let videoLabel = 12
+    /// 1
+    static let otherLabel = 3
 }
 
 struct SceneFont {

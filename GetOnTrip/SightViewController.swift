@@ -8,9 +8,9 @@
 
 import UIKit
 import FFAutoLayout
+import SVProgressHUD
 
 class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate, SightTableViewControllerDelegate {
-    
     
     /// 景点id
     var sightId: String = ""
@@ -45,11 +45,13 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     /// 索引
     var currentIndex: Int?
     
+    var isPopGesture: Bool = false
+    
     /// 数据
     var dataSource: NSDictionary? {
         didSet {
-            if let ds = dataSource {
-                channels = ds.objectForKey("sightTags") as? NSArray
+            if let data = dataSource {
+                channels = data["sightTags"] as? NSArray
                 setupChannel()
                 collectionView.reloadData()
             }
@@ -89,7 +91,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         //不能放在willAppear
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -163,7 +165,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
 
 
     private func setupLayout() {
-        layout.itemSize = collectionView.bounds.size
+        layout.itemSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 36)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
@@ -178,44 +180,34 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        // 判断是否缓存了cell，如果有直接返回
-//        let cell = UICollectionViewCell
-        let dataType = dataSource?.objectForKey("sightTags") as! NSArray
+        isPopGesture = indexPath.row == 0 ? false : true
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+        let dataType = dataSource!["sightTags"] as! NSArray
         
         let data = dataType[indexPath.row] as! SightListTags
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
+        if (!childViewControllers.contains(cell.landscapeVC)) {
+            addChildViewController(cell.landscapeVC)
+            addChildViewController(cell.bookVC)
+            addChildViewController(cell.videoVC)
+            addChildViewController(cell.otherVC)
+        }
         let labId = channels![indexPath.row] as! SightListTags
-        cell.vc.tagId = labId.id!
+        cell.tagId = labId.id!
         
-        if collectionViewCellCache[labId.id!] != nil {
-            cell.vc.cache = collectionViewCellCache
-            cell.vc.type = Int(data.type!)
-            cell.vc.sightId = sightId
-//            cell.vc.data = collectionViewCellCache[String(labId.id!)]
-            return cell
+        cell.sightId = sightId
+        if (Int(data.type!) == categoryLabel.sightLabel) {
+            cell.type = categoryLabel.sightLabel
+        } else if (Int(data.type!) == categoryLabel.videoLabel) {
+            cell.type = categoryLabel.videoLabel
+        } else if (Int(data.type!) == categoryLabel.bookLabel) {
+            cell.type = categoryLabel.bookLabel
         } else {
-            let labId = channels![indexPath.row] as! SightListTags
-            cell.vc.tagId = labId.id!
-            cell.vc.sightId = sightId
-            if (Int(data.type!) == categoryLabel.sightLabel) {
-                cell.type = categoryLabel.sightLabel
-            } else if (Int(data.type!) == categoryLabel.videoLabel) {
-                cell.type = categoryLabel.videoLabel
-            } else if (Int(data.type!) == categoryLabel.bookLabel) {
-                cell.type = categoryLabel.bookLabel
-            } else {
-                cell.type = 0
-            }
+            cell.type = categoryLabel.otherLabel
         }
         
         
-        if (!childViewControllers.contains(cell.vc)) {
-            addChildViewController(cell.vc)
-        }        
-        
-        cell.vc.delegate = self
         
         return cell
     }
@@ -274,14 +266,17 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             lastSuccessAddRequest?.sightId = sightId
         }
         
-        lastSuccessAddRequest?.fetchSightListModels {[weak self] (handler: NSDictionary) -> Void in
-            self?.dataSource = handler
-        }
+        lastSuccessAddRequest?.fetchFirstPageModels({ [weak self] (data, status) -> Void in
+            if status == RetCode.SUCCESS {
+                self?.dataSource = data
+            } else {
+                SVProgressHUD.showErrorWithStatus("您的网络不给力!!!")
+            }
+        })
     }
 
     // MARK: - 搜索(下一个控制器)
     func searchButtonClicked(button: UIBarButtonItem) {
-        
         presentViewController(SearchViewController(), animated: true, completion: nil)
     }
     

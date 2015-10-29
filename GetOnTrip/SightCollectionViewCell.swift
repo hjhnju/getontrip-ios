@@ -11,29 +11,68 @@ import UIKit
 class SightCollectionViewCell: UICollectionViewCell {
     
     /// 子控制器
-    var vc: SightTableViewController = SightTableViewController()
+    var landscapeVC: SightLandscapeController = SightLandscapeController()
     
-    var type: Int? {
+    var bookVC: SightBookViewController = SightBookViewController()
+    
+    var videoVC: SightVideoViewController = SightVideoViewController()
+    
+    var otherVC: SightOtherViewController = SightOtherViewController()
+    
+    var cache = [String : NSArray]()
+    
+    var tagId: String? {
         didSet {
-            vc.type = type
+            otherVC.tagId = tagId!
         }
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        addSubview(vc.view)
-        backgroundColor = UIColor.clearColor()
+    /// 景点id
+    var sightId: String = "" {
+        didSet {
+            landscapeVC.sightId = sightId
+            bookVC.sightId      = sightId
+            videoVC.sightId     = sightId
+            otherVC.sightId     = sightId
+        }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    var type: Int? {
+        didSet {
+            switch type! {
+            case categoryLabel.sightLabel:
+                addSubview(landscapeVC.view)
+                landscapeVC.refresh()
+            case categoryLabel.bookLabel:
+                addSubview(bookVC.view)
+                bookVC.refresh()
+            case categoryLabel.videoLabel:
+                addSubview(videoVC.view)
+                videoVC.refresh()
+            case categoryLabel.otherLabel:
+                addSubview(otherVC.view)
+                otherVC.refresh()
+            default:
+                break
+            }
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        vc.view.frame = bounds
+        switch type! {
+        case categoryLabel.sightLabel:
+            landscapeVC.view.frame = bounds
+        case categoryLabel.bookLabel:
+            bookVC.view.frame = bounds
+        case categoryLabel.videoLabel:
+            videoVC.view.frame = bounds
+        case categoryLabel.otherLabel:
+            otherVC.view.frame = bounds
+        default:
+            break
+        }
     }
 
 }

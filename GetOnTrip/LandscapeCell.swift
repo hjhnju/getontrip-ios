@@ -50,7 +50,7 @@ class LandscapeCell: UITableViewCell {
                 iconView.image = nil
                 iconView.sd_setImageWithURL(NSURL(string: landscape.image), placeholderImage: PlaceholderImage.defaultSmall)
                 titleLabel.text = landscape.name
-                subtitleLabel.text = landscape.content
+                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: NSLineBreakMode.ByTruncatingTail)
                 for (var i: Int = 0; i < landscape.catalogs!.count; i++ ) {
                     let tagsLabel: String = landscape.catalogs![i] as! String
                     if (i == 0){
@@ -107,7 +107,7 @@ class LandscapeCell: UITableViewCell {
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 119 - 15 - 6
         iconView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(119, 84), offset: CGPointMake(-9, 0))
         titleLabel.ff_AlignHorizontal(ff_AlignType.TopLeft, referView: iconView, size: CGSizeMake(w, 21), offset: CGPointMake(0, 0))
-        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: CGSizeMake(w, 36), offset: CGPointMake(0, 0))
+        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: CGSizeMake(w - 10, 50), offset: CGPointMake(0, 5))
         labelBottomBackground.ff_AlignHorizontal(ff_AlignType.BottomLeft, referView: iconView, size: CGSizeMake(w - 9 , 10), offset: CGPointMake(-9, 0))
         labelBottomBackground.ff_HorizontalTile([labelView1, labelView2, labelView3, labelView4], insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         label1.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView1, size: nil, offset: CGPointMake(0, 0))
@@ -115,7 +115,7 @@ class LandscapeCell: UITableViewCell {
         label2.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView2, size:nil, offset: CGPointMake(0, 0))
         vertical2.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView2, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
         label3.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView3, size: nil, offset: CGPointMake(0, 0))
-        label4.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
+        label4.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
         vertical3.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView4, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
@@ -166,7 +166,7 @@ class LandscapeCell1: UITableViewCell {
             if let landscape = landscape {
                 iconView.sd_setImageWithURL(NSURL(string: landscape.image), placeholderImage:PlaceholderImage.defaultSmall)
                 titleLabel.text = landscape.name
-                subtitleLabel.text = landscape.content
+                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: NSLineBreakMode.ByTruncatingTail)
                 for (var i: Int = 0; i < landscape.catalogs!.count; i++ ) {
                     let tagsLabel: String = landscape.catalogs![i] as! String
                     if (i == 0){
@@ -224,7 +224,7 @@ class LandscapeCell1: UITableViewCell {
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 119 - 15 - 9
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(119, 84), offset: CGPointMake(9, 0))
         titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(w, 21), offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomRight, referView: titleLabel, size: CGSizeMake(w, 36), offset: CGPointMake(0, 0))
+        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomRight, referView: titleLabel, size: CGSizeMake(w, 50), offset: CGPointMake(0, 0))
         labelBottomBackground.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: CGSizeMake(w - 9 , 10), offset: CGPointMake(9, 0))
         labelBottomBackground.ff_HorizontalTile([labelView1, labelView2, labelView3, labelView4], insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         label1.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView1, size: nil, offset: CGPointMake(0, 0))
@@ -232,7 +232,7 @@ class LandscapeCell1: UITableViewCell {
         label2.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView2, size: nil, offset: CGPointMake(0, 0))
         vertical2.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView2, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
         label3.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView3, size: nil, offset: CGPointMake(0, 0))
-        label4.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
+        label4.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
         vertical3.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView4, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }

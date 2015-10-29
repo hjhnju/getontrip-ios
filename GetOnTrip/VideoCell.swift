@@ -55,7 +55,7 @@ class VideoCell: UITableViewCell {
         titleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 80
         titleLabel.numberOfLines = 2
         titleLabel.textAlignment = NSTextAlignment.Center
-        visual.alpha = 0.1
+        visual.alpha = 1
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
     }
