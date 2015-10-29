@@ -42,12 +42,16 @@ class SightLandscapeController: UITableViewController {
         let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
         tableView.header = header
         
-        let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
+        let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in
+            self.tableView.footer.alpha = 1.0
+            self.loadMore()
+        })
         
         footer.automaticallyHidden = false
         footer.automaticallyChangeAlpha = true
         footer.automaticallyRefresh = true
         tableView.footer = footer
+        tableView.footer.automaticallyHidden = true
         refresh()
     }
     
@@ -116,35 +120,32 @@ class SightLandscapeController: UITableViewController {
     
     /// 底部加载更多
     func loadMore(){
-
+        
+        
+        lastLandscapeRequest.fetchNextPageModels({ (nextData, status) -> Void in
             
-            lastLandscapeRequest.fetchNextPageModels({ (nextData, status) -> Void in
-                
-                if status == RetCode.SUCCESS {
-                    if nextData != nil {
-                        if nextData!.count > 0 {
-                            self.dataSource.addObjectsFromArray(nextData! as [AnyObject])
-//                            if ((self.delegate?.respondsToSelector("collectionViewCellCache::")) != nil || self.data.count != 0) {
-//                                self.delegate?.collectionViewCellCache(self.data, type: self.tagId)
-//                                self.tableView.reloadData()
-//                            }
-                            self.tableView.footer.endRefreshing()
-                        } else {
-                            self.tableView.footer.endRefreshingWithNoMoreData()
-                        }
+            if status == RetCode.SUCCESS {
+                if nextData != nil {
+                    if nextData!.count > 0 {
+                        self.dataSource.addObjectsFromArray(nextData! as [AnyObject])
+                        self.tableView.footer.endRefreshing()
                     } else {
-                            self.isLoading = false
+                        self.tableView.footer.endRefreshingWithNoMoreData()
+                        UIView.animateWithDuration(2, animations: { () -> Void in
+                            self.tableView.footer.alpha = 0.0
+                            }, completion: { (_) -> Void in
+                                self.tableView.footer.resetNoMoreData()
+                        })
                     }
-                    
                 } else {
-                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                    return
+                    self.isLoading = false
                 }
-                
-                
-                
-                //                self.isLoading = false
-            })
+            } else {
+                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                return
+            }
+            
+        })
     }
 
 }

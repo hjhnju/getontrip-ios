@@ -52,20 +52,9 @@ class SightOtherViewController: UITableViewController {
         footer.automaticallyChangeAlpha = true
         footer.automaticallyRefresh = true
         tableView.footer = footer
+        tableView.footer.automaticallyHidden = true
         refresh()
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        //不能放在willAppear
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
-    }
-    
     
     // MARK: - 刷新方法
     func refresh() {
@@ -132,13 +121,15 @@ class SightOtherViewController: UITableViewController {
                         let s = nextData! as [String : AnyObject]
                         if s["sightDatas"]!.count > 0 {
                             self.dataSource.addObjectsFromArray(NSMutableArray(array:s["sightDatas"] as! [AnyObject]) as [AnyObject])
-//                            if ((self.delegate?.respondsToSelector("collectionViewCellCache::")) != nil) {
-//                                self.delegate?.collectionViewCellCache(self.data, type: self.tagId)
-//                            }
                             self.tableView.reloadData()
                             self.tableView.footer.endRefreshing()
                         } else {
                             self.tableView.footer.endRefreshingWithNoMoreData()
+                            UIView.animateWithDuration(2, animations: { () -> Void in
+                                self.tableView.footer.alpha = 0.0
+                                }, completion: { (_) -> Void in
+                                    self.tableView.footer.resetNoMoreData()
+                            })
                         }
                     } else {
                         self.isLoading = false

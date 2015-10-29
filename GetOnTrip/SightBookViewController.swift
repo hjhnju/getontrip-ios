@@ -46,6 +46,7 @@ class SightBookViewController: UITableViewController {
         footer.automaticallyChangeAlpha = true
         footer.automaticallyRefresh = true
         tableView.footer = footer
+        tableView.footer.automaticallyHidden = true
         refresh()
     }
     
@@ -109,13 +110,15 @@ class SightBookViewController: UITableViewController {
                     if nextData != nil {
                         if nextData!.count > 0 {
                             self.dataSource.addObjectsFromArray(nextData! as [AnyObject])
-//                            if ((self.delegate?.respondsToSelector("collectionViewCellCache::")) != nil || self.data.count != 0) {
-//                                self.delegate?.collectionViewCellCache(self.data, type: self.tagId)
-//                            }
                             self.tableView.reloadData()
                             self.tableView.footer.endRefreshing()
                         } else {
                             self.tableView.footer.endRefreshingWithNoMoreData()
+                            UIView.animateWithDuration(2, animations: { () -> Void in
+                                self.tableView.footer.alpha = 0.0
+                                }, completion: { (_) -> Void in
+                                    self.tableView.footer.resetNoMoreData()
+                            })
                         }
                     } else {
                         self.isLoading = false
@@ -125,7 +128,6 @@ class SightBookViewController: UITableViewController {
                     SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                     return
                 }
-                //                self.isLoading = false
             })
     }
 

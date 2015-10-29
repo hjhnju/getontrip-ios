@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import SVProgressHUD
 
 class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate, SightTableViewControllerDelegate {
     
@@ -87,7 +88,16 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         super.viewWillAppear(animated)
     }
     
-
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //不能放在willAppear
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
+    }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
@@ -170,7 +180,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
+        isPopGesture = indexPath.row == 0 ? false : true
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
         let dataType = dataSource!["sightTags"] as! NSArray
         
         let data = dataType[indexPath.row] as! SightListTags
@@ -255,8 +266,12 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             lastSuccessAddRequest?.sightId = sightId
         }
         
-        lastSuccessAddRequest?.fetchSightListModels({[weak self] (data, status) -> Void in
-            self!.dataSource = data
+        lastSuccessAddRequest?.fetchFirstPageModels({ [weak self] (data, status) -> Void in
+            if status == RetCode.SUCCESS {
+                self?.dataSource = data
+            } else {
+                SVProgressHUD.showErrorWithStatus("您的网络不给力!!!")
+            }
         })
     }
 
