@@ -68,4 +68,12 @@ class VideoCell: UITableViewCell {
         watchBtn.ff_AlignVertical(ff_AlignType.BottomCenter, referView: titleLabel, size: CGSizeMake(83, 28), offset: CGPointMake(0, 7))
         visual.ff_AlignInner(ff_AlignType.TopLeft, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 199), offset: CGPointMake(0, 0))
     }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        
+    }
 }

@@ -69,7 +69,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         searchBar.keyboardAppearance = UIKeyboardAppearance.Default
         searchBar.delegate = self
         recordTableView.registerClass(SearchRecordTableViewCell.self, forCellReuseIdentifier: "SearchRecordTableView_Cell")
-        recordTableView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 95), offset: CGPointMake(0, 0))
+        recordTableView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, UIScreen.mainScreen().bounds.height - 110), offset: CGPointMake(0, 0))
         recordTableView.backgroundColor = UIColor.clearColor()
         recordTableView.dataSource = self
         recordTableView.delegate = self
@@ -78,8 +78,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         groupTitle.addSubview(searchGroupLab)
         groupTitle.addSubview(deleteButton)
         deleteButton.addTarget(self, action: "deleteButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
-        searchGroupLab.frame = CGRectMake(0, 50 - 18, 100, 12)
-        deleteButton.frame = CGRectMake(view.bounds.width - 30, 50 - 18 , 20, 10)
+        searchGroupLab.frame = CGRectMake(0, 50 - 25, 100, 12)
+        deleteButton.frame = CGRectMake(view.bounds.width - 30, 50 - 25 , 20, 10)
         recordTableView.registerClass(SearchMuchCell.self, forCellReuseIdentifier: "SearchMuch_Cell")
         
     }
@@ -119,6 +119,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         recordTableView.hidden = true
         if searchBar.text == "" {
             recordTableView.hidden = false
+            recordTableView.reloadData()
         }
     }
     
@@ -193,7 +194,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         let totalCol:Int      = 5
         let totalRow:Int      = 5
         let marginX:CGFloat   = (UIScreen.mainScreen().bounds.size.width - btnWidth * CGFloat(totalCol)) / CGFloat(totalCol + 1)
-        let yOffset:CGFloat   = 0
+        let yOffset:CGFloat   = 14
         let marginY:CGFloat   = 26
         
         for (var i = 0; i < searchMuch.count; i++) {
@@ -235,7 +236,7 @@ class SearchRecordTableViewCell : UITableViewCell {
         textLabel?.textColor = UIColor.whiteColor()
         textLabel?.font = UIFont.systemFontOfSize(16)
         
-        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 1.5))
+        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
         backgroundColor = UIColor.clearColor()
     }
 
@@ -260,13 +261,14 @@ class SearchRecordTableViewCell : UITableViewCell {
 
 class SearchMuchCell: UITableViewCell {
     
-//    var btnData = [String]() {
-//        didSet
-//    }
-    
+    let baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.2)
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        addSubview(baseLine)
+        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
+
         backgroundColor = UIColor.clearColor()
     }
 

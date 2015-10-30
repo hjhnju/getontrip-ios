@@ -128,6 +128,17 @@ class CollectSightViewController: UICollectionViewController {
                 }
                 
             }
+            
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid: sight.id, isAdd: !sender.selected, handler: { (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if result == "1" {
+                        sender.selected = !sender.selected
+                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    } else {
+                        SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                    }
+                }
+            })
         }
     }
 

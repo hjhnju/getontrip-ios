@@ -66,4 +66,12 @@ class BookCell: UITableViewCell {
         author.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
     }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        
+    }
 }

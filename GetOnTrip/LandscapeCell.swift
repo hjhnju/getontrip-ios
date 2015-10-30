@@ -111,12 +111,12 @@ class LandscapeCell: UITableViewCell {
         labelBottomBackground.ff_AlignHorizontal(ff_AlignType.BottomLeft, referView: iconView, size: CGSizeMake(w - 9 , 10), offset: CGPointMake(-9, 0))
         labelBottomBackground.ff_HorizontalTile([labelView1, labelView2, labelView3, labelView4], insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         label1.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView1, size: nil, offset: CGPointMake(0, 0))
-        vertical1.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView1, size: CGSizeMake(0.5, 10), offset: CGPointMake(-3, 0))
-        label2.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView2, size:nil, offset: CGPointMake(0, 0))
+        vertical1.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView1, size: CGSizeMake(0.5, 10), offset: CGPointMake(-10, 0))
+        label2.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView2, size:nil, offset: CGPointMake(-5, 0))
         vertical2.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView2, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
-        label3.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView3, size: nil, offset: CGPointMake(0, 0))
+        label3.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView3, size: nil, offset: CGPointMake(5, 0))
         label4.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
-        vertical3.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView4, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
+        vertical3.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView4, size: CGSizeMake(0.5, 10), offset: CGPointMake(10, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
 
@@ -228,16 +228,24 @@ class LandscapeCell1: UITableViewCell {
         labelBottomBackground.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: CGSizeMake(w - 9 , 10), offset: CGPointMake(9, 0))
         labelBottomBackground.ff_HorizontalTile([labelView1, labelView2, labelView3, labelView4], insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         label1.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView1, size: nil, offset: CGPointMake(0, 0))
-        vertical1.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView1, size: CGSizeMake(0.5, 10), offset: CGPointMake(-3, 0))
-        label2.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView2, size: nil, offset: CGPointMake(0, 0))
+        vertical1.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView1, size: CGSizeMake(0.5, 10), offset: CGPointMake(-10, 0))
+        label2.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView2, size: nil, offset: CGPointMake(-5, 0))
         vertical2.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView2, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
-        label3.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView3, size: nil, offset: CGPointMake(0, 0))
+        label3.ff_AlignInner(ff_AlignType.CenterCenter, referView: labelView3, size: nil, offset: CGPointMake(5, 0))
         label4.ff_AlignInner(ff_AlignType.CenterRight, referView: labelView4, size: nil, offset: CGPointMake(0, 0))
-        vertical3.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView4, size: CGSizeMake(0.5, 10), offset: CGPointMake(0, 0))
+        vertical3.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView4, size: CGSizeMake(0.5, 10), offset: CGPointMake(10, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        
     }
 }

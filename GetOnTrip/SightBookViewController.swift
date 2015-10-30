@@ -47,33 +47,43 @@ class SightBookViewController: UITableViewController {
         footer.automaticallyRefresh = true
         tableView.footer = footer
         tableView.footer.automaticallyHidden = true
-        refresh()
+        if !tableView.header.isRefreshing() {
+            tableView.header.beginRefreshing()
+            print("===============")
+
+        }
+
     }
     
     // MARK: - 刷新方法
     func refresh() {
-        if isLoading == false {
-            if tableView.header.isRefreshing() {
-                return
-            }
+        if self.isLoading {
+            return
         }
         
         self.isLoading = true
         lastBookRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
-            //处理异常状态
-            if RetCode.SUCCESS != status {
+            if status == RetCode.SUCCESS {
+                self.tableView.header.endRefreshing()
+            } else {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                self.isLoading = false
-                return
             }
+            self.isLoading = false
             
             //处理数据
-            if dataSource!.count > 0 {
-                self.dataSource = NSMutableArray(array: dataSource!)
+            if let data = dataSource {
+                self.dataSource = NSMutableArray(array: data)
             }
         })
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if dataSource.count != 0 {
+            tableView.header.endRefreshing()
+        }
+    }
     
     // MARK: - tableview 数据源及代理方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

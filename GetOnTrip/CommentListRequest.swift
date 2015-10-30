@@ -38,18 +38,32 @@ class CommentListRequest: NSObject {
 
         // 发送网络请求加载数据
         
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/comment/list", post: post) { (result, error) -> () in
-            if error == nil {
-                print(result)
-                // 回调
-                //                handler(BookDetail(dict: respData as! [String : AnyObject]))
+//        HttpRequest.ajax(AppIni.BaseUri, path: "/api/comment/list", post: post) { (result, error) -> () in
+//            if error == nil {
+//                print(result)
+//                // 回调
+//                //                handler(BookDetail(dict: respData as! [String : AnyObject]))
+//                var comment = [CommentList]()
+//                for it in result!["data"] as! NSArray {
+//                    comment.append(CommentList(dict: it as! [String : AnyObject]))
+//                }
+//                handler(comment)
+//            }
+//        }
+        
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/comment/list", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
                 var comment = [CommentList]()
-                for it in result!["data"] as! NSArray {
-                    comment.append(CommentList(dict: it as! [String : AnyObject]))
+                for item in result.arrayValue {
+                    if let item = item.dictionaryObject {
+                        comment.append(CommentList(dict: item))
+                    }
                 }
+                print(result)
                 handler(comment)
             }
         }
+        
         
 //        HttpRequest.ajax(AppIni.BaseUri,
 //            path: "/api/comment/list",

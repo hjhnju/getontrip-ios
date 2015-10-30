@@ -95,13 +95,13 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     func sendCommentData(btn: UIButton) {
         
-        let com = data[indexPath.row]
         if sharedUserAccount == nil {
             issueTextfield.resignFirstResponder()
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
                 if resultB == true {
                     
+                    let com = self.data[self.indexPath.row]
                     self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: String(com.id), toUserId: com.from_user_id, content: self.issueTextfield.text!) { (_) -> Void in
                         self.loadCommentData()
                     }
@@ -118,10 +118,10 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
 //        data.count
 //        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
 //        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-        
-        sendcommentRequest.fetchAddCommentModels(topicId, upId: String(com.id), toUserId: com.from_user_id, content: issueTextfield.text!) { (_) -> Void in
-            self.loadCommentData()
-        }
+//        let com = self.data[self.indexPath.row]
+//        sendcommentRequest.fetchAddCommentModels(topicId, upId: String(com.id), toUserId: com.from_user_id, content: issueTextfield.text!) { (_) -> Void in
+//            self.loadCommentData()
+//        }
 //        commentListRequest?.page = 1
         issueTextfield.text = ""
     }

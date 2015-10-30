@@ -21,9 +21,9 @@ class SightCollectionViewCell: UICollectionViewCell {
     
     var cache = [String : NSArray]()
     
-    var tagId: String? {
+    var tagId: String = "" {
         didSet {
-            otherVC.tagId = tagId!
+            otherVC.tagId = tagId
         }
     }
     
@@ -41,12 +41,16 @@ class SightCollectionViewCell: UICollectionViewCell {
         didSet {
             switch type! {
             case categoryLabel.sightLabel:
+//                landscapeVC = SightLandscapeController()
                 addSubview(landscapeVC.view)
             case categoryLabel.bookLabel:
+//                bookVC = SightBookViewController()
                 addSubview(bookVC.view)
             case categoryLabel.videoLabel:
+//                videoVC = SightVideoViewController()
                 addSubview(videoVC.view)
             case categoryLabel.otherLabel:
+//                otherVC = SightOtherViewController()
                 addSubview(otherVC.view)
             default:
                 break
