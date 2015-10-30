@@ -64,6 +64,8 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     lazy var toolLineView: UIView = UIView(color: SceneColor.lightGray)
     
+    lazy var shareView: ShareView = ShareView()
+    
     /// 书籍内容
     var webView: WKWebView!
     
@@ -193,6 +195,10 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     // MARK: UIScrollView Delegate 代理方法
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        shareView.shareCancleClick()
+    }
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let gap = BookViewContant.headerViewHeight + offsetY
@@ -297,7 +303,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         } else {
             CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(5, objid:bookId, isAdd: !sender.selected) { (handler) -> Void in
                 print(handler)
-                if handler as! String == "1" {
+                if handler as? String == "1" {
                     sender.selected = !sender.selected
                     SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
                 } else {
@@ -330,6 +336,8 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     /// 分享
     func clickShareButton(button: UIButton) {
         print("分享")
+        shareView.getShowShareAction(view, topic: data!, images: bookImageView.image!, isTopicBook: false)
+
     }
 
     /// 搜索跳入之后消失控制器

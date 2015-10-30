@@ -154,52 +154,53 @@ class LoginView: UIView {
     }
 }
 
-class shareView: UIView {
+class ShareView: UIView {
     
+    /// 分享底view
     lazy var shareView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
-    
+    /// 微信
     lazy var shareBtn1: shareButton = shareButton(image: "share_weixin", title: "微信好友", fontSize: 12, titleColor: SceneColor.fontGray)
-    
+    /// 朋友圈
     lazy var shareBtn2: shareButton = shareButton(image: "share_weixinfri", title: "朋友圈", fontSize: 12, titleColor: SceneColor.fontGray)
-    
+    /// 新浪微博
     lazy var shareBtn3: shareButton = shareButton(image: "share_weibo", title: "新浪微博", fontSize: 12, titleColor: SceneColor.fontGray)
-    
+    /// qq
     lazy var shareBtn4: shareButton = shareButton(image: "share_qq", title: "QQ空间", fontSize: 12, titleColor: SceneColor.fontGray)
-    
+    /// 复制链接
     lazy var shareBtn5: shareButton = shareButton(image: "share_link", title: "复制链接", fontSize: 12, titleColor: SceneColor.fontGray)
-    
+    /// 取消按钮
     lazy var shareCancle: UIButton = UIButton(title: "取消", fontSize: 13, radius: 15)
-    
+    /// 分享至标题
     lazy var shareLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "分享至", fontSize: 13, mutiLines: true)
-    
+    /// 分享view y
     var shareViewCY : NSLayoutConstraint?
-    
+    /// 微信约束y
     var shareBtnY1: NSLayoutConstraint?
-    
+    /// 朋友圈约束y
     var shareBtnY2: NSLayoutConstraint?
-    
+    /// 新浪微博约束y
     var shareBtnY3: NSLayoutConstraint?
-    
+    /// qq约束y
     var shareBtnY4: NSLayoutConstraint?
-    
+    /// 复制链接y
     var shareBtnY5: NSLayoutConstraint?
-    
-    let shareParames = NSMutableDictionary()
+    /// 分享参数
+    var shareParames = NSMutableDictionary()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        shareParames.SSDKSetupShareParamsByText(topic.sight_name,
-//            images : UIImage(named: "shareImg.png"),
-//            url : NSURL(string: AppIni.BaseUri + "/topic/detail?" + "id=\(topic.id)"),
-//            title : topic.title,
-//            type : SSDKContentType.Auto)
-        
-        addSubview(shareView)
         shareView.alpha = 1
         shareView.contentView.backgroundColor = UIColor.whiteColor()
         shareView.contentView.alpha = 0.5
         
+        self.frame = CGRectMake(0, UIScreen.mainScreen().bounds.height - 197, UIScreen.mainScreen().bounds.width, 197)
+        setupProperty()
+        setupAutoLayout()
+    }
+    
+    private func setupProperty() {
+        addSubview(shareView)
         shareView.addSubview(shareLabel)
         shareView.addSubview(shareBtn1)
         shareView.addSubview(shareBtn2)
@@ -216,19 +217,20 @@ class shareView: UIView {
         shareCancle.backgroundColor = SceneColor.lightYellow
         shareCancle.setTitleColor(SceneColor.bgBlack, forState: UIControlState.Normal)
         
-        
-        shareCancle.addTarget(self, action: "shareCancleClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        shareCancle.addTarget(self, action: "shareCancleClick", forControlEvents: UIControlEvents.TouchUpInside)
         shareBtn1.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
         shareBtn2.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
         shareBtn3.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
         shareBtn4.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
         shareBtn5.addTarget(self, action: "shareClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        
-        
+    }
+    
+    private func setupAutoLayout() {
         let sbx: CGFloat = CGFloat((bounds.width - (50 * 5)) / 6)
         let size = CGSizeMake(50, 73)
         
+        
+        let shareVCons = shareView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: self, size: CGSize(width: bounds.width, height: 197), offset: CGPoint(x: 0, y: 0))
         let s1 = shareBtn1.ff_AlignInner(ff_AlignType.CenterLeft, referView: shareView, size: size, offset: CGPoint(x: sbx, y: 150))
         let s2 = shareBtn2.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn1, size: size, offset: CGPoint(x: sbx, y: 200))
         let s3 = shareBtn3.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn2, size: size, offset: CGPoint(x: sbx, y: 250))
@@ -241,36 +243,59 @@ class shareView: UIView {
         shareBtnY4 = shareBtn4.ff_Constraint(s4, attribute: NSLayoutAttribute.CenterY)
         shareBtnY5 = shareBtn5.ff_Constraint(s5, attribute: NSLayoutAttribute.CenterY)
         
-        let shareVCons = shareView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: self, size: CGSize(width: bounds.width, height: 197), offset: CGPoint(x: 0, y: 197))
         shareLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: shareView, size: nil, offset: CGPointMake(0, 18))
         shareViewCY = shareView.ff_Constraint(shareVCons, attribute: NSLayoutAttribute.Top)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func test() {
+    ///  分享方法
+    ///
+    ///  - parameter subview:     需要添加到哪个view，一般传所在控制器的view
+    ///  - parameter topic:       话题或书籍对象
+    ///  - parameter images:      分享图片
+    ///  - parameter isTopicBook: true为话题false为书籍
+    func getShowShareAction(subview: UIView, topic: AnyObject, images: UIImage, isTopicBook: Bool) {
+        
+        ///  显示控件
+        subview.addSubview(self)
+        self.shareView.layoutIfNeeded()
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.shareViewCY?.constant = -197
             self.shareView.layoutIfNeeded()
             
             }) { (_) -> Void in
-                
                 UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
-                    self.shareBtnY1?.constant = -10
+                    self.shareBtnY1?.constant = 0
                     self.shareBtnY2?.constant = 0
                     self.shareBtnY3?.constant = 0
                     self.shareBtnY4?.constant = 0
                     self.shareBtnY5?.constant = 0
-                    self.shareBtn1.layoutSubviews()
-                    self.shareBtn2.layoutSubviews()
-                    self.shareBtn3.layoutSubviews()
-                    self.shareBtn4.layoutSubviews()
-                    self.shareBtn5.layoutSubviews()
-                    
-                    }, completion: nil)
+                    self.shareBtn1.layoutIfNeeded()
+                    self.shareBtn2.layoutIfNeeded()
+                    self.shareBtn3.layoutIfNeeded()
+                    self.shareBtn4.layoutIfNeeded()
+                    self.shareBtn5.layoutIfNeeded()
+                }, completion: nil)
         }
+        
+        var url: String?
+        if isTopicBook {
+            let obj = topic as? TopicDetail
+            url = AppIni.BaseUri + "/topic/detail?" + "id=\(obj!.id)"
+        } else {
+            let obj = topic as? BookDetail
+            url = obj?.url
+        }
+        
+        ///  加载分享参数
+        shareParames.SSDKSetupShareParamsByText(url,
+            images : images,
+            url : NSURL(string: url!),
+            title : topic.title,
+            type : SSDKContentType.Auto)
     }
     
     
@@ -290,7 +315,7 @@ class shareView: UIView {
     ///  朋友圈
     func shareFriendCircle(type: SSDKPlatformType) {
         
-        ShareSDK.share(type, parameters: self.shareParames) { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
+        ShareSDK.share(type, parameters: shareParames) { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
             
             switch state{
             case SSDKResponseState.Success:
@@ -306,24 +331,26 @@ class shareView: UIView {
         }
     }
     
-    func text1() {
+    func shareCancleClick() {
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.shareBtnY1?.constant = 150
             self.shareBtnY2?.constant = 200
             self.shareBtnY3?.constant = 250
             self.shareBtnY4?.constant = 300
             self.shareBtnY5?.constant = 350
-            self.shareBtn1.layoutSubviews()
-            self.shareBtn2.layoutSubviews()
-            self.shareBtn3.layoutSubviews()
-            self.shareBtn4.layoutSubviews()
-            self.shareBtn5.layoutSubviews()
+            self.shareBtn1.layoutIfNeeded()
+            self.shareBtn2.layoutIfNeeded()
+            self.shareBtn3.layoutIfNeeded()
+            self.shareBtn4.layoutIfNeeded()
+            self.shareBtn5.layoutIfNeeded()
             }) { (_) -> Void in
                 
-                UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
                     self.shareViewCY?.constant = self.bounds.height
                     self.shareView.layoutIfNeeded()
-                }
+                    }, completion: { (_) -> Void in
+                        self.removeFromSuperview()
+                })
         }
     }
 }

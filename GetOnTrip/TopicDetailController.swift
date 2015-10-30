@@ -70,13 +70,11 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     lazy var cover: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
   
-    
-    
-    
+    lazy var shareView: ShareView = ShareView()
     
     lazy var commentVC: CommentTopicController = {
         return CommentTopicController()
-        }()
+    }()
     
     //话题ID
     var topicId: String = ""
@@ -219,6 +217,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         view.addSubview(webView)
         view.addSubview(headerView)
         view.addSubview(toolbarView)
+//        view.addSubview(shareView)
         headerView.addSubview(headerImageView)
         headerView.addSubview(titleLabel)
         headerView.addSubview(labelBtn)
@@ -342,9 +341,12 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         return true
     }
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        shareView.shareCancleClick()
+    }
+    
     ///  改变背景及图片下拉变大
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
         //headerView高度动态变化
         let navigationBarHeight: CGFloat = 0
         var height = -(scrollView.contentOffset.y + navigationBarHeight)
@@ -400,8 +402,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     func doSharing(sender: UIButton) {
         print("分享")
-        
-        
+        shareView.getShowShareAction(view, topic: topicDetail!, images: headerImageView.image!, isTopicBook: true)
     }
     
 
@@ -444,11 +445,6 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
             }) { [weak self]  (_) -> Void in
                 self?.commentVC.view.removeFromSuperview()
         }
-    }
-    
-    // MARK: 分享
-    func shareCancleClick(serder: UIButton) {
-        
     }
     
     ///  搜索跳入之后消失控制器

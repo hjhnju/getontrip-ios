@@ -40,6 +40,7 @@ class BookDetailRequest: NSObject {
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/book/detail", post: post) { (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 handler(BookDetail(dict: result.dictionaryObject), status)
+                return
             }
             handler(nil, status)
             
