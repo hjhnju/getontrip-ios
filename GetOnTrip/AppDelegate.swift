@@ -90,7 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cookieProperties1[NSHTTPCookiePath] = "/"
         cookieProperties1[NSHTTPCookieVersion] = "0"
         NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties1)!)
-
     }
     
     // MARK: - 获取用户uuid

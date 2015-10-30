@@ -40,8 +40,8 @@ class SightVideoViewController: UITableViewController {
         let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
         tableView.header = header
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
         let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
-        
         footer.automaticallyHidden = false
         footer.automaticallyChangeAlpha = true
         footer.automaticallyRefresh = true
@@ -151,6 +151,7 @@ class SightVideoViewController: UITableViewController {
         let sc = DetailWebViewController()
         let dataI = dataSource[btn.tag] as! SightVideo
         sc.url = dataI.url
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: UIBarButtonItemStyle.Plain, target: "", action: "")
         navigationController?.pushViewController(sc, animated: true)
     }
 

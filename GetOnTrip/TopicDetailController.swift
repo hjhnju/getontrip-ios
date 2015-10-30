@@ -400,7 +400,11 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     func doSharing(sender: UIButton) {
         print("分享")
-        shareView.getShowShareAction(view, topic: topicDetail!, images: headerImageView.image!, isTopicBook: true)
+//        shareView.getShowShareAction(view, topic: topicDetail!, images: headerImageView.image!, isTopicBook: true)
+        if topicDetail != nil {
+            let url = AppIni.BaseUri + "/topic/detail?" + "id=\(topicDetail!.id ?? "")"
+            shareView.getShowShareAction(view, url: url, images: headerImageView.image ?? UIImage(), text: nil)
+        }
     }
     
 

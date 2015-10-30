@@ -435,7 +435,7 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         } else {
             sex = 2
         }
-        sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text!)
+        sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text ?? "")
 //        SVProgressHUD.showInfoWithStatus("登陆成功")
     }
     

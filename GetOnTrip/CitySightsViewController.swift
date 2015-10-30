@@ -22,7 +22,7 @@ class CitySightsViewController: UICollectionViewController {
     
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
-    
+        
     var sightCityList: [CitySightBrief]? {
         didSet {
             collectionView?.reloadData()

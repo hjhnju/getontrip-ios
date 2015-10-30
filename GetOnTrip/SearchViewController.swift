@@ -31,6 +31,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 清除按钮
     var deleteButton: UIButton = UIButton(title: "清除", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.6))
     
+//    
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         

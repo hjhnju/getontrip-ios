@@ -16,7 +16,7 @@ extension String {
     func getAttributedString(lineHeightMultiple:CGFloat = 0, lineSpacing: CGFloat = 0, breakMode:NSLineBreakMode = NSLineBreakMode.ByTruncatingTail) -> NSAttributedString {
         
         let style = NSMutableParagraphStyle()
-        style.firstLineHeadIndent = 24
+//        style.firstLineHeadIndent = 24
         style.lineSpacing = lineSpacing
         style.lineHeightMultiple = lineHeightMultiple
         style.lineBreakMode = breakMode

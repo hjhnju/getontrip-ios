@@ -125,7 +125,9 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         titleLabel.hidden = true //设置alpha=0会有Fade Out
         
         headerImageView.userInteractionEnabled = true
-        
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.bounces = false
+        collectionView.contentSize = CGSizeMake(200, 100)
         initView()
         setupAutoLayout()
         loadCityData()
@@ -434,34 +436,36 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func favIconBtnClick(btn: UIButton) {
+    func favIconBtnClick(sender: UIButton) {
         if sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
                 if resultB == true {
-                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid:self.cityId, isAdd: !btn.selected) { (handler) -> Void in
-                        print(handler)
-                        if handler as! String == "1" {
-                            btn.selected = !btn.selected
-                            SVProgressHUD.showInfoWithStatus(btn.selected ? "已收藏" : "已取消")
-                        } else {
-                            SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                    
+                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: self.cityId, isAdd: !sender.selected, handler: { (result, status) -> Void in
+                        if status == RetCode.SUCCESS {
+                            if result == "1" {
+                                sender.selected = !sender.selected
+                                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                            } else {
+                                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                            }
                         }
-                        
-                    }
+                    })
                 }
             })
         } else {
-            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid:cityId, isAdd: !btn.selected) { (handler) -> Void in
-                print(handler)
-                if handler as! String == "1" {
-                    btn.selected = !btn.selected
-                    SVProgressHUD.showInfoWithStatus(btn.selected ? "已收藏" : "已取消")
-                } else {
-                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+            
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: self.cityId, isAdd: !sender.selected, handler: { (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if result == "1" {
+                        sender.selected = !sender.selected
+                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    } else {
+                        SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                    }
                 }
-
-            }
+            })
         }
         
     }
@@ -474,6 +478,8 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - 搜索(下一个控制器)
     func searchButtonClicked(button: UIBarButtonItem) {
         
+        let svc = SearchViewController()
+        svc.searchResult.rootNav = self.navigationController
         presentViewController(SearchViewController(), animated: true, completion: nil)
     }
 }

@@ -99,7 +99,7 @@ class SightOtherViewController: UITableViewController {
         let vc: TopicDetailController = TopicDetailController()
         let dataI = dataSource[indexPath.row] as! TopicCellData
         vc.topicId = dataI.id
-        vc.sightName = dataI.title
+        vc.sightName = title ?? ""
         navigationController?.pushViewController(vc, animated: true)
     }
     

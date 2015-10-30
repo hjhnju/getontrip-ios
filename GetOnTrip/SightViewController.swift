@@ -90,6 +90,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -179,7 +180,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         isPopGesture = indexPath.row == 0 ? true : false
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+        
         let dataType = dataSource!["sightTags"] as! NSArray
         
         let data = dataType[indexPath.row] as! SightListTags
