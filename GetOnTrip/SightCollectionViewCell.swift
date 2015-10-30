@@ -42,16 +42,12 @@ class SightCollectionViewCell: UICollectionViewCell {
             switch type! {
             case categoryLabel.sightLabel:
                 addSubview(landscapeVC.view)
-                landscapeVC.refresh()
             case categoryLabel.bookLabel:
                 addSubview(bookVC.view)
-                bookVC.refresh()
             case categoryLabel.videoLabel:
                 addSubview(videoVC.view)
-                videoVC.refresh()
             case categoryLabel.otherLabel:
                 addSubview(otherVC.view)
-                otherVC.refresh()
             default:
                 break
             }

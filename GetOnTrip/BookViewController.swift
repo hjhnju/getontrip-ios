@@ -18,7 +18,7 @@ struct BookViewContant {
     static let toolBarHeight:CGFloat    = 47
 }
 
-class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDelegate, UIWebViewDelegate {
+class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler  {
 
     // MARK: - 属性
     /// 网络请求加载数据(添加)
@@ -33,7 +33,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     var headerViewHeightConstraint: NSLayoutConstraint?
     
     /// 顶部视图
-    lazy var headerView: UIView = UIView()
+    //var headerView: UIView = UIView(color: UIColor.brownColor())
     
     /// 顶部底图
     lazy var headerImageView: UIImageView = UIImageView()
@@ -64,8 +64,11 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     lazy var toolLineView: UIView = UIView(color: SceneColor.lightGray)
     
+    //webView初始时的yInset
+    var yInset:CGFloat = 0.0
+    
     /// 书籍内容
-    var webView: WKWebView!
+    var webView: WKWebView = WKWebView(color: UIColor.redColor())
     
     var data: BookDetail? {
         didSet {
@@ -95,22 +98,22 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "clickSearchButton:")
         view.backgroundColor = .whiteColor()
-
-        let config = WKWebViewConfiguration()
-        webView = WKWebView(frame: CGRectMake(0, 0, view.bounds.width, view.bounds.height - BookViewContant.toolBarHeight), configuration: config)
-        view.addSubview(webView)
-        view.addSubview(headerView)
+        
+        initWebView()
         view.addSubview(toolbarView)
         
-        headerView.backgroundColor = UIColor.whiteColor()
-        headerView.addSubview(headerImageView)
-        headerView.addSubview(bookImageView)
-        headerView.addSubview(titleLabel)
-        headerView.addSubview(authorLabel)
-        headerView.addSubview(headerLineView)
+        webView.addSubview(headerImageView)
+        webView.addSubview(bookImageView)
+        webView.addSubview(titleLabel)
+        webView.addSubview(authorLabel)
+        webView.addSubview(headerLineView)
+        
         headerImageView.addSubview(blurView)
         headerImageView.clipsToBounds = true
-        headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        headerImageView.userInteractionEnabled = true
+        headerImageView.contentMode = UIViewContentMode.ScaleToFill
+        bookImageView.userInteractionEnabled = true
+        blurView.alpha = 1
         
         toolbarView.addSubview(collectBtn)
         toolbarView.addSubview(shareBtn)
@@ -122,25 +125,14 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         buyBtn.addTarget(self, action: "clickBuyButton:", forControlEvents: UIControlEvents.TouchUpInside)
         shareBtn.addTarget(self, action: "clickShareButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        headerView.userInteractionEnabled = true
-        headerImageView.userInteractionEnabled = true
-        bookImageView.userInteractionEnabled = true
-        blurView.alpha = 1
-        
         let w = view.bounds.width - 18
         titleLabel.preferredMaxLayoutWidth = w
         authorLabel.preferredMaxLayoutWidth = w
         
-        automaticallyAdjustsScrollViewInsets = false
-        webView.scrollView.showsHorizontalScrollIndicator = false
-        webView.scrollView.showsVerticalScrollIndicator   = false
-        webView.scrollView.delegate = self
-        webView.navigationDelegate  = self
-        webView.backgroundColor = UIColor.whiteColor()
-        webView.scrollView.contentInset = UIEdgeInsetsMake(BookViewContant.headerViewHeight, 10, 10, 0)
-        
-        //允许手势，后退前进等操作
-        //webView.allowsBackForwardNavigationGestures = true
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidLayoutSubviews() {
@@ -149,6 +141,8 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        yInset = CGRectGetMaxY(headerLineView.frame)
+        webView.scrollView.contentInset = UIEdgeInsetsMake(yInset, 0, 0, 0)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -157,17 +151,55 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         super.viewDidDisappear(animated)
     }
     
+    func initWebView(){
+        /*
+        //Javascript string
+        let source = "window.webkit.messageHandlers.sizeNotification.postMessage({width: document.width, height: document.height});"
+        //UserScript object
+        let script:WKUserScript = WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.AtDocumentEnd, forMainFrameOnly: true)
+        //Content Controller object
+        let controller:WKUserContentController = WKUserContentController()
+        //Add script to controller
+        controller.addUserScript(script)
+        //Add message handler reference
+        controller.addScriptMessageHandler(self, name: "sizeNotification")
+        
+        let config = WKWebViewConfiguration()
+        //Add controller to configuration
+        config.userContentController = controller;
+        
+        webView.configuration.userContentController = controller
+        */
+        
+        view.addSubview(webView)
+        webView.scrollView.tag = 1
+        //automaticallyAdjustsScrollViewInsets = false
+        webView.scrollView.showsHorizontalScrollIndicator = false
+        webView.scrollView.showsVerticalScrollIndicator   = false
+        webView.navigationDelegate  = self
+        webView.scrollView.scrollEnabled = true
+        //webView.scrollView.contentSize = CGSizeMake(view.bounds.width, view.bounds.height - BookViewContant.headerViewHeight)
+        webView.scrollView.delegate = self
+        //webView.sizeThatFits(CGSizeZero)
+        //webView.sizeToFit()
+        
+        //允许手势，后退前进等操作
+        //webView.allowsBackForwardNavigationGestures = true
+    }
+    
     ///  添加布局
     private func setupAutoLayout() {
         let w = view.bounds.width
         
-        let cons = headerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(w, BookViewContant.headerViewHeight), offset: CGPointMake(0, 0))
-        let headerImageViewCons = headerImageView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(view.bounds.width, BookViewContant.headerImageViewHeight))
+        //webview
+        webView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - BookViewContant.toolBarHeight), offset: CGPointMake(0, 0))
+        
+        let headerImageViewCons = headerImageView.ff_AlignInner(.TopLeft, referView: webView, size: CGSizeMake(view.bounds.width, BookViewContant.headerImageViewHeight))
         blurView.ff_Fill(headerImageView)
         bookImageView.ff_AlignInner(ff_AlignType.CenterCenter, referView: headerImageView, size: CGSizeMake(142, 181), offset: CGPointMake(0, (BookViewContant.headerImageViewHeight-BookViewContant.bookViewHeight)/2 - 11))
         titleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: headerImageView, size: nil, offset: CGPointMake(10, 17))
         authorLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 6))
-        headerLineView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: headerImageView, size: CGSizeMake(w - 18, 0.5), offset: CGPointMake(9, BookViewContant.headerViewHeight - BookViewContant.headerImageViewHeight))
+        headerLineView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: authorLabel, size: CGSizeMake(w - 18, 0.5), offset: CGPointMake(0, 17))
         
         toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, BookViewContant.toolBarHeight), offset: CGPointMake(0, 0))
         
@@ -177,37 +209,28 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         toolLineView.ff_AlignInner(ff_AlignType.TopLeft, referView: toolbarView, size: CGSizeMake(w, 0.5), offset: CGPointMake(0, 0))
         
         /// headerView的顶部约束
-        headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Top)
         headerViewHeightConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: NSLayoutAttribute.Height)
+        headerViewTopConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: NSLayoutAttribute.Top)
     }
-    
-    
-//    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-//        
-//        let localizedErrorMessage = NSLocalizedString("An error occured:", comment: "")
-//        
-//        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">\(localizedErrorMessage) \(error!.localizedDescription)</div></body></html>"
-//        
-//        webView.loadHTMLString(errorHTML, baseURL: nil)
-//    }
     
     // MARK: UIScrollView Delegate 代理方法
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
-        let gap = BookViewContant.headerViewHeight + offsetY
-        
+        let gap     = yInset + offsetY
         //上拉时headerView向上移动
-        if gap > 0 {
+        if gap >= 0 {
             let initTop: CGFloat = 0.0
             let newTop = min(-gap, initTop)
             headerViewTopConstraint?.constant = newTop
+            //print("offsetY=\(offsetY), gap=\(gap), newTop=\(newTop)")
         }
         
         //下拉时扩大headerView
-        if gap < 0 {
+        if gap <= 0 {
             let newHeight = max(BookViewContant.headerImageViewHeight + -gap, BookViewContant.headerImageViewHeight)
             headerViewHeightConstraint?.constant = newHeight
+            //print("offsetY=\(offsetY), gap=\(gap), newHeight=\(newHeight)")
         }
     }
     
@@ -225,10 +248,13 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
 //    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
 //        print("didFinishNavigation")
 //    }
+    
     // 页面加载失败时调用
-//    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
-//        print("didFailProvisionalNavigation")
-//    }
+    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        print("[BookViewController]webView error \(error.localizedDescription)")
+        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">书籍内容加载失败</div></body></html>"
+        webView.loadHTMLString(errorHTML, baseURL: nil)
+    }
     
     // 接收到服务器跳转请求之后调用
 //    func webView(webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
@@ -243,6 +269,19 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
 //        print("decidePolicyForNavigationAction")
 //    }
     
+    // MARK:  WKScriptMessageHandler 协议
+    
+    func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+        print("userContentController")
+        if let webView = message.webView {
+            var frame:CGRect = webView.frame
+            if let height = message.body.valueForKey("height")?.floatValue {
+                frame.size.height = CGFloat(height)
+                message.webView?.frame = frame
+            }
+        }
+    }
+    
     // MARK: 自定义方法
     
     /// 展示内容书籍
@@ -256,6 +295,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         html.appendString("<title>Examples</title>")
         html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("BookDetail.css", withExtension: nil)!)
         html.appendString("</head><body>\(body)</body></html>")
+        
         webView.loadHTMLString(html as String, baseURL: nil)
     }
     

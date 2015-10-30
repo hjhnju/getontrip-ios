@@ -160,8 +160,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         labelScrollView.contentInset = UIEdgeInsetsZero
         currentIndex = 0
     }
-
-
+    
     private func setupLayout() {
         layout.itemSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 36)
         layout.minimumInteritemSpacing = 0
@@ -204,9 +203,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         } else {
             cell.type = categoryLabel.otherLabel
         }
-        
-        
-        
         return cell
     }
     
