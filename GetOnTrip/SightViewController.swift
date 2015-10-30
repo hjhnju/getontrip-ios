@@ -27,11 +27,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     //标签导航栏的scrollView
     lazy var labelScrollView = UIScrollView()
     
-    /// 标签数组
-    var channels: NSArray?
-    
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: SightTopicRequest?
+    var lastSuccessAddRequest: SightRequest?
     
     /// 流水布局
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -48,13 +45,10 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     var isPopGesture: Bool = false
     
     /// 数据
-    var dataSource: NSDictionary? {
+    var sight = Sight() {
         didSet {
-            if let data = dataSource {
-                channels = data["sightTags"] as? NSArray
-                setupChannel()
-                collectionView.reloadData()
-            }
+            setupChannel()
+            collectionView.reloadData()
         }
     }
     
@@ -103,8 +97,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
-//        collectionViewCellCache.removeAll()
     }
     
     override func viewDidLayoutSubviews() {
@@ -124,20 +116,19 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     ///  设置频道标签
     var indicateW: CGFloat?
+    
     func setupChannel() {
-       
+        let channels = sight.tags
         /// 间隔
-        var x: CGFloat = 0
-        let h: CGFloat = 36
-        var lW: CGFloat?
-        lW = UIScreen.mainScreen().bounds.width / CGFloat(channels!.count)
-        if channels!.count >= 7 {
+        var x: CGFloat  = 0
+        let h: CGFloat  = 36
+        var lW: CGFloat = UIScreen.mainScreen().bounds.width / CGFloat(channels.count)
+        if channels.count >= 7 {
             lW = UIScreen.mainScreen().bounds.width / CGFloat(7)
         } 
         var index: Int = 0
-        for label in channels! {
-            let tag: SightListTags = label as! SightListTags
-            let lab = SightLabel.channelLabelWithTitle(tag.name!, width: lW!, height: h, fontSize: 14) 
+        for tag in channels {
+            let lab = SightLabel.channelLabelWithTitle(tag.name, width: lW, height: h, fontSize: 14)
             
             lab.delegate = self
             lab.textColor = UIColor.whiteColor()
@@ -155,7 +146,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
         
         indicateView.bounds = CGRectMake(0, 0, 56, 1.5)
-        indicateView.center = CGPointMake(lW! * 0.5, CGRectGetMaxY(labelScrollView.frame) - 1.5)
+        indicateView.center = CGPointMake(lW * 0.5, CGRectGetMaxY(labelScrollView.frame) - 1.5)
         labelScrollView.contentSize = CGSizeMake(x, 0)
         labelScrollView.contentInset = UIEdgeInsetsZero
         currentIndex = 0
@@ -172,53 +163,27 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     // MARK: - collectionView 数据源方法
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return dataSource != nil ? dataSource!.objectForKey("sightTags")!.count : 0
+        return sight.tags.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         isPopGesture = indexPath.row == 0 ? true : false
         self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
-        let dataType = dataSource!["sightTags"] as! NSArray
         
-        let data = dataType[indexPath.row] as! SightListTags
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
 
-//        if let vc = cell.landscapeVC {
-//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
-//        } else if let vc = cell.bookVC {
-//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
-//        } else if let vc = cell.videoVC {
-//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
-//        } else if let vc = cell.otherVC {
-//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
-//        }
-        
         if (!childViewControllers.contains(cell.landscapeVC)) {
             addChildViewController(cell.landscapeVC)
             addChildViewController(cell.bookVC)
             addChildViewController(cell.videoVC)
-            addChildViewController(cell.otherVC)
-        }
-
-        
-        
-        let labId = channels![indexPath.row] as! SightListTags
-        cell.tagId = labId.id!
-        
-        if (Int(data.type!) == categoryLabel.sightLabel) {
-            cell.type = categoryLabel.sightLabel
-        } else if (Int(data.type!) == categoryLabel.videoLabel) {
-            cell.type = categoryLabel.videoLabel
-        } else if (Int(data.type!) == categoryLabel.bookLabel) {
-            cell.type = categoryLabel.bookLabel
-        } else {
-            cell.type = categoryLabel.otherLabel
+            addChildViewController(cell.topicVC)
         }
         
+        let tag      = sight.tags[indexPath.row]
+        cell.tagId   = sight.tags[indexPath.row].id
+        cell.type    = Int(tag.type)
         cell.sightId = sightId
-        
         return cell
     }
     
@@ -239,7 +204,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         if (offset < 0) { offset = 0 }
         else if (offset > maxOffset) { offset = maxOffset }
         
-        let lCount: Int = channels!.count >= 7 ? 7 : channels!.count
+        let lCount: Int = sight.tags.count >= 7 ? 7 : sight.tags.count
         let x: CGFloat = scrollView.contentOffset.x / CGFloat(lCount)  - offset
         let x1: CGFloat = scrollView.contentOffset.x / CGFloat(lCount) + labCenter.bounds.width * 0.5
         if (offset == 0) || (offset == maxOffset) {
@@ -272,13 +237,15 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     private func loadSightData() {
         
         if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = SightTopicRequest()
+            lastSuccessAddRequest = SightRequest()
             lastSuccessAddRequest?.sightId = sightId
         }
         
-        lastSuccessAddRequest?.fetchFirstPageModels({ [weak self] (data, status) -> Void in
+        lastSuccessAddRequest?.fetchFirstPageModels({ [weak self] (sight, status) -> Void in
             if status == RetCode.SUCCESS {
-                self?.dataSource = data
+                if let sight = sight {
+                    self?.sight = sight
+                }
             } else {
                 SVProgressHUD.showErrorWithStatus("您的网络不给力!!!")
             }

@@ -1,5 +1,5 @@
 //
-//  Landscape.swift
+//  Landscape2.swift
 //  GetOnTrip
 //
 //  Created by 何俊华 on 15/10/30.

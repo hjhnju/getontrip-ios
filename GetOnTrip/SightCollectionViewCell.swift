@@ -17,13 +17,13 @@ class SightCollectionViewCell: UICollectionViewCell {
     
     var videoVC: SightVideoViewController = SightVideoViewController()
     
-    var otherVC: SightOtherViewController = SightOtherViewController()
+    var topicVC: SightTopicViewController = SightTopicViewController()
     
     var cache = [String : NSArray]()
     
     var tagId: String = "" {
         didSet {
-            otherVC.tagId = tagId
+            topicVC.tagId = tagId
         }
     }
     
@@ -33,27 +33,25 @@ class SightCollectionViewCell: UICollectionViewCell {
             landscapeVC.sightId = sightId
             bookVC.sightId      = sightId
             videoVC.sightId     = sightId
-            otherVC.sightId     = sightId
+            topicVC.sightId     = sightId
         }
     }
     
     var type: Int? {
         didSet {
-            switch type! {
-            case categoryLabel.sightLabel:
-//                landscapeVC = SightLandscapeController()
-                addSubview(landscapeVC.view)
-            case categoryLabel.bookLabel:
-//                bookVC = SightBookViewController()
-                addSubview(bookVC.view)
-            case categoryLabel.videoLabel:
-//                videoVC = SightVideoViewController()
-                addSubview(videoVC.view)
-            case categoryLabel.otherLabel:
-//                otherVC = SightOtherViewController()
-                addSubview(otherVC.view)
-            default:
-                break
+            if let type = type {
+                switch type {
+                case CategoryLabel.sightLabel:
+                    addSubview(landscapeVC.view)
+                case CategoryLabel.bookLabel:
+                    addSubview(bookVC.view)
+                case CategoryLabel.videoLabel:
+                    addSubview(videoVC.view)
+                case CategoryLabel.topicLabel:
+                    addSubview(topicVC.view)
+                default:
+                    break
+                }
             }
         }
     }
@@ -62,14 +60,14 @@ class SightCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         switch type! {
-        case categoryLabel.sightLabel:
+        case CategoryLabel.sightLabel:
             landscapeVC.view.frame = bounds
-        case categoryLabel.bookLabel:
+        case CategoryLabel.bookLabel:
             bookVC.view.frame = bounds
-        case categoryLabel.videoLabel:
+        case CategoryLabel.videoLabel:
             videoVC.view.frame = bounds
-        case categoryLabel.otherLabel:
-            otherVC.view.frame = bounds
+        case CategoryLabel.topicLabel:
+            topicVC.view.frame = bounds
         default:
             break
         }

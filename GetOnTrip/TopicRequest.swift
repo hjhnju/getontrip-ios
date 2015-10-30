@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopicDetailRequest: NSObject {
+class TopicRequest: NSObject {
 
     /**
     * 接口1：/api/topic/detail
@@ -32,7 +32,7 @@ class TopicDetailRequest: NSObject {
         post["topicId"]  = String(topicId!)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic/detail", post: post) { (result, error) -> () in
+        HttpRequest.ajax(AppIni.BaseUri, path: "/api/topic", post: post) { (result, error) -> () in
             if error == nil {
                 if let data = result!["data"] as? [String : AnyObject] {
                     handler(TopicDetail(dict: data))

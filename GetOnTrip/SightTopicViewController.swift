@@ -12,9 +12,9 @@ import SVProgressHUD
 
 public let HistoryTableViewControllerElseCell : String = "History_Cell"
 
-class SightOtherViewController: UITableViewController {
+class SightTopicViewController: UITableViewController {
 
-    var lastOtherRequest = SightTopicRequest()
+    var lastOtherRequest = SightTopicsRequest()
     
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -55,8 +55,6 @@ class SightOtherViewController: UITableViewController {
         tableView.footer.automaticallyHidden = true
         if !tableView.header.isRefreshing() {
             tableView.header.beginRefreshing()
-            print("===============")
-
         }
     }
     
@@ -115,9 +113,7 @@ class SightOtherViewController: UITableViewController {
     
     /// 底部加载更多
     func loadMore(){
-            
             lastOtherRequest.fetchNextPageModels({ (nextData, status) -> Void in
-                
                 if status == RetCode.SUCCESS {
                     if nextData != nil {
                         let s = nextData! as [String : AnyObject]

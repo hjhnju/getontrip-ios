@@ -117,7 +117,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     }
     
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: TopicDetailRequest?
+    var lastSuccessAddRequest: TopicRequest?
     
     
     //导航背景，用于完成渐变
@@ -202,7 +202,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     private func loadSightData() {
         
         if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = TopicDetailRequest()
+            lastSuccessAddRequest = TopicRequest()
             lastSuccessAddRequest?.topicId = topicId
         }
         

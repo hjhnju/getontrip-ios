@@ -15,7 +15,7 @@ public let HistoryTableViewControllerBookCell : String = "Book_Cell"
 
 class SightBookViewController: UITableViewController {
 
-    var lastBookRequest = BookRequest()
+    var lastBookRequest = SightBooksRequest()
     
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -49,8 +49,6 @@ class SightBookViewController: UITableViewController {
         tableView.footer.automaticallyHidden = true
         if !tableView.header.isRefreshing() {
             tableView.header.beginRefreshing()
-            print("===============")
-
         }
 
     }
@@ -92,14 +90,14 @@ class SightBookViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerBookCell, forIndexPath: indexPath) as! BookCell
-        cell.book = dataSource[indexPath.row] as? SightBook
+        cell.book = dataSource[indexPath.row] as? Book
         
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let bc = BookViewController()
-        let dataI = dataSource[indexPath.row] as! SightBook
+        let dataI = dataSource[indexPath.row] as! Book
         bc.bookId = dataI.id!
         navigationController?.pushViewController(bc, animated: true)
     }
