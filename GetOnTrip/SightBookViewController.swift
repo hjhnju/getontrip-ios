@@ -50,7 +50,6 @@ class SightBookViewController: UITableViewController {
         if !tableView.header.isRefreshing() {
             tableView.header.beginRefreshing()
         }
-
     }
     
     // MARK: - 刷新方法

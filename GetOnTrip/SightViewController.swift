@@ -74,7 +74,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
-        
+        collectionView.bounces = false
         loadSightData()
     }
     
@@ -149,6 +149,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         indicateView.center = CGPointMake(lW * 0.5, CGRectGetMaxY(labelScrollView.frame) - 1.5)
         labelScrollView.contentSize = CGSizeMake(x, 0)
         labelScrollView.contentInset = UIEdgeInsetsZero
+        collectionView.contentSize = CGSizeMake(view.bounds.width * CGFloat(channels.count), view.bounds.height - h)
+        
         currentIndex = 0
     }
     
@@ -172,7 +174,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
-
         if (!childViewControllers.contains(cell.landscapeVC)) {
             addChildViewController(cell.landscapeVC)
             addChildViewController(cell.bookVC)

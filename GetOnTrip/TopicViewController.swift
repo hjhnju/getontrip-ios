@@ -233,7 +233,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         favNumLabel.hidden   = true
         visitNumLabel.hidden = true
         
-        view.addSubview(cover)
+//        view.addSubview(cover)
         cover.backgroundColor = UIColor.blackColor()
         
         //share view
@@ -283,7 +283,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
         
-        cover.ff_Fill(view)
+//        cover.ff_Fill(view)
     }
 
     deinit {
@@ -418,7 +418,9 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         let w = view.bounds.width
         let h = view.bounds.height
         
-        view.addSubview(commentVC.view)
+//        view.addSubview(commentVC.view)
+        UIApplication.sharedApplication().keyWindow?.addSubview(cover)
+        UIApplication.sharedApplication().keyWindow?.addSubview(commentVC.view)
         commentVC.topicId = topicId
         commentVC.view.clipsToBounds = true
         commentVC.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
@@ -442,6 +444,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
             self?.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
             }) { [weak self]  (_) -> Void in
                 self?.commentVC.view.removeFromSuperview()
+                self?.cover.removeFromSuperview()
         }
     }
     
