@@ -56,20 +56,6 @@ class BookRequest: NSObject {
             }
             handler(nil, status)
         }
-        
-        
-        // 发送网络请求加载数据
-//        HttpRequest.ajax(AppIni.BaseUri, path: "/api/book", post: post) { (result, error) -> () in
-//            if error == nil {
-//                let sightBook = NSMutableArray() // [SightBook]()
-//                for item in result!["data"] as! NSArray {
-//                    sightBook.addObject(SightBook(dict: item as! [String : AnyObject]))
-//                }
-//                
-//                // 回调
-//                handler(sightBook)
-//            }
-//        }
     }
 }
 

@@ -169,15 +169,13 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        //不能放在willAppear
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         //在viewDidDisappear中无法生效
         navigationController?.navigationBar.setBackgroundImage(oldBgImage, forBarMetrics: UIBarMetrics.Default)
-         navigationController?.navigationBar.tintColor = oldNavTintColor
+        navigationController?.navigationBar.tintColor = oldNavTintColor
     }
     
     
@@ -239,7 +237,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
         cover.backgroundColor = UIColor.blackColor()
         
         //share view
-            }
+    }
     
     private func setupDefaultProperty() {
         shareBtn.addTarget(self, action: "doSharing:", forControlEvents: UIControlEvents.TouchUpInside)

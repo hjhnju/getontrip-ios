@@ -26,7 +26,6 @@ class DetailWebViewController: UIViewController {
         view.backgroundColor = SceneColor.frontBlack
         webView.backgroundColor = UIColor.clearColor()
         
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
         navigationItem.backBarButtonItem  = UIBarButtonItem(title: "途知", style: .Plain, target: nil, action: nil)
 
         view.addSubview(webView)

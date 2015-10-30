@@ -161,8 +161,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         currentIndex = 0
     }
-
-
+    
     private func setupLayout() {
         layout.itemSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 36)
         layout.minimumInteritemSpacing = 0
@@ -208,7 +207,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
         
         cell.sightId = sightId
-        
         
         return cell
     }
