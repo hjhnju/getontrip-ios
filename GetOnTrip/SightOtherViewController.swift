@@ -55,8 +55,6 @@ class SightOtherViewController: UITableViewController {
         tableView.footer.automaticallyHidden = true
         if !tableView.header.isRefreshing() {
             tableView.header.beginRefreshing()
-            print("===============")
-
         }
     }
     

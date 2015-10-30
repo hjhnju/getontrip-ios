@@ -30,8 +30,12 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     lazy var issueTextfield: UITextField = UITextField()
     /// 发布按钮
     lazy var issueCommentBtn: UIButton = UIButton(title: "确认发布", fontSize: 12, radius: 10, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
-    
+    /// 评论标题view
+    lazy var commentTitleView = UIView(color: UIColor.whiteColor())
+    /// 评论标题
     lazy var commentTitle: UILabel = UILabel(color: SceneColor.bgBlack, title: "评论", fontSize: 16, mutiLines: true)
+    /// 评论底线
+    lazy var commentBottomLine = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
     lazy var issueCommentTopLine: UIView = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
@@ -39,11 +43,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     var indexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
         
-    var data: [CommentList] = [CommentList]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var data: [CommentList] = [CommentList]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +55,9 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         issueCommentView.addSubview(issueCommentBtn)
         issueCommentView.addSubview(issueCommentTopLine)
         issueCommentBtn.backgroundColor = SceneColor.shallowYellows
+        view.addSubview(commentTitleView)
+        commentTitleView.addSubview(commentTitle)
+        commentTitleView.addSubview(commentBottomLine)
         issueCommentBtn.addTarget(self, action: "sendCommentData:", forControlEvents: UIControlEvents.TouchUpInside)
         commentTitle.textAlignment = NSTextAlignment.Center
         commentTitle.backgroundColor = SceneColor.crystalWhite
@@ -62,10 +65,10 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.tableHeaderView = commentTitle
         tableView.sectionHeaderHeight = 41
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(commentTableViewCell.self, forCellReuseIdentifier: "commentTableView_Cell")
+        tableView.contentInset = UIEdgeInsets(top: 41, left: 0, bottom: 0, right: 0)
         
         loadCommentData()
         setupAutoLayout()
@@ -105,7 +108,6 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                     self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: String(com.id), toUserId: com.from_user_id, content: self.issueTextfield.text!) { (_) -> Void in
                         self.loadCommentData()
                     }
-                    self.loadCommentData()
                     self.issueTextfield.text = ""
                 }
                 return
@@ -130,12 +132,15 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     private func setupAutoLayout() {
         
         commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 41)
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 444 - 50), offset: CGPointMake(0, 0))
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 444 - 50 - 20), offset: CGPointMake(0, 0))
         issueCommentView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
         commentBottomImage.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 6))
         issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))
         issueCommentTopLine.ff_AlignInner(ff_AlignType.TopLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width, 0.5))
         issueCommentBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: issueCommentView, size: CGSizeMake(91, 34), offset: CGPointMake(-19, 0))
+        commentTitleView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 41), offset: CGPointMake(0, 0))
+        commentTitle.ff_AlignInner(ff_AlignType.CenterCenter, referView: commentTitleView, size: nil)
+        commentBottomLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: commentTitleView, size: CGSizeMake(view.bounds.width, 0.5))
     }
     
 

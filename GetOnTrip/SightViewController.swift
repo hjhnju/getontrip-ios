@@ -80,7 +80,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
-        
+        collectionView.bounces = false
         loadSightData()
     }
     
@@ -104,7 +104,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
-//        collectionViewCellCache.removeAll()
     }
     
     override func viewDidLayoutSubviews() {
@@ -158,6 +157,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         indicateView.center = CGPointMake(lW! * 0.5, CGRectGetMaxY(labelScrollView.frame) - 1.5)
         labelScrollView.contentSize = CGSizeMake(x, 0)
         labelScrollView.contentInset = UIEdgeInsetsZero
+        collectionView.contentSize = CGSizeMake(view.bounds.width * CGFloat(channels!.count), view.bounds.height - h)
+        
         currentIndex = 0
     }
 
@@ -185,16 +186,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         let data = dataType[indexPath.row] as! SightListTags
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
-
-//        if let vc = cell.landscapeVC {
-//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
-//        } else if let vc = cell.bookVC {
-//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
-//        } else if let vc = cell.videoVC {
-//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
-//        } else if let vc = cell.otherVC {
-//            if (!childViewControllers.contains(vc)) { addChildViewController(vc) }
-//        }
         
         if (!childViewControllers.contains(cell.landscapeVC)) {
             addChildViewController(cell.landscapeVC)
@@ -202,8 +193,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             addChildViewController(cell.videoVC)
             addChildViewController(cell.otherVC)
         }
-
-        
         
         let labId = channels![indexPath.row] as! SightListTags
         cell.tagId = labId.id!

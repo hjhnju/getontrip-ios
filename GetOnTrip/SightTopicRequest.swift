@@ -37,7 +37,7 @@ class SightTopicRequest: NSObject {
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/detail", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                print(result)
+
                 var dict = [String : AnyObject]()
                 var sightTags = [SightListTags]()
                 if result["tags"] != nil {
