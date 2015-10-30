@@ -75,7 +75,7 @@ class CollectContentViewController: UITableViewController {
         
         let col = collectContent[indexPath.row] as CollectContent
         if col.type == "4" {
-            let vc = TopicDetailController()
+            let vc = TopicViewController()
             vc.topicId = col.id
             navigationController?.pushViewController(vc, animated: true)
         } else {
@@ -91,22 +91,6 @@ class CollectContentViewController: UITableViewController {
         
         let collect = collectContent[indexPath.row] as CollectContent
         return collect.type == "4" ? 107 : 125
-    }
-    
-
-    
-    private func loadData(id: Int) {
-        NSLog("notice:refreshing nearby data.")
-        
-//        TopicDetailRequest(topicId: id).fetchModels { (handler: Topic) -> Void in
-//            
-//            let topicDetailViewController = UIStoryboard(name: "TopicDetail", bundle: nil).instantiateViewControllerWithIdentifier(StoryBoardIdentifier.TopicDetailViewControllerID) as? TopicDetailViewController
-//            let topic = handler as Topic
-//            topic.sight = self.navigationController?.navigationItem.title
-//            topicDetailViewController!.topic = topic
-//            super.navigationController?.navigationController?.pushViewController(topicDetailViewController!, animated: true)
-//        }
-//        
     }
 
 }

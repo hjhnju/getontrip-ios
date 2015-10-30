@@ -98,7 +98,7 @@ class SightOtherViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let vc: TopicDetailController = TopicDetailController()
+        let vc: TopicViewController = TopicViewController()
         let dataI = dataSource[indexPath.row] as! TopicCellData
         vc.topicId = dataI.id
         vc.sightName = dataI.title

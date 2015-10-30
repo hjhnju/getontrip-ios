@@ -1,6 +1,6 @@
 
 //
-//  TopicDetailController.swift
+//  TopicViewController.swift
 //  GetOnTrip
 //
 //  Created by 王振坤 on 10/9/15.
@@ -17,7 +17,7 @@ struct TopicViewContant {
     static let commentViewHeight:CGFloat = 248
 }
 
-class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
+class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
     
     // MARK: 相关属性
     

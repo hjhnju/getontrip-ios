@@ -157,13 +157,14 @@ class UserAccount: NSObject, NSCoding {
     }
     
     /// MARK: - 保存和加载文件
-    static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("account.plist")
+    static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("/account.plist")
     
     // MARK: - 退出登陆
     func exitLogin() {
         sharedUserAccount = nil
         userExitLoginAction()
         NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
+        print("accoutPath=\(UserAccount.accountPath)")
         try! NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
     }
     
@@ -178,8 +179,10 @@ class UserAccount: NSObject, NSCoding {
     class func loadAccount() -> UserAccount? {
         
          /// 程序启动先调用登陆状态如果后台说未登陆就让它下线
+        print("load account, path=\(UserAccount.accountPath), path=\(accountPath)")
         if let account = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount {
             
+            print("load account=\(account)")
             if account.userLoginInsepctRequest == nil {
                 account.userLoginInsepctRequest = UserLoginInsepctRequest()
             }
