@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
-class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SightLabelDelegate {
+class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
     
     /// 景点id
     var sightId: String = ""
@@ -129,7 +129,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         } 
         var index: Int = 0
         for tag in channels {
-            let lab = SightLabel.channelLabelWithTitle(tag.name, width: lW, height: h, fontSize: 14)
+            let lab = UIChannelLabel.channelLabelWithTitle(tag.name, width: lW, height: h, fontSize: 14)
             
             lab.delegate = self
             lab.textColor = UIColor.whiteColor()
@@ -236,17 +236,14 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     // MARK: - 自定义方法
     
     ///  标签选中方法
-    func sightLabelDidSelected(label: SightLabel) {
-        
+    func labelDidSelected(label: UIChannelLabel) {
         currentIndex = label.tag
         let indexPath = NSIndexPath(forItem: label.tag, inSection: 0)
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
-        
     }
     
     //获取数据
     private func loadSightData() {
-        
         if lastRequest == nil {
             lastRequest = SightRequest()
             lastRequest?.sightId = sightId
