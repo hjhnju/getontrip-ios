@@ -30,7 +30,7 @@ class BriefTopic : NSObject {
     //所属景点
     var sight: String = ""
     
-    init(dict: [String: String]) {
+    init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
     }

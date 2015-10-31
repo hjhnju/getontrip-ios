@@ -10,6 +10,9 @@ import UIKit
 
 class SightCollectionViewCell: UICollectionViewCell {
     
+    /// 数据
+    var label: Tag?
+    
     /// 子控制器
     var landscapeVC: SightLandscapeController = SightLandscapeController()
     

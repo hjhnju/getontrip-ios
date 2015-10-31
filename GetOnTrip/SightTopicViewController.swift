@@ -14,29 +14,24 @@ public let HistoryTableViewControllerElseCell : String = "History_Cell"
 
 class SightTopicViewController: UITableViewController {
 
-    var lastOtherRequest = SightTopicsRequest()
+    var lastRequest = SightTopicsRequest()
     
     /// 是否正在加载中
     var isLoading:Bool = false
 
     var sightId: String = "" {
         didSet {
-            lastOtherRequest.sightId = sightId
+            lastRequest.sightId = sightId
         }
     }
     
     var tagId: String = ""{
         didSet {
-            lastOtherRequest.tag = tagId
+            lastRequest.tag = tagId
         }
     }
     
-    var dataSource: NSMutableArray = NSMutableArray() {
-        didSet {
-            tableView.header.endRefreshing()
-            tableView.reloadData()
-        }
-    }
+    var topics = [TopicCellData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,41 +60,40 @@ class SightTopicViewController: UITableViewController {
         }
         
         self.isLoading = true
-        lastOtherRequest.fetchFirstPageModels({ [weak self] (data, status) -> Void in
+        lastRequest.fetchFirstPageModels({ [weak self] (topics, status) -> Void in
             if status == RetCode.SUCCESS {
-                self!.tableView.header.endRefreshing()
+                self?.tableView.header.endRefreshing()
             } else {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
             }
-            self!.isLoading = false
-            if let s = data {
-                if s["sightDatas"]!.count > 0 {
-                    self!.dataSource = NSMutableArray(array:s["sightDatas"]?.copy() as! [AnyObject])
-                    self?.tableView.reloadData()
-                }
+            if let topics = topics {
+                self?.topics = topics
+                self?.tableView.reloadData()
+                self?.tableView.footer.endRefreshing()
             }
-            })
+            self?.isLoading = false
+        })
     }
     
     // MARK: - tableview 数据源及代理方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        return topics.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerElseCell, forIndexPath: indexPath) as! TopicCell
         
-        cell.topicCellData = dataSource[indexPath.row] as? TopicCellData
+        cell.topicCellData = topics[indexPath.row]
         
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let vc: TopicViewController = TopicViewController()
-        let dataI = dataSource[indexPath.row] as! TopicCellData
-        vc.topicId = dataI.id
-        vc.sightName = dataI.title
+        let topic = topics[indexPath.row]
+        vc.topicId = topic.id
+        vc.sightName = topic.title
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -113,12 +107,11 @@ class SightTopicViewController: UITableViewController {
     
     /// 底部加载更多
     func loadMore(){
-            lastOtherRequest.fetchNextPageModels({ (nextData, status) -> Void in
+            lastRequest.fetchNextPageModels({ (topics, status) -> Void in
                 if status == RetCode.SUCCESS {
-                    if nextData != nil {
-                        let s = nextData! as [String : AnyObject]
-                        if s["sightDatas"]!.count > 0 {
-                            self.dataSource.addObjectsFromArray(NSMutableArray(array:s["sightDatas"] as! [AnyObject]) as [AnyObject])
+                    if let topics = topics {
+                        if topics.count > 0 {
+                            self.topics = topics
                             self.tableView.reloadData()
                             self.tableView.footer.endRefreshing()
                         } else {

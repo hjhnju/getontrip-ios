@@ -15,20 +15,28 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     /// 景点id
     var sightId: String = ""
     
-    //景点名称
+    /// 景点名称
     var sightName: String = ""
     
-    //标签导航栏的主视图
+    /// 数据
+    var sight = Sight() {
+        didSet {
+            setupChannel()
+            collectionView.reloadData()
+        }
+    }
+    
+    /// 标签导航栏的主视图
     lazy var labelNavView: UIView = UIView()
     
-    //指示view
+    /// 指示view
     lazy var indicateView: UIView = UIView(color: UIColor.yellowColor())
     
-    //标签导航栏的scrollView
+    /// 标签导航栏的scrollView
     lazy var labelScrollView = UIScrollView()
     
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: SightRequest?
+    var lastRequest: SightRequest?
     
     /// 流水布局
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -42,22 +50,15 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     /// 索引
     var currentIndex: Int?
     
+    /// 左滑手势是否生效
     var isPopGesture: Bool = false
-    
-    /// 数据
-    var sight = Sight() {
-        didSet {
-            setupChannel()
-            collectionView.reloadData()
-        }
-    }
     
     /// 缓存cell
     lazy var collectionViewCellCache = [String : NSArray]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = SceneColor.bgBlack
+        view.backgroundColor = SceneColor.frontBlack
         
         //nav bar
         automaticallyAdjustsScrollViewInsets = false
@@ -176,12 +177,19 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
         if (!childViewControllers.contains(cell.landscapeVC)) {
             addChildViewController(cell.landscapeVC)
+        }
+        if (!childViewControllers.contains(cell.bookVC)) {
             addChildViewController(cell.bookVC)
+        }
+        if (!childViewControllers.contains(cell.videoVC)) {
             addChildViewController(cell.videoVC)
+        }
+        if (!childViewControllers.contains(cell.topicVC)) {
             addChildViewController(cell.topicVC)
         }
         
         let tag      = sight.tags[indexPath.row]
+        cell.label   = tag
         cell.tagId   = sight.tags[indexPath.row].id
         cell.type    = Int(tag.type)
         cell.sightId = sightId
@@ -193,7 +201,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     
-    // MARK - scrollerView 代理方法
+    // MARK: - scrollerView 代理方法
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
         currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
@@ -224,6 +232,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             }
         }
     }
+
+    // MARK: - 自定义方法
     
     ///  标签选中方法
     func sightLabelDidSelected(label: SightLabel) {
@@ -237,12 +247,12 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     //获取数据
     private func loadSightData() {
         
-        if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = SightRequest()
-            lastSuccessAddRequest?.sightId = sightId
+        if lastRequest == nil {
+            lastRequest = SightRequest()
+            lastRequest?.sightId = sightId
         }
         
-        lastSuccessAddRequest?.fetchFirstPageModels({ [weak self] (sight, status) -> Void in
+        lastRequest?.fetchFirstPageModels({ [weak self] (sight, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let sight = sight {
                     self?.sight = sight
@@ -253,7 +263,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         })
     }
 
-    // MARK: - 搜索(下一个控制器)
     func searchButtonClicked(button: UIBarButtonItem) {
         presentViewController(SearchViewController(), animated: true, completion: nil)
     }
