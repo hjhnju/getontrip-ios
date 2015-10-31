@@ -18,16 +18,13 @@ class SightTopicViewController: UITableViewController {
     
     /// 是否正在加载中
     var isLoading:Bool = false
-
-    var sightId: String = "" {
-        didSet {
-            lastRequest.sightId = sightId
-        }
-    }
     
-    var tagId: String = ""{
+    var labelData:Tag? {
         didSet {
-            lastRequest.tag = tagId
+            if let label = labelData {
+                lastRequest.sightId = label.sightId
+                lastRequest.tagId   = label.id
+            }
         }
     }
     

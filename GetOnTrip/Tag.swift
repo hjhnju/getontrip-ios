@@ -12,10 +12,13 @@ import Foundation
 class Tag: NSObject {
     /// 话题tagid
     var id: String = ""
-    ///  类型
+    /// 类型
     var type: String = ""
-    ///  标签名字
+    /// 标签名字
     var name: String = ""
+    
+    /// 所属景点id
+    var sightId: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()

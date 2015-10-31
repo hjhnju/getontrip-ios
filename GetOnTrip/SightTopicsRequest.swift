@@ -15,7 +15,7 @@ class SightTopicsRequest: NSObject {
     var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 6
-    var tag     :String = ""
+    var tagId   :String = ""
     
     func fetchNextPageModels(handler: (([TopicCellData]?, Int) -> Void)) {
         page = page + 1
@@ -33,7 +33,7 @@ class SightTopicsRequest: NSObject {
         post["sightId"]  = sightId
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
-        post["tags"]     = String(tag)
+        post["tags"]     = String(tagId)
         // 发送网络请求加载数据
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/topic", post: post) { (result, status) -> () in

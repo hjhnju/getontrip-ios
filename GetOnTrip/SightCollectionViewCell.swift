@@ -11,7 +11,22 @@ import UIKit
 class SightCollectionViewCell: UICollectionViewCell {
     
     /// 数据
-    var label: Tag?
+    var labelData: Tag? {
+        didSet {
+            if let label = labelData {
+                //设置景点id
+                landscapeVC.sightId = label.sightId
+                bookVC.sightId      = label.sightId
+                videoVC.sightId     = label.sightId
+                
+                //设置cell的数据类型
+                self.type = Int(label.type)
+            }
+            
+            //设置tag id
+            topicVC.labelData = labelData
+        }
+    }
     
     /// 子控制器
     var landscapeVC: SightLandscapeController = SightLandscapeController()
@@ -23,22 +38,6 @@ class SightCollectionViewCell: UICollectionViewCell {
     var topicVC: SightTopicViewController = SightTopicViewController()
     
     var cache = [String : NSArray]()
-    
-    var tagId: String = "" {
-        didSet {
-            topicVC.tagId = tagId
-        }
-    }
-    
-    /// 景点id
-    var sightId: String = "" {
-        didSet {
-            landscapeVC.sightId = sightId
-            bookVC.sightId      = sightId
-            videoVC.sightId     = sightId
-            topicVC.sightId     = sightId
-        }
-    }
     
     var type: Int? {
         didSet {
