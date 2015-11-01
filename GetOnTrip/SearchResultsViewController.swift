@@ -101,7 +101,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         view.addSubview(searchResult)
         view.addSubview(locationCity)
         
-        
         locationCity.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
         searchResult.sendSubviewToBack(view)
         searchResult.hidden = true
@@ -453,6 +452,11 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         cell.preservesSuperviewLayoutMargins = false
         cell.layoutMargins = UIEdgeInsetsZero
         cell.backgroundColor = UIColor.clearColor()
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        let vc = parentViewController as? SearchViewController
+        vc?.searchBar.endEditing(true)
     }
     
     // MARK: UISearchResultsUpdating

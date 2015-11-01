@@ -183,6 +183,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         }
     }
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
+    
     // MARK: - 删除历史记录方法
     func deleteButtonAction() {
         NSUserDefaults.standardUserDefaults().removeObjectForKey("recordData")

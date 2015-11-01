@@ -165,7 +165,11 @@ class UserAccount: NSObject, NSCoding {
         userExitLoginAction()
         NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
 
-        try? NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
+        } catch {
+            print(error)
+        }
     }
     
     ///  将当前对象归档保存至沙盒 `Keyed` 键值归档/解档
