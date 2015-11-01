@@ -175,11 +175,14 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     }
     
     func exitLoginClick() {
-        print("退出登陆")
+        print("退出登录")
         sharedUserAccount?.exitLogin()
         sharedUserAccount = nil
         // 将页面返回到首页
-        navigationController!.popViewControllerAnimated(true)
+        let vc = parentViewController as! UINavigationController
+
+        let nav = vc.parentViewController as! SlideMenuViewController
+        nav.curVCType = SearchRecommendViewController.self
     }
     
     func sortClick() {
