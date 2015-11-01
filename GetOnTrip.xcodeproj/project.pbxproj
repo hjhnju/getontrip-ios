@@ -19,9 +19,10 @@
 		726974751BE39D38000C0ABF /* TopicCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726974741BE39D38000C0ABF /* TopicCellData.swift */; settings = {ASSET_TAGS = (); }; };
 		726974771BE39F8A000C0ABF /* CommentAddRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726974761BE39F8A000C0ABF /* CommentAddRequest.swift */; settings = {ASSET_TAGS = (); }; };
 		7269747B1BE47245000C0ABF /* UIChannelLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7269747A1BE47245000C0ABF /* UIChannelLabel.swift */; settings = {ASSET_TAGS = (); }; };
+		726974BE1BE6536B000C0ABF /* TopicDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726974BD1BE6536B000C0ABF /* TopicDetail.swift */; settings = {ASSET_TAGS = (); }; };
 		727561821BD0F6240089CB27 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561811BD0F6240089CB27 /* City.swift */; };
 		727561841BD0F64A0089CB27 /* Sight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561831BD0F64A0089CB27 /* Sight.swift */; };
-		727561861BD0F6730089CB27 /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561851BD0F6730089CB27 /* Topic.swift */; };
+		727561861BD0F6730089CB27 /* BriefTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561851BD0F6730089CB27 /* BriefTopic.swift */; };
 		727561881BD4A92A0089CB27 /* DetailWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561871BD4A92A0089CB27 /* DetailWebViewController.swift */; };
 		729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */; };
 		729574001BCF345600343F8F /* UIKitTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FF1BCF345600343F8F /* UIKitTools.swift */; };
@@ -163,9 +164,10 @@
 		726974741BE39D38000C0ABF /* TopicCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicCellData.swift; sourceTree = "<group>"; };
 		726974761BE39F8A000C0ABF /* CommentAddRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentAddRequest.swift; sourceTree = "<group>"; };
 		7269747A1BE47245000C0ABF /* UIChannelLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChannelLabel.swift; sourceTree = "<group>"; };
+		726974BD1BE6536B000C0ABF /* TopicDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetail.swift; sourceTree = "<group>"; };
 		727561811BD0F6240089CB27 /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		727561831BD0F64A0089CB27 /* Sight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sight.swift; sourceTree = "<group>"; };
-		727561851BD0F6730089CB27 /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
+		727561851BD0F6730089CB27 /* BriefTopic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BriefTopic.swift; sourceTree = "<group>"; };
 		727561871BD4A92A0089CB27 /* DetailWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailWebViewController.swift; sourceTree = "<group>"; };
 		729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightCollectionViewCell.swift; sourceTree = "<group>"; };
 		729573FF1BCF345600343F8F /* UIKitTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitTools.swift; sourceTree = "<group>"; };
@@ -650,8 +652,9 @@
 			children = (
 				AEAB95191BC7C83300B6EE62 /* TopicRequest.swift */,
 				AEC2318C1BCE5519008C58C9 /* BookRequest.swift */,
-				727561851BD0F6730089CB27 /* Topic.swift */,
+				727561851BD0F6730089CB27 /* BriefTopic.swift */,
 				726974741BE39D38000C0ABF /* TopicCellData.swift */,
+				726974BD1BE6536B000C0ABF /* TopicDetail.swift */,
 				7269746C1BE39434000C0ABF /* Video.swift */,
 				7269746E1BE39481000C0ABF /* Book.swift */,
 				726974701BE394E3000C0ABF /* Landscape.swift */,
@@ -865,6 +868,7 @@
 				AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */,
 				726974751BE39D38000C0ABF /* TopicCellData.swift in Sources */,
 				AE8586CB1BC7820500406BEF /* SearchResultsViewController.swift in Sources */,
+				726974BE1BE6536B000C0ABF /* TopicDetail.swift in Sources */,
 				AEB98F351BE1CAC400183261 /* SightVideoViewController.swift in Sources */,
 				AEC2318D1BCE5519008C58C9 /* BookRequest.swift in Sources */,
 				AE6079B91BB26DCA00DB2955 /* UIView+Extension.swift in Sources */,
@@ -902,7 +906,7 @@
 				AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */,
 				AE7E8CC71BD8C05900E7D9EB /* CommentListRequest.swift in Sources */,
 				AE62E2CC1BB3DED900B91D33 /* UITextField+Extension.swift in Sources */,
-				727561861BD0F6730089CB27 /* Topic.swift in Sources */,
+				727561861BD0F6730089CB27 /* BriefTopic.swift in Sources */,
 				AE2EEE961BCF833E00ED0937 /* TopicRefreshRequest.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,
 				AE62E2CE1BB3EF6500B91D33 /* UIPickerView+Extension.swift in Sources */,
