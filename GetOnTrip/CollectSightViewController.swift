@@ -162,7 +162,9 @@ class CollectionSightViewCell: UICollectionViewCell {
         addSubview(subtitle)
         addSubview(collectBtn)
         collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
-        collectBtn.selected = true
+        collectBtn.selected    = true
+        iconView.contentMode   = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds = true
         setupAutoLayout()
     }
     

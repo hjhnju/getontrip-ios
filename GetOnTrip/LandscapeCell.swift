@@ -99,7 +99,8 @@ class LandscapeCell: UITableViewCell {
         label2.textAlignment = NSTextAlignment.Center
         label3.textAlignment = NSTextAlignment.Center
         label4.textAlignment = NSTextAlignment.Center
-
+        iconView.contentMode                  = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds                = true
     }
     
     private func setupAutoLayout() {
@@ -217,6 +218,8 @@ class LandscapeCell1: UITableViewCell {
         label2.textAlignment = NSTextAlignment.Center
         label3.textAlignment = NSTextAlignment.Center
         label4.textAlignment = NSTextAlignment.Center
+        iconView.contentMode                  = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds                = true
     }
     
     private func setupAutoLayout() {

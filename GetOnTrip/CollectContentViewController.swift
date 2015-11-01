@@ -170,7 +170,8 @@ class CollectContentCell: UITableViewCell {
         addSubview(collect)
         addSubview(baseline)
         
-        iconView.contentMode = UIViewContentMode.ScaleAspectFit
+        iconView.contentMode    = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds  = true
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 120 - 27
         titleLabel.preferredMaxLayoutWidth = w
         subtitleLabel.preferredMaxLayoutWidth = w

@@ -14,7 +14,6 @@ class SightRequest: NSObject {
     var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 6
-    var tag     :String = ""
     
     func fetchNextPageModels(handler: (Sight?, Int) -> Void) {
         page = page + 1
@@ -32,27 +31,14 @@ class SightRequest: NSObject {
         post["sightId"]  = sightId
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
-        post["tags"]     = String(tag)
-        // 发送网络请求加载数据
         
+        // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 if let dict = result.dictionaryObject {
                     let sight = Sight(dict: dict)
                     handler(sight, status)
                 }
-                
-//                var dict = [String : AnyObject]()
-//                var sightTags = [Tag]()
-//                if result["tags"] != nil {
-//                    for item in result["tags"].arrayValue {
-//                        if let item = item.dictionaryObject {
-//                            sightTags.append(Tag(dict: item))
-//                        }
-//                    }
-//                }
-//                sight.tags = sightTags
-                
                 return
             }
             handler(nil, status)

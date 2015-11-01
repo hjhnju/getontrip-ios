@@ -56,6 +56,8 @@ class BookCell: UITableViewCell {
         subtitleLabel.preferredMaxLayoutWidth = w
         titleLabel.numberOfLines              = 1
         subtitleLabel.numberOfLines           = 0
+        iconView.contentMode                  = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds                = true
     }
     
     private func setupAutoLayout() {

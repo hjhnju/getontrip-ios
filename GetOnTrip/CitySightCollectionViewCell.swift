@@ -40,6 +40,8 @@ class CitySightCollectionViewCell: UICollectionViewCell {
         addSubview(shade)
         addSubview(title)
         addSubview(desc)
+        icon.contentMode   = UIViewContentMode.ScaleAspectFill
+        icon.clipsToBounds = true
         
         icon.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
         shade.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size)

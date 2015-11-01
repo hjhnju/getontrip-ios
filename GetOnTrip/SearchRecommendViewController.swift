@@ -352,7 +352,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         self.errorView.hidden = true
         
         //清空footer的“加载完成”
-        tableView.footer.endRefreshing()
+        self.tableView.footer.resetNoMoreData()
         if lastSuccessRequest == nil {
             lastSuccessRequest = SearchRecommendRequest()
             lastSuccessRequest?.label = "" //默认返回带所有搜索标签

@@ -58,6 +58,8 @@ class VideoCell: UITableViewCell {
         visual.alpha = 1
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
+        iconView.contentMode                  = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds                = true
     }
     
     private func setupAutoLayout() {
