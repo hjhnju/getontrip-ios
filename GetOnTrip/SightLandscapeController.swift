@@ -15,7 +15,7 @@ public let HistoryTableViewControllerSightCell1:String = "History_Cell1"
 
 class SightLandscapeController: UITableViewController {
 
-    var lastLandscapeRequest = LandscapeRequest()
+    var lastLandscapeRequest = SightLandscapesRequest()
     
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -95,18 +95,18 @@ class SightLandscapeController: UITableViewController {
         if indexPath.row == 0 {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell, forIndexPath: indexPath) as! LandscapeCell
-            cell.landscape = dataSource[indexPath.row] as? SightLandscape
+            cell.landscape = dataSource[indexPath.row] as? Landscape
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1, forIndexPath: indexPath) as! LandscapeCell1
-            cell.landscape = dataSource[indexPath.row] as? SightLandscape
+            cell.landscape = dataSource[indexPath.row] as? Landscape
             return cell
         }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let sc = DetailWebViewController()
-        let landscape = dataSource[indexPath.row] as! SightLandscape
+        let landscape = dataSource[indexPath.row] as! Landscape
         sc.url = landscape.url
         sc.title = landscape.name
         navigationController?.pushViewController(sc, animated: true)

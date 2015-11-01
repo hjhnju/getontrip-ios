@@ -23,7 +23,7 @@ class VideoCell: UITableViewCell {
     
     lazy var visual: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
     
-    var video: SightVideo? {
+    var video: Video? {
         didSet {
             if let video = video {
                 iconView.image = nil

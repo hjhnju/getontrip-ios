@@ -393,7 +393,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let topic = tableViewDataSource![indexPath.row]
-        let vc    = TopicDetailController()
+        let vc    = TopicViewController()
         vc.topicId    = topic.id
         vc.topicTitle = topic.title
         vc.sightName  = topic.sight

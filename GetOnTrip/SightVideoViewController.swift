@@ -14,7 +14,7 @@ public let HistoryTableViewControllerVideoCell: String = "Video_Cell"
 
 class SightVideoViewController: UITableViewController {
 
-    var lastVideoRequest = VideoRequest()
+    var lastVideoRequest = SightVideosRequest()
     
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -93,13 +93,13 @@ class SightVideoViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerVideoCell, forIndexPath: indexPath) as! VideoCell
         cell.watchBtn.addTarget(self, action: "watchClick:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.watchBtn.tag = indexPath.row
-        cell.video = dataSource[indexPath.row] as? SightVideo
+        cell.video = dataSource[indexPath.row] as? Video
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let sc = DetailWebViewController()
-        let dataI = dataSource[indexPath.row] as! SightVideo
+        let dataI = dataSource[indexPath.row] as! Video
         sc.url = dataI.url
         navigationController?.pushViewController(sc, animated: true)
     }
@@ -149,7 +149,7 @@ class SightVideoViewController: UITableViewController {
     func watchClick(btn: UIButton) {
         
         let sc = DetailWebViewController()
-        let dataI = dataSource[btn.tag] as! SightVideo
+        let dataI = dataSource[btn.tag] as! Video
         sc.url = dataI.url
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: UIBarButtonItemStyle.Plain, target: "", action: "")
         navigationController?.pushViewController(sc, animated: true)

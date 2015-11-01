@@ -21,7 +21,7 @@ class BookCell: UITableViewCell {
     
     lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
 
-    var book: SightBook? {
+    var book: Book? {
         didSet {
             if book == nil { return }
             iconView.image = nil

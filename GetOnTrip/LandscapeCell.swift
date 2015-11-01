@@ -44,7 +44,7 @@ class LandscapeCell: UITableViewCell {
     
     lazy var baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
     
-    var landscape: SightLandscape? {
+    var landscape: Landscape? {
         didSet {
             if let landscape = landscape {
                 iconView.image = nil
@@ -161,7 +161,7 @@ class LandscapeCell1: UITableViewCell {
     
     lazy var baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
     
-    var landscape: SightLandscape? {
+    var landscape: Landscape? {
         didSet {
             if let landscape = landscape {
                 iconView.sd_setImageWithURL(NSURL(string: landscape.image), placeholderImage:PlaceholderImage.defaultSmall)

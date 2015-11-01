@@ -77,7 +77,7 @@ struct LoginType {
 }
 
 
-struct categoryLabel {
+struct CategoryLabel {
     /// 10
     static let sightLabel = 10
     /// 11
@@ -85,7 +85,7 @@ struct categoryLabel {
     /// 12
     static let videoLabel = 12
     /// 1
-    static let otherLabel = 3
+    static let topicLabel = 3
 }
 
 struct SceneFont {

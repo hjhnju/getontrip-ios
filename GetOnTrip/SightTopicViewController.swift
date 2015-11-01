@@ -12,9 +12,9 @@ import SVProgressHUD
 
 public let HistoryTableViewControllerElseCell : String = "History_Cell"
 
-class SightOtherViewController: UITableViewController {
+class SightTopicViewController: UITableViewController {
 
-    var lastOtherRequest = SightTopicRequest()
+    var lastOtherRequest = SightTopicsRequest()
     
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -96,7 +96,7 @@ class SightOtherViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let vc: TopicDetailController = TopicDetailController()
+        let vc: TopicViewController = TopicViewController()
         let dataI = dataSource[indexPath.row] as! TopicCellData
         vc.topicId = dataI.id
         vc.sightName = title ?? ""
@@ -113,9 +113,7 @@ class SightOtherViewController: UITableViewController {
     
     /// 底部加载更多
     func loadMore(){
-            
             lastOtherRequest.fetchNextPageModels({ (nextData, status) -> Void in
-                
                 if status == RetCode.SUCCESS {
                     if nextData != nil {
                         let s = nextData! as [String : AnyObject]

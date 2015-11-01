@@ -217,7 +217,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
 
                 return
             } else if content.search_type == SearchContentTopicType {
-                let vc = TopicDetailController()
+                let vc = TopicViewController()
                 vc.topicId = content.id!
 //                let nav = UINavigationController(rootViewController: vc)
 //                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
@@ -295,7 +295,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
 
 //                    presentViewController(nav, animated: true, completion: nil)
                 } else if searchType.search_type == SearchContentTopicType {
-                    let vc = TopicDetailController()
+                    let vc = TopicViewController()
                     vc.topicId = searchType.id!
 //                    let nav = UINavigationController(rootViewController: vc)
 //                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")

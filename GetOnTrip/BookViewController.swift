@@ -22,7 +22,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
 
     // MARK: - 属性
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: BookDetailRequest?
+    var lastSuccessAddRequest: BookRequest?
 
     var bookId: String = ""
     
@@ -308,7 +308,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     /// 获取数据
     private func loadData() {
         if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = BookDetailRequest()
+            lastSuccessAddRequest = BookRequest()
             lastSuccessAddRequest?.book = bookId
         }
         

@@ -1,6 +1,6 @@
 
 //
-//  TopicDetailController.swift
+//  TopicViewController.swift
 //  GetOnTrip
 //
 //  Created by 王振坤 on 10/9/15.
@@ -17,7 +17,7 @@ struct TopicViewContant {
     static let commentViewHeight:CGFloat = 248
 }
 
-class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
+class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
     
     // MARK: 相关属性
     
@@ -117,7 +117,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: TopicDetailRequest?
+    var lastSuccessAddRequest: TopicRequest?
     
     
     //导航背景，用于完成渐变
@@ -202,7 +202,7 @@ class TopicDetailController: UIViewController, UIScrollViewDelegate, UIWebViewDe
     private func loadSightData() {
         
         if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = TopicDetailRequest()
+            lastSuccessAddRequest = TopicRequest()
             lastSuccessAddRequest?.topicId = topicId
         }
         
