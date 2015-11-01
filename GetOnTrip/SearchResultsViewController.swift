@@ -36,7 +36,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         
     var page    : String = "1"
     
-    let pageSize: String = "6"
+    let pageSize: String = "4"
     
     var cityId = ""
     

@@ -36,4 +36,12 @@ class DetailWebViewController: UIViewController {
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let vc = parentViewController as? UINavigationController
+        let nav = vc?.visibleViewController as? SightViewController
+        nav?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: "", action: "")
+    }
 }

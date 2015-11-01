@@ -80,9 +80,7 @@ class SightTopicViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerElseCell, forIndexPath: indexPath) as! TopicCell
-        
         cell.topicCellData = topics[indexPath.row]
-        
         return cell
     }
     
@@ -108,7 +106,7 @@ class SightTopicViewController: UITableViewController {
                 if status == RetCode.SUCCESS {
                     if let topics = topics {
                         if topics.count > 0 {
-                            self.topics = topics
+                            self.topics += topics
                             self.tableView.reloadData()
                             self.tableView.footer.endRefreshing()
                         } else {

@@ -40,7 +40,8 @@ class SightVideoViewController: UITableViewController {
         let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
         tableView.header = header
         
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
+        let vc = parentViewController as! SightViewController
+        vc.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
         let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
         footer.automaticallyHidden = false
         footer.automaticallyChangeAlpha = true
@@ -74,7 +75,6 @@ class SightVideoViewController: UITableViewController {
             }
             })
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
