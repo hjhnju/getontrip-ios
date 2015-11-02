@@ -147,6 +147,7 @@ class CustomNavigationBar: UIView {
             self.backButton.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
             self.backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 2 + image.size.width, 0, 0)
         } else {
+            self.backButton.setImage(nil, forState: UIControlState.Normal)
             self.backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
         }
         self.backButton.setTitle(title, forState: UIControlState.Normal)
@@ -161,6 +162,7 @@ class CustomNavigationBar: UIView {
             self.rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 9 + 2)
             self.rightButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 9)
         } else {
+            self.rightButton.setImage(nil, forState: UIControlState.Normal)
             self.rightButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 9)
         }
         self.rightButton.setTitle(title, forState: UIControlState.Normal)
