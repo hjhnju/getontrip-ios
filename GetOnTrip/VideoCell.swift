@@ -59,8 +59,8 @@ class VideoCell: UITableViewCell {
         titleLabel.numberOfLines = 2
         titleLabel.textAlignment = NSTextAlignment.Center
 //        visual.alpha = 1
-        visual.contentView.alpha = 0.0001
         visual.contentView.backgroundColor = UIColor.whiteColor()
+        visual.contentView.alpha = 0.1
 //        backgroundV.alpha = 0.8
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor

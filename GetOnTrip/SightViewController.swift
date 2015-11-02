@@ -62,9 +62,9 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         //nav bar
         automaticallyAdjustsScrollViewInsets = false
-        navigationItem.title = sightName
-        navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+//        navigationItem.title = sightName
+//        navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
 
         view.addSubview(labelNavView)
         labelNavView.addSubview(labelScrollView)

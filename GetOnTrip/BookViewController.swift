@@ -239,7 +239,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         let gap     = yInset + offsetY
 
         let initTop: CGFloat = 0.0
-        headerViewTopConstraint?.constant    = min(-gap, initTop)        
+        headerViewTopConstraint?.constant    = min(-gap, initTop)
         headerViewHeightConstraint?.constant = max(BookViewContant.headerImageViewHeight + -gap, BookViewContant.headerImageViewHeight)
     }
     
