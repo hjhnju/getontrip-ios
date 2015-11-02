@@ -170,9 +170,13 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell", forIndexPath: indexPath) as! commentTableViewCell
-        
+//        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell", forIndexPath: indexPath) as! commentTableViewCell
+        let cell = commentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+        for i in cell.commentAnswersView.subviews {
+            i.removeFromSuperview()
+        }
         cell.data = data[indexPath.row]
+        cell.commentAnswersView.layoutIfNeeded()
         
         for item in cell.commentAnswersView.subviews {
             if let it = item as? commentPersonButton {
@@ -240,16 +244,8 @@ class commentTableViewCell : UITableViewCell {
     
     /// 其他人评论底部view
     lazy var commentAnswersView: UIView = UIView(color: UIColor(hex: 0x696969, alpha: 0.2))
-    
-//    lazy var answerCommentContent: CommentPersonLabel = CommentPersonLabel(color: SceneColor.fontGray, title: "Clara J:来看看就知道了 ", fontSize: 11, mutiLines: true)
-    
+        
     lazy var baseLine = UIView(color: SceneColor.lightGray, alphaF: 0.5)
-    
-    /// 评论人
-   
-    
-    /// 回复人
-//    lazy var answersPerson: AnswersPersonLabel = AnswersPersonLabel(color: SceneColor.fontGray, title: "Clara J:", fontSize: 11, mutiLines: true)
     
     var answerCommentViewHeight: NSLayoutConstraint?
     
@@ -270,9 +266,10 @@ class commentTableViewCell : UITableViewCell {
             for item in data!.sub_Comment {
                 let commentPerson = commentPersonButton(title: "Clara J:", fontSize: 11, radius: 0, titleColor: SceneColor.fontGray)
                 commentAnswersView.addSubview(commentPerson)
-                commentPerson.upId = item.id
+                commentPerson.upId = String(data!.id)
                 commentPerson.to_name = item.to_name
                 commentPerson.from_name = item.from_name
+                commentPerson.titleLabel?.numberOfLines = 0
                 commentPerson.setTitle(item.from_name + "回复" + item.to_name + item.content, forState: UIControlState.Normal)
                 let size = commentPerson.titleLabel?.text!.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
                 commentPerson.frame = CGRectMake(12, y, size!.width, size!.height)
