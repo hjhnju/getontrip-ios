@@ -99,8 +99,7 @@ class SightVideoViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let vc = parentViewController //as? UINavigationController
-//        let nav = vc?.visibleViewController as? SightViewController
+        let vc = parentViewController
         vc!.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
         
         let sc = DetailWebViewController()
@@ -153,6 +152,8 @@ class SightVideoViewController: UITableViewController {
     ///  - parameter btn: 观看视频的按钮
     func watchClick(btn: UIButton) {
         
+        let vc = parentViewController
+        vc!.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
         let sc = DetailWebViewController()
         let dataI = dataSource[btn.tag] as! Video
         sc.url = dataI.url

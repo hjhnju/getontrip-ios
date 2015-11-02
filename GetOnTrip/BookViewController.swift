@@ -81,6 +81,9 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
                 titleLabel.text = data.title
                 authorLabel.text = data.info
                 showBookDetail(data.content_desc)
+//                let yInset: CGFloat = CGFloat(64 + 203 + 17 + 6 + 18 + 15) + (titleLabel.text?.sizeofStringWithFount(UIFont.systemFontOfSize(24), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, CGFloat.max)).height)! + (authorLabel.text?.sizeofStringWithFount(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, CGFloat.max)).height)!
+                webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                webView.reloadFromOrigin()
             }
         }
     }
@@ -113,7 +116,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         headerImageView.addSubview(blurView)
         headerImageView.clipsToBounds = true
         headerImageView.userInteractionEnabled = true
-        headerImageView.contentMode = UIViewContentMode.ScaleToFill
+        headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
         bookImageView.userInteractionEnabled = true
         blurView.alpha = 1
         
@@ -137,14 +140,27 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         super.viewWillAppear(animated)
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         yInset = CGRectGetMaxY(headerLineView.frame)
         webView.scrollView.contentInset = UIEdgeInsetsMake(yInset, 0, 0, 0)
+        webView.layoutIfNeeded()
+        print("==============")
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -225,19 +241,19 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         let offsetY = scrollView.contentOffset.y
         let gap     = yInset + offsetY
         //上拉时headerView向上移动
-        if gap >= 0 {
+//        if gap >= 0 {
             let initTop: CGFloat = 0.0
             let newTop = min(-gap, initTop)
             headerViewTopConstraint?.constant = newTop
             //print("offsetY=\(offsetY), gap=\(gap), newTop=\(newTop)")
-        }
+//        }
         
         //下拉时扩大headerView
-        if gap <= 0 {
-            let newHeight = max(BookViewContant.headerImageViewHeight + -gap, BookViewContant.headerImageViewHeight)
-            headerViewHeightConstraint?.constant = newHeight
-            //print("offsetY=\(offsetY), gap=\(gap), newHeight=\(newHeight)")
-        }
+//        if gap <= 0 {
+            let neHeight = max(BookViewContant.headerImageViewHeight + -gap, BookViewContant.headerImageViewHeight)
+            headerViewHeightConstraint?.constant = neHeight
+//            //print("offsetY=\(offsetY), gap=\(gap), newHeight=\(newHeight)")
+//        }
     }
     
     // MARK: WKNavigationDelegate
@@ -301,7 +317,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         html.appendString("<title>Examples</title>")
         html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("BookDetail.css", withExtension: nil)!)
         html.appendString("</head><body>\(body)</body></html>")
-        
+
         webView.loadHTMLString(html as String, baseURL: nil)
     }
     

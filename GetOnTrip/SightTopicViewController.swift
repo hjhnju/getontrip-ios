@@ -88,7 +88,7 @@ class SightTopicViewController: UITableViewController {
         let vc: TopicViewController = TopicViewController()
         let topic = topics[indexPath.row]
         vc.topicId = topic.id
-        vc.sightName = topic.title
+//        vc.sightName = topic.title
         navigationController?.pushViewController(vc, animated: true)
     }
     
