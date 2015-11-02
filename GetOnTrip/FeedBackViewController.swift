@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedBackViewController: MainViewController, UITableViewDataSource, UITableViewDelegate { // UITextFieldDelegate
+class FeedBackViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate { // UITextFieldDelegate
     
     static let name = "反馈"
     
@@ -45,7 +45,7 @@ class FeedBackViewController: MainViewController, UITableViewDataSource, UITable
         super.viewDidLoad()
     
         title = "反馈"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
+        navBar.setTitle(FeedBackViewController.name)
         
         tableView.dataSource = self
         tableView.delegate = self

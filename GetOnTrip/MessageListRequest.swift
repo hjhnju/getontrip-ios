@@ -49,21 +49,6 @@ class MessageListRequest: NSObject {
                 handler(messageLists)
             }
         }
-//        HttpRequest.ajax(AppIni.BaseUri,
-//            path: "/api/msg/list",
-//            post: post,
-//            handler: {(respData: AnyObject) -> Void in
-//                print(respData)
-//                var messageLists = [MessageList]()
-//                for item in respData as! NSArray {
-//                    
-//                    messageLists.append(MessageList(dict: item as! [String : AnyObject]))
-//                }
-//                
-//                // 回调
-//                handler(messageLists)
-//            }
-//        )
     }
 }
 

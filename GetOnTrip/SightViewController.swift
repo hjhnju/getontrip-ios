@@ -202,6 +202,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         let labelData = sightDataSource.tags[indexPath.row]
         labelData.sightId = sightId
+        cell.sightId      = sightId
         cell.labelData    = labelData
         return cell
     }

@@ -9,7 +9,7 @@
 import UIKit
 import FFAutoLayout
 
-class FavoriteViewController: MainViewController, UIScrollViewDelegate {
+class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     static let name = "我的收藏"
     
@@ -47,8 +47,7 @@ class FavoriteViewController: MainViewController, UIScrollViewDelegate {
         titleBackground.backgroundColor = SceneColor.bgBlack
         contentScrollView.backgroundColor = UIColor.whiteColor()
         
-        title = FavoriteViewController.name
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
+        navBar.setTitle(FavoriteViewController.name)
         
         setupAddSubViewAndAction()
         setupAutoLayout()

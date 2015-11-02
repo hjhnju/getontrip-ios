@@ -23,7 +23,7 @@ struct SettingCell {
     static let cityCell = 3
 }
 
-class SettingViewController: MainViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class SettingViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     static let name = "设置"
     
@@ -79,17 +79,12 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     /// 遮罩
     lazy var shadeView: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
     
-    /// 保存按钮
-    var saveItem: UIBarButtonItem?
-    
     /// 退出登陆按钮
     lazy var exitLogin: UIButton = UIButton(title: "退出登陆", fontSize: 14, radius: 0, titleColor: UIColor.blackColor())
     
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
         
         setupAddProperty()
         setupBarButtonItem()
@@ -99,6 +94,7 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     
     private func setupAddProperty() {
         
+        navBar.setTitle(SettingViewController.name)
         view.addSubview(tableView)
         cancleBottomView.backgroundColor = UIColor.orangeColor()
         cancleBottomView.addSubview(trueButton)
@@ -138,9 +134,9 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     
     private func setupBarButtonItem() {
         
-        saveItem = UIBarButtonItem(title: "保存", style: UIBarButtonItemStyle.Plain, target: self, action: "saveUserInfo:")
-        navigationItem.rightBarButtonItem = saveItem
-        saveItem!.enabled = false
+        navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserInfo:")
+        navBar.rightButton.enabled = false
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "nickNameTextFieldTextDidChangeNotification:", name: UITextFieldTextDidChangeNotification, object: nickName)
 
     }
@@ -156,9 +152,9 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         else { sex = 2 }
         
         if sharedUserAccount?.nickname != textField.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender == sex {
-            saveItem?.enabled = true
+            navBar.rightButton.enabled = true
         } else {
-            saveItem?.enabled = false
+            navBar.rightButton.enabled = false
         }
     }
     
@@ -347,7 +343,7 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         
         iconView.image = image.scaleImage(200)
         if !(iconView.image!.isEqual(image)) {
-            saveItem?.enabled = true
+            navBar.rightButton.enabled = true
         }
         dismissViewControllerAnimated(true, completion: nil)
         // 重新设回导航栏样式
@@ -398,9 +394,9 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
                 else { sex = 2 }
                 
                 if sharedUserAccount?.nickname != nickName.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender != sex {
-                    saveItem?.enabled = true
+                    navBar.rightButton.enabled = true
                 } else {
-                    saveItem?.enabled = false
+                    navBar.rightButton.enabled = false
                 }
                 break;
             case 1:
@@ -421,9 +417,9 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         else { sex = 2 }
         
         if sharedUserAccount?.nickname != nickName.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender != sex {
-            saveItem?.enabled = true
+            navBar.rightButton.enabled = true
         } else {
-            saveItem?.enabled = false
+            navBar.rightButton.enabled = false
         }
     }
     
@@ -458,7 +454,8 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
             city.text = saveCity! + saveTown!
         }
         shadeViewClick()
-        saveItem?.enabled = true
+        
+        navBar.rightButton.enabled = true
     }
 
     
@@ -478,7 +475,7 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
 //        sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text ?? "")
         sharedUserAccount?.uploadUserInfo(imageData, sex: sex!, nick_name: nickName.text ?? "", city: city.text ?? "", handler: { (result, error) -> Void in
             if error == nil {
-                self.saveItem?.enabled = false
+                self.navBar.rightButton.enabled = false
                 SVProgressHUD.showInfoWithStatus("保存成功")
             }
         })

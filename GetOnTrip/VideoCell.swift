@@ -13,6 +13,7 @@ class VideoCell: UITableViewCell {
 
     lazy var iconView: UIImageView = UIImageView(image: UIImage())
     
+//    lazy var backgroundV: UIView = UIView(color: UIColor.whiteColor())
     //故宫至宝
     lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 18, mutiLines: true)
     
@@ -48,6 +49,8 @@ class VideoCell: UITableViewCell {
     private func setupProperty() {
         
         addSubview(iconView)
+//        addSubview(backgroundV)
+        addSubview(visual)
         addSubview(titleLabel)
         addSubview(timeLabel)
         addSubview(watchBtn)
@@ -55,11 +58,14 @@ class VideoCell: UITableViewCell {
         titleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 80
         titleLabel.numberOfLines = 2
         titleLabel.textAlignment = NSTextAlignment.Center
-        visual.alpha = 1
+//        visual.alpha = 1
+        visual.contentView.alpha = 0.0001
+        visual.contentView.backgroundColor = UIColor.whiteColor()
+//        backgroundV.alpha = 0.8
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
-        iconView.contentMode                  = UIViewContentMode.ScaleAspectFill
-        iconView.clipsToBounds                = true
+        iconView.contentMode       = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds     = true
     }
     
     private func setupAutoLayout() {
@@ -69,6 +75,7 @@ class VideoCell: UITableViewCell {
         timeLabel.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: nil, offset: CGPointMake(19, 9))
         watchBtn.ff_AlignVertical(ff_AlignType.BottomCenter, referView: titleLabel, size: CGSizeMake(83, 28), offset: CGPointMake(0, 7))
         visual.ff_AlignInner(ff_AlignType.TopLeft, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 199), offset: CGPointMake(0, 0))
+//        visual.ff_Fill(backgroundV)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

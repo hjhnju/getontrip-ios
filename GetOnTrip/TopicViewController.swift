@@ -24,9 +24,6 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     /// 自定义导航
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 14)
     
-    /// 导航景点名
-    lazy var navTitleLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "", fontSize: 14, mutiLines: false)
-    
     /// 头部视图
     lazy var headerView: UIView = UIView()
     
@@ -81,6 +78,8 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     
     //话题ID
     var topicId: String = ""
+    
+    var sightId: String = ""
     
     //话题标题
     var topicTitle: String = "" {
@@ -217,9 +216,15 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
             lastSuccessAddRequest?.topicId = topicId
         }
         
-        lastSuccessAddRequest?.fetchTopicDetailModels {[weak self] (handler: TopicDetail) -> Void in
-            self?.topicDetail = handler
-        }
+        lastSuccessAddRequest?.fetchTopicDetailModels({[weak self] (ressult, status) -> Void in
+            if status == RetCode.SUCCESS {
+                if let topic = ressult {
+                    self!.topicDetail = topic
+                }
+            } else {
+                SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络")
+            }
+        })
     }
     
     private func setupDefaultProperty() {
@@ -234,7 +239,8 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
         headerImageView.clipsToBounds = true
         labelBtn.layer.borderWidth = 0.5
-        labelBtn.layer.borderColor = UIColor.whiteColor().CGColor
+        labelBtn.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
+        labelBtn.backgroundColor = SceneColor.fontGray
         
         webView.scalesPageToFit = true
         webView.dataDetectorTypes = .All
@@ -253,7 +259,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         
         //header views
         headerImageView.ff_Fill(headerView)
-        labelBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: headerView, size: CGSizeMake(32, 14), offset: CGPointMake(-17, -CityConstant.headerViewHeight))
+        labelBtn.ff_AlignVertical(ff_AlignType.TopLeft, referView: headerTitleLabel, size: CGSize(width: 32, height: 14), offset: CGPointMake(0, -11))
         favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(8, -7))
         visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
         headerTitleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(-2, 1))
@@ -452,5 +458,4 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         svc.searchResult.rootNav = self.navigationController
         presentViewController(SearchViewController(), animated: true, completion: nil)
     }
-
 }

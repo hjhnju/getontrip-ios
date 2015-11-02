@@ -25,6 +25,7 @@ class MainViewController: UIViewController {
         }()
     
     var cityId: String = "-1"
+    
     // MASK: View Life Circle
     
     override func viewDidLoad() {
@@ -34,9 +35,6 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.hidden = true
         
         slideButton.frame  = CGRectMake(0, 0, 21, 14)
-        
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -53,11 +51,15 @@ class MainViewController: UIViewController {
         slideDelegate?.toggle()
     }
     
+    func toggleMenuAction(sender: UIButton){
+        slideDelegate?.toggle()
+    }
+    
+    
     /// 显示搜索页
     func showSearch(){
         let svc = SearchViewController()
         svc.searchResult.cityId = cityId
-        svc.searchResult.rootNav = navigationController
         presentViewController(svc, animated: true, completion: nil)
     }
     

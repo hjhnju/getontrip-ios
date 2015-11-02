@@ -16,6 +16,8 @@ class SightTopicViewController: UITableViewController {
 
     var lastRequest = SightTopicsRequest()
     
+    var sightId = ""
+    
     /// 是否正在加载中
     var isLoading:Bool = false
     
