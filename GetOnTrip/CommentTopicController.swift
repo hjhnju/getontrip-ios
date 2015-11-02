@@ -105,8 +105,8 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         })
     }
     
-    var from_user: String = ""
-    var to_user  : String = ""
+    var upId    : String = ""
+    var to_user : String = ""
     
     func sendCommentData(btn: UIButton) {
         btn.selected = true
@@ -116,7 +116,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                 let resultB = result as! Bool
                 if resultB == true {
                     
-                    self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.from_user, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
+                    self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {
                             self.loadCommentData()
                             SVProgressHUD.showInfoWithStatus("发送成功")
@@ -131,7 +131,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
             })
         } else {
             
-            sendcommentRequest.fetchAddCommentModels(self.topicId, upId: from_user, toUserId: to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
+            sendcommentRequest.fetchAddCommentModels(self.topicId, upId: upId, toUserId: to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
                 if status == RetCode.SUCCESS {
                     self.loadCommentData()
                     SVProgressHUD.showInfoWithStatus("发送成功")
@@ -207,7 +207,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let com = data[indexPath.row]
-        from_user = com.from_name
+        upId = String(com.id)
         to_user   = com.to_name
         issueTextfield.placeholder = "回复 " + com.from_name + " :"
     }
@@ -219,7 +219,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     func commentPersonTouchAction(btn: commentPersonButton) {
         
         issueTextfield.placeholder = "回复 " + btn.from_name + " :"
-        from_user = btn.from_name
+        upId = btn.upId
         to_user   = btn.to_name
         
     }
@@ -270,8 +270,9 @@ class commentTableViewCell : UITableViewCell {
             for item in data!.sub_Comment {
                 let commentPerson = commentPersonButton(title: "Clara J:", fontSize: 11, radius: 0, titleColor: SceneColor.fontGray)
                 commentAnswersView.addSubview(commentPerson)
-                commentPerson.from_name = item.from_name
+                commentPerson.upId = item.id
                 commentPerson.to_name = item.to_name
+                commentPerson.from_name = item.from_name
                 commentPerson.setTitle(item.from_name + "回复" + item.to_name + item.content, forState: UIControlState.Normal)
                 let size = commentPerson.titleLabel?.text!.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
                 commentPerson.frame = CGRectMake(12, y, size!.width, size!.height)
@@ -357,6 +358,7 @@ class commentPersonButton: UIButton {
     
     var to_name: String = ""
     
-    var from_name: String = ""
+    var upId: String = ""
     
+    var from_name: String = ""
 }
