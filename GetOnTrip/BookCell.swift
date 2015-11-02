@@ -20,6 +20,8 @@ class BookCell: UITableViewCell {
     lazy var author: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "作者：张加冕", fontSize: 12, mutiLines: true)
     
     lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
+    
+    var subtitleHeight: NSLayoutConstraint?
 
     var book: Book? {
         didSet {
@@ -28,6 +30,7 @@ class BookCell: UITableViewCell {
             iconView.sd_setImageWithURL(NSURL(string: book!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             titleLabel.text = book!.title!
             subtitleLabel.attributedText = book!.content_desc?.getAttributedString(0, lineSpacing: 7, breakMode: NSLineBreakMode.ByTruncatingTail)
+            subtitleHeight?.constant = book?.title?.sizeofStringWithFount(UIFont.systemFontOfSize(18), maxSize: CGSize(width: UIScreen.mainScreen().bounds.width - 115 - 18 - 7, height: CGFloat.max)).height > 10 ? 60 : 80
             author.text = "作者：" + book!.author!
         }
     }
@@ -54,7 +57,7 @@ class BookCell: UITableViewCell {
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 115 - 18 - 7
         titleLabel.preferredMaxLayoutWidth    = w
         subtitleLabel.preferredMaxLayoutWidth = w
-        titleLabel.numberOfLines              = 1
+        titleLabel.numberOfLines              = 2
         subtitleLabel.numberOfLines           = 0
         iconView.contentMode                  = UIViewContentMode.ScaleAspectFill
         iconView.clipsToBounds                = true
@@ -63,8 +66,9 @@ class BookCell: UITableViewCell {
     private func setupAutoLayout() {
         
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(115, 145), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 115 - 18 - 7, 20), offset: CGPointMake(7, 0))
-        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 115 - 18 - 7, 80), offset: CGPointMake(0, 12))
+        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        let cons = subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 115 - 18 - 7, 80), offset: CGPointMake(0, 12))
+        subtitleHeight = subtitleLabel.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         author.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
     }

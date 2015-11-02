@@ -51,38 +51,6 @@ class CollectSightRequest: NSObject {
                 }
             }
         }
-//        HttpRequest.ajax(AppIni.BaseUri,
-//            path: "/api/collect/list",
-//            post: post,
-//            handler: {(respData: AnyObject) -> Void in
-//                
-//                var collectSightMT = [CollectCity]()
-//                var collectSightMS = [CollectSight]()
-//                var collectSightMC = [CollectContent]()
-//                
-//                for it in respData as! NSArray {
-//                    switch type {
-//                    case 1:
-//                        collectSightMC.append(CollectContent(dict: it as! [String : AnyObject]))
-//                    case 2:
-//                        collectSightMS.append(CollectSight(dict: it as! [String : AnyObject]))
-//                    default:
-//                        collectSightMT.append(CollectCity(dict: it as! [String : AnyObject]))
-//                        break
-//                    }
-//                }
-//                
-//                switch type {
-//                case 1:
-//                    handler(collectSightMC)
-//                case 2:
-//                    handler(collectSightMS)
-//                default:
-//                    handler(collectSightMT)
-//                    break
-//                }
-//            }
-//        )
     }
 }
 

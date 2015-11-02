@@ -8,16 +8,20 @@
 
 import UIKit
 
-class FeedBackViewController: MainViewController /*,UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate */{
+class FeedBackViewController: MainViewController, UITableViewDataSource, UITableViewDelegate { // UITextFieldDelegate
     
     static let name = "反馈"
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationController?.navigationBarHidden = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
-    }
+    lazy var tableView: UITableView = UITableView()
     
+    lazy var sendButton: UIButton = UIButton(title: "发送", fontSize: 12, radius: 34 * 0.5)
+    
+    /// 网络请求加载数据(添加)
+    var feedbackList = FeedbackListRequest()
+    /// 反馈情况(历史)
+    var feedbackSend: FeedbackSendRequest?
+    /// 发送文字
+    lazy var sendContentText: UITextField = UITextField()
     
     // MARK: 自定义
     
@@ -25,17 +29,8 @@ class FeedBackViewController: MainViewController /*,UITableViewDataSource, UITab
         super.showSearch()
     }
 
-//    lazy var tableView: UITableView = UITableView()
-//    
-//    lazy var sendButton: UIButton = UIButton(title: "发送", fontSize: 12, radius: 34 * 0.5)
-//    
-////    lazy var bottomConstraint: NSLayoutConstraint!
-//    /// 网络请求加载数据(添加)
-////    var lastSuccessAddRequest: FeedBackSendRequest?
-//    /// 反馈情况(历史)
-////    var lastSuccessRequest: FeedBackRequest?
-//    /// 发送文字
-//    lazy var sendContentText: UITextField = UITextField()
+
+    
 //    /// 反馈列表
 //    var feedBackList: NSArray?
 //    
@@ -45,25 +40,54 @@ class FeedBackViewController: MainViewController /*,UITableViewDataSource, UITab
 //        return cache
 //    }()
 //    
-//    // MARK: - 初始化相关
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-//        settingSendButton()
-//        tableView.dataSource = self
-//        tableView.delegate = self
-//        self.tableView.backgroundColor = UIColor(patternImage: UIImage(named: "feedBack_background")!)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
-//        // 加载反馈列表
-//        loadFeedBackHistory()
+    // MARK: - 初始化相关
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    
+        title = "反馈"
+        navigationController?.navigationBarHidden = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+        
+        loadFeedbackListAction()
+    }
+    
+    // MARK: - 加载反馈列表
+    private func loadFeedbackListAction() {
+        feedbackList.fetchFeedbackListModels { () -> Void in
+            
+        }
+    }
+    
+    /// 发送反馈消息
+//    private func sendFeedBackMessage() {
+//        
+//        if lastSuccessAddRequest == nil {
+//            lastSuccessAddRequest = FeedBackSendRequest(deviceId: appUUID!, advise: sendContentText.text!)
+//        }
+//        
+//        lastSuccessAddRequest?.fetchFeedBackModels {(handler: String) -> Void in
+//            
+//        }
+//        
+//        
+//        //        lastSuccessRequest?.fetchCommentModels { (handler: [SendComment] ) -> Void in
+//        //            self.nearSendComment = handler
+//        //            self.tableView.reloadData()
+//        //        }
+//        
 //    }
-//    
-//    /// 加载发送按钮相关设置
-//    func settingSendButton() {
-//        sendButton.layer.cornerRadius = sendButton.bounds.height * 0.5
-//        sendButton.clipsToBounds = true
-//        sendButton.addTarget(self, action: "sendMessageClick:", forControlEvents: UIControlEvents.TouchUpInside)
-//    }
+
+    /// 加载发送按钮相关设置
+    func settingSendButton() {
+        sendButton.layer.cornerRadius = sendButton.bounds.height * 0.5
+        sendButton.clipsToBounds = true
+        sendButton.addTarget(self, action: "sendMessageClick:", forControlEvents: UIControlEvents.TouchUpInside)
+    }
 //    /// 注销通知
 //    deinit {
 //        NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -90,21 +114,22 @@ class FeedBackViewController: MainViewController /*,UITableViewDataSource, UITab
 //    [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 //    }
 //*/
-//    // MARK: - tableView dataSource
-//    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    // MARK: - tableView dataSource
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        return 0
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//        var cell = reuseableCellWithIndexPath(indexPath)
+//        cell.feedBack = feedBackList![indexPath.row] as? FeedBack
+//        let feedBack = feedBackList![indexPath.row] as? FeedBack
+//        let cell = tableView.dequeueReusableCellWithIdentifier(feedBack?.type == 1 ? "SendCell" : "RecvCell", forIndexPath: indexPath) as? FeedBackViewCell
+//        cell?.feedBack = feedBack
+        return UITableViewCell()
+    }
 //
-//        return feedBackList?.count ?? 0
-//    }
-//    
-//    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-////        var cell = reuseableCellWithIndexPath(indexPath)
-////        cell.feedBack = feedBackList![indexPath.row] as? FeedBack
-////        let feedBack = feedBackList![indexPath.row] as? FeedBack
-////        let cell = tableView.dequeueReusableCellWithIdentifier(feedBack?.type == 1 ? "SendCell" : "RecvCell", forIndexPath: indexPath) as? FeedBackViewCell
-////        cell?.feedBack = feedBack
-//        return UITableViewCell()
-//    }
-//    
 //    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 //        if rowHeightCache.objectForKey(indexPath) != nil {
 //            return CGFloat(rowHeightCache.objectForKey(indexPath)!.floatValue)
@@ -131,60 +156,25 @@ class FeedBackViewController: MainViewController /*,UITableViewDataSource, UITab
 //        
 //        loadFeedBackHistory()
 //    }
-//    
-//    // MARK: - 加载更新数据
-//    /// 加载反馈历史消息(都是提问的问题)
-//    private func loadFeedBackHistory() {
-//        
-//        if lastSuccessRequest == nil {
-//            lastSuccessRequest = FeedBackRequest(deviceId: appUUID!)
-//        }
-//        
-//        lastSuccessRequest?.fetchFeedBackModels {(handler: [FeedBack]) -> Void in
-//            self.feedBackList = handler
-//            self.tableView.reloadData()
-//        }
-//    }
-//    
-//    
-//    
-//    /// 发送反馈消息
-//    private func sendFeedBackMessage() {
-//        
-//        if lastSuccessAddRequest == nil {
-//            lastSuccessAddRequest = FeedBackSendRequest(deviceId: appUUID!, advise: sendContentText.text!)
-//        }
-//        
-//        lastSuccessAddRequest?.fetchFeedBackModels {(handler: String) -> Void in
-//            
-//        }
-//
-//        
-////        lastSuccessRequest?.fetchCommentModels { (handler: [SendComment] ) -> Void in
-////            self.nearSendComment = handler
-////            self.tableView.reloadData()
-////        }
-//        
-//    }
 
 }
 
 class FeedBackViewCell: UITableViewCell {
     
-//    @IBOutlet weak var timeLabel: UILabel!
+//    lazy var timeLabel: UILabel = UILabel(color: <#T##UIColor#>, title: <#T##String#>, fontSize: <#T##CGFloat#>, mutiLines: <#T##Bool#>)
 //    @IBOutlet weak var msgLabel: UILabel!
 //    @IBOutlet weak var iconView: UIImageView!
 //    @IBOutlet weak var msgBtn: UIButton!
 //    @IBOutlet weak var timeHeightCons: NSLayoutConstraint!
 //
-//    var feedBack: FeedBack? {
-//        didSet {
-////            iconView.sd_setImageWithURL(NSURL(string: feedBack!.image))
-//            timeLabel.text = feedBack!.showTime ? feedBack!.create_time : ""
-//            timeHeightCons.constant = feedBack!.showTime ? 15 : 0
-//            msgLabel.text = feedBack?.content
-//            msgBtn.setTitle(feedBack!.content, forState: UIControlState.Normal)
-//        }
+////    var feedBack: FeedBack? {
+////        didSet {
+//////            iconView.sd_setImageWithURL(NSURL(string: feedBack!.image))
+////            timeLabel.text = feedBack!.showTime ? feedBack!.create_time : ""
+////            timeHeightCons.constant = feedBack!.showTime ? 15 : 0
+////            msgLabel.text = feedBack?.content
+////            msgBtn.setTitle(feedBack!.content, forState: UIControlState.Normal)
+////        }
 //    }
 //    
 //    

@@ -278,6 +278,8 @@ class commentTableViewCell : UITableViewCell {
         commentAnswersView.addSubview(answerCommentContent)
         content.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 75
         answerCommentContent.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 75 - 24
+        iconView.contentMode = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds = true
     }
     
     private func setAutoLayout() {
