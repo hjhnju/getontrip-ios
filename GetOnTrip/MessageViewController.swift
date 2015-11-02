@@ -27,7 +27,6 @@ class MessageViewController: MainViewController, UITableViewDataSource, UITableV
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.frame = CGRectMake(0, 64, view.bounds.width, view.bounds.height)
 
-        navigationController?.navigationBarHidden = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
         
         tableView.dataSource = self

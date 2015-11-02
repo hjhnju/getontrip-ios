@@ -48,7 +48,6 @@ class FavoriteViewController: MainViewController, UIScrollViewDelegate {
         contentScrollView.backgroundColor = UIColor.whiteColor()
         
         title = FavoriteViewController.name
-        navigationController?.navigationBarHidden = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
         
         setupAddSubViewAndAction()

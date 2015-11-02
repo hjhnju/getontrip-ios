@@ -168,7 +168,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         //default
         curVCType = self.usingVCTypes[0]
         

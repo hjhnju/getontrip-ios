@@ -141,9 +141,6 @@ class NewFeatureCell: UICollectionViewCell {
         
         btn.setTitle("立即体验", forState: UIControlState.Normal)
         btn.backgroundColor = UIColor.redColor()
-//                btn.setBackgroundImage(UIImage(named: "new_feature_finish_button"), forState: UIControlState.Normal)
-//                btn.setBackgroundImage(UIImage(named: "new_feature_finish_button_highlighted"), forState: UIControlState.Highlighted)
-        
         btn.addTarget(self, action: "startButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
         
         return btn

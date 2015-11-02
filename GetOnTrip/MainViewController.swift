@@ -29,6 +29,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //初始定义bar隐藏
+        navigationController?.navigationBar.hidden = true
+        
         slideButton.frame  = CGRectMake(0, 0, 21, 14)
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -54,7 +58,6 @@ class MainViewController: UIViewController {
         let svc = SearchViewController()
         svc.searchResult.cityId = cityId
         svc.searchResult.rootNav = navigationController
-        print(parentViewController)
         presentViewController(svc, animated: true, completion: nil)
     }
     

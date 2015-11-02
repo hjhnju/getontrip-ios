@@ -45,7 +45,6 @@ class FeedBackViewController: MainViewController, UITableViewDataSource, UITable
         super.viewDidLoad()
     
         title = "反馈"
-        navigationController?.navigationBarHidden = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
         
         tableView.dataSource = self

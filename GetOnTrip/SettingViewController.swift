@@ -88,8 +88,7 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.navigationBarHidden = false
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
         
         setupAddProperty()

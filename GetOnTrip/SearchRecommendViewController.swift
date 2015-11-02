@@ -128,13 +128,13 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        //.appearance().hidden = true
+        
         view.backgroundColor = SceneColor.bgBlack
         
         //nav bar
-        navigationController?.navigationBarHidden = true
         self.automaticallyAdjustsScrollViewInsets = false
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
         view.addSubview(navContainerView)
         navContainerView.addSubview(custNavView)
         
@@ -191,8 +191,6 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBarHidden = true
-        
         refreshBar()
     }
     
@@ -212,7 +210,6 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.navigationBarHidden = false
     }
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
