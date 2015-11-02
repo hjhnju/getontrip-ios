@@ -136,6 +136,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        view.layoutSubviews()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -162,7 +163,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     override func viewDidDisappear(animated: Bool) {
         //避免webkit iOS回退bug https://bugs.webkit.org/show_bug.cgi?id=139662
-        self.webView.scrollView.delegate = nil
+//        self.webView.scrollView.delegate = nil
         super.viewDidDisappear(animated)
     }
     
