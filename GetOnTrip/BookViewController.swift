@@ -81,9 +81,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
                 titleLabel.text = data.title
                 authorLabel.text = data.info
                 showBookDetail(data.content_desc)
-//                let yInset: CGFloat = CGFloat(64 + 203 + 17 + 6 + 18 + 15) + (titleLabel.text?.sizeofStringWithFount(UIFont.systemFontOfSize(24), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, CGFloat.max)).height)! + (authorLabel.text?.sizeofStringWithFount(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, CGFloat.max)).height)!
                 webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-                webView.reloadFromOrigin()
             }
         }
     }
@@ -148,6 +146,9 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        yInset = CGRectGetMaxY(headerLineView.frame)
+        webView.scrollView.contentInset = UIEdgeInsetsMake(yInset, 0, 0, 0)
+        webView.scrollView.contentOffset = CGPointMake(0, -yInset)
     }
     
     override func viewWillLayoutSubviews() {
@@ -157,10 +158,6 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        yInset = CGRectGetMaxY(headerLineView.frame)
-        webView.scrollView.contentInset = UIEdgeInsetsMake(yInset, 0, 0, 0)
-        webView.layoutIfNeeded()
-        print("==============")
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -240,20 +237,10 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let gap     = yInset + offsetY
-        //上拉时headerView向上移动
-//        if gap >= 0 {
-            let initTop: CGFloat = 0.0
-            let newTop = min(-gap, initTop)
-            headerViewTopConstraint?.constant = newTop
-            //print("offsetY=\(offsetY), gap=\(gap), newTop=\(newTop)")
-//        }
-        
-        //下拉时扩大headerView
-//        if gap <= 0 {
-            let neHeight = max(BookViewContant.headerImageViewHeight + -gap, BookViewContant.headerImageViewHeight)
-            headerViewHeightConstraint?.constant = neHeight
-//            //print("offsetY=\(offsetY), gap=\(gap), newHeight=\(newHeight)")
-//        }
+
+        let initTop: CGFloat = 0.0
+        headerViewTopConstraint?.constant    = min(-gap, initTop)        
+        headerViewHeightConstraint?.constant = max(BookViewContant.headerImageViewHeight + -gap, BookViewContant.headerImageViewHeight)
     }
     
     // MARK: WKNavigationDelegate

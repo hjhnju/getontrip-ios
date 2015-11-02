@@ -196,7 +196,7 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         moreSightsButton.backgroundColor = SceneColor.frontBlack
         hotTopBarButton.backgroundColor = SceneColor.frontBlack
         moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        moreSightsButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+//        moreSightsButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
 
         favIconBtn.addTarget(self, action: "favIconBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)

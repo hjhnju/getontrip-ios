@@ -199,6 +199,8 @@ class SightListCityCell: UICollectionViewCell {
         addSubview(collectBtn)
         
         collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
+        iconView.contentMode = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds = true
     }
     
     private func setupAutoLayout() {
