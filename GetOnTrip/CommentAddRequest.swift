@@ -18,13 +18,12 @@ class CommentAddRequest: NSObject {
     ///  - parameter upId:     上层评论id,如果是顶级评论，则传""
     ///  - parameter toUserId: 回复给的人。如果是对话题回复，则不传此值
     ///  - parameter content:  回复的内容
-    func fetchAddCommentModels(topicId: String, upId: String, toUserId: String, content: String, handler: AnyObject -> Void) {
+    func fetchAddCommentModels(topicId: String, upId: String, toUserId: String, content: String, handler: (result: String?, status: Int) -> Void) {
         fetchModels(topicId, upId: upId, toUserId: toUserId, content: content, handler: handler)
-        
     }
     
     // 异步加载获取数据
-    private func fetchModels(topicId: String, upId: String, toUserId: String, content: String, handler: AnyObject -> Void) {
+    private func fetchModels(topicId: String, upId: String, toUserId: String, content: String, handler: (result: String?, status: Int) -> Void) {
         var post         = [String: String]()
         post["topicId"]  = topicId
         post["upId"]     = upId
@@ -32,11 +31,13 @@ class CommentAddRequest: NSObject {
         post["content"]  = content
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/comment/add", post: post) { (result, error) -> () in
-            if error == nil {
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/comment/add", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
                 print(result)
-                handler(result!)
+                handler(result: result.stringValue, status: status)
+                return
             }
+            handler(result: nil, status: status)
         }
     }
 }

@@ -20,7 +20,7 @@ class CommentListRequest: NSObject {
     */
     
     // 请求参数
-    var topicId : String?
+    var topicId : String = ""
     var page    : Int = 1
     var pageSize: Int = 6
     
@@ -32,7 +32,7 @@ class CommentListRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: [CommentList] -> Void) {
         var post         = [String: String]()
-        post["topicId"]  = String(36)
+        post["topicId"]  = String(topicId)
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
 

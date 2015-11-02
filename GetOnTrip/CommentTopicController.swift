@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import SVProgressHUD
 
 class CommentTopicController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -38,14 +39,14 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     lazy var commentBottomLine = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
     /// 评论提示
-    let prompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "空空如也...\n来抢发第一条评论吧 \\(^o^)/", fontSize: 13, mutiLines: true)
+    let prompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "空空如也...\n来抢发第一条评论吧 ＼(^o^)／", fontSize: 13, mutiLines: true)
     
     lazy var issueCommentTopLine: UIView = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
     var dataDict: NSMutableDictionary = NSMutableDictionary()
     
-    var indexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-        
+//    var indexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+    
     var data: [CommentList] = [CommentList]()
     
     override func viewDidLoad() {
@@ -58,6 +59,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         issueCommentView.addSubview(issueCommentBtn)
         issueCommentView.addSubview(issueCommentTopLine)
         issueCommentBtn.backgroundColor = SceneColor.shallowYellows
+        issueCommentBtn.setTitle("发布中...", forState: UIControlState.Selected)
         view.addSubview(commentTitleView)
         commentTitleView.addSubview(commentTitle)
         commentTitleView.addSubview(commentBottomLine)
@@ -103,37 +105,45 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         })
     }
     
+    var from_user: String = ""
+    var to_user  : String = ""
     
     func sendCommentData(btn: UIButton) {
-        
+        btn.selected = true
         if sharedUserAccount == nil {
             issueTextfield.resignFirstResponder()
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
                 let resultB = result as! Bool
                 if resultB == true {
                     
-                    let com = self.data[self.indexPath.row]
-                    self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: String(com.id), toUserId: com.from_user_id, content: self.issueTextfield.text!) { (_) -> Void in
-                        self.loadCommentData()
-                    }
-                    self.issueTextfield.text = ""
+                    self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.from_user, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
+                        if status == RetCode.SUCCESS {
+                            self.loadCommentData()
+                            SVProgressHUD.showInfoWithStatus("发送成功")
+                            
+                        } else {
+                            SVProgressHUD.showErrorWithStatus("发送失败，请重试")
+                        }
+                        btn.selected = false
+                    })
                 }
                 return
             })
+        } else {
+            
+            sendcommentRequest.fetchAddCommentModels(self.topicId, upId: from_user, toUserId: to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    self.loadCommentData()
+                    SVProgressHUD.showInfoWithStatus("发送成功")
+                    
+                } else {
+                    SVProgressHUD.showErrorWithStatus("发送失败，请重试")
+                }
+                btn.selected = false
+            })
         }
-        
-        
-//        sendcommentRequest.fetchAddCommentModels(topicId, upId: upId, toUserId: toUserId, content: issueTextfield.text!)
-//        page = (data.count) / 6 + 1
-//        data.count
-//        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
-//        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-//        let com = self.data[self.indexPath.row]
-//        sendcommentRequest.fetchAddCommentModels(topicId, upId: String(com.id), toUserId: com.from_user_id, content: issueTextfield.text!) { (_) -> Void in
-//            self.loadCommentData()
-//        }
-//        commentListRequest?.page = 1
         issueTextfield.text = ""
+        
     }
 
     
@@ -164,6 +174,12 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         
         cell.data = data[indexPath.row]
         
+        for item in cell.commentAnswersView.subviews {
+            if let it = item as? commentPersonButton {
+                it.addTarget(self, action: "commentPersonTouchAction:", forControlEvents: UIControlEvents.TouchUpInside)
+            }
+        }
+        
         if indexPath.row == data.count - 1 {
             page = data.count / 6
             if page == commentListRequest!.page {
@@ -189,14 +205,23 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.indexPath = indexPath
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let com = data[indexPath.row]
+        from_user = com.from_name
+        to_user   = com.to_name
         issueTextfield.placeholder = "回复 " + com.from_name + " :"
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         issueTextfield.resignFirstResponder()
+    }
+    
+    func commentPersonTouchAction(btn: commentPersonButton) {
+        
+        issueTextfield.placeholder = "回复 " + btn.from_name + " :"
+        from_user = btn.from_name
+        to_user   = btn.to_name
+        
     }
     
 }
@@ -216,15 +241,15 @@ class commentTableViewCell : UITableViewCell {
     /// 其他人评论底部view
     lazy var commentAnswersView: UIView = UIView(color: UIColor(hex: 0x696969, alpha: 0.2))
     
-    lazy var answerCommentContent: CommentPersonLabel = CommentPersonLabel(color: SceneColor.fontGray, title: "Clara J:来看看就知道了 ", fontSize: 11, mutiLines: true)
+//    lazy var answerCommentContent: CommentPersonLabel = CommentPersonLabel(color: SceneColor.fontGray, title: "Clara J:来看看就知道了 ", fontSize: 11, mutiLines: true)
     
     lazy var baseLine = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
     /// 评论人
-    lazy var commentPerson: CommentPersonLabel = CommentPersonLabel(color: SceneColor.fontGray, title: "Clara J:", fontSize: 11, mutiLines: true)
+   
     
     /// 回复人
-    lazy var answersPerson: AnswersPersonLabel = AnswersPersonLabel(color: SceneColor.fontGray, title: "Clara J:", fontSize: 11, mutiLines: true)
+//    lazy var answersPerson: AnswersPersonLabel = AnswersPersonLabel(color: SceneColor.fontGray, title: "Clara J:", fontSize: 11, mutiLines: true)
     
     var answerCommentViewHeight: NSLayoutConstraint?
     
@@ -240,12 +265,23 @@ class commentTableViewCell : UITableViewCell {
             } else {
                 answerLabel.hidden = false
             }
+            var y: CGFloat = 8
+            let w: CGFloat = UIScreen.mainScreen().bounds.width - 75 - 24
+            for item in data!.sub_Comment {
+                let commentPerson = commentPersonButton(title: "Clara J:", fontSize: 11, radius: 0, titleColor: SceneColor.fontGray)
+                commentAnswersView.addSubview(commentPerson)
+                commentPerson.from_name = item.from_name
+                commentPerson.to_name = item.to_name
+                commentPerson.setTitle(item.from_name + "回复" + item.to_name + item.content, forState: UIControlState.Normal)
+                let size = commentPerson.titleLabel?.text!.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
+                commentPerson.frame = CGRectMake(12, y, size!.width, size!.height)
+                y += size!.height
+            }
             
             var str = ""
             for i in data!.sub_Comment {
                 str = str + i.from_name + "回复" + i.to_name + i.content + "\n"
             }
-            answerCommentContent.text = str
             answerCommentViewHeight!.constant = str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 8
             if data?.sub_Comment.count == 0 {
                 commentAnswersView.hidden = true
@@ -258,6 +294,7 @@ class commentTableViewCell : UITableViewCell {
         var str = ""
         for i in comment.sub_Comment {
             str = str + i.from_name + "回复" + i.to_name + i.content + "\n"
+            
         }
         
         var height =  40 + 16 + 9 + comment.content.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height
@@ -288,10 +325,10 @@ class commentTableViewCell : UITableViewCell {
         addSubview(answerLabel)
         addSubview(commentAnswersView)
         addSubview(baseLine)
-        commentAnswersView.addSubview(answerCommentContent)
-        commentAnswersView.addSubview(commentPerson)
+//        commentAnswersView.addSubview(answerCommentContent)
+//        commentAnswersView.addSubview(commentPerson)
         content.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 75
-        answerCommentContent.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 75 - 24
+//        answerCommentContent.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 75 - 24
         iconView.contentMode = UIViewContentMode.ScaleAspectFill
         iconView.clipsToBounds = true
     }
@@ -303,9 +340,9 @@ class commentTableViewCell : UITableViewCell {
         time.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil, offset: CGPointMake(-9, 23))
         answerLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: titleName, size: nil, offset: CGPointMake(6, 0))
         let cons = commentAnswersView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: content, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, 0), offset: CGPointMake(0, 7))
-        answerCommentContent.ff_AlignInner(ff_AlignType.TopLeft, referView: commentAnswersView, size: nil, offset: CGPointMake(12, 8))
+//        answerCommentContent.ff_AlignInner(ff_AlignType.TopLeft, referView: commentAnswersView, size: nil, offset: CGPointMake(12, 8))
         answerCommentViewHeight = commentAnswersView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
-        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 0.5), offset: CGPointMake(0, 0))
+        baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 0.5), offset: CGPointMake(0, 0))
     }
     
     override func layoutSubviews() {
@@ -314,4 +351,12 @@ class commentTableViewCell : UITableViewCell {
         iconView.layer.cornerRadius = min(iconView.bounds.width, iconView.bounds.height) * 0.5
         iconView.clipsToBounds = true
     }
+}
+
+class commentPersonButton: UIButton {
+    
+    var to_name: String = ""
+    
+    var from_name: String = ""
+    
 }
