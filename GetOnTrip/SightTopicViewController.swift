@@ -16,6 +16,8 @@ class SightTopicViewController: UITableViewController {
 
     var lastRequest = SightTopicsRequest()
     
+    var sightId = ""
+    
     /// 是否正在加载中
     var isLoading:Bool = false
     
@@ -88,6 +90,7 @@ class SightTopicViewController: UITableViewController {
         let vc: TopicViewController = TopicViewController()
         let topic = topics[indexPath.row]
         vc.topicId = topic.id
+        vc.sightId = sightId
 //        vc.sightName = topic.title
         navigationController?.pushViewController(vc, animated: true)
     }

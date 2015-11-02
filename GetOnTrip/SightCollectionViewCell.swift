@@ -39,6 +39,8 @@ class SightCollectionViewCell: UICollectionViewCell {
     
     var cache = [String : NSArray]()
     
+    var sightId = ""
+    
     var type: Int? {
         didSet {
             if let type = type {
@@ -51,6 +53,7 @@ class SightCollectionViewCell: UICollectionViewCell {
                     addSubview(videoVC.view)
                 default:
                     addSubview(topicVC.view)
+                    topicVC.sightId = sightId
                     break
                 }
             }

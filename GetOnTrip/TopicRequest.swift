@@ -9,14 +9,6 @@
 import UIKit
 
 class TopicRequest: NSObject {
-
-    /**
-    * 接口1：/api/topic/detail
-    * 话题详情页接口
-    * @param integer topicId，话题ID
-    * @param string deviceId，用户的设备ID（因为要统计UV）
-    * @return json
-    */
     
     // 请求参数
     var topicId : String = ""

@@ -79,6 +79,8 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     //话题ID
     var topicId: String = ""
     
+    var sightId: String = ""
+    
     //话题标题
     var topicTitle: String = "" {
         didSet {
@@ -204,12 +206,19 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         if lastSuccessAddRequest == nil {
             lastSuccessAddRequest = TopicRequest()
             lastSuccessAddRequest?.topicId = topicId
+            lastSuccessAddRequest?.sightId = sightId
         }
         
-        
-        lastSuccessAddRequest?.fetchTopicDetailModels {[weak self] (handler: TopicDetail) -> Void in
-            self?.topicDetail = handler
-        }
+        lastSuccessAddRequest?.fetchTopicDetailModels({[weak self] (ressult, status) -> Void in
+            if status == RetCode.SUCCESS {
+                if let topic = ressult {
+                    self!.topicDetail = topic
+                }
+            } else {
+                SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络")
+            }
+        })
+
     }
     
     private func setupAddProperty() {
