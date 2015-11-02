@@ -215,7 +215,6 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         view.addSubview(webView)
         view.addSubview(headerView)
         view.addSubview(toolbarView)
-//        view.addSubview(shareView)
         headerView.addSubview(headerImageView)
         headerView.addSubview(titleLabel)
         headerView.addSubview(labelBtn)
@@ -227,13 +226,13 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         toolbarView.addSubview(collectBtn)
         toolbarView.addSubview(bottomLine)
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
         labelBtn.hidden      = true
         favNumLabel.hidden   = true
         visitNumLabel.hidden = true
         
-//        view.addSubview(cover)
         cover.backgroundColor = UIColor.blackColor()
         
         //share view
@@ -251,7 +250,8 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
         headerImageView.clipsToBounds = true
         labelBtn.layer.borderWidth = 0.5
-        labelBtn.layer.borderColor = UIColor.whiteColor().CGColor
+        labelBtn.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
+        labelBtn.backgroundColor = SceneColor.fontGray
         
         webView.scalesPageToFit = true
         webView.dataDetectorTypes = .All
@@ -270,7 +270,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         
         //header views
         headerImageView.ff_Fill(headerView)
-        labelBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: headerView, size: CGSizeMake(32, 14), offset: CGPointMake(-17, -CityConstant.headerViewHeight))
+        labelBtn.ff_AlignVertical(ff_AlignType.TopLeft, referView: titleLabel, size: CGSize(width: 32, height: 14), offset: CGPointMake(0, -11))
         favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(8, -7))
         visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
         titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(-2, 1))
@@ -468,10 +468,6 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
             transFromValue = transFromValue + 44
         }
         
-//        NSIndexPath *idxPat = [NSIndexPath indexPathForRow:self.messagesFrame.count - 1 inSection:0];
-//        [self.tableView scrollToRowAtIndexPath:idxPat atScrollPosition:UITableViewScrollPositionTop animated:YES];
         self.commentVC.view.transform = CGAffineTransformMakeTranslation(0, transFromValue)
     }
-
-
 }

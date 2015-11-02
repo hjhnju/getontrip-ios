@@ -128,7 +128,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: " 当前城市未知", fontSize: 10)
     
     //设置菜单的数据源
-    let tableViewDataSource = ["首页", FavoriteViewController.name, MessageViewController.name, SettingViewController.name, FeedBackViewController.name]
+    let tableViewDataSource = ["首页", FavoriteViewController.name, MessageViewController.name, SettingViewController.name] // FeedBackViewController.name
     
     //菜单对应元类
     let usingVCTypes: [AnyClass] = [SearchRecommendViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]

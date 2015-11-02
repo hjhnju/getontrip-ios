@@ -53,8 +53,6 @@ class MainViewController: UIViewController {
     func showSearch(){
         let svc = SearchViewController()
         svc.searchResult.cityId = cityId
-        svc.searchResult.rootNav = navigationController
-        print(parentViewController)
         presentViewController(svc, animated: true, completion: nil)
     }
     
