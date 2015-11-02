@@ -278,14 +278,4 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    func popViewAction(button: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func searchAction(button: UIBarButtonItem) {
-        let svc = SearchViewController()
-        svc.searchResult.rootNav = self.navigationController
-        presentViewController(SearchViewController(), animated: true, completion: nil)
-    }
 }

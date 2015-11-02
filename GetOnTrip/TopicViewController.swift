@@ -219,7 +219,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         lastSuccessAddRequest?.fetchTopicDetailModels({[weak self] (ressult, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let topic = ressult {
-                    self!.topicDetail = topic
+                    self?.topicDetail = topic
                 }
             } else {
                 SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络")
@@ -447,15 +447,5 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
             transFromValue = transFromValue + 44
         }
         self.commentVC.view.transform = CGAffineTransformMakeTranslation(0, transFromValue)
-    }
-    
-    func popViewAction(button: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func searchAction(button: UIBarButtonItem) {
-        let svc = SearchViewController()
-        svc.searchResult.rootNav = self.navigationController
-        presentViewController(SearchViewController(), animated: true, completion: nil)
     }
 }

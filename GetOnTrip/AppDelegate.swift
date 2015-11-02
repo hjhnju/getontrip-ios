@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
         
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.rootViewController = SlideMenuViewController()
+        window?.rootViewController = defaultViewController()
         window?.makeKeyAndVisible()
         
         //默认隐藏导航（navigationConroller在SlideMenuViewController中定义）
@@ -163,10 +163,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     // MARK: - 设置是否是第一次进入最新版本
-//    private func defaultViewController() -> UIViewController {
-//
-//        return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
-//    }
+    private func defaultViewController() -> UIViewController {
+
+        return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
+    }
 
     // 是否新版本
     private func isNewUpdate() -> Bool {

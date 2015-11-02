@@ -54,13 +54,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     var cityNum = 1
     
     var citySightType: Int?
-    var recordLoadButton: UIButton?
     
-    var rootNav: UINavigationController? {
-        didSet {
-            print(rootNav)
-        }
-    }
+    var recordLoadButton: UIButton?
     
     var filterString: String = "" {
         didSet {
@@ -126,7 +121,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             let vc = CityViewController()
             vc.cityId = cityId
             let nav = UINavigationController(rootViewController: vc)
-            vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+            nav.navigationBar.hidden = true
             presentViewController(nav, animated: true, completion: nil)
 
         }
@@ -186,7 +181,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let vc = CityViewController()
                 vc.cityId = city.id!
                 let nav = UINavigationController(rootViewController: vc)
-                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                nav.navigationBar.hidden = true
                 presentViewController(nav, animated: true, completion: nil)
                 return
                 
@@ -194,7 +189,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let vc = SightViewController()
                 vc.sightId = city.id!
                 let nav = UINavigationController(rootViewController: vc)
-                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                nav.navigationBar.hidden = true
                 presentViewController(nav, animated: true, completion: nil)
 
                 return
@@ -205,9 +200,9 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             let content = contentData[indexPath.row]
             if content.search_type == SearchContentKeyWordType || content.search_type == SearchContentVideoType {
                 let vc = DetailWebViewController()
-                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
                 vc.url = content.url
                 let nav = UINavigationController(rootViewController: vc)
+                nav.navigationBar.hidden = true
                 presentViewController(nav, animated: true, completion: nil)
 
                 return
@@ -215,7 +210,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let vc = TopicViewController()
                 vc.topicId = content.id!
                 let nav = UINavigationController(rootViewController: vc)
-                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                nav.navigationBar.hidden = true
                 presentViewController(nav, animated: true, completion: nil)
 
                 return
@@ -223,7 +218,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let vc = BookViewController()
                 vc.bookId = content.id!
                 let nav = UINavigationController(rootViewController: vc)
-                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                nav.navigationBar.hidden = true
                 presentViewController(nav, animated: true, completion: nil)
 
                 return
@@ -257,7 +252,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let searchC = searchCity[indexPath.row] as! SearchResult
                 vc.cityId = searchC.id!
                 let nav = UINavigationController(rootViewController: vc)
-                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                nav.navigationBar.hidden = true
                 presentViewController(nav, animated: true, completion: nil)
 
             }
@@ -268,7 +263,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let searchC = searchSight[indexPath.row] as! SearchResult
                 vc.sightId = searchC.id!
                 let nav = UINavigationController(rootViewController: vc)
-                vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                nav.navigationBar.hidden = true
                 presentViewController(nav, animated: true, completion: nil)
 
                 
@@ -279,23 +274,22 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let searchType = searchContent[indexPath.row]
                 if searchType.search_type == SearchContentKeyWordType || searchType.search_type == SearchContentVideoType {
                     let vc = DetailWebViewController()
-                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
                     vc.url = searchType.url
                     let nav = UINavigationController(rootViewController: vc)
-
+                    nav.navigationBar.hidden = true
                     presentViewController(nav, animated: true, completion: nil)
                 } else if searchType.search_type == SearchContentTopicType {
                     let vc = TopicViewController()
                     vc.topicId = searchType.id!
                     let nav = UINavigationController(rootViewController: vc)
-                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                    nav.navigationBar.hidden = true
                     presentViewController(nav, animated: true, completion: nil)
 
                 } else if searchType.search_type ==  SearchContentBookType {
                     let vc = BookViewController()
                     vc.bookId = searchType.id!
                     let nav = UINavigationController(rootViewController: vc)
-                    vc.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: .Plain, target: vc, action: "dismissViewController")
+                    nav.navigationBar.hidden = true
                     presentViewController(nav, animated: true, completion: nil)
 
                 }

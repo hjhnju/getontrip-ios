@@ -33,15 +33,4 @@ class MenuViewController: MainViewController {
         super.viewDidAppear(animated)
         view.bringSubviewToFront(navBar)
     }
-    
-    
-    func popViewAction(button: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func searchAction(button: UIBarButtonItem) {
-        let svc = SearchViewController()
-        svc.searchResult.rootNav = self.navigationController
-        presentViewController(SearchViewController(), animated: true, completion: nil)
-    }
 }

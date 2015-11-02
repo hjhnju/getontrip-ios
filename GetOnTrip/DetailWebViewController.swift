@@ -55,8 +55,4 @@ class DetailWebViewController: UIViewController {
         let nav = vc?.visibleViewController as? SightViewController
         nav?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: "", action: "")
     }
-    
-    func popViewAction(button: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
 }

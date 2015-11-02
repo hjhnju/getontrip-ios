@@ -248,7 +248,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         let gap     = yInset + offsetY
 
         let initTop: CGFloat = 0.0
-        headerViewTopConstraint?.constant    = min(-gap, initTop)        
+        headerViewTopConstraint?.constant    = min(-gap, initTop)
         headerViewHeightConstraint?.constant = max(BookViewContant.headerImageViewHeight + -gap, BookViewContant.headerImageViewHeight)
     }
     
@@ -398,15 +398,5 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     /// 搜索跳入之后消失控制器
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func popViewAction(button: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func searchAction(button: UIBarButtonItem) {
-        let svc = SearchViewController()
-        svc.searchResult.rootNav = self.navigationController
-        presentViewController(SearchViewController(), animated: true, completion: nil)
     }
 }

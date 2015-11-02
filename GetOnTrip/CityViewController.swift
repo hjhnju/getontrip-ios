@@ -462,16 +462,4 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    // MARK: 自定义方法
-    
-    func popViewAction(button: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func searchAction(button: UIBarButtonItem) {
-        let svc = SearchViewController()
-        svc.searchResult.rootNav = self.navigationController
-        presentViewController(SearchViewController(), animated: true, completion: nil)
-    }
 }
