@@ -37,6 +37,9 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     /// 评论底线
     lazy var commentBottomLine = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
+    /// 评论提示
+    let prompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "空空如也...\n来抢发第一条评论吧 \\(^o^)/", fontSize: 13, mutiLines: true)
+    
     lazy var issueCommentTopLine: UIView = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
     var dataDict: NSMutableDictionary = NSMutableDictionary()
@@ -63,6 +66,10 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         commentTitle.backgroundColor = SceneColor.crystalWhite
         issueTextfield.borderStyle = UITextBorderStyle.RoundedRect
         
+        view.addSubview(prompt)
+        prompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: tableView, size: nil, offset: CGPointMake(0, -20))
+        prompt.textAlignment = NSTextAlignment.Center
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.sectionHeaderHeight = 41
@@ -82,7 +89,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         commentListRequest?.fetchCommentListModels({ (handler) -> Void in
-
+            
             for it in handler {
                 self.dataDict.setValue(it, forKey: "\(it.id)")
             }
@@ -92,6 +99,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
             }
             self.data.sortInPlace { $0.id > $1.id }
             self.tableView.reloadData()
+            self.prompt.hidden = self.data.count > 0 ? true : false
         })
     }
     
@@ -132,7 +140,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     private func setupAutoLayout() {
         
         commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 41)
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 444 - 50 - 20), offset: CGPointMake(0, 0))
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 444 - 50), offset: CGPointMake(0, 0))
         issueCommentView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
         commentBottomImage.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 6))
         issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))
@@ -147,7 +155,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     // MARK: - tableview datasource and delegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return data.count
+        return data.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -205,13 +213,18 @@ class commentTableViewCell : UITableViewCell {
     
     lazy var answerLabel: UILabel = UILabel(color: UIColor(hex: 0x696969, alpha: 0.5), title: "回复", fontSize: 8, mutiLines: true)
     
+    /// 其他人评论底部view
     lazy var commentAnswersView: UIView = UIView(color: UIColor(hex: 0x696969, alpha: 0.2))
     
     lazy var answerCommentContent: CommentPersonLabel = CommentPersonLabel(color: SceneColor.fontGray, title: "Clara J:来看看就知道了 ", fontSize: 11, mutiLines: true)
     
     lazy var baseLine = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
-//    lazy var commentPerson: CommentPersonLabel = CommentPersonLabel(color: <#T##UIColor#>, title: <#T##String#>, fontSize: <#T##CGFloat#>, mutiLines: <#T##Bool#>)
+    /// 评论人
+    lazy var commentPerson: CommentPersonLabel = CommentPersonLabel(color: SceneColor.fontGray, title: "Clara J:", fontSize: 11, mutiLines: true)
+    
+    /// 回复人
+    lazy var answersPerson: AnswersPersonLabel = AnswersPersonLabel(color: SceneColor.fontGray, title: "Clara J:", fontSize: 11, mutiLines: true)
     
     var answerCommentViewHeight: NSLayoutConstraint?
     
@@ -276,6 +289,7 @@ class commentTableViewCell : UITableViewCell {
         addSubview(commentAnswersView)
         addSubview(baseLine)
         commentAnswersView.addSubview(answerCommentContent)
+        commentAnswersView.addSubview(commentPerson)
         content.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 75
         answerCommentContent.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 75 - 24
         iconView.contentMode = UIViewContentMode.ScaleAspectFill

@@ -129,7 +129,7 @@ class UserAccount: NSObject, NSCoding {
     }
     
      // MARK: - 上传用户个人信息
-    func uploadUserInfo(imageData: NSData, sex: Int, nick_name: String, city: String) {
+    func uploadUserInfo(imageData: NSData, sex: Int, nick_name: String, city: String, handler:(result: AnyObject?, error: NSError?) -> Void) {
         
         let str = "/api/user/editinfo"
         let params = "sex:\(sex),nick_name:\(nick_name),city:\(city)"
@@ -141,7 +141,10 @@ class UserAccount: NSObject, NSCoding {
         HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, error) -> () in
             if error != nil {
                 print("网络加载失败")
+                handler(result: result, error: error)
+                return
             }
+            handler(result: nil, error: error)
             self.userInfoGain(self.type)
         }
 

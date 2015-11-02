@@ -34,13 +34,7 @@ class Landscape: NSObject {
         setValuesForKeysWithDictionary(dict)
         catalogs = NSMutableArray()
         for item in dict["catalog"] as! NSArray {
-            
-            var text = NSString(string: item["name"] as! String).substringWithRange(NSMakeRange(0, 4))
-            if text.containsString("\r\n") {
-                let range = text.rangeOfString("\r\n")
-                text.removeRange(range!)
-            }
-            catalogs!.addObject(text)
+            catalogs!.addObject(item["name"] as! String)
         }
         
     }

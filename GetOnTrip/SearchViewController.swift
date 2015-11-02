@@ -177,6 +177,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
+        view.endEditing(true)
         if indexPath.section != 1 {
             searchBar.text = recordData[indexPath.row]
             tableView.hidden = true
@@ -226,6 +227,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     }
     
     func searchMuchButtonAction(btn: UIButton) {
+        view.endEditing(true)
         searchBar.text = btn.titleLabel?.text
         recordTableView.hidden = true
     }

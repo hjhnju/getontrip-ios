@@ -32,6 +32,9 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     /// 头像
     lazy var iconView: UIImageView = UIImageView()
     
+    /// 头像数据
+//    lazy var 
+    
     /// 昵称
     lazy var nickName: UITextField = UITextField(alignment: NSTextAlignment.Right, sizeFout: 14, color: UIColor.blackColor())
     /// 性别
@@ -144,9 +147,20 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     }
     
     func nickNameTextFieldTextDidChangeNotification(notification: NSNotification) {
-        saveItem?.enabled = true
+        
         let textField = notification.object as! UITextField
         nickName.text = textField.text
+
+        var sex: Int?
+        if gender.text == "男" { sex = 0 }
+        else if gender.text == "女" { sex = 1 }
+        else { sex = 2 }
+        
+        if sharedUserAccount?.nickname != textField.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender == sex {
+            saveItem?.enabled = true
+        } else {
+            saveItem?.enabled = false
+        }
     }
     
     deinit {
@@ -325,7 +339,6 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
             let picker = UIImagePickerController()
             picker.delegate = self
             presentViewController(picker, animated: true, completion: nil)
-            saveItem?.enabled = true
         }
 
     }
@@ -334,6 +347,9 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         
         
         iconView.image = image.scaleImage(200)
+        if !(iconView.image!.isEqual(image)) {
+            saveItem?.enabled = true
+        }
         dismissViewControllerAnimated(true, completion: nil)
         // 重新设回导航栏样式
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
@@ -377,16 +393,38 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
                 saveCity = provin["name"] as? String
                 let citi = provin["cities"] as! NSArray
                 saveTown = citi[0] as? String
+                var sex: Int?
+                if gender.text == "男" { sex = 0 }
+                else if gender.text == "女" { sex = 1 }
+                else { sex = 2 }
                 
-                print(row)
+                if sharedUserAccount?.nickname != nickName.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender != sex {
+                    saveItem?.enabled = true
+                } else {
+                    saveItem?.enabled = false
+                }
                 break;
             case 1:
                 let citi = provin["cities"] as! NSArray
                 saveTown = citi[row] as? String
+                
                 break;
             default:
                 break;
             }
+        }
+    }
+    
+    func compareUserSelect() {
+        var sex: Int?
+        if gender.text == "男" { sex = 0 }
+        else if gender.text == "女" { sex = 1 }
+        else { sex = 2 }
+        
+        if sharedUserAccount?.nickname != nickName.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender != sex {
+            saveItem?.enabled = true
+        } else {
+            saveItem?.enabled = false
         }
     }
     
@@ -429,7 +467,7 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
     func saveUserInfo(item: UIBarButtonItem) {
     
         iconView.image?.scaleImage(200)
-        let imageData = UIImagePNGRepresentation(iconView.image!)
+        let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
         var sex: Int?
         if gender.text == "男" {
             sex = 0
@@ -438,7 +476,13 @@ class SettingViewController: MainViewController, UITableViewDataSource, UITableV
         } else {
             sex = 2
         }
-        sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text ?? "")
+//        sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text ?? "")
+        sharedUserAccount?.uploadUserInfo(imageData, sex: sex!, nick_name: nickName.text ?? "", city: city.text ?? "", handler: { (result, error) -> Void in
+            if error == nil {
+                self.saveItem?.enabled = false
+                SVProgressHUD.showInfoWithStatus("保存成功")
+            }
+        })
 //        SVProgressHUD.showInfoWithStatus("登陆成功")
     }
     

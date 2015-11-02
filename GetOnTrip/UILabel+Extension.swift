@@ -64,3 +64,9 @@ class CommentPersonLabel : UILabel {
     
     
 }
+
+/// 回复人姓名
+class AnswersPersonLabel : UILabel {
+    
+    
+}
