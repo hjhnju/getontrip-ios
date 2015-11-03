@@ -11,8 +11,8 @@ import FFAutoLayout
 import SVProgressHUD
 
 class SearchViewController: UISearchController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
-
-    let searchResult = SearchResultsViewController()
+    
+    let searchResult =  SearchResultsViewController()
     
     /// 搜索记录TableView
     let recordTableView = UITableView()

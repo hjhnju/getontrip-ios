@@ -353,6 +353,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		72550E971BE8E14C004D4611 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Animation;
+			sourceTree = "<group>";
+		};
 		727561801BCFC7160089CB27 /* City */ = {
 			isa = PBXGroup;
 			children = (
@@ -446,6 +453,7 @@
 		72D86E081B65E82B004B72D0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				72550E971BE8E14C004D4611 /* Animation */,
 				72A5BF311B73351400F3AB26 /* HttpRequest.swift */,
 				AE4ECBCC1BB5305D00DC65F7 /* NSArray+Print.swift */,
 				721643291B7DB18F009C292C /* String+Extentions.swift */,

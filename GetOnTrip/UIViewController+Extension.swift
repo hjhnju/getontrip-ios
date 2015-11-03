@@ -20,6 +20,6 @@ extension UIViewController {
     }
     
     func searchAction(button: UIBarButtonItem) {
-        presentViewController(SearchViewController(), animated: true, completion: nil)
+        navigationController?.pushViewController(SearchViewController(), animated: true)
     }
 }

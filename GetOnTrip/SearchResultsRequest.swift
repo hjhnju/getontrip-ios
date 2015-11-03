@@ -28,7 +28,6 @@ class SearchResultsRequest: NSObject {
         post["pageSize"] = String(pageSize)
         HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: post) { (result, error) -> () in
             if error == nil {
-                print(result!)
                 let data = result!["data"]
                 var rows = [String : AnyObject]()
                 for section in self.sectionTypes {
