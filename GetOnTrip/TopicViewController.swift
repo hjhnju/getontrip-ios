@@ -390,7 +390,8 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     func doSharing(sender: UIButton) {
         if let topicDetail = topicDetail {
             let url = AppIni.BaseUri + "/topic/detail?" + "id=\(topicDetail.id)"
-            shareView.getShowShareAction(view, url: url, images: headerImageView.image ?? UIImage(), text: nil)
+            print(topicDetail.subtitle)
+            shareView.getShowShareAction(view, url: url, images: headerImageView.image ?? UIImage(), text: topicDetail.title, subtitle: topicDetail.subtitle)
         }
     }
     
@@ -399,7 +400,6 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         let w = view.bounds.width
         let h = view.bounds.height
         
-//        view.addSubview(commentVC.view)
         UIApplication.sharedApplication().keyWindow?.addSubview(cover)
         UIApplication.sharedApplication().keyWindow?.addSubview(commentVC.view)
         commentVC.topicId = topicId

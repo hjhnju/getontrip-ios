@@ -258,7 +258,7 @@ class ShareView: UIView {
     ///  - parameter topic:       话题或书籍对象
     ///  - parameter images:      分享图片
     ///  - parameter isTopicBook: true为话题false为书籍
-    func getShowShareAction(subview: UIView, url: String?, images: UIImage?, text: String?) {
+    func getShowShareAction(subview: UIView, url: String?, images: UIImage?, text: String?, subtitle: String?) {
         
         ///  显示控件
         subview.addSubview(self)
@@ -285,7 +285,16 @@ class ShareView: UIView {
         }
         
         ///  加载分享参数
-        shareParames.SSDKSetupShareParamsByText(url ?? "",
+        var text = ""
+        if subtitle != nil {
+            let lab = NSString(string: subtitle!)
+            if lab.length > 25 {
+                text = lab.substringWithRange(NSMakeRange(0, 25))
+            } else {
+                text = lab as String
+            }
+        }
+        shareParames.SSDKSetupShareParamsByText(text + (url ?? ""),
             images : images ?? nil,
             url : NSURL(string: url ?? ""),
             title : text ?? "",

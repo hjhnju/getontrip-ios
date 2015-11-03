@@ -400,7 +400,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     func clickShareButton(button: UIButton) {
         if data != nil {
             let url = data?.url
-            shareView.getShowShareAction(view, url: url, images: bookImageView.image ?? UIImage(), text: nil)
+            shareView.getShowShareAction(view, url: url, images: bookImageView.image ?? UIImage(), text: data?.title, subtitle: data?.content_desc)
         }
 
     }

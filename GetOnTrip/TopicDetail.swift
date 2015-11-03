@@ -39,6 +39,8 @@ class TopicDetail: NSObject {
     var sight_name: String = ""
     /// 当前用户是否已收藏
     var collected: String = ""
+    /// 分享副标题
+    var subtitle: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()

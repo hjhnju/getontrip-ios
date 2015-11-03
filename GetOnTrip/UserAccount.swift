@@ -121,7 +121,7 @@ class UserAccount: NSObject, NSCoding {
             userAddRequest = UserAddRequest()
             userAddRequest?.type = type
 
-            let params = "sex:\(gender!),nick_name:\(nickname!),image:\(icon!)"
+            let params = "sex:\(gender ?? 0),nick_name:\(nickname ?? ""),image:\(icon ?? "")"
             userAddRequest?.param = params
             // file
         }
