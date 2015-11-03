@@ -472,8 +472,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         } else {
             sex = 2
         }
-//        sharedUserAccount?.uploadUserInfo(imageData!, sex: sex!, nick_name: nickName.text!, city: city.text ?? "")
-        sharedUserAccount?.uploadUserInfo(imageData, sex: sex!, nick_name: nickName.text ?? "", city: city.text ?? "", handler: { (result, error) -> Void in
+
+        sharedUserAccount?.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
             if error == nil {
                 self.navBar.rightButton.enabled = false
                 SVProgressHUD.showInfoWithStatus("保存成功")

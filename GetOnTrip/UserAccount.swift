@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import SVProgressHUD
 
 class UserAccount: NSObject, NSCoding {
     
@@ -70,10 +71,7 @@ class UserAccount: NSObject, NSCoding {
         super.init()
 
         // MARK: - 用户一旦登陆成功即刻告诉后台设置用户登陆状态
-        informLoginStatus(type, openId: user!.uid)
-        
-        ///  替换服务器用户的个人信息
-        userInfoGain(type)
+        informLoginStatus(type, openId: user?.uid ?? "")
     }
     
     ///  设置用户登陆状态
@@ -83,7 +81,20 @@ class UserAccount: NSObject, NSCoding {
     private func informLoginStatus(loginType: Int, openId: String) {
         informLoginRequest.openId = openId
         informLoginRequest.type = loginType
-        informLoginRequest.fetchLoginModels()
+        informLoginRequest.fetchLoginModels { (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                if (result != nil) {
+                    ///  替换服务器用户的个人信息
+                    self.userInfoGain(self.type)
+                } else {
+                    SVProgressHUD.showErrorWithStatus("登陆失败，请重新登陆")
+                    return
+                }
+            } else {
+                SVProgressHUD.showErrorWithStatus("登陆失败，请重新登陆")
+                return
+            }
+        }
     }
     
     ///  获取用户信息
@@ -114,21 +125,21 @@ class UserAccount: NSObject, NSCoding {
         
         userAddRequest.type = type
         
-        let params = "sex:\(gender),nick_name:\(nickname),image:\(icon)"
         userAddRequest.param = self
         userAddRequest.userAddInfoMeans()
         
     }
     
      // MARK: - 上传用户个人信息
-    func uploadUserInfo(imageData: NSData, sex: Int, nick_name: String, city: String, handler:(result: AnyObject?, error: NSError?) -> Void) {
+    func uploadUserInfo(imageData: NSData, sex: Int?, nick_name: String?, city: String?, handler:(result: AnyObject?, error: NSError?) -> Void) {
         
         let str = "/api/user/editinfo"
-        let params = "sex:\(sex),nick_name:\(nick_name),city:\(city)"
         
         var post         = [String: String]()
         post["type"]  = String(self.type)
-        post["param"] = String(params)
+        post["sex"]   = String(sex)
+        post["nick_name"] = nick_name
+        post["city"]  = city
     
         HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, error) -> () in
             if error != nil {

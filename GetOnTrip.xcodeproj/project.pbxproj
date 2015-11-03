@@ -711,10 +711,10 @@
 			isa = PBXGroup;
 			children = (
 				AEA94F8F1B9AED30006D6998 /* UserAccount.swift */,
+				AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */,
 				AEB0B97C1BA15425006966FD /* UserLoghtRequest.swift */,
 				AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */,
 				AE2B22A31BD650C60070E30A /* UserAddRequest.swift */,
-				AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";

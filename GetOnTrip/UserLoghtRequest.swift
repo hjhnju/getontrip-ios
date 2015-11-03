@@ -24,7 +24,7 @@ class UserLoghtRequest: NSObject {
     var type  : Int    = 1
     
     // TODO: 当用户登陆后，只需要让后台知道此用户已登陆过即可，目前后台无返回值
-    func fetchLoginModels() {
+    func fetchLoginModels(handler: (result: AnyObject?, status: Int) -> Void) {
       
         var post         = [String: String]()
         post["openId"]   = String(openId)
@@ -33,7 +33,10 @@ class UserLoghtRequest: NSObject {
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/login", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 print(result)
+                handler(result: result.stringValue, status: status)
+                return
             }
+            handler(result: nil, status: status)
         }
     }
 }
