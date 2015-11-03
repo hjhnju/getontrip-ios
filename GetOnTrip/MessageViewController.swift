@@ -26,7 +26,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         view.addSubview(tableView)
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.frame = CGRectMake(0, 64, view.bounds.width, view.bounds.height)
-        
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64), offset: CGPointMake(0, 64))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.frame = view.bounds

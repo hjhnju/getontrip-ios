@@ -93,7 +93,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     private func setupAddProperty() {
-        
+
         navBar.setTitle(SettingViewController.name)
         view.addSubview(tableView)
         cancleBottomView.backgroundColor = UIColor.orangeColor()
@@ -111,7 +111,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         trueButton.addTarget(self, action: "trueButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         sortButton.addTarget(self, action: "sortClick", forControlEvents: UIControlEvents.TouchUpInside)
         
-        tableView.frame = view.bounds
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64), offset: CGPointMake(0, 64))
         cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(-20, 0))
         sortButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(0, 0))
         trueButton.ff_AlignInner(ff_AlignType.CenterRight, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(20, 0))
