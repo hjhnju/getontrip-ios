@@ -52,8 +52,8 @@ class SightCollectionViewCell: UICollectionViewCell {
                 case CategoryLabel.videoLabel:
                     addSubview(videoVC.view)
                 default:
-                    addSubview(topicVC.view)
                     topicVC.sightId = sightId
+                    addSubview(topicVC.view)
                     break
                 }
             }
