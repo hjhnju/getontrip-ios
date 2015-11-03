@@ -127,6 +127,8 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         headerImageView.userInteractionEnabled = true
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
         bookImageView.userInteractionEnabled = true
+        bookImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        bookImageView.clipsToBounds = true
         blurView.alpha = 1
         
         toolbarView.addSubview(collectBtn)
@@ -208,6 +210,8 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         webView.scrollView.showsVerticalScrollIndicator   = false
         webView.navigationDelegate  = self
         webView.scrollView.scrollEnabled = true
+        webView.backgroundColor = UIColor.whiteColor()
+        webView.opaque = false
         //webView.scrollView.contentSize = CGSizeMake(view.bounds.width, view.bounds.height - BookViewContant.headerViewHeight)
 //
         //webView.sizeThatFits(CGSizeZero)

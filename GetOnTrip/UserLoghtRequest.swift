@@ -30,10 +30,9 @@ class UserLoghtRequest: NSObject {
         post["openId"]   = String(openId!)
         post["type"]     = String(type)
         
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/login", post: post) { (result, error) -> () in
-            
-            if error == nil {
-                print(result!["data"])
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/login", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                print(result)
             }
         }
     }

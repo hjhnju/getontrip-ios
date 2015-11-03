@@ -35,7 +35,8 @@ class DetailWebViewController: UIViewController {
         view.bringSubviewToFront(navBar)
 
         webView.frame = view.bounds
-        webView.backgroundColor = UIColor.clearColor()
+        webView.backgroundColor = UIColor.whiteColor()
+        webView.opaque = false
         
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: "途知", target: self, action: "popViewAction:")
         navBar.setButtonTintColor(UIColor.yellowColor())

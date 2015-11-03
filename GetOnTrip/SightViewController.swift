@@ -119,6 +119,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         collectionView.delegate   = self
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
         collectionView.bounces = false
+        collectionView.backgroundColor = UIColor.whiteColor()
     }
     
     func setupAutlLayout() {

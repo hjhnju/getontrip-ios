@@ -23,5 +23,3 @@ extension UIViewController {
         presentViewController(SearchViewController(), animated: true, completion: nil)
     }
 }
-
-

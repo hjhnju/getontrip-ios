@@ -198,6 +198,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         navBar.setStatusBarHidden(true)
         
         webView.backgroundColor = UIColor.whiteColor()
+        webView.opaque = false
         collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
     }
     
@@ -298,7 +299,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
         let body = setupBody()
         html.appendString("</head><body>\(body)</body></html>")
-        print("======");print(html);print("======")
+
         webView.loadHTMLString(html as String, baseURL: nil)
         
     }

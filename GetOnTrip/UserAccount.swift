@@ -34,6 +34,7 @@ class UserAccount: NSObject, NSCoding {
     
     /// 用于调用access_token，接口获取授权后的access token
     var access_token: String?
+    
     /// access_token的生命周期，单位是秒数(实际是数值！)
     var expires_in: NSTimeInterval?
     
