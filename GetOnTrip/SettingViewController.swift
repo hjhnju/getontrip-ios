@@ -126,7 +126,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         if      sharedUserAccount?.gender.hashValue == 0 { gender.text = "男" }
         else if sharedUserAccount?.gender.hashValue == 1 { gender.text = "女" }
-        else                                              { gender.text = "未知"}
+        else                                             { gender.text = "未知"}
         
         city.text = sharedUserAccount?.city
         nickName.text = sharedUserAccount?.nickname
@@ -174,7 +174,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         let provincesM = NSMutableArray()
         
         for dict in provinceArray! {
-//            _ = Province.provinceWithDict(dict as! NSDictionary)
+
             provincesM.addObject(dict)
         }
         provinces = provincesM

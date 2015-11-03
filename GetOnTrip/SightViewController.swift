@@ -57,7 +57,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     var isPopGesture: Bool = false
     
     /// 缓存cell
-    lazy var collectionViewCellCache = [String : NSArray]()
+    lazy var collectionViewCellCache = [Int : [TopicCellData]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -188,6 +188,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
+        
+        
         if (!childViewControllers.contains(cell.landscapeVC)) {
             addChildViewController(cell.landscapeVC)
         }
@@ -201,16 +203,33 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             addChildViewController(cell.topicVC)
         }
         
+        cell.cellId = indexPath.row
         let labelData = sightDataSource.tags[indexPath.row]
         labelData.sightId = sightId
         cell.sightId      = sightId
         cell.labelData    = labelData
+        
+        let type = Int(cell.labelData?.type ?? "0")
+        if type != CategoryLabel.sightLabel &&
+           type != CategoryLabel.bookLabel  &&
+           type != CategoryLabel.videoLabel {
+            if let data = collectionViewCellCache[indexPath.row] {
+                cell.topicVC.topics = data
+                cell.topicVC.tableView.reloadData()
+            } else {
+                cell.topicVC.topics.removeAll()
+                cell.topicVC.tableView.reloadData()
+                cell.topicVC.tableView.header.beginRefreshing()
+            }
+        }
+        
+        
         return cell
     }
     
-    func collectionViewCellCache(data: NSArray, type: String) {
-        collectionViewCellCache[type] = data
-    }
+//    func collectionViewCellCache(data: NSArray, type: String) {
+//        collectionViewCellCache[type] = data
+//    }
     
     
     // MARK: - scrollerView 代理方法

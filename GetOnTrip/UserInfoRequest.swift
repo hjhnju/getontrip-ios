@@ -21,7 +21,7 @@ class UserInfoRequest: NSObject {
     var type: Int = 0
     
     // 异步加载获取数据
-    func userInfoGainMeans(handler: UserInfo -> Void) {
+    func userInfoGainMeans(handler: (user: UserInfo?, status: Int) -> Void) {
         
         var post      = [String: String]()
         post["type"]  = String(type)
@@ -29,19 +29,12 @@ class UserInfoRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/getinfo", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                
-            }
-        }
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/getinfo", post: post) { (result, error) -> () in
-            if error == nil {
-                if (result!["data"]!!.count == 0) {
-                    let user = UserInfo()
-                    user.type = "0"
-                    handler(user)
-                    
-                } else {
-                    handler(UserInfo(dict: result!["data"] as! [String : AnyObject]))
+                if let resu = result.dictionaryObject {
+                    print(result)
+                    handler(user: UserInfo(dict: resu), status: status)
+                    return
                 }
+                handler(user: nil, status: status)
             }
         }
     }

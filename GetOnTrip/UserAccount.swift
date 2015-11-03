@@ -103,21 +103,22 @@ class UserAccount: NSObject, NSCoding {
     private func userInfoGain(loginType: Int) {
         userInfoGainRequest.type = loginType
         
-        userInfoGainRequest.userInfoGainMeans({ (handler) -> Void in
-            let user = handler as UserInfo
-            if user.type == "1" {
-                self.nickname = user.nick_name
-                self.icon     = user.image
-                self.city     = user.city
-                self.gender   = Int(user.sex) ?? 0
-                
-            } else { // 此用户后台没有记录在册
-                
-                ///  添加用户
-                self.userAddInfo()
+        userInfoGainRequest.userInfoGainMeans { (user, status) -> Void in
+            if status == RetCode.SUCCESS {
+                if (user != nil) {
+                    self.nickname = user?.nick_name ?? ""
+                    self.icon     = user?.image ?? ""
+                    self.city     = user?.city ?? ""
+                    self.gender   = Int(user?.sex ?? "") ?? 0
+                    self.saveAccount()
+                } else {
+                    self.userAddInfo()
+                }
+            } else {
+                SVProgressHUD.showErrorWithStatus("网络连接失败，请重新登陆")
+                return
             }
-            self.saveAccount()
-        })
+        }
     }
     
     // MARK: - 用户登陆后添加用户信息

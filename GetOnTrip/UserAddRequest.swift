@@ -26,10 +26,10 @@ class UserAddRequest: NSObject {
     func userAddInfoMeans() {
         
         var post         = [String: String]()
-        post["nick_name"] = String(param?.nickname)
-        post["type"]  = String(type)
-        post["image"] = String(param?.icon)
-        post["sex"]   = String(param?.gender)
+        post["nick_name"] = param?.nickname ?? ""
+        post["type"]  = String(type ?? 0)
+        post["image"] = param?.icon ?? ""
+        post["sex"]   = String(param?.gender ?? 0)
         
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/addinfo", post: post) { (result, error) -> () in
