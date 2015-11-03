@@ -21,18 +21,18 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //MARK: Properties and Outlets
     
+    /// 自定义导航
+    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
+    
     var cityName: String = "" {
         didSet {
             cityNameLabel.text = cityName
-            titleLabel.text = cityName
+            navBar.titleLabel.text = cityName
         }
     }
     
     /// 默认无
     var cityId: String = ""
-    
-    /// 导航标题
-    var titleLabel = UILabel()
     
     /// 顶部图片url
     var headerImageUrl:String = "" {
@@ -102,9 +102,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     //导航透明度
     var navBarAlpha:CGFloat = 0.0
     
-    //原导航底图
-    var oldBgImage: UIImage?
-    
     // MARK: - 初始化相关内容
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -113,21 +110,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //原则：如果和默认设置不同，controller自己定义新值，退出时自己还原
-        oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
-            
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
-        
-        titleLabel.frame = CGRectMake(0, 0, 100, 21)
-        titleLabel.textAlignment = NSTextAlignment.Center
-        titleLabel.hidden = true //设置alpha=0会有Fade Out
-        
-        headerImageView.userInteractionEnabled = true
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.bounces = false
-        collectionView.contentSize = CGSizeMake(200, 100)
         initView()
         setupAutoLayout()
         loadCityData()
@@ -144,9 +126,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        //在viewDidDisappear中无法生效
-        navigationController?.navigationBar.setBackgroundImage(oldBgImage, forBarMetrics: UIBarMetrics.Default)
-        navigationItem.titleView = nil
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -155,21 +134,20 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func refreshBar(){
         //设置导航样式
-        titleLabel.alpha = navBarAlpha
+        navBar.titleLabel.alpha = navBarAlpha
         if navBarAlpha > 0.2 {
-            titleLabel.hidden = false //设置alpha=0会有Fade Out
+            navBar.titleLabel.hidden = false //设置alpha=0会有Fade Out
         } else {
-            titleLabel.hidden = true
+            navBar.titleLabel.hidden = true
         }
-        navigationItem.titleView = titleLabel
-        
-        let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha))
-        navigationController?.navigationBar.setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
         
         //headerImage标题
         cityNameLabel.alpha = 1 - navBarAlpha
         favIconBtn.alpha = 1 - navBarAlpha
         favTextBtn.alpha = 1 - navBarAlpha
+        
+        //navBar.setBlurViewEffectColor(SceneColor.frontBlack, alpha: navBarAlpha)
+        navBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)
     }
     
     /// 添加控件
@@ -179,8 +157,20 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.addSubview(headerImageView)
         view.addSubview(tableView)
         view.bringSubviewToFront(headerImageView)
+        view.addSubview(navBar)
+        view.bringSubviewToFront(navBar)
         
-        titleLabel.textColor = UIColor.whiteColor()
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
+        navBar.setBlurViewEffect(false)
+        navBar.setButtonTintColor(UIColor.yellowColor())
+        navBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)
+        navBar.titleLabel.hidden = true
+        
+        headerImageView.userInteractionEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.bounces = false
+        collectionView.contentSize = CGSizeMake(200, 100)
         
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
         headerImageView.clipsToBounds = true
@@ -196,7 +186,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         moreSightsButton.backgroundColor = SceneColor.frontBlack
         hotTopBarButton.backgroundColor = SceneColor.frontBlack
         moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-//        moreSightsButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
 
         favIconBtn.addTarget(self, action: "favIconBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -218,7 +207,6 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
         moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         hotTopBarButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -473,13 +461,5 @@ class CityViewController: UIViewController, UITableViewDelegate, UITableViewData
     ///  搜索跳入之后消失控制器
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    // MARK: - 搜索(下一个控制器)
-    func searchButtonClicked(button: UIBarButtonItem) {
-        
-        let svc = SearchViewController()
-        svc.searchResult.rootNav = self.navigationController
-        presentViewController(SearchViewController(), animated: true, completion: nil)
     }
 }

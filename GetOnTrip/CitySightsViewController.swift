@@ -14,6 +14,9 @@ let sightListCityIdentifier = "SightListCity_Cell"
 
 class CitySightsViewController: UICollectionViewController {
     
+    /// 自定义导航
+    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
+    
     /// 城市ID
     var cityId: String?
     
@@ -42,9 +45,15 @@ class CitySightsViewController: UICollectionViewController {
         super.viewDidLoad()
         
         view.backgroundColor = SceneColor.frontBlack
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
+        view.addSubview(navBar)
+        view.bringSubviewToFront(navBar)
         
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: "", action: "")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
+        navBar.setBlurViewEffect(false)
+        navBar.setButtonTintColor(UIColor.yellowColor())
+        navBar.backgroundColor = SceneColor.frontBlack
+
         let w: CGFloat = 170
         let h: CGFloat = 150
         // 每个item的大小
@@ -96,14 +105,6 @@ class CitySightsViewController: UICollectionViewController {
         vc.sightId = sight.id
         vc.sightName = sight.name
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    // MARK: - 搜索(下一个控制器)
-    func searchButtonClicked(button: UIBarButtonItem) {
-        
-        let search = SearchViewController()
-        
-        presentViewController(search, animated: true, completion: nil)
     }
     
     ///  收藏功能

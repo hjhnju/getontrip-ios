@@ -21,6 +21,10 @@ struct BookViewContant {
 class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler  {
 
     // MARK: - 属性
+    
+    /// 自定义导航
+    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 14)
+    
     /// 网络请求加载数据(添加)
     var lastSuccessAddRequest: BookRequest?
 
@@ -97,13 +101,19 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     ///  添加相关属性
     private func initView() {
-        
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "clickSearchButton:")
         view.backgroundColor = .whiteColor()
         
         initWebView()
+        view.addSubview(webView)
         view.addSubview(toolbarView)
+        view.addSubview(navBar)
+        view.bringSubviewToFront(navBar)
+        
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: "", target: self, action: "popViewAction:")
+        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
+        navBar.setButtonTintColor(UIColor.yellowColor())
+        navBar.setBlurViewEffect(false)
+        navBar.backgroundColor = SceneColor.frontBlack
         
         webView.addSubview(headerImageView)
         webView.addSubview(bookImageView)
@@ -187,7 +197,6 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         webView.configuration.userContentController = controller
         */
         
-        view.addSubview(webView)
         webView.scrollView.tag = 1
         //automaticallyAdjustsScrollViewInsets = false
         webView.scrollView.showsHorizontalScrollIndicator = false
@@ -380,8 +389,6 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     /// 分享
     func clickShareButton(button: UIButton) {
-        print("分享")
-//        shareView.getShowShareAction(view, topic: data!, images: bookImageView.image!, isTopicBook: false)
         if data != nil {
             let url = data?.url
             shareView.getShowShareAction(view, url: url, images: bookImageView.image ?? UIImage(), text: nil)

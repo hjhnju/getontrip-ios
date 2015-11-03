@@ -10,7 +10,7 @@
 import UIKit
 import FFAutoLayout
 
-class MessageViewController: MainViewController, UITableViewDataSource, UITableViewDelegate{
+class MessageViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate{
     
     static let name = "消息"
 
@@ -26,9 +26,6 @@ class MessageViewController: MainViewController, UITableViewDataSource, UITableV
         view.addSubview(tableView)
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.frame = CGRectMake(0, 64, view.bounds.width, view.bounds.height)
-
-        navigationController?.navigationBarHidden = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.slideButton)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -42,6 +39,7 @@ class MessageViewController: MainViewController, UITableViewDataSource, UITableV
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(MessageTableViewCell.self, forCellReuseIdentifier: "Message_Cell")
         title = "消息"
+        navBar.setTitle(MessageViewController.name)
     }
     
     

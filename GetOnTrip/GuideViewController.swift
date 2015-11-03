@@ -216,6 +216,5 @@ class GuideButton: UIButton {
         
         imageView?.center = CGPointMake(bounds.width * 0.5, 0)
         titleLabel?.center = CGPointMake(bounds.width * 0.5, CGRectGetMaxY(imageView!.frame) + titleLabel!.bounds.height * 0.5 + 12)
-//        titleLabel?.frame = CGRectMake(0, CGRectGetMaxY(imageView!.frame) + 10, titleLabel!.frame.width, titleLabel!.frame.height)
     }
 }

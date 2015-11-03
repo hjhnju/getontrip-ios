@@ -90,8 +90,7 @@ class SightTopicViewController: UITableViewController {
         let vc: TopicViewController = TopicViewController()
         let topic = topics[indexPath.row]
         vc.topicId = topic.id
-        vc.sightId = sightId
-//        vc.sightName = topic.title
+        //TODO: 景点名，图片等传过去
         navigationController?.pushViewController(vc, animated: true)
     }
     

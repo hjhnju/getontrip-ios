@@ -21,13 +21,13 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     
     // MARK: 相关属性
     
-    //导航景点名
-    lazy var navTitleLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "", fontSize: 14, mutiLines: false)
+    /// 自定义导航
+    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 14)
     
-    //头部视图
+    /// 头部视图
     lazy var headerView: UIView = UIView()
     
-    //头部视图高度约束
+    /// 头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
     
     /// 头部图片url
@@ -41,7 +41,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     lazy var headerImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
     
     /// 文章标题
-    lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false)
+    lazy var headerTitleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false)
     
     /// 标签 - 历史
     lazy var labelBtn: UIButton = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
@@ -84,14 +84,14 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     //话题标题
     var topicTitle: String = "" {
         didSet {
-            titleLabel.text = topicTitle
+            headerTitleLabel.text = topicTitle
         }
     }
     
     //景点名
     var sightName: String = "" {
         didSet {
-            navTitleLabel.text = sightName
+            navBar.setTitle(sightName)
         }
     }
     
@@ -137,27 +137,9 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.whiteColor()
-        webView.backgroundColor = UIColor.whiteColor()
-        collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
-        
-        //原则：如果和默认设置不同，controller自己定义新值，退出时自己还原
-        oldBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(UIBarMetrics.Default)
-        oldNavTintColor = navigationController?.navigationBar.tintColor
-        
-        //nav bar
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
-        navigationItem.titleView = navTitleLabel
-        
-        refreshTitle()
-        
-        navTitleLabel.frame = CGRectMake(0, 0, 100, 21)
-        navTitleLabel.textAlignment = NSTextAlignment.Center
-        navTitleLabel.hidden = false
-        navTitleLabel.alpha  = 1.0
-        
+        initView()
+        refreshHeader()
         loadSightData()
-        setupAddProperty()
         setupDefaultProperty()
         setupAutoLayout()
         
@@ -166,7 +148,6 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        refreshBar()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -175,9 +156,6 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        //在viewDidDisappear中无法生效
-        navigationController?.navigationBar.setBackgroundImage(oldBgImage, forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.tintColor = oldNavTintColor
     }
     
     
@@ -187,14 +165,44 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         super.viewDidDisappear(animated)
     }
     
-    func refreshBar() {
-        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-        navigationController?.navigationBar.barTintColor = nil
-        navigationController?.navigationBar.tintColor = SceneColor.frontBlack
+    func initView() {
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+        
+        view.addSubview(webView)
+        view.addSubview(headerView)
+        view.addSubview(toolbarView)
+        view.backgroundColor = UIColor.whiteColor()
+        headerView.addSubview(headerImageView)
+        headerView.addSubview(headerTitleLabel)
+        headerView.addSubview(labelBtn)
+        headerView.addSubview(favNumLabel)
+        headerView.addSubview(visitNumLabel)
+        toolbarView.addSubview(commentLab)
+        toolbarView.addSubview(commentBtn)
+        toolbarView.addSubview(shareBtn)
+        toolbarView.addSubview(collectBtn)
+        toolbarView.addSubview(bottomLine)
+        view.addSubview(navBar)
+        view.bringSubviewToFront(navBar)
+        
+        headerView.userInteractionEnabled = true
+        headerImageView.userInteractionEnabled = true
+        labelBtn.hidden      = true
+        favNumLabel.hidden   = true
+        visitNumLabel.hidden = true
+        cover.backgroundColor = UIColor.blackColor()
+        
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
+        navBar.setButtonTintColor(SceneColor.frontBlack)
+        navBar.setStatusBarHidden(true)
+        
+        webView.backgroundColor = UIColor.whiteColor()
+        collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
     }
     
-    func refreshTitle(){
-        titleLabel.alpha = headerAlpha
+    func refreshHeader(){
+        headerTitleLabel.alpha = headerAlpha
         favNumLabel.alpha = headerAlpha
         visitNumLabel.alpha = headerAlpha
         labelBtn.alpha = headerAlpha
@@ -206,46 +214,17 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         if lastSuccessAddRequest == nil {
             lastSuccessAddRequest = TopicRequest()
             lastSuccessAddRequest?.topicId = topicId
-            lastSuccessAddRequest?.sightId = sightId
         }
         
         lastSuccessAddRequest?.fetchTopicDetailModels({[weak self] (ressult, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let topic = ressult {
-                    self!.topicDetail = topic
+                    self?.topicDetail = topic
                 }
             } else {
                 SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络")
             }
         })
-
-    }
-    
-    private func setupAddProperty() {
-        view.addSubview(webView)
-        view.addSubview(headerView)
-        view.addSubview(toolbarView)
-        headerView.addSubview(headerImageView)
-        headerView.addSubview(titleLabel)
-        headerView.addSubview(labelBtn)
-        headerView.addSubview(favNumLabel)
-        headerView.addSubview(visitNumLabel)
-        toolbarView.addSubview(commentLab)
-        toolbarView.addSubview(commentBtn)
-        toolbarView.addSubview(shareBtn)
-        toolbarView.addSubview(collectBtn)
-        toolbarView.addSubview(bottomLine)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
-        headerView.userInteractionEnabled = true
-        headerImageView.userInteractionEnabled = true
-        labelBtn.hidden      = true
-        favNumLabel.hidden   = true
-        visitNumLabel.hidden = true
-        
-        cover.backgroundColor = UIColor.blackColor()
-        
-        //share view
     }
     
     private func setupDefaultProperty() {
@@ -255,8 +234,8 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         cover.addTarget(self, action: "coverClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
         
-        titleLabel.numberOfLines = 2
-        titleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
+        headerTitleLabel.numberOfLines = 2
+        headerTitleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
         headerImageView.clipsToBounds = true
         labelBtn.layer.borderWidth = 0.5
@@ -280,10 +259,10 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         
         //header views
         headerImageView.ff_Fill(headerView)
-        labelBtn.ff_AlignVertical(ff_AlignType.TopLeft, referView: titleLabel, size: CGSize(width: 32, height: 14), offset: CGPointMake(0, -11))
+        labelBtn.ff_AlignVertical(ff_AlignType.TopLeft, referView: headerTitleLabel, size: CGSize(width: 32, height: 14), offset: CGPointMake(0, -11))
         favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(8, -7))
         visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
-        titleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(-2, 1))
+        headerTitleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(-2, 1))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         
         //toolbar views
@@ -371,7 +350,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         } else if headerAlpha < 0.1 {
             headerAlpha = 0
         }
-        refreshTitle()
+        refreshHeader()
     }
     
     // MARK: - 评论、分享、收藏
@@ -414,17 +393,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         }
     }
     
-
-    
-    // MARK: - 搜索(下一个控制器)
-    func searchButtonClicked(button: UIBarButtonItem) {
-        // 获得父控制器
-       
-        presentViewController(SearchViewController(), animated: true, completion: nil)
-    }
-    
-    
-    // MARK: - 评论
+    /// 评论
     func doComment(sender: UIButton) {
         let w = view.bounds.width
         let h = view.bounds.height
@@ -477,7 +446,6 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
         } else {
             transFromValue = transFromValue + 44
         }
-        
         self.commentVC.view.transform = CGAffineTransformMakeTranslation(0, transFromValue)
     }
 }

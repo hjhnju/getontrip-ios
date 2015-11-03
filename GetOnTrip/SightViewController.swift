@@ -12,6 +12,9 @@ import SVProgressHUD
 
 class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
     
+    /// 自定义导航
+    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
+    
     /// 景点id
     var sightId: String = ""
     
@@ -58,24 +61,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = SceneColor.frontBlack
         
-        //nav bar
-        automaticallyAdjustsScrollViewInsets = false
-//        navigationItem.title = sightName
-//        navigationItem.backBarButtonItem  = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "search"), style: UIBarButtonItemStyle.Plain, target: self, action: "searchButtonClicked:")
-
-        view.addSubview(labelNavView)
-        labelNavView.addSubview(labelScrollView)
-        labelNavView.addSubview(indicateView)
-        labelScrollView.backgroundColor = SceneColor.bgBlack
-        
-        view.addSubview(collectionView)
-        collectionView.dataSource = self
-        collectionView.delegate   = self
-        collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
-        collectionView.bounces = false
+        initView()
         loadSightData()
     }
     
@@ -107,6 +94,31 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         setupAutlLayout()
         labelNavView.layoutIfNeeded()
         labelScrollView.layoutIfNeeded()
+    }
+    
+    func initView() {
+        view.backgroundColor = SceneColor.frontBlack
+        automaticallyAdjustsScrollViewInsets = false
+        view.addSubview(collectionView)
+        view.addSubview(labelNavView)
+        labelNavView.addSubview(labelScrollView)
+        labelNavView.addSubview(indicateView)
+        view.addSubview(navBar)
+        view.bringSubviewToFront(navBar)
+        
+        navBar.setTitle(sightName)
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
+        navBar.setBlurViewEffect(false)
+        navBar.setButtonTintColor(UIColor.yellowColor())
+        navBar.backgroundColor = SceneColor.frontBlack
+        
+        labelScrollView.backgroundColor = SceneColor.bgBlack
+        
+        collectionView.dataSource = self
+        collectionView.delegate   = self
+        collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
+        collectionView.bounces = false
     }
     
     func setupAutlLayout() {
@@ -260,10 +272,6 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
                 SVProgressHUD.showErrorWithStatus("您的网络不给力!!!")
             }
         })
-    }
-
-    func searchButtonClicked(button: UIBarButtonItem) {
-        presentViewController(SearchViewController(), animated: true, completion: nil)
     }
     
     ///  搜索跳入之后消失控制器

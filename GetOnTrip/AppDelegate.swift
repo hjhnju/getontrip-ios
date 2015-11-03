@@ -35,8 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //status bar
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
-        
-        //nav bar
+    
         let backButtonImage = UIImage(named: "icon_back")
         UINavigationBar.appearance().backIndicatorImage = backButtonImage
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
@@ -46,14 +45,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().clipsToBounds = false //包含状态栏
         UINavigationBar.appearance().shadowImage = UIImage() //1px line
         UINavigationBar.appearance().translucent = true //为false默认0点会下移
-        //导航背景色
-        //UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
+        UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
         let bgImage = UIKitTools.imageWithColor(SceneColor.frontBlack)
         UINavigationBar.appearance().setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
         
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window?.rootViewController = defaultViewController()
         window?.makeKeyAndVisible()
+        
+        //默认隐藏导航（navigationConroller在SlideMenuViewController中定义）
+        UINavigationBar.appearance().hidden = true
         
         //cache
         let urlCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
@@ -64,8 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()
-        
-        
         
         return true
     }
@@ -137,9 +136,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             },
             onConfiguration: {(platform : SSDKPlatformType,appInfo : NSMutableDictionary!) -> Void in
                 switch platform {
-                    
-                    
-                    
                 case SSDKPlatformType.TypeSinaWeibo:
                     //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权 2543743086 0ea741a8c5d9b3ffaeadf8d3a0659fb9
                     appInfo.SSDKSetupSinaWeiboByAppKey("1054799569",
@@ -158,7 +154,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     appInfo.SSDKSetupQQByAppId("1104828839", appKey: "vBDGLyCowfoWikog", authType: SSDKAuthTypeBoth)
                     default:
                     break
-                    
                 }
         })
         

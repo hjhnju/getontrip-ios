@@ -35,7 +35,7 @@ class SearchRecommendTableViewCell: UITableViewCell {
     //按钮3
     lazy var btn3: UIButton = UIButton()
     
-    lazy var effect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+    lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
     
     var data: RecommendCellData? {
         didSet {
@@ -77,7 +77,7 @@ class SearchRecommendTableViewCell: UITableViewCell {
         
         addSubview(iconView)
         addSubview(titleBackgroud)
-        addSubview(effect)
+        addSubview(blurView)
         addSubview(title)
         addSubview(shade)
         addSubview(btn1)
@@ -85,7 +85,7 @@ class SearchRecommendTableViewCell: UITableViewCell {
         addSubview(btn3)
         
         iconView.userInteractionEnabled = false
-        effect.userInteractionEnabled = false
+        blurView.userInteractionEnabled = false
         shade.userInteractionEnabled = false
         titleBackgroud.userInteractionEnabled = false
         title.userInteractionEnabled = false
@@ -111,9 +111,9 @@ class SearchRecommendTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         titleBackgroud.frame = title.frame
-        effect.frame = title.frame
-        effect.layer.cornerRadius = 10
-        effect.clipsToBounds = true
+        blurView.frame = title.frame
+        blurView.layer.cornerRadius = 10
+        blurView.clipsToBounds = true
         titleBackgroud.layer.cornerRadius = 10
         titleBackgroud.clipsToBounds = true
     }
