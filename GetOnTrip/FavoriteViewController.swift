@@ -93,7 +93,8 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         contentBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         sightBtn.ff_AlignInner(ff_AlignType.CenterLeft, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         cityBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
-        selectView.frame = CGRectMake(27 * 0.5, 34, 73, 1.5)
+        selectView.bounds = CGRectMake(0, 0, 73, 1.5)
+        selectView.center = CGPointMake(view.bounds.width * 0.5, 34)
     }
     
     
@@ -115,7 +116,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     
     func setupChildControllerProperty() {
-        contentScrollView.contentOffset.x = 0
+        contentScrollView.contentOffset.x = view.bounds.width
         contentScrollView.pagingEnabled = true
         contentScrollView.showsHorizontalScrollIndicator = false
         contentScrollView.delegate = self
@@ -130,6 +131,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         let hBounds = contentScrollView.bounds.height
         
         contentScrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds * 0.5)
+        contentScrollView.contentOffset = CGPointMake(wBounds, 0)
         sightViewController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
         contentController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
         cityController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
@@ -140,9 +142,10 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
 
         let xOffset: CGFloat = scrollView.contentOffset.x
-        if (xOffset < 1.0) {
+
+        if (xOffset < 1) {
             switchCollectButtonClick(sightBtn)
-        } else if (xOffset < titleBackground.bounds.width + 1) {
+        } else if (xOffset < view.bounds.width + 1) {
             switchCollectButtonClick(contentBtn)
         } else {
             switchCollectButtonClick(cityBtn)
