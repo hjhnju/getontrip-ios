@@ -18,17 +18,18 @@ class UserAddRequest: NSObject {
     * @return json
     */
     
-    // http://123.57.46.229:8301/api/user/addinfo?param=sex:0,nick_name:open,image:http&type=3
     // 请求参数
     var type : Int    = 0
-    var param: String = ""
+    var param: UserAccount?
     
     // 异步加载获取数据
     func userAddInfoMeans() {
         
         var post         = [String: String]()
+        post["nick_name"] = String(param?.nickname)
         post["type"]  = String(type)
-        post["param"] = String(param)
+        post["image"] = String(param?.icon)
+        post["sex"]   = String(param?.gender)
         
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/addinfo", post: post) { (result, error) -> () in

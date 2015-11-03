@@ -115,7 +115,7 @@ class UserAccount: NSObject, NSCoding {
         userAddRequest.type = type
         
         let params = "sex:\(gender),nick_name:\(nickname),image:\(icon)"
-        userAddRequest.param = params
+        userAddRequest.param = self
         userAddRequest.userAddInfoMeans()
         
     }
