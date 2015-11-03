@@ -85,7 +85,6 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
                 titleLabel.text = data.title
                 authorLabel.text = data.info
                 showBookDetail(data.content_desc)
-//                webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
             }
         }
     }

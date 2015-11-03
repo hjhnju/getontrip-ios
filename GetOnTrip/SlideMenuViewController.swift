@@ -64,7 +64,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         didSet{
             self.mainNavViewController.setViewControllers([mainViewController], animated: true)
             //初始化蒙板
-            maskView = UIView(color: UIColor.blackColor(), alphaF: 0.1)
+//            maskView = UIView(color: UIColor.blackColor(), alphaF: 0.1)
             mainViewController.view.addSubview(maskView)
             mainViewController.view.bringSubviewToFront(maskView)
             maskView.frame = mainViewController.view.bounds
@@ -247,7 +247,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         loginAfter.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
         headerView.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(3, 0))
-        nameLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(-12, 8))
+        nameLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
 //        nameLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAfter, size: nil, offset: CGPointMake(-3, 68))
         
         loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
@@ -304,15 +304,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.MenuTableViewCellID, forIndexPath: indexPath) as! MenuSettingTableViewCell
         //cell选中效果
         cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
         cell.titleLabel.text = tableViewDataSource[indexPath.row]
-        
-        // 添加tableview顶上的线
-        /*if indexPath.row == 0 {
-            let baselineView = UIView(color: UIColor(white: 0xFFFFFF, alpha: 1), alphaF: 0.3)
-            cell.addSubview(baselineView)
-            baselineView.ff_AlignInner(ff_AlignType.TopLeft, referView: cell, size: CGSizeMake(cell.bounds.width, 0.5), offset: CGPointMake(0, 0))
-        }*/
         
         //最后一行无底部横线
         if indexPath.row == tableViewDataSource.count - 1 {

@@ -75,8 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var cookieProperties = [String: AnyObject]()
         cookieProperties[NSHTTPCookieName] = "device_id"
         cookieProperties[NSHTTPCookieValue] = appUUID!
-        cookieProperties[NSHTTPCookieDomain] = "123.57.46.229"
-        cookieProperties[NSHTTPCookieOriginURL] = "123.57.46.229"
+        cookieProperties[NSHTTPCookieDomain] = AppIni.BaseUri
+        cookieProperties[NSHTTPCookieOriginURL] = AppIni.BaseUri
         cookieProperties[NSHTTPCookiePath] = "/"
         cookieProperties[NSHTTPCookieVersion] = "0"
         NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties)!)
@@ -84,8 +84,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var cookieProperties1 = [String: AnyObject]()
         cookieProperties1[NSHTTPCookieName] = "current_user"
         cookieProperties1[NSHTTPCookieValue] = "z5K%2bXZURRu4%3d"
-        cookieProperties1[NSHTTPCookieDomain] = "123.57.46.229"
-        cookieProperties1[NSHTTPCookieOriginURL] = "123.57.46.229"
+        cookieProperties1[NSHTTPCookieDomain] = AppIni.BaseUri
+        cookieProperties1[NSHTTPCookieOriginURL] = AppIni.BaseUri
         cookieProperties1[NSHTTPCookiePath] = "/"
         cookieProperties1[NSHTTPCookieVersion] = "0"
         NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties1)!)
