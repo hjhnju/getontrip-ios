@@ -231,6 +231,7 @@ class ShareView: UIView {
         
         
         let shareVCons = shareView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: self, size: CGSize(width: bounds.width, height: 197), offset: CGPoint(x: 0, y: 0))
+
         let s1 = shareBtn1.ff_AlignInner(ff_AlignType.CenterLeft, referView: shareView, size: size, offset: CGPoint(x: sbx, y: 150))
         let s2 = shareBtn2.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn1, size: size, offset: CGPoint(x: sbx, y: 200))
         let s3 = shareBtn3.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn2, size: size, offset: CGPoint(x: sbx, y: 250))
@@ -262,13 +263,15 @@ class ShareView: UIView {
         ///  显示控件
         subview.addSubview(self)
         self.shareView.layoutIfNeeded()
+        let y =  197 * 0.5 - (shareCancle.frame.origin.y - CGRectGetMaxY(shareLabel.frame) - 3)
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.shareViewCY?.constant = -197
             self.shareView.layoutIfNeeded()
             
             }) { (_) -> Void in
                 UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
-                    self.shareBtnY1?.constant = 0
+                    self.shareBtnY1?.constant = y
+                    
                     self.shareBtnY2?.constant = 0
                     self.shareBtnY3?.constant = 0
                     self.shareBtnY4?.constant = 0
@@ -280,15 +283,6 @@ class ShareView: UIView {
                     self.shareBtn5.layoutIfNeeded()
                 }, completion: nil)
         }
-        
-//        var url: String?
-//        if isTopicBook {
-//            let obj = topic as? TopicDetail
-//            url = 
-//        } else {
-//            let obj = topic as? BookDetail
-//            url = obj?.url
-//        }
         
         ///  加载分享参数
         shareParames.SSDKSetupShareParamsByText(url ?? "",
