@@ -85,7 +85,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
                 titleLabel.text = data.title
                 authorLabel.text = data.info
                 showBookDetail(data.content_desc)
-                webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+//                webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
             }
         }
     }
@@ -97,6 +97,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         initView()
         setupAutoLayout()
         loadData()
+        webView.scrollView.delegate = self
     }
     
     ///  添加相关属性
@@ -146,20 +147,24 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        view.layoutSubviews()
+        webView.scrollView.delegate = self
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        yInset = CGRectGetMaxY(headerLineView.frame)
-        webView.scrollView.contentInset = UIEdgeInsetsMake(yInset, 0, 0, 0)
-        webView.scrollView.contentOffset = CGPointMake(0, -yInset)
+
+        if CGRectGetMaxY(headerLineView.frame) > yInset {
+            yInset = CGRectGetMaxY(headerLineView.frame)
+            webView.scrollView.contentInset = UIEdgeInsetsMake(yInset, 0, 0, 0)
+            webView.scrollView.contentOffset = CGPointMake(0, -yInset)
+        }
+
     }
     
     override func viewWillLayoutSubviews() {
@@ -172,9 +177,9 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     }
     
     override func viewDidDisappear(animated: Bool) {
-        //避免webkit iOS回退bug https://bugs.webkit.org/show_bug.cgi?id=139662
-//        self.webView.scrollView.delegate = nil
         super.viewDidDisappear(animated)
+        //避免webkit iOS回退bug https://bugs.webkit.org/show_bug.cgi?id=139662
+        self.webView.scrollView.delegate = nil
     }
     
     func initWebView(){
@@ -204,7 +209,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         webView.navigationDelegate  = self
         webView.scrollView.scrollEnabled = true
         //webView.scrollView.contentSize = CGSizeMake(view.bounds.width, view.bounds.height - BookViewContant.headerViewHeight)
-        webView.scrollView.delegate = self
+//
         //webView.sizeThatFits(CGSizeZero)
         //webView.sizeToFit()
         

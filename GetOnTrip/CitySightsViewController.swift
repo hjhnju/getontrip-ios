@@ -43,7 +43,6 @@ class CitySightsViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = SceneColor.frontBlack
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
@@ -61,7 +60,7 @@ class CitySightsViewController: UICollectionViewController {
         layout.minimumLineSpacing = 15
         let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
         layout.minimumInteritemSpacing = lw
-        layout.sectionInset = UIEdgeInsets(top: lw, left: lw, bottom: 0, right: lw)
+        layout.sectionInset = UIEdgeInsets(top: lw + 44, left: lw, bottom: 0, right: lw)
         
         collectionView?.backgroundColor = SceneColor.bgBlack
         collectionView?.registerClass(SightListCityCell.self, forCellWithReuseIdentifier: sightListCityIdentifier)
