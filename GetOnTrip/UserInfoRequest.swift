@@ -18,15 +18,20 @@ class UserInfoRequest: NSObject {
     */
     
     // 请求参数
-    var type: Int?
+    var type: Int = 0
     
     // 异步加载获取数据
     func userInfoGainMeans(handler: UserInfo -> Void) {
         
         var post      = [String: String]()
-        post["type"]  = String(type!)
+        post["type"]  = String(type)
         
         // 发送网络请求加载数据
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/getinfo", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                
+            }
+        }
         HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/getinfo", post: post) { (result, error) -> () in
             if error == nil {
                 if (result!["data"]!!.count == 0) {
@@ -39,33 +44,5 @@ class UserInfoRequest: NSObject {
                 }
             }
         }
-    }
-}
-
-class UserInfo : NSObject {
-    
-    var nick_name: String = ""
-    
-    var image: String = "" {
-        didSet {
-            image = AppIni.BaseUri + image
-        }
-    }
-    
-    var sex: String = ""
-    
-    /// 自己添加的不是后端返回的数据，用于判断此用户是否是后台记录在册的用户,记录在册为1
-    var type: String = "1"
-    
-    var city: String = ""
-    
-    convenience init(dict: [String : AnyObject]) {
-        self.init()
-        
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
     }
 }

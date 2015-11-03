@@ -12,60 +12,60 @@ import Alamofire
 class UserAccount: NSObject, NSCoding {
     
     /// 授权凭证， 为nil则表示尚未授权
-    var credential: SSDKCredential?
+    var credential: SSDKCredential = SSDKCredential()
     
     /// 用户标识
-    var uid: String?
+    var uid: String = ""
     
     /// 昵称
-    var nickname: String?
+    var nickname: String = ""
     
     /// 头像
-    var icon: String?
+    var icon: String = ""
     
     /// 性别
-    var gender: Int?
+    var gender: Int = 0
     
     /// 城市
-    var city: String?
+    var city: String = ""
     
     /// 原始数据
-    var rawData: NSDictionary?
+    var rawData: NSDictionary = NSDictionary()
     
     /// 用于调用access_token，接口获取授权后的access token
-    var access_token: String?
+    var access_token: String = ""
     
     /// access_token的生命周期，单位是秒数(实际是数值！)
-    var expires_in: NSTimeInterval?
+    var expires_in: NSTimeInterval = NSTimeInterval()
     
     /// 过期日期
-    var expiresDate: NSDate?
+    var expiresDate: NSDate = NSDate()
     
     /// 告诉后台用户登陆
-    var informLoginRequest: UserLoghtRequest?
+    var informLoginRequest: UserLoghtRequest = UserLoghtRequest()
 
     /// 获取用户信息请求
-    var userInfoGainRequest: UserInfoRequest?
+    var userInfoGainRequest: UserInfoRequest = UserInfoRequest()
     
     /// 添加用户信息
-    var userAddRequest: UserAddRequest?
+    var userAddRequest: UserAddRequest = UserAddRequest()
     
     /// 退出登陆
-    var userExitLoginRequest: UserExitLoghtRequest?
+    var userExitLoginRequest: UserExitLoghtRequest = UserExitLoghtRequest()
     
     /// 检查用户是否登陆
-    var userLoginInsepctRequest: UserLoginInsepctRequest?
+    var userLoginInsepctRequest: UserLoginInsepctRequest = UserLoginInsepctRequest()
     
     /// 登陆类型 1:qq,2:weixin,3:weibo
     var type: Int = 0
     init(user: SSDKUser?, type: Int) {
         
-        credential = user!.credential
-        uid        = user!.uid
-        nickname   = user!.nickname
-        icon       = user!.icon
-        gender     = user!.gender.hashValue
-        rawData    = user!.rawData
+        credential = user?.credential ?? SSDKCredential()
+        uid        = user?.uid ?? ""
+        nickname   = user?.nickname ?? ""
+        icon       = user?.icon ?? ""
+        gender     = user?.gender.hashValue ?? 0
+        rawData    = user?.rawData ?? NSDictionary()
         self.type  = type
         super.init()
 
@@ -81,29 +81,24 @@ class UserAccount: NSObject, NSCoding {
     ///  - parameter loginType: 登陆平台类型
     ///  - parameter openId:    openId
     private func informLoginStatus(loginType: Int, openId: String) {
-        if informLoginRequest == nil {
-            informLoginRequest = UserLoghtRequest()
-            informLoginRequest?.openId = openId
-            informLoginRequest?.type = loginType
-        }
-        informLoginRequest?.fetchLoginModels()
+        informLoginRequest.openId = openId
+        informLoginRequest.type = loginType
+        informLoginRequest.fetchLoginModels()
     }
     
     ///  获取用户信息
     ///
     ///  - parameter loginType: 登陆平台
     private func userInfoGain(loginType: Int) {
-        if userInfoGainRequest == nil {
-            userInfoGainRequest = UserInfoRequest()
-            userInfoGainRequest?.type = loginType
-        }
-        userInfoGainRequest?.userInfoGainMeans({ (handler) -> Void in
+        userInfoGainRequest.type = loginType
+        
+        userInfoGainRequest.userInfoGainMeans({ (handler) -> Void in
             let user = handler as UserInfo
             if user.type == "1" {
                 self.nickname = user.nick_name
                 self.icon     = user.image
                 self.city     = user.city
-                self.gender   = Int(user.sex)
+                self.gender   = Int(user.sex) ?? 0
                 
             } else { // 此用户后台没有记录在册
                 
@@ -117,15 +112,11 @@ class UserAccount: NSObject, NSCoding {
     // MARK: - 用户登陆后添加用户信息
     private func userAddInfo() {
         
-        if userAddRequest == nil {
-            userAddRequest = UserAddRequest()
-            userAddRequest?.type = type
-
-            let params = "sex:\(gender ?? 0),nick_name:\(nickname ?? ""),image:\(icon ?? "")"
-            userAddRequest?.param = params
-            // file
-        }
-        userAddRequest?.userAddInfoMeans()
+        userAddRequest.type = type
+        
+        let params = "sex:\(gender),nick_name:\(nickname),image:\(icon)"
+        userAddRequest.param = params
+        userAddRequest.userAddInfoMeans()
         
     }
     
@@ -153,11 +144,8 @@ class UserAccount: NSObject, NSCoding {
     
     ///  用户退出方法
     func userExitLoginAction() {
-        if userExitLoginRequest == nil {
-            userExitLoginRequest = UserExitLoghtRequest()
-        }
-        userExitLoginRequest?.fetchExitLoginModels()
-
+        
+        userExitLoginRequest.fetchExitLoginModels()
     }
     
     /// MARK: - 保存和加载文件
@@ -191,11 +179,8 @@ class UserAccount: NSObject, NSCoding {
         if let account = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount {
             
             print("load account=\(account)")
-            if account.userLoginInsepctRequest == nil {
-                account.userLoginInsepctRequest = UserLoginInsepctRequest()
-            }
             
-            account.userLoginInsepctRequest?.fetchInsepctUserLogin({ (handler) -> Void in
+            account.userLoginInsepctRequest.fetchInsepctUserLogin({ (handler) -> Void in
                 if handler as? String == "" {
                     account.exitLogin()
                 }
@@ -214,13 +199,13 @@ class UserAccount: NSObject, NSCoding {
     // MARK: - NSCoding 归档解档
     ///  解档，将保存在磁盘的二进制文件转换成 对象
     required init(coder aDecoder: NSCoder) {
-        access_token = aDecoder.decodeObjectForKey("access_token") as? String
-        expiresDate  = aDecoder.decodeObjectForKey("expiresDate")  as? NSDate
-        uid          = aDecoder.decodeObjectForKey("uid")          as? String
-        nickname     = aDecoder.decodeObjectForKey("nickname")     as? String
-        icon         = aDecoder.decodeObjectForKey("icon")         as? String
-        gender       = aDecoder.decodeObjectForKey("gender")       as? Int
-        city         = aDecoder.decodeObjectForKey("city")         as? String
+        access_token = aDecoder.decodeObjectForKey("access_token") as? String ?? ""
+        expiresDate  = aDecoder.decodeObjectForKey("expiresDate")  as? NSDate ?? NSDate()
+        uid          = aDecoder.decodeObjectForKey("uid")          as? String ?? ""
+        nickname     = aDecoder.decodeObjectForKey("nickname")     as? String ?? ""
+        icon         = aDecoder.decodeObjectForKey("icon")         as? String ?? ""
+        gender       = aDecoder.decodeObjectForKey("gender")       as? Int    ?? 0
+        city         = aDecoder.decodeObjectForKey("city")         as? String ?? ""
         type         = aDecoder.decodeIntegerForKey("type")        as  Int
     }
     

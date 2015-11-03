@@ -121,11 +121,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     private func setupInitSetting() {
         title = SettingViewController.name
         /// TPDO: 先注释
-        iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount!.icon!), placeholderImage: PlaceholderImage.defaultSmall)
+        iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount?.icon ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
         
         
-        if      sharedUserAccount?.gender?.hashValue == 0 { gender.text = "男" }
-        else if sharedUserAccount?.gender?.hashValue == 1 { gender.text = "女" }
+        if      sharedUserAccount?.gender.hashValue == 0 { gender.text = "男" }
+        else if sharedUserAccount?.gender.hashValue == 1 { gender.text = "女" }
         else                                              { gender.text = "未知"}
         
         city.text = sharedUserAccount?.city
