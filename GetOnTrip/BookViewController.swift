@@ -250,7 +250,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     // MARK: UIScrollView Delegate 代理方法
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        shareView.shareCancleClick()
+        shareView.shareCancleAction()
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -400,7 +400,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     func clickShareButton(button: UIButton) {
         if data != nil {
             let url = data?.url
-            shareView.getShowShareAction(view, url: url, images: bookImageView.image ?? UIImage(), text: data?.title, subtitle: data?.content_desc)
+            shareView.showShareAction(view, url: url, images: bookImageView.image, title: data?.title, subtitle: data?.content_desc)
         }
 
     }

@@ -330,7 +330,7 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        shareView.shareCancleClick()
+        shareView.shareCancleAction()
     }
     
     ///  改变背景及图片下拉变大
@@ -390,8 +390,8 @@ class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDele
     func doSharing(sender: UIButton) {
         if let topicDetail = topicDetail {
             let url = AppIni.BaseUri + "/topic/detail?" + "id=\(topicDetail.id)"
-            print(topicDetail.subtitle)
-            shareView.getShowShareAction(view, url: url, images: headerImageView.image ?? UIImage(), text: topicDetail.title, subtitle: topicDetail.subtitle)
+            print(topicDetail.title)
+            shareView.showShareAction(view, url: url, images: headerImageView.image, title: topicDetail.title, subtitle: topicDetail.subtitle)
         }
     }
     
