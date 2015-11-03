@@ -16,6 +16,8 @@ class SightTopicViewController: UITableViewController {
 
     var lastRequest = SightTopicsRequest()
     
+    var cellId: Int?
+    
     var sightId = ""
     
     /// 是否正在加载中
@@ -30,7 +32,12 @@ class SightTopicViewController: UITableViewController {
         }
     }
     
-    var topics = [TopicCellData]()
+    var topics = [TopicCellData]() {
+        didSet {
+            let vc = parentViewController as! SightViewController
+            vc.collectionViewCellCache[cellId!] = topics
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

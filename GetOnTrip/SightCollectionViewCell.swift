@@ -41,6 +41,12 @@ class SightCollectionViewCell: UICollectionViewCell {
     
     var sightId = ""
     
+    var cellId: Int? {
+        didSet {
+            topicVC.cellId = cellId
+        }
+    }
+    
     var type: Int? {
         didSet {
             if let type = type {

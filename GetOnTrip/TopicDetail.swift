@@ -47,8 +47,8 @@ class TopicDetail: NSObject {
         
         setValuesForKeysWithDictionary(dict)
         if dict["tags"] != nil {
-            let lab = dict["tags"] as! NSArray
-            label = (lab.firstObject as? String) ?? ""
+            let lab = dict["tags"] as? NSArray
+            label = (lab?.firstObject as? String) ?? ""
         }
     }
     
