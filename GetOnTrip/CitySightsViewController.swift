@@ -113,6 +113,7 @@ class CitySightsViewController: UICollectionViewController {
         
         let sight = sightCityList![sender.tag] as CitySightBrief
         if sharedUserAccount == nil {
+
             LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
                 if success {
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(2, objid: sight.id, isAdd: !sender.selected, handler: { (result, status) -> Void in

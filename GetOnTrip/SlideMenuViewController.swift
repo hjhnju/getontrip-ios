@@ -565,7 +565,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             
             switch state{
                 
-            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            case SSDKResponseState.Success: //print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
             let account = UserAccount(user: user, type: loginType)
             sharedUserAccount = account
             case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")

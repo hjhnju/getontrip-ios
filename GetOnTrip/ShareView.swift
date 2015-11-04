@@ -154,9 +154,9 @@ class ShareView: UIView {
                 text = lab as String
             }
         }
-
-        shareParames.SSDKSetupShareParamsByText(text + (url ?? ""),
-            images : images ?? nil,
+        
+        shareParames.SSDKSetupShareParamsByText(text,
+            images : images?.scaleImage(200) ?? nil,
             url : NSURL(string: url ?? ""),
             title : title ?? "",
             type : SSDKContentType.Auto)
@@ -178,6 +178,12 @@ class ShareView: UIView {
     
     ///  分享方法（所有类型）
     private func shareFullType(type: SSDKPlatformType) {
+        
+//        if type == SSDKPlatformType.TypeSinaWeibo {
+//            
+//            let text = (shareParames["text"] ?? "") as! String + (shareParames["url"] as! NSURL).absoluteString ?? ""
+//            shareParames["text"] = text
+//        }
         
         ShareSDK.share(type, parameters: shareParames) { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
             

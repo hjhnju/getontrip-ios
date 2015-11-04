@@ -97,6 +97,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         setupAutoLayout()
         loadData()
         webView.scrollView.delegate = self
+        
     }
     
     ///  添加相关属性
@@ -348,6 +349,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     func clickFavoriteButton(sender: UIButton) {
         
         if sharedUserAccount == nil {
+
             LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
                 if success {
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(5, objid: self.bookId, isAdd: !sender.selected, handler: { (result, status) -> Void in

@@ -33,7 +33,7 @@ class CommentAddRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/comment/add", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                print(result)
+
                 handler(result: result.stringValue, status: status)
                 return
             }

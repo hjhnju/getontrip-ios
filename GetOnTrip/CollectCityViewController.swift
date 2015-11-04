@@ -39,7 +39,7 @@ class CollectCityViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         collectionView?.backgroundColor = UIColor.clearColor()
         collectionView?.addSubview(collectPrompt)
         collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 135))
@@ -100,6 +100,7 @@ class CollectCityViewController: UICollectionViewController {
         
         let sight = collectCity[sender.tag] as CollectCity
         if sharedUserAccount == nil {
+
             LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
                 if success {
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: sight.id, isAdd: !sender.selected, handler: { (result, status) -> Void in

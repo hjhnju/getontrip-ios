@@ -37,7 +37,7 @@ class CollectContentViewController: UITableViewController {
 
         tableView.backgroundColor = UIColor.clearColor()
         tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: collectContentViewIdentifier)
-
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
 
         refresh()
         
@@ -118,7 +118,7 @@ class CollectContentCell: UITableViewCell {
             titleLabel.text = collectContent!.title
             subtitleLabel.text = collectContent!.subtitle
             collect.setTitle(" " + collectContent!.collect, forState: UIControlState.Normal)
-            print(collectContent?.type)
+
             if collectContent?.type == "5" {
                 iconViewHeight?.constant = 91
                 titleLabel.font = UIFont.systemFontOfSize(16)

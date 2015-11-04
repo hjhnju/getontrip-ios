@@ -34,8 +34,8 @@ class SightTopicViewController: UITableViewController {
     
     var topics = [TopicCellData]() {
         didSet {
-            let vc = parentViewController as! SightViewController
-            vc.collectionViewCellCache[cellId!] = topics
+            let vc = parentViewController as? SightViewController
+            vc?.collectionViewCellCache[cellId!] = topics
         }
     }
     

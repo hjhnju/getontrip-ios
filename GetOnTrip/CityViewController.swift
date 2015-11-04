@@ -426,6 +426,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     func favIconBtnClick(sender: UIButton) {
         if sharedUserAccount == nil {
+
             LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
                 if success {
                         CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: self.cityId, isAdd: !sender.selected, handler: { (result, status) -> Void in
