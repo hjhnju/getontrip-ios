@@ -94,13 +94,19 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         
         automaticallyAdjustsScrollViewInsets = false
         titleBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 36), offset: CGPointMake(0, 64))
-        contentScrollView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleBackground, size: CGSizeMake(view.bounds.width, view.bounds.height), offset: CGPointMake(0, 0))
         sightBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         contentBtn.ff_AlignInner(ff_AlignType.CenterLeft, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         cityBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
-//        selectView.bounds = CGRectMake(0, 0, 73, 1.5)
-//        selectView.center = CGPointMake(view.bounds.width * 0.5, 34)
         selectView.frame = CGRectMake(11, 34, 73, 1.5)
+        
+        let wBounds = UIScreen.mainScreen().bounds.width
+        let hBounds = UIScreen.mainScreen().bounds.height - 64 - 32
+        contentScrollView.frame = CGRectMake(0, 64 + 36, wBounds, hBounds)
+        contentScrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds)
+        contentScrollView.contentOffset = CGPointMake(0, 0)
+        contentController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
+        sightViewController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
+        cityController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
     }
     
     
@@ -122,25 +128,10 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     
     func setupChildControllerProperty() {
-        contentScrollView.contentOffset.x = view.bounds.width
         contentScrollView.pagingEnabled = true
         contentScrollView.showsHorizontalScrollIndicator = false
         contentScrollView.delegate = self
         contentScrollView.bounces = false
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        //初始化scrollView, subview's bounds确定后
-        let wBounds = contentScrollView.bounds.width
-        let hBounds = contentScrollView.bounds.height - 64 - 32
-        
-        contentScrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds)
-        contentScrollView.contentOffset = CGPointMake(0, 0)
-        contentController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
-        sightViewController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
-        cityController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
     }
     
     

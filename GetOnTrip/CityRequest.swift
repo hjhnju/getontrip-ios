@@ -27,62 +27,30 @@ class CityRequest {
         post["city"]     = String(city)
 
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/city", post: post) { (result, error) -> () in
-            if error == nil {
-
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                
                 let homeModel = NSMutableDictionary()
-                let data = result!["data"]
-                let city   = City(dict: data!!["city"] as! [String : AnyObject])
+                let city   = City(dict: result["city"].dictionaryObject!)
                 var sights = [Sight]()
                 var topics = [BriefTopic]()
                 
-                for item in data!!["sight"] as! NSArray {
-                    sights.append(Sight(dict: item as! [String : String]))
+                for item in result["sight"].arrayValue {
+                    sights.append(Sight(dict: item.dictionaryObject!))
                 }
                 
-                for item in data!!["topic"] as! NSArray {
-                    topics.append(BriefTopic(dict: item as! [String : String]))
+                for item in result["topic"].arrayValue {
+                    topics.append(BriefTopic(dict: item.dictionaryObject!))
                 }
                 
                 homeModel.setValue(city, forKey: "city")
                 homeModel.setValue(sights, forKey: "sights")
                 homeModel.setValue(topics, forKey: "topics")
-                homeModel.setValue(data!!["page_num"], forKey: "pageNum")
+                homeModel.setValue(result["page_num"].stringValue, forKey: "pageNum")
                 
                 // 回调
                 handler(homeModel)
             }
         }
-        
-//        HttpRequest.ajax(AppIni.BaseUri,
-//            path: "/api/city",
-//
-//            post: post,
-//            handler: {(respData: AnyObject) -> Void in
-//
-//
-//                let homeModel = NSMutableDictionary()
-//                
-//                let city   = City(dict: respData["city"] as! [String : AnyObject])
-//                var sights = [Sight]()
-//                var topics = [BriefTopic]()
-//                
-//                for item in respData["sight"] as! NSArray {
-//                    sights.append(Sight(dict: item as! [String : String]))
-//                }
-//                
-//                for item in respData["topic"] as! NSArray {
-//                    topics.append(BriefTopic(dict: item as! [String : String]))
-//                }
-//                
-//                homeModel.setValue(city, forKey: "city")
-//                homeModel.setValue(sights, forKey: "sights")
-//                homeModel.setValue(topics, forKey: "topics")
-//                homeModel.setValue(respData["page_num"], forKey: "pageNum")
-//                
-//                // 回调
-//                handler(homeModel)
-//            }
-//        )
     }
 }
