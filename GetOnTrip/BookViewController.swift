@@ -18,7 +18,7 @@ struct BookViewContant {
     static let toolBarHeight:CGFloat    = 47
 }
 
-class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler  {
+class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler  {
 
     // MARK: - 属性
     
