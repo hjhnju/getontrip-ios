@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-class SearchRecommendRequest: NSObject {
+class RecommendRequest: NSObject {
     /**
     * 接口2：/api/search/label
     * 搜索列表页   首页入口二

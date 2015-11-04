@@ -191,7 +191,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         let vc = parentViewController as! UINavigationController
 
         let nav = vc.parentViewController as! SlideMenuViewController
-        nav.curVCType = SearchRecommendViewController.self
+        nav.curVCType = RecommendViewController.self
     }
     
     func sortClick() {

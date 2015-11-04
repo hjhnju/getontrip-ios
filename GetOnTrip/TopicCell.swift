@@ -28,16 +28,16 @@ class TopicCell: UITableViewCell {
     
     lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     
-    var topicCellData: TopicCellData? {
+    var data: TopicBrief? {
         didSet {
 
-            if let topicCellData = topicCellData {
+            if let cellData = data {
                 iconView.image = nil
-                iconView.sd_setImageWithURL(NSURL(string: topicCellData.image), placeholderImage: PlaceholderImage.defaultSmall)
-                subtitleLabel.text = topicCellData.subtitle
-                titleLabel.text = topicCellData.title
-                collect.setTitle(" " + topicCellData.collect, forState: UIControlState.Normal)
-                preview.setTitle(" " + topicCellData.visit, forState: UIControlState.Normal)
+                iconView.sd_setImageWithURL(NSURL(string: cellData.image), placeholderImage: PlaceholderImage.defaultSmall)
+                subtitleLabel.text = cellData.subtitle
+                titleLabel.text = cellData.title
+                collect.setTitle(" " + cellData.collect, forState: UIControlState.Normal)
+                preview.setTitle(" " + cellData.visit, forState: UIControlState.Normal)
             }
         }
     }

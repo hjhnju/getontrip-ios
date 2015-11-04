@@ -64,8 +64,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     lazy var collectBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
     
-    var content: String?
-    
     lazy var bottomLine: UIView = UIView(color: SceneColor.lightGray)
     
     lazy var cover: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
@@ -95,23 +93,22 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         }
     }
     
-    var topicDetail: TopicDetail? {
+    var topicDataSource: Topic? {
         didSet {
-            if let topic = topicDetail {
-                content    = topic.content
+            if let topic = topicDataSource {
+                headerImageUrl = topic.image
                 sightName  = topic.sight_name
                 topicTitle = topic.title
-                collectBtn.selected = topicDetail?.collected == "" ? false : true
+                collectBtn.selected = topicDataSource?.collected == "" ? false : true
                 commentVC.topicId  = topic.id
                 commentLab.text    = topic.comment
                 
-                labelBtn.setTitle(topic.label, forState: UIControlState.Normal)
+                labelBtn.setTitle(topic.tag, forState: UIControlState.Normal)
                 favNumLabel.setTitle(" " + topic.collect, forState: UIControlState.Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: UIControlState.Normal)
                 labelBtn.hidden      = false
                 favNumLabel.hidden   = false
                 visitNumLabel.hidden = false
-                headerImageUrl = topic.image
 
                 showTopicDetail()
             }
@@ -215,12 +212,13 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         if lastSuccessAddRequest == nil {
             lastSuccessAddRequest = TopicRequest()
             lastSuccessAddRequest?.topicId = topicId
+            lastSuccessAddRequest?.sightId = sightId
         }
         
         lastSuccessAddRequest?.fetchTopicDetailModels({[weak self] (ressult, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let topic = ressult {
-                    self?.topicDetail = topic
+                    self?.topicDataSource = topic
                 }
             } else {
                 SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络")
@@ -272,14 +270,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         shareBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: commentBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
-        
-//        cover.ff_Fill(view)
     }
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().removeObserver(self)
-
     }
     
     // MARK: UIWebView and UIScrollView Delegate 代理方法
@@ -292,30 +287,14 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         webView.loadHTMLString(errorHTML, baseURL: nil)
     }
     
-    func showTopicDetail1() {
-        
-        let html = NSMutableString()
-        html.appendString("<html><head>")
-        html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("TopicDetail.css", withExtension: nil)!)
-        let body = setupBody()
-        html.appendString("</head><body>\(body)</body></html>")
-
-        webView.loadHTMLString(html as String, baseURL: nil)
-        
-    }
-    
     func showTopicDetail() {
-        let url =  AppIni.BaseUri + "/topic/detail?isapp=1&id=\(self.topicId)"
-        print("[WebView]Loading: \(url)")
-        if let requestURL = NSURL(string: url) {
-            let request = NSURLRequest(URL: requestURL)
-            webView.loadRequest(request)
+        if let topic =  topicDataSource {
+            print("[WebView]Loading: \(topic.contenturl)")
+            if let requestURL = NSURL(string: topic.contenturl) {
+                let request = NSURLRequest(URL: requestURL)
+                webView.loadRequest(request)
+            }
         }
-    }
-    
-    func setupBody() -> String {
-        let onload = "img onload=\"this.onclick = function() {window.location.href = 'bn:src='};\" src=\"\(AppIni.BaseUri)"
-        return content!.stringByReplacingOccurrencesOfString("img src=\"", withString: onload, options: NSStringCompareOptions.LiteralSearch, range: nil)
     }
     
     //  TODO: 还需跳转打开单张图片
@@ -356,9 +335,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: - 评论、分享、收藏
     func doFavorite(sender: UIButton) {
-        
         if sharedUserAccount == nil {
-
             LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
                 if success {
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid: self.topicId, isAdd: !sender.selected, handler: { (result, status) -> Void in
@@ -370,7 +347,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
                                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                             }
                         }
-                    })                }
+                    })
+                }
             })
         } else {
             
@@ -388,9 +366,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     func doSharing(sender: UIButton) {
-        if let topicDetail = topicDetail {
-            let url = AppIni.BaseUri + "/topic/detail?" + "id=\(topicDetail.id)"
-            print(topicDetail.title)
+        if let topicDetail = topicDataSource {
+            let url = topicDetail.shareurl
             shareView.showShareAction(view, url: url, images: headerImageView.image, title: topicDetail.title, subtitle: topicDetail.subtitle)
         }
     }

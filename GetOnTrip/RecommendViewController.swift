@@ -27,7 +27,7 @@ struct RecommendContant {
     static let headerViewHeight:CGFloat = 244
 }
 
-class SearchRecommendViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
+class RecommendViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
     
     //导航栏容器，包含状态栏的高度
     lazy var navContainerView:UIView = {
@@ -70,7 +70,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
     }
     
     /// 网络请求加载数据(添加)
-    var lastSuccessRequest: SearchRecommendRequest?
+    var lastSuccessRequest: RecommendRequest?
     
     /// 数据源 - 推荐标签
     var recommendLabels = [RecommendLabel]() {
@@ -351,7 +351,7 @@ class SearchRecommendViewController: MainViewController, UITableViewDataSource, 
         //清空footer的“加载完成”
         self.tableView.footer.resetNoMoreData()
         if lastSuccessRequest == nil {
-            lastSuccessRequest = SearchRecommendRequest()
+            lastSuccessRequest = RecommendRequest()
             lastSuccessRequest?.label = "" //默认返回带所有搜索标签
         }
         

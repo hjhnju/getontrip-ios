@@ -9,7 +9,7 @@
 import Foundation
 
 /// 景点列表数据
-class TopicCellData: NSObject {
+class TopicBrief: NSObject {
     ///  默认数据的id
     var id: String = ""
     /// 标题
@@ -28,13 +28,19 @@ class TopicCellData: NSObject {
             image = UIKitTools.sliceImageUrl(image, width: 133, height: 84)
         }
     }
-    
+    //所属景点
+    var sight: String = ""
     /// 标签
-    var tag: NSMutableArray = NSMutableArray()
+    var tag: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
+        //目前仅取一个标签
+        if dict["tags"] != nil {
+            let lab = dict["tags"] as? NSArray
+            tag = (lab?.firstObject as? String) ?? ""
+        }
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

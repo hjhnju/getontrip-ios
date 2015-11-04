@@ -86,8 +86,18 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     var pageNumber: Int = 1
     
-    /// 数据源
-    var tableViewDataSource: [BriefTopic]? {
+    // MARK: 数据源
+    var cityDataSource : City? {
+        didSet {
+            if let city = cityDataSource {
+                self.headerImageUrl = city.image
+                self.cityName = city.name
+                self.favIconBtn.selected = city.collected == "" ? false : true
+            }
+        }
+    }
+
+    var tableViewDataSource: [TopicBrief]? {
         didSet {
             tableView.reloadData()
         }
@@ -257,15 +267,10 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
 
         lastRequest?.fetchModels { [weak self]
             (handler: NSDictionary) -> Void in
-
-            if let city = handler.valueForKey("city") as? City {
-                self?.headerImageUrl = city.image
-                self?.cityName = city.name
-                self?.favIconBtn.selected = city.collected == "" ? false : true
-            }
+            self?.cityDataSource = handler.valueForKey("city") as? City
             self?.collectionDataSource = handler.valueForKey("sights") as? [Sight]
-            self?.tableViewDataSource = handler.valueForKey("topics") as? [BriefTopic]
-            self?.pageNumber = handler.valueForKey("pageNum")!.integerValue
+            self?.tableViewDataSource = handler.valueForKey("topics") as? [TopicBrief]
+            self?.pageNumber = handler.valueForKey("pageNum")?.integerValue ?? 0
         }
     }
     
@@ -281,7 +286,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             refreshTopicRequest?.city = cityId
         }
         
-        refreshTopicRequest?.fetchModels { [weak self] (handler: [BriefTopic]) -> Void in
+        refreshTopicRequest?.fetchModels { [weak self] (handler: [TopicBrief]) -> Void in
             self?.tableViewDataSource = handler
            self!.refreshTopicButton.layer.removeAllAnimations()
 
