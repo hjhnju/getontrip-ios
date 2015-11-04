@@ -37,7 +37,7 @@ class CollectContentViewController: UITableViewController {
 
         tableView.backgroundColor = UIColor.clearColor()
         tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: collectContentViewIdentifier)
-
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
 
         refresh()
         

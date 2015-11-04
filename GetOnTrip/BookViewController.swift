@@ -18,7 +18,7 @@ struct BookViewContant {
     static let toolBarHeight:CGFloat    = 47
 }
 
-class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler  {
+class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigationDelegate, WKScriptMessageHandler  {
 
     // MARK: - 属性
     
@@ -97,6 +97,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         setupAutoLayout()
         loadData()
         webView.scrollView.delegate = self
+        
     }
     
     ///  添加相关属性
@@ -348,10 +349,9 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
     func clickFavoriteButton(sender: UIButton) {
         
         if sharedUserAccount == nil {
-            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
-                let resultB = result
-                if resultB == true {
-                    
+
+            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
+                if success {
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(5, objid: self.bookId, isAdd: !sender.selected, handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {
                             if result == "1" {

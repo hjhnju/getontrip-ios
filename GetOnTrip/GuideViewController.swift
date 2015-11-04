@@ -84,23 +84,25 @@ class GuideViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         
         
-        let cel = cell as! NewFeatureCell
-        cel.title.hidden = true
-        cel.subtitle.hidden = true
+        let cell = cell as! NewFeatureCell
+        cell.title.hidden = true
+        cell.subtitle.hidden = true
         
-        
-        
-//        cel.title.frame.origin.x = view.bounds.width + cel.title.frame.width + 100
-//        cel.subtitle.frame.origin.x = -cel.subtitle.frame.width - 100
-//        
-//        UIView.animateWithDuration(1, delay: 0.0, usingSpringWithDamping: 3, initialSpringVelocity: 1, options: UIViewAnimationOptions.AllowAnimatedContent, animations: { () -> Void in
-//            cel.title.center.x = self.view.bounds.width * 0.5
-//            cel.subtitle.center.x = self.view.bounds.width * 0.5
-//            
-//            }, completion: nil)
-//        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! NewFeatureCell
-//        cell.title.text = titles[indexPath.row ]
-//        cell.subtitle.text = subtitles[indexPath.row]
+        struct Static {
+            static var onceToken: dispatch_once_t = 0
+        }
+        dispatch_once(&Static.onceToken, { [unowned self] in
+            cell.title.hidden = false
+            cell.subtitle.hidden = false
+            cell.title.frame.origin.x = self.view.bounds.width + cell.title.frame.width + 100
+            cell.subtitle.frame.origin.x = -cell.subtitle.frame.width - 100
+            
+            UIView.animateWithDuration(1, delay: 0.0, usingSpringWithDamping: 3, initialSpringVelocity: 1, options: UIViewAnimationOptions.AllowAnimatedContent, animations: { () -> Void in
+                cell.title.center.x = self.view.bounds.width * 0.5
+                cell.subtitle.center.x = self.view.bounds.width * 0.5
+                
+                }, completion: nil)
+        })
     }
     
     //  collectionView 停止滚动的动画方法
@@ -109,11 +111,12 @@ class GuideViewController: UICollectionViewController {
         print(indexPath.row + 1)
         // 获取当前显示的 cell
         let path: AnyObject = collectionView.indexPathsForVisibleItems().last!
+        
         let cell = collectionView.cellForItemAtIndexPath(path as! NSIndexPath) as! NewFeatureCell
         cell.title.hidden = false
         cell.subtitle.hidden = false
-        cell.title.frame.origin.x = view.bounds.width + cell.title.frame.width + 100
-        cell.subtitle.frame.origin.x = -cell.subtitle.frame.width - 100
+        cell.title.frame.origin.x = view.bounds.width + cell.title.frame.width
+        cell.subtitle.frame.origin.x = -cell.subtitle.frame.width
         
         UIView.animateWithDuration(1, delay: 0.0, usingSpringWithDamping: 3, initialSpringVelocity: 1, options: UIViewAnimationOptions.AllowAnimatedContent, animations: { () -> Void in
             cell.title.center.x = self.view.bounds.width * 0.5
@@ -122,7 +125,6 @@ class GuideViewController: UICollectionViewController {
             }, completion: nil)
         
         if path.item == imageCount - 1 {
-            // 获取cell，让cell播放动画
             cell.showStartButton()
         }
     }

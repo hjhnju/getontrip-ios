@@ -22,20 +22,22 @@ class CollectSightRequest: NSObject {
         post["type"]   = String(type)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/collect/list", post: post) { (result, error) -> () in
-            if error == nil {
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/collect/list", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
                 var collectSightMT = [CollectCity]()
                 var collectSightMS = [CollectSight]()
                 var collectSightMC = [CollectContent]()
-                
-                for it in result!["data"] as! NSArray {
+                for it in result.arrayValue {
                     switch type {
                     case 1:
-                        collectSightMC.append(CollectContent(dict: it as! [String : AnyObject]))
+                        collectSightMC.append(CollectContent(dict: it.dictionaryObject!))
                     case 2:
-                        collectSightMS.append(CollectSight(dict: it as! [String : AnyObject]))
+                        collectSightMS.append(CollectSight(dict: it.dictionaryObject!))
+                    case 3:
+                        collectSightMT.append(CollectCity(dict: it.dictionaryObject!))
+                        print(it)
                     default:
-                        collectSightMT.append(CollectCity(dict: it as! [String : AnyObject]))
+                        print(result)
                         break
                     }
                 }
@@ -51,6 +53,11 @@ class CollectSightRequest: NSObject {
                 }
             }
         }
+//        HttpRequest.ajax(AppIni.BaseUri, path: "/api/collect/list", post: post) { (result, error) -> () in
+//            if error == nil {
+//                
+//            }
+//        }
     }
 }
 

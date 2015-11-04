@@ -52,17 +52,22 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //当前选择的主窗体对象
     var curVCType: AnyClass! {
         didSet {
-            if let vcType =  curVCType as? UIViewController.Type {
-                let vc = vcType.init()
-                mainViewController = vc as! MainViewController
+            if curVCType != oldValue {
+                if let vcType =  curVCType as? UIViewController.Type {
+                    let vc = vcType.init()
+                    mainViewController = vc as! MainViewController
+                }
             }
+            //关闭侧边栏
+            self.didClose()
         }
     }
     
     //主窗体Controller
     var mainViewController: MainViewController! {
         didSet{
-            self.mainNavViewController.setViewControllers([mainViewController], animated: true)
+            self.mainNavViewController.setViewControllers([mainViewController], animated: false)
+            
             //初始化蒙板
             maskView = UIView(color: UIColor.blackColor(), alphaF: 0.1)
             mainViewController.view.addSubview(maskView)
@@ -331,27 +336,17 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         //TODO:未登录情况
         if indexPath.row >= 1  && sharedUserAccount == nil {
-            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
-                let resultB = result
-                if resultB == true {
+            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
+                if success {
                     //调整
-                    if self.curVCType != self.usingVCTypes[indexPath.row] {
-                        self.curVCType = self.usingVCTypes[indexPath.row]
-                    }
-                    //关闭侧边栏
-                    self.didClose()
+                    self.curVCType = self.usingVCTypes[indexPath.row]
                 }
             })
             return
         }
         
         //调整
-        if curVCType != usingVCTypes[indexPath.row] {
-            curVCType = usingVCTypes[indexPath.row]
-        }
-        
-        //关闭侧边栏
-        self.didClose()
+        curVCType = usingVCTypes[indexPath.row]
     }
     
     //侧滑菜单动画效果

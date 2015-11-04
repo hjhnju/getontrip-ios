@@ -14,7 +14,7 @@ import SVProgressHUD
 class LoginView: UIView {
     
     /// 回调用于做完之后不影响之前的操作
-    typealias LoginFinishedOperate = (result: Bool?, error: NSError?) -> ()
+    typealias LoginFinishedOperate = (result: Bool, error: NSError?) -> ()
     
     lazy var loginBackground: UIButton = UIButton()
     
