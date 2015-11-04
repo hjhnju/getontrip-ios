@@ -316,11 +316,13 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         let html = NSMutableString()
         html.appendString("<!DOCTYPE html><html><head><meta charset=\"utf-8\">")
         html.appendString("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no, minimal-ui\">")
-        html.appendString("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">")
-        html.appendString("<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\">")
         html.appendString("<meta name=\"format-detection\" content=\"telephone=no, email=no\">")
         html.appendString("<title>Examples</title>")
-        html.appendFormat("<link rel=\"stylesheet\" href=\"%@\">", NSBundle.mainBundle().URLForResource("BookDetail.css", withExtension: nil)!)
+        let path = NSBundle.mainBundle().URLForResource("BookDetail.css", withExtension: nil)
+        do {
+            let text = try? NSString(contentsOfURL: path ?? NSURL(), encoding: NSUTF8StringEncoding)
+            html.appendString("<style>\(text)</style>")
+        }
         html.appendString("</head><body>\(body)</body></html>")
 
         webView.loadHTMLString(html as String, baseURL: nil)
