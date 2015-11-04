@@ -120,10 +120,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             if cityId == "-1" { SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!"); return }
             let vc = CityViewController()
             vc.cityId = cityId
-            let nav = UINavigationController(rootViewController: vc)
-            nav.navigationBar.hidden = true
-            presentViewController(nav, animated: true, completion: nil)
-
+            showSearchResultController(vc)
         }
     }
     
@@ -174,52 +171,42 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             }
         }
         
+        
         if resultMuchData.count != 0 {
             let city = resultMuchData[indexPath.row]
             if citySightType == 0 {
                 
                 let vc = CityViewController()
                 vc.cityId = city.id!
-                let nav = UINavigationController(rootViewController: vc)
-                nav.navigationBar.hidden = true
-                presentViewController(nav, animated: true, completion: nil)
+                showSearchResultController(vc)
                 return
                 
             } else {
                 let vc = SightViewController()
                 vc.sightId = city.id!
-                let nav = UINavigationController(rootViewController: vc)
-                nav.navigationBar.hidden = true
-                presentViewController(nav, animated: true, completion: nil)
-
+                showSearchResultController(vc)
                 return
             }
         }
-        
+
         if contentData.count != 0 {
             let content = contentData[indexPath.row]
             if content.search_type == SearchContentKeyWordType || content.search_type == SearchContentVideoType {
                 let vc = DetailWebViewController()
                 vc.url = content.url
-                let nav = UINavigationController(rootViewController: vc)
-                nav.navigationBar.hidden = true
-                presentViewController(nav, animated: true, completion: nil)
+                showSearchResultController(vc)
 
                 return
             } else if content.search_type == SearchContentTopicType {
                 let vc = TopicViewController()
                 vc.topicId = content.id!
-                let nav = UINavigationController(rootViewController: vc)
-                nav.navigationBar.hidden = true
-                presentViewController(nav, animated: true, completion: nil)
+                showSearchResultController(vc)
 
                 return
             } else if content.search_type ==  SearchContentBookType {
                 let vc = BookViewController()
                 vc.bookId = content.id!
-                let nav = UINavigationController(rootViewController: vc)
-                nav.navigationBar.hidden = true
-                presentViewController(nav, animated: true, completion: nil)
+                showSearchResultController(vc)
 
                 return
             }
@@ -251,10 +238,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let vc = CityViewController()
                 let searchC = searchCity[indexPath.row] as! SearchResult
                 vc.cityId = searchC.id!
-                let nav = UINavigationController(rootViewController: vc)
-                nav.navigationBar.hidden = true
-                presentViewController(nav, animated: true, completion: nil)
-
+                showSearchResultController(vc)
             }
         case 1:
             if let searchSight = resultData["searchSights"] {
@@ -262,11 +246,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let vc = SightViewController()
                 let searchC = searchSight[indexPath.row] as! SearchResult
                 vc.sightId = searchC.id!
-                let nav = UINavigationController(rootViewController: vc)
-                nav.navigationBar.hidden = true
-                presentViewController(nav, animated: true, completion: nil)
-
-                
+                showSearchResultController(vc)
             }
         default:
             if let searchContent = resultData["searchContent"] as? [SearchContent] {
@@ -275,23 +255,15 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 if searchType.search_type == SearchContentKeyWordType || searchType.search_type == SearchContentVideoType {
                     let vc = DetailWebViewController()
                     vc.url = searchType.url
-                    let nav = UINavigationController(rootViewController: vc)
-                    nav.navigationBar.hidden = true
-                    presentViewController(nav, animated: true, completion: nil)
+                    showSearchResultController(vc)
                 } else if searchType.search_type == SearchContentTopicType {
                     let vc = TopicViewController()
                     vc.topicId = searchType.id!
-                    let nav = UINavigationController(rootViewController: vc)
-                    nav.navigationBar.hidden = true
-                    presentViewController(nav, animated: true, completion: nil)
-
+                    showSearchResultController(vc)
                 } else if searchType.search_type ==  SearchContentBookType {
                     let vc = BookViewController()
                     vc.bookId = searchType.id!
-                    let nav = UINavigationController(rootViewController: vc)
-                    nav.navigationBar.hidden = true
-                    presentViewController(nav, animated: true, completion: nil)
-
+                    showSearchResultController(vc)
                 }
             }
             break
@@ -300,10 +272,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clearColor()
-//        let frame = CGRectMake(0, view.frame.size.height-1, view.frame.width, 0.5)
-//        let line  = UIView(frame: frame)
-//        line.backgroundColor = UIColor.grayColor()
-//        view.addSubview(line)
         
         let headerView = view as! UITableViewHeaderFooterView
         headerView.textLabel!.textColor = UIColor.lightGrayColor()
@@ -458,11 +426,16 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         }
     }
     
+    // MARK: 自定义方法
+    
+    func showSearchResultController(vc: UIViewController) {
+        //采用push可手势返回
+        parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
+    }
     
     func loadMoreAction(btn: UIButton) {
         recordLoadButton = btn
         SearchMoreRequest.fetchMoreResult(btn.tag, page: pageNum, pageSize: 15, query: filterString) { (result) -> Void in
-            print(result)
             let data = result["data"] as! [String : AnyObject]
             
             if btn.tag == 1 || btn.tag == 2 {

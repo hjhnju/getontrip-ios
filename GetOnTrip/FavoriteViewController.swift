@@ -152,9 +152,5 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         }
     }
     
-    func searchButtonClicked(button: UIBarButtonItem) {
-        super.showSearch()
-    }
-    
 }
 

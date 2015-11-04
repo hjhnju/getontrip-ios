@@ -74,10 +74,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     // MARK: 自定义
-    
-    func searchButtonClicked(button: UIBarButtonItem) {
-        super.showSearch()
-    }
 }
 
 // MARK: - 回复消息

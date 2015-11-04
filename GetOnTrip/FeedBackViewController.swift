@@ -25,12 +25,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     
     // MARK: 自定义
     
-    func searchButtonClicked(button: UIBarButtonItem) {
-        super.showSearch()
-    }
-
-
-    
 //    /// 反馈列表
 //    var feedBackList: NSArray?
 //    

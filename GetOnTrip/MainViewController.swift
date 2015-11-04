@@ -10,7 +10,7 @@
 import UIKit
 import FFAutoLayout
 
-class MainViewController: UIViewController {
+class MainViewController: BaseViewController {
     
     // MASK: Properties
     
@@ -58,6 +58,8 @@ class MainViewController: UIViewController {
     
     /// 显示搜索页
     func showSearch(){
+        //fix 搜索pushviewController问题
+        self.definesPresentationContext = true
         let svc = SearchViewController()
         svc.searchResult.cityId = cityId
         presentViewController(svc, animated: true, completion: nil)

@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
-class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
+class SightViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
     
     /// 自定义导航
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
@@ -108,7 +108,7 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         navBar.setTitle(sightName)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
+        navBar.setRightBarButton(UIImage(named: "search_icon"), title: nil, target: self, action: "searchAction:")
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = SceneColor.frontBlack
