@@ -349,7 +349,7 @@ class BookViewController: UIViewController, UIScrollViewDelegate, WKNavigationDe
         
         if sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
-                let resultB = result as! Bool
+                let resultB = result
                 if resultB == true {
                     
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(5, objid: self.bookId, isAdd: !sender.selected, handler: { (result, status) -> Void in

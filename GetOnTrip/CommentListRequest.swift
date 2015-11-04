@@ -45,7 +45,6 @@ class CommentListRequest: NSObject {
                         comment.append(CommentList(dict: item))
                     }
                 }
-                print(result)
                 handler(comment)
             }
         }

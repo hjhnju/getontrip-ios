@@ -19,7 +19,7 @@ class TopicDetail: NSObject {
     /// 图片
     var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image
+            image = UIKitTools.sliceImageUrl(image, width: 414, height: 267)
         }
     }
     /// 评论数

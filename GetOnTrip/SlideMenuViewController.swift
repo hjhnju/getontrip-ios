@@ -332,7 +332,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         //TODO:未登录情况
         if indexPath.row >= 1  && sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
-                let resultB = result as! Bool
+                let resultB = result
                 if resultB == true {
                     //调整
                     if self.curVCType != self.usingVCTypes[indexPath.row] {
@@ -566,7 +566,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             
             switch state{
                 
-            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            case SSDKResponseState.Success: //print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
             let account = UserAccount(user: user, type: loginType)
             sharedUserAccount = account
             case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")

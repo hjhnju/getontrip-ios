@@ -118,7 +118,7 @@ class CollectContentCell: UITableViewCell {
             titleLabel.text = collectContent!.title
             subtitleLabel.text = collectContent!.subtitle
             collect.setTitle(" " + collectContent!.collect, forState: UIControlState.Normal)
-            print(collectContent?.type)
+
             if collectContent?.type == "5" {
                 iconViewHeight?.constant = 91
                 titleLabel.font = UIFont.systemFontOfSize(16)

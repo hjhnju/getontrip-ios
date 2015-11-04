@@ -359,7 +359,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         
         if sharedUserAccount == nil {
             LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
-                let resultB = result as! Bool
+                let resultB = result
                 if resultB == true {
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid: self.topicId, isAdd: !sender.selected, handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {

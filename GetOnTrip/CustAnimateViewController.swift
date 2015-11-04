@@ -21,7 +21,7 @@ class CustAnimateViewController: BaseViewController, UINavigationControllerDeleg
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        print("BaseViewController:viewDidAppear")
+
         self.navigationController?.delegate = self;
         self.interactiveTransition = CBStoreHouseTransitionInteractiveTransition()
         self.interactiveTransition.attachToViewController(self)
