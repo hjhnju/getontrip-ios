@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
-class SightViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
+class SightViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
     
     /// 自定义导航
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)

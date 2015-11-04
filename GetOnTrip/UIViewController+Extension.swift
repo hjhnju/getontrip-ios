@@ -10,16 +10,4 @@ import Foundation
 
 
 extension UIViewController {
-    
-    func popViewAction(button: UIButton) {
-        if let nav = navigationController {
-            nav.popViewControllerAnimated(true)
-        }
-        //TODO: 不管push还是present都调用了，没出错
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func searchAction(button: UIBarButtonItem) {
-        navigationController?.pushViewController(SearchViewController(), animated: true)
-    }
 }

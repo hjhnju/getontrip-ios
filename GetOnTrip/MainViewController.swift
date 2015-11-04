@@ -10,7 +10,7 @@
 import UIKit
 import FFAutoLayout
 
-class MainViewController: UIViewController {
+class MainViewController: BaseViewController {
     
     // MASK: Properties
     

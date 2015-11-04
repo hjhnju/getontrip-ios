@@ -26,7 +26,7 @@ class SightLandscapeController: UITableViewController {
         }
     }
     
-    var dataSource: NSMutableArray = NSMutableArray() {
+    var dataSource = [Landscape]() {
         didSet {
             tableView.header.endRefreshing()
             tableView.reloadData()
@@ -63,8 +63,6 @@ class SightLandscapeController: UITableViewController {
             return
         }
         
-        
-        
         self.isLoading = true
         lastLandscapeRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
             //处理异常状态
@@ -76,8 +74,10 @@ class SightLandscapeController: UITableViewController {
             self.isLoading = false
             
             //处理数据
-            if dataSource!.count > 0 {
-                self.dataSource = NSMutableArray(array: dataSource!)
+            if let data = dataSource {
+                if data.count > 0 {
+                    self.dataSource = data
+                }
             }
             self.tableView.header.endRefreshing()
         })
@@ -95,18 +95,18 @@ class SightLandscapeController: UITableViewController {
         if indexPath.row == 0 {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell, forIndexPath: indexPath) as! LandscapeCell
-            cell.landscape = dataSource[indexPath.row] as? Landscape
+            cell.landscape = dataSource[indexPath.row]
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1, forIndexPath: indexPath) as! LandscapeCell1
-            cell.landscape = dataSource[indexPath.row] as? Landscape
+            cell.landscape = dataSource[indexPath.row]
             return cell
         }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let sc = DetailWebViewController()
-        let landscape = dataSource[indexPath.row] as! Landscape
+        let landscape = dataSource[indexPath.row]
         sc.url = landscape.url
         sc.title = landscape.name
         navigationController?.pushViewController(sc, animated: true)
@@ -122,14 +122,11 @@ class SightLandscapeController: UITableViewController {
     
     /// 底部加载更多
     func loadMore(){
-        
-        
         lastLandscapeRequest.fetchNextPageModels({ (nextData, status) -> Void in
-            
             if status == RetCode.SUCCESS {
-                if nextData != nil {
-                    if nextData!.count > 0 {
-                        self.dataSource.addObjectsFromArray(nextData! as [AnyObject])
+                if let data = nextData {
+                    if data.count > 0 {
+                        self.dataSource = self.dataSource + data
                         self.tableView.footer.endRefreshing()
                     } else {
                         self.tableView.footer.endRefreshingWithNoMoreData()

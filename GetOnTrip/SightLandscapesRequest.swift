@@ -24,18 +24,18 @@ class SightLandscapesRequest: NSObject {
     var page    :Int = 1
     var pageSize:Int = 6
     
-    func fetchNextPageModels(handler: (NSArray?, Int) -> Void) {
+    func fetchNextPageModels(handler: ([Landscape]?, Int) -> Void) {
         page = page + 1
         return fetchModels(handler)
     }
     
-    func fetchFirstPageModels(handler: (NSArray?, Int) -> Void) {
+    func fetchFirstPageModels(handler: ([Landscape]?, Int) -> Void) {
         page = 1
         return fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: (NSArray?, Int) -> Void) {
+    func fetchModels(handler: ([Landscape]?, Int) -> Void) {
         var post         = [String: String]()
         post["sightId"]  = sightId
         post["page"]     = String(self.page)

@@ -17,7 +17,7 @@ struct CityConstant {
 }
 
 /// 城市中间页
-class CityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     //MARK: Properties and Outlets
     

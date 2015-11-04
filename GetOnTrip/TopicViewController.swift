@@ -17,7 +17,7 @@ struct TopicViewContant {
     static let commentViewHeight:CGFloat = 248
 }
 
-class TopicViewController: UIViewController, UIScrollViewDelegate, UIWebViewDelegate {
+class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDelegate {
     
     // MARK: 相关属性
     
