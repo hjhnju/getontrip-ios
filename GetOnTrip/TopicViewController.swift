@@ -358,9 +358,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     func doFavorite(sender: UIButton) {
         
         if sharedUserAccount == nil {
-            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
-                let resultB = result as! Bool
-                if resultB == true {
+            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
+                if success {
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid: self.topicId, isAdd: !sender.selected, handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {
                             if result == "1" {

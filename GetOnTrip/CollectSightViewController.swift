@@ -102,9 +102,8 @@ class CollectSightViewController: UICollectionViewController {
         
         let sight = collectSights[sender.tag] as CollectSight
         if sharedUserAccount == nil {
-            LoginView.sharedLoginView.addLoginFloating({ (result, error) -> () in
-                let resultB = result as! Bool
-                if resultB == true {
+            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
+                if success {
                     CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: sight.id, isAdd: !sender.selected, handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {
                             if result == "1" {
