@@ -99,11 +99,8 @@ class CollectContent: NSObject {
     /// 收藏数
     var collect: String = ""
     /// 图片
-    var image: String = "" {
-        didSet {
-            image = AppIni.BaseUri + image
-        }
-    }
+    var image: String = ""
+    
     /// 副标题
     var subtitle: String = ""
 
@@ -112,6 +109,10 @@ class CollectContent: NSObject {
     init(dict: [String : AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
+        image = UIKitTools.sliceImageUrl(image, width: 120, height: 73)
+        if String(dict["type"]) == "5" {
+            image = UIKitTools.sliceImageUrl(image, width: 120, height: 91)
+        }
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

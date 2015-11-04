@@ -93,7 +93,11 @@ class CollectSightViewController: UICollectionViewController {
         // TODO: 未生效
         vc.title = cs.name
         navigationController?.pushViewController(vc, animated: true)
+    
     }
+    
+    
+    
     
     ///  收藏功能
     ///

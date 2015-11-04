@@ -95,10 +95,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var bgImageView: UIImageView = UIImageView(image: UIImage(named: "menu-bg")!)
     
     //菜单底图模糊
-    lazy var blurView: UIVisualEffectView = {
-        let blur = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
-        return blur
-        }()
+    lazy var blurView: UIVisualEffectView =  UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
     
     //菜单侧边列表项
     lazy var tableView: UITableView = {
