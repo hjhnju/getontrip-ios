@@ -32,16 +32,16 @@ class SearchResultsCell: UITableViewCell {
     
     var searchResult: SearchResult? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchResult!.image!), placeholderImage: PlaceholderImage.defaultSmall)
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchResult!.name!, titleColor: SceneColor.lightYellow)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchResult!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+            resultImageView.sd_setImageWithURL(NSURL(string: searchResult?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchResult?.name ?? "", titleColor: SceneColor.lightYellow)
+            resultDescLabel.attributedText = searchCruxCharacterAction(searchResult?.desc ?? "", titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
         }
     }
     
     var searchContent: SearchContent? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchContent!.image!), placeholderImage: PlaceholderImage.defaultSmall)
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContent!.title!, titleColor: SceneColor.lightYellow)
+            resultImageView.sd_setImageWithURL(NSURL(string: searchContent?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
+            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContent?.title ?? "", titleColor: SceneColor.lightYellow)
             resultDescLabel.attributedText = searchCruxCharacterAction((searchContent?.content)!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
         }
     }
