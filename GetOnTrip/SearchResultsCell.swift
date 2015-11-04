@@ -32,9 +32,9 @@ class SearchResultsCell: UITableViewCell {
     
     var searchResult: SearchResult? {
         didSet {
+            resultImageView.sd_setImageWithURL(NSURL(string: searchResult!.image!), placeholderImage: PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchResult!.name!, titleColor: SceneColor.lightYellow)
             resultDescLabel.attributedText = searchCruxCharacterAction(searchResult!.desc!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-            resultImageView.sd_setImageWithURL(NSURL(string: searchResult!.image!), placeholderImage: PlaceholderImage.defaultSmall)
         }
     }
     

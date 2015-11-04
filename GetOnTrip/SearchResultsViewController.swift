@@ -319,6 +319,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         
         if resultMuchData.count != 0 {
             let muchCell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
+            muchCell.searchCruxCharacter = filterString
             muchCell.searchResult = resultMuchData[indexPath.row]
             if resultMuchData.count - 1 == indexPath.row {
                 if cityNum != -1 {
@@ -331,8 +332,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         
         if contentData.count != 0 {
             let muchCell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
+            muchCell.searchCruxCharacter = filterString
             muchCell.searchContent = contentData[indexPath.row]
-            
             if contentData.count - 1 == indexPath.row {
                 
                 if pageNum != -1 {
