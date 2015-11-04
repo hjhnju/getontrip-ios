@@ -71,17 +71,17 @@ class SearchResultsRequest: NSObject {
 /// 搜索城市
 class SearchResult: NSObject {
     
-    var id: String?
+    var id: String = ""
     
-    var name: String?
+    var name: String = ""
     
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = UIKitTools.sliceImageUrl(image, width: 52, height: 38)
         }
     }
     
-    var desc: String?
+    var desc: String = ""
     
     init(dict: [String : AnyObject]) {
         super.init()
@@ -96,21 +96,21 @@ class SearchResult: NSObject {
 /// 搜索内容
 class SearchContent: NSObject {
     
-    var search_type: String?
+    var search_type: String = ""
     
-    var id: String?
+    var id: String = ""
     
-    var title: String?
+    var title: String = ""
     
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = UIKitTools.sliceImageUrl(image, width: 52, height: 38)
         }
     }
     
-    var content: String?
+    var content: String = ""
     
-    var url: String?
+    var url: String = ""
     
     init(dict: [String : AnyObject]) {
         super.init()

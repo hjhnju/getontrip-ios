@@ -98,7 +98,6 @@ class SightTopicViewController: UITableViewController {
         let topic = topics[indexPath.row]
         vc.topicId = topic.id
         vc.sightId = self.sightId
-        vc.topicDataSource = topic as! Topic
         //TODO: 景点名，图片等传过去
         navigationController?.pushViewController(vc, animated: true)
     }

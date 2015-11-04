@@ -49,7 +49,6 @@ class CityRequest {
                 dictData.setValue(sights, forKey: "sights")
                 dictData.setValue(topics, forKey: "topics")
                 dictData.setValue(result["page_num"].intValue, forKey: "pageNum")
-                
                 // 回调
                 handler(dictData)
             }

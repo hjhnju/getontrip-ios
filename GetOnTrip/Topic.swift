@@ -54,10 +54,6 @@ class Topic: NSObject {
     var sight_name: String = ""
     /// 当前用户是否已收藏
     var collected: String = ""
-    
-    init() {
-        
-    }
 
     init(dict: [String: AnyObject]) {
         super.init()

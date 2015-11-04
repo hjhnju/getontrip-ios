@@ -10,7 +10,8 @@ import UIKit
 import FFAutoLayout
 
 
-let collectContentViewIdentifier = "CollectContent_Cell"
+let collectContentCellIdentifier = "CollectContent_Cell"
+let collectConBookCellIdentifier = "CollectContentBook_Cell"
 
 
 class CollectContentViewController: UITableViewController {
@@ -36,9 +37,8 @@ class CollectContentViewController: UITableViewController {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
         tableView.backgroundColor = UIColor.clearColor()
-        tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: collectContentViewIdentifier)
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
-
+        tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: collectContentCellIdentifier)
+        tableView.registerClass(CollectContentBookCell.self, forCellReuseIdentifier: collectConBookCellIdentifier)
         refresh()
         
     }
@@ -59,13 +59,18 @@ class CollectContentViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(collectContentViewIdentifier, forIndexPath: indexPath) as? CollectContentCell
-        cell!.collectContent = collectContent[indexPath.row] as CollectContent
+        let cell: CollectContentCell?
+        let data = collectContent[indexPath.row] as CollectContent
+        if data.type == "4" {
+            cell = tableView.dequeueReusableCellWithIdentifier(collectContentCellIdentifier, forIndexPath: indexPath) as? CollectContentCell
+            cell?.collectContent = data
+        } else {
+            cell = tableView.dequeueReusableCellWithIdentifier(collectConBookCellIdentifier, forIndexPath: indexPath) as? CollectContentBookCell
+            cell?.collectContent = data
+        }
 
         if indexPath.row == collectContent.count - 1 {
-            cell?.baseline.removeFromSuperview()
+            cell!.baseline.removeFromSuperview()
         }
 
         return cell!
@@ -110,20 +115,12 @@ class CollectContentCell: UITableViewCell {
     
     lazy var baseline: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     
-    var iconViewHeight: NSLayoutConstraint?
-    
     var collectContent: CollectContent? {
         didSet {
             iconView.sd_setImageWithURL(NSURL(string: collectContent!.image))
-            titleLabel.text = collectContent!.title
-            subtitleLabel.text = collectContent!.subtitle
-            collect.setTitle(" " + collectContent!.collect, forState: UIControlState.Normal)
-
-            if collectContent?.type == "5" {
-                iconViewHeight?.constant = 91
-                titleLabel.font = UIFont.systemFontOfSize(16)
-                titleLabel.textColor = UIColor.blackColor()
-            }
+            titleLabel.text = collectContent?.subtitle
+            subtitleLabel.text = collectContent?.title
+            collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
         }
     }
     
@@ -157,11 +154,44 @@ class CollectContentCell: UITableViewCell {
     
     private func setupAutoLayout() {
 
-        let cons = iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(120, 73), offset: CGPointMake(9, 0))
+        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(120, 73), offset: CGPointMake(9, 0))
         titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
         collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
         baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-        iconViewHeight = iconView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
+    }
+}
+
+class CollectContentBookCell: CollectContentCell {
+    
+    override var collectContent: CollectContent? {
+        didSet {
+            iconView.sd_setImageWithURL(NSURL(string: collectContent!.image))
+            titleLabel.text = collectContent?.subtitle
+            subtitleLabel.text = collectContent?.title
+            collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
+        }
+    }
+    
+    lazy var iconBottomView: UIView = UIView(color:UIColor(hex: 0xEDEDED, alpha: 1.0))
+    
+    private override func setupProperty() {
+        super.setupProperty()
+        
+        addSubview(iconBottomView)
+        iconBottomView.addSubview(iconView)
+        titleLabel.font = UIFont.systemFontOfSize(16)
+        titleLabel.textColor = UIColor.blackColor()
+        iconView.clipsToBounds = true
+    }
+    
+    private override func setupAutoLayout() {
+        
+        iconBottomView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(120, 91), offset: CGPointMake(9, 0))
+        iconView.ff_AlignInner(ff_AlignType.CenterCenter, referView: iconBottomView, size: CGSizeMake(62, 86.5))
+        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconBottomView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
+        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
+        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconBottomView, size: nil, offset: CGPointMake(9, 0))
+        baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
 }

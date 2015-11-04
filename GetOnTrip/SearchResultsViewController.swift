@@ -177,13 +177,14 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             if citySightType == 0 {
                 
                 let vc = CityViewController()
-                vc.cityId = city.id!
+                vc.cityId = city.id
                 showSearchResultController(vc)
                 return
                 
             } else {
                 let vc = SightViewController()
-                vc.sightId = city.id!
+                vc.sightId = city.id
+                vc.sightName = city.name
                 showSearchResultController(vc)
                 return
             }
@@ -199,13 +200,13 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 return
             } else if content.search_type == SearchContentTopicType {
                 let vc = TopicViewController()
-                vc.topicId = content.id!
+                vc.topicId = content.id
                 showSearchResultController(vc)
 
                 return
             } else if content.search_type ==  SearchContentBookType {
                 let vc = BookViewController()
-                vc.bookId = content.id!
+                vc.bookId = content.id
                 showSearchResultController(vc)
 
                 return
@@ -237,7 +238,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 
                 let vc = CityViewController()
                 let searchC = searchCity[indexPath.row] as! SearchResult
-                vc.cityId = searchC.id!
+                vc.cityId = searchC.id
                 showSearchResultController(vc)
             }
         case 1:
@@ -245,7 +246,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 
                 let vc = SightViewController()
                 let searchC = searchSight[indexPath.row] as! SearchResult
-                vc.sightId = searchC.id!
+                vc.sightName = searchC.name
+                vc.sightId = searchC.id
                 showSearchResultController(vc)
             }
         default:
@@ -258,11 +260,11 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                     showSearchResultController(vc)
                 } else if searchType.search_type == SearchContentTopicType {
                     let vc = TopicViewController()
-                    vc.topicId = searchType.id!
+                    vc.topicId = searchType.id
                     showSearchResultController(vc)
                 } else if searchType.search_type ==  SearchContentBookType {
                     let vc = BookViewController()
-                    vc.bookId = searchType.id!
+                    vc.bookId = searchType.id
                     showSearchResultController(vc)
                 }
             }

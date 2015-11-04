@@ -42,7 +42,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = SceneColor.bgBlack
         titleBackground.backgroundColor = SceneColor.bgBlack
         contentScrollView.backgroundColor = UIColor.whiteColor()
@@ -62,8 +62,13 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         super.viewWillDisappear(animated)
     }
     
-    private func setupAddSubViewAndAction() {
+    override func loadView() {
+        super.loadView()
         
+    }
+    
+    private func setupAddSubViewAndAction() {
+    
         view.addSubview(titleBackground)
         view.addSubview(contentScrollView)
         titleBackground.addSubview(cityBtn)
@@ -89,12 +94,19 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         
         automaticallyAdjustsScrollViewInsets = false
         titleBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 36), offset: CGPointMake(0, 64))
-        contentScrollView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleBackground, size: CGSizeMake(view.bounds.width, view.bounds.height), offset: CGPointMake(0, 0))
-        contentBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
-        sightBtn.ff_AlignInner(ff_AlignType.CenterLeft, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
+        sightBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
+        contentBtn.ff_AlignInner(ff_AlignType.CenterLeft, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         cityBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
-        selectView.bounds = CGRectMake(0, 0, 73, 1.5)
-        selectView.center = CGPointMake(view.bounds.width * 0.5, 34)
+        selectView.frame = CGRectMake(11, 34, 73, 1.5)
+        
+        let wBounds = UIScreen.mainScreen().bounds.width
+        let hBounds = UIScreen.mainScreen().bounds.height - 64 - 32
+        contentScrollView.frame = CGRectMake(0, 64 + 36, wBounds, hBounds)
+        contentScrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds)
+        contentScrollView.contentOffset = CGPointMake(0, 0)
+        contentController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
+        sightViewController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
+        cityController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
     }
     
     
@@ -106,8 +118,8 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
             self.selectView.center.x = sender.center.x
         }
 
-        if sender == sightBtn { selectedIndex = 0 }
-        else if sender == contentBtn { selectedIndex = 1 }
+        if sender == contentBtn { selectedIndex = 0 }
+        else if sender == sightBtn { selectedIndex = 1 }
         else if sender == cityBtn { selectedIndex = 2 }
         UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
             self.contentScrollView.contentOffset.x = self.contentScrollView.bounds.width * CGFloat(self.selectedIndex!)
@@ -116,25 +128,10 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     
     func setupChildControllerProperty() {
-        contentScrollView.contentOffset.x = view.bounds.width
         contentScrollView.pagingEnabled = true
         contentScrollView.showsHorizontalScrollIndicator = false
         contentScrollView.delegate = self
         contentScrollView.bounces = false
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        //初始化scrollView, subview's bounds确定后
-        let wBounds = contentScrollView.bounds.width
-        let hBounds = contentScrollView.bounds.height
-        
-        contentScrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds * 0.5)
-        contentScrollView.contentOffset = CGPointMake(wBounds, 0)
-        sightViewController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
-        contentController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
-        cityController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
     }
     
     
@@ -142,11 +139,11 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
 
         let xOffset: CGFloat = scrollView.contentOffset.x
-
+        print(xOffset)
         if (xOffset < 1) {
-            switchCollectButtonClick(sightBtn)
-        } else if (xOffset < view.bounds.width + 1) {
             switchCollectButtonClick(contentBtn)
+        } else if (xOffset < view.bounds.width + 1) {
+            switchCollectButtonClick(sightBtn)
         } else {
             switchCollectButtonClick(cityBtn)
         }
