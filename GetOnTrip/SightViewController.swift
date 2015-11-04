@@ -223,14 +223,8 @@ class SightViewController: UIViewController, UICollectionViewDataSource, UIColle
             }
         }
         
-        
         return cell
     }
-    
-//    func collectionViewCellCache(data: NSArray, type: String) {
-//        collectionViewCellCache[type] = data
-//    }
-    
     
     // MARK: - scrollerView 代理方法
     func scrollViewDidScroll(scrollView: UIScrollView) {
