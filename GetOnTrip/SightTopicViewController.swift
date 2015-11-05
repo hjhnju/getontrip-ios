@@ -32,7 +32,7 @@ class SightTopicViewController: UITableViewController {
         }
     }
     
-    var topics = [TopicCellData]() {
+    var topics = [TopicBrief]() {
         didSet {
             let vc = parentViewController as? SightViewController
             vc?.collectionViewCellCache[cellId!] = topics
@@ -89,7 +89,7 @@ class SightTopicViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerElseCell, forIndexPath: indexPath) as! TopicCell
-        cell.topicCellData = topics[indexPath.row]
+        cell.data = topics[indexPath.row]
         return cell
     }
     
@@ -97,6 +97,7 @@ class SightTopicViewController: UITableViewController {
         let vc: TopicViewController = TopicViewController()
         let topic = topics[indexPath.row]
         vc.topicId = topic.id
+        vc.sightId = self.sightId
         //TODO: 景点名，图片等传过去
         navigationController?.pushViewController(vc, animated: true)
     }

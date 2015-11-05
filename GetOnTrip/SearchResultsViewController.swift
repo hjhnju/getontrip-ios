@@ -105,6 +105,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.tableFooterView = UIView(frame:CGRectZero)
         tableView.separatorColor  = UIColor.grayColor()
         tableView.rowHeight = 60
+        tableView.separatorStyle = .None
         tableView.backgroundView = UIImageView(image: UIImage(named: "search-bg0")!)
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
         tableView.registerClass(ShowMoreTableViewCell.self, forCellReuseIdentifier: "ShowMoreTableView_Cell")

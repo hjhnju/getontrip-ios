@@ -57,7 +57,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     var isPopGesture: Bool = false
     
     /// 缓存cell
-    lazy var collectionViewCellCache = [Int : [TopicCellData]]()
+    lazy var collectionViewCellCache = [Int : [TopicBrief]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

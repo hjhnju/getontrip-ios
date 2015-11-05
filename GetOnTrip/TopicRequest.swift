@@ -15,12 +15,12 @@ class TopicRequest: NSObject {
     var sightId : String = ""
     
     // 将数据回调外界
-    func fetchTopicDetailModels(handler: (ressult: TopicDetail?, status: Int?) -> Void) {
+    func fetchTopicDetailModels(handler: (ressult: Topic?, status: Int?) -> Void) {
         fetchModels(handler)
     }
     
     // 异步加载获取数据
-    private func fetchModels(handler: (ressult: TopicDetail?, status: Int?) -> Void) {
+    private func fetchModels(handler: (ressult: Topic?, status: Int?) -> Void) {
         var post         = [String: String]()
         post["topicId"]  = String(topicId)
         post["sightId"]  = String(sightId)
@@ -29,7 +29,7 @@ class TopicRequest: NSObject {
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/topic", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 if let topic = result.dictionaryObject {
-                    handler(ressult: TopicDetail(dict: topic), status: status)
+                    handler(ressult: Topic(dict: topic), status: status)
                     return
                 }
                 handler(ressult: nil, status: status)

@@ -17,18 +17,18 @@ class SightTopicsRequest: NSObject {
     var pageSize:Int = 6
     var tagId   :String = ""
     
-    func fetchNextPageModels(handler: (([TopicCellData]?, Int) -> Void)) {
+    func fetchNextPageModels(handler: (([TopicBrief]?, Int) -> Void)) {
         page = page + 1
         return fetchModels(handler)
     }
     
-    func fetchFirstPageModels(handler: (([TopicCellData]?, Int) -> Void)) {
+    func fetchFirstPageModels(handler: (([TopicBrief]?, Int) -> Void)) {
         page = 1
         return fetchModels(handler)
     }
     
     // 将数据回调外界
-    func fetchModels(handler: ([TopicCellData]?, Int) -> Void) {
+    func fetchModels(handler: ([TopicBrief]?, Int) -> Void) {
         var post         = [String: String]()
         post["sightId"]  = sightId
         post["page"]     = String(page)
@@ -38,10 +38,10 @@ class SightTopicsRequest: NSObject {
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/topic", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                var topics = [TopicCellData]()
+                var topics = [TopicBrief]()
                 for item in result.arrayValue {
                     if let item = item.dictionaryObject {
-                        topics.append(TopicCellData(dict: item))
+                        topics.append(TopicBrief(dict: item))
                     }
                 }
                 handler(topics, status)

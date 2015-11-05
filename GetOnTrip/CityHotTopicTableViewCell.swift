@@ -23,16 +23,16 @@ class CityHotTopicTableViewCell: UITableViewCell {
     /// 浏览数
     var visit: UIButton = UIButton(title: "", fontSize: 9, radius: 0, titleColor: SceneColor.whiteGrey)
     /// 底线
-    var baseView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
+    var baseView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.2)
     
-    var topic: BriefTopic? {
+    var topic: TopicBrief? {
         didSet {
             if let topic = topic {
                 iconView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage:PlaceholderImage.defaultSmall)
                 title.text = topic.title
                 subTitle.text = topic.subtitle
                 label.text = "\(topic.sight)・\(topic.tag)"
-                visit.setTitle("   " + topic.visit, forState: UIControlState.Normal)
+                visit.setTitle(" " + topic.visit, forState: UIControlState.Normal)
             }
         }
     }

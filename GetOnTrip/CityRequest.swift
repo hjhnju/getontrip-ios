@@ -29,27 +29,28 @@ class CityRequest {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                
-                let homeModel = NSMutableDictionary()
-                let city   = City(dict: result["city"].dictionaryObject!)
+                let dictData = NSMutableDictionary()
+                if let item = result["city"].dictionaryObject {
+                    let city   = City(dict: item)
+                    dictData.setValue(city, forKey: "city")
+                }
                 var sights = [Sight]()
-                var topics = [BriefTopic]()
-                
+                var topics = [TopicBrief]()
                 for item in result["sight"].arrayValue {
-                    sights.append(Sight(dict: item.dictionaryObject!))
+                    if let dict = item.dictionaryObject {
+                        sights.append(Sight(dict: dict))
+                    }
                 }
-                
                 for item in result["topic"].arrayValue {
-                    topics.append(BriefTopic(dict: item.dictionaryObject!))
+                    if let dict = item.dictionaryObject {
+                        topics.append(TopicBrief(dict: dict))
+                    }
                 }
-                
-                homeModel.setValue(city, forKey: "city")
-                homeModel.setValue(sights, forKey: "sights")
-                homeModel.setValue(topics, forKey: "topics")
-                homeModel.setValue(result["page_num"].stringValue, forKey: "pageNum")
-                
+                dictData.setValue(sights, forKey: "sights")
+                dictData.setValue(topics, forKey: "topics")
+                dictData.setValue(result["page_num"].intValue, forKey: "pageNum")
                 // 回调
-                handler(homeModel)
+                handler(dictData)
             }
         }
     }

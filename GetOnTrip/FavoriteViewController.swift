@@ -38,8 +38,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     // 城市控制器
     lazy var cityController: CollectCityViewController = CollectCityViewController()
-
-    let intPtr = UnsafeMutablePointer<Int>.alloc(1)
+    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,11 +52,14 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         setupAddSubViewAndAction()
         setupAutoLayout()
         setupChildControllerProperty()
-        view.addObserver(self, forKeyPath: "frame", options: NSKeyValueObservingOptions.New, context: intPtr)
+        let vc = parentViewController?.parentViewController as? SlideMenuViewController
+        
+        vc?.view.addObserver(self, forKeyPath: "frame", options: NSKeyValueObservingOptions.New, context: nil)
     }
     
     deinit {
-        removeObserver(view, forKeyPath: "frame", context: intPtr)
+        let vc = parentViewController?.parentViewController as? SlideMenuViewController
+        vc?.view.removeObserver(self, forKeyPath: "frame", context: nil)
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {

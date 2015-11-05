@@ -133,7 +133,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     let tableViewDataSource = ["首页", FavoriteViewController.name, MessageViewController.name, SettingViewController.name] // FeedBackViewController.name
     
     //菜单对应元类
-    let usingVCTypes: [AnyClass] = [SearchRecommendViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
+    let usingVCTypes: [AnyClass] = [RecommendViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
     
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
@@ -426,15 +426,15 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 if (self.slideMenuState == SlideMenuState.Closing){
                     frame.origin.x = xOffSet + startX
                 }
-                menuAlpha = xOffSet / SlideMenuOptions.DrawerWidth + 0.3
             //左滑动
             }else if (xOffSet < 0 && xOffSet > -SlideMenuOptions.DrawerWidth){
                 if (self.slideMenuState == SlideMenuState.Opening){
                     frame.origin.x = xOffSet + SlideMenuOptions.DrawerWidth
                 }
-                menuAlpha = 1 - xOffSet / SlideMenuOptions.DrawerWidth
             }
             self.mainNavViewController.view.frame = frame;
+            //alpha=[0.5 ~ 1.0]
+            self.menuAlpha = min(0.5 + frame.origin.x / SlideMenuOptions.DrawerWidth, 1.0)
             break;
         case UIGestureRecognizerState.Ended:
             let xOffSet = sender.translationInView(self.view).x
@@ -459,20 +459,23 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         //设置主窗体的结束位置
         var mainSize = self.mainNavViewController.view.frame
         mainSize.origin.x = SlideMenuOptions.DrawerWidth
+        menuAlpha = max(0.5, menuAlpha)
         //动效
         UIView.animateWithDuration(0.7,
             delay: 0,
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
-            animations:{ self.mainNavViewController.view.frame = mainSize },
-            completion: { (finished: Bool) -> Void in }
+            animations:{ self.mainNavViewController.view.frame = mainSize;
+                self.menuAlpha = 1.0 },
+            completion: { (finished: Bool) -> Void in
+                self.menuAlpha = 1.0
+            }
         )
         
         //将侧边栏的装填标记为打开状态
         self.slideMenuState = SlideMenuState.Opening
         
-        menuAlpha = 1.0
         refreshMask()
     }
     
@@ -485,18 +488,19 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         //将主窗体的起始位置恢复到原始状态
         var mainSize = self.mainNavViewController.view.frame
         mainSize.origin.x = 0
-        menuAlpha = 1.0
+        menuAlpha = min(1.0, menuAlpha)
         UIView.animateWithDuration(0.7,
             delay: 0,
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
             animations: { self.mainNavViewController.view.frame = mainSize;
-                self.menuAlpha = 0.5},
+                self.menuAlpha = 0.5 },
             completion: { (finished: Bool) -> Void in
-                self.menuAlpha = 0.0 }
+                //偶尔右滑到底时被执行！why
+                //self.menuAlpha = 0.0
+            }
         )
-        
         refreshMask()
     }
     
