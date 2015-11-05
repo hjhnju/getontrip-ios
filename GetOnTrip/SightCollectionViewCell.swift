@@ -11,20 +11,20 @@ import UIKit
 class SightCollectionViewCell: UICollectionViewCell {
     
     /// 数据
-    var labelData: Tag? {
+    var tagData: Tag? {
         didSet {
-            if let label = labelData {
+            if let data = tagData {
                 //设置景点id
-                landscapeVC.sightId = label.sightId
-                bookVC.sightId      = label.sightId
-                videoVC.sightId     = label.sightId
+                landscapeVC.sightId = data.sightId
+                bookVC.sightId      = data.sightId
+                videoVC.sightId     = data.sightId
                 
                 //设置cell的数据类型
-                self.type = Int(label.type)
+                self.type = Int(data.type)
+                
+                //设置tag
+                topicVC.tagData = data
             }
-            
-            //设置tag id
-            topicVC.labelData = labelData
         }
     }
     
@@ -39,15 +39,13 @@ class SightCollectionViewCell: UICollectionViewCell {
     
     var cache = [String : NSArray]()
     
-    var sightId = ""
-    
-    var cellId: Int? {
+    var cellId: Int = 0 {
         didSet {
             topicVC.cellId = cellId
         }
     }
     
-    var type: Int? {
+    private var type: Int? {
         didSet {
             if let type = type {
                 switch type {
@@ -58,7 +56,6 @@ class SightCollectionViewCell: UICollectionViewCell {
                 case CategoryLabel.videoLabel:
                     addSubview(videoVC.view)
                 default:
-                    topicVC.sightId = sightId
                     addSubview(topicVC.view)
                     break
                 }

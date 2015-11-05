@@ -25,18 +25,18 @@ class SightBooksRequest: NSObject {
     var pageSize:Int = 6
     
     // 将数据回调外界
-    func fetchNextPageModels(handler: (NSArray?, Int) -> Void) {
+    func fetchNextPageModels(handler: ([Book]?, Int) -> Void) {
         page = page + 1
         return fetchModels(handler)
     }
     
-    func fetchFirstPageModels(handler: (NSArray?, Int) -> Void) {
+    func fetchFirstPageModels(handler: ([Book]?, Int) -> Void) {
         page = 1
         return fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: (NSArray?, Int) -> Void) {
+    func fetchModels(handler: ([Book]?, Int) -> Void) {
         var post         = [String: String]()
         post["sightId"]  = sightId
         post["page"]     = String(self.page)

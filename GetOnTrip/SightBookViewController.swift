@@ -15,18 +15,18 @@ public let HistoryTableViewControllerBookCell : String = "Book_Cell"
 
 class SightBookViewController: UITableViewController {
 
-    var lastBookRequest = SightBooksRequest()
+    var lastRequest = SightBooksRequest()
     
     /// 是否正在加载中
     var isLoading:Bool = false
 
     var sightId: String = "" {
         didSet {
-            lastBookRequest.sightId = sightId
+            lastRequest.sightId = sightId
         }
     }
     
-    var dataSource: NSMutableArray = NSMutableArray() {
+    var dataSource = [Book]() {
         didSet {
             tableView.header.endRefreshing()
             tableView.reloadData()
@@ -59,18 +59,16 @@ class SightBookViewController: UITableViewController {
         }
         
         self.isLoading = true
-        lastBookRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
-            if status == RetCode.SUCCESS {
-                self.tableView.header.endRefreshing()
-            } else {
+        lastRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
+            if status != RetCode.SUCCESS {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
             }
-            self.isLoading = false
-            
             //处理数据
             if let data = dataSource {
-                self.dataSource = NSMutableArray(array: data)
+                self.dataSource = data
             }
+            self.isLoading = false
+            self.tableView.header.endRefreshing()
         })
     }
     
@@ -89,14 +87,14 @@ class SightBookViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerBookCell, forIndexPath: indexPath) as! BookCell
-        cell.book = dataSource[indexPath.row] as? Book
+        cell.book = dataSource[indexPath.row]
         
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let bc = BookViewController()
-        let dataI = dataSource[indexPath.row] as! Book
+        let dataI = dataSource[indexPath.row]
         bc.bookId = dataI.id!
         navigationController?.pushViewController(bc, animated: true)
     }
@@ -111,31 +109,29 @@ class SightBookViewController: UITableViewController {
     
     /// 底部加载更多
     func loadMore(){
-            
-            lastBookRequest.fetchNextPageModels({ (nextData, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    if nextData != nil {
-                        if nextData!.count > 0 {
-                            self.dataSource.addObjectsFromArray(nextData! as [AnyObject])
-                            self.tableView.reloadData()
-                            self.tableView.footer.endRefreshing()
-                        } else {
-                            self.tableView.footer.endRefreshingWithNoMoreData()
-                            UIView.animateWithDuration(2, animations: { () -> Void in
-                                self.tableView.footer.alpha = 0.0
-                                }, completion: { (_) -> Void in
-                                    self.tableView.footer.resetNoMoreData()
-                            })
-                        }
-                    } else {
-                        self.isLoading = false
-                    }
-                    
+        lastRequest.fetchNextPageModels({ (nextData, status) -> Void in
+            if status != RetCode.SUCCESS {
+                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                self.tableView.footer.endRefreshing()
+                return 
+            }
+            if let data = nextData {
+                if data.count > 0 {
+                    self.dataSource = self.dataSource + data
+                    self.tableView.reloadData()
+                    self.tableView.footer.endRefreshing()
                 } else {
-                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                    return
+                    self.tableView.footer.endRefreshingWithNoMoreData()
+                    UIView.animateWithDuration(2, animations: { () -> Void in
+                        self.tableView.footer.alpha = 0.0
+                        }, completion: { (_) -> Void in
+                            self.tableView.footer.resetNoMoreData()
+                    })
                 }
-            })
+            } else {
+                self.isLoading = false
+            }
+        })
     }
 
 }

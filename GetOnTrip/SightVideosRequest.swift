@@ -15,18 +15,18 @@ class SightVideosRequest: NSObject {
     var page    :Int = 1
     var pageSize:Int = 6
     
-    func fetchNextPageModels(handler: (NSArray?, Int) -> Void) {
+    func fetchNextPageModels(handler: ([Video]?, Int) -> Void) {
         page = page + 1
         return fetchVideoListModels(handler)
     }
     
-    func fetchFirstPageModels(handler: (NSArray?, Int) -> Void) {
+    func fetchFirstPageModels(handler: ([Video]?, Int) -> Void) {
         page = 1
         return fetchVideoListModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchVideoListModels(handler: (NSArray?, Int) -> Void) {
+    func fetchVideoListModels(handler: ([Video]?, Int) -> Void) {
         var post         = [String: String]()
         post["sightId"]  = sightId
         post["page"]     = String(self.page)

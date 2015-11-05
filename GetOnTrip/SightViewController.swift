@@ -16,15 +16,14 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
     
     /// 景点id
-    var sightId: String = ""
-    
-    /// 景点名称
-    var sightName: String = ""
+    var sightId: String {
+        return sightDataSource.id
+    }
     
     /// 数据
-    var sightDataSource = Sight() {
+    var sightDataSource = Sight(id: "") {
         didSet {
-            setupChannel()
+            setupChannel(sightDataSource.tags)
             collectionView.reloadData()
         }
     }
@@ -106,7 +105,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
         
-        navBar.setTitle(sightName)
+        navBar.setTitle(sightDataSource.name)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "search_icon"), title: nil, target: self, action: "searchAction:")
         navBar.setBlurViewEffect(false)
@@ -132,8 +131,10 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     ///  设置频道标签
     var indicateW: CGFloat?
     
-    func setupChannel() {
-        let labels = sightDataSource.tags
+    func setupChannel(labels: [Tag]) {
+        if labels.count == 0 {
+            return
+        }
         /// 间隔
         var x: CGFloat  = 0
         let h: CGFloat  = 36
@@ -204,12 +205,11 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         }
         
         cell.cellId = indexPath.row
-        let labelData = sightDataSource.tags[indexPath.row]
-        labelData.sightId = sightId
-        cell.sightId      = sightId
-        cell.labelData    = labelData
+        let tagData = sightDataSource.tags[indexPath.row]
+        tagData.sightId = sightId
+        cell.tagData    = tagData
         
-        let type = Int(cell.labelData?.type ?? "0")
+        let type = Int(cell.tagData?.type ?? "0")
         if type != CategoryLabel.sightLabel &&
            type != CategoryLabel.bookLabel  &&
            type != CategoryLabel.videoLabel {
@@ -283,7 +283,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                     self?.sightDataSource = sight
                 }
             } else {
-                SVProgressHUD.showErrorWithStatus("您的网络不给力!!!")
+                SVProgressHUD.showErrorWithStatus("您的网络不给力!")
             }
         })
     }

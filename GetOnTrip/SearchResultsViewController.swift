@@ -173,18 +173,19 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         
         
         if resultMuchData.count != 0 {
-            let city = resultMuchData[indexPath.row]
+            let data = resultMuchData[indexPath.row]
             if citySightType == 0 {
                 
                 let vc = CityViewController()
-                vc.cityId = city.id
+                vc.cityId = data.id
                 showSearchResultController(vc)
                 return
                 
             } else {
                 let vc = SightViewController()
-                vc.sightId = city.id
-                vc.sightName = city.name
+                let sight = Sight(id: data.id)
+                sight.name = data.name
+                vc.sightDataSource = sight
                 showSearchResultController(vc)
                 return
             }
@@ -249,8 +250,10 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 
                 let vc = SightViewController()
                 let searchC = searchSight[indexPath.row] as! SearchResult
-                vc.sightName = searchC.name
-                vc.sightId = searchC.id
+                let sight = Sight(id: searchC.id)
+                sight.name = searchC.name
+                sight.image = searchC.image
+                vc.sightDataSource = sight
                 showSearchResultController(vc)
             }
         default:

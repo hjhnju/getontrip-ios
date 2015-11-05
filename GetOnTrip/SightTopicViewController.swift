@@ -14,28 +14,19 @@ public let HistoryTableViewControllerElseCell : String = "History_Cell"
 
 class SightTopicViewController: UITableViewController {
 
-    var lastRequest = SightTopicsRequest()
+    var lastRequest:SightTopicsRequest?
     
-    var cellId: Int?
-    
-    var sightId = ""
+    var cellId: Int = 0
     
     /// 是否正在加载中
     var isLoading:Bool = false
     
-    var labelData:Tag? {
-        didSet {
-            if let label = labelData {
-                lastRequest.sightId = label.sightId
-                lastRequest.tagId   = label.id
-            }
-        }
-    }
+    var tagData:Tag = Tag(id: "")
     
     var topics = [TopicBrief]() {
         didSet {
             let vc = parentViewController as? SightViewController
-            vc?.collectionViewCellCache[cellId!] = topics
+            vc?.collectionViewCellCache[cellId] = topics
         }
     }
     
@@ -64,12 +55,16 @@ class SightTopicViewController: UITableViewController {
         if self.isLoading {
             return
         }
+        if lastRequest == nil {
+            lastRequest = SightTopicsRequest()
+        }
+        
+        lastRequest?.sightId = tagData.sightId
+        lastRequest?.tagId   = tagData.id
         
         self.isLoading = true
-        lastRequest.fetchFirstPageModels({ [weak self] (topics, status) -> Void in
-            if status == RetCode.SUCCESS {
-                self?.tableView.header.endRefreshing()
-            } else {
+        lastRequest?.fetchFirstPageModels({ [weak self] (topics, status) -> Void in
+            if status != RetCode.SUCCESS {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
             }
             if let topics = topics {
@@ -78,6 +73,7 @@ class SightTopicViewController: UITableViewController {
                 self?.tableView.footer.endRefreshing()
             }
             self?.isLoading = false
+            self?.tableView.header.endRefreshing()
         })
     }
     
@@ -110,30 +106,30 @@ class SightTopicViewController: UITableViewController {
     
     /// 底部加载更多
     func loadMore(){
-            lastRequest.fetchNextPageModels({ (topics, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    if let topics = topics {
-                        if topics.count > 0 {
-                            self.topics += topics
-                            self.tableView.reloadData()
-                            self.tableView.footer.endRefreshing()
-                        } else {
-                            self.tableView.footer.endRefreshingWithNoMoreData()
-                            UIView.animateWithDuration(2, animations: { () -> Void in
-                                self.tableView.footer.alpha = 0.0
-                                }, completion: { (_) -> Void in
-                                    self.tableView.footer.resetNoMoreData()
-                            })
-                        }
-                    } else {
-                        self.isLoading = false
-                    }
-                    
+        lastRequest?.fetchNextPageModels({ (topics, status) -> Void in
+            if status != RetCode.SUCCESS {
+                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                self.tableView.footer.endRefreshing()
+                return
+            }
+            
+            if let topics = topics {
+                if topics.count > 0 {
+                    self.topics += topics
+                    self.tableView.reloadData()
+                    self.tableView.footer.endRefreshing()
                 } else {
-                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                    return
+                    self.tableView.footer.endRefreshingWithNoMoreData()
+                    UIView.animateWithDuration(2, animations: { () -> Void in
+                        self.tableView.footer.alpha = 0.0
+                        }, completion: { (_) -> Void in
+                            self.tableView.footer.resetNoMoreData()
+                    })
                 }
-            })
+            }
+            self.isLoading = false
+            
+        })
 
     }
 
