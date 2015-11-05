@@ -18,7 +18,9 @@ class GuideViewController: UICollectionViewController {
     
     let titles = ["寻找路上的故事", "发现未知的逸事", "感受悠远的历史", ""]
     
-    let subtitles = ["MORE THAN PICTURES\n旅行，不只有照片", "WANT SEE MORE\n旅行，不只是看见", "ON THE WAY\n旅行，不会是终点", ""]
+    let subtitles = ["旅行，不只有照片", "旅行，不只是看见", "旅行，不会是终点", ""]
+    
+    let subtitleEnglish = ["MORE THAN PICTURES", "WANT SEE MORE", "ON THE WAY", ""]
     
     init() {
         super.init(collectionViewLayout: layout)
@@ -65,6 +67,7 @@ class GuideViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! NewFeatureCell
         cell.title.text = titles[indexPath.row]
         cell.subtitle.text = subtitles[indexPath.row]
+        cell.subtitleEnglish.text = subtitleEnglish[indexPath.row]
         cell.imageIndex = indexPath.row
         pagecontrol.currentPage = indexPath.row
         if indexPath.row == 3 {
@@ -127,29 +130,42 @@ class NewFeatureCell: UICollectionViewCell {
     lazy var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "寻找路上的故事", fontSize: 32, mutiLines: true)
     
     /// 副标题
-    lazy var subtitle: UILabel = UILabel(color: UIColor.whiteColor(), title: "MORE THAN PICTURES", fontSize: 28, mutiLines: true)
+    lazy var subtitle: UILabel = UILabel(color: UIColor.whiteColor(), title: "旅行，不只有照片", fontSize: 28, mutiLines: true)
+    
+    /// 副标题英文
+    lazy var subtitleEnglish: UILabel = UILabel(color: UIColor.whiteColor(), title: "MORE THAN PICTURES", fontSize: 28, mutiLines: true)
     
     lazy var iconButton: GuideButton = GuideButton(image: "icon_app", title: "尽阅世间之美", fontSize: 20, titleColor: UIColor(hex: 0x202020, alpha: 1.0))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        initView()
+        setupAutoLayout()
+    }
+    
+    private func initView() {
         addSubview(iconView)
         addSubview(cover)
         addSubview(title)
         addSubview(subtitle)
+        addSubview(subtitleEnglish)
         addSubview(startButton)
         addSubview(iconButton)
+        subtitleEnglish.font = UIFont(name: "PingFangSC-Regular", size: 28)//UIFont.fontNamesForFamilyName(["Marion-Regular"])
         
         startButton.addTarget(self, action: "startButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
         startButton.backgroundColor = SceneColor.lightYellow
         title.textAlignment = NSTextAlignment.Center
         subtitle.textAlignment = NSTextAlignment.Center
-        
+    }
+    
+    private func setupAutoLayout() {
         iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(bounds.width, bounds.height))
         cover.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(bounds.width, bounds.height))
         title.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 136))
         subtitle.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -79))
+        subtitleEnglish.ff_AlignVertical(ff_AlignType.TopCenter, referView: subtitle, size: nil, offset: CGPointMake(0, -6))
         startButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(228, 64), offset: CGPointMake(0, 50))
         iconButton.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 150))
     }
