@@ -42,11 +42,10 @@ class SearchRecommendTableViewCell: UITableViewCell {
             if let cellData = data {
                 iconView.sd_setImageWithURL(NSURL(string: cellData.image), placeholderImage: PlaceholderImage.defaultLarge)
                 title.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
-                btn1.setTitle(" " + cellData.param1, forState: UIControlState.Normal)
-//                btn1.titleLabel?.attributedText = 
-                btn2.setTitle(" " + cellData.param2, forState: UIControlState.Normal)
-                btn3.setTitle(" " + cellData.param3, forState: UIControlState.Normal)
-//                btn1.attributedTitleForState(<#T##state: UIControlState##UIControlState#>)
+                btn1.setAttributedTitle((" " + cellData.param1).getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                btn2.setAttributedTitle((" " + cellData.param2).getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                btn3.setAttributedTitle((" " + cellData.param3).getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+
                 if cellData.isTypeCity() {
                     btn1.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
                     btn2.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
@@ -68,7 +67,7 @@ class SearchRecommendTableViewCell: UITableViewCell {
         self.backgroundColor = UIColor.clearColor()
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
-        let titleFont = UIFont(name: SceneFont.heiti, size: 10)
+        let titleFont = UIFont(name: SceneFont.heiti, size: 8)
         btn1.titleLabel?.font = titleFont
         btn2.titleLabel?.font = titleFont
         btn3.titleLabel?.font = titleFont

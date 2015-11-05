@@ -26,6 +26,15 @@ extension String {
         return attributedString
     }
     
+    func getAttributedStringHeadCharacterBig() -> NSAttributedString{
+        let attr = NSMutableAttributedString(string: self)
+        
+        attr.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(10), range: NSMakeRange(0, attr.length - 3))
+        
+        return attr
+        
+    }
+    
     //trim
     func trim() -> String {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
