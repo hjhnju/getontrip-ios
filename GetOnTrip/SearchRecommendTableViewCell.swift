@@ -46,7 +46,7 @@ class SearchRecommendTableViewCell: UITableViewCell {
 //                btn1.titleLabel?.attributedText = 
                 btn2.setTitle(" " + cellData.param2, forState: UIControlState.Normal)
                 btn3.setTitle(" " + cellData.param3, forState: UIControlState.Normal)
-                
+//                btn1.attributedTitleForState(<#T##state: UIControlState##UIControlState#>)
                 if cellData.isTypeCity() {
                     btn1.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
                     btn2.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)

@@ -148,20 +148,20 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        if scrollView.contentOffset.x > 0 {
-            contentScrollView.isHitTest = true
-        } else {
-            contentScrollView.isHitTest = false
-        }
-        print(scrollView.contentOffset.x)
+//        if scrollView.contentOffset.x > 0 {
+//            contentScrollView.isHitTest = true
+//        } else {
+//            contentScrollView.isHitTest = false
+//        }
+//        print(scrollView.contentOffset.x)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if contentScrollView.frame.origin.x == 0 {
-            contentScrollView.isHitTest = true
-        }
+//        if contentScrollView.frame.origin.x == 0 {
+//            contentScrollView.isHitTest = true
+//        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -191,13 +191,13 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
 class CollectScrollerview: UIScrollView {
     
     /// true 为事件查找到自己，false为事件查找到父类
-    var isHitTest: Bool = true
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        if (isHitTest == true) {
-            return self
-        }
-        return superview
-    }
+//    var isHitTest: Bool = true
+//    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+//        if (isHitTest == true) {
+//            return self
+//        }
+//        return superview
+//    }
     
 }
 

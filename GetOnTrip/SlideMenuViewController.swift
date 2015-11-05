@@ -260,7 +260,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         weiboButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
         
         welcomeLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
-        descLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: welcomeLabel, size: nil, offset: CGPointMake(0, 8))
+        descLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
         currentCityButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: menuView, size: nil, offset: CGPointMake(0, -21))
         
         //main

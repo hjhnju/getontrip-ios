@@ -241,7 +241,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         //header views
         headerImageView.ff_Fill(headerView)
         labelBtn.ff_AlignVertical(ff_AlignType.TopLeft, referView: headerTitleLabel, size: CGSize(width: 32, height: 14), offset: CGPointMake(0, -11))
-        favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(8, -7))
+        favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(20, -7))
         visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
         headerTitleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(-2, 1))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)

@@ -31,16 +31,16 @@ class TopicRefreshRequest: NSObject {
         post["city"]     = String(city!)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/city/topic", post: post) { (result, error) -> () in
-            if error == nil {
-                print(result)
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/topic", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
                 var topics = [TopicBrief]()
-                
-                for item in result!["data"] as! NSArray {
-                    topics.append(TopicBrief(dict: item as! [String : String]))
+                for item in result.arrayValue {
+                    if let item = item.dictionaryObject {
+                        topics.append(TopicBrief(dict: item))
+                    }
+                    handler(topics)
                 }
-                // 回调
-                handler(topics)
+                return
             }
         }
     }

@@ -43,6 +43,12 @@ class CitySightCollectionViewCell: UICollectionViewCell {
         icon.contentMode   = UIViewContentMode.ScaleAspectFill
         icon.clipsToBounds = true
         
+//        title.adjustsFontSizeToFitWidth = true
+//        if #available(iOS 9.0, *) {
+//            title.allowsDefaultTighteningForTruncation = true
+//        } else {
+//            // Fallback on earlier versions
+//        }
         icon.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
         shade.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size)
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
