@@ -17,7 +17,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     lazy var titleBackground: UIView = UIView()
     
     /// 内容底部scrollview
-    lazy var contentScrollView: UIScrollView = UIScrollView()
+    lazy var contentScrollView: CollectScrollerview = CollectScrollerview()
     
     /// 景点按钮
     lazy var sightBtn: UIButton = UIButton(title: "景点", fontSize: 14, radius: 0, titleColor: UIColor.whiteColor())
@@ -38,7 +38,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     // 城市控制器
     lazy var cityController: CollectCityViewController = CollectCityViewController()
-
+    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +52,18 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         setupAddSubViewAndAction()
         setupAutoLayout()
         setupChildControllerProperty()
+        let vc = parentViewController?.parentViewController as? SlideMenuViewController
+        
+        vc?.view.addObserver(self, forKeyPath: "frame", options: NSKeyValueObservingOptions.New, context: nil)
+    }
+    
+    deinit {
+        let vc = parentViewController?.parentViewController as? SlideMenuViewController
+        vc?.view.removeObserver(self, forKeyPath: "frame", context: nil)
+    }
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        print(change)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -134,10 +146,35 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         contentScrollView.bounces = false
     }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if scrollView.contentOffset.x > 0 {
+            contentScrollView.isHitTest = true
+        } else {
+            contentScrollView.isHitTest = false
+        }
+        print(scrollView.contentOffset.x)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if contentScrollView.frame.origin.x == 0 {
+            contentScrollView.isHitTest = true
+        }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+    }
+    
+    
+    
     
     //MASK: Actions
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-
+        
         let xOffset: CGFloat = scrollView.contentOffset.x
         print(xOffset)
         if (xOffset < 1) {
@@ -147,6 +184,19 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         } else {
             switchCollectButtonClick(cityBtn)
         }
+    }
+    
+}
+
+class CollectScrollerview: UIScrollView {
+    
+    /// true 为事件查找到自己，false为事件查找到父类
+    var isHitTest: Bool = true
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        if (isHitTest == true) {
+            return self
+        }
+        return superview
     }
     
 }

@@ -43,6 +43,7 @@ class SearchRecommendTableViewCell: UITableViewCell {
                 iconView.sd_setImageWithURL(NSURL(string: cellData.image), placeholderImage: PlaceholderImage.defaultLarge)
                 title.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
                 btn1.setTitle(" " + cellData.param1, forState: UIControlState.Normal)
+//                btn1.titleLabel?.attributedText = 
                 btn2.setTitle(" " + cellData.param2, forState: UIControlState.Normal)
                 btn3.setTitle(" " + cellData.param3, forState: UIControlState.Normal)
                 

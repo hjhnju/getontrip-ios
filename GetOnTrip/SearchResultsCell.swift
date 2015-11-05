@@ -18,6 +18,8 @@ class SearchResultsCell: UITableViewCell {
     
     lazy var resultDescLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "5景点，210个话题", fontSize: 13, mutiLines: true)
     
+    lazy var baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.2)
+    
     var searchCruxCharacter: String = ""
     
     func searchCruxCharacterAction(title: String, titleColor: UIColor) -> NSAttributedString {
@@ -62,6 +64,7 @@ class SearchResultsCell: UITableViewCell {
         addSubview(resultImageView)
         addSubview(resultTitleLabel)
         addSubview(resultDescLabel)
+        addSubview(baseLine)
     }
     
     private func setupAutoLayout() {
@@ -70,6 +73,7 @@ class SearchResultsCell: UITableViewCell {
         resultImageView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
         resultTitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: resultImageView, size: CGSizeMake(w, 16), offset: CGPointMake(6, 0))
         resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: resultImageView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
+        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

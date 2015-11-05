@@ -70,7 +70,7 @@ class Topic: NSObject {
 
     init(dict: [String: AnyObject]) {
         super.init()
-        
+
         setValuesForKeysWithDictionary(dict)
         if dict["tags"] != nil {
             let lab = dict["tags"] as? NSArray

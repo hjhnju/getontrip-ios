@@ -21,10 +21,10 @@ class TopicCell: UITableViewCell {
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "故宫内真有密道吗？如果有入口在哪里？", fontSize: 18, mutiLines: false)
     
     //收藏
-    lazy var collect: UIButton = UIButton(image: "icon_star_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.7))
+    lazy var collect: UIButton = UIButton(image: "icon_star_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
     
     //浏览
-    lazy var preview: UIButton = UIButton(image: "icon_eye_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.7))
+    lazy var preview: UIButton = UIButton(image: "icon_eye_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
     
     lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     

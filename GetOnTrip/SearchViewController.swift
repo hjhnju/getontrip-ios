@@ -38,6 +38,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         
     }
     
+    
+    
     init() {
         super.init(searchResultsController: searchResult)
         searchResultsUpdater = searchResult
@@ -50,6 +52,27 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: UIControlState.Normal)
+        searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
+//        let attr = [NSForegroundColorAttributeName : UIColor.orangeColor()]
+//        searchBar.setScopeBarButtonTitleTextAttributes(attr, forState: UIControlState.Normal)
+
+        
+//        let searchfield = searchBar.valueForKey("_searchField") as? UITextField
+//        searchfield?.textColor = UIColor.redColor()
+//        searchfield?.textAlignment = NSTextAlignment.Left
+//        searchfield?.tintColor = UIColor.redColor()
+//        searchfield?.contentVerticalAlignment = .Center
+
+        if #available(iOS 9.0, *) {
+            UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).defaultTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName : UIFont.systemFontOfSize(17)]
+        } else {
+             // Fallback on earlier versions
+        }
+    
+//        searchBar.setValue(searchfield, forKey: "_searchField")
+        
         
         setupAddProperty()
         loadSearchMuchLabel()
@@ -65,8 +88,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         view.addSubview(recordTableView)
         hidesNavigationBarDuringPresentation = false
         view.backgroundColor = UIColor(patternImage: UIImage(named: "search-bg0")!)
+
+        view.frame = UIScreen.mainScreen().bounds
         searchBar.barStyle = UIBarStyle.Black
-        searchBar.tintColor = UIColor.grayColor()
+
         searchBar.becomeFirstResponder()
         searchBar.keyboardAppearance = UIKeyboardAppearance.Default
         searchBar.delegate = self

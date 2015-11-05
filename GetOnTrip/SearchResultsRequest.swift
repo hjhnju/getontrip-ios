@@ -114,6 +114,7 @@ class SearchContent: NSObject {
     
     init(dict: [String : AnyObject]) {
         super.init()
+        
         setValuesForKeysWithDictionary(dict)
     }
     

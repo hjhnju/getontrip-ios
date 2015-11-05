@@ -14,8 +14,8 @@
 		72550E8B1BE7A9AA004D4611 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550E8A1BE7A9AA004D4611 /* UIViewController+Extension.swift */; };
 		72550E9A1BE9A210004D4611 /* CBStoreHouseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */; };
 		72550E9C1BE9ABC6004D4611 /* CustAnimateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550E9B1BE9ABC6004D4611 /* CustAnimateViewController.swift */; };
-		72550EA21BEA0D87004D4611 /* BookDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA11BEA0D87004D4611 /* BookDetail.swift */; settings = {ASSET_TAGS = (); }; };
-		72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */; settings = {ASSET_TAGS = (); }; };
+		72550EA21BEA0D87004D4611 /* BookDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA11BEA0D87004D4611 /* BookDetail.swift */; };
+		72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */; };
 		726974281BDF168A000C0ABF /* RetCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726974271BDF168A000C0ABF /* RetCode.swift */; };
 		7269746B1BE3924F000C0ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7269746A1BE3924F000C0ABF /* Tag.swift */; };
 		7269746D1BE39434000C0ABF /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7269746C1BE39434000C0ABF /* Video.swift */; };
@@ -118,6 +118,7 @@
 		AEB98F391BE1CAF300183261 /* SightLandscapeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */; };
 		AEC2318B1BCE48BD008C58C9 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2318A1BCE48BD008C58C9 /* BookViewController.swift */; };
 		AEC2318D1BCE5519008C58C9 /* BookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2318C1BCE5519008C58C9 /* BookRequest.swift */; };
+		AEC6858F1BEAF922005D2904 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEC6858E1BEAF922005D2904 /* Storyboard.storyboard */; };
 		AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC9D2B71BD7387E00B28464 /* UIImage+Extension.swift */; };
 		AEC9D2BC1BD7ADE700B28464 /* SendPopoverAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC9D2BB1BD7ADE700B28464 /* SendPopoverAnimator.swift */; };
 		AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */; };
@@ -298,6 +299,7 @@
 		AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightLandscapeController.swift; sourceTree = "<group>"; };
 		AEC2318A1BCE48BD008C58C9 /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		AEC2318C1BCE5519008C58C9 /* BookRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookRequest.swift; sourceTree = "<group>"; };
+		AEC6858E1BEAF922005D2904 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		AEC9D2B71BD7387E00B28464 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		AEC9D2BB1BD7ADE700B28464 /* SendPopoverAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendPopoverAnimator.swift; sourceTree = "<group>"; };
 		AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 			children = (
 				AE7AD7511BA7C37D006857EB /* Plist */,
 				72D86DED1B65D94D004B72D0 /* LaunchScreen.xib */,
+				AEC6858E1BEAF922005D2904 /* Storyboard.storyboard */,
 				72D86DEB1B65D94D004B72D0 /* Images.xcassets */,
 				72D86DE61B65D94D004B72D0 /* ViewController.swift */,
 			);
@@ -811,7 +814,7 @@
 				TargetAttributes = {
 					72D86DDE1B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = H7P27HMFW7;
+						DevelopmentTeam = 568F62S6LX;
 					};
 					72D86DF31B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
@@ -847,6 +850,7 @@
 			files = (
 				AE4E77CD1BCB44C3006480B1 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				AE20EDEC1B9C456300F26074 /* cities.plist in Resources */,
+				AEC6858F1BEAF922005D2904 /* Storyboard.storyboard in Resources */,
 				AEAB95941BC8D82700B6EE62 /* BookDetail.css in Resources */,
 				AE4E77CF1BCB44C4006480B1 /* WeiboSDK.bundle in Resources */,
 				AE4E77D21BCB44C4006480B1 /* ShareSDK.bundle in Resources */,

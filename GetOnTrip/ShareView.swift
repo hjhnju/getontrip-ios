@@ -27,7 +27,7 @@ class ShareView: UIView {
     /// 取消按钮
     lazy var shareCancle: UIButton = UIButton(title: "取消", fontSize: 13, radius: 15)
     /// 分享至标题
-    lazy var shareLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "分享至", fontSize: 13, mutiLines: true)
+    lazy var shareLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "分享至", fontSize: 15, mutiLines: true)
     /// 分享view y
     var shareViewCY : NSLayoutConstraint?
     /// 微信约束y
@@ -124,12 +124,12 @@ class ShareView: UIView {
         subview.addSubview(self)
         self.shareView.layoutIfNeeded()
         let y =  197 * 0.5 - (shareCancle.frame.origin.y - CGRectGetMaxY(shareLabel.frame) - 3)
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animateWithDuration(0.4, animations: { () -> Void in
             self.shareViewCY?.constant = -197
             self.shareView.layoutIfNeeded()
             
             }) { (_) -> Void in
-                UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
+                UIView.animateWithDuration(0.6, delay: 0, usingSpringWithDamping: 20, initialSpringVelocity: 5, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
                     self.shareBtnY1?.constant = y
                     
                     self.shareBtnY2?.constant = 0
