@@ -96,9 +96,7 @@ class SightTopicViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let vc: TopicViewController = TopicViewController()
         let topic = topics[indexPath.row]
-        vc.topicId = topic.id
-        vc.sightId = self.sightId
-        //TODO: 景点名，图片等传过去
+        vc.topicDataSource = Topic.fromBrief(topic)
         navigationController?.pushViewController(vc, animated: true)
     }
     

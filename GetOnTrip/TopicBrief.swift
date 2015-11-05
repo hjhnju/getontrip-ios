@@ -28,10 +28,12 @@ class TopicBrief: NSObject {
             image = UIKitTools.sliceImageUrl(image, width: 133, height: 84)
         }
     }
-    //所属景点
+    /// 所属景点
     var sight: String = ""
+    /// 景点ID
+    var sightid: String = ""
     /// 标签
-    var tag: String = ""
+    var tagname: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()
@@ -39,7 +41,7 @@ class TopicBrief: NSObject {
         //目前仅取一个标签
         if dict["tags"] != nil {
             let lab = dict["tags"] as? NSArray
-            tag = (lab?.firstObject as? String) ?? ""
+            tagname = (lab?.firstObject as? String) ?? ""
         }
     }
     

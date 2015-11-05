@@ -30,14 +30,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     /// 头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
     
-    /// 头部图片url
-    var headerImageUrl:String = "" {
-        didSet {
-            //初始处用placeholder，以免跳转前设置的图片被覆盖
-            self.headerImageView.sd_setImageWithURL(NSURL(string: headerImageUrl))
-        }
-    }
-    
     lazy var headerImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
     
     /// 文章标题
@@ -74,38 +66,28 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         return CommentTopicController()
     }()
     
-    //话题ID
-    var topicId: String = ""
-    
-    var sightId: String = ""
-    
-    //话题标题
-    var topicTitle: String = "" {
-        didSet {
-            headerTitleLabel.text = topicTitle
-        }
-    }
-    
-    //景点名
-    var sightName: String = "" {
-        didSet {
-            navBar.setTitle(sightName)
-        }
+    // MARK: DataSource of Controller
+
+    var topicId: String {
+        return self.topicDataSource?.id ?? ""
     }
     
     var topicDataSource: Topic? {
         didSet {
             if let topic = topicDataSource {
-                headerImageUrl = topic.image
-                sightName  = topic.sight_name
-                topicTitle = topic.title
-                collectBtn.selected = topicDataSource?.collected == "" ? false : true
-                commentVC.topicId  = topic.id
-                commentLab.text    = topic.comment
+                //初始处用placeholder，以免跳转前设置的图片被覆盖
+                print("[TopicView]headerimage=\(topic.image)")
+                headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage:headerImageView.image)
+                headerTitleLabel.text = topic.title
                 
-                labelBtn.setTitle(topic.tag, forState: UIControlState.Normal)
+                navBar.setTitle(topic.sight)
+                labelBtn.setTitle(topic.tagname, forState: UIControlState.Normal)
                 favNumLabel.setTitle(" " + topic.collect, forState: UIControlState.Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: UIControlState.Normal)
+                
+                collectBtn.selected = topic.collected == "" ? false : true
+                commentVC.topicId   = topic.id
+                commentLab.text     = topic.comment
                 labelBtn.hidden      = false
                 favNumLabel.hidden   = false
                 visitNumLabel.hidden = false
@@ -116,7 +98,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     }
     
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: TopicRequest?
+    var lastRequest: TopicRequest?
     
     
     //导航背景，用于完成渐变
@@ -209,15 +191,15 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     /// 发送反馈消息
     private func loadSightData() {
         
-        if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = TopicRequest()
-            lastSuccessAddRequest?.topicId = topicId
-            lastSuccessAddRequest?.sightId = sightId
+        if lastRequest == nil {
+            lastRequest = TopicRequest()
+            lastRequest?.topicId = topicDataSource?.id ?? ""
+            lastRequest?.sightId = topicDataSource?.sightid ?? ""
         }
         
-        lastSuccessAddRequest?.fetchTopicDetailModels({[weak self] (ressult, status) -> Void in
+        lastRequest?.fetchModels({[weak self] (result, status) -> Void in
             if status == RetCode.SUCCESS {
-                if let topic = ressult {
+                if let topic = result {
                     self?.topicDataSource = topic
                 }
             } else {
@@ -351,8 +333,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
                 }
             })
         } else {
-            
-            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid: topicId, isAdd: !sender.selected, handler: { (result, status) -> Void in
+            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid: self.topicId, isAdd: !sender.selected, handler: { (result, status) -> Void in
                 if status == RetCode.SUCCESS {
                     if result == "1" {
                         sender.selected = !sender.selected
@@ -379,7 +360,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         
         UIApplication.sharedApplication().keyWindow?.addSubview(cover)
         UIApplication.sharedApplication().keyWindow?.addSubview(commentVC.view)
-        commentVC.topicId = topicId
+        commentVC.topicId = topicDataSource?.id ?? ""
         commentVC.view.clipsToBounds = true
         commentVC.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
         cover.frame = UIScreen.mainScreen().bounds

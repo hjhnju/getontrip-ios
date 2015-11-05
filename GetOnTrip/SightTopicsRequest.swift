@@ -41,7 +41,9 @@ class SightTopicsRequest: NSObject {
                 var topics = [TopicBrief]()
                 for item in result.arrayValue {
                     if let item = item.dictionaryObject {
-                        topics.append(TopicBrief(dict: item))
+                        let topic = TopicBrief(dict: item)
+                        topic.sightid = self.sightId
+                        topics.append(topic)
                     }
                 }
                 handler(topics, status)

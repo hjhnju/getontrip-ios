@@ -92,7 +92,7 @@
 		AE70C1991BCCB7EF00834130 /* CommentTopicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE70C1981BCCB7EF00834130 /* CommentTopicController.swift */; };
 		AE79EEC91BBA8440005A7709 /* SightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EEC81BBA8440005A7709 /* SightCollectionViewCell.swift */; };
 		AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */; };
-		AE79EED21BBA8A30005A7709 /* CityHotTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EED11BBA8A30005A7709 /* CityHotTopicTableViewCell.swift */; };
+		AE79EED21BBA8A30005A7709 /* CityTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EED11BBA8A30005A7709 /* CityTopicTableViewCell.swift */; };
 		AE7B997B1BA17DE4003034FB /* UserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */; };
 		AE7E8CC71BD8C05900E7D9EB /* CommentListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7E8CC61BD8C05900E7D9EB /* CommentListRequest.swift */; };
 		AE7F0AC21BB954730011F307 /* SightRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F0AC11BB954730011F307 /* SightRequest.swift */; };
@@ -266,7 +266,7 @@
 		AE70C1981BCCB7EF00834130 /* CommentTopicController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTopicController.swift; sourceTree = "<group>"; };
 		AE79EEC81BBA8440005A7709 /* SightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuSettingTableViewCell.swift; sourceTree = "<group>"; };
-		AE79EED11BBA8A30005A7709 /* CityHotTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityHotTopicTableViewCell.swift; sourceTree = "<group>"; };
+		AE79EED11BBA8A30005A7709 /* CityTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityTopicTableViewCell.swift; sourceTree = "<group>"; };
 		AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoRequest.swift; sourceTree = "<group>"; };
 		AE7E8CC61BD8C05900E7D9EB /* CommentListRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentListRequest.swift; sourceTree = "<group>"; };
 		AE7F0AC11BB954730011F307 /* SightRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightRequest.swift; sourceTree = "<group>"; };
@@ -374,7 +374,7 @@
 			children = (
 				AE233ADC1BB0E8D5002E6502 /* CityViewController.swift */,
 				AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */,
-				AE79EED11BBA8A30005A7709 /* CityHotTopicTableViewCell.swift */,
+				AE79EED11BBA8A30005A7709 /* CityTopicTableViewCell.swift */,
 				729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */,
 				AE4ECBCA1BB4FE4B00DC65F7 /* CityRequest.swift */,
 				AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */,
@@ -636,6 +636,7 @@
 			children = (
 				AE7F0AC71BB95CE60011F307 /* Controller */,
 				AE7F0AC61BB95CDB0011F307 /* View */,
+				AE7F0AC51BB95CC90011F307 /* Model */,
 			);
 			name = Sight;
 			sourceTree = "<group>";
@@ -669,7 +670,6 @@
 		AE7F0AC71BB95CE60011F307 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				AE7F0AC51BB95CC90011F307 /* Model */,
 				AE7F0AC81BB95D3E0011F307 /* SightViewController.swift */,
 				AEB98F321BE1CAB500183261 /* SightTopicViewController.swift */,
 				AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */,
@@ -926,7 +926,7 @@
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,
 				AE7F0AC91BB95D3E0011F307 /* SightViewController.swift in Sources */,
 				AEB98F331BE1CAB500183261 /* SightTopicViewController.swift in Sources */,
-				AE79EED21BBA8A30005A7709 /* CityHotTopicTableViewCell.swift in Sources */,
+				AE79EED21BBA8A30005A7709 /* CityTopicTableViewCell.swift in Sources */,
 				727561821BD0F6240089CB27 /* City.swift in Sources */,
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
@@ -1180,7 +1180,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";
@@ -1249,7 +1249,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";

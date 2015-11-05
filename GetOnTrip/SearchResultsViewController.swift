@@ -200,9 +200,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 return
             } else if content.search_type == SearchContentTopicType {
                 let vc = TopicViewController()
-                vc.topicId = content.id
+                let topic = Topic()
+                topic.id       = content.id
+                topic.image    = content.image
+                topic.title    = content.title
+                vc.topicDataSource = topic
                 showSearchResultController(vc)
-
                 return
             } else if content.search_type ==  SearchContentBookType {
                 let vc = BookViewController()
@@ -260,7 +263,11 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                     showSearchResultController(vc)
                 } else if searchType.search_type == SearchContentTopicType {
                     let vc = TopicViewController()
-                    vc.topicId = searchType.id
+                    let topic = Topic()
+                    topic.id       = searchType.id
+                    topic.image    = searchType.image
+                    topic.title    = searchType.title
+                    vc.topicDataSource = topic
                     showSearchResultController(vc)
                 } else if searchType.search_type ==  SearchContentBookType {
                     let vc = BookViewController()

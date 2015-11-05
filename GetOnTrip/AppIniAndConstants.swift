@@ -32,7 +32,7 @@ struct StoryBoardIdentifier {
     static let SearchRecommendTableViewCellID = "SearchRecommendTableViewCellID"
     
     //city
-    static let CityHotTopicTableViewCellID   = "CityHotTopicTableViewCellID"
+    static let CityTopicTableViewCellID   = "CityHotTopicTableViewCellID"
     static let CitySightCollectionViewCellID = "CitySightCollectionViewCellID"
     
 }

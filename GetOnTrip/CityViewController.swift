@@ -97,13 +97,13 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
     }
 
-    var tableViewDataSource: [TopicBrief]? {
+    var tableViewDataSource = [TopicBrief]() {
         didSet {
             tableView.reloadData()
         }
     }
     
-    var collectionDataSource: [Sight]? {
+    var collectionDataSource = [Sight]() {
         didSet {
             collectionView.reloadData()
         }
@@ -206,7 +206,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.registerClass(CityHotTopicTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.CityHotTopicTableViewCellID)
+        tableView.registerClass(CityTopicTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.CityTopicTableViewCellID)
         
         //内容初始位置偏移
         tableView.frame = CGRectMake(0, 0, view.frame.width, view.frame.height)
@@ -268,8 +268,12 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         lastRequest?.fetchModels { [weak self]
             (handler: NSDictionary) -> Void in
             self?.cityDataSource = handler.valueForKey("city") as? City
-            self?.collectionDataSource = handler.valueForKey("sights") as? [Sight]
-            self?.tableViewDataSource = handler.valueForKey("topics") as? [TopicBrief]
+            if let sights = handler.valueForKey("sights") as? [Sight] {
+                self?.collectionDataSource = sights
+            }
+            if let topics = handler.valueForKey("topics") as? [TopicBrief] {
+                self?.tableViewDataSource = topics
+            }
             self?.pageNumber = handler.valueForKey("pageNum")?.integerValue ?? 0
         }
     }
@@ -295,56 +299,52 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     // MARK: - collectionView代理及数据源方法
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionDataSource == nil { return 0 }
-        return collectionDataSource!.count
+        return collectionDataSource.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(StoryBoardIdentifier.CitySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
         cell.icon.image = nil
-        cell.data = collectionDataSource![indexPath.row]
+        cell.data = collectionDataSource[indexPath.row]
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        if let dataSource = collectionDataSource {
-            let width:CGFloat = collectionView.bounds.width
-            let height:CGFloat = collectionView.bounds.height
-            
-            switch dataSource.count {
-            case 0: return CGSizeZero
-            case 1:
-                return CGSizeMake(width - 16, height)
-            case 2:
+        let width:CGFloat = collectionView.bounds.width
+        let height:CGFloat = collectionView.bounds.height
+        
+        switch collectionDataSource.count {
+        case 0: return CGSizeZero
+        case 1:
+            return CGSizeMake(width - 16, height)
+        case 2:
+            return CGSizeMake((width - 24) * 0.5, height)
+        case 3:
+            if indexPath.row == 0 {
                 return CGSizeMake((width - 24) * 0.5, height)
-            case 3:
-                if indexPath.row == 0 {
-                    return CGSizeMake((width - 24) * 0.5, height)
-                } else {
-                    return CGSizeMake((width - 24) * 0.5, (height - 8) * 0.5)
-                }
-            default:
-                var size = CGSizeZero
-                if indexPath.row % 3 == 0 {
-                    size = CGSizeMake((width - 24) * 0.5, height)
-                } else if indexPath.row % 3 == 1 {
-                    size = CGSizeMake(113, (height - 8) * 0.5 + 8)
-                } else {
-                    size = CGSizeMake(113, (height - 8) * 0.5 - 8)
-                }
-                return size
+            } else {
+                return CGSizeMake((width - 24) * 0.5, (height - 8) * 0.5)
             }
+        default:
+            var size = CGSizeZero
+            if indexPath.row % 3 == 0 {
+                size = CGSizeMake((width - 24) * 0.5, height)
+            } else if indexPath.row % 3 == 1 {
+                size = CGSizeMake(113, (height - 8) * 0.5 + 8)
+            } else {
+                size = CGSizeMake(113, (height - 8) * 0.5 - 8)
+            }
+            return size
         }
-        return CGSizeZero
     }
     
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
         let vc       = SightViewController()
-        let sight    = collectionDataSource![indexPath.row]
+        let sight    = collectionDataSource[indexPath.row]
         vc.sightId   = sight.id
         vc.sightName = sight.name
         navigationController?.pushViewController(vc, animated: true)
@@ -361,18 +361,16 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableViewDataSource == nil { return 0 }
-        return tableViewDataSource!.count
+       return tableViewDataSource.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.CityHotTopicTableViewCellID, forIndexPath: indexPath) as! CityHotTopicTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.CityTopicTableViewCellID, forIndexPath: indexPath) as! CityTopicTableViewCell
         
         //cell无选中效果
         cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
-        cell.topic = tableViewDataSource![indexPath.row]
+        cell.topic = tableViewDataSource[indexPath.row]
         
         return cell
     }
@@ -385,12 +383,9 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let topic = tableViewDataSource![indexPath.row]
+        let topic = tableViewDataSource[indexPath.row]
         let vc    = TopicViewController()
-        vc.topicId    = topic.id
-        vc.topicTitle = topic.title
-        vc.sightName  = topic.sight
-        vc.headerImageUrl = topic.image
+        vc.topicDataSource = Topic.fromBrief(topic)
         navigationController?.pushViewController(vc, animated: true)
 
     }
