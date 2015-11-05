@@ -38,6 +38,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         
     }
     
+    
+    
     init() {
         super.init(searchResultsController: searchResult)
         searchResultsUpdater = searchResult
