@@ -18,15 +18,15 @@ class CitySightsViewController: UICollectionViewController {
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
     
     /// 城市ID
-    var cityId: String?
+    var cityId: String = ""
     
     /// 网络请求加载数据
-    var lastSuccessRequest: CitySightsRequest?
+    var lastRequest: CitySightsRequest?
     
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
         
-    var sightCityList: [CitySightBrief]? {
+    var sightCityList = [CitySightBrief]() {
         didSet {
             collectionView?.reloadData()
         }
@@ -72,20 +72,19 @@ class CitySightsViewController: UICollectionViewController {
         NSLog("notice:refreshing nearby data.")
         
         //获取数据更新tableview
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = CitySightsRequest()
-            lastSuccessRequest?.cityId = cityId
+        if lastRequest == nil {
+            lastRequest = CitySightsRequest()
+            lastRequest?.cityId = cityId
         }
         
-        lastSuccessRequest?.fetchSightCityModels { (handler: [CitySightBrief]) -> Void in
+        lastRequest?.fetchSightCityModels { (handler: [CitySightBrief]) -> Void in
             self.sightCityList = handler
         }
     }
     
     // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if (sightCityList == nil) { return 0 }
-        return sightCityList!.count
+        return sightCityList.count
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -93,16 +92,16 @@ class CitySightsViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sightListCityIdentifier, forIndexPath: indexPath) as! SightListCityCell
         cell.collectBtn.addTarget(self, action: "collectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.collectBtn.tag = indexPath.row
-        cell.sightBrief = sightCityList![indexPath.row] as CitySightBrief
+        cell.sightBrief = sightCityList[indexPath.row] as CitySightBrief
         return cell
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let vc = SightViewController()
-        let sight = sightCityList![indexPath.row] as CitySightBrief
-        vc.title = cityId
-        vc.sightId = sight.id
-        vc.sightName = sight.name
+        let brief = sightCityList[indexPath.row] as CitySightBrief
+        let sight = Sight(id: brief.id)
+        sight.name = brief.name
+        vc.sightDataSource = sight
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -111,7 +110,7 @@ class CitySightsViewController: UICollectionViewController {
     ///  - parameter sender: 收藏按钮
     func collectButtonClick(sender: UIButton) {
         
-        let sight = sightCityList![sender.tag] as CitySightBrief
+        let sight = sightCityList[sender.tag] as CitySightBrief
         if sharedUserAccount == nil {
 
             LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in

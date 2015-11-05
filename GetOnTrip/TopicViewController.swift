@@ -76,7 +76,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         didSet {
             if let topic = topicDataSource {
                 //初始处用placeholder，以免跳转前设置的图片被覆盖
-                print("[TopicView]headerimage=\(topic.image)")
+                //print("[TopicView]headerimage=\(topic.image)")
                 headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage:headerImageView.image)
                 headerTitleLabel.text = topic.title
                 

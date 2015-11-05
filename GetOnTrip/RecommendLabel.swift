@@ -1,29 +1,21 @@
 //
-//  SightTags.swift
+//  RecommendLabel.swift
 //  GetOnTrip
 //
-//  Created by 何俊华 on 15/10/30.
+//  Created by 何俊华 on 15/11/5.
 //  Copyright © 2015年 Joshua. All rights reserved.
 //
 
 import Foundation
 
-/// 景点列表Tags
-class Tag: NSObject {
-    /// 话题tagid
+/// 搜索标签
+class RecommendLabel: NSObject {
+    /// id
     var id: String = ""
-    /// 类型
-    var type: String = ""
-    /// 标签名字
+    /// 标签名
     var name: String = ""
-    
-    /// 所属景点id
-    var sightId: String = ""
-    
-    init(id: String) {
-        super.init()
-        self.id = id
-    }
+    /// 数字
+    var num: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()
@@ -31,5 +23,10 @@ class Tag: NSObject {
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
+    
+    func toString() -> String {
+        return self.name + "    " + self.num
     }
 }

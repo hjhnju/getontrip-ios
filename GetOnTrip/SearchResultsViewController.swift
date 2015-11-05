@@ -120,7 +120,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             
             if cityId == "-1" { SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!"); return }
             let vc = CityViewController()
-            vc.cityId = cityId
+            let city = City(id: cityId)
+            vc.cityDataSource = city
             showSearchResultController(vc)
         }
     }
@@ -174,18 +175,20 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         
         
         if resultMuchData.count != 0 {
-            let city = resultMuchData[indexPath.row]
+            let data = resultMuchData[indexPath.row]
             if citySightType == 0 {
                 
                 let vc = CityViewController()
-                vc.cityId = city.id
+                let city = City(id: data.id)
+                vc.cityDataSource = city
                 showSearchResultController(vc)
                 return
                 
             } else {
                 let vc = SightViewController()
-                vc.sightId = city.id
-                vc.sightName = city.name
+                let sight = Sight(id: data.id)
+                sight.name = data.name
+                vc.sightDataSource = sight
                 showSearchResultController(vc)
                 return
             }
@@ -239,10 +242,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         switch indexPath.section {
         case 0:
             if let searchCity = resultData["searchCitys"] {
-                
                 let vc = CityViewController()
                 let searchC = searchCity[indexPath.row] as! SearchResult
-                vc.cityId = searchC.id
+                let city = City(id: searchC.id)
+                city.name = searchC.name
+                city.image = searchC.image
+                vc.cityDataSource = city
                 showSearchResultController(vc)
             }
         case 1:
@@ -250,8 +255,10 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 
                 let vc = SightViewController()
                 let searchC = searchSight[indexPath.row] as! SearchResult
-                vc.sightName = searchC.name
-                vc.sightId = searchC.id
+                let sight = Sight(id: searchC.id)
+                sight.name = searchC.name
+                sight.image = searchC.image
+                vc.sightDataSource = sight
                 showSearchResultController(vc)
             }
         default:

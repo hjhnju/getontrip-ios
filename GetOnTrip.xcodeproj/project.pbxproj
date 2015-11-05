@@ -34,6 +34,9 @@
 		729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */; };
 		729574001BCF345600343F8F /* UIKitTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FF1BCF345600343F8F /* UIKitTools.swift */; };
 		72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5BF311B73351400F3AB26 /* HttpRequest.swift */; };
+		72D25A8F1BEB25C50044AE04 /* RecommendLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D25A8E1BEB25C50044AE04 /* RecommendLabel.swift */; settings = {ASSET_TAGS = (); }; };
+		72D25A911BEB25E90044AE04 /* RecommendCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D25A901BEB25E90044AE04 /* RecommendCellData.swift */; settings = {ASSET_TAGS = (); }; };
+		72D25A931BEB2B9F0044AE04 /* CitySightBrief.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D25A921BEB2B9F0044AE04 /* CitySightBrief.swift */; settings = {ASSET_TAGS = (); }; };
 		72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */; };
 		72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D721341B6C4500005BDE55 /* FavoriteViewController.swift */; };
 		72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86DE41B65D94D004B72D0 /* AppDelegate.swift */; };
@@ -191,6 +194,9 @@
 		729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightCollectionViewCell.swift; sourceTree = "<group>"; };
 		729573FF1BCF345600343F8F /* UIKitTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitTools.swift; sourceTree = "<group>"; };
 		72A5BF311B73351400F3AB26 /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
+		72D25A8E1BEB25C50044AE04 /* RecommendLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendLabel.swift; sourceTree = "<group>"; };
+		72D25A901BEB25E90044AE04 /* RecommendCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendCellData.swift; sourceTree = "<group>"; };
+		72D25A921BEB2B9F0044AE04 /* CitySightBrief.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightBrief.swift; sourceTree = "<group>"; };
 		72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppIniAndConstants.swift; sourceTree = "<group>"; };
 		72D721341B6C4500005BDE55 /* FavoriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		72D86DDF1B65D94D004B72D0 /* GetOnTrip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetOnTrip.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -379,6 +385,7 @@
 				AE4ECBCA1BB4FE4B00DC65F7 /* CityRequest.swift */,
 				AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */,
 				727561811BD0F6240089CB27 /* City.swift */,
+				72D25A921BEB2B9F0044AE04 /* CitySightBrief.swift */,
 			);
 			name = City;
 			sourceTree = "<group>";
@@ -618,6 +625,8 @@
 				AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */,
 				AEEDE1361BDB93E800843C2C /* CollectAddAndCancel.swift */,
 				AEFC4E601BE62180001CCC8B /* FeedbackListRequest.swift */,
+				72D25A8E1BEB25C50044AE04 /* RecommendLabel.swift */,
+				72D25A901BEB25E90044AE04 /* RecommendCellData.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -802,7 +811,7 @@
 				TargetAttributes = {
 					72D86DDE1B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 568F62S6LX;
+						DevelopmentTeam = H7P27HMFW7;
 					};
 					72D86DF31B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
@@ -928,6 +937,7 @@
 				AEB98F331BE1CAB500183261 /* SightTopicViewController.swift in Sources */,
 				AE79EED21BBA8A30005A7709 /* CityTopicTableViewCell.swift in Sources */,
 				727561821BD0F6240089CB27 /* City.swift in Sources */,
+				72D25A8F1BEB25C50044AE04 /* RecommendLabel.swift in Sources */,
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
@@ -971,6 +981,7 @@
 				AE7F0AC21BB954730011F307 /* SightRequest.swift in Sources */,
 				72550E8B1BE7A9AA004D4611 /* UIViewController+Extension.swift in Sources */,
 				7269747B1BE47245000C0ABF /* UIChannelLabel.swift in Sources */,
+				72D25A931BEB2B9F0044AE04 /* CitySightBrief.swift in Sources */,
 				AE6D9FB31B84AE46009A8A9D /* SightVideosRequest.swift in Sources */,
 				AE70C1991BCCB7EF00834130 /* CommentTopicController.swift in Sources */,
 				72550E9C1BE9ABC6004D4611 /* CustAnimateViewController.swift in Sources */,
@@ -978,6 +989,7 @@
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
 				AE62E2CA1BB3D9B800B91D33 /* UIImageView+Extension.swift in Sources */,
 				AE488D691BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift in Sources */,
+				72D25A911BEB25E90044AE04 /* RecommendCellData.swift in Sources */,
 				AEB98F391BE1CAF300183261 /* SightLandscapeController.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */,
 				AEAB951A1BC7C83300B6EE62 /* TopicRequest.swift in Sources */,

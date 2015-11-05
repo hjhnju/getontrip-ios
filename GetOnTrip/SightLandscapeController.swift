@@ -66,13 +66,9 @@ class SightLandscapeController: UITableViewController {
         self.isLoading = true
         lastLandscapeRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
             //处理异常状态
-            if status == RetCode.SUCCESS {
-                self.tableView.header.endRefreshing()
-            } else {
+            if status != RetCode.SUCCESS {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
             }
-            self.isLoading = false
-            
             //处理数据
             if let data = dataSource {
                 if data.count > 0 {
@@ -80,6 +76,7 @@ class SightLandscapeController: UITableViewController {
                 }
             }
             self.tableView.header.endRefreshing()
+            self.isLoading = false
         })
     }
     

@@ -20,7 +20,7 @@ class CitySightsRequest: NSObject {
     */
     
     // 请求参数
-    var cityId  :String?
+    var cityId  : String = ""
     var page    : Int = 1
     var pageSize: Int = 6
     
@@ -34,7 +34,7 @@ class CitySightsRequest: NSObject {
         var post       = [String: String]()
         post["page"]   = String(page)
         post["pageSize"]=String(pageSize)
-        post["cityId"] = String(cityId!)
+        post["cityId"] = String(cityId)
         
         // 发送网络请求加载数据
         HttpRequest.ajax(AppIni.BaseUri, path: "/api/city/sight", post: post) { (result, error) -> () in
@@ -46,58 +46,10 @@ class CitySightsRequest: NSObject {
                     
                     sightCityListM.append(sightM)
                 }
-                
                 // 回调
                 handler(sightCityListM)
             }
         }
-//        HttpRequest.ajax(AppIni.BaseUri,
-//            path: "/api/city/sight",
-//            post: post,
-//            handler: {(respData: AnyObject) -> Void in
-//                
-//                var sightCityListM = [CitySightBrief]()
-//                for it in respData as! NSArray {
-//                    
-//                    let sightM = CitySightBrief(dict: it as! [String : String])
-//                    
-//                    sightCityListM.append(sightM)
-//                }
-//                
-//                // 回调
-//                handler(sightCityListM)
-//            }
-//        )
     }
 
-}
-
-
-/// 城市的景点
-class CitySightBrief: NSObject {
-    
-    /// 收藏话题id
-    var id: String = ""
-    /// 话题名
-    var name: String = ""
-    /// 话题图片
-    var image: String = "" {
-        didSet {
-            image = UIKitTools.sliceImageUrl(image, width: 133, height: 84)
-        }
-    }
-    
-    /// 共几个话题
-    var topics: String = ""
-    /// 是否收藏
-    var collected: String = ""
-    
-    init(dict: [String : String]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
 }

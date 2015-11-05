@@ -24,25 +24,8 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     /// 自定义导航
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
     
-    var cityName: String = "" {
-        didSet {
-            cityNameLabel.text = cityName
-            navBar.titleLabel.text = cityName
-        }
-    }
-    
-    /// 默认无
-    var cityId: String = ""
-    
-    /// 顶部图片url
-    var headerImageUrl:String = "" {
-        didSet {
-            headerImageView.sd_setImageWithURL(NSURL(string: headerImageUrl), placeholderImage:PlaceholderImage.defaultLarge)
-        }
-    }
-    
     /// 城市背影图片
-    var headerImageView: UIImageView = UIImageView()
+    var headerImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
     
     //头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
@@ -87,11 +70,18 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     var pageNumber: Int = 1
     
     // MARK: 数据源
+
+    var cityId: String {
+        return cityDataSource?.id ?? ""
+    }
+    
     var cityDataSource : City? {
         didSet {
             if let city = cityDataSource {
-                self.headerImageUrl = city.image
-                self.cityName = city.name
+                //用已有image占位，这样转场传递小图不会被默认图覆盖
+                headerImageView.sd_setImageWithURL(NSURL(string: city.image), placeholderImage:headerImageView.image)
+                self.cityNameLabel.text = city.name
+                self.navBar.titleLabel.text = city.name
                 self.favIconBtn.selected = city.collected == "" ? false : true
             }
         }
@@ -262,7 +252,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     private func loadCityData() {
         if lastRequest == nil {
             lastRequest = CityRequest()
-            lastRequest?.city = cityId
+            lastRequest?.cityId = cityId
         }
 
         lastRequest?.fetchModels { [weak self]
@@ -342,11 +332,8 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-
         let vc       = SightViewController()
-        let sight    = collectionDataSource[indexPath.row]
-        vc.sightId   = sight.id
-        vc.sightName = sight.name
+        vc.sightDataSource = collectionDataSource[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -419,7 +406,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     // MARK: 景点列表页
     func sightButtonClick(btn: UIButton) {
         let vc    = CitySightsViewController()
-        vc.title  = cityName
+        vc.title  = cityDataSource?.name
         vc.cityId = cityId
         navigationController?.pushViewController(vc, animated: true)
     }

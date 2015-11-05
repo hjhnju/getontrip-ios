@@ -16,7 +16,7 @@ class Sight: NSObject {
     /// 景点图片
     var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image
+            image = UIKitTools.sliceImageUrl(image, width: 414, height: 198)
         }
     }
     /// 景点内容
@@ -24,8 +24,9 @@ class Sight: NSObject {
     /// 景点标签
     var tags: [Tag] = [Tag]()
     
-    override init(){
+    init(id: String){
         super.init()
+        self.id = id
     }
     
     init(dict: [String: AnyObject]) {

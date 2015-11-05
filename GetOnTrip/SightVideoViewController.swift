@@ -25,7 +25,7 @@ class SightVideoViewController: UITableViewController {
         }
     }
     
-    var dataSource: NSMutableArray = NSMutableArray() {
+    var dataSource = [Video]() {
         didSet {
             tableView.header.endRefreshing()
             tableView.reloadData()
@@ -71,7 +71,7 @@ class SightVideoViewController: UITableViewController {
             }
             self!.isLoading = false
             if let data = dataSource {
-                self?.dataSource = NSMutableArray(array: data)
+                self?.dataSource = data
             }
             })
     }
@@ -93,7 +93,7 @@ class SightVideoViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerVideoCell, forIndexPath: indexPath) as! VideoCell
         cell.watchBtn.addTarget(self, action: "watchClick:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.watchBtn.tag = indexPath.row
-        cell.video = dataSource[indexPath.row] as? Video
+        cell.video = dataSource[indexPath.row]
         return cell
     }
     
@@ -103,7 +103,7 @@ class SightVideoViewController: UITableViewController {
         vc!.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
         
         let sc = DetailWebViewController()
-        let dataI = dataSource[indexPath.row] as! Video
+        let dataI = dataSource[indexPath.row]
         sc.url = dataI.url
         navigationController?.pushViewController(sc, animated: true)
     }
@@ -120,28 +120,27 @@ class SightVideoViewController: UITableViewController {
     func loadMore(){
             
             lastVideoRequest.fetchNextPageModels({ (nextData, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    if nextData != nil {
-                        if nextData!.count > 0 {
-                            self.dataSource.addObjectsFromArray(nextData! as [AnyObject])
-
-                            self.tableView.reloadData()
-                            self.tableView.footer.endRefreshing()
-                        } else {
-                            self.tableView.footer.endRefreshingWithNoMoreData()
-                            UIView.animateWithDuration(2, animations: { () -> Void in
-                                self.tableView.footer.alpha = 0.0
-                                }, completion: { (_) -> Void in
-                                    self.tableView.footer.resetNoMoreData()
-                            })
-                        }
-                    } else {
-                        self.isLoading = false
-                    }
-                    
-                } else {
+                if status != RetCode.SUCCESS {
                     SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                    self.tableView.footer.endRefreshing()
                     return
+                }
+                
+                if let data = nextData {
+                    if data.count > 0 {
+                        self.dataSource = self.dataSource + data
+                        self.tableView.reloadData()
+                        self.tableView.footer.endRefreshing()
+                    } else {
+                        self.tableView.footer.endRefreshingWithNoMoreData()
+                        UIView.animateWithDuration(2, animations: { () -> Void in
+                            self.tableView.footer.alpha = 0.0
+                            }, completion: { (_) -> Void in
+                                self.tableView.footer.resetNoMoreData()
+                        })
+                    }
+                } else {
+                    self.isLoading = false
                 }
             })
             
@@ -151,11 +150,10 @@ class SightVideoViewController: UITableViewController {
     ///
     ///  - parameter btn: 观看视频的按钮
     func watchClick(btn: UIButton) {
-        
         let vc = parentViewController
         vc!.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
         let sc = DetailWebViewController()
-        let dataI = dataSource[btn.tag] as! Video
+        let dataI = dataSource[btn.tag]
         sc.url = dataI.url
         navigationController?.pushViewController(sc, animated: true)
     }

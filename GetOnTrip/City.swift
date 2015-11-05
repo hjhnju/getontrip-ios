@@ -19,7 +19,13 @@ class City: NSObject {
             image = UIKitTools.sliceImageUrl(image, width: 414, height: 244)
         }
     }
+    /// 是否已收藏
     var collected: String = ""
+    
+    init(id: String) {
+        super.init()
+        self.id = id
+    }
     
     init(dict: [String: AnyObject]) {
         super.init()

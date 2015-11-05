@@ -70,7 +70,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     }
     
     /// 网络请求加载数据(添加)
-    var lastSuccessRequest: RecommendRequest?
+    var lastRequest: RecommendRequest?
     
     /// 数据源 - 推荐标签
     var recommendLabels = [RecommendLabel]() {
@@ -289,14 +289,17 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         if (!data.isTypeCity()) {
             let vc = SightViewController()
-            vc.sightId   = data.id
-            vc.sightName = data.name
+            let sight = Sight(id: data.id)
+            sight.name = data.name
+            sight.image = data.image
+            vc.sightDataSource = sight
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = CityViewController()
-            vc.cityId   = data.id
-            vc.cityName = data.name
-            vc.headerImageUrl = data.image
+            let city = City(id: data.id)
+            city.name = data.name
+            city.image = data.image
+            vc.cityDataSource = city
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -331,7 +334,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         currentSearchLabelButton?.selected = false
         currentSearchLabelButton = sender
         
-        lastSuccessRequest!.label = String(sender.tag)
+        lastRequest!.label = String(sender.tag)
         tableView.header.beginRefreshing()
     }
     
@@ -350,12 +353,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         //清空footer的“加载完成”
         self.tableView.footer.resetNoMoreData()
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = RecommendRequest()
-            lastSuccessRequest?.label = "" //默认返回带所有搜索标签
+        if lastRequest == nil {
+            lastRequest = RecommendRequest()
+            lastRequest?.label = "" //默认返回带所有搜索标签
         }
         
-        lastSuccessRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
+        lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
                 if self?.recommendCells.count == 0 {
@@ -395,7 +398,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         }
         self.isLoading = true
         //请求下一页
-        self.lastSuccessRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
+        self.lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
 
             if let dataSource = data {
                 let newCells  = dataSource.objectForKey("cells") as! [RecommendCellData]
