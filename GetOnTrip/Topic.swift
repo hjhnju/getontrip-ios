@@ -11,13 +11,20 @@ import Foundation
 /// 话题详情
 class Topic: NSObject {
     
-    /*
     static func fromBrief(brief:TopicBrief) -> Topic {
-        var topic:Topic = Topic()
+        let topic:Topic = Topic()
         topic.id    = brief.id
         topic.image = brief.image
+        topic.subtitle = brief.subtitle
+        topic.sight = brief.sight
+        topic.title  = brief.title
+        topic.tagname = brief.tagname
+        topic.visit = brief.visit
+        topic.collect = brief.collect
+        topic.sightid = brief.sightid
+        topic.sight   = brief.sight
         return topic
-    }*/
+    }
     
     /// id
     var id: String = ""
@@ -36,7 +43,11 @@ class Topic: NSObject {
     /// 收藏
     var collect: String = ""
     /// 标签
-    var tag: String = ""
+    var tagname: String = ""
+    /// 景点ID
+    var sightid: String = ""
+    /// 景点
+    var sight: String = ""
 
     /// 内容
     var content: String = ""
@@ -50,10 +61,12 @@ class Topic: NSObject {
     var comment:String {
         return self.commentNum + "条评论"
     }
-    /// 景点
-    var sight_name: String = ""
     /// 当前用户是否已收藏
     var collected: String = ""
+    
+    override init(){
+        
+    }
 
     init(dict: [String: AnyObject]) {
         super.init()
@@ -61,7 +74,7 @@ class Topic: NSObject {
         setValuesForKeysWithDictionary(dict)
         if dict["tags"] != nil {
             let lab = dict["tags"] as? NSArray
-            tag = (lab?.firstObject as? String) ?? ""
+            tagname = (lab?.firstObject as? String) ?? ""
         }
     }
 

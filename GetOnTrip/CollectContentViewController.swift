@@ -81,7 +81,12 @@ class CollectContentViewController: UITableViewController {
         let col = collectContent[indexPath.row] as CollectContent
         if col.type == "4" {
             let vc = TopicViewController()
-            vc.topicId = col.id
+            let topic = Topic()
+            topic.id       = col.id
+            topic.image    = col.image
+            topic.title    = col.title
+            topic.subtitle = col.subtitle
+            vc.topicDataSource = topic
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = BookViewController()

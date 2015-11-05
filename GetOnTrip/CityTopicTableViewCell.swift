@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 import SDWebImage
 
-class CityHotTopicTableViewCell: UITableViewCell {
+class CityTopicTableViewCell: UITableViewCell {
 
     /// 图片
     var iconView: UIImageView = UIImageView()
@@ -31,7 +31,8 @@ class CityHotTopicTableViewCell: UITableViewCell {
                 iconView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage:PlaceholderImage.defaultSmall)
                 title.text = topic.title
                 subTitle.text = topic.subtitle
-                label.text = "\(topic.sight)・\(topic.tag)"
+
+                label.text = "\(topic.sight)・\(topic.tagname)"
                 visit.setTitle(" " + topic.visit, forState: UIControlState.Normal)
             }
         }

@@ -14,13 +14,8 @@ class TopicRequest: NSObject {
     var topicId : String = ""
     var sightId : String = ""
     
-    // 将数据回调外界
-    func fetchTopicDetailModels(handler: (ressult: Topic?, status: Int?) -> Void) {
-        fetchModels(handler)
-    }
-    
     // 异步加载获取数据
-    private func fetchModels(handler: (ressult: Topic?, status: Int?) -> Void) {
+    func fetchModels(handler: (result: Topic?, status: Int?) -> Void) {
         var post         = [String: String]()
         post["topicId"]  = String(topicId)
         post["sightId"]  = String(sightId)
@@ -28,11 +23,11 @@ class TopicRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/topic", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                if let topic = result.dictionaryObject {
-                    handler(ressult: Topic(dict: topic), status: status)
+                if let dict = result.dictionaryObject {
+                    handler(result: Topic(dict: dict), status: status)
                     return
                 }
-                handler(ressult: nil, status: status)
+                handler(result: nil, status: status)
             }
         }
     }
