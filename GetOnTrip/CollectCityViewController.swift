@@ -89,7 +89,7 @@ class CollectCityViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let ct = collectCity[indexPath.row] as CollectCity
         let vc = CityViewController()
-        vc.cityId = ct.id
+        vc.cityDataSource = City(id: ct.id)
         navigationController?.pushViewController(vc, animated: true)
     }
     

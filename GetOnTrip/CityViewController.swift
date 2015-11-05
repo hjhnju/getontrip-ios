@@ -24,9 +24,6 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     /// 自定义导航
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
     
-    /// 默认无
-    var cityId: String = ""
-    
     /// 城市背影图片
     var headerImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
     
@@ -73,6 +70,10 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     var pageNumber: Int = 1
     
     // MARK: 数据源
+
+    var cityId: String {
+        return cityDataSource?.id ?? ""
+    }
     
     var cityDataSource : City? {
         didSet {
@@ -251,7 +252,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     private func loadCityData() {
         if lastRequest == nil {
             lastRequest = CityRequest()
-            lastRequest?.city = cityId
+            lastRequest?.cityId = cityId
         }
 
         lastRequest?.fetchModels { [weak self]

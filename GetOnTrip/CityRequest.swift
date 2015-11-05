@@ -19,12 +19,12 @@ class CityRequest {
     
     // 请求参数
     var deviceId :String = appUUID!
-    var city: String     = ""
+    var cityId: String     = ""
     
     // 异步加载获取数据
     func fetchModels(handler: NSDictionary -> Void) {
         var post         = [String: String]()
-        post["city"]     = String(city)
+        post["city"]     = String(cityId)
 
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city", post: post) { (result, status) -> () in

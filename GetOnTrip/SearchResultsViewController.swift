@@ -120,7 +120,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             
             if cityId == "-1" { SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!"); return }
             let vc = CityViewController()
-            vc.cityId = cityId
+            let city = City(id: cityId)
+            vc.cityDataSource = city
             showSearchResultController(vc)
         }
     }
@@ -178,7 +179,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             if citySightType == 0 {
                 
                 let vc = CityViewController()
-                vc.cityId = data.id
+                let city = City(id: data.id)
+                vc.cityDataSource = city
                 showSearchResultController(vc)
                 return
                 
@@ -240,10 +242,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         switch indexPath.section {
         case 0:
             if let searchCity = resultData["searchCitys"] {
-                
                 let vc = CityViewController()
                 let searchC = searchCity[indexPath.row] as! SearchResult
-                vc.cityId = searchC.id
+                let city = City(id: searchC.id)
+                city.name = searchC.name
+                city.image = searchC.image
+                vc.cityDataSource = city
                 showSearchResultController(vc)
             }
         case 1:
