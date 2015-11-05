@@ -34,9 +34,9 @@
 		729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */; };
 		729574001BCF345600343F8F /* UIKitTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FF1BCF345600343F8F /* UIKitTools.swift */; };
 		72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5BF311B73351400F3AB26 /* HttpRequest.swift */; };
-		72D25A8F1BEB25C50044AE04 /* RecommendLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D25A8E1BEB25C50044AE04 /* RecommendLabel.swift */; settings = {ASSET_TAGS = (); }; };
-		72D25A911BEB25E90044AE04 /* RecommendCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D25A901BEB25E90044AE04 /* RecommendCellData.swift */; settings = {ASSET_TAGS = (); }; };
-		72D25A931BEB2B9F0044AE04 /* CitySightBrief.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D25A921BEB2B9F0044AE04 /* CitySightBrief.swift */; settings = {ASSET_TAGS = (); }; };
+		72D25A8F1BEB25C50044AE04 /* RecommendLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D25A8E1BEB25C50044AE04 /* RecommendLabel.swift */; };
+		72D25A911BEB25E90044AE04 /* RecommendCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D25A901BEB25E90044AE04 /* RecommendCellData.swift */; };
+		72D25A931BEB2B9F0044AE04 /* CitySightBrief.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D25A921BEB2B9F0044AE04 /* CitySightBrief.swift */; };
 		72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */; };
 		72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D721341B6C4500005BDE55 /* FavoriteViewController.swift */; };
 		72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86DE41B65D94D004B72D0 /* AppDelegate.swift */; };
@@ -811,7 +811,7 @@
 				TargetAttributes = {
 					72D86DDE1B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = H7P27HMFW7;
+						DevelopmentTeam = 568F62S6LX;
 					};
 					72D86DF31B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;

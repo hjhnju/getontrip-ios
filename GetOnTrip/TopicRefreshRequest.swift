@@ -67,4 +67,32 @@ class LocateBarterCity: NSObject {
             }
         }
     }
+    
+    /**
+     * 接口6：/api/city/province
+     * 获取省份下面的城市信息
+     * @return json
+     */
+    class func getCityProvinceInfo(handler:(result: [Province]?, status: Int) -> Void) {
+        
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/province", post: [String: String]()) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                
+                var province = [Province]()
+                
+                for item in result.arrayValue {
+                    if let item = item.dictionaryObject {
+                        province.append(Province(dict: item))
+                    }
+                }
+                
+                handler(result: province, status: status)
+                return
+            }
+            handler(result: nil, status: status)
+        }
+    }
 }
+
+
+

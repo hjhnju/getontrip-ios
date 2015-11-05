@@ -28,13 +28,13 @@ class LandscapeCell: UITableViewCell {
     
     lazy var labelView4: UIView = UIView()
     
-    lazy var label1: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "建制沿革", fontSize: 10, mutiLines: true)
+    lazy var label1: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
     
-    lazy var label2: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "历史事件", fontSize: 10, mutiLines: true)
+    lazy var label2: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
     
-    lazy var label3: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "主要景点", fontSize: 10, mutiLines: true)
+    lazy var label3: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
     
-    lazy var label4: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "园藏文物", fontSize: 10, mutiLines: true)
+    lazy var label4: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
     /// 垂直线
     lazy var vertical1: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.7)
     
@@ -154,13 +154,13 @@ class LandscapeCell1: UITableViewCell {
     
     lazy var labelView4: UIView = UIView()
     
-    lazy var label1: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "建制沿革", fontSize: 10, mutiLines: true)
+    lazy var label1: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
     
-    lazy var label2: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "历史事件", fontSize: 10, mutiLines: true)
+    lazy var label2: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
     
-    lazy var label3: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "主要景点", fontSize: 10, mutiLines: true)
+    lazy var label3: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
     
-    lazy var label4: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "园藏文物", fontSize: 10, mutiLines: true)
+    lazy var label4: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
     /// 垂直线
     lazy var vertical1: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.7)
     

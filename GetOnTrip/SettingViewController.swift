@@ -51,7 +51,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     var saveTown: String?
     
     /// 省市联动
-    var provinces: NSArray?
+    var provinces = [Province]() {
+        didSet {
+            pickView.reloadAllComponents()
+        }
+    }
     
     /// 当前省的索引
     var provinceIndex: Int = 0
@@ -82,6 +86,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     /// 退出登陆按钮
     lazy var exitLogin: UIButton = UIButton(title: "退出登陆", fontSize: 14, radius: 0, titleColor: UIColor.blackColor())
     
+    var saveButton: Bool = false {
+        didSet {
+            navBar.rightButton.enabled = saveButton
+        }
+    }
+    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +102,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         setupInitSetting()
     }
     
+    
+    ///  初始化属性
     private func setupAddProperty() {
 
         navBar.setTitle(SettingViewController.name)
@@ -107,9 +119,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.delegate = self
         
         shadeView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
-        cancleButton.addTarget(self, action: "shadeViewClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        cancleButton.addTarget(self, action: "shadeViewClick", forControlEvents: UIControlEvents.TouchUpInside)
         trueButton.addTarget(self, action: "trueButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        sortButton.addTarget(self, action: "sortClick", forControlEvents: UIControlEvents.TouchUpInside)
+        sortButton.addTarget(self, action: "sortClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64), offset: CGPointMake(0, 64))
         cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(-20, 0))
@@ -118,9 +130,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         exitLogin.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
     }
     
+    ///  初始化设置
     private func setupInitSetting() {
         title = SettingViewController.name
-        /// TPDO: 先注释
+        
         iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount?.icon ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
         
         
@@ -132,8 +145,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         nickName.text = sharedUserAccount?.nickname
     }
     
+    ///  初始化导航
     private func setupBarButtonItem() {
         
+        navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: UIControlEvents.TouchUpInside)
         navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserInfo:")
         navBar.rightButton.enabled = false
         
@@ -141,27 +156,24 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
     }
     
+    ///  昵称的文本改变时调用的通知
+    ///
+    ///  - parameter notification: 通知
     func nickNameTextFieldTextDidChangeNotification(notification: NSNotification) {
         
         let textField = notification.object as! UITextField
         nickName.text = textField.text
-
-        var sex: Int?
-        if gender.text == "男" { sex = 0 }
-        else if gender.text == "女" { sex = 1 }
-        else { sex = 2 }
         
-        if sharedUserAccount?.nickname != textField.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender == sex {
-            navBar.rightButton.enabled = true
-        } else {
-            navBar.rightButton.enabled = false
-        }
+        if sharedUserAccount?.nickname != textField.text { saveButton = true }
     }
     
+    ///  移除通知
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: nickName)
     }
     
+    
+    ///  初始化设置
     private func loadInitSetting() {
         // tableview设置
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
@@ -169,20 +181,25 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         // 省市联动
         pickView.dataSource = self
         pickView.delegate = self
-        let path = NSBundle.mainBundle().pathForResource("cities", ofType: "plist")
-        let provinceArray = NSArray(contentsOfFile: path!)
-        let provincesM = NSMutableArray()
         
-        for dict in provinceArray! {
-
-            provincesM.addObject(dict)
+        LocateBarterCity.getCityProvinceInfo { (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                if let data = result {
+                    //  TODO: xxx
+                    self.provinces = data
+                } else {
+                    SVProgressHUD.showErrorWithStatus("数据加载错误，请稍候再试")
+                }
+            } else {
+                SVProgressHUD.showErrorWithStatus("城市加载失败您的网络不稳定")
+            }
         }
-        provinces = provincesM
         
         // 退出登陆
         exitLogin.addTarget(self, action: "exitLoginClick", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
+    ///  退出登陆
     func exitLoginClick() {
         print("退出登录")
         sharedUserAccount?.exitLogin()
@@ -194,8 +211,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         nav.curVCType = RecommendViewController.self
     }
     
-    func sortClick() {
-        print("点击了")
+    func sortClick(btn: UIButton) {
+        if pickViewSourceNameAndCity == true {
+            btn.setTitle("性别", forState: UIControlState.Normal)
+        } else {
+            btn.setTitle("城市", forState: UIControlState.Normal)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -343,7 +364,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         iconView.image = image.scaleImage(200)
         if !(iconView.image!.isEqual(image)) {
-            navBar.rightButton.enabled = true
+//            navBar.rightButton.enabled = true
         }
         dismissViewControllerAnimated(true, completion: nil)
         // 重新设回导航栏样式
@@ -360,10 +381,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 return 2
             } else {
                 if component == 0 {
-                    return provinces!.count
+                    return provinces.count
                 } else {
                     let provinceIndex = pickerView.selectedRowInComponent(0)
-                    return provinces![provinceIndex]["cities"]!!.count
+                    return provinces[provinceIndex].city.count ?? 0
                 }
         }
     }
@@ -381,26 +402,17 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         }
         
         if pickViewSourceNameAndCity == false {
-            
-            let provin: AnyObject = self.provinces![lastProvinceIndex]
+            if provinces.count == 0 { return }
+            let provin: AnyObject = provinces[lastProvinceIndex]
             switch (component) {
             case 0:
                 saveCity = provin["name"] as? String
-                let citi = provin["cities"] as! NSArray
-                saveTown = citi[0] as? String
-                var sex: Int?
-                if gender.text == "男" { sex = 0 }
-                else if gender.text == "女" { sex = 1 }
-                else { sex = 2 }
-                
-                if sharedUserAccount?.nickname != nickName.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender != sex {
-                    navBar.rightButton.enabled = true
-                } else {
-                    navBar.rightButton.enabled = false
-                }
+                let city = provin["city"] as? NSArray
+                saveTown = city?[0] as? String
+
                 break;
             case 1:
-                let citi = provin["cities"] as! NSArray
+                let citi = provin["city"] as! NSArray
                 saveTown = citi[row] as? String
                 
                 break;
@@ -417,9 +429,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         else { sex = 2 }
         
         if sharedUserAccount?.nickname != nickName.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender != sex {
-            navBar.rightButton.enabled = true
+//            navBar.rightButton.enabled = true
         } else {
-            navBar.rightButton.enabled = false
+//            navBar.rightButton.enabled = false
         }
     }
     
@@ -435,7 +447,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             label?.text = row == 0 ? "男" : "女"
             saveGender = label?.text
         } else {
-            label?.text = component == 0 ? Province.provinceWithDict(provinces![row] as! NSDictionary).name : Province.provinceWithDict(provinces![lastProvinceIndex] as! NSDictionary).cities![row] as? String
+//            label?.text = component == 0 ? provinces[row].name : provinces[lastProvinceIndex].city[row] as? String
+            if component == 0 {
+                label?.text = provinces[row].name
+            } else {
+                label?.text = provinces[lastProvinceIndex].city[row]["name"] as? String
+            }
         }
         return label!
     }
@@ -455,7 +472,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         }
         shadeViewClick()
         
-        navBar.rightButton.enabled = true
+//        navBar.rightButton.enabled = true
     }
 
     
@@ -475,7 +492,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
         sharedUserAccount?.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
             if error == nil {
-                self.navBar.rightButton.enabled = false
+//                self.navBar.rightButton.enabled = false
                 SVProgressHUD.showInfoWithStatus("保存成功")
             }
         })
@@ -514,12 +531,18 @@ class settingTableViewCell: UITableViewCell {
 // MARK: - 省市模型
 class Province : NSObject {
     
-    var name: String?
-    var cities: NSArray?
+    var name: String = ""
+    var city: NSArray = NSArray()
     
-    class func provinceWithDict(dict: NSDictionary) -> Province {
-        let province = Province()
-        province.setValuesForKeysWithDictionary(dict as! [String : AnyObject])
-        return province
+    init(dict: [String : AnyObject]) {
+        super.init()
+        
+        setValuesForKeysWithDictionary(dict)
     }
+    
+//    class func provinceWithDict(dict: NSDictionary) -> Province {
+//        let province = Province()
+//        province.setValuesForKeysWithDictionary(dict as! [String : AnyObject])
+//        return province
+//    }
 }
