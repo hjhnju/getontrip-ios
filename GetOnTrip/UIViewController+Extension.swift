@@ -22,7 +22,7 @@ extension UIViewController {
     func searchAction(button: UIButton) {
         //fix 搜索pushviewController问题
         self.definesPresentationContext = true
-        let svc = SearchViewController()
-        presentViewController(svc, animated: true, completion: nil)
+
+        presentViewController(SearchViewController.searchVC, animated: true, completion: nil)
     }
 }

@@ -9,6 +9,7 @@
 import UIKit
 import MJRefresh
 import SVProgressHUD
+import DGElasticPullToRefresh
 
 public let HistoryTableViewControllerElseCell : String = "History_Cell"
 
@@ -36,7 +37,19 @@ class SightTopicViewController: UITableViewController {
         tableView.registerClass(TopicCell.self, forCellReuseIdentifier : HistoryTableViewControllerElseCell)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
+        // TODO: - 如果要集成使用下面这段代码即可
+//        let loadingView = DGElasticPullToRefreshLoadingViewCircle()
+//        tableView.dg_addPullToRefreshWithActionHandler({ [weak self] () -> Void in
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+//                self?.tableView.dg_stopLoading()
+//            })
+//            }, loadingView: loadingView)
+//        tableView.dg_setPullToRefreshFillColor(UIColor(red: 57/255.0, green: 67/255.0, blue: 89/255.0, alpha: 1.0))
+//        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
+//        header.hidden = true
+        
         tableView.header = header
+        
         
         let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
         
@@ -48,6 +61,10 @@ class SightTopicViewController: UITableViewController {
         if !tableView.header.isRefreshing() {
             tableView.header.beginRefreshing()
         }
+    }
+    
+    deinit {
+        tableView.dg_removePullToRefresh()
     }
     
     // MARK: - 刷新方法

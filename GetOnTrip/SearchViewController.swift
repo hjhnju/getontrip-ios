@@ -14,6 +14,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     let searchResult =  SearchResultsViewController()
     
+    static let searchVC = SearchViewController()
+    
     /// 搜索记录TableView
     let recordTableView = UITableView()
     
@@ -31,7 +33,20 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 清除按钮
     var deleteButton: UIButton = UIButton(title: "清除", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.6))
     
-//    
+    /// 当前城市位置
+    var currentCityLocation: String = "-1" {
+        didSet {
+            ///  0是正在定位， -1是没有授权成功， -2正在定位时点击了定位按钮
+            if currentCityLocation != "0" && currentCityLocation != "-1" && currentCityLocation != "-2" {
+                switchCurrentCity(locationCity)
+            }
+        }
+    }
+    
+    /// 搜索提示
+    var searchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "当前搜索无内容", fontSize: 14, mutiLines: true)
+    /// 定位城市
+    var locationCity: UIButton = UIButton(image: "location_Yellow", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor(hex: 0xF3FD54, alpha: 1.0))
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -53,29 +68,31 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: UIControlState.Normal)
-        searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
-//        let attr = [NSForegroundColorAttributeName : UIColor.orangeColor()]
-//        searchBar.setScopeBarButtonTitleTextAttributes(attr, forState: UIControlState.Normal)
-
-        
-//        let searchfield = searchBar.valueForKey("_searchField") as? UITextField
-//        searchfield?.textColor = UIColor.redColor()
-//        searchfield?.textAlignment = NSTextAlignment.Left
-//        searchfield?.tintColor = UIColor.redColor()
-//        searchfield?.contentVerticalAlignment = .Center
-
-        if #available(iOS 9.0, *) {
-            UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).defaultTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName : UIFont.systemFontOfSize(17)]
-        } else {
-             // Fallback on earlier versions
-        }
-    
-//        searchBar.setValue(searchfield, forKey: "_searchField")
-        
-        
         setupAddProperty()
         loadSearchMuchLabel()
+    }
+    
+    
+    func switchCurrentCity(btn: UIButton) {
+        
+        switch currentCityLocation {
+        case "-1":
+            SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!");
+            return
+        case "0":
+            SVProgressHUD.showInfoWithStatus("正在定位中", maskType: SVProgressHUDMaskType.Black)
+            currentCityLocation = "-2"
+            return
+        case "":
+            locationCity.hidden = true
+            SVProgressHUD.showErrorWithStatus("当前城市未开通")
+            return
+        default:
+            let vcity = CityViewController()
+            vcity.cityDataSource = City(id: currentCityLocation)
+            searchResult.showSearchResultController(vcity)
+            break
+        }
     }
     
     private func setupAddProperty() {
@@ -86,6 +103,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         addChildViewController(searchResult)
         view.addSubview(searchResult.view)
         view.addSubview(recordTableView)
+        view.addSubview(locationCity)
+        view.addSubview(searchResultLabel)
         hidesNavigationBarDuringPresentation = false
         view.backgroundColor = UIColor(patternImage: UIImage(named: "search-bg0")!)
 
@@ -97,6 +116,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         searchBar.delegate = self
         recordTableView.registerClass(SearchRecordTableViewCell.self, forCellReuseIdentifier: "SearchRecordTableView_Cell")
         recordTableView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, UIScreen.mainScreen().bounds.height - 110), offset: CGPointMake(0, 0))
+        locationCity.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
+//        searchResultLabel.ff_AlignInner(ff_AlignType.BottomCenter, referView: locationCity, size: nil, offset: CGPointMake(0, 81))
+        searchResultLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: locationCity, size: nil, offset: CGPointMake(0, 81))
         recordTableView.backgroundColor = UIColor.clearColor()
         recordTableView.dataSource = self
         recordTableView.delegate = self
@@ -109,6 +131,24 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         deleteButton.frame = CGRectMake(view.bounds.width - 30, 50 - 25 , 20, 10)
         recordTableView.registerClass(SearchMuchCell.self, forCellReuseIdentifier: "SearchMuch_Cell")
         
+        
+        
+        locationCity.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
+        searchResultLabel.hidden = true
+        
+        searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: UIControlState.Normal)
+        searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
+        
+        if #available(iOS 9.0, *) {
+            UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).defaultTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName : UIFont.systemFontOfSize(17)]
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        //        searchBar.setValue(searchfield, forKey: "_searchField")
+        
+        
+
     }
     
     private func loadSearchMuchLabel() {
@@ -144,8 +184,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     ///  - parameter searchText: 搜索栏文本
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         recordTableView.hidden = true
+        
         if searchBar.text == "" {
             recordTableView.hidden = false
+            
             recordTableView.reloadData()
         }
     }
@@ -255,6 +297,11 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         view.endEditing(true)
         searchBar.text = btn.titleLabel?.text
         recordTableView.hidden = true
+    }
+    
+    func showSearchResultController(vc: UIViewController) {
+        //采用push可手势返回
+        parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

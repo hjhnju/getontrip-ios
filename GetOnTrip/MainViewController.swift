@@ -23,9 +23,7 @@ class MainViewController: BaseViewController {
         button.addTarget(self, action: "toggleMenu", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
-    
-    var cityId: String = "-1"
-    
+        
     // MASK: View Life Circle
     
     override func viewDidLoad() {
@@ -60,9 +58,7 @@ class MainViewController: BaseViewController {
     func showSearch(){
         //fix 搜索pushviewController问题
         self.definesPresentationContext = true
-        let svc = SearchViewController()
-        svc.searchResult.cityId = cityId
-        presentViewController(svc, animated: true, completion: nil)
+        presentViewController(SearchViewController.searchVC, animated: true, completion: nil)
     }
     
 

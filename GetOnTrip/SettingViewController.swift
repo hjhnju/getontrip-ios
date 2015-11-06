@@ -32,9 +32,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     /// 头像
     lazy var iconView: UIImageView = UIImageView()
     
-    /// 头像数据
-//    lazy var 
-    
     /// 昵称
     lazy var nickName: UITextField = UITextField(alignment: NSTextAlignment.Right, sizeFout: 14, color: UIColor.blackColor())
     /// 性别
@@ -47,8 +44,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     lazy var city: UILabel = UILabel(color: UIColor.blackColor(), title: "未知", fontSize: 14, mutiLines: false)
     
     /// 临时保存城市
-    var saveCity: String?
-    var saveTown: String?
+    var saveCity: String = ""
+    var saveTown: String = ""
     
     /// 省市联动
     var provinces = [Province]() {
@@ -118,6 +115,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.dataSource = self
         tableView.delegate = self
         
+        saveButton = false
         shadeView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
         cancleButton.addTarget(self, action: "shadeViewClick", forControlEvents: UIControlEvents.TouchUpInside)
         trueButton.addTarget(self, action: "trueButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -164,7 +162,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         let textField = notification.object as! UITextField
         nickName.text = textField.text
         
-        if sharedUserAccount?.nickname != textField.text { saveButton = true }
+        if sharedUserAccount?.nickname != textField.text { saveButton = true } else { saveButton = false }
     }
     
     ///  移除通知
@@ -185,8 +183,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         LocateBarterCity.getCityProvinceInfo { (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let data = result {
-                    //  TODO: xxx
                     self.provinces = data
+                    self.pickerView(self.pickView, didSelectRow: 0, inComponent: 0)
                 } else {
                     SVProgressHUD.showErrorWithStatus("数据加载错误，请稍候再试")
                 }
@@ -309,11 +307,13 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         if indexPath.row == SettingCell.sexCell {
             pickViewSourceNameAndCity = true
             pickView.reloadAllComponents()
+            sortClick(sortButton)
         }
         
         if indexPath.row == SettingCell.cityCell {
             pickViewSourceNameAndCity = false
             pickView.reloadAllComponents()
+            sortClick(sortButton)
         }
         
         /// pickView 位置动画
@@ -363,9 +363,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         
         iconView.image = image.scaleImage(200)
-        if !(iconView.image!.isEqual(image)) {
-//            navBar.rightButton.enabled = true
-        }
+        if !(iconView.image!.isEqual(image)) { saveButton = true } else { saveButton = false }
         dismissViewControllerAnimated(true, completion: nil)
         // 重新设回导航栏样式
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
@@ -403,35 +401,22 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         if pickViewSourceNameAndCity == false {
             if provinces.count == 0 { return }
-            let provin: AnyObject = provinces[lastProvinceIndex]
+            let provin = provinces[lastProvinceIndex] as Province
             switch (component) {
             case 0:
-                saveCity = provin["name"] as? String
-                let city = provin["city"] as? NSArray
-                saveTown = city?[0] as? String
+                saveCity = provin.name
+                let city = provin.city
+                saveTown = city[0]["name"]as? String ?? ""
 
                 break;
             case 1:
-                let citi = provin["city"] as! NSArray
-                saveTown = citi[row] as? String
+                let city = provin.city
+                saveTown = city[row]["name"] as? String ?? ""
                 
                 break;
             default:
                 break;
             }
-        }
-    }
-    
-    func compareUserSelect() {
-        var sex: Int?
-        if gender.text == "男" { sex = 0 }
-        else if gender.text == "女" { sex = 1 }
-        else { sex = 2 }
-        
-        if sharedUserAccount?.nickname != nickName.text || sharedUserAccount?.city != city.text || sharedUserAccount?.gender != sex {
-//            navBar.rightButton.enabled = true
-        } else {
-//            navBar.rightButton.enabled = false
         }
     }
     
@@ -447,12 +432,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             label?.text = row == 0 ? "男" : "女"
             saveGender = label?.text
         } else {
-//            label?.text = component == 0 ? provinces[row].name : provinces[lastProvinceIndex].city[row] as? String
-            if component == 0 {
-                label?.text = provinces[row].name
-            } else {
-                label?.text = provinces[lastProvinceIndex].city[row]["name"] as? String
-            }
+            
+            label?.text = component == 0 ? provinces[row].name : provinces[lastProvinceIndex].city[row]["name"] as? String
         }
         return label!
     }
@@ -466,13 +447,20 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             // 设置性别
             gender.text = saveGender
             pickView.selectedRowInComponent(0)
+            
+            var sex: Int?
+            if gender.text == "男" { sex = 0 }
+            else if gender.text == "女" { sex = 1 }
+            else { sex = 2 }
+            
+            if sharedUserAccount?.gender != sex { saveButton = true } else { saveButton = false }
         } else {
             // 设置城市
-            city.text = saveCity! + saveTown!
+            city.text = saveCity + saveTown
+            if sharedUserAccount?.city != city.text { saveButton = true } else { saveButton = false }
+            
         }
         shadeViewClick()
-        
-//        navBar.rightButton.enabled = true
     }
 
     
@@ -492,11 +480,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
         sharedUserAccount?.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
             if error == nil {
-//                self.navBar.rightButton.enabled = false
                 SVProgressHUD.showInfoWithStatus("保存成功")
+                self.saveButton = false
             }
         })
-//        SVProgressHUD.showInfoWithStatus("登陆成功")
     }
     
 }
@@ -540,9 +527,5 @@ class Province : NSObject {
         setValuesForKeysWithDictionary(dict)
     }
     
-//    class func provinceWithDict(dict: NSDictionary) -> Province {
-//        let province = Province()
-//        province.setValuesForKeysWithDictionary(dict as! [String : AnyObject])
-//        return province
-//    }
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) { }
 }
