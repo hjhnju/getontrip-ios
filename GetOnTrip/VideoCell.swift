@@ -11,9 +11,8 @@ import FFAutoLayout
 
 class VideoCell: UITableViewCell {
 
-    lazy var iconView: UIImageView = UIImageView(image: UIImage())
+    lazy var iconView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
     
-//    lazy var backgroundV: UIView = UIView(color: UIColor.whiteColor())
     //故宫至宝
     lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 18, mutiLines: true)
     
@@ -22,22 +21,24 @@ class VideoCell: UITableViewCell {
     
     lazy var watchBtn: UIButton = UIButton(title: "点击观看", fontSize: 12, radius: 12, titleColor: UIColor.yellowColor())
     
-    lazy var visual: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
-    
     var video: Video? {
         didSet {
             if let video = video {
-                iconView.image = nil
-                iconView.sd_setImageWithURL(NSURL(string: video.image), placeholderImage: PlaceholderImage.defaultLarge)
-                titleLabel.text = video.title!
-                timeLabel.text = video.len!
+                iconView.sd_setImageWithURL(NSURL(string: video.image), placeholderImage: iconView.image)
+                if video.isAlbum() {
+                    iconView.contentMode = UIViewContentMode.ScaleAspectFit
+                } else {
+                    iconView.contentMode = UIViewContentMode.ScaleAspectFill
+                }
+                titleLabel.text = video.title
+                timeLabel.text = video.len
             }
         }
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        self.backgroundColor = UIColor.blackColor()
         setupProperty()
         setupAutoLayout()
     }
@@ -49,8 +50,6 @@ class VideoCell: UITableViewCell {
     private func setupProperty() {
         
         addSubview(iconView)
-//        addSubview(backgroundV)
-        addSubview(visual)
         addSubview(titleLabel)
         addSubview(timeLabel)
         addSubview(watchBtn)
@@ -58,24 +57,24 @@ class VideoCell: UITableViewCell {
         titleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 80
         titleLabel.numberOfLines = 2
         titleLabel.textAlignment = NSTextAlignment.Center
-//        visual.alpha = 1
-        visual.contentView.backgroundColor = UIColor.whiteColor()
-        visual.contentView.alpha = 0.1
-//        backgroundV.alpha = 0.8
+        
         watchBtn.layer.borderWidth = 1.0
         watchBtn.layer.borderColor = UIColor.yellowColor().CGColor
-        iconView.contentMode       = UIViewContentMode.ScaleAspectFill
+        iconView.contentMode       = UIViewContentMode.ScaleToFill
         iconView.clipsToBounds     = true
     }
     
     private func setupAutoLayout() {
         
         iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 199))
-        titleLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 10))
         timeLabel.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: nil, offset: CGPointMake(19, 9))
+        titleLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         watchBtn.ff_AlignVertical(ff_AlignType.BottomCenter, referView: titleLabel, size: CGSizeMake(83, 28), offset: CGPointMake(0, 7))
-        visual.ff_AlignInner(ff_AlignType.TopLeft, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 199), offset: CGPointMake(0, 0))
-//        visual.ff_Fill(backgroundV)
+        
+        //添加一个灰色蒙板
+        let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
+        iconView.addSubview(maskView)
+        maskView.ff_Fill(iconView)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

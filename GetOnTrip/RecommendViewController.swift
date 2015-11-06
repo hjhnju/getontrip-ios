@@ -119,6 +119,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     /// 记录状态按钮
     weak var currentSearchLabelButton: UIButton?
     
+    
+//    lazy var blurView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+    
     // MARK: - 初始化
     
     //电池栏状态
@@ -141,7 +144,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         //header
         view.addSubview(headerView)
         headerView.addSubview(headerImageView)
-        //headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
+        headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
+//        headerImageView.addSubview(blurView)
+        if let image = headerImageView.image {
+            headerImageView.image = nil
+            UIKitTools.createBlurBackground(image, view: headerImageView, blurRadius: 3.0)
+        }
         //为header添加黑色蒙板
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
         headerView.addSubview(maskView)
@@ -227,7 +235,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         //表格
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
-        headerImageView.ff_Fill(headerView)
+        headerImageView.ff_AlignInner(ff_AlignType.CenterCenter, referView: headerView, size: CGSize(width: headerView.bounds.width + 20, height: headerView.bounds.height + 20), offset: CGPointZero)
+        //headerImageView.ff_Fill(headerView)
+        //blurView.ff_Fill(headerImageView)
     }
     
     ///  添加搜索标签按钮
@@ -383,7 +393,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 if labels.count > 0 {
                     self?.recommendLabels = labels
                 }
-                self?.headerImageView.sd_setImageWithURL(NSURL(string: dataSource.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
+                //self?.headerImageView.sd_setImageWithURL(NSURL(string: dataSource.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
                 self?.tableView.reloadData()
             }
             self?.tableView.header.endRefreshing()
