@@ -40,11 +40,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     var cityId = ""
     
-    /// 搜索提示
-    var searchResult: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "当前搜索无内容", fontSize: 14, mutiLines: true)
-    /// 定位城市
-    var locationCity: UIButton = UIButton(image: "location_Yellow", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor(hex: 0xF3FD54, alpha: 1.0))
-    
     var scrollLock:Bool = false
     
     var tableView = UITableView()
@@ -67,14 +62,15 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 pageNum = 1
                 cityNum = 1
                 self.tableView.reloadData()
+                SearchViewController.searchVC.searchResultLabel.hidden = true
                 return
             }
             
             SearchResultsRequest.sharedSearchResultRection.fetchSearchResultsModels(page, pageSize: pageSize, filterString: filterString) { (rows) -> Void in
                 if self.filterString != "" {
                     self.resultData = rows as! [String : AnyObject]
-                    if (rows["content_num"]!!.intValue == 0) && (rows["city_num"]!!.intValue == 0) && (rows["sight_num"]!!.intValue == 0) {
-                        self.searchResult.hidden = false
+                    if (rows["content_num"]??.intValue == 0) && (rows["city_num"]??.intValue == 0) && (rows["sight_num"]??.intValue == 0) {
+                        SearchViewController.searchVC.searchResultLabel.hidden = false
                     }
                 }
             }
@@ -93,13 +89,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     private func setupAddProperty() {
         
         view.addSubview(tableView)
-        view.addSubview(searchResult)
-        view.addSubview(locationCity)
-        
-        locationCity.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
-        searchResult.sendSubviewToBack(view)
-        searchResult.hidden = true
-        
+//        view.addSubview()
+    
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView(frame:CGRectZero)
@@ -111,26 +102,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.registerClass(ShowMoreTableViewCell.self, forCellReuseIdentifier: "ShowMoreTableView_Cell")
     }
     
-    func switchCurrentCity(btn: UIButton) {
-        
-        if cityId == "" {
-            locationCity.hidden = true
-            searchResult.text = "当前城市未开通"
-        } else {
-            
-            if cityId == "-1" { SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!"); return }
-            let vc = CityViewController()
-            let city = City(id: cityId)
-            vc.cityDataSource = city
-            showSearchResultController(vc)
-        }
-    }
+
     
     private func setupAutoLayout() {
         tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height), offset: CGPointMake(0, 0))
-        locationCity.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
-        searchResult.ff_AlignInner(ff_AlignType.BottomCenter, referView: locationCity, size: nil, offset: CGPointMake(0, 81))
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -436,11 +413,9 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         filterString = searchController.searchBar.text!
         
         if searchController.searchBar.text != "" {
-            searchResult.hidden = true
-            locationCity.hidden = true
+            SearchViewController.searchVC.locationCity.hidden = true
         } else {
-            searchResult.hidden = true
-            locationCity.hidden = false
+            SearchViewController.searchVC.locationCity.hidden = false
         }
     }
     

@@ -56,15 +56,17 @@ class LocateBarterCity: NSObject {
     * @return json
     */
     
-    class func locateBarterCityAction(city: String, handler: AnyObject -> Void) {
+    class func locateBarterCityAction(city: String, handler: (result: AnyObject?, status: Int) -> Void) {
         var post         = [String: String]()
         post["city"]     = String(city)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/city/locate", post: post) { (result, error) -> () in
-            if error == nil {
-                handler(result!)
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/locate", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                handler(result: result.stringValue, status: status)
+                return
             }
+            handler(result: nil, status: status)
         }
     }
     

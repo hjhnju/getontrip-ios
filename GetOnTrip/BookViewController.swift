@@ -391,12 +391,6 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         }
     }
     
-    /// 搜索(下一个控制器)
-    func clickSearchButton(button: UIBarButtonItem) {
-        
-        presentViewController(SearchViewController(), animated: true, completion: nil)
-    }
-    
     /// 分享
     func clickShareButton(button: UIButton) {
         if data != nil {

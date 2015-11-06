@@ -42,9 +42,9 @@ class SearchRecommendTableViewCell: UITableViewCell {
             if let cellData = data {
                 iconView.sd_setImageWithURL(NSURL(string: cellData.image), placeholderImage: PlaceholderImage.defaultLarge)
                 title.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
-                btn1.setAttributedTitle((" " + cellData.param1).getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
-                btn2.setAttributedTitle((" " + cellData.param2).getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
-                btn3.setAttributedTitle((" " + cellData.param3).getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                btn1.setAttributedTitle(cellData.param1.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                btn2.setAttributedTitle(cellData.param2.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                btn3.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
 
                 if cellData.isTypeCity() {
                     btn1.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
