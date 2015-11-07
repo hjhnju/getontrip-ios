@@ -219,7 +219,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             } else {
                 cell.topicVC.topics.removeAll()
                 cell.topicVC.tableView.reloadData()
-                cell.topicVC.tableView.header.beginRefreshing()
+                cell.topicVC.tableView.mj_header.beginRefreshing()
             }
         }
         

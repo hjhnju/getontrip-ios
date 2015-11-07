@@ -27,7 +27,7 @@ class SightVideoViewController: UITableViewController {
     
     var dataSource = [Video]() {
         didSet {
-            tableView.header.endRefreshing()
+            tableView.mj_header.endRefreshing()
             tableView.reloadData()
         }
     }
@@ -38,7 +38,7 @@ class SightVideoViewController: UITableViewController {
         tableView.registerClass(VideoCell.self, forCellReuseIdentifier : HistoryTableViewControllerVideoCell)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
-        tableView.header = header
+        tableView.mj_header = header
         
         let vc = parentViewController as! SightViewController
         vc.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
@@ -46,10 +46,10 @@ class SightVideoViewController: UITableViewController {
         footer.automaticallyHidden = false
         footer.automaticallyChangeAlpha = true
         footer.automaticallyRefresh = true
-        tableView.footer = footer
-        tableView.footer.automaticallyHidden = true
-        if !tableView.header.isRefreshing() {
-            tableView.header.beginRefreshing()
+        tableView.mj_footer = footer
+        tableView.mj_footer.automaticallyHidden = true
+        if !tableView.mj_header.isRefreshing() {
+            tableView.mj_header.beginRefreshing()
         }
 
     }
@@ -62,10 +62,10 @@ class SightVideoViewController: UITableViewController {
         }
         
         self.isLoading = true
-        self.tableView.footer.resetNoMoreData()
+        self.tableView.mj_footer.resetNoMoreData()
         lastVideoRequest.fetchFirstPageModels({ [weak self] (dataSource, status) -> Void in
             if status == RetCode.SUCCESS {
-                self!.tableView.header.endRefreshing()
+                self!.tableView.mj_header.endRefreshing()
             } else {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
             }
@@ -80,7 +80,7 @@ class SightVideoViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         if dataSource.count != 0 {
-            tableView.header.endRefreshing()
+            tableView.mj_header.endRefreshing()
         }
     }
     
@@ -122,7 +122,7 @@ class SightVideoViewController: UITableViewController {
             lastVideoRequest.fetchNextPageModels({ (nextData, status) -> Void in
                 if status != RetCode.SUCCESS {
                     SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                    self.tableView.footer.endRefreshing()
+                    self.tableView.mj_footer.endRefreshing()
                     return
                 }
                 
@@ -130,13 +130,13 @@ class SightVideoViewController: UITableViewController {
                     if data.count > 0 {
                         self.dataSource = self.dataSource + data
                         self.tableView.reloadData()
-                        self.tableView.footer.endRefreshing()
+                        self.tableView.mj_footer.endRefreshing()
                     } else {
-                        self.tableView.footer.endRefreshingWithNoMoreData()
+                        self.tableView.mj_footer.endRefreshingWithNoMoreData()
                         UIView.animateWithDuration(2, animations: { () -> Void in
-                            self.tableView.footer.alpha = 0.0
+                            self.tableView.mj_footer.alpha = 0.0
                             }, completion: { (_) -> Void in
-                                self.tableView.footer.resetNoMoreData()
+                                self.tableView.mj_footer.resetNoMoreData()
                         })
                     }
                 } else {

@@ -119,6 +119,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     /// 记录状态按钮
     weak var currentSearchLabelButton: UIButton?
     
+    
+//    lazy var blurView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+    
     // MARK: - 初始化
     
     //电池栏状态
@@ -141,7 +144,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         //header
         view.addSubview(headerView)
         headerView.addSubview(headerImageView)
-        //headerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 244)
+        headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
+//        headerImageView.addSubview(blurView)
+        if let image = headerImageView.image {
+            headerImageView.image = nil
+            UIKitTools.createBlurBackground(image, view: headerImageView, blurRadius: 3.0)
+        }
         //为header添加黑色蒙板
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
         headerView.addSubview(maskView)
@@ -165,8 +173,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
         
-        self.tableView.header = tbHeaderView
-        self.tableView.footer = tbFooterView
+        self.tableView.mj_header = tbHeaderView
+        self.tableView.mj_footer = tbFooterView
         
         //添加tableview相关属性
         view.addSubview(tableView)
@@ -184,8 +192,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         view.bringSubviewToFront(navContainerView)
         
         setupAutoLayout()
-        if !tableView.header.isRefreshing() {
-            tableView.header.beginRefreshing()
+        if !tableView.mj_header.isRefreshing() {
+            tableView.mj_header.beginRefreshing()
         }
     }
     
@@ -227,7 +235,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         //表格
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
-        headerImageView.ff_Fill(headerView)
+        headerImageView.ff_AlignInner(ff_AlignType.CenterCenter, referView: headerView, size: CGSize(width: headerView.bounds.width + 20, height: headerView.bounds.height + 20), offset: CGPointZero)
+        //headerImageView.ff_Fill(headerView)
+        //blurView.ff_Fill(headerImageView)
     }
     
     ///  添加搜索标签按钮
@@ -335,7 +345,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         currentSearchLabelButton = sender
         
         lastRequest!.label = String(sender.tag)
-        tableView.header.beginRefreshing()
+        tableView.mj_header.beginRefreshing()
     }
     
     /// 是否正在加载中
@@ -352,7 +362,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         self.errorView.hidden = true
         
         //清空footer的“加载完成”
-        self.tableView.footer.resetNoMoreData()
+        self.tableView.mj_footer.resetNoMoreData()
         if lastRequest == nil {
             lastRequest = RecommendRequest()
             lastRequest?.label = "" //默认返回带所有搜索标签
@@ -367,7 +377,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 } else {
                     SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                 }
-                self?.tableView.header.endRefreshing()
+                self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
             }
@@ -383,10 +393,10 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 if labels.count > 0 {
                     self?.recommendLabels = labels
                 }
-                self?.headerImageView.sd_setImageWithURL(NSURL(string: dataSource.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
+                //self?.headerImageView.sd_setImageWithURL(NSURL(string: dataSource.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
                 self?.tableView.reloadData()
             }
-            self?.tableView.header.endRefreshing()
+            self?.tableView.mj_header.endRefreshing()
             self?.isLoading = false
         }
     }
@@ -407,9 +417,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                         self?.recommendCells = cells + newCells
                         self?.tableView.reloadData()
                     }
-                    self?.tableView.footer.endRefreshing()
+                    self?.tableView.mj_footer.endRefreshing()
                 } else {
-                    self?.tableView.footer.endRefreshingWithNoMoreData()
+                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
             }
             self?.isLoading = false
@@ -421,8 +431,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         self.errorView.hidden = true
         self.tableView.hidden = false
         //重新加载
-        if !self.tableView.header.isRefreshing() {
-            self.tableView.header.beginRefreshing()
+        if !self.tableView.mj_header.isRefreshing() {
+            self.tableView.mj_header.beginRefreshing()
         }
     }
 }

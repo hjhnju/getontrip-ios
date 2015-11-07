@@ -8,20 +8,28 @@
 
 import Foundation
 
+struct VideoContant {
+    static let TypeAlbum: String = "1"
+    static let TypeVideo: String = "2"
+}
+
 /// 视频模型
 class Video: NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     /// 标题
-    var title: String?
+    var title: String = ""
     /// url
-    var url: String?
+    var url: String = ""
     /// 图片
     var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image
+            image = UIKitTools.sliceImageUrl(image, width: 414, height: 199)
+            image = UIKitTools.blurImageUrl(image, radius: 9, sigma: 3)
         }
     }
+    /// 类型1-专辑，2-视频
+    var type: String = VideoContant.TypeVideo
     ///  时长
     var len: String?
     
@@ -30,6 +38,10 @@ class Video: NSObject {
         
         setValuesForKeysWithDictionary(dict)
         
+    }
+    
+    func isAlbum() -> Bool {
+        return (type == VideoContant.TypeAlbum) ? true : false
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
