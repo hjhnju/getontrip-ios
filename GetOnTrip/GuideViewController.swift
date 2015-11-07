@@ -84,7 +84,7 @@ class GuideViewController: UICollectionViewController {
         super.viewWillDisappear(animated)
     }
     
-    //  collectionView 停止滚动的动画方法
+    //  collectionView 停止滚动的动画方法 
     override func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         
         print(indexPath.row + 1)

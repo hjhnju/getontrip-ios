@@ -62,7 +62,10 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 pageNum = 1
                 cityNum = 1
                 self.tableView.reloadData()
-                SearchViewController.searchVC.searchResultLabel.hidden = true
+                
+                if let searvc = parentViewController as? SearchViewController {
+                    searvc.searchResultLabel.hidden = true
+                }
                 return
             }
             
@@ -70,7 +73,9 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 if self.filterString != "" {
                     self.resultData = rows as! [String : AnyObject]
                     if (rows["content_num"]??.intValue == 0) && (rows["city_num"]??.intValue == 0) && (rows["sight_num"]??.intValue == 0) {
-                        SearchViewController.searchVC.searchResultLabel.hidden = false
+                        if let searvc = self.parentViewController as? SearchViewController {
+                            searvc.searchResultLabel.hidden = false
+                        }
                     }
                 }
             }
@@ -400,6 +405,20 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         cell.backgroundColor = UIColor.clearColor()
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if contentData.count != 0 {
+            if contentData[indexPath.row].search_type == "book" {
+                return 70
+            }
+        }
+        return 61
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 61
+    }
+    
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         let vc = parentViewController as? SearchViewController
         vc?.searchBar.endEditing(true)
@@ -407,16 +426,17 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     // MARK: UISearchResultsUpdating
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-
-        if !searchController.active { return }
-        
-        filterString = searchController.searchBar.text!
-        
         if searchController.searchBar.text != "" {
-            SearchViewController.searchVC.locationCity.hidden = true
+            if let searvc = parentViewController as? SearchViewController {
+                searvc.locationCity.hidden = true
+            }
         } else {
-            SearchViewController.searchVC.locationCity.hidden = false
+            if let searvc = parentViewController as? SearchViewController {
+                searvc.locationCity.hidden = false
+            }
         }
+        if !searchController.active { return }
+        filterString = searchController.searchBar.text!
     }
     
     // MARK: 自定义方法
@@ -426,32 +446,44 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
     }
     
+    var searchMoreRequest: SearchMoreRequest = SearchMoreRequest()
+    
     func loadMoreAction(btn: UIButton) {
         recordLoadButton = btn
-        SearchMoreRequest.fetchMoreResult(btn.tag, page: pageNum, pageSize: 15, query: filterString) { (result) -> Void in
-            let data = result["data"] as! [String : AnyObject]
-            
-            if btn.tag == 1 || btn.tag == 2 {
-                self.citySightType = btn.tag
-                for item in data ["data"] as! [[String : AnyObject]] {
-                    self.resultMuchData.append(SearchResult(dict: item))
-                }
-                if let pageN = data["num"]?.intValue {
-                    if Int(pageN / 15) <= self.cityNum {
-                        self.cityNum = -1
+        searchMoreRequest.vc = self
+        
+        
+        searchMoreRequest.fetchMoreResult(btn.tag, page: pageNum, pageSize: 15, query: filterString) { (result, status: Int) -> Void in
+            if status == RetCode.SUCCESS {
+                if btn.tag == 1 || btn.tag == 2 {
+                    self.citySightType = btn.tag
+                    for item in result?["data"].arrayValue ?? [] {
+                        if let item = item.dictionaryObject {
+                            self.resultMuchData.append(SearchResult(dict: item))
+                        }
+                    }
+                    if let pageN:Int = result?["num"].intValue ?? 0 {
+                        if Int(pageN / 15) <= self.cityNum {
+                            self.cityNum = -1
+                        }
+                    }
+                } else {
+                    for item in result?["data"].arrayValue ?? [] {
+                        if let item = item.dictionaryObject {
+                            self.contentData.append(SearchContent(dict: item))
+                        }
+                    }
+                    
+                    if let pageN: Int = result?["num"].intValue ?? 0 {
+                        if Int(pageN / 15) <= self.pageNum {
+                            self.pageNum = -1
+                        }
                     }
                 }
+                self.tableView.reloadData()
             } else {
-                for item in data["data"] as! [[String : AnyObject]] {
-                    self.contentData.append(SearchContent(dict: item))
-                }
-                if let pageN = data["num"]?.intValue {
-                    if Int(pageN / 15) <= self.pageNum {
-                        self.pageNum = -1
-                    }
-                }
+                SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络设置")
             }
-            self.tableView.reloadData()
         }
     }
 }

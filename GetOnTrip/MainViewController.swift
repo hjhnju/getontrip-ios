@@ -58,7 +58,7 @@ class MainViewController: BaseViewController {
     func showSearch(){
         //fix 搜索pushviewController问题
         self.definesPresentationContext = true
-        presentViewController(SearchViewController.searchVC, animated: true, completion: nil)
+        presentViewController(SearchViewController(), animated: true, completion: nil)
     }
     
 

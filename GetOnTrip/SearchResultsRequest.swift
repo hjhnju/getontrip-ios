@@ -114,7 +114,7 @@ class SearchContent: NSObject {
     
     init(dict: [String : AnyObject]) {
         super.init()
-        
+        // book video keyword
         setValuesForKeysWithDictionary(dict)
     }
     

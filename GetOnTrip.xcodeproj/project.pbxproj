@@ -93,6 +93,7 @@
 		AE6D9FB31B84AE46009A8A9D /* SightVideosRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* SightVideosRequest.swift */; };
 		AE6DCC6A1BDF3AB800D817E9 /* SearchMoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6DCC691BDF3AB800D817E9 /* SearchMoreRequest.swift */; };
 		AE70C1991BCCB7EF00834130 /* CommentTopicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE70C1981BCCB7EF00834130 /* CommentTopicController.swift */; };
+		AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE78983E1BECDAF40073599E /* PhotoView.swift */; };
 		AE79EEC91BBA8440005A7709 /* SightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EEC81BBA8440005A7709 /* SightCollectionViewCell.swift */; };
 		AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */; };
 		AE79EED21BBA8A30005A7709 /* CityTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EED11BBA8A30005A7709 /* CityTopicTableViewCell.swift */; };
@@ -270,6 +271,7 @@
 		AE6D9FB21B84AE46009A8A9D /* SightVideosRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightVideosRequest.swift; sourceTree = "<group>"; };
 		AE6DCC691BDF3AB800D817E9 /* SearchMoreRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMoreRequest.swift; sourceTree = "<group>"; };
 		AE70C1981BCCB7EF00834130 /* CommentTopicController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTopicController.swift; sourceTree = "<group>"; };
+		AE78983E1BECDAF40073599E /* PhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		AE79EEC81BBA8440005A7709 /* SightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuSettingTableViewCell.swift; sourceTree = "<group>"; };
 		AE79EED11BBA8A30005A7709 /* CityTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityTopicTableViewCell.swift; sourceTree = "<group>"; };
@@ -612,6 +614,7 @@
 			children = (
 				AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */,
 				AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */,
+				AE78983E1BECDAF40073599E /* PhotoView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -811,7 +814,7 @@
 				TargetAttributes = {
 					72D86DDE1B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = H7P27HMFW7;
+						DevelopmentTeam = 568F62S6LX;
 					};
 					72D86DF31B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
@@ -941,6 +944,7 @@
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
+				AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */,
 				727561841BD0F64A0089CB27 /* Sight.swift in Sources */,
 				AE4ECBCD1BB5305D00DC65F7 /* NSArray+Print.swift in Sources */,
 				729574001BCF345600343F8F /* UIKitTools.swift in Sources */,
@@ -1191,7 +1195,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";
@@ -1259,7 +1263,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";

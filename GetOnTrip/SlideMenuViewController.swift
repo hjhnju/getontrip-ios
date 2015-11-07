@@ -363,7 +363,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("开始定位")
-        SearchViewController.searchVC.currentCityLocation = "0"
+        trueLocation = false // 说明获取到了权限
         locationManager.stopUpdatingLocation()
 
         // 获取位置信息
@@ -383,7 +383,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 dispatch_once(&Static.onceToken, {
                     LocateBarterCity.locateBarterCityAction(locality, handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {
-                            SearchViewController.searchVC.currentCityLocation = result as? String ?? ""
+                            currentCityId = result as? String ?? ""
                         } else {
                             SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络")
                         }

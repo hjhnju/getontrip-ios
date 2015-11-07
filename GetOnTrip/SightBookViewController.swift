@@ -47,8 +47,8 @@ class SightBookViewController: UITableViewController {
         footer.automaticallyRefresh = true
         tableView.mj_footer = footer
         tableView.mj_footer.automaticallyHidden = true
-        if !tableView.mj_footer.isRefreshing() {
-            tableView.mj_footer.beginRefreshing()
+        if !tableView.mj_header.isRefreshing() {
+            tableView.mj_header.beginRefreshing()
         }
     }
     

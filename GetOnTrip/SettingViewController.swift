@@ -89,14 +89,28 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         }
     }
     
+    var photoImg: UIImageView = UIImageView() {
+        didSet {
+            print(photoImg)
+        }
+    }
+    
+    var photoView: PhotoView = PhotoView() {
+        didSet {
+            print(photoImg)
+        }
+    }
+    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(photoImg)
         setupAddProperty()
         setupBarButtonItem()
         loadInitSetting()
         setupInitSetting()
+        view.addSubview(photoView)
     }
     
     
@@ -358,7 +372,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         }
 
     }
-    
+
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         
         
@@ -367,6 +381,33 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         dismissViewControllerAnimated(true, completion: nil)
         // 重新设回导航栏样式
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+    }
+    
+    ///  选择完照片后调用
+
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+        let imge = info[UIImagePickerControllerOriginalImage]
+        photoView.imgPhoto = UIImageView(image: imge as? UIImage)
+        self.dismissViewControllerAnimated(true, completion: nil)
+        UIView.animateWithDuration(0.5) { () -> Void in
+            self.photoView.frame = UIScreen.mainScreen().bounds
+        }
+//        let photoView =
+//        // 创建一个用来显示图片的View
+//        HMPhotoView *photoView = [HMPhotoView photoViewWithImage:img frame:self.paintView.frame];
+//
+//
+//        // 设置photoView的代理
+//        photoView.delegate = self;
+//
+//        // 不要！！！
+//        //[self.paintView addSubview:photoView];
+//
+//        [self.view addSubview:photoView];
+
+        
     }
     
     // MARK: - pickView dataSource

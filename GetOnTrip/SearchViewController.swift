@@ -10,11 +10,13 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
+/// 是否点击过这个按钮
+var trueLocation:Bool?
+var currentCityId: String?
+
 class SearchViewController: UISearchController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
     let searchResult =  SearchResultsViewController()
-    
-    static let searchVC = SearchViewController()
     
     /// 搜索记录TableView
     let recordTableView = UITableView()
@@ -33,26 +35,28 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 清除按钮
     var deleteButton: UIButton = UIButton(title: "清除", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.6))
     
-    /// 当前城市位置
-    var currentCityLocation: String = "-1" {
-        didSet {
-            ///  0是正在定位， -1是没有授权成功， -2正在定位时点击了定位按钮
-            if currentCityLocation != "0" && currentCityLocation != "-1" && currentCityLocation != "-2" {
-                switchCurrentCity(locationCity)
-            }
-        }
-    }
     
     /// 搜索提示
     var searchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "当前搜索无内容", fontSize: 14, mutiLines: true)
     /// 定位城市
     var locationCity: UIButton = UIButton(image: "location_Yellow", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor(hex: 0xF3FD54, alpha: 1.0))
     
+    /// 当前城市位置
+    var currentCityLocation: String = "-1" {
+        didSet {
+            ///  0是正在定位， -1是没有授权成功， -2正在定位时点击了定位按钮
+            if currentCityLocation != "0" && currentCityLocation != "-1" {
+                if trueLocation == true {
+                    switchCurrentCity(locationCity)
+                }
+            }
+        }
+    }
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
     }
-    
     
     
     init() {
@@ -75,23 +79,22 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     func switchCurrentCity(btn: UIButton) {
         
-        switch currentCityLocation {
-        case "-1":
+        if trueLocation == nil {
             SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!");
-            return
-        case "0":
+        }
+        
+        trueLocation = false
+        
+        if currentCityId == nil {
             SVProgressHUD.showInfoWithStatus("正在定位中", maskType: SVProgressHUDMaskType.Black)
-            currentCityLocation = "-2"
             return
-        case "":
-            locationCity.hidden = true
+        } else if currentCityId == "" {
             SVProgressHUD.showErrorWithStatus("当前城市未开通")
-            return
-        default:
+            locationCity.hidden = true
+        } else {
             let vcity = CityViewController()
             vcity.cityDataSource = City(id: currentCityLocation)
             searchResult.showSearchResultController(vcity)
-            break
         }
     }
     
@@ -152,10 +155,14 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     }
     
     private func loadSearchMuchLabel() {
-        SearchMoreRequest.fetchSearchMuchLabel { (data, status) -> Void in
-            if status == 0 {
-                self.searchMuch = data!
-                self.recordTableView.reloadData()
+        SearchMoreRequest.fetchSearchMuchLabel { (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                
+                if let data = result {
+                    self.searchMuch = data
+                    self.recordTableView.reloadData()
+                }
+                
             } else {
                  SVProgressHUD.showInfoWithStatus("您的网络不给力!")
             }
@@ -189,6 +196,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             recordTableView.hidden = false
             
             recordTableView.reloadData()
+        } else {
+            locationCity.hidden = true
         }
     }
     
@@ -247,6 +256,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         view.endEditing(true)
         if indexPath.section != 1 {
             searchBar.text = recordData[indexPath.row]
+            
             tableView.hidden = true
         }
     }
