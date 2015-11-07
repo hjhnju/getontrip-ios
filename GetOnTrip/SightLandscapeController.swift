@@ -28,7 +28,7 @@ class SightLandscapeController: UITableViewController {
     
     var dataSource = [Landscape]() {
         didSet {
-            tableView.header.endRefreshing()
+            tableView.mj_header.endRefreshing()
             tableView.reloadData()
         }
     }
@@ -40,20 +40,20 @@ class SightLandscapeController: UITableViewController {
         tableView.registerClass(LandscapeCell1.self, forCellReuseIdentifier : HistoryTableViewControllerSightCell1)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
-        tableView.header = header
+        tableView.mj_header = header
         
         let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in
-            self.tableView.footer.alpha = 1.0
+            self.tableView.mj_footer.alpha = 1.0
             self.loadMore()
         })
         
         footer.automaticallyHidden = false
         footer.automaticallyChangeAlpha = true
         footer.automaticallyRefresh = true
-        tableView.footer = footer
-        tableView.footer.automaticallyHidden = true
-        if !tableView.header.isRefreshing() {
-            tableView.header.beginRefreshing()
+        tableView.mj_footer = footer
+        tableView.mj_footer.automaticallyHidden = true
+        if !tableView.mj_header.isRefreshing() {
+            tableView.mj_header.beginRefreshing()
         }
     }
     
@@ -75,7 +75,7 @@ class SightLandscapeController: UITableViewController {
                     self.dataSource = data
                 }
             }
-            self.tableView.header.endRefreshing()
+            self.tableView.mj_header.endRefreshing()
             self.isLoading = false
         })
     }
@@ -124,13 +124,13 @@ class SightLandscapeController: UITableViewController {
                 if let data = nextData {
                     if data.count > 0 {
                         self.dataSource = self.dataSource + data
-                        self.tableView.footer.endRefreshing()
+                        self.tableView.mj_footer.endRefreshing()
                     } else {
-                        self.tableView.footer.endRefreshingWithNoMoreData()
+                        self.tableView.mj_footer.endRefreshingWithNoMoreData()
                         UIView.animateWithDuration(2, animations: { () -> Void in
-                            self.tableView.footer.alpha = 0.0
+                            self.tableView.mj_footer.alpha = 0.0
                             }, completion: { (_) -> Void in
-                                self.tableView.footer.resetNoMoreData()
+                                self.tableView.mj_footer.resetNoMoreData()
                         })
                     }
                 } else {

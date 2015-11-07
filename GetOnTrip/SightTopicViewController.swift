@@ -9,7 +9,6 @@
 import UIKit
 import MJRefresh
 import SVProgressHUD
-import DGElasticPullToRefresh
 
 public let HistoryTableViewControllerElseCell : String = "History_Cell"
 
@@ -48,7 +47,7 @@ class SightTopicViewController: UITableViewController {
 //        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
 //        header.hidden = true
         
-        tableView.header = header
+        tableView.mj_header = header
         
         
         let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
@@ -56,15 +55,15 @@ class SightTopicViewController: UITableViewController {
         footer.automaticallyHidden = false
         footer.automaticallyChangeAlpha = true
         footer.automaticallyRefresh = true
-        tableView.footer = footer
-        tableView.footer.automaticallyHidden = true
-        if !tableView.header.isRefreshing() {
-            tableView.header.beginRefreshing()
+        tableView.mj_footer = footer
+        tableView.mj_footer.automaticallyHidden = true
+        if !tableView.mj_header.isRefreshing() {
+            tableView.mj_header.beginRefreshing()
         }
     }
     
     deinit {
-        tableView.dg_removePullToRefresh()
+        //tableView.dg_removePullToRefresh()
     }
     
     // MARK: - 刷新方法
@@ -87,10 +86,10 @@ class SightTopicViewController: UITableViewController {
             if let topics = topics {
                 self?.topics = topics
                 self?.tableView.reloadData()
-                self?.tableView.footer.endRefreshing()
+                self?.tableView.mj_footer.endRefreshing()
             }
             self?.isLoading = false
-            self?.tableView.header.endRefreshing()
+            self?.tableView.mj_header.endRefreshing()
         })
     }
     
@@ -126,7 +125,7 @@ class SightTopicViewController: UITableViewController {
         lastRequest?.fetchNextPageModels({ (topics, status) -> Void in
             if status != RetCode.SUCCESS {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                self.tableView.footer.endRefreshing()
+                self.tableView.mj_footer.endRefreshing()
                 return
             }
             
@@ -134,13 +133,13 @@ class SightTopicViewController: UITableViewController {
                 if topics.count > 0 {
                     self.topics += topics
                     self.tableView.reloadData()
-                    self.tableView.footer.endRefreshing()
+                    self.tableView.mj_footer.endRefreshing()
                 } else {
-                    self.tableView.footer.endRefreshingWithNoMoreData()
+                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
                     UIView.animateWithDuration(2, animations: { () -> Void in
-                        self.tableView.footer.alpha = 0.0
+                        self.tableView.mj_footer.alpha = 0.0
                         }, completion: { (_) -> Void in
-                            self.tableView.footer.resetNoMoreData()
+                            self.tableView.mj_footer.resetNoMoreData()
                     })
                 }
             }

@@ -28,7 +28,7 @@ class SightBookViewController: UITableViewController {
     
     var dataSource = [Book]() {
         didSet {
-            tableView.header.endRefreshing()
+            tableView.mj_header.endRefreshing()
             tableView.reloadData()
         }
     }
@@ -38,17 +38,17 @@ class SightBookViewController: UITableViewController {
         tableView.registerClass(BookCell.self, forCellReuseIdentifier : HistoryTableViewControllerBookCell)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
-        tableView.header = header
+        tableView.mj_header = header
         
         let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
         
         footer.automaticallyHidden = false
         footer.automaticallyChangeAlpha = true
         footer.automaticallyRefresh = true
-        tableView.footer = footer
-        tableView.footer.automaticallyHidden = true
-        if !tableView.header.isRefreshing() {
-            tableView.header.beginRefreshing()
+        tableView.mj_footer = footer
+        tableView.mj_footer.automaticallyHidden = true
+        if !tableView.mj_footer.isRefreshing() {
+            tableView.mj_footer.beginRefreshing()
         }
     }
     
@@ -68,7 +68,7 @@ class SightBookViewController: UITableViewController {
                 self.dataSource = data
             }
             self.isLoading = false
-            self.tableView.header.endRefreshing()
+            self.tableView.mj_header.endRefreshing()
         })
     }
     
@@ -76,7 +76,7 @@ class SightBookViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         if dataSource.count != 0 {
-            tableView.header.endRefreshing()
+            tableView.mj_header.endRefreshing()
         }
     }
     
@@ -112,20 +112,20 @@ class SightBookViewController: UITableViewController {
         lastRequest.fetchNextPageModels({ (nextData, status) -> Void in
             if status != RetCode.SUCCESS {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                self.tableView.footer.endRefreshing()
+                self.tableView.mj_footer.endRefreshing()
                 return 
             }
             if let data = nextData {
                 if data.count > 0 {
                     self.dataSource = self.dataSource + data
                     self.tableView.reloadData()
-                    self.tableView.footer.endRefreshing()
+                    self.tableView.mj_footer.endRefreshing()
                 } else {
-                    self.tableView.footer.endRefreshingWithNoMoreData()
+                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
                     UIView.animateWithDuration(2, animations: { () -> Void in
-                        self.tableView.footer.alpha = 0.0
+                        self.tableView.mj_footer.alpha = 0.0
                         }, completion: { (_) -> Void in
-                            self.tableView.footer.resetNoMoreData()
+                            self.tableView.mj_footer.resetNoMoreData()
                     })
                 }
             } else {
