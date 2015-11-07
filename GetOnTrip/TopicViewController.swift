@@ -81,7 +81,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
                 headerTitleLabel.text = topic.title
                 
                 navBar.setTitle(topic.sight)
-                labelBtn.setTitle(topic.tagname, forState: UIControlState.Normal)
+                labelBtn.setTitle("  " + topic.tagname + "  ", forState: UIControlState.Normal)
                 favNumLabel.setTitle(" " + topic.collect, forState: UIControlState.Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: UIControlState.Normal)
                 
@@ -240,7 +240,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         
         //header views
         headerImageView.ff_Fill(headerView)
-        labelBtn.ff_AlignVertical(ff_AlignType.TopLeft, referView: headerTitleLabel, size: CGSize(width: 32, height: 14), offset: CGPointMake(0, -11))
+        labelBtn.contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
+        labelBtn.ff_AlignVertical(ff_AlignType.TopLeft, referView: headerTitleLabel, size: nil, offset: CGPointMake(0, -11))
         favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(20, -7))
         visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
         headerTitleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(-2, 1))

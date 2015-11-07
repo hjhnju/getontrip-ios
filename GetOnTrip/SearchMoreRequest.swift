@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class SearchMoreRequest: NSObject {
+    
+    var vc: SearchResultsViewController?
     
     ///  搜索更多
     ///
@@ -17,7 +20,7 @@ class SearchMoreRequest: NSObject {
     ///  - parameter pageSize: 页面大小
     ///  - parameter query:    查询词
     ///  - parameter handler:  回调数据
-    class func fetchMoreResult(type: Int, page: Int, pageSize: Int, query: String, handler: AnyObject -> Void) {
+    func fetchMoreResult(type: Int, page: Int, pageSize: Int, query: String, handler: (result: JSON?, status: Int) -> Void) {
         
         var post      = [String: String]()
         post["type"]  = String(type)
@@ -25,11 +28,16 @@ class SearchMoreRequest: NSObject {
         post["query"] = String(query)
         post["pageSize"] = String(pageSize)
         
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: post) { (result, error) -> () in
-            if error == nil {
-                handler(result!)
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search", post: post) { (data, status) -> () in
+            if status == RetCode.SUCCESS {
+                print(data)
+                handler(result: data, status: status)
+                return
+            } else {
+                handler(result: nil, status: status)
             }
         }
+        
     }
     
     /**
