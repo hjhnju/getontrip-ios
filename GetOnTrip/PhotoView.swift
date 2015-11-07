@@ -8,16 +8,17 @@
 //
 
 import UIKit
+import FFAutoLayout
 
 class PhotoView: UIView, UIGestureRecognizerDelegate {
 
-    var imgPhoto: UIImageView = UIImageView() {
-        didSet {
-            print("方法调用了吗")
-            
+    var imgPhoto: UIImageView = UIImageView()
+    
+    var img : UIImage? {
+        didSet{
+            imgPhoto.image = img
         }
     }
-    
     
     
     override init(frame: CGRect) {
@@ -27,10 +28,12 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         
         imgPhoto.userInteractionEnabled = true
         imgPhoto.multipleTouchEnabled   = true
-        
+        imgPhoto.backgroundColor = UIColor.randomColor()
+        imgPhoto.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
         /// 旋转
         let rotation = UIRotationGestureRecognizer(target: self, action: "rotationGesture:")
         rotation.delegate = self
+        imgPhoto.addGestureRecognizer(rotation)
         
         /// 捏合手势, 缩放
         let pinch = UIPinchGestureRecognizer(target: self, action: "pinchGesture:")
@@ -55,6 +58,19 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    ///  得到一个view的父控制器
+    ///
+    ///  - returns: 它自己的父控制器 有它可以省很多麻烦
+    func viewcontroller() -> UIViewController? {
+        for var next = self.superview; (next != nil); next = next?.superview {
+            let nextResponder = next?.nextResponder()
+            if ((nextResponder?.isKindOfClass(NSClassFromString("GetOnTrip.SwitchPhotoViewController")!)) != nil) {
+                return nextResponder as? UIViewController
+            }
+        }
+        return nil
+    }
+    
     func longPressGesture(recognizer: UILongPressGestureRecognizer) {
         
         if recognizer.state == UIGestureRecognizerState.Began {
@@ -64,24 +80,37 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
                         recognizer.view?.alpha = 1
                         
-                        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0.0)
-                        let ctx = UIGraphicsGetCurrentContext()
-                        self.layer.renderInContext(ctx!)
-                        let photoViewImage = UIGraphicsGetImageFromCurrentImageContext()
-                        UIGraphicsEndImageContext()
-                        
-                        print(self.superview)
+                        let vc = self.viewcontroller() as? SwitchPhotoViewController
+                        vc?.saveImage = self.avatarSubtract(PhotoView.captureShotWithView(self))
+                        vc?.dismissViewControllerAnimated(true, completion: nil)
                     })
             })
         }
-        
-        
-                // 把截取出来的图像, 通过代理传递给控制器
-//                if ([self.delegate respondsToSelector:@selector(photoView:withImage:)]) {
-//                               [self.delegate photoView:self withImage:photoViewImage];
     }
     
+    ///  截图
+    class func captureShotWithView(view: UIView) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0.0)
+        let ctx = UIGraphicsGetCurrentContext()
+        view.layer.renderInContext(ctx!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
     
+    func savePhotoAction() {
+        let vc = self.viewcontroller() as? SwitchPhotoViewController
+        vc?.saveImage = self.avatarSubtract(PhotoView.captureShotWithView(self))
+    }
+    
+    func avatarSubtract(image: UIImage) -> UIImage {
+        let w = UIScreen.mainScreen().bounds
+        let tempImage = image.scaleImage(w.width)
+        
+        let image1 = CGImageCreateWithImageInRect(tempImage.CGImage, CGRectMake(0, (tempImage.size.height * 0.5 - tempImage.size.width * 0.5), tempImage.size.width, tempImage.size.width))
+
+        return UIImage(CGImage: image1!)
+    }
     
     // 捏合手势
     func pinchGesture(recognizer: UIPinchGestureRecognizer) {
@@ -102,6 +131,6 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         recognizer.view?.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)
         recognizer.rotation = 0
     }
-        
+
 
 }
