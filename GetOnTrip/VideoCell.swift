@@ -9,6 +9,10 @@
 import UIKit
 import FFAutoLayout
 
+struct VideoCellContant {
+    static let CellHeight:CGFloat = 200
+}
+
 class VideoCell: UITableViewCell {
 
     lazy var iconView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
@@ -20,6 +24,8 @@ class VideoCell: UITableViewCell {
     lazy var timeLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.5), title: "", fontSize: 12, mutiLines: true)
     
     lazy var watchBtn: UIButton = UIButton(title: "点击观看", fontSize: 12, radius: 12, titleColor: UIColor.yellowColor())
+    
+    lazy var bottomLine: UIView = UIView(color: UIColor.whiteColor())
     
     var video: Video? {
         didSet {
@@ -39,7 +45,7 @@ class VideoCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = UIColor.blackColor()
-        setupProperty()
+        initView()
         setupAutoLayout()
     }
 
@@ -47,12 +53,13 @@ class VideoCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupProperty() {
+    private func initView() {
         
         addSubview(iconView)
         addSubview(titleLabel)
         addSubview(timeLabel)
         addSubview(watchBtn)
+        addSubview(bottomLine)
 
         titleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 80
         titleLabel.numberOfLines = 2
@@ -66,10 +73,11 @@ class VideoCell: UITableViewCell {
     
     private func setupAutoLayout() {
         
-        iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 199))
+        iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, VideoCellContant.CellHeight - 1))
         timeLabel.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: nil, offset: CGPointMake(19, 9))
         titleLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         watchBtn.ff_AlignVertical(ff_AlignType.BottomCenter, referView: titleLabel, size: CGSizeMake(83, 28), offset: CGPointMake(0, 7))
+        bottomLine.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 1))
         
         //添加一个灰色蒙板
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)

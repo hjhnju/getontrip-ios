@@ -9,7 +9,7 @@
 import UIKit
 import FFAutoLayout
 
-class SearchRecommendTableViewCell: UITableViewCell {
+class RecommendTableViewCell: UITableViewCell {
     
     static let RowHeight:CGFloat = 192
 
@@ -94,7 +94,7 @@ class SearchRecommendTableViewCell: UITableViewCell {
     }
     
     private func setupAutoLayout() {
-        iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, SearchRecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
+        iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         shade.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 26), offset: CGPointMake(0, 0))
         btn1.ff_AlignInner(ff_AlignType.CenterCenter, referView: shade, size: nil, offset: CGPointMake(-80, 0))

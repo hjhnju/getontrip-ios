@@ -119,9 +119,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     /// 记录状态按钮
     weak var currentSearchLabelButton: UIButton?
     
-    
-//    lazy var blurView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
-    
     // MARK: - 初始化
     
     //电池栏状态
@@ -132,8 +129,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //.appearance().hidden = true
-        
         view.backgroundColor = SceneColor.bgBlack
         
         //nav bar
@@ -142,10 +137,10 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         navContainerView.addSubview(custNavView)
         
         //header
+        headerView.clipsToBounds = true
         view.addSubview(headerView)
         headerView.addSubview(headerImageView)
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
-//        headerImageView.addSubview(blurView)
         if let image = headerImageView.image {
             headerImageView.image = nil
             UIKitTools.createBlurBackground(image, view: headerImageView, blurRadius: 3.0)
@@ -181,12 +176,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tableView.dataSource      = self
         tableView.delegate        = self
         tableView.tableHeaderView = nil
-        tableView.rowHeight       = SearchRecommendTableViewCell.RowHeight
+        tableView.rowHeight       = RecommendTableViewCell.RowHeight
         tableView.backgroundColor = UIColor.clearColor()
         tableView.separatorStyle  = UITableViewCellSeparatorStyle.None
         tableView.contentInset    = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 64, right: 0)
         
-        tableView.registerClass(SearchRecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.SearchRecommendTableViewCellID)
+        tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.RecommendTableViewCellID)
         view.sendSubviewToBack(tableView)
 
         view.bringSubviewToFront(navContainerView)
@@ -235,9 +230,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         //表格
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
-        headerImageView.ff_AlignInner(ff_AlignType.CenterCenter, referView: headerView, size: CGSize(width: headerView.bounds.width + 20, height: headerView.bounds.height + 20), offset: CGPointZero)
-        //headerImageView.ff_Fill(headerView)
-        //blurView.ff_Fill(headerImageView)
+        headerImageView.ff_AlignInner(ff_AlignType.CenterCenter, referView: headerView, size: CGSize(width: headerView.bounds.width + 20, height: headerView.bounds.height + 50), offset: CGPointZero)
     }
     
     ///  添加搜索标签按钮
@@ -286,7 +279,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.SearchRecommendTableViewCellID, forIndexPath: indexPath) as! SearchRecommendTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.RecommendTableViewCellID, forIndexPath: indexPath) as! RecommendTableViewCell
         cell.backgroundColor = UIColor.clearColor()
         cell.data = self.recommendCells[indexPath.row]
         

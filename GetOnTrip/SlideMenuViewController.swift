@@ -92,7 +92,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     var menuView: UIView = UIView()
     
     //菜单底图图片
-    lazy var bgImageView: UIImageView = UIImageView(image: UIImage(named: "menu-bg")!)
+    lazy var bgImageView: UIImageView = UIImageView(image: UIImage(named: "menu_bg")!)
     
     //菜单底图模糊
     lazy var blurView: UIVisualEffectView =  UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
@@ -190,6 +190,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //初始化相关设置
     private func setupInit() {
+        
         menuView.addSubview(bgImageView)
         menuView.sendSubviewToBack(bgImageView)
         menuView.addSubview(tableView)
@@ -205,6 +206,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         view.addSubview(mainNavViewController.view)
         
         //菜单subviews
+        bgImageView.contentMode = UIViewContentMode.ScaleToFill
         bgImageView.addSubview(blurView)
         bgImageView.bringSubviewToFront(blurView)
         
