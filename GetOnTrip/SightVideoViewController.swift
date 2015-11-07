@@ -51,12 +51,10 @@ class SightVideoViewController: UITableViewController {
         if !tableView.mj_header.isRefreshing() {
             tableView.mj_header.beginRefreshing()
         }
-
     }
 
     // MARK: - 刷新方法
     func refresh() {
-        
         if self.isLoading {
             return
         }
@@ -73,7 +71,7 @@ class SightVideoViewController: UITableViewController {
             if let data = dataSource {
                 self?.dataSource = data
             }
-            })
+        })
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -98,10 +96,6 @@ class SightVideoViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        let vc = parentViewController
-        vc!.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
-        
         let sc = DetailWebViewController()
         let dataI = dataSource[indexPath.row]
         sc.url = dataI.url
@@ -118,40 +112,35 @@ class SightVideoViewController: UITableViewController {
     
     /// 底部加载更多
     func loadMore(){
-            
-            lastVideoRequest.fetchNextPageModels({ (nextData, status) -> Void in
-                if status != RetCode.SUCCESS {
-                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+        lastVideoRequest.fetchNextPageModels({ (nextData, status) -> Void in
+            if status != RetCode.SUCCESS {
+                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                self.tableView.mj_footer.endRefreshing()
+                return
+            }
+            if let data = nextData {
+                if data.count > 0 {
+                    self.dataSource = self.dataSource + data
+                    self.tableView.reloadData()
                     self.tableView.mj_footer.endRefreshing()
-                    return
-                }
-                
-                if let data = nextData {
-                    if data.count > 0 {
-                        self.dataSource = self.dataSource + data
-                        self.tableView.reloadData()
-                        self.tableView.mj_footer.endRefreshing()
-                    } else {
-                        self.tableView.mj_footer.endRefreshingWithNoMoreData()
-                        UIView.animateWithDuration(2, animations: { () -> Void in
-                            self.tableView.mj_footer.alpha = 0.0
-                            }, completion: { (_) -> Void in
-                                self.tableView.mj_footer.resetNoMoreData()
-                        })
-                    }
                 } else {
-                    self.isLoading = false
+                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                    UIView.animateWithDuration(2, animations: { () -> Void in
+                        self.tableView.mj_footer.alpha = 0.0
+                        }, completion: { (_) -> Void in
+                            self.tableView.mj_footer.resetNoMoreData()
+                    })
                 }
-            })
-            
-        }
+            } else {
+                self.isLoading = false
+            }
+        })
+    }
 
     ///  观看视频跳转方法
     ///
     ///  - parameter btn: 观看视频的按钮
     func watchClick(btn: UIButton) {
-        let vc = parentViewController
-        vc!.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
         let sc = DetailWebViewController()
         let dataI = dataSource[btn.tag]
         sc.url = dataI.url

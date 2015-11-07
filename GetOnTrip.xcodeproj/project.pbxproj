@@ -58,7 +58,7 @@
 		AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */; };
 		AE2EEE941BCF58ED00ED0937 /* CitySightsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */; };
 		AE2EEE961BCF833E00ED0937 /* TopicRefreshRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */; };
-		AE488D691BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */; };
+		AE488D691BCBDD8E0032B78B /* RecommendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */; };
 		AE488D6B1BCBDDAE0032B78B /* RecommendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6A1BCBDDAE0032B78B /* RecommendRequest.swift */; };
 		AE488D6D1BCBDDDB0032B78B /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */; };
 		AE4E77A31BCB4346006480B1 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A21BCB4346006480B1 /* libicucore.tbd */; };
@@ -224,7 +224,7 @@
 		AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsViewController.swift; sourceTree = "<group>"; };
 		AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsRequest.swift; sourceTree = "<group>"; };
 		AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicRefreshRequest.swift; sourceTree = "<group>"; };
-		AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecommendTableViewCell.swift; sourceTree = "<group>"; };
+		AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendTableViewCell.swift; sourceTree = "<group>"; };
 		AE488D6A1BCBDDAE0032B78B /* RecommendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendRequest.swift; sourceTree = "<group>"; };
 		AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		AE4E77A21BCB4346006480B1 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
@@ -613,7 +613,7 @@
 			isa = PBXGroup;
 			children = (
 				AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */,
-				AE488D681BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift */,
+				AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */,
 				AE78983E1BECDAF40073599E /* PhotoView.swift */,
 			);
 			name = View;
@@ -814,7 +814,7 @@
 				TargetAttributes = {
 					72D86DDE1B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 568F62S6LX;
+						DevelopmentTeam = H7P27HMFW7;
 					};
 					72D86DF31B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
@@ -992,7 +992,7 @@
 				7269746F1BE39481000C0ABF /* Book.swift in Sources */,
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
 				AE62E2CA1BB3D9B800B91D33 /* UIImageView+Extension.swift in Sources */,
-				AE488D691BCBDD8E0032B78B /* SearchRecommendTableViewCell.swift in Sources */,
+				AE488D691BCBDD8E0032B78B /* RecommendTableViewCell.swift in Sources */,
 				72D25A911BEB25E90044AE04 /* RecommendCellData.swift in Sources */,
 				AEB98F391BE1CAF300183261 /* SightLandscapeController.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */,
@@ -1195,7 +1195,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";
@@ -1263,7 +1263,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";

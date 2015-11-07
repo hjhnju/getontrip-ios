@@ -9,17 +9,15 @@
 import Foundation
 import UIKit
 
-let GetonTripCn = "www.getontrip.cn"
-
 class AppIniOnline {
-    static let BaseUri = "http://123.57.67.165:8301"
+    static let BaseUri = "http://www.getontrip.cn"
 }
 
 class AppIniDev {
     static let BaseUri = "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniDev {
+class AppIni:AppIniOnline {
     static let Domain:String = "www.getontrip.cn"
 }
 
@@ -29,7 +27,7 @@ struct StoryBoardIdentifier {
     static let MenuTableViewCellID = "MenuTableViewCellID"
     
     //search
-    static let SearchRecommendTableViewCellID = "SearchRecommendTableViewCellID"
+    static let RecommendTableViewCellID = "SearchRecommendTableViewCellID"
     
     //city
     static let CityTopicTableViewCellID   = "CityHotTopicTableViewCellID"

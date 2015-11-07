@@ -23,7 +23,7 @@ class RecommendCellData: NSObject {
     //图片
     var image: String = "" {
         didSet {
-            image = UIKitTools.sliceImageUrl(image, width: Int(UIScreen.mainScreen().bounds.width), height: Int(SearchRecommendTableViewCell.RowHeight))
+            image = UIKitTools.sliceImageUrl(image, width: Int(UIScreen.mainScreen().bounds.width), height: Int(RecommendTableViewCell.RowHeight))
         }
     }
     
