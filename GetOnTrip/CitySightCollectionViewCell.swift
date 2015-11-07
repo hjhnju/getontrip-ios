@@ -16,7 +16,7 @@ class CitySightCollectionViewCell: UICollectionViewCell {
     /// 图片
     var icon: UIImageView = UIImageView()
     /// 标题
-    var title: UILabel = UILabel(color: UIColor.yellowColor(), title: "", fontSize: 22, mutiLines: false)
+    var title: UILabel = UILabel(color: UIColor.yellowColor(), title: "", fontSize: 16, mutiLines: false)
     /// 内容及收藏
     var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 09), title: "", fontSize: 10, mutiLines: false)
     
@@ -27,6 +27,8 @@ class CitySightCollectionViewCell: UICollectionViewCell {
             if let sight = data {
                 icon.image = nil
                 icon.sd_setImageWithURL(NSURL(string: sight.image), placeholderImage:PlaceholderImage.defaultSmall)
+//                desc.setAttributedTitle(sight.desc.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+
                 title.text = sight.name
                 desc.text  = sight.desc
             }
@@ -43,12 +45,7 @@ class CitySightCollectionViewCell: UICollectionViewCell {
         icon.contentMode   = UIViewContentMode.ScaleAspectFill
         icon.clipsToBounds = true
         
-//        title.adjustsFontSizeToFitWidth = true
-//        if #available(iOS 9.0, *) {
-//            title.allowsDefaultTighteningForTruncation = true
-//        } else {
-//            // Fallback on earlier versions
-//        }
+        
         icon.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
         shade.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size)
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
