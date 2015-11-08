@@ -89,28 +89,18 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         }
     }
     
-    var photoImg: UIImageView = UIImageView() {
-        didSet {
-            print(photoImg)
-        }
-    }
-    
-    var photoView: PhotoView = PhotoView() {
-        didSet {
-            print(photoImg)
-        }
-    }
-    
+    /// 切换照片控制器
+    var switchPhotoVC: SwitchPhotoViewController = SwitchPhotoViewController()
+
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(photoImg)
+        addChildViewController(switchPhotoVC)
         setupAddProperty()
         setupBarButtonItem()
         loadInitSetting()
         setupInitSetting()
-        view.addSubview(photoView)
     }
     
     
@@ -372,42 +362,27 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         }
 
     }
-
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        
-        
-        iconView.image = image.scaleImage(200)
-        if !(iconView.image!.isEqual(image)) { saveButton = true } else { saveButton = false }
-        dismissViewControllerAnimated(true, completion: nil)
-        // 重新设回导航栏样式
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+    
+    /// 头像图片
+    var iconPhoto: UIImage? {
+        didSet{
+            iconView.image = iconPhoto?.scaleImage(200)
+            if !(iconView.image!.isEqual(iconPhoto)) {
+                saveButton = true
+            } else {
+                saveButton = false
+            }
+        }
     }
     
-    ///  选择完照片后调用
-
-    
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         
-        let imge = info[UIImagePickerControllerOriginalImage]
-        photoView.imgPhoto = UIImageView(image: imge as? UIImage)
+
+        navigationController?.pushViewController(switchPhotoVC, animated: true)
+        switchPhotoVC.photoView.img = image
         self.dismissViewControllerAnimated(true, completion: nil)
-        UIView.animateWithDuration(0.5) { () -> Void in
-            self.photoView.frame = UIScreen.mainScreen().bounds
-        }
-//        let photoView =
-//        // 创建一个用来显示图片的View
-//        HMPhotoView *photoView = [HMPhotoView photoViewWithImage:img frame:self.paintView.frame];
-//
-//
-//        // 设置photoView的代理
-//        photoView.delegate = self;
-//
-//        // 不要！！！
-//        //[self.paintView addSubview:photoView];
-//
-//        [self.view addSubview:photoView];
-
-        
+//        // 重新设回导航栏样式
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
     
     // MARK: - pickView dataSource

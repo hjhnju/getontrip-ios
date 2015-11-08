@@ -98,6 +98,21 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         }
     }
     
+    var textfile: UITextField? {
+        didSet {
+            textfile?.tintColor = UIColor.redColor()
+            textfile?.textColor = UIColor.whiteColor()
+            let leftView = UIImageView(image: UIImage(named: "search_icon"))
+            textfile?.leftViewMode = UITextFieldViewMode.Always
+            textfile?.clearButtonMode = UITextFieldViewMode.Always
+            textfile?.leftView = leftView
+            textfile?.rightView?.backgroundColor = UIColor.whiteColor()
+            textfile?.attributedPlaceholder = NSAttributedString(string: "搜索", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+            textfile?.becomeFirstResponder()
+            
+        }
+    }
+    
     private func setupAddProperty() {
         
         if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("recordData") as? [String] {
@@ -140,13 +155,27 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         searchResultLabel.hidden = true
         
         searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: UIControlState.Normal)
-        searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
-        
-        if #available(iOS 9.0, *) {
-            UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).defaultTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName : UIFont.systemFontOfSize(17)]
-        } else {
-            // Fallback on earlier versions
+//        searchBar.tintColor = UIColor.clearColor()
+        searchBar.barTintColor = UIColor.clearColor()
+        searchBar.translucent = true
+        for item in searchBar.subviews {
+            for it in item.subviews {
+                if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
+                    it.removeFromSuperview()
+                }
+                if it.isKindOfClass(NSClassFromString("UISearchBarTextField")!) {
+//                    it.tintColor = UIColor.orangeColor()
+                    textfile = it as? UITextField
+                }
+                print(it)
+            }
         }
+        
+//        if #available(iOS 9.0, *) {
+//            UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).defaultTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName : UIFont.systemFontOfSize(17)]
+//        } else {
+//            // Fallback on earlier versions
+//        }
         
         //        searchBar.setValue(searchfield, forKey: "_searchField")
         
@@ -194,9 +223,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         
         if searchBar.text == "" {
             recordTableView.hidden = false
-            
+//            textfile?.leftView?.hidden = false
             recordTableView.reloadData()
         } else {
+//            textfile?.leftView?.removeFromSuperview()
             locationCity.hidden = true
         }
     }

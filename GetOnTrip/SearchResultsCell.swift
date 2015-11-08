@@ -45,6 +45,12 @@ class SearchResultsCell: UITableViewCell {
             resultImageView.sd_setImageWithURL(NSURL(string: searchContent?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContent?.title ?? "", titleColor: SceneColor.lightYellow)
             resultDescLabel.attributedText = searchCruxCharacterAction((searchContent?.content)!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+            
+            if searchContent?.search_type == "book" {
+                
+            } else if searchContent?.search_type == "video" {
+                
+            }
         }
     }
     
