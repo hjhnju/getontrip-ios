@@ -283,6 +283,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         cell.backgroundColor = UIColor.clearColor()
         cell.data = self.recommendCells[indexPath.row]
         
+        let factor = calcFactor(cell.frame.origin.y + RecommendTableViewCell.RowHeight, yOffset: 0)
+        cell.cellImageView.updateFactor(factor)
+        
         return cell
     }
     
@@ -308,6 +311,11 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     }
     
     //MARK: ScrollViewDelegate
+    var yOffset: CGFloat = 0.0
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        yOffset = scrollView.contentOffset.y
+    }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         //导航渐变
@@ -327,6 +335,28 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         let initTop: CGFloat = 0.0
         let newTop = min(-gap, initTop)
         headerViewTopConstraint?.constant = newTop
+        
+        for cell in self.tableView.visibleCells {
+            if let tbcell = cell as? RecommendTableViewCell {
+                let factor = calcFactor(tbcell.frame.origin.y + RecommendTableViewCell.RowHeight, yOffset: gap)
+                tbcell.cellImageView.updateFactor(factor)
+            }
+        }
+    }
+    
+    private func calcFactor(frameY:CGFloat, yOffset: CGFloat) -> CGFloat {
+        //以屏幕左上为原点的坐标
+        let realY = frameY - yOffset
+        let centerY = UIScreen.mainScreen().bounds.height / 2 - RecommendTableViewCell.RowHeight / 2
+        //距离cell中间的距离
+        let gapToCenter = -(realY - centerY)
+        var divider = UIScreen.mainScreen().bounds.height / 2 - RecommendTableViewCell.RowHeight / 2
+        if gapToCenter < 0 {
+            divider = UIScreen.mainScreen().bounds.height / 2 - RecommendTableViewCell.RowHeight / 2
+        }
+        let factor: CGFloat = fmin(1.0, fmax(gapToCenter / divider, -1.0))
+        //print("gap=\(gapToCenter), offsetY=\(yOffset), frame.y=\(frameY), realY=\(realY), centerY=\(centerY), factor=\(factor)")
+        return factor
     }
     
     //MARK: 自定义方法
