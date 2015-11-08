@@ -18,9 +18,11 @@ class SwitchPhotoViewController: MenuViewController {
     
     lazy var bottomView = UIView(color: UIColor.blackColor(), alphaF: 0.7)
     
-    lazy var cancelBtn = UIButton(title: "取消", fontSize: 20, radius: 0)
+    //lazy var cancelBtn = UIButton(title: "取消", fontSize: 20, radius: 0)
+    lazy var cancelBtn = UIButton()
     
-    lazy var trueBtn = UIButton(title: "确定", fontSize: 20, radius: 0)
+    //lazy var trueBtn = UIButton(title: "确定", fontSize: 20, radius: 0)
+    lazy var trueBtn = UIButton()
     
     lazy var shade: PhotoShadeView = PhotoShadeView(color: UIColor.clearColor(), alphaF: 1.0)
     
