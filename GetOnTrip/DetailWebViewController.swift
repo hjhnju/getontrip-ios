@@ -44,10 +44,7 @@ class DetailWebViewController: BaseViewController {
         navBar.backgroundColor = SceneColor.frontBlack
     }
     
-    ///  搜索跳入之后消失控制器
-    func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
+    
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -55,5 +52,6 @@ class DetailWebViewController: BaseViewController {
         let vc = parentViewController as? UINavigationController
         let nav = vc?.visibleViewController as? SightViewController
         nav?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: "", action: "")
+        NSURLCache.sharedURLCache().removeAllCachedResponses()
     }
 }

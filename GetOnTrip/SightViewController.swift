@@ -242,12 +242,12 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         }
         
         let lCount: Int = sightDataSource.tags.count >= 7 ? 7 : sightDataSource.tags.count
-        let x: CGFloat  = scrollView.contentOffset.x / CGFloat(lCount)  - offset
+        let x: CGFloat  = sightDataSource.tags.count < 7 ? scrollView.contentOffset.x / CGFloat(lCount) - offset : scrollView.contentOffset.x / CGFloat(lCount) + labCenter.bounds.width * 0.5 - offset
         let x1: CGFloat = scrollView.contentOffset.x / CGFloat(lCount) + labCenter.bounds.width * 0.5
         
         if (offset == 0) || (offset == maxOffset) {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
-                if lCount >= 7 { self.indicateView.frame.origin.x = x }
+                if lCount >= 7 { self.indicateView.center.x = x }
                 else { self.indicateView.center.x = x1 }
                 self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
             })

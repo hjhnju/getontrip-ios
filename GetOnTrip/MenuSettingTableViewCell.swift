@@ -34,7 +34,7 @@ class MenuSettingTableViewCell: UITableViewCell {
         addSubview(titleLabel)
         
         backgroundColor = UIColor.clearColor()
-        baseline.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(bounds.width, 0.5), offset: CGPointMake(0, 0))
+        baseline.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 0.5), offset: CGPointMake(0, 0))
         titleLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
     }
     

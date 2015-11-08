@@ -100,7 +100,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     var textfile: UITextField? {
         didSet {
-            textfile?.tintColor = UIColor.redColor()
             textfile?.textColor = UIColor.whiteColor()
             let leftView = UIImageView(image: UIImage(named: "search_icon"))
             textfile?.leftViewMode = UITextFieldViewMode.Always
@@ -125,7 +124,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         view.addSubview(searchResultLabel)
         hidesNavigationBarDuringPresentation = false
         view.backgroundColor = UIColor(patternImage: UIImage(named: "search-bg0")!)
-
+        
         view.frame = UIScreen.mainScreen().bounds
         searchBar.barStyle = UIBarStyle.Black
 
@@ -135,7 +134,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         recordTableView.registerClass(SearchRecordTableViewCell.self, forCellReuseIdentifier: "SearchRecordTableView_Cell")
         recordTableView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, UIScreen.mainScreen().bounds.height - 110), offset: CGPointMake(0, 0))
         locationCity.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
-//        searchResultLabel.ff_AlignInner(ff_AlignType.BottomCenter, referView: locationCity, size: nil, offset: CGPointMake(0, 81))
         searchResultLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: locationCity, size: nil, offset: CGPointMake(0, 81))
         recordTableView.backgroundColor = UIColor.clearColor()
         recordTableView.dataSource = self
@@ -155,8 +153,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         searchResultLabel.hidden = true
         
         searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: UIControlState.Normal)
-//        searchBar.tintColor = UIColor.clearColor()
-        searchBar.barTintColor = UIColor.clearColor()
+
+        searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
         searchBar.translucent = true
         for item in searchBar.subviews {
             for it in item.subviews {
@@ -164,23 +162,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
                     it.removeFromSuperview()
                 }
                 if it.isKindOfClass(NSClassFromString("UISearchBarTextField")!) {
-//                    it.tintColor = UIColor.orangeColor()
                     textfile = it as? UITextField
                 }
-                print(it)
             }
         }
-        
-//        if #available(iOS 9.0, *) {
-//            UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).defaultTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName : UIFont.systemFontOfSize(17)]
-//        } else {
-//            // Fallback on earlier versions
-//        }
-        
-        //        searchBar.setValue(searchfield, forKey: "_searchField")
-        
-        
-
     }
     
     private func loadSearchMuchLabel() {
@@ -221,12 +206,13 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         recordTableView.hidden = true
         
-        if searchBar.text == "" {
+        if searchBar.text == "" { // 48 × 51
             recordTableView.hidden = false
-//            textfile?.leftView?.hidden = false
+//            textfile?.leftView?.bounds = CGRectMake(0, 0, 15, 15)
             recordTableView.reloadData()
         } else {
-//            textfile?.leftView?.removeFromSuperview()
+            print(textfile?.leftView?.frame)
+//            textfile?.leftView?.bounds = CGRectZero
             locationCity.hidden = true
         }
     }

@@ -25,7 +25,7 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         super.init(frame: frame)
         
         addSubview(imgPhoto)
-        
+        imgPhoto.contentMode = UIViewContentMode.ScaleAspectFill
         imgPhoto.userInteractionEnabled = true
         imgPhoto.multipleTouchEnabled   = true
         imgPhoto.backgroundColor = UIColor.randomColor()

@@ -102,7 +102,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.separatorColor  = UIColor.grayColor()
         tableView.rowHeight = 60
         tableView.separatorStyle = .None
-        tableView.backgroundView = UIImageView(image: UIImage(named: "search-bg0")!)
+//        tableView.backgroundView = UIImageView(image: UIImage(named: "search-bg0")!)
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
         tableView.registerClass(ShowMoreTableViewCell.self, forCellReuseIdentifier: "ShowMoreTableView_Cell")
     }
@@ -111,7 +112,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     private func setupAutoLayout() {
         tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height), offset: CGPointMake(0, 0))
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 92))
         
     }
     
