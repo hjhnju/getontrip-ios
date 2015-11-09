@@ -27,6 +27,8 @@ class SearchResultsCell: UITableViewCell {
     /// 图书背景cell
     var groundView: UIImageView = UIImageView()
     
+    var resultImageViewHeight : NSLayoutConstraint?
+    
     func searchCruxCharacterAction(title: String, titleColor: UIColor) -> NSAttributedString {
         
         let attr = NSMutableAttributedString(string: title)
@@ -69,11 +71,13 @@ class SearchResultsCell: UITableViewCell {
             
             
             if searchContent?.search_type == "book" {
+                resultImageViewHeight?.constant = 48
                 resultImageView.image = UIImage()
                 resultImageView.backgroundColor = UIColor.whiteColor()
                 groundView.sd_setImageWithURL(NSURL(string: searchResult?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
                 groundView.hidden = false
             } else {
+                resultImageViewHeight?.constant = 37
                 groundView.hidden = true
                 resultImageView.sd_setImageWithURL(NSURL(string: searchContent?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
             }
@@ -102,7 +106,8 @@ class SearchResultsCell: UITableViewCell {
     ///  让子类来重写，所以只放需要更改的设置
     private func rewriteProperty() {
         addSubview(resultImageView)
-        resultImageView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
+        let cons = resultImageView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
+        resultImageViewHeight = resultImageView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
     }
     
     private func setupAutoLayout() {
@@ -112,7 +117,7 @@ class SearchResultsCell: UITableViewCell {
         resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: resultImageView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
         baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
         playImage.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: nil)
-        groundView.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: CGSizeMake(31, 37), offset: CGPointMake(0, 0))
+        groundView.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: CGSizeMake(31, 44), offset: CGPointMake(0, 0))
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
