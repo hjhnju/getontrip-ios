@@ -90,11 +90,11 @@ class SearchResultsCell: UITableViewCell {
         addSubview(resultTitleLabel)
         addSubview(resultDescLabel)
         addSubview(baseLine)
-        addSubview(playImage)
         playImage.hidden = true
         backgroundColor = UIColor.clearColor()
         rewriteProperty()
         addSubview(groundView)
+        addSubview(playImage)
         setupAutoLayout()
     }
 
