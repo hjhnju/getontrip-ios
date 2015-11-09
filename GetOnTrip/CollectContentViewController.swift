@@ -49,6 +49,10 @@ class CollectContentViewController: UITableViewController {
             self.collectContent = handler as! [CollectContent]
         }
     }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
 
 
     // MARK: - Table view data source

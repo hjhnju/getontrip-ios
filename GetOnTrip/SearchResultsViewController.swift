@@ -111,7 +111,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.backgroundColor = .clearColor()
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
         tableView.registerClass(ShowMoreTableViewCell.self, forCellReuseIdentifier: "ShowMoreTableView_Cell")
-        tableView.registerClass(SearchResultsBookCell.self, forCellReuseIdentifier: "SearchResultsBook_Cell")
     }
     
 

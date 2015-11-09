@@ -62,6 +62,8 @@ struct SceneColor {
     static let fontGray = UIColor(hex: 0x696969, alpha: 1.0)
     /// F3FD54 浅黄
     static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
+    /// D8D8D8
+    static let whiteGray = UIColor(hex: 0xD8D8D8, alpha: 1.0)
 }
 
 ///  登陆类型 1:qq,2:weixin,3:weibo

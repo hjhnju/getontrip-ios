@@ -211,7 +211,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
 //            textfile?.leftView?.bounds = CGRectMake(0, 0, 15, 15)
             recordTableView.reloadData()
         } else {
-            print(textfile?.leftView?.frame)
 //            textfile?.leftView?.bounds = CGRectZero
             locationCity.hidden = true
         }

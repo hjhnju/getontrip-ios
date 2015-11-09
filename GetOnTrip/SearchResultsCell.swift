@@ -93,8 +93,8 @@ class SearchResultsCell: UITableViewCell {
         playImage.hidden = true
         backgroundColor = UIColor.clearColor()
         rewriteProperty()
-        addSubview(groundView)
         addSubview(playImage)
+        addSubview(groundView)
         setupAutoLayout()
     }
 
@@ -127,28 +127,6 @@ class SearchResultsCell: UITableViewCell {
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         
     }
-}
-
- /// 内容图书cell 
-class SearchResultsBookCell: SearchResultsCell {
-    
-    
-    
-    private override func rewriteProperty() {
-        addSubview(groundView)
-        groundView.addSubview(resultImageView)
-        groundView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
-        resultImageView.ff_AlignInner(ff_AlignType.CenterCenter, referView: groundView, size: CGSizeMake(31, 44))
-    }
-    
-    private override func setupAutoLayout() {
-        let w: CGFloat = UIScreen.mainScreen().bounds.width - 18 - 52 - 6
-        resultTitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: groundView, size: CGSizeMake(w, 16), offset: CGPointMake(6, 0))
-        resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: groundView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
-        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
-        playImage.ff_AlignInner(ff_AlignType.CenterCenter, referView: groundView, size: nil)
-    }
-    
 }
 
 /// 显示更多的cell
