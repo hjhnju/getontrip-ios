@@ -72,6 +72,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let imageV = UIImageView(image: UIImage(named: "search-bg0")!)
+        view.addSubview(imageV)
+        view.addSubview(searchResult.view)
+        imageV.frame = UIScreen.mainScreen().bounds
         setupAddProperty()
         loadSearchMuchLabel()
     }
@@ -103,12 +107,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             textfile?.textColor = UIColor.whiteColor()
             let leftView = UIImageView(image: UIImage(named: "search_icon"))
             textfile?.leftViewMode = UITextFieldViewMode.Always
-            textfile?.clearButtonMode = UITextFieldViewMode.Always
             textfile?.leftView = leftView
             textfile?.rightView?.backgroundColor = UIColor.whiteColor()
             textfile?.attributedPlaceholder = NSAttributedString(string: "搜索", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
             textfile?.becomeFirstResponder()
-            
         }
     }
     
@@ -118,14 +120,12 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             recordData = userDefault
         }
         addChildViewController(searchResult)
-        view.addSubview(searchResult.view)
         view.addSubview(recordTableView)
         view.addSubview(locationCity)
         view.addSubview(searchResultLabel)
         hidesNavigationBarDuringPresentation = false
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "search-bg0")!)
+//        view.backgroundColor = UIColor(patternImage: UIImage(named: "search-bg0")!)
         
-        view.frame = UIScreen.mainScreen().bounds
         searchBar.barStyle = UIBarStyle.Black
 
         searchBar.becomeFirstResponder()
@@ -271,8 +271,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
 
         view.endEditing(true)
         if indexPath.section != 1 {
-            searchBar.text = recordData[indexPath.row]
-            
+//            searchBar.text = recordData[indexPath.row]
+            textfile?.text = recordData[indexPath.row]
             tableView.hidden = true
         }
     }

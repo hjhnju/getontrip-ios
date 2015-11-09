@@ -14,11 +14,7 @@ class MenuSettingTableViewCell: UITableViewCell {
     lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 16, mutiLines: true)
     
     // 设置底线
-    lazy var baseline: UIView! = {
-        var baselineView = UIView()
-        baselineView.backgroundColor = UIColor(white: 0xFFFFFF, alpha: 0.3)
-        return baselineView
-        }()
+    lazy var baseline: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
     
     var isBaseLineVisabled: Bool = true {
         didSet {

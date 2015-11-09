@@ -20,15 +20,31 @@ class SearchResultsCell: UITableViewCell {
     
     lazy var baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.2)
     
+    var playImage: UIImageView = UIImageView(image: UIImage(named: "Play_icon"))
+    
     var searchCruxCharacter: String = ""
+    
+    /// 图书背景cell
+    var groundView: UIImageView = UIImageView()
     
     func searchCruxCharacterAction(title: String, titleColor: UIColor) -> NSAttributedString {
         
         let attr = NSMutableAttributedString(string: title)
+        var tempString = title
+        var range = (title as NSString).rangeOfString(searchCruxCharacter)
         
-        let range = (title as NSString).rangeOfString(searchCruxCharacter)
-        attr.addAttribute(NSForegroundColorAttributeName, value: titleColor, range: range)
+        var location = 0
+        
+        while range.length > 0 {
+            
+            attr.addAttribute(NSForegroundColorAttributeName, value: titleColor, range: NSMakeRange(location + range.location, range.length))
+            location += range.location + range.length
+            let temp = NSString(string: tempString).substringWithRange((NSMakeRange(range.location + range.length, (title as NSString).length - location)))
+            tempString = temp
+            range = NSString(string: temp).rangeOfString(searchCruxCharacter)
+        }
 
+        
         return attr
     }
     
@@ -42,14 +58,24 @@ class SearchResultsCell: UITableViewCell {
     
     var searchContent: SearchContent? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchContent?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
             resultTitleLabel.attributedText = searchCruxCharacterAction(searchContent?.title ?? "", titleColor: SceneColor.lightYellow)
             resultDescLabel.attributedText = searchCruxCharacterAction((searchContent?.content)!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
             
+            if searchContent?.search_type == "video" {
+                playImage.hidden = false
+            } else {
+                playImage.hidden = true
+            }
+            
+            
             if searchContent?.search_type == "book" {
-                
-            } else if searchContent?.search_type == "video" {
-                
+                resultImageView.image = UIImage()
+                resultImageView.backgroundColor = UIColor.whiteColor()
+                groundView.sd_setImageWithURL(NSURL(string: searchResult?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
+                groundView.hidden = false
+            } else {
+                groundView.hidden = true
+                resultImageView.sd_setImageWithURL(NSURL(string: searchContent?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
             }
         }
     }
@@ -57,7 +83,14 @@ class SearchResultsCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        setupAddProperty()
+        addSubview(resultTitleLabel)
+        addSubview(resultDescLabel)
+        addSubview(baseLine)
+        addSubview(playImage)
+        playImage.hidden = true
+        backgroundColor = UIColor.clearColor()
+        rewriteProperty()
+        addSubview(groundView)
         setupAutoLayout()
     }
 
@@ -65,21 +98,21 @@ class SearchResultsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupAddProperty() {
-        
+    
+    ///  让子类来重写，所以只放需要更改的设置
+    private func rewriteProperty() {
         addSubview(resultImageView)
-        addSubview(resultTitleLabel)
-        addSubview(resultDescLabel)
-        addSubview(baseLine)
+        resultImageView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
     }
     
     private func setupAutoLayout() {
         
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 18 - 52 - 6
-        resultImageView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
         resultTitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: resultImageView, size: CGSizeMake(w, 16), offset: CGPointMake(6, 0))
         resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: resultImageView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
         baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
+        playImage.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: nil)
+        groundView.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: CGSizeMake(31, 37), offset: CGPointMake(0, 0))
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -89,6 +122,28 @@ class SearchResultsCell: UITableViewCell {
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         
     }
+}
+
+ /// 内容图书cell 
+class SearchResultsBookCell: SearchResultsCell {
+    
+    
+    
+    private override func rewriteProperty() {
+        addSubview(groundView)
+        groundView.addSubview(resultImageView)
+        groundView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
+        resultImageView.ff_AlignInner(ff_AlignType.CenterCenter, referView: groundView, size: CGSizeMake(31, 44))
+    }
+    
+    private override func setupAutoLayout() {
+        let w: CGFloat = UIScreen.mainScreen().bounds.width - 18 - 52 - 6
+        resultTitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: groundView, size: CGSizeMake(w, 16), offset: CGPointMake(6, 0))
+        resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: groundView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
+        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
+        playImage.ff_AlignInner(ff_AlignType.CenterCenter, referView: groundView, size: nil)
+    }
+    
 }
 
 /// 显示更多的cell

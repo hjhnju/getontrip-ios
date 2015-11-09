@@ -52,6 +52,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     var recordLoadButton: UIButton?
     
+    var cityLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "   城市", fontSize: 12, mutiLines: true)
+    
+    var sightLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "   景点", fontSize: 12, mutiLines: true)
+    
+    var contentLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "   内容", fontSize: 12, mutiLines: true)
+
     var filterString: String = "" {
         didSet {
 
@@ -102,17 +108,16 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.separatorColor  = UIColor.grayColor()
         tableView.rowHeight = 60
         tableView.separatorStyle = .None
-//        tableView.backgroundView = UIImageView(image: UIImage(named: "search-bg0")!)
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.backgroundColor = .clearColor()
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
         tableView.registerClass(ShowMoreTableViewCell.self, forCellReuseIdentifier: "ShowMoreTableView_Cell")
+        tableView.registerClass(SearchResultsBookCell.self, forCellReuseIdentifier: "SearchResultsBook_Cell")
     }
     
 
     
     private func setupAutoLayout() {
-        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 92))
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 64 + 28))
         
     }
     
@@ -142,6 +147,16 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             return "内容"
         default:
             return ""
+        }
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            return cityLabel
+        } else if section == 1 {
+            return sightLabel
+        } else {
+            return contentLabel
         }
     }
     
@@ -270,13 +285,13 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         }
     }
     
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = UIColor.clearColor()
-        
-        let headerView = view as! UITableViewHeaderFooterView
-        headerView.textLabel!.textColor = UIColor.lightGrayColor()
-        headerView.textLabel!.font = UIFont.systemFontOfSize(11)
-    }
+//    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        view.tintColor = UIColor.clearColor()
+//        
+//        let headerView = view as! UITableViewHeaderFooterView
+//        headerView.textLabel!.textColor = UIColor.lightGrayColor()
+//        headerView.textLabel!.font = UIFont.systemFontOfSize(11)
+//    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -386,13 +401,13 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             let data = resultData["searchSights"] as! [SearchResult]
             cell.searchResult = data[indexPath.row]
         case 2:
-            let Contentdata = resultData["searchContent"] as! [SearchContent]
-
-            let ContentType = Contentdata[indexPath.row]
-                cell.searchContent = ContentType
+            let contentdata = resultData["searchContent"] as! [SearchContent]
+            let contentType = contentdata[indexPath.row]
+                cell.searchContent = contentType
         default:
             break
         }
+
 
         return cell
     }
