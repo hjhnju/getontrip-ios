@@ -10,6 +10,7 @@ import UIKit
 import FFAutoLayout
 import Alamofire
 import SVProgressHUD
+import CoreData
 
 /// 定义选中的是第几行
 struct SettingCell {
@@ -63,29 +64,29 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     var lastProvinceIndex: Int = 0
     
     /// 选择城市/姓别
-    lazy var pickView: UIPickerView = UIPickerView(color: SceneColor.shallowWhite, hidde: true)
+    lazy var pickView: UIPickerView = UIPickerView(color: UIColor.whiteColor(), hidde: true)
     
     /// 选择底部的view
     lazy var cancleBottomView: UIView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 50))
     
     /// 取消按钮
-    lazy var cancleButton: UIButton = UIButton(title: "取消", fontSize: 18, radius: 0, titleColor: UIColor.blueColor())
+    lazy var cancleButton: UIButton = UIButton(title: "取消", fontSize: 18, radius: 2, titleColor: SceneColor.frontBlack)
 
     /// 确定按钮
-    lazy var trueButton: UIButton = UIButton(title: "确定", fontSize: 18, radius: 0, titleColor: UIColor.blueColor())
+    lazy var trueButton: UIButton = UIButton(title: "确定", fontSize: 18, radius: 2, titleColor: SceneColor.frontBlack)
     
     /// 性别按钮
-    lazy var sortButton: UIButton = UIButton(title: "性别", fontSize: 18, radius: 0, titleColor: UIColor.blueColor())
+    lazy var sortButton: UIButton = UIButton(title: "性别", fontSize: 18, radius: 2, titleColor: SceneColor.frontBlack)
     
     /// 遮罩
     lazy var shadeView: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
     
     /// 退出登陆按钮
-    lazy var exitLogin: UIButton = UIButton(title: "退出登陆", fontSize: 14, radius: 0, titleColor: UIColor.blackColor())
+    lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 14, radius: 0, titleColor: UIColor.blackColor())
     
     var saveButton: Bool = false {
         didSet {
-            navBar.rightButton.enabled = saveButton
+            navBar.rightButton.selected = saveButton
         }
     }
     
@@ -108,11 +109,16 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     private func setupAddProperty() {
 
         navBar.setTitle(SettingViewController.name)
+
         view.addSubview(tableView)
-        cancleBottomView.backgroundColor = UIColor.orangeColor()
+        cancleBottomView.backgroundColor = SceneColor.whiteGray
         cancleBottomView.addSubview(trueButton)
         cancleBottomView.addSubview(sortButton)
         cancleBottomView.addSubview(cancleButton)
+        cancleButton.backgroundColor = SceneColor.lightYellow
+        trueButton.backgroundColor   = SceneColor.lightYellow
+        sortButton.backgroundColor   = UIColor.clearColor()
+        
         view.addSubview(exitLogin)
         exitLogin.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
         
@@ -126,9 +132,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         sortButton.addTarget(self, action: "sortClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64), offset: CGPointMake(0, 64))
-        cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(-20, 0))
-        sortButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(0, 0))
-        trueButton.ff_AlignInner(ff_AlignType.CenterRight, referView: cancleBottomView, size: CGSizeMake(100, 50), offset: CGPointMake(20, 0))
+        cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(64, 30), offset: CGPointMake(10, 0))
+        sortButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: cancleBottomView, size: CGSizeMake(64, 30), offset: CGPointMake(0, 0))
+        trueButton.ff_AlignInner(ff_AlignType.CenterRight, referView: cancleBottomView, size: CGSizeMake(64, 30), offset: CGPointMake(-10, 0))
         exitLogin.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
     }
     
@@ -152,7 +158,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: UIControlEvents.TouchUpInside)
         navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserInfo:")
-        navBar.rightButton.enabled = false
+        navBar.setButtonTintColor(UIColor.yellowColor())
+        navBar.rightButton.selected = false
+        navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: UIControlState.Normal)
+        navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: UIControlState.Selected)
+        
+        navBar.titleLabel.textColor = UIColor.yellowColor()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "nickNameTextFieldTextDidChangeNotification:", name: UITextFieldTextDidChangeNotification, object: nickName)
 
@@ -188,6 +199,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             if status == RetCode.SUCCESS {
                 if let data = result {
                     self.provinces = data
+                    
                     self.pickerView(self.pickView, didSelectRow: 0, inComponent: 0)
                 } else {
                     SVProgressHUD.showErrorWithStatus("数据加载错误，请稍候再试")
@@ -200,6 +212,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         // 退出登陆
         exitLogin.addTarget(self, action: "exitLoginClick", forControlEvents: UIControlEvents.TouchUpInside)
     }
+    
+
     
     ///  退出登陆
     func exitLoginClick() {
@@ -420,7 +434,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             let provin = provinces[lastProvinceIndex] as Province
             switch (component) {
             case 0:
-                saveCity = provin.name
+                saveCity = provin.name ?? ""
                 let city = provin.city
                 saveTown = city[0]["name"]as? String ?? ""
 
@@ -481,8 +495,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
     
     /// MARK: - 保存用户信息
-    func saveUserInfo(item: UIBarButtonItem) {
-    
+    func saveUserInfo(btn: UIButton) {
+        if btn.selected == false { return }
         iconView.image?.scaleImage(200)
         let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
         var sex: Int?

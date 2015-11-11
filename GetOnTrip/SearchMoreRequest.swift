@@ -30,7 +30,7 @@ class SearchMoreRequest: NSObject {
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search", post: post) { (data, status) -> () in
             if status == RetCode.SUCCESS {
-                print(data)
+
                 handler(result: data, status: status)
                 return
             } else {

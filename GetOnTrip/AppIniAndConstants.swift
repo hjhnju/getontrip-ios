@@ -17,7 +17,7 @@ class AppIniDev {
     static let BaseUri = "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniOnline {
+class AppIni:AppIniDev {
     static let Domain:String = "www.getontrip.cn"
 }
 
@@ -62,6 +62,10 @@ struct SceneColor {
     static let fontGray = UIColor(hex: 0x696969, alpha: 1.0)
     /// F3FD54 浅黄
     static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
+    /// D8D8D8
+    static let whiteGray = UIColor(hex: 0xD8D8D8, alpha: 1.0)
+    /// 5C5C5C
+    static let thinGray  = UIColor(hex: 0x5C5C5C, alpha: 1.9)
 }
 
 ///  登陆类型 1:qq,2:weixin,3:weibo
