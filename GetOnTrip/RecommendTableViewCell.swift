@@ -16,7 +16,8 @@ class RecommendTableViewCell: UITableViewCell {
     // MARK: - 属性
     //底图
     //lazy var iconView: UIImageView = UIImageView()
-    lazy var cellImageView: ScrolledImageView = ScrolledImageView(frame: CGRectMake(0, 2, UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight - 2))
+    //lazy var cellImageView: ScrolledImageView = ScrolledImageView(frame: CGRectMake(0, 2, UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight - 2))
+    var cellImageView = ScrolledImageView()
     
     //中部标题
     lazy var title: UIButton = UIButton(title: "北京", fontSize: 16, radius: 5, titleColor: SceneColor.bgBlack)
@@ -42,9 +43,7 @@ class RecommendTableViewCell: UITableViewCell {
         didSet {
             if let cellData = data {
                 //iconView.sd_setImageWithURL(NSURL(string: cellData.image), placeholderImage: PlaceholderImage.defaultLarge)
-                if let url = NSURL(string: cellData.image) {
-                    cellImageView.loadImage(url)
-                }
+                cellImageView.loadImage(NSURL(string: cellData.image))
                 title.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
                 btn1.setAttributedTitle(cellData.param1.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
                 btn2.setAttributedTitle(cellData.param2.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
@@ -100,7 +99,8 @@ class RecommendTableViewCell: UITableViewCell {
     }
     
     private func setupAutoLayout() {
-        //cellImageView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
+        //iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
+        cellImageView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         shade.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 26), offset: CGPointMake(0, 0))
         btn1.ff_AlignInner(ff_AlignType.CenterCenter, referView: shade, size: nil, offset: CGPointMake(-80, 0))
