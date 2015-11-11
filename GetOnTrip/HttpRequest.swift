@@ -23,8 +23,14 @@ class HttpRequest {
         let configuration: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.timeoutIntervalForRequest  = 20
         configuration.timeoutIntervalForResource = 20
+        
+        // config.URLCache = urlCache
+        configuration.requestCachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
+
         return Manager(configuration: configuration)
-        }()
+    }()
+    
+    
     
     ///  网络访问方法
     ///
@@ -37,9 +43,8 @@ class HttpRequest {
         let urlPath = (url ?? "") + (path ?? "")
         
         print("[HttpRequest]:url=\(urlPath), post=\(post)")
-        
+
         request(.POST, urlPath, parameters:post).responseJSON { (response) -> Void in
-            
             handler(result: response.result.value, error: response.result.error)
         }
     }
@@ -57,6 +62,7 @@ class HttpRequest {
         print("[HttpRequest]:url=\(urlPath), post=\(post)")
         
         HttpRequest.sharedManager.request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
+
             //异常
             if error != nil {
                 print("[HttpRequest]:error=\(error)")

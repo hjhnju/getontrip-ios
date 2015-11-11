@@ -17,7 +17,7 @@ class AppIniDev {
     static let BaseUri = "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniDev {
+class AppIni:AppIniOnline {
     static let Domain:String = "www.getontrip.cn"
 }
 

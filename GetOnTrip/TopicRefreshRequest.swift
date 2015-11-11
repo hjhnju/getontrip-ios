@@ -124,7 +124,6 @@ class LocateBarterCity: NSObject {
                     handler(result: nil, status: status)
                 }
             }
-            
         } catch {
             print(error)
         }
@@ -137,8 +136,11 @@ class LocateBarterCity: NSObject {
         let province = NSEntityDescription.insertNewObjectForEntityForName("MSProvince", inManagedObjectContext: context) as! MSProvince
         
         province.name = NSMutableData(bytes: "\(data)", length: "\(data)".lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+        
+        CoreDataStack.defaultStack().saveContext()
     }
+    
+    
 }
-
 
 

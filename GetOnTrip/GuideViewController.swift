@@ -152,7 +152,7 @@ class NewFeatureCell: UICollectionViewCell {
         addSubview(subtitleEnglish)
         addSubview(startButton)
         addSubview(iconButton)
-        subtitleEnglish.font = UIFont(name: "PingFangSC-Regular", size: 28)//UIFont.fontNamesForFamilyName(["Marion-Regular"])
+        subtitleEnglish.font = UIFont.systemFontOfSize(28)// (name: "PingFangSC-Regular", size: 28)
         
         startButton.addTarget(self, action: "startButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
         startButton.backgroundColor = SceneColor.lightYellow

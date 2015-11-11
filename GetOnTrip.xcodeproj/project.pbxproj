@@ -105,6 +105,8 @@
 		AE80B8241BF1EB51007E9791 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B8231BF1EB51007E9791 /* CoreDataStack.swift */; };
 		AE80B8901BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B88E1BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift */; };
 		AE80B8911BF21A8A007E9791 /* MSProvince.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B88F1BF21A8A007E9791 /* MSProvince.swift */; };
+		AE80B8941BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B8921BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift */; };
+		AE80B8951BF2E538007E9791 /* MRRecommend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B8931BF2E538007E9791 /* MRRecommend.swift */; };
 		AE8586CB1BC7820500406BEF /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */; };
 		AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
@@ -291,6 +293,8 @@
 		AE80B8231BF1EB51007E9791 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		AE80B88E1BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MSProvince+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AE80B88F1BF21A8A007E9791 /* MSProvince.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSProvince.swift; sourceTree = "<group>"; };
+		AE80B8921BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRRecommend+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AE80B8931BF2E538007E9791 /* MRRecommend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRecommend.swift; sourceTree = "<group>"; };
 		AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsCell.swift; sourceTree = "<group>"; };
 		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
@@ -716,6 +720,8 @@
 			isa = PBXGroup;
 			children = (
 				AE80B8201BF1EB0F007E9791 /* GetOnTrip.xcdatamodeld */,
+				AE80B8921BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift */,
+				AE80B8931BF2E538007E9791 /* MRRecommend.swift */,
 				AE80B88E1BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift */,
 				AE80B88F1BF21A8A007E9791 /* MSProvince.swift */,
 				AE80B8231BF1EB51007E9791 /* CoreDataStack.swift */,
@@ -987,10 +993,12 @@
 				AE20EDF01B9C53B900F26074 /* MessageListRequest.swift in Sources */,
 				7269750F1BE79BD4000C0ABF /* MenuViewController.swift in Sources */,
 				729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */,
+				AE80B8941BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift in Sources */,
 				7216432A1B7DB18F009C292C /* String+Extentions.swift in Sources */,
 				AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */,
 				72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */,
 				726974771BE39F8A000C0ABF /* CommentAddRequest.swift in Sources */,
+				AE80B8951BF2E538007E9791 /* MRRecommend.swift in Sources */,
 				AEA94F901B9AED30006D6998 /* UserAccount.swift in Sources */,
 				72550E9A1BE9A210004D4611 /* CBStoreHouseTransition.m in Sources */,
 				AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */,

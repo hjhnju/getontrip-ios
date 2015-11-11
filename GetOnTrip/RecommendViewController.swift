@@ -406,6 +406,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             }
             
             //处理数据
+            if status != RetCode.SUCCESS {
+                
+            }
             if let dataSource = data {
                 let cells  = dataSource.objectForKey("cells") as! [RecommendCellData]
                 //有数据才更新
