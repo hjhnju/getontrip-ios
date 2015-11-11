@@ -393,6 +393,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 if self?.recommendCells.count == 0 {
                     self?.tableView.hidden = true
                     self?.errorView.hidden = false
+                    self?.headerImageView.image = UIImage(named: "search_header")
                 } else {
                     SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                 }
@@ -401,10 +402,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 return
             }
             
-            //处理数据
-            if status != RetCode.SUCCESS {
-                
-            }
             if let dataSource = data {
                 let cells  = dataSource.objectForKey("cells") as! [RecommendCellData]
                 //有数据才更新

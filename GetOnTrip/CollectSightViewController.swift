@@ -88,7 +88,11 @@ class CollectSightViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let vc = SightViewController()
         //TODO: CollectSight to Sight
-        //vc.sightDataSource = collectSights[indexPath.row]
+        let collectSight = collectSights[indexPath.row]
+        let sight = Sight(id: collectSight.id)
+        sight.image = collectSight.image
+        sight.name  = collectSight.name
+        vc.sightDataSource = sight
         navigationController?.pushViewController(vc, animated: true)
     
     }
