@@ -110,7 +110,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             textfile?.leftView = leftView
             textfile?.rightView?.backgroundColor = UIColor.whiteColor()
             textfile?.attributedPlaceholder = NSAttributedString(string: "搜索", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-            textfile?.becomeFirstResponder()
+//            textfile?.becomeFirstResponder()
         }
     }
     
@@ -127,7 +127,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         
         searchBar.barStyle = UIBarStyle.Black
 
-        searchBar.becomeFirstResponder()
+//        searchBar.becomeFirstResponder()
         searchBar.keyboardAppearance = UIKeyboardAppearance.Default
         searchBar.delegate = self
         recordTableView.registerClass(SearchRecordTableViewCell.self, forCellReuseIdentifier: "SearchRecordTableView_Cell")
@@ -291,13 +291,13 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         let btnHeight:CGFloat = 20
         let totalCol:Int      = 5
         let totalRow:Int      = 5
-        let marginX:CGFloat   = (UIScreen.mainScreen().bounds.size.width - btnWidth * CGFloat(totalCol)) / CGFloat(totalCol + 1)
+        let marginX:CGFloat   = (UIScreen.mainScreen().bounds.size.width - btnWidth * CGFloat(totalCol)) / CGFloat(totalCol + 1) + 9
         let yOffset:CGFloat   = 14
         let marginY:CGFloat   = 26
         
         for (var i = 0; i < searchMuch.count; i++) {
-            let btn = UIButton(title: searchMuch[i], fontSize: 14, radius: 0)
-            
+            let btn = UIButton(title: searchMuch[i], fontSize: 16, radius: 0)
+            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             cell.addSubview(btn)
             
             btn.addTarget(self, action: "searchMuchButtonAction:", forControlEvents: UIControlEvents.TouchUpInside)

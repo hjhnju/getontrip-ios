@@ -137,7 +137,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         toolbarView.addSubview(toolLineView)
         
         collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
-        collectBtn.addTarget(self, action: "clickFavoriteButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        collectBtn.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
         buyBtn.addTarget(self, action: "clickBuyButton:", forControlEvents: UIControlEvents.TouchUpInside)
         shareBtn.addTarget(self, action: "clickShareButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -345,38 +345,19 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         }
     }
     
-    /// 收藏
-    func clickFavoriteButton(sender: UIButton) {
-        
-        if sharedUserAccount == nil {
-
-            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
-                if success {
-                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(5, objid: self.bookId, isAdd: !sender.selected, handler: { (result, status) -> Void in
-                        if status == RetCode.SUCCESS {
-                            if result == "1" {
-                                sender.selected = !sender.selected
-                                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                            } else {
-                                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                            }
-                        }
-                    })
-                }
-            })
-        } else {
-            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(5, objid: bookId, isAdd: !sender.selected, handler: { (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    if result == "1" {
-                        sender.selected = !sender.selected
-                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                    } else {
-                        SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                    }
-                }
-            })
+    /// 收藏操作
+    func favoriteAction(sender: UIButton) {
+        let type  = FavoriteContant.TypeBook
+        let objid = self.bookId
+        Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
+            (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                sender.selected = !sender.selected
+                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+            } else {
+                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+            }
         }
-        
     }
     
     /// 购买书籍

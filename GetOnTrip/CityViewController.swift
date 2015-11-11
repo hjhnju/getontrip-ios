@@ -37,7 +37,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     lazy var tableView: UITableView = UITableView()
     
     /// 城市名
-    lazy var cityNameLabel: UILabel = UILabel(color: SceneColor.lightYellow, fontSize: 17, mutiLines: true)
+    lazy var cityNameLabel: UILabel = UILabel(color: SceneColor.white, fontSize: 26, mutiLines: true)
     /// 收藏按钮
     lazy var favTextBtn: UIButton = UIButton(title: "收藏", fontSize: 12, radius: 0)
     /// 收藏按钮
@@ -53,10 +53,10 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }()
     
     /// 热门景点
-    lazy var moreSightsButton: homeSightButton = homeSightButton(image: "city_more", title: "热门景点", fontSize: 17, titleColor: SceneColor.lightYellow)
+    lazy var moreSightsButton: homeSightButton = homeSightButton(image: "city_more", title: "热门景点", fontSize: 19, titleColor: SceneColor.white)
     
     /// 热门话题标题
-    lazy var hotTopBarButton: UIButton = UIButton(title: "热门内容", fontSize: 17, radius: 0, titleColor: SceneColor.lightYellow)
+    lazy var hotTopBarButton: UIButton = UIButton(title: "热门内容", fontSize: 17, radius: 0, titleColor: SceneColor.white)
 
     /// 热门话题图标
     lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
@@ -188,7 +188,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
 
-        favIconBtn.addTarget(self, action: "favIconBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        favIconBtn.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
         favIconBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
         
         tableView.tableHeaderView = tableHeaderView
@@ -411,37 +411,19 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func favIconBtnClick(sender: UIButton) {
-        if sharedUserAccount == nil {
-
-            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
-                if success {
-                        CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: self.cityId, isAdd: !sender.selected, handler: { (result, status) -> Void in
-                        if status == RetCode.SUCCESS {
-                            if result == "1" {
-                                sender.selected = !sender.selected
-                                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                            } else {
-                                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                            }
-                        }
-                    })
-                }
-            })
-        } else {
-            
-            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: self.cityId, isAdd: !sender.selected, handler: { (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    if result == "1" {
-                        sender.selected = !sender.selected
-                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                    } else {
-                        SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                    }
-                }
-            })
+    /// 收藏操作
+    func favoriteAction(sender: UIButton) {
+        let type  = FavoriteContant.TypeCity
+        let objid = self.cityId
+        Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
+            (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                sender.selected = !sender.selected
+                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+            } else {
+                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+            }
         }
-        
     }
     
     ///  搜索跳入之后消失控制器

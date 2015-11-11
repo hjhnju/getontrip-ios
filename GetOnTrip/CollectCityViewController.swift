@@ -79,7 +79,7 @@ class CollectCityViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(collectCityViewIdentifier, forIndexPath: indexPath) as! CollectCityCell
-        cell.collectBtn.addTarget(self, action: "collectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        cell.collectBtn.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.collectBtn.tag = indexPath.row
         cell.collectCity = collectCity[indexPath.row] as CollectCity
 
@@ -93,88 +93,20 @@ class CollectCityViewController: UICollectionViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    ///  收藏功能
-    ///
-    ///  - parameter sender: 收藏按钮
-    func collectButtonClick(sender: UIButton) {
-        
-        let sight = collectCity[sender.tag] as CollectCity
-        if sharedUserAccount == nil {
-
-            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
-                if success {
-                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: sight.id, isAdd: !sender.selected, handler: { (result, status) -> Void in
-                        if status == RetCode.SUCCESS {
-                            if result == "1" {
-                                sender.selected = !sender.selected
-                                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                            } else {
-                                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                            }
-                        }
-                    })
-                }
-            })
-        } else {
-            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: sight.id, isAdd: !sender.selected, handler: { (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    if result == "1" {
-                        sender.selected = !sender.selected
-                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                    } else {
-                        SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                    }
-                }
-            })
+    /// 收藏操作
+    func favoriteAction(sender: UIButton) {
+        let type  = FavoriteContant.TypeCity
+        let city = collectCity[sender.tag] as CollectCity
+        let objid = city.id
+        Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
+            (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                sender.selected = !sender.selected
+                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+            } else {
+                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+            }
         }
-    }
-
-    
-}
-
-// MARK: - CollectTopicCell
-class CollectCityCell: UICollectionViewCell {
-    
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "2.jpg"))
-    
-    lazy var cityName: UILabel = UILabel(color: UIColor.whiteColor(), title: "北京", fontSize: 16, mutiLines: true)
-    
-    lazy var topicNum: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "共10个话题", fontSize: 11, mutiLines: false)
-    
-    lazy var collectBtn: CitySightCollectButton = CitySightCollectButton(image: "search_fav", title: "", fontSize: 0)
-    
-    var collectCity: CollectCity? {
-        didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectCity!.image), placeholderImage:PlaceholderImage.defaultSmall)
-            cityName.text = collectCity!.name
-            topicNum.text = collectCity!.topicNum
-        }
-    }
-
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        addSubview(iconView)
-        addSubview(cityName)
-        addSubview(topicNum)
-        addSubview(collectBtn)
-        collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
-        collectBtn.selected = true
-        iconView.contentMode                  = UIViewContentMode.ScaleAspectFill
-        iconView.clipsToBounds                = true
-        setupAutoLayout()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupAutoLayout() {
-        iconView.frame = bounds
-        cityName.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
-        topicNum.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -11))
-        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil)
     }
     
 }

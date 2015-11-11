@@ -16,9 +16,9 @@ class CitySightCollectionViewCell: UICollectionViewCell {
     /// 图片
     var icon: UIImageView = UIImageView()
     /// 标题
-    var title: UILabel = UILabel(color: UIColor.yellowColor(), title: "", fontSize: 16, mutiLines: false)
+    var title: UILabel = UILabel(color: SceneColor.white, title: "", fontSize: 16, mutiLines: false)
     /// 内容及收藏
-    var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 09), title: "", fontSize: 10, mutiLines: false)
+    var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.9), title: "", fontSize: 8, mutiLines: false)
     
     lazy var shade: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.35)
     
@@ -27,10 +27,15 @@ class CitySightCollectionViewCell: UICollectionViewCell {
             if let sight = data {
                 icon.image = nil
                 icon.sd_setImageWithURL(NSURL(string: sight.image), placeholderImage:PlaceholderImage.defaultSmall)
-//                desc.setAttributedTitle(sight.desc.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
 
                 title.text = sight.name
-                desc.text  = sight.desc
+
+            let attr = NSMutableAttributedString()
+            attr.appendAttributedString((data?.content.getAttributedStringHeadCharacterBig())!)
+            attr.appendAttributedString(NSAttributedString(string: " | "))
+                attr.appendAttributedString((data?.collect.getAttributedStringHeadCharacterBig())!)
+                desc.attributedText = attr
+
             }
         }
     }

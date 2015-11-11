@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import SwiftyJSON
 
 class CoreDataStack: NSObject {
 
@@ -53,5 +54,4 @@ class CoreDataStack: NSObject {
             }
         }
     }
-    
 }

@@ -19,8 +19,10 @@ class Sight: NSObject {
             image = UIKitTools.sliceImageUrl(image, width: 414, height: 198)
         }
     }
-    /// 景点内容
-    var desc: String = ""
+    /// 景点有多少内容
+    var content: String = ""
+    /// 有多少人收藏
+    var collect: String = ""
     /// 景点标签
     var tags: [Tag] = [Tag]()
     

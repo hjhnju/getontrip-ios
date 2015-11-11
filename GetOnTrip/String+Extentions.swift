@@ -29,10 +29,11 @@ extension String {
     func getAttributedStringHeadCharacterBig() -> NSAttributedString{
         let attr = NSMutableAttributedString(string: self)
         
-        attr.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(10), range: NSMakeRange(0, attr.length - 3))
+        if self.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 3 {
+            attr.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(10), range: NSMakeRange(0, attr.length - 3))
+        }
         
         return attr
-        
     }
     
     //trim

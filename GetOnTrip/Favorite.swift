@@ -8,35 +8,6 @@
 
 import UIKit
 
-class CollectAddAndCancel: NSObject {
-    
-    static let sharedCollectAddCancel = CollectAddAndCancel()
-    
-    ///  收藏方法
-    ///
-    ///  - parameter objid:   收藏对象 内容：1， 景点：2， 城市：3， 话题：4， 书籍：5
-    ///  - parameter isAdd:   是否收藏
-    ///  - parameter handler: 回调
-    func fetchCollectionModels(type: Int, objid: String, isAdd: Bool, handler: (String?, Int) -> Void) {
-        
-        var post      = [String: String]()
-        post["objid"] = String(objid)
-        post["type"]  = String(type)
-        let path = isAdd == true ? "/api/collect/add" : "/api/collect/del"
-        
-        HttpRequest.ajax2(AppIni.BaseUri, path: path, post: post) { (result, status) -> () in
-            if status == RetCode.SUCCESS {
-
-                handler(result.string, status)
-                return
-            }
-            handler(nil, status)
-        }
-    }
-    
-
-}
-
 struct FavoriteContant {
     //查询用
     static let TypeContent = 1

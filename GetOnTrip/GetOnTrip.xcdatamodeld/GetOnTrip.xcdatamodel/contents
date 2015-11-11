@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
+    <entity name="MRRecommend" representedClassName=".MRRecommend" syncable="YES">
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Binary" syncable="YES"/>
+    </entity>
     <entity name="MSProvince" representedClassName=".MSProvince" syncable="YES">
         <attribute name="name" optional="YES" attributeType="Binary" syncable="YES"/>
     </entity>
     <elements>
+        <element name="MRRecommend" positionX="-27" positionY="27" width="128" height="75"/>
         <element name="MSProvince" positionX="-54" positionY="-9" width="128" height="60"/>
     </elements>
 </model>
