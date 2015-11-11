@@ -51,6 +51,15 @@ class UIKitTools {
         return url
     }
     
+    /**
+    在完整的url后加入模糊参数，由后台提供实时高斯模糊
+    
+    - parameter url:    <#url description#>
+    - parameter radius: <#radius description#>
+    - parameter sigma:  <#sigma description#>
+    
+    - returns: <#return value description#>
+    */
     class func blurImageUrl(url:String, radius:Int, sigma:Int) -> String {
         if url.containsString("@") {
             let returl = "\(url)_\(radius)r_\(sigma)s"

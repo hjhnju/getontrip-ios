@@ -17,7 +17,7 @@ class AppIniDev {
     static let BaseUri = "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniDev {
+class AppIni:AppIniOnline {
     static let Domain:String = "www.getontrip.cn"
 }
 
@@ -42,7 +42,6 @@ struct SceneColor {
     static let bgBlack     = UIColor(hex: 0x2A2D2E, alpha:1)
     //前景深黑
     static let frontBlack   = UIColor(hex: 0x1C1C1C, alpha: 1)
-    
     
     static let gray        = UIColor(hex: 0x3E3E3E, alpha:1)
     static let lightGray   = UIColor(hex: 0x9C9C9C, alpha:1)

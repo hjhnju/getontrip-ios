@@ -39,7 +39,7 @@ extension UIButton {
     convenience init(image: String, title: String, fontSize: CGFloat, titleColor: UIColor = UIColor.whiteColor()) {
         
         self.init()
-        
+        self.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
         setImage(UIImage(named: image), forState: UIControlState.Normal)
         setTitle(title, forState: UIControlState.Normal)
         titleLabel?.font = UIFont.systemFontOfSize(fontSize)

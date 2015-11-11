@@ -131,6 +131,7 @@ class LoginView: UIView {
             })
     }
     
+    //添加登录浮层
     func addLoginFloating(finish: LoginFinishedOperate) {
         let lv = LoginView.sharedLoginView
         lv.frame = UIScreen.mainScreen().bounds

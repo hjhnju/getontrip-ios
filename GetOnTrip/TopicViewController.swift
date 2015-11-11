@@ -318,32 +318,19 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: - 评论、分享、收藏
     func doFavorite(sender: UIButton) {
-        if sharedUserAccount == nil {
-            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
-                if success {
-                    CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid: self.topicId, isAdd: !sender.selected, handler: { (result, status) -> Void in
-                        if status == RetCode.SUCCESS {
-                            if result == "1" {
-                                sender.selected = !sender.selected
-                                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                            } else {
-                                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                            }
-                        }
-                    })
-                }
-            })
-        } else {
-            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(4, objid: self.topicId, isAdd: !sender.selected, handler: { (result, status) -> Void in
+        
+        if let topic = topicDataSource {
+            let type  = FavoriteContant.TypeSight
+            let objid = topic.id
+            Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
+                (result, status) -> Void in
                 if status == RetCode.SUCCESS {
-                    if result == "1" {
-                        sender.selected = !sender.selected
-                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                    } else {
-                        SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                    }
+                    sender.selected = !sender.selected
+                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                } else {
+                    SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
                 }
-            })
+            }
         }
     }
     

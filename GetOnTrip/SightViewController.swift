@@ -107,7 +107,9 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         
         navBar.setTitle(sightDataSource.name)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "search_icon"), title: nil, target: self, action: "searchAction:")
+        navBar.setRightBarButton(UIImage(named: "bar_collect"), title: nil, target: self, action: "favoriteAction:")
+        navBar.rightButton.setImage(UIImage(named: "bar_collect_select"), forState: UIControlState.Selected)
+        navBar.setRight2BarButton(UIImage(named: "bar_city"), title: nil, target: self, action: "cityAction:")
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = SceneColor.frontBlack
@@ -292,5 +294,28 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     ///  搜索跳入之后消失控制器
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    /// 收藏操作
+    func favoriteAction(sender: UIButton) {
+        let type  = FavoriteContant.TypeSight
+        let objid = self.sightDataSource.id
+        Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
+            (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                sender.selected = !sender.selected
+                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+            } else {
+                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+            }
+        }
+    }
+    
+    /// 跳至城市页
+    func cityAction(sender: UIButton) {
+        let cityViewController = CityViewController()
+        let city = City(id: self.sightDataSource.cityid)
+        cityViewController.cityDataSource = city
+        navigationController?.pushViewController(cityViewController, animated: true)
     }
 }
