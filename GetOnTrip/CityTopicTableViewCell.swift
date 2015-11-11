@@ -62,7 +62,8 @@ class CityTopicTableViewCell: UITableViewCell {
         title.ff_AlignVertical(ff_AlignType.BottomLeft, referView: subTitle, size: nil, offset: CGPointMake(0, 5))
         label.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
         baseView.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 19, 0.5), offset: CGPointMake(0, 0))
-        visit.ff_AlignInner(ff_AlignType.TopRight, referView: baseView, size: CGSizeMake(33, 11), offset: CGPointMake(0, -10))
+//        visit.ff_AlignInner(ff_AlignType.TopRight, referView: baseView, size: CGSizeMake(33, 11), offset: CGPointMake(0, -10))
+        visit.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: CGSizeMake(33, 11), offset: CGPoint(x: UIScreen.mainScreen().bounds.width - 124 - 10 - 33, y: 2))
     }
     
     required init?(coder aDecoder: NSCoder) {

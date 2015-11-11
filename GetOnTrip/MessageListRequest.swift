@@ -10,17 +10,8 @@ import UIKit
 
 class MessageListRequest: NSObject {
     
-    /**
-    * 接口1：/api/msg/list
-    * 查询消息
-    * @param integer page，页码
-    * @param integer pageSize，页面大小
-    * @param string deviceId,设备ID
-    * @return json
-    */
     
     // 请求参数
-    var deviceId :String = appUUID!
     var pageSize :Int = 6
     var curPage  :Int = 1
     
@@ -32,23 +23,41 @@ class MessageListRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: [MessageList] -> Void) {
         var post         = [String: String]()
-        post["deviceId"] = appUUID
         post["pageSize"] = String(self.pageSize)
         post["page"]     = String(self.curPage)
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "api/msg/list", post: post) { (result, error) -> () in
-            if error == nil {
-                print(result)
-                var messageLists = [MessageList]()
-                for item in result as! NSArray {
-                    
-                    messageLists.append(MessageList(dict: item as! [String : AnyObject]))
+        
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/msg/list", post: post) { (result, status) -> () in
+
+            if status == RetCode.SUCCESS {
+                if let data = result.array {
+                    print(result)
+                    var messageLists = [MessageList]()
+                    for item in data {
+                        if let item = item.dictionaryObject {
+                            messageLists.append(MessageList(dict: item))
+                        }
+                    }
+                    handler(messageLists)
                 }
-                
-                // 回调
-                handler(messageLists)
             }
+            
         }
+        
+        
+//        HttpRequest.ajax(AppIni.BaseUri, path: "/api/msg/list", post: post) { (result, error) -> () in
+//            if error == nil {
+//                print(result)
+//                var messageLists = [MessageList]()
+//                for item in result as! NSArray {
+//                    
+//                    messageLists.append(MessageList(dict: item as! [String : AnyObject]))
+//                }
+//                
+//                // 回调
+//                handler(messageLists)
+//            }
+//        }
     }
 }
 

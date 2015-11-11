@@ -10,6 +10,7 @@ import UIKit
 import FFAutoLayout
 import Alamofire
 import SVProgressHUD
+import CoreData
 
 /// 定义选中的是第几行
 struct SettingCell {
@@ -85,7 +86,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     var saveButton: Bool = false {
         didSet {
-            navBar.rightButton.enabled = saveButton
+            navBar.rightButton.selected = saveButton
         }
     }
     
@@ -108,7 +109,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     private func setupAddProperty() {
 
         navBar.setTitle(SettingViewController.name)
-//        navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: UIControlState)
+
         view.addSubview(tableView)
         cancleBottomView.backgroundColor = SceneColor.whiteGray
         cancleBottomView.addSubview(trueButton)
@@ -157,7 +158,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: UIControlEvents.TouchUpInside)
         navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserInfo:")
-        navBar.rightButton.enabled = false
+        navBar.setButtonTintColor(UIColor.yellowColor())
+        navBar.rightButton.selected = false
+        navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: UIControlState.Normal)
+        navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: UIControlState.Selected)
+        
+        navBar.titleLabel.textColor = UIColor.yellowColor()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "nickNameTextFieldTextDidChangeNotification:", name: UITextFieldTextDidChangeNotification, object: nickName)
 
@@ -193,6 +199,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             if status == RetCode.SUCCESS {
                 if let data = result {
                     self.provinces = data
+                    
                     self.pickerView(self.pickView, didSelectRow: 0, inComponent: 0)
                 } else {
                     SVProgressHUD.showErrorWithStatus("数据加载错误，请稍候再试")
@@ -205,6 +212,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         // 退出登陆
         exitLogin.addTarget(self, action: "exitLoginClick", forControlEvents: UIControlEvents.TouchUpInside)
     }
+    
+
     
     ///  退出登陆
     func exitLoginClick() {
@@ -425,7 +434,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             let provin = provinces[lastProvinceIndex] as Province
             switch (component) {
             case 0:
-                saveCity = provin.name
+                saveCity = provin.name ?? ""
                 let city = provin.city
                 saveTown = city[0]["name"]as? String ?? ""
 
@@ -486,8 +495,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
     
     /// MARK: - 保存用户信息
-    func saveUserInfo(item: UIBarButtonItem) {
-    
+    func saveUserInfo(btn: UIButton) {
+        if btn.selected == false { return }
         iconView.image?.scaleImage(200)
         let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
         var sex: Int?

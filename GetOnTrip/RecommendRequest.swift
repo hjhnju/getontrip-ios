@@ -44,6 +44,9 @@ class RecommendRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search/label", post: post) { (data, status) -> () in
             if status == RetCode.SUCCESS {
+                
+//                RecommendRequest.saveStatus(data)
+                
                 let searchModel = NSMutableDictionary()
                 
                 var searchLabels = [RecommendLabel]()
@@ -72,4 +75,66 @@ class RecommendRequest: NSObject {
             handler(nil, status)
         }
     }
+    
+    
+//    private func loadCacheStatus(page: Int, finished:(array: [[String: AnyObject]])->()) {
+//        
+//        // 2. SQL
+//        var sql = "SELECT statusId, status, userId FROM T_Status \n" +
+//        "WHERE userId = \(sharedUserAccount!.uid) \n"
+//        
+//            sql += "AND statusId > \(page)\n"
+//        
+//        sql += "ORDER BY statusId DESC LIMIT 20;"
+//        
+//        // 测试 sql
+//        print(sql)
+//        // 3. 执行 SQL
+//        SQLiteManager.sharedSQLiteManager.queue?.inTransaction({ (db, _) -> Void in
+//            let rs = db.executeQuery(sql)!
+//            
+//            // 遍历结果集合 － 思考，返回什么？`字典数组`即可，和网络返回的数据格式一致
+//            // 字典是一条完整的微博数据的字典
+//            var array = [[String: AnyObject]]()
+//            
+//            while rs.next() {
+//                let str = rs.stringForColumn("status")
+//                
+//                // 字符串 -> 二进制数据 -> 字典
+//                let data = str.dataUsingEncoding(NSUTF8StringEncoding)!
+//                let dict = try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as! [String: AnyObject]
+//                
+//                array.append(dict)
+//            }
+//            
+//            // 完成回调
+//            finished(array: array)
+//        })
+//    }
+//    
+//    
+//    /// 将数据保存到数据库
+//    private class func saveStatus(array: JSON) {
+//        
+//        // 2. SQL
+//        let sql = "INSERT OR REPLACE INTO T_Recommend (id, page, pageSize) VALUES (?, ?, ?);"
+//        
+//        // 3. 遍历数组
+//        for dict in array {
+//            // 3.1 statusId
+//            let statusId = dict["id"] as! Int
+//            // 3.2 status 字典 -> 二进制数据 -> 字符串
+//            let data = try! NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions(rawValue: 0))
+//            let str = NSString(data: data, encoding: NSUTF8StringEncoding)!
+//            
+//            // 4. 执行 sql
+//            SQLiteManager.sharedSQLiteManager.queue!.inTransaction({ (db, rollback) -> Void in
+//
+//                if !db.executeUpdate(sql, statusId, str) {
+//                    rollback.memory = true
+//                }
+//            })
+//        }
+//    }
+    
 }

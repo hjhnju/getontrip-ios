@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+import SwiftyJSON
 
 class TopicRefreshRequest: NSObject {
     
@@ -77,22 +79,64 @@ class LocateBarterCity: NSObject {
      */
     class func getCityProvinceInfo(handler:(result: [Province]?, status: Int) -> Void) {
         
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/province", post: [String: String]()) { (result, status) -> () in
-            if status == RetCode.SUCCESS {
-                
-                var province = [Province]()
-                
-                for item in result.arrayValue {
+        fetchProvince(handler)
+    }
+    
+    // MARK: - coredata 数据库处理，读取数据
+    class func fetchProvince(handler:(result: [Province]?, status: Int) -> Void) {
+        let context = CoreDataStack.defaultStack().context
+        
+        let request = NSFetchRequest(entityName: "MSProvince")
+        
+        let sort = NSSortDescriptor(key: "name", ascending: false)
+        
+        request.sortDescriptors = [sort]
+        
+        do { // 先读取，没有，就从网络加载
+            let provinces = (try? context.executeFetchRequest(request)) as! [MSProvince]
+            var province = [Province]()
+            
+            if provinces.count != 0 {
+                for item in JSON(data:provinces[0].name!).arrayValue {
                     if let item = item.dictionaryObject {
                         province.append(Province(dict: item))
                     }
                 }
-                
-                handler(result: province, status: status)
+                handler(result: province, status: 0)
                 return
             }
-            handler(result: nil, status: status)
+            
+            if province.count == 0 {
+                // 从网络加载
+                HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/province", post: [String: String]()) { (result, status) -> () in
+                    if status == RetCode.SUCCESS {
+                        
+                        for item in result.arrayValue {
+                            if let item = item.dictionaryObject {
+                                province.append(Province(dict: item))
+                            }
+                        }
+                        // 写入数据库
+                        insertProvince(result)
+                        handler(result: province, status: status)
+                        return
+                    }
+                    handler(result: nil, status: status)
+                }
+            }
+            
+        } catch {
+            print(error)
         }
+        
+    }
+    
+    class func insertProvince(data: JSON) {
+        let context = CoreDataStack.defaultStack().context
+        
+        let province = NSEntityDescription.insertNewObjectForEntityForName("MSProvince", inManagedObjectContext: context) as! MSProvince
+        
+        province.name = NSMutableData(bytes: "\(data)", length: "\(data)".lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
     }
 }
 
