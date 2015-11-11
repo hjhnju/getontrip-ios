@@ -336,10 +336,10 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         let newTop = min(-gap, initTop)
         headerViewTopConstraint?.constant = newTop
         
-        for cell in self.tableView.visibleCells {
-            if let tbcell = cell as? RecommendTableViewCell {
-                let factor = calcFactor(tbcell.frame.origin.y + RecommendTableViewCell.RowHeight, yOffset: gap)
-                tbcell.cellImageView.updateFactor(factor)
+        for vcell in self.tableView.visibleCells {
+            if let cell = vcell as? RecommendTableViewCell {
+                let factor = calcFactor(cell.frame.origin.y + RecommendTableViewCell.RowHeight, yOffset: gap)
+                cell.cellImageView.updateFactor(factor)
             }
         }
     }

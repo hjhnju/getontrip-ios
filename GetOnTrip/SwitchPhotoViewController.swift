@@ -18,11 +18,9 @@ class SwitchPhotoViewController: MenuViewController {
     
     lazy var bottomView = UIView(color: UIColor.blackColor(), alphaF: 0.7)
     
-    lazy var cancelBtn = UIButton(title: "取消", fontSize: 20, radius: 0)
-//    lazy var cancelBtn = UIButton()
+    var cancelBtn = UIButton(title: "取消", fontSize: 20, radius: 0)
     
-    lazy var trueBtn = UIButton(title: "确定", fontSize: 20, radius: 0)
-//    lazy var trueBtn = UIButton()
+    var trueBtn = UIButton(title: "确定", fontSize: 20, radius: 0)
     
     lazy var shade: PhotoShadeView = PhotoShadeView(color: UIColor.clearColor(), alphaF: 1.0)
     
@@ -35,7 +33,6 @@ class SwitchPhotoViewController: MenuViewController {
                     it?.iconPhoto = saveImage
                 }
             }
-            print("会来到吗")
         }
     }
     

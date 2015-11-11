@@ -24,15 +24,19 @@ class ScrolledImageView: UIView {
     //对应factor=0.0, 1.0, -1.0
     private var factor:CGFloat = 0.0
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: View Life Circle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         updateUI()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func updateUI(){
@@ -40,17 +44,16 @@ class ScrolledImageView: UIView {
         //self.backgroundColor = UIColor.orangeColor()
         //self.layer.cornerRadius = 3
         
-        imageView.contentMode   = UIViewContentMode.ScaleAspectFill
-        imageView.clipsToBounds = true
+        self.imageView.contentMode   = UIViewContentMode.ScaleAspectFill
+        self.imageView.clipsToBounds = true
         //imageView.backgroundColor = UIColor.blueColor()
         
         self.addSubview(imageView)
         self.bringSubviewToFront(imageView)
-        
         updateFactor(0)
     }
     
-    func loadImage(url:NSURL){
+    func loadImage(url:NSURL?){
         self.imageView.sd_setImageWithURL(url, placeholderImage: PlaceholderImage.defaultLarge)
     }
     
@@ -58,7 +61,8 @@ class ScrolledImageView: UIView {
         self.factor   = factor
         let yOffset   = extra * self.factor
         let y         = -extra + yOffset
-        imageView.frame = CGRectMake(0, y, self.frame.width, self.frame.height + 2*extra)
+        //print("factor=\(factor), frame = \(self.frame)")
+        self.imageView.frame = CGRectMake(0, y, self.frame.width, self.frame.height + 2*extra)
     }
     
 }
