@@ -255,7 +255,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
         
-        loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height + TopicViewContant.headerViewHeight)/2))
+        loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height - TopicViewContant.toolBarHeight + TopicViewContant.headerViewHeight)/2))
         
     }
 

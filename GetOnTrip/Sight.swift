@@ -28,7 +28,8 @@ class Sight: NSObject {
     
     /// 城市ID
     var cityid: String = ""
-    
+    /// 是否被当前用户收藏
+    var isfav: String = ""
     
     init(id: String){
         super.init()
@@ -50,5 +51,9 @@ class Sight: NSObject {
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         
+    }
+    
+    func isFavorite() -> Bool {
+        return self.isfav == "1" ? true : false
     }
 }

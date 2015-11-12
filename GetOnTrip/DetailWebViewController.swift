@@ -43,6 +43,8 @@ class DetailWebViewController: BaseViewController {
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.setBlurViewEffect(false)
         navBar.backgroundColor = SceneColor.frontBlack
+        
+        loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, view.bounds.height/2))
     }
     
     override func viewWillDisappear(animated: Bool) {
