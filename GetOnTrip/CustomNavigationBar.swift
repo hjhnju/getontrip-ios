@@ -33,6 +33,8 @@ class CustomNavigationBar: UIView {
     
     var rightButton: UIButton = UIButton(type: UIButtonType.Custom)
     
+    var rightButton2: UIButton = UIButton(type: UIButtonType.Custom)
+    
     lazy var blurView: UIVisualEffectView = {
         return UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
         }()
@@ -89,6 +91,10 @@ class CustomNavigationBar: UIView {
         self.rightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
         self.addSubview(self.rightButton)
         
+        self.rightButton2.translatesAutoresizingMaskIntoConstraints = false
+        self.rightButton2.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+        self.addSubview(self.rightButton2)
+        
         setButtonTintColor()
         
         //layout subviews
@@ -104,8 +110,8 @@ class CustomNavigationBar: UIView {
         self.frame = CGRectMake(0, 0, width, height)
         blurView.frame = self.bounds
         
-        let metric = ["width": width, "height": height, "navbarHeight": 44, "backButtonWidth": 80, "rightButtonWidth": 80]
-        let viewsBindings = ["titleLabel": titleLabel, "backButton": backButton, "rightButton": rightButton]
+        let metric = ["width": width, "height": height, "navbarHeight": 44, "backButtonWidth": 80, "rightButtonWidth": 53]
+        let viewsBindings = ["titleLabel": titleLabel, "backButton": backButton, "rightButton": rightButton, "rightButton2": rightButton2]
         
         self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[titleLabel]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
         self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[titleLabel(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
@@ -114,6 +120,9 @@ class CustomNavigationBar: UIView {
         
         self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[rightButton(rightButtonWidth)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
         self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[rightButton(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+        
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[rightButton2(rightButtonWidth)]-(rightButtonWidth)-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[rightButton2(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
     }
     
     //MARK: 常用接口
@@ -131,12 +140,20 @@ class CustomNavigationBar: UIView {
     
     /// 设置导航的barTintColor
     func setButtonTintColor(color: UIColor = UIColor.grayColor()){
-        //图片
+        //图片+文字
         self.backButton.tintColor = color
-        self.rightButton.tintColor = color
-        //文字
         self.backButton.setTitleColor(color, forState: UIControlState.Normal)
+        self.backButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        
+        self.rightButton.tintColor = color
         self.rightButton.setTitleColor(color, forState: UIControlState.Normal)
+        self.rightButton.imageView?.frame = CGRectMake(0, 0, 21, 20)
+        self.rightButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        
+        self.rightButton2.tintColor = color
+        self.rightButton2.setTitleColor(color, forState: UIControlState.Normal)
+        self.rightButton2.imageView?.frame = CGRectMake(0, 0, 21, 20)
+        self.rightButton2.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
     }
     
     /// 设置返回按钮
@@ -167,6 +184,21 @@ class CustomNavigationBar: UIView {
         }
         self.rightButton.setTitle(title, forState: UIControlState.Normal)
         self.rightButton.addTarget(target, action: action, forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    /// 设置右侧第二按钮
+    func setRight2BarButton(icon: UIImage?, title: String?, target: AnyObject?, action: Selector){
+        self.rightButton2.hidden = false
+        if let image = icon {
+            self.rightButton2.setImage(image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: UIControlState.Normal)
+            self.rightButton2.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 9 + 2)
+            self.rightButton2.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 9)
+        } else {
+            self.rightButton2.setImage(nil, forState: UIControlState.Normal)
+            self.rightButton2.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 9)
+        }
+        self.rightButton2.setTitle(title, forState: UIControlState.Normal)
+        self.rightButton2.addTarget(target, action: action, forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     /// 设置半透明模糊背景

@@ -188,7 +188,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
 
-        favIconBtn.addTarget(self, action: "favIconBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        favIconBtn.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
         favIconBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
         
         tableView.tableHeaderView = tableHeaderView
@@ -411,37 +411,19 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func favIconBtnClick(sender: UIButton) {
-        if sharedUserAccount == nil {
-
-            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
-                if success {
-                        CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: self.cityId, isAdd: !sender.selected, handler: { (result, status) -> Void in
-                        if status == RetCode.SUCCESS {
-                            if result == "1" {
-                                sender.selected = !sender.selected
-                                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                            } else {
-                                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                            }
-                        }
-                    })
-                }
-            })
-        } else {
-            
-            CollectAddAndCancel.sharedCollectAddCancel.fetchCollectionModels(3, objid: self.cityId, isAdd: !sender.selected, handler: { (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    if result == "1" {
-                        sender.selected = !sender.selected
-                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-                    } else {
-                        SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-                    }
-                }
-            })
+    /// 收藏操作
+    func favoriteAction(sender: UIButton) {
+        let type  = FavoriteContant.TypeCity
+        let objid = self.cityId
+        Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
+            (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                sender.selected = !sender.selected
+                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+            } else {
+                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+            }
         }
-        
     }
     
     ///  搜索跳入之后消失控制器

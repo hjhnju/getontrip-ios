@@ -88,7 +88,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight))
     
     /// 搜索顶部图片
-    var headerImageView = UIImageView(image: UIImage(named: "search_header"))
+    var headerImageView = UIImageView()
     
     /// headerView的顶部约束
     var headerViewTopConstraint: NSLayoutConstraint?
@@ -141,10 +141,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         view.addSubview(headerView)
         headerView.addSubview(headerImageView)
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
-        if let image = headerImageView.image {
-            headerImageView.image = nil
-            UIKitTools.createBlurBackground(image, view: headerImageView, blurRadius: 3.0)
-        }
         //为header添加黑色蒙板
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
         headerView.addSubview(maskView)
@@ -230,7 +226,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         //表格
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
-        headerImageView.ff_AlignInner(ff_AlignType.CenterCenter, referView: headerView, size: CGSize(width: headerView.bounds.width + 20, height: headerView.bounds.height + 50), offset: CGPointZero)
+        headerImageView.ff_Fill(headerView)
     }
     
     ///  添加搜索标签按钮
@@ -397,6 +393,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 if self?.recommendCells.count == 0 {
                     self?.tableView.hidden = true
                     self?.errorView.hidden = false
+                    self?.headerImageView.image = UIImage(named: "search_header")
                 } else {
                     SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                 }
@@ -405,10 +402,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 return
             }
             
-            //处理数据
-            if status != RetCode.SUCCESS {
-                
-            }
             if let dataSource = data {
                 let cells  = dataSource.objectForKey("cells") as! [RecommendCellData]
                 //有数据才更新
@@ -419,7 +412,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 if labels.count > 0 {
                     self?.recommendLabels = labels
                 }
-                //self?.headerImageView.sd_setImageWithURL(NSURL(string: dataSource.objectForKey("image") as! String), placeholderImage: UIImage(named: "search_header"))
+                self?.loadHeaderImage(dataSource.objectForKey("image") as? String)
                 self?.tableView.reloadData()
             }
             self?.tableView.mj_header.endRefreshing()
@@ -459,6 +452,20 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         //重新加载
         if !self.tableView.mj_header.isRefreshing() {
             self.tableView.mj_header.beginRefreshing()
+        }
+    }
+    
+    func loadHeaderImage(url: String?) {
+        //从缓存中获取
+        if url == nil {
+            return
+        }
+        
+        if let url = url {
+            //从网络获取
+            self.headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: PlaceholderImage.defaultLarge, completed: { (image, error, cachetype, nsurl) -> Void in
+                //更新缓存
+            })
         }
     }
 }

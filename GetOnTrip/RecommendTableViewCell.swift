@@ -16,7 +16,6 @@ class RecommendTableViewCell: UITableViewCell {
     // MARK: - 属性
     //底图
     //lazy var iconView: UIImageView = UIImageView()
-    //lazy var cellImageView: ScrolledImageView = ScrolledImageView(frame: CGRectMake(0, 2, UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight - 2))
     var cellImageView = ScrolledImageView()
     
     //中部标题

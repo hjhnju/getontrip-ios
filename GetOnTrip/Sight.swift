@@ -26,6 +26,10 @@ class Sight: NSObject {
     /// 景点标签
     var tags: [Tag] = [Tag]()
     
+    /// 城市ID
+    var cityid: String = ""
+    
+    
     init(id: String){
         super.init()
         self.id = id

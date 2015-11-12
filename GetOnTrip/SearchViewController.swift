@@ -72,7 +72,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let imageV = UIImageView(image: UIImage(named: "search-bg0")!)
+        let imageV = UIImageView(image: UIImage(named: "search-bg")!)
         view.addSubview(imageV)
         view.addSubview(searchResult.view)
         imageV.frame = UIScreen.mainScreen().bounds
