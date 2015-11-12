@@ -52,18 +52,6 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         setupAddSubViewAndAction()
         setupAutoLayout()
         setupChildControllerProperty()
-        let vc = parentViewController?.parentViewController as? SlideMenuViewController
-        
-        vc?.view.addObserver(self, forKeyPath: "frame", options: NSKeyValueObservingOptions.New, context: nil)
-    }
-    
-    deinit {
-        let vc = parentViewController?.parentViewController as? SlideMenuViewController
-        vc?.view.removeObserver(self, forKeyPath: "frame", context: nil)
-    }
-    
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        print(change)
     }
     
     override func viewWillAppear(animated: Bool) {

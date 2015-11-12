@@ -16,12 +16,11 @@ class UserInfoRequest: NSObject {
     * @param integer type,第三方登录类型，1:qq,2:weixin,3:weibo
     * @return json
     */
-    
     // 请求参数
     var type: Int = 0
     
     // 异步加载获取数据
-    func userInfoGainMeans(handler: (user: UserInfo?, status: Int) -> Void) {
+    func fetchModel(handler: (user: UserInfo?, status: Int) -> Void) {
         
         var post      = [String: String]()
         post["type"]  = String(type)
@@ -30,11 +29,33 @@ class UserInfoRequest: NSObject {
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/getinfo", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 if let resu = result.dictionaryObject {
-                    print(result)
                     handler(user: UserInfo(dict: resu), status: status)
                     return
                 }
                 handler(user: nil, status: status)
+            }
+        }
+    }
+    
+    /**
+    * 接口4：/api/user/addinfo
+    * 用户信息添加接口
+    * @param integer type,第三方登录类型，1:qq,2:weixin,3:weibo
+    * @param string  param,eg: param=nick_name:aa,type:jpg,image:bb,sex:1
+    * @return json
+    */
+    func add(userAccount: UserAccount) {
+        var post          = [String: String]()
+        post["nick_name"] = userAccount.nickname
+        post["type"]  = String(type)
+        post["image"] = userAccount.icon
+        post["sex"]   = String(userAccount.gender)
+        post["city"]  = userAccount.city
+        
+        // 发送网络请求加载数据
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/addinfo", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                print("更新用户信息成功")
             }
         }
     }

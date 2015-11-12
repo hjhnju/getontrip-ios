@@ -2,7 +2,7 @@
 //  CollectionCityViewCell.swift
 //  GetOnTrip
 //
-//  Created by 何俊华 on 15/11/11.
+//  Created by 王振坤 on 15/11/6.
 //  Copyright © 2015年 Joshua. All rights reserved.
 //
 

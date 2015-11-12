@@ -42,23 +42,14 @@ class UserAccount: NSObject, NSCoding {
     /// 过期日期
     var expiresDate: NSDate = NSDate()
     
-    /// 告诉后台用户登陆
-    var informLoginRequest: UserLoghtRequest = UserLoghtRequest()
+    var userLoginRequest: UserLoginRequest = UserLoginRequest()
 
     /// 获取用户信息请求
-    var userInfoGainRequest: UserInfoRequest = UserInfoRequest()
-    
-    /// 添加用户信息
-    var userAddRequest: UserAddRequest = UserAddRequest()
-    
-    /// 退出登陆
-    var userExitLoginRequest: UserExitLoghtRequest = UserExitLoghtRequest()
-    
-    /// 检查用户是否登陆
-    var userLoginInsepctRequest: UserLoginInsepctRequest = UserLoginInsepctRequest()
+    var userInfoRequest: UserInfoRequest = UserInfoRequest()
     
     /// 登陆类型 1:qq,2:weixin,3:weibo
     var type: Int = 0
+    
     init(user: SSDKUser?, type: Int) {
         
         credential = user?.credential ?? SSDKCredential()
@@ -71,21 +62,21 @@ class UserAccount: NSObject, NSCoding {
         super.init()
 
         // MARK: - 用户一旦登陆成功即刻告诉后台设置用户登陆状态
-        informLoginStatus(type, openId: user?.uid ?? "")
+        setLoginStatus(type, openId: user?.uid ?? "")
     }
     
     ///  设置用户登陆状态
     ///
     ///  - parameter loginType: 登陆平台类型
     ///  - parameter openId:    openId
-    private func informLoginStatus(loginType: Int, openId: String) {
-        informLoginRequest.openId = openId
-        informLoginRequest.type = loginType
-        informLoginRequest.fetchLoginModels { (result, status) -> Void in
+    private func setLoginStatus(loginType: Int, openId: String) {
+        userLoginRequest.openId = openId
+        userLoginRequest.type = loginType
+        userLoginRequest.login() { (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if (result != nil) {
                     ///  替换服务器用户的个人信息
-                    self.userInfoGain(self.type)
+                    self.loadUserinfo(self.type)
                 } else {
                     SVProgressHUD.showErrorWithStatus("登陆失败，请重新登陆")
                     return
@@ -100,35 +91,24 @@ class UserAccount: NSObject, NSCoding {
     ///  获取用户信息
     ///
     ///  - parameter loginType: 登陆平台
-    private func userInfoGain(loginType: Int) {
-        userInfoGainRequest.type = loginType
-        
-        userInfoGainRequest.userInfoGainMeans { (user, status) -> Void in
+    private func loadUserinfo(loginType: Int) {
+        userInfoRequest.type = loginType
+        userInfoRequest.fetchModel(){ (user, status) -> Void in
             if status == RetCode.SUCCESS {
-                if (user != nil) {
-                    self.nickname = user?.nick_name ?? ""
-                    self.icon     = user?.image ?? ""
-                    self.city     = user?.city ?? ""
-                    self.gender   = Int(user?.sex ?? "") ?? 0
+                if let user = user {
+                    self.nickname = user.nick_name
+                    self.icon     = user.image
+                    self.city     = user.city
+                    self.gender   = Int(user.sex)!
                     self.saveAccount()
                 } else {
-                    self.userAddInfo()
+                    self.userInfoRequest.add(self)
                 }
             } else {
                 SVProgressHUD.showErrorWithStatus("网络连接失败，请重新登陆")
                 return
             }
         }
-    }
-    
-    // MARK: - 用户登陆后添加用户信息
-    private func userAddInfo() {
-        
-        userAddRequest.type = type
-        
-        userAddRequest.param = self
-        userAddRequest.userAddInfoMeans()
-        
     }
     
      // MARK: - 上传用户个人信息
@@ -144,20 +124,13 @@ class UserAccount: NSObject, NSCoding {
     
         HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, error) -> () in
             if error != nil {
-                print("网络加载失败")
                 handler(result: result, error: error)
                 return
             }
             handler(result: nil, error: error)
-            self.userInfoGain(self.type)
+            self.loadUserinfo(self.type)
         }
 
-    }
-    
-    ///  用户退出方法
-    func userExitLoginAction() {
-        
-        userExitLoginRequest.fetchExitLoginModels()
     }
     
     /// MARK: - 保存和加载文件
@@ -166,9 +139,8 @@ class UserAccount: NSObject, NSCoding {
     // MARK: - 退出登陆
     func exitLogin() {
         sharedUserAccount = nil
-        userExitLoginAction()
+        userLoginRequest.signout()
         NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
-
         do {
             try NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
         } catch {
@@ -183,26 +155,27 @@ class UserAccount: NSObject, NSCoding {
         NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
     }
     
-    
+    /// 加载用户信息
     class func loadAccount() -> UserAccount? {
-        
-         /// 程序启动先调用登陆状态如果后台说未登陆就让它下线
-        print("load account, path=\(UserAccount.accountPath), path=\(accountPath)")
+        /// 程序启动先调用登陆状态如果后台说未登陆就让它下线
+        //print("load account, path=\(UserAccount.accountPath), path=\(accountPath)")
         if let account = NSKeyedUnarchiver.unarchiveObjectWithFile(accountPath) as? UserAccount {
-            
-            print("load account=\(account)")
-            
-            account.userLoginInsepctRequest.fetchInsepctUserLogin({ (handler) -> Void in
-                if handler as? String == "" {
-                    account.exitLogin()
+            //print("load account=\(account)")
+            account.userLoginRequest.check({(result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    let uid: Int = result ?? 0
+                    if uid == 0 {
+                        account.exitLogin()
+                    }
                 }
             })
             
             // 判断日期是否过期，根当前系统时间进行`比较`，低于当前系统时间，就认为过期
             // 过期日期`大于`当前日期，结果应该是降序
-//            if account.credential!.expired!.compare(NSDate()) == NSComparisonResult.OrderedDescending {
-                return account
-//            }
+            // if account.credential!.expired!.compare(NSDate()) == NSComparisonResult.OrderedDescending {
+            //    return account
+            // }
+            return account
         }
         
         return nil

@@ -11,10 +11,12 @@ import UIKit
 
 class AppIniOnline {
     static let BaseUri = "http://www.getontrip.cn"
+    static let BaseResourceUri = "http://static.getontrip.cn"
 }
 
 class AppIniDev {
     static let BaseUri = "http://123.57.46.229:8301"
+    static let BaseResourceUri =  "http://123.57.46.229:8301"
 }
 
 class AppIni:AppIniOnline {
@@ -98,4 +100,8 @@ struct PlaceholderImage {
     static let userIcon = "user_icon"
     static let defaultSmall = UIImage(named: "default_small")
     static let defaultLarge = UIImage(named: "default_large")
+}
+
+struct MessageInfo {
+    static let REQUEST_ERR_RETURN = "请求失败，请检查您的网络设置"
 }

@@ -2,7 +2,7 @@
 //  CollectAddAndCancel.swift
 //  GetOnTrip
 //
-//  Created by 王振坤 on 15/10/24.
+//  Created by 何俊华 on 15/10/24.
 //  Copyright © 2015年 Joshua. All rights reserved.
 //
 

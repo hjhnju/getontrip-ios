@@ -53,11 +53,6 @@ class CollectSightRequest: NSObject {
                 }
             }
         }
-//        HttpRequest.ajax(AppIni.BaseUri, path: "/api/collect/list", post: post) { (result, error) -> () in
-//            if error == nil {
-//                
-//            }
-//        }
     }
 }
 

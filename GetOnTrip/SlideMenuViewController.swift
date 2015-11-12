@@ -381,7 +381,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                     static var onceToken: dispatch_once_t = 0
                 }
                 dispatch_once(&Static.onceToken, {
-                    LocateBarterCity.locateBarterCityAction(locality, handler: { (result, status) -> Void in
+                    LocateToCity.locate(locality, handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {
                             currentCityId = result as? String ?? ""
                         } else {
@@ -536,7 +536,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         thirdParthLogin(SSDKPlatformType.TypeWechat, loginType: LoginType.weixinLogin) { (result, error) -> () in
             if error != nil {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                SVProgressHUD.showInfoWithStatus(MessageInfo.REQUEST_ERR_RETURN)
             }
         }
     }
@@ -545,17 +545,16 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     func qqLogin() {
         thirdParthLogin(SSDKPlatformType.TypeQQ, loginType: LoginType.qqLogin) { (result, error) -> () in
             if error != nil {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                SVProgressHUD.showInfoWithStatus(MessageInfo.REQUEST_ERR_RETURN)
             }
         }
     }
     
     //新浪微博登陆
     func weiboLogin() {
-        
         thirdParthLogin(SSDKPlatformType.TypeSinaWeibo, loginType: LoginType.weiboLogin) { (result, error) -> () in
             if error != nil {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                SVProgressHUD.showInfoWithStatus(MessageInfo.REQUEST_ERR_RETURN)
             }
         }
     }
