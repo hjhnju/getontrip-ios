@@ -11,21 +11,21 @@ import Foundation
 /// 景点列表Tags
 class Book: NSObject {
     /// id
-    var id: String?
+    var id: String = ""
     /// 标题
-    var title: String?
+    var title: String = ""
     /// url
-    var url: String?
+    var url: String = ""
     /// 图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = UIKitTools.sliceImageUrl(image, width: 115, height: 145)
         }
     }
     /// 内容
-    var content_desc: String?
+    var content_desc: String = ""
     /// 作者
-    var author: String?
+    var author: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()

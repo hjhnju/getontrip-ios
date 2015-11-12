@@ -94,8 +94,8 @@ class SightBookViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let bc = BookViewController()
-        let dataI = dataSource[indexPath.row]
-        bc.bookId = dataI.id!
+        let book = dataSource[indexPath.row]
+        bc.bookId = book.id
         navigationController?.pushViewController(bc, animated: true)
     }
     

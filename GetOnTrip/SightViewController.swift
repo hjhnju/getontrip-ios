@@ -284,6 +284,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             if status == RetCode.SUCCESS {
                 if let sight = sight {
                     self?.sightDataSource = sight
+                    self?.navBar.rightButton.selected = sight.isFavorite()
                 }
             } else {
                 SVProgressHUD.showErrorWithStatus("您的网络不给力!")
