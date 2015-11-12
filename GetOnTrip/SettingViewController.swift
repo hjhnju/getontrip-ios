@@ -406,6 +406,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         if pickViewSourceNameAndCity {
                 return 2
             } else {
+            if provinces.count == 0 { return 0 }
                 if component == 0 {
                     return provinces.count
                 } else {
