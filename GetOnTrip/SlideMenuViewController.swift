@@ -507,6 +507,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 //self.menuAlpha = 0.0
             }
         )
+        
+        if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.FavoriteViewController")!) {
+            let vc = mainViewController as? FavoriteViewController
+            vc!.contentScrollView.isHitTest = true
+        }
+        
         refreshMask()
     }
     

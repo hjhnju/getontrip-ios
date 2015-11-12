@@ -73,7 +73,10 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         return 72
     }
     
-    // MARK: 自定义
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
 }
 
 // MARK: - 回复消息
@@ -127,6 +130,14 @@ class MessageTableViewCell: UITableViewCell {
         super.layoutSubviews()
         iconView.layer.cornerRadius = max(iconView.bounds.width, iconView.bounds.height) * 0.5
         iconView.clipsToBounds = true
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        
     }
 }
 
@@ -188,8 +199,6 @@ class SystemTableViewCell: UITableViewCell {
         title.ff_AlignHorizontal(ff_AlignType.TopRight, referView: restorePerson, size: nil, offset: CGPointMake(15, 0))
         subTitle.ff_AlignVertical(ff_AlignType.BottomLeft, referView: title, size: nil, offset: CGPointMake(0, 8))
         baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-        
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -200,5 +209,13 @@ class SystemTableViewCell: UITableViewCell {
         super.layoutSubviews()
         iconView.layer.cornerRadius = max(iconView.bounds.width, iconView.bounds.height) * 0.5
         iconView.clipsToBounds = true
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        
     }
 }
