@@ -92,10 +92,10 @@ class MessageTableViewCell: UITableViewCell {
     
     var message: MessageList? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: message!.avatar!), placeholderImage: PlaceholderImage.defaultSmall)
+            iconView.sd_setImageWithURL(NSURL(string: message!.avatar), placeholderImage: PlaceholderImage.defaultSmall)
             restorePerson.text = message?.content
             restoreTime.text = message?.create_time
-            restoreImageView.sd_setImageWithURL(NSURL(string: message!.image!), placeholderImage: PlaceholderImage.defaultSmall)
+            restoreImageView.sd_setImageWithURL(NSURL(string: message!.image), placeholderImage: PlaceholderImage.defaultSmall)
             print(message?.image)
             
         }
@@ -150,10 +150,10 @@ class SystemTableViewCell: UITableViewCell {
     
     var message: MessageList? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: message!.avatar!), placeholderImage: PlaceholderImage.defaultSmall)
+            iconView.sd_setImageWithURL(NSURL(string: message!.avatar), placeholderImage: PlaceholderImage.defaultSmall)
             restorePerson.text = message?.content
             restoreTime.text = message?.create_time
-            restoreImageView.sd_setImageWithURL(NSURL(string: message!.image!), placeholderImage: PlaceholderImage.defaultSmall)
+            restoreImageView.sd_setImageWithURL(NSURL(string: message!.image), placeholderImage: PlaceholderImage.defaultSmall)
             
             let getWidth = CGRectGetMaxX(restorePerson.frame) + 8
             if message?.image == "" {

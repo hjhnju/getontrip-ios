@@ -148,43 +148,15 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-//        if scrollView.contentOffset.x > 0 {
-//            contentScrollView.isHitTest = true
-//        } else {
-//            contentScrollView.isHitTest = false
-//        }
-//        print(scrollView.contentOffset.x)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+        let x1: CGFloat = scrollView.contentOffset.x / CGFloat(3) + selectView.bounds.width * 0.5
+        print(scrollView.contentOffset.x)
         
-//        if contentScrollView.frame.origin.x == 0 {
-//            contentScrollView.isHitTest = true
-//        }
+        let current = CGFloat(scrollView.contentOffset.x / scrollView.bounds.size.width)
+
+        selectView.center.x = scrollView.contentOffset.x / CGFloat(3) + selectView.bounds.width * 0.5 + 11 + current * (11 / 3)
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-    }
-    
-    
-    
-    
-    //MASK: Actions
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        let xOffset: CGFloat = scrollView.contentOffset.x
-        print(xOffset)
-        if (xOffset < 1) {
-            switchCollectButtonClick(contentBtn)
-        } else if (xOffset < view.bounds.width + 1) {
-            switchCollectButtonClick(sightBtn)
-        } else {
-            switchCollectButtonClick(cityBtn)
-        }
-    }
+
     
 }
 
