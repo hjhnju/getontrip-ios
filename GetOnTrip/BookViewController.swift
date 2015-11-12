@@ -322,7 +322,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         let path = NSBundle.mainBundle().URLForResource("BookDetail.css", withExtension: nil)
         do {
             let text = try? NSString(contentsOfURL: path ?? NSURL(), encoding: NSUTF8StringEncoding)
-            html.appendString("<style>\(text)</style>")
+            html.appendString("<style>\(text!)</style>")
         }
         html.appendString("</head><body>\(body)</body></html>")
 

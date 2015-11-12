@@ -99,5 +99,6 @@ class CurentCollectButton: UIButton {
 //        imageView?.frame = CGRectMake(0, 0, 10, 10)
         imageView?.bounds = CGRectMake(0, 0, 10, 10)
         imageView?.center = CGPointMake(0, bounds.height - 5)
+        titleLabel?.frame = CGRectMake(CGRectGetMaxX(imageView!.frame) + 2, CGRectGetMaxY(imageView!.frame) - 10, 100, 10)
     }
 }

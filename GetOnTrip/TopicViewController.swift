@@ -335,7 +335,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     func doFavorite(sender: UIButton) {
         
         if let topic = topicDataSource {
-            let type  = FavoriteContant.TypeSight
+            let type  = FavoriteContant.TypeTopic
             let objid = topic.id
             Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
                 (result, status) -> Void in

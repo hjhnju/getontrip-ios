@@ -13,13 +13,26 @@ class CollectSightRequest: NSObject {
     // 请求参数
     var page    : Int = 1
     var pageSize: Int = 6
+    var type    : Int = 0
     
     static let sharedCollectType = CollectSightRequest()
     
+    func fetchNextPageModels(handler: ([AnyObject]?, Int) -> Void) {
+        page = page + 1
+        return fetchModels(handler)
+    }
+    
+    func fetchFirstPageModels(handler: ([AnyObject]?, Int) -> Void) {
+        page = 1
+        return fetchModels(handler)
+    }
+    
     // 异步加载话题获取数据
-    func fetchCollectionModels(type: Int, handler: [AnyObject] -> Void) {
+    func fetchModels(handler: ([AnyObject]?, Int) -> Void) {
         var post       = [String: String]()
         post["type"]   = String(type)
+        post["page"]   = String(page)
+        post["pageSize"] = String(pageSize)
         
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/collect/list", post: post) { (result, status) -> () in
@@ -28,29 +41,30 @@ class CollectSightRequest: NSObject {
                 var collectSightMS = [CollectSight]()
                 var collectSightMC = [CollectContent]()
                 for it in result.arrayValue {
-                    switch type {
+                    switch self.type {
                     case 1:
                         collectSightMC.append(CollectContent(dict: it.dictionaryObject!))
                     case 2:
                         collectSightMS.append(CollectSight(dict: it.dictionaryObject!))
                     case 3:
                         collectSightMT.append(CollectCity(dict: it.dictionaryObject!))
-                        print(it)
                     default:
                         print(result)
                         break
                     }
                 }
                 
-                switch type {
+                switch self.type {
                 case 1:
-                    handler(collectSightMC)
+                    handler(collectSightMC, status)
                 case 2:
-                    handler(collectSightMS)
+                    handler(collectSightMS, status)
                 default:
-                    handler(collectSightMT)
+                    handler(collectSightMT, status)
                     break
                 }
+            } else {
+                handler(nil, status)
             }
         }
     }

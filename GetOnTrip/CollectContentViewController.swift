@@ -9,6 +9,7 @@
 import UIKit
 import FFAutoLayout
 import SVProgressHUD
+import MJRefresh
 
 let collectContentCellIdentifier = "CollectContent_Cell"
 let collectConBookCellIdentifier = "CollectContentBook_Cell"
@@ -17,12 +18,17 @@ let collectConBookCellIdentifier = "CollectContentBook_Cell"
 class CollectContentViewController: UITableViewController {
 
     /// 网络请求加载数据
-    var lastSuccessRequest: CollectSightRequest?
+    var lastRequest: CollectSightRequest?
     
     let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "还木有内容...\n收藏点喜欢的吧(∩_∩)", fontSize: 13, mutiLines: true)
     
     var collectContent = [CollectContent]() {
         didSet {
+            if collectContent.count == 0 {
+                collectPrompt.hidden = false
+            } else {
+                collectPrompt.hidden = true
+            }
             tableView.reloadData()
         }
     }
@@ -30,30 +36,57 @@ class CollectContentViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        initProperty()
+    }
+    
+    private func initProperty() {
         
         tableView?.addSubview(collectPrompt)
         collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: tableView!, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = NSTextAlignment.Center
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-
+        collectPrompt.hidden = true
+        
         tableView.backgroundColor = UIColor.clearColor()
         tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: collectContentCellIdentifier)
         tableView.registerClass(CollectContentBookCell.self, forCellReuseIdentifier: collectConBookCellIdentifier)
-        refresh()
+        
+        //上拉刷新
+        let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
+        tbHeaderView.automaticallyChangeAlpha = true
+        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
+        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
+        
+        //下拉刷新
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
+        tbFooterView.automaticallyRefresh = true
+        tbFooterView.automaticallyChangeAlpha = true
+        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
+        
+        
+        self.tableView.mj_header = tbHeaderView
+        self.tableView.mj_footer = tbFooterView
+        
         
     }
     
-    private func refresh() {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        CollectSightRequest.sharedCollectType.fetchCollectionModels(1) { (handler) -> Void in
-            self.collectContent = handler as! [CollectContent]
+        if !tableView.mj_header.isRefreshing() {
+            tableView.mj_header.beginRefreshing()
         }
     }
 
 
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if collectContent.count == 0 { collectPrompt.hidden = false } else { collectPrompt.hidden = true }
         return collectContent.count
     }
 
@@ -123,7 +156,71 @@ class CollectContentViewController: UITableViewController {
             }
         }
     }
+    
+    
+    /// 是否正在加载中
+    var isLoading:Bool = false
+    
+    /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
+    private func loadData() {
+        if self.isLoading {
+            return
+        }
+        
+        self.isLoading = true
+        
+        //清空footer的“加载完成”
+        self.tableView.mj_footer.resetNoMoreData()
+        if lastRequest == nil {
+            lastRequest = CollectSightRequest()
+            lastRequest?.type = 1
+        }
+        
+        lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
+            //处理异常状态
+            if RetCode.SUCCESS != status {
+                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                self?.tableView.mj_header.endRefreshing()
+                self?.isLoading = false
+                return
+            }
+            
+            if let dataSource = data as? [CollectContent] {
 
+                self?.tableView.mj_header.endRefreshing()
+                //有数据才更新
+//                if dataSource.count > 0 {
+                    self?.collectContent = dataSource
+//                } else {
+//                    self?.collectPrompt.hidden = false
+//                }
+            }
+            self?.isLoading = false
+        }
+    }
+    
+    /// 底部加载更多
+    func loadMore(){
+        if self.isLoading {
+            return
+        }
+        self.isLoading = true
+        //请求下一页
+        self.lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
+            
+            if let dataSource = data as? [CollectContent] {
+                if dataSource.count > 0 {
+                    if let cells = self?.collectContent {
+                        self?.collectContent = cells + dataSource
+                    }
+                    self?.tableView.mj_footer.endRefreshing()
+                } else {
+                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+                }
+            }
+            self?.isLoading = false
+        }
+    }
 }
 
 // MARK: - CollectTopicCell
@@ -185,7 +282,7 @@ class CollectContentCell: UITableViewCell {
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(120, 73), offset: CGPointMake(9, 0))
         titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
-        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
+        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: CGSizeMake(50, 50), offset: CGPointMake(15, 0))
         baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     
@@ -227,7 +324,7 @@ class CollectContentBookCell: CollectContentCell {
         iconView.ff_AlignInner(ff_AlignType.CenterCenter, referView: iconBottomView, size: CGSizeMake(62, 86.5))
         titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconBottomView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
-        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconBottomView, size: nil, offset: CGPointMake(9, 0))
+        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconBottomView, size: CGSizeMake(50, 50), offset: CGPointMake(15, 0))
         baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     
