@@ -148,6 +148,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
         
         view.addSubview(webView)
+        webView.addSubview(loadingView)
         view.addSubview(headerView)
         view.addSubview(toolbarView)
         view.backgroundColor = UIColor.whiteColor()
@@ -253,11 +254,24 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         shareBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: commentBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
+        
+        loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height + TopicViewContant.headerViewHeight)/2))
+        
     }
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    var loadingView: LoadingView = LoadingView(color: SceneColor.lightGray)
+    
+    func webViewDidStartLoad(webView: UIWebView) {
+        loadingView.start()
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        loadingView.stop()
     }
     
     // MARK: UIWebView and UIScrollView Delegate 代理方法
@@ -270,6 +284,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         webView.loadHTMLString(errorHTML, baseURL: nil)
     }
     
+    /// 显示详情
     func showTopicDetail() {
         if let topic =  topicDataSource {
             print("[WebView]Loading: \(topic.contenturl)")

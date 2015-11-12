@@ -31,6 +31,7 @@ class DetailWebViewController: BaseViewController {
         navigationItem.backBarButtonItem  = UIBarButtonItem(title: "途知", style: .Plain, target: nil, action: nil)
 
         view.addSubview(webView)
+        webView.addSubview(loadingView)
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
 
@@ -44,8 +45,6 @@ class DetailWebViewController: BaseViewController {
         navBar.backgroundColor = SceneColor.frontBlack
     }
     
-    
-    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -53,5 +52,15 @@ class DetailWebViewController: BaseViewController {
         let nav = vc?.visibleViewController as? SightViewController
         nav?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: "", action: "")
         NSURLCache.sharedURLCache().removeAllCachedResponses()
+    }
+    
+    var loadingView: LoadingView = LoadingView(color: SceneColor.lightGray)
+    
+    func webViewDidStartLoad(webView: UIWebView) {
+        loadingView.start()
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        loadingView.stop()
     }
 }
