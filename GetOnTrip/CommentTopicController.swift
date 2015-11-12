@@ -211,7 +211,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let com = data[indexPath.row]
         upId = String(com.id)
-        to_user   = com.to_name
+        to_user  = com.from_user_id
         issueTextfield.placeholder = "回复 " + com.from_name + " :"
     }
     
@@ -223,7 +223,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         
         issueTextfield.placeholder = "回复 " + btn.from_name + " :"
         upId = btn.upId
-        to_user   = btn.to_name
+//        to_user = btn.to_name
         
     }
     

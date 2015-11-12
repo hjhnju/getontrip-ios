@@ -193,7 +193,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         pickView.dataSource = self
         pickView.delegate = self
         
-        LocateBarterCity.getCityProvinceInfo { (result, status) -> Void in
+        LocateToCity.getCityProvinceInfo { (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let data = result {
                     self.provinces = data
@@ -406,6 +406,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         if pickViewSourceNameAndCity {
                 return 2
             } else {
+            if provinces.count == 0 { return 0 }
                 if component == 0 {
                     return provinces.count
                 } else {

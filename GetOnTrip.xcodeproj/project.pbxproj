@@ -38,6 +38,7 @@
 		7293A03E1BF4594D0070C64A /* UserLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */; settings = {ASSET_TAGS = (); }; };
 		7293A0401BF470F90070C64A /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		7293A0421BF4713A0070C64A /* Province.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A0411BF4713A0070C64A /* Province.swift */; settings = {ASSET_TAGS = (); }; };
+		7293A0441BF4745E0070C64A /* LocateToCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A0431BF4745E0070C64A /* LocateToCity.swift */; settings = {ASSET_TAGS = (); }; };
 		729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */; };
 		729574001BCF345600343F8F /* UIKitTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FF1BCF345600343F8F /* UIKitTools.swift */; };
 		72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5BF311B73351400F3AB26 /* HttpRequest.swift */; };
@@ -106,10 +107,6 @@
 		AE7E8CC71BD8C05900E7D9EB /* CommentListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7E8CC61BD8C05900E7D9EB /* CommentListRequest.swift */; };
 		AE7F0AC21BB954730011F307 /* SightRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F0AC11BB954730011F307 /* SightRequest.swift */; };
 		AE7F0AC91BB95D3E0011F307 /* SightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7F0AC81BB95D3E0011F307 /* SightViewController.swift */; };
-		AE80B8221BF1EB0F007E9791 /* GetOnTrip.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AE80B8201BF1EB0F007E9791 /* GetOnTrip.xcdatamodeld */; };
-		AE80B8241BF1EB51007E9791 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B8231BF1EB51007E9791 /* CoreDataStack.swift */; };
-		AE80B8901BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B88E1BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift */; };
-		AE80B8911BF21A8A007E9791 /* MSProvince.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B88F1BF21A8A007E9791 /* MSProvince.swift */; };
 		AE8586CB1BC7820500406BEF /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */; };
 		AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
@@ -210,6 +207,7 @@
 		7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLoginRequest.swift; sourceTree = "<group>"; };
 		7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		7293A0411BF4713A0070C64A /* Province.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Province.swift; sourceTree = "<group>"; };
+		7293A0431BF4745E0070C64A /* LocateToCity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocateToCity.swift; sourceTree = "<group>"; };
 		729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightCollectionViewCell.swift; sourceTree = "<group>"; };
 		729573FF1BCF345600343F8F /* UIKitTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitTools.swift; sourceTree = "<group>"; };
 		72A5BF311B73351400F3AB26 /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
@@ -296,10 +294,6 @@
 		AE7E8CC61BD8C05900E7D9EB /* CommentListRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentListRequest.swift; sourceTree = "<group>"; };
 		AE7F0AC11BB954730011F307 /* SightRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightRequest.swift; sourceTree = "<group>"; };
 		AE7F0AC81BB95D3E0011F307 /* SightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightViewController.swift; sourceTree = "<group>"; };
-		AE80B8211BF1EB0F007E9791 /* GetOnTrip.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GetOnTrip.xcdatamodel; sourceTree = "<group>"; };
-		AE80B8231BF1EB51007E9791 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		AE80B88E1BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MSProvince+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		AE80B88F1BF21A8A007E9791 /* MSProvince.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSProvince.swift; sourceTree = "<group>"; };
 		AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsCell.swift; sourceTree = "<group>"; };
 		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
@@ -459,7 +453,6 @@
 				AEAB95131BC7C2DF00B6EE62 /* Content */,
 				AEC8007E1BA1354200099DD9 /* Login */,
 				72D86E081B65E82B004B72D0 /* Common */,
-				AE80B8341BF1F766007E9791 /* CoreData */,
 				72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */,
 				72D86DE41B65D94D004B72D0 /* AppDelegate.swift */,
 				72D86DE21B65D94D004B72D0 /* Supporting Files */,
@@ -521,6 +514,7 @@
 				72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */,
 				72C16AF21BEDCAB000161A77 /* ScrolledImageView.swift */,
 				7206B7CA1BF3759B002E3C9A /* LoadingView.swift */,
+				7293A0431BF4745E0070C64A /* LocateToCity.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -725,17 +719,6 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		AE80B8341BF1F766007E9791 /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				AE80B8201BF1EB0F007E9791 /* GetOnTrip.xcdatamodeld */,
-				AE80B88E1BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift */,
-				AE80B88F1BF21A8A007E9791 /* MSProvince.swift */,
-				AE80B8231BF1EB51007E9791 /* CoreDataStack.swift */,
-			);
-			name = CoreData;
-			sourceTree = "<group>";
-		};
 		AEAB95131BC7C2DF00B6EE62 /* Content */ = {
 			isa = PBXGroup;
 			children = (
@@ -862,7 +845,7 @@
 					};
 					72D86DF31B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 568F62S6LX;
+						DevelopmentTeam = H7P27HMFW7;
 						TestTargetID = 72D86DDE1B65D94D004B72D0;
 					};
 				};
@@ -990,7 +973,6 @@
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
 				AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */,
-				AE80B8221BF1EB0F007E9791 /* GetOnTrip.xcdatamodeld in Sources */,
 				727561841BD0F64A0089CB27 /* Sight.swift in Sources */,
 				AE4ECBCD1BB5305D00DC65F7 /* NSArray+Print.swift in Sources */,
 				729574001BCF345600343F8F /* UIKitTools.swift in Sources */,
@@ -1017,7 +999,6 @@
 				7206B7C71BF35E62002E3C9A /* CollectionCityViewCell.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,
 				AE8C0C151BE8A04F003C7942 /* ShareView.swift in Sources */,
-				AE80B8901BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift in Sources */,
 				72C16AF31BEDCAB000161A77 /* ScrolledImageView.swift in Sources */,
 				AE62E2CE1BB3EF6500B91D33 /* UIPickerView+Extension.swift in Sources */,
 				AE8C0C191BE8AB2D003C7942 /* UserInfo.swift in Sources */,
@@ -1033,7 +1014,6 @@
 				AEFC4E611BE62180001CCC8B /* FeedbackListRequest.swift in Sources */,
 				7293A0401BF470F90070C64A /* SettingTableViewCell.swift in Sources */,
 				AE7F0AC21BB954730011F307 /* SightRequest.swift in Sources */,
-				AE80B8911BF21A8A007E9791 /* MSProvince.swift in Sources */,
 				7293A03E1BF4594D0070C64A /* UserLoginRequest.swift in Sources */,
 				72550E8B1BE7A9AA004D4611 /* UIViewController+Extension.swift in Sources */,
 				7269747B1BE47245000C0ABF /* UIChannelLabel.swift in Sources */,
@@ -1050,13 +1030,13 @@
 				7206B7C91BF36001002E3C9A /* CityAllSightCollectionViewCell.swift in Sources */,
 				7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */,
 				AEAB951A1BC7C83300B6EE62 /* TopicRequest.swift in Sources */,
+				7293A0441BF4745E0070C64A /* LocateToCity.swift in Sources */,
 				AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */,
 				AE2894541BDCDDC20099293F /* SearchViewController.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* SightBooksRequest.swift in Sources */,
 				72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */,
 				AECD226D1B9EEC9B007F1D71 /* CollectContentViewController.swift in Sources */,
 				AEAB95181BC7C79A00B6EE62 /* TopicViewController.swift in Sources */,
-				AE80B8241BF1EB51007E9791 /* CoreDataStack.swift in Sources */,
 				AEC9D2BC1BD7ADE700B28464 /* SendPopoverAnimator.swift in Sources */,
 				726974281BDF168A000C0ABF /* RetCode.swift in Sources */,
 				AE2EEE941BCF58ED00ED0937 /* CitySightsRequest.swift in Sources */,
@@ -1400,19 +1380,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		AE80B8201BF1EB0F007E9791 /* GetOnTrip.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				AE80B8211BF1EB0F007E9791 /* GetOnTrip.xcdatamodel */,
-			);
-			currentVersion = AE80B8211BF1EB0F007E9791 /* GetOnTrip.xcdatamodel */;
-			path = GetOnTrip.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 72D86DD71B65D94D004B72D0 /* Project object */;
 }

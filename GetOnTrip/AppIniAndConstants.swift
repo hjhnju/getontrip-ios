@@ -101,3 +101,7 @@ struct PlaceholderImage {
     static let defaultSmall = UIImage(named: "default_small")
     static let defaultLarge = UIImage(named: "default_large")
 }
+
+struct MessageInfo {
+    static let REQUEST_ERR_RETURN = "请求失败，请检查您的网络设置"
+}
