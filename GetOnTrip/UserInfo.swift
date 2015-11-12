@@ -16,7 +16,7 @@ class UserInfo : NSObject {
     
     var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image
+            image = UIKitTools.sliceImageUrl(image, width: 200, height: 200)
         }
     }
     

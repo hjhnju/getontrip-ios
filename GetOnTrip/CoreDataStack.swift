@@ -46,12 +46,12 @@ class CoreDataStack: NSObject {
     }
     
     func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                print("Save failed...")
-            }
-        }
+//        if context.hasChanges {
+//            do {
+//                try context.save()
+//            } catch {
+//                print("Save failed...")
+//            }
+//        }
     }
 }

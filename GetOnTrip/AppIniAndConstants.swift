@@ -11,10 +11,12 @@ import UIKit
 
 class AppIniOnline {
     static let BaseUri = "http://www.getontrip.cn"
+    static let BaseResourceUri = "http://static.getontrip.cn"
 }
 
 class AppIniDev {
     static let BaseUri = "http://123.57.46.229:8301"
+    static let BaseResourceUri =  "http://123.57.46.229:8301"
 }
 
 class AppIni:AppIniOnline {

@@ -83,7 +83,6 @@ class LoginView: UIView {
     
     //微信登陆
     func wechatLogin() {
-        
         thirdParthLogin(SSDKPlatformType.TypeWechat, loginType: LoginType.weixinLogin) { (result, error) -> () in
             if error != nil {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
@@ -102,7 +101,6 @@ class LoginView: UIView {
     
     //新浪微博登陆
     func weiboLogin() {
-        
         thirdParthLogin(SSDKPlatformType.TypeSinaWeibo, loginType: LoginType.weiboLogin) { (result, error) -> () in
             if error != nil {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
@@ -111,17 +109,17 @@ class LoginView: UIView {
     }
     
     //第三方登陆
-    func thirdParthLogin(type: SSDKPlatformType, loginType: Int, finish: LoginFinishedOperate) {
+    private func thirdParthLogin(type: SSDKPlatformType, loginType: Int, finish: LoginFinishedOperate) {
         //授权
         ShareSDK.authorize(type, settings: nil, onStateChanged: { [weak self] (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
                 
             case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-            self!.loginStatus = true
+            self?.loginStatus = true
             let account = UserAccount(user: user, type: loginType)
             sharedUserAccount = account
-            self!.loginBackgroundClick()
+            self?.loginBackgroundClick()
             case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
             finish(result: false, error: error)
             case SSDKResponseState.Cancel:  print("操作取消")
