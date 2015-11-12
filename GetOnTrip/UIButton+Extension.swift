@@ -83,13 +83,21 @@ class homeSightButton : UIButton {
 /// 收藏景点图标点击区域变大
 class CitySightCollectButton: UIButton {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
-        imageView?.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(17, 16), offset: CGPointMake(-8, 8))
+        imageView?.bounds = CGRectMake(0, 0, 17, 16)
+        imageView?.center = CGPointMake(bounds.width - 16, 16)
     }
+}
+
+class CurentCollectButton: UIButton {
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+//        imageView?.frame = CGRectMake(0, 0, 10, 10)
+        imageView?.bounds = CGRectMake(0, 0, 10, 10)
+        imageView?.center = CGPointMake(0, bounds.height - 5)
     }
 }

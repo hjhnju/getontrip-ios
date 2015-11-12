@@ -78,6 +78,6 @@ class CityAllSightCollectionViewCell: UICollectionViewCell {
         shadeLeft.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(2, bounds.height), offset: CGPointMake(0, 0))
         shadeRight.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(2, bounds.height), offset: CGPointMake(0, 0))
         shadeBottom.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(bounds.width, 2), offset: CGPointMake(0, 0))
-        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(40, 40), offset: CGPointMake(0, 0))
+        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(50, 50), offset: CGPointMake(0, 0))
     }
 }

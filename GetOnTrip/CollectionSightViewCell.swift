@@ -47,7 +47,7 @@ class CollectionSightViewCell: UICollectionViewCell {
         iconView.frame    = self.bounds
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         subtitle.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -11))
-        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil)
+        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(50, 50))
     }
     
     required init(coder aDecoder: NSCoder) {

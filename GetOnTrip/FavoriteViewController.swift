@@ -148,16 +148,29 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        let x1: CGFloat = scrollView.contentOffset.x / CGFloat(3) + selectView.bounds.width * 0.5
-        print(scrollView.contentOffset.x)
-        
         let current = CGFloat(scrollView.contentOffset.x / scrollView.bounds.size.width)
 
-        selectView.center.x = scrollView.contentOffset.x / CGFloat(3) + selectView.bounds.width * 0.5 + 11 + current * (11 / 3)
+        let x1: CGFloat = scrollView.contentOffset.x / CGFloat(3) + selectView.bounds.width * 0.5 + 11
+        switch current {
+        case 0:
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.selectView.center.x = x1 + (self.contentBtn.center.x - x1)
+            })
+        case 1:
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.selectView.center.x = x1 + (self.sightBtn.center.x - x1)
+            })
+        case 2:
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.selectView.center.x = x1 + (self.cityBtn.center.x - x1)
+            })
+        default:
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.selectView.center.x = scrollView.contentOffset.x / CGFloat(3) + self.selectView.bounds.width * 0.5 + 11
+            })
+            break
+        }
     }
-    
-
-    
 }
 
 class CollectScrollerview: UIScrollView {
