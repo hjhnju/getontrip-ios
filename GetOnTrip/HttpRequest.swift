@@ -25,8 +25,9 @@ class HttpRequest {
         configuration.timeoutIntervalForResource = 20
         
         // config.URLCache = urlCache
-        configuration.requestCachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
-
+//        configuration.requestCachePolicy// =
+        configuration.requestCachePolicy =  NSURLRequestCachePolicy.ReturnCacheDataElseLoad
+//        NSURLRequestUseProtocolCachePolicy
         return Manager(configuration: configuration)
     }()
     
@@ -60,9 +61,12 @@ class HttpRequest {
         let urlPath = (url ?? "") + (path ?? "")
         
         print("[HttpRequest]:url=\(urlPath), post=\(post)")
-        
         HttpRequest.sharedManager.request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
-
+            
+            let ree = NSURLCache.sharedURLCache().cachedResponseForRequest(request!)
+            print(ree)
+            print(NSURLCache.sharedURLCache().memoryCapacity)
+            print(NSHomeDirectory())
             //异常
             if error != nil {
                 print("[HttpRequest]:error=\(error)")

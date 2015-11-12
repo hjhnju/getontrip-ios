@@ -47,7 +47,6 @@
 		72D86DFB1B65D94D004B72D0 /* GetOnTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86DFA1B65D94D004B72D0 /* GetOnTripTests.swift */; };
 		72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72D86E331B678D51004B72D0 /* CoreLocation.framework */; };
 		AE12FF7F1B9C0BE800C09F8A /* FeedBackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */; };
-		AE20EDEC1B9C456300F26074 /* cities.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE20EDEB1B9C456300F26074 /* cities.plist */; };
 		AE20EDEE1B9C4FC100F26074 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */; };
 		AE20EDF01B9C53B900F26074 /* MessageListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */; };
 		AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233ADC1BB0E8D5002E6502 /* CityViewController.swift */; };
@@ -105,8 +104,6 @@
 		AE80B8241BF1EB51007E9791 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B8231BF1EB51007E9791 /* CoreDataStack.swift */; };
 		AE80B8901BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B88E1BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift */; };
 		AE80B8911BF21A8A007E9791 /* MSProvince.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B88F1BF21A8A007E9791 /* MSProvince.swift */; };
-		AE80B8941BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B8921BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift */; };
-		AE80B8951BF2E538007E9791 /* MRRecommend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE80B8931BF2E538007E9791 /* MRRecommend.swift */; };
 		AE8586CB1BC7820500406BEF /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */; };
 		AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
@@ -222,7 +219,6 @@
 		72D86E331B678D51004B72D0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		97726D23B8E630D4838357FE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedBackViewController.swift; sourceTree = "<group>"; };
-		AE20EDEB1B9C456300F26074 /* cities.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cities.plist; sourceTree = "<group>"; };
 		AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListRequest.swift; sourceTree = "<group>"; };
 		AE233ADC1BB0E8D5002E6502 /* CityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityViewController.swift; sourceTree = "<group>"; };
@@ -293,8 +289,6 @@
 		AE80B8231BF1EB51007E9791 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		AE80B88E1BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MSProvince+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AE80B88F1BF21A8A007E9791 /* MSProvince.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSProvince.swift; sourceTree = "<group>"; };
-		AE80B8921BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MRRecommend+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		AE80B8931BF2E538007E9791 /* MRRecommend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRRecommend.swift; sourceTree = "<group>"; };
 		AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsCell.swift; sourceTree = "<group>"; };
 		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
@@ -663,7 +657,6 @@
 			isa = PBXGroup;
 			children = (
 				72D86DE31B65D94D004B72D0 /* Info.plist */,
-				AE20EDEB1B9C456300F26074 /* cities.plist */,
 			);
 			name = Plist;
 			sourceTree = "<group>";
@@ -720,8 +713,6 @@
 			isa = PBXGroup;
 			children = (
 				AE80B8201BF1EB0F007E9791 /* GetOnTrip.xcdatamodeld */,
-				AE80B8921BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift */,
-				AE80B8931BF2E538007E9791 /* MRRecommend.swift */,
 				AE80B88E1BF21A8A007E9791 /* MSProvince+CoreDataProperties.swift */,
 				AE80B88F1BF21A8A007E9791 /* MSProvince.swift */,
 				AE80B8231BF1EB51007E9791 /* CoreDataStack.swift */,
@@ -887,7 +878,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE4E77CD1BCB44C3006480B1 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				AE20EDEC1B9C456300F26074 /* cities.plist in Resources */,
 				AEAB95941BC8D82700B6EE62 /* BookDetail.css in Resources */,
 				AE4E77CF1BCB44C4006480B1 /* WeiboSDK.bundle in Resources */,
 				AE4E77D21BCB44C4006480B1 /* ShareSDK.bundle in Resources */,
@@ -993,12 +983,10 @@
 				AE20EDF01B9C53B900F26074 /* MessageListRequest.swift in Sources */,
 				7269750F1BE79BD4000C0ABF /* MenuViewController.swift in Sources */,
 				729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */,
-				AE80B8941BF2E538007E9791 /* MRRecommend+CoreDataProperties.swift in Sources */,
 				7216432A1B7DB18F009C292C /* String+Extentions.swift in Sources */,
 				AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */,
 				72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */,
 				726974771BE39F8A000C0ABF /* CommentAddRequest.swift in Sources */,
-				AE80B8951BF2E538007E9791 /* MRRecommend.swift in Sources */,
 				AEA94F901B9AED30006D6998 /* UserAccount.swift in Sources */,
 				72550E9A1BE9A210004D4611 /* CBStoreHouseTransition.m in Sources */,
 				AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */,

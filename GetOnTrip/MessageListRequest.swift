@@ -43,21 +43,6 @@ class MessageListRequest: NSObject {
             }
             
         }
-        
-        
-//        HttpRequest.ajax(AppIni.BaseUri, path: "/api/msg/list", post: post) { (result, error) -> () in
-//            if error == nil {
-//                print(result)
-//                var messageLists = [MessageList]()
-//                for item in result as! NSArray {
-//                    
-//                    messageLists.append(MessageList(dict: item as! [String : AnyObject]))
-//                }
-//                
-//                // 回调
-//                handler(messageLists)
-//            }
-//        }
     }
 }
 
@@ -65,42 +50,38 @@ class MessageListRequest: NSObject {
 class MessageList: NSObject {
     
     /// 内容
-    var content: String?
+    var content: String = ""
     
     /// 头像
-    var avatar: String? {
+    var avatar: String = "" {
         didSet {
-            avatar = AppIni.BaseUri + avatar!
+            avatar = AppIni.BaseUri + avatar
         }
     }
     
     /// 标题
-    var title: String?
+    var title: String = ""
     
     /// 图片
-    var image: String? {
+    var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image!
+            image = UIKitTools.sliceImageUrl(AppIni.BaseUri, width: 77, height: 58)
         }
     }
     
     /// 创建时间
-    var create_time: String?
+    var create_time: String = ""
     
     /// 回复/提问
-    var type: String?
+    var type: String = ""
+    
+    ///  话题id
+    var topicId: String = ""
     
     init(dict: [String : AnyObject]) {
         super.init()
         
-        // TODO: 因为type不是String类型
-//        setValuesForKeysWithDictionary(dict)
-        content = dict["content"] as? String
-        avatar  = dict["avatar"]  as? String
-        title   = dict["title"]   as? String
-        image   = dict["image"]   as? String
-        type    = dict["type"]    as? String
-        create_time = dict["create_time"] as? String
+        setValuesForKeysWithDictionary(dict)
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

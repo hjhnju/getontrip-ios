@@ -269,8 +269,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
 
         view.endEditing(true)
         if indexPath.section != 1 {
-//            searchBar.text = recordData[indexPath.row]
-            textfile?.text = recordData[indexPath.row]
+            searchBar.text = recordData[indexPath.row]
+            
             tableView.hidden = true
         }
     }

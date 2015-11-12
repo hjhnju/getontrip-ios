@@ -158,13 +158,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: UIControlEvents.TouchUpInside)
         navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserInfo:")
-        navBar.setButtonTintColor(UIColor.yellowColor())
+
         navBar.rightButton.selected = false
         navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: UIControlState.Normal)
         navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: UIControlState.Selected)
-        
-        navBar.titleLabel.textColor = UIColor.yellowColor()
-        
+                
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "nickNameTextFieldTextDidChangeNotification:", name: UITextFieldTextDidChangeNotification, object: nickName)
 
     }
