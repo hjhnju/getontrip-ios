@@ -27,7 +27,7 @@ class CitySightBrief: NSObject {
     /// 是否收藏
     var collected: String = ""
     
-    init(dict: [String : String]) {
+    init(dict: [String : AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
     }
