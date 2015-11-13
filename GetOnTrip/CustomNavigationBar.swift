@@ -40,11 +40,7 @@ class CustomNavigationBar: UIView {
         }()
     
     ///视图是否包括状态栏
-    private var hasStatusBar: Bool = true {
-        didSet {
-            autolayoutSubviews()
-        }
-    }
+    private var hasStatusBar: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,13 +50,14 @@ class CustomNavigationBar: UIView {
         super.init(coder: aDecoder)
     }
     
-    init(){
+    init(hasStatusBar: Bool = true){
         super.init(frame: CGRectZero)
+        self.hasStatusBar = hasStatusBar
         initView()
     }
     
-    convenience init(title: String?, titleColor: UIColor? = UIColor.whiteColor(), titleSize: CGFloat? = 18) {
-        self.init()
+    convenience init(title: String?, titleColor: UIColor? = UIColor.whiteColor(), titleSize: CGFloat? = 18, hasStatusBar: Bool = true) {
+        self.init(hasStatusBar: hasStatusBar)
         
         initView()
         

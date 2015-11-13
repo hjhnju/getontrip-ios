@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import YTKKeyValueStore
 
 struct HttpRequestContant {
     static let timeout: NSTimeInterval = 20
@@ -56,9 +57,7 @@ class HttpRequest {
         }
     }
     
-    //TODO: key-value 存储
-    static var etag:String?
-    static var lastModified:String?
+    static let kvStore = YTKKeyValueStore(DBWithName: "getontrip")
     
     ///  网络访问方法
     ///
@@ -68,6 +67,9 @@ class HttpRequest {
     ///  - parameter handler: 回调数据及错误
     class func ajax2(url: String?, path: String?, post: Dictionary<String, String>, handler: RequestJSONCallBack) {
 
+        HttpRequest.kvStore.createTableWithName("http_etag")
+        HttpRequest.kvStore.createTableWithName("http_lastmodified")
+        
         var params = [String]()
         for (field, value) in post {
             params.append("\(field)=\(value)")
@@ -83,17 +85,22 @@ class HttpRequest {
             return
         }
         let nsreq = NSMutableURLRequest(URL: nsurl!)
-        if let etag = HttpRequest.etag {
+        if let etag = HttpRequest.kvStore.getStringById(urlPath, fromTable: "http_etag") {
             nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match")
         }
-        if let lastModified = HttpRequest.lastModified {
+        if let lastModified = HttpRequest.kvStore.getStringById(urlPath, fromTable: "http_lastmodified") {
             nsreq.setValue(lastModified, forKeyPath: "If-Modified-Since")
         }
         
         HttpRequest.sharedManager.request(nsreq).response { request, response, respData, error -> Void in
             print("urlPath\(urlPath)")
-            HttpRequest.etag = response?.allHeaderFields["ETag"] as? String
-            HttpRequest.lastModified = response?.allHeaderFields["Last-Modified"] as? String
+            
+            if let etag = response?.allHeaderFields["ETag"] as? String {
+                HttpRequest.kvStore.putString(etag, withId: urlPath, intoTable: "http_etag")
+            }
+            if let lastModified = response?.allHeaderFields["Last-Modified"] as? String {
+                HttpRequest.kvStore.putString(lastModified, withId: urlPath, intoTable: "http_lastmodified")
+            }
             
             //异常
             if error != nil {
