@@ -9,6 +9,7 @@
 import UIKit
 import FFAutoLayout
 import SVProgressHUD
+import MJRefresh
 
 let sightListCityIdentifier = "SightListCity_Cell"
 
@@ -43,6 +44,12 @@ class CitySightsViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initProperty()
+        initRefresh()
+    }
+    
+    private func initProperty() {
         view.backgroundColor = SceneColor.frontBlack
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
@@ -53,7 +60,7 @@ class CitySightsViewController: UICollectionViewController {
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = SceneColor.frontBlack
-
+        
         
         let w: CGFloat = (UIScreen.mainScreen().bounds.width - 18 * 3) * 0.5
         let h: CGFloat = w
@@ -69,23 +76,46 @@ class CitySightsViewController: UICollectionViewController {
         collectionView?.backgroundColor = SceneColor.bgBlack
         collectionView?.registerClass(CityAllSightCollectionViewCell.self, forCellWithReuseIdentifier: sightListCityIdentifier)
         collectionView?.alwaysBounceVertical = true
-        
-        refresh()
     }
     
-    private func refresh() {
-        NSLog("notice:refreshing nearby data.")
+    private func initRefresh() {
+        //上拉刷新
+        let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
+        tbHeaderView.automaticallyChangeAlpha = true
+        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
+        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
         
-        //获取数据更新tableview
-        if lastRequest == nil {
-            lastRequest = CitySightsRequest()
-            lastRequest?.cityId = cityId
-        }
+        //上拉刷新
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
+        tbFooterView.automaticallyRefresh = true
+        tbFooterView.automaticallyChangeAlpha = true
+        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        lastRequest?.fetchSightCityModels { (handler: [CitySightBrief]) -> Void in
-            self.sightCityList = handler
+        
+        collectionView?.mj_header = tbHeaderView
+        collectionView?.mj_footer = tbFooterView
+        
+        if !collectionView!.mj_header.isRefreshing() {
+            collectionView!.mj_header.beginRefreshing()
         }
     }
+    
+//    private func loadData() {        
+//        //获取数据更新tableview
+//        if lastRequest == nil {
+//            lastRequest = CitySightsRequest()
+//            lastRequest?.cityId = cityId
+//        }
+//        
+//        lastRequest?.fetchSightCityModels { (handler: [CitySightBrief]) -> Void in
+//            self.sightCityList = handler
+//        }
+//    }
     
     // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -124,6 +154,65 @@ class CitySightsViewController: UICollectionViewController {
             } else {
                 SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
             }
+        }
+    }
+    
+    var isLoading:Bool = false
+
+    private func loadData() {
+        if self.isLoading {
+            return
+        }
+        
+        if lastRequest == nil {
+            lastRequest = CitySightsRequest()
+            lastRequest?.cityId = cityId
+        }
+        
+        self.isLoading = true
+        
+        //清空footer的“加载完成”
+        collectionView!.mj_footer.resetNoMoreData()
+        
+        lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
+            //处理异常状态
+            if RetCode.SUCCESS != status {
+                
+                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                self?.collectionView?.mj_header.endRefreshing()
+                self?.isLoading = false
+                return
+            }
+            
+            if let dataSource = data {
+                self?.sightCityList = dataSource
+            }
+            self?.collectionView?.mj_header.endRefreshing()
+            self?.isLoading = false
+        }
+    }
+    
+    /// 底部加载更多
+    func loadMore(){
+        if self.isLoading {
+            return
+        }
+        self.isLoading = true
+        //请求下一页
+        self.lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
+            
+            if let dataSource = data {
+
+                if dataSource.count > 0 {
+//                    if let cells = self?.recommendCells {
+                        self?.sightCityList = self!.sightCityList + dataSource
+//                    }
+                    self?.collectionView?.mj_footer.endRefreshing()
+                } else {
+                    self?.collectionView?.mj_footer.endRefreshingWithNoMoreData()
+                }
+            }
+            self?.isLoading = false
         }
     }
 }

@@ -179,17 +179,29 @@ class ShareView: UIView {
     ///  分享方法（所有类型）
     private func shareFullType(type: SSDKPlatformType) {
         
-//        if type == SSDKPlatformType.TypeSinaWeibo {
-//            
-//            let text = (shareParames["text"] ?? "") as! String + (shareParames["url"] as! NSURL).absoluteString ?? ""
-//            shareParames["text"] = text
-//        }
+        let shareParame: NSMutableDictionary = shareParames
+        if type == SSDKPlatformType.TypeSinaWeibo {
+            let parames = shareParames
+            let text = (shareParames["text"] ?? "") as! String + (shareParames["url"] as! NSURL).absoluteString ?? ""
+            parames["text"] = text
+        }
         
-        ShareSDK.share(type, parameters: shareParames) { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
+        var prompt = "分享成功"
+        if type == SSDKPlatformType.TypeCopy {
+            let paramesCopy = shareParames
+            paramesCopy.removeObjectForKey("images")
+            paramesCopy.removeObjectForKey("title")
+            paramesCopy.removeObjectForKey("text")
+            prompt = "复制成功"
+        }
+        
+        ShareSDK.share(type, parameters: shareParame)
+            { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
             
             switch state{
             case SSDKResponseState.Success:
-                let alert = UIAlertView(title: "分享成功", message: "分享成功", delegate: self, cancelButtonTitle: "确定")
+                
+                let alert = UIAlertView(title: prompt, message: "", delegate: self, cancelButtonTitle: "确定")
                 alert.show()
             case SSDKResponseState.Fail:    print("分享失败,错误描述:\(error)")
                 let alert = UIAlertView(title: "分享失败", message: "您的网络不稳定，请稍候分享", delegate: self, cancelButtonTitle: "确定")

@@ -121,6 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 SSDKPlatformType.TypeQQ.rawValue,
                 SSDKPlatformType.SubTypeQZone.rawValue,
                 SSDKPlatformType.TypeWechat.rawValue,
+                SSDKPlatformType.TypeCopy.rawValue,
                 SSDKPlatformType.SubTypeWechatTimeline.rawValue],
             onImport: {(platform : SSDKPlatformType) -> Void in
                 

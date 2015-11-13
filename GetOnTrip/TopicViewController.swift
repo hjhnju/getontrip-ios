@@ -14,7 +14,7 @@ import SVProgressHUD
 struct TopicViewContant {
     static let headerViewHeight:CGFloat = 267
     static let toolBarHeight:CGFloat    = 47
-    static let commentViewHeight:CGFloat = 248
+    static let commentViewHeight:CGFloat = UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.height / 1.6 - 44
 }
 
 class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDelegate {
@@ -369,7 +369,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         cover.frame = UIScreen.mainScreen().bounds
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, h - TopicViewContant.commentViewHeight - 44)
+            self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, UIScreen.mainScreen().bounds.height / 1.6)
             self.cover.alpha = 0.7
             }) { (_) -> Void in
                 self.commentVC.view.clipsToBounds = false
