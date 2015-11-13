@@ -363,7 +363,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         currentSearchLabelButton?.selected = false
         currentSearchLabelButton = sender
         
-        lastRequest!.label = String(sender.tag)
+        lastRequest?.label = String(sender.tag)
         tableView.mj_header.beginRefreshing()
     }
     
@@ -391,10 +391,11 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             //处理异常状态
             if RetCode.SUCCESS != status {
                 if self?.recommendCells.count == 0 {
+                    //当前无内容时显示出错页
                     self?.tableView.hidden = true
                     self?.errorView.hidden = false
-                    self?.headerImageView.image = UIImage(named: "search_header")
                 } else {
+                    //当前有内容显示出错浮层
                     SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                 }
                 self?.tableView.mj_header.endRefreshing()
@@ -402,6 +403,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 return
             }
             
+            //处理返回数据
             if let dataSource = data {
                 let cells  = dataSource.objectForKey("cells") as! [RecommendCellData]
                 //有数据才更新
@@ -456,16 +458,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     }
     
     func loadHeaderImage(url: String?) {
-        //从缓存中获取
-        if url == nil {
-            return
-        }
-        
         if let url = url {
             //从网络获取
-            self.headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: PlaceholderImage.defaultLarge, completed: { (image, error, cachetype, nsurl) -> Void in
-                //更新缓存
-            })
+            self.headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: PlaceholderImage.defaultLarge)
         }
     }
 }
