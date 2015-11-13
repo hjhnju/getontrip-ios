@@ -146,9 +146,9 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
 
     
     private func setupAutoLayout() {
-        
+        let tbH: CGFloat = UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.height / 1.6 - 44
         commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 41)
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 444 - 50), offset: CGPointMake(0, 0))
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH - CGFloat(91)), offset: CGPointMake(0, 0))
         issueCommentView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
         commentBottomImage.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 6))
         issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))
