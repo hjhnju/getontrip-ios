@@ -24,6 +24,7 @@
 
 import Foundation
 import UIKit
+import FFAutoLayout
 
 class CustomNavigationBar: UIView {
     
@@ -40,14 +41,11 @@ class CustomNavigationBar: UIView {
         }()
     
     ///视图是否包括状态栏
-    private var hasStatusBar: Bool = true {
-        didSet {
-            autolayoutSubviews()
-        }
-    }
+    private var hasStatusBar: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -61,8 +59,6 @@ class CustomNavigationBar: UIView {
     
     convenience init(title: String?, titleColor: UIColor? = UIColor.whiteColor(), titleSize: CGFloat? = 18) {
         self.init()
-        
-        initView()
         
         self.titleLabel.text = title
         self.titleLabel.textColor = titleColor
@@ -101,11 +97,6 @@ class CustomNavigationBar: UIView {
         autolayoutSubviews()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        autolayoutSubviews()
-    }
-    
     /// 布局
     func autolayoutSubviews() {
         //有状态栏情况下的导航
@@ -115,26 +106,32 @@ class CustomNavigationBar: UIView {
         self.frame = CGRectMake(0, 0, width, height)
         blurView.frame = self.bounds
         
+        
         let metric = ["width": width, "height": height, "navbarHeight": 44, "backButtonWidth": 80, "rightButtonWidth": 53]
-        let viewsBindings = ["titleLabel": titleLabel, "backButton": backButton, "rightButton": rightButton, "rightButton2": rightButton2]
+//        let viewsBindings = ["titleLabel": titleLabel, "backButton": backButton, "rightButton": rightButton, "rightButton2": rightButton2]
 
         //TODO: 修改为设置frame
-//        let y = height - metric["navbarHeight"]!
+        let y: CGFloat = self.hasStatusBar ? 10 : 5
 //        titleLabel.frame = CGRectMake(0, y, self.bounds.width, metric["navbarHeight"]!)
 //        backButton.frame = CGRectMake(0, y, metric["backButtonWidth"]!, metric["navbarHeight"]!)
 //        rightButton.frame = CGRectMake(self.bounds.width - metric["rightButtonWidth"]!, y, metric["rightButtonWidth"]!, metric["navbarHeight"]!)
 //        rightButton2.frame = CGRectMake(self.bounds.width - 2*metric["rightButtonWidth"]!, metric["rightButtonWidth"]!, y, metric["navbarHeight"]!)
         
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[titleLabel]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[titleLabel(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[backButton(backButtonWidth)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[backButton(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+        backButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(metric["backButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
+        titleLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(width, metric["navbarHeight"]!), offset: CGPointMake(0, y))
+        rightButton.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
+        rightButton2.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: rightButton, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, 0))
         
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[rightButton(rightButtonWidth)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[rightButton(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
-        
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[rightButton2(rightButtonWidth)]-(rightButtonWidth)-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[rightButton2(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+//        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[titleLabel]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+//        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[titleLabel(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+//        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[backButton(backButtonWidth)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+//        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[backButton(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+//        
+//        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[rightButton(rightButtonWidth)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+//        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[rightButton(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+//        
+//        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[rightButton2(rightButtonWidth)]-(rightButtonWidth)-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
+//        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[rightButton2(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
     }
     
     //MARK: 常用接口
