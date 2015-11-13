@@ -101,6 +101,11 @@ class CustomNavigationBar: UIView {
         autolayoutSubviews()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        autolayoutSubviews()
+    }
+    
     /// 布局
     func autolayoutSubviews() {
         //有状态栏情况下的导航
@@ -112,6 +117,13 @@ class CustomNavigationBar: UIView {
         
         let metric = ["width": width, "height": height, "navbarHeight": 44, "backButtonWidth": 80, "rightButtonWidth": 53]
         let viewsBindings = ["titleLabel": titleLabel, "backButton": backButton, "rightButton": rightButton, "rightButton2": rightButton2]
+
+        //TODO: 修改为设置frame
+//        let y = height - metric["navbarHeight"]!
+//        titleLabel.frame = CGRectMake(0, y, self.bounds.width, metric["navbarHeight"]!)
+//        backButton.frame = CGRectMake(0, y, metric["backButtonWidth"]!, metric["navbarHeight"]!)
+//        rightButton.frame = CGRectMake(self.bounds.width - metric["rightButtonWidth"]!, y, metric["rightButtonWidth"]!, metric["navbarHeight"]!)
+//        rightButton2.frame = CGRectMake(self.bounds.width - 2*metric["rightButtonWidth"]!, metric["rightButtonWidth"]!, y, metric["navbarHeight"]!)
         
         self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[titleLabel]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
         self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[titleLabel(navbarHeight)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
