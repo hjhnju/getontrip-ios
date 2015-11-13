@@ -26,6 +26,7 @@ class CollectCityCell: UICollectionViewCell {
             iconView.sd_setImageWithURL(NSURL(string: collectCity!.image), placeholderImage:PlaceholderImage.defaultSmall)
             cityName.text = collectCity!.name
             topicNum.text = collectCity!.topicNum
+            collectBtn.selected = true
         }
     }
     
