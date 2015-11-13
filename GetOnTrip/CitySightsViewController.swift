@@ -46,6 +46,7 @@ class CitySightsViewController: UICollectionViewController {
         view.backgroundColor = SceneColor.frontBlack
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
+        collectionView?.frame = CGRectMake(0, 44, view.bounds.width, view.bounds.height - 44)
         
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
@@ -53,17 +54,21 @@ class CitySightsViewController: UICollectionViewController {
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = SceneColor.frontBlack
 
-        let w: CGFloat = 170
-        let h: CGFloat = 150
-        // 每个item的大小
+        
+        let w: CGFloat = (UIScreen.mainScreen().bounds.width - 18 * 3) * 0.5
+        let h: CGFloat = w
+        
         layout.itemSize = CGSizeMake(w, h)
         layout.minimumLineSpacing = 15
-        let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
+        let lw: CGFloat = 18
         layout.minimumInteritemSpacing = lw
-        layout.sectionInset = UIEdgeInsets(top: lw + 44, left: lw, bottom: 0, right: lw)
+        layout.sectionInset = UIEdgeInsets(top: lw, left: lw, bottom: 0, right: lw)
+        layout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        collectionView?.userInteractionEnabled = true
         
         collectionView?.backgroundColor = SceneColor.bgBlack
         collectionView?.registerClass(CityAllSightCollectionViewCell.self, forCellWithReuseIdentifier: sightListCityIdentifier)
+        collectionView?.alwaysBounceVertical = true
         
         refresh()
     }

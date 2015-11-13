@@ -51,16 +51,15 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         collectPrompt.textAlignment = NSTextAlignment.Center
         collectPrompt.hidden = true
         
-        let w: CGFloat = 170
-        let h: CGFloat = 150
-        // 每个item的大小
-        layout.itemSize = CGSizeMake(w, h)
-        // 行间距
-        layout.minimumLineSpacing = 15
-        // item之间水平间距
-        let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
-        layout.minimumInteritemSpacing = lw
+        let w: CGFloat = (UIScreen.mainScreen().bounds.width - 18 * 3) * 0.5
+        let h: CGFloat = w
         
+        layout.itemSize = CGSizeMake(w, h)
+        layout.minimumLineSpacing = 15
+        
+        // item之间水平间距
+        let lw: CGFloat = 18
+        layout.minimumInteritemSpacing = lw
         layout.sectionInset = UIEdgeInsets(top: lw, left: lw, bottom: 0, right: lw)
         
         // Register cell classes

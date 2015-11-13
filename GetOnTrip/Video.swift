@@ -31,7 +31,7 @@ class Video: NSObject {
     /// 类型1-专辑，2-视频
     var type: String = VideoContant.TypeVideo
     ///  时长
-    var len: String?
+    var len: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()

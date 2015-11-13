@@ -18,7 +18,7 @@ class BookRequest: NSObject {
     */
     
     // 请求参数
-    var book :String?
+    var book :String = ""
     
     // 将数据回调外界
     func fetchTopicDetailModels(handler: (BookDetail?, Int) -> Void) {
@@ -28,7 +28,7 @@ class BookRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: (BookDetail?, Int) -> Void) {
         var post         = [String: String]()
-        post["book"]  = String(book!)
+        post["book"]  = String(book)
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/book", post: post) { (result, status) -> Void in
             if status == RetCode.SUCCESS {

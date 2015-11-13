@@ -363,7 +363,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("开始定位")
-        trueLocation = false // 说明获取到了权限
+        isLocationCompetence = false // 说明获取到了权限
         locationManager.stopUpdatingLocation()
 
         // 获取位置信息

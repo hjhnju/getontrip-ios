@@ -10,10 +10,6 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
-/// 是否点击过这个按钮
-var trueLocation:Bool?
-var currentCityId: String?
-
 class SearchViewController: UISearchController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
     let searchResult =  SearchResultsViewController()
@@ -40,18 +36,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     var searchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "当前搜索无内容", fontSize: 14, mutiLines: true)
     /// 定位城市
     var locationCity: UIButton = UIButton(image: "location_Yellow", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor(hex: 0xF3FD54, alpha: 1.0))
-    
-    /// 当前城市位置
-    var currentCityLocation: String = "-1" {
-        didSet {
-            ///  0是正在定位， -1是没有授权成功， -2正在定位时点击了定位按钮
-            if currentCityLocation != "0" && currentCityLocation != "-1" {
-                if trueLocation == true {
-                    switchCurrentCity(locationCity)
-                }
-            }
-        }
-    }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -83,11 +67,11 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     func switchCurrentCity(btn: UIButton) {
         
-        if trueLocation == nil {
-            SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!");
+        if isLocationCompetence == nil {
+            SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!")
+            locationCity.hidden = true
+            return
         }
-        
-        trueLocation = false
         
         if currentCityId == nil {
             SVProgressHUD.showInfoWithStatus("正在定位中", maskType: SVProgressHUDMaskType.Black)
@@ -97,7 +81,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             locationCity.hidden = true
         } else {
             let vcity = CityViewController()
-            vcity.cityDataSource = City(id: currentCityLocation)
+            vcity.cityDataSource = City(id: currentCityId!)
             searchResult.showSearchResultController(vcity)
         }
     }
