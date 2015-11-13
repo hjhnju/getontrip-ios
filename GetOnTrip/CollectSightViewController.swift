@@ -104,8 +104,6 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(collectionSightViewIdentifier, forIndexPath: indexPath) as! CollectionSightViewCell
 
-        cell.collectBtn.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        cell.collectBtn.tag = indexPath.row
         cell.collectSight = collectSights[indexPath.row] as CollectSight
         return cell
     }
@@ -119,37 +117,6 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
         sight.name  = collectSight.name
         vc.sightDataSource = sight
         navigationController?.pushViewController(vc, animated: true)
-    
-    }
-    
-    /// 收藏操作
-    var collectTempButton: UIButton?
-    func favoriteAction(sender: UIButton) {
-        
-        let alert = UIAlertView(title: "取消收藏", message: "", delegate: self, cancelButtonTitle: "确定", otherButtonTitles: "取消")
-        alert.show()
-        collectTempButton = sender
-    }
-    
-    
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        
-        if buttonIndex == 0 {
-            let data = collectSights[collectTempButton!.tag] as CollectSight
-            let type  = FavoriteContant.TypeSight
-            
-            let objid = data.id
-            Favorite.doFavorite(type, objid: objid, isFavorite: false) {
-                (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    self.collectTempButton!.selected = false
-                    SVProgressHUD.showInfoWithStatus("已取消")
-                    self.collectionView!.mj_header.beginRefreshing()
-                } else {
-                    SVProgressHUD.showInfoWithStatus("网络联连失败，请稍候再试！")
-                }
-            }
-        }
     }
     
     /// 是否正在加载中

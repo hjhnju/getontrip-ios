@@ -100,8 +100,6 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(collectCityViewIdentifier, forIndexPath: indexPath) as! CollectCityCell
-        cell.collectBtn.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        cell.collectBtn.tag = indexPath.row
         cell.collectCity = collectCity[indexPath.row] as CollectCity
 
         return cell
@@ -112,36 +110,6 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         let vc = CityViewController()
         vc.cityDataSource = City(id: ct.id)
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    /// 收藏操作
-    var collectTempButton: UIButton?
-    func favoriteAction(sender: UIButton) {
-        
-        let alert = UIAlertView(title: "取消收藏", message: "", delegate: self, cancelButtonTitle: "确定", otherButtonTitles: "取消")
-        alert.show()
-        collectTempButton = sender
-    }
-    
-    
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        
-        if buttonIndex == 0 {
-            let data = collectCity[collectTempButton!.tag] as CollectCity
-            let type  = FavoriteContant.TypeCity
-            
-            let objid = data.id
-            Favorite.doFavorite(type, objid: objid, isFavorite: false) {
-                (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    self.collectTempButton!.selected = false
-                    SVProgressHUD.showInfoWithStatus("已取消")
-                    self.collectionView!.mj_header.beginRefreshing()
-                } else {
-                    SVProgressHUD.showInfoWithStatus("网络联连失败，请稍候再试！")
-                }
-            }
-        }
     }
     
     /// 是否正在加载中

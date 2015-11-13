@@ -18,7 +18,7 @@ class CollectionSightViewCell: UICollectionViewCell {
     
     lazy var subtitle: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "共10个话题", fontSize: 11, mutiLines: false)
     
-    lazy var collectBtn: CitySightCollectButton = CitySightCollectButton(image: "search_fav", title: "", fontSize: 0)
+    lazy var collectBtn: CitySightCollectButton = CitySightCollectButton(image: "collect_yellow", title: "", fontSize: 0)
     
     var collectSight: CollectSight? {
         didSet {
@@ -36,8 +36,6 @@ class CollectionSightViewCell: UICollectionViewCell {
         addSubview(title)
         addSubview(subtitle)
         addSubview(collectBtn)
-        collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
-        collectBtn.selected    = true
         iconView.contentMode   = UIViewContentMode.ScaleAspectFill
         iconView.clipsToBounds = true
         setupAutoLayout()

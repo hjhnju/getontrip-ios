@@ -35,25 +35,6 @@ class HttpRequest {
         return Manager(configuration: configuration)
     }()
     
-    
-    
-    ///  网络访问方法
-    ///
-    ///  - parameter url:     访问环境
-    ///  - parameter path:    访问网络路径
-    ///  - parameter post:    参数
-    ///  - parameter handler: 回调数据及错误
-    class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: RequestFinishedCallBack) {
-        
-        let urlPath = (url ?? "") + (path ?? "")
-        
-        print("[HttpRequest]:url=\(urlPath), post=\(post)")
-
-        request(.POST, urlPath, parameters:post).responseJSON { (response) -> Void in
-            handler(result: response.result.value, error: response.result.error)
-        }
-    }
-    
     ///  网络访问方法
     ///
     ///  - parameter url:     访问环境

@@ -28,7 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-                
+        
+        print(NSHomeDirectory())
         ///  bug调试代码仅一行
         Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
         

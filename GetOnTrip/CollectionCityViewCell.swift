@@ -19,7 +19,7 @@ class CollectCityCell: UICollectionViewCell {
     
     lazy var topicNum: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "", fontSize: 11, mutiLines: false)
     
-    lazy var collectBtn: CitySightCollectButton = CitySightCollectButton(image: "search_fav", title: "", fontSize: 0)
+    lazy var collectBtn: CitySightCollectButton = CitySightCollectButton(image: "collect_yellow", title: "", fontSize: 0)
     
     var collectCity: CollectCity? {
         didSet {
@@ -37,8 +37,6 @@ class CollectCityCell: UICollectionViewCell {
         addSubview(cityName)
         addSubview(topicNum)
         addSubview(collectBtn)
-        collectBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
-        collectBtn.selected    = true
         iconView.contentMode   = UIViewContentMode.ScaleAspectFill
         iconView.clipsToBounds = true
         setupAutoLayout()
