@@ -37,8 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ///  写入cookie
         writeCookie()
         
-        
-        
         //status bar
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
@@ -64,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().hidden = true
         
         //cache
-        let urlCache = NSURLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: nil)
+        let urlCache = NSURLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: "httpcache")
         NSURLCache.setSharedURLCache(urlCache)
 
         // 注册第三方登陆分享应用相关信息
@@ -163,8 +161,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         
     }
-
-
 
 
     // MARK: - 设置是否是第一次进入最新版本

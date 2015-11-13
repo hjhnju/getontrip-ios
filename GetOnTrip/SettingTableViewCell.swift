@@ -14,7 +14,7 @@ import SVProgressHUD
 class SettingTableViewCell: UITableViewCell {
     
     /// 左标签
-    lazy var left: UILabel = UILabel(color: UIColor.blackColor(), title: "名字", fontSize: 14, mutiLines: false)
+    lazy var left: UILabel = UILabel(color: UIColor.blackColor(), title: "名字", fontSize: 16, mutiLines: false)
     
     /// 设置底线
     lazy var baseline: UIView! = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)

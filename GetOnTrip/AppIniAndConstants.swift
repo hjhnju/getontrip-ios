@@ -19,7 +19,7 @@ class AppIniDev {
     static let BaseResourceUri =  "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniOnline {
+class AppIni:AppIniDev {
     static let Domain:String = "www.getontrip.cn"
 }
 
@@ -30,6 +30,7 @@ struct StoryBoardIdentifier {
     
     //search
     static let RecommendTableViewCellID = "SearchRecommendTableViewCellID"
+    static let RecommendTopicViewCellID = "RecommendTopicViewCellID"
     
     //city
     static let CityTopicTableViewCellID   = "CityHotTopicTableViewCellID"

@@ -93,7 +93,7 @@ class PhotoShadeView: UIView {
         
         CGContextAddRect(ctx, rect)
         
-        UIColor(hex: 0xFFFFFF, alpha: 0.3).setFill()
+        UIColor(hex: 0x939393, alpha: 0.7).setFill()
         CGContextFillPath(ctx)
         
         let ctx1 = UIGraphicsGetCurrentContext()

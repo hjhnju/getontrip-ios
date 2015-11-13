@@ -34,15 +34,15 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     lazy var iconView: UIImageView = UIImageView()
     
     /// 昵称
-    lazy var nickName: UITextField = UITextField(alignment: NSTextAlignment.Right, sizeFout: 14, color: UIColor.blackColor())
+    lazy var nickName: UITextField = UITextField(alignment: NSTextAlignment.Right, sizeFout: 16, color: UIColor.blackColor())
     /// 性别
-    lazy var gender: UILabel = UILabel(color: UIColor.blackColor(), title: "男", fontSize: 14, mutiLines: false)
+    lazy var gender: UILabel = UILabel(color: UIColor.blackColor(), title: "男", fontSize: 16, mutiLines: false)
     
     /// 临时保存性别
     var saveGender: String?
     
     /// 城市
-    lazy var city: UILabel = UILabel(color: UIColor.blackColor(), title: "未知", fontSize: 14, mutiLines: false)
+    lazy var city: UILabel = UILabel(color: UIColor.blackColor(), title: "未知", fontSize: 16, mutiLines: false)
     
     /// 临时保存城市
     var saveCity: String = ""
@@ -67,13 +67,13 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     lazy var pickView: UIPickerView = UIPickerView(color: UIColor.whiteColor(), hidde: true)
     
     /// 选择底部的view
-    lazy var cancleBottomView: UIView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 50))
+    lazy var cancleBottomView: UIView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 43))
     
     /// 取消按钮
-    lazy var cancleButton: UIButton = UIButton(title: "取消", fontSize: 18, radius: 2, titleColor: SceneColor.frontBlack)
+    lazy var cancleButton: UIButton = UIButton(title: "取消", fontSize: 14, radius: 2, titleColor: SceneColor.frontBlack)
 
     /// 确定按钮
-    lazy var trueButton: UIButton = UIButton(title: "确定", fontSize: 18, radius: 2, titleColor: SceneColor.frontBlack)
+    lazy var trueButton: UIButton = UIButton(title: "确定", fontSize: 14, radius: 2, titleColor: SceneColor.frontBlack)
     
     /// 性别按钮
     lazy var sortButton: UIButton = UIButton(title: "性别", fontSize: 18, radius: 2, titleColor: SceneColor.frontBlack)
@@ -111,16 +111,18 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         navBar.setTitle(SettingViewController.name)
 
         view.addSubview(tableView)
-        cancleBottomView.backgroundColor = SceneColor.whiteGray
         cancleBottomView.addSubview(trueButton)
         cancleBottomView.addSubview(sortButton)
         cancleBottomView.addSubview(cancleButton)
+        
+        cancleBottomView.backgroundColor = SceneColor.whiteGray
         cancleButton.backgroundColor = SceneColor.lightYellow
         trueButton.backgroundColor   = SceneColor.lightYellow
         sortButton.backgroundColor   = UIColor.clearColor()
+        exitLogin.backgroundColor    = UIColor(hex: 0xF0F0F0, alpha: 1.0)
         
+        cancleButton.alpha = 0.5
         view.addSubview(exitLogin)
-        exitLogin.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -132,9 +134,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         sortButton.addTarget(self, action: "sortClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64), offset: CGPointMake(0, 64))
-        cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(64, 30), offset: CGPointMake(10, 0))
-        sortButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: cancleBottomView, size: CGSizeMake(64, 30), offset: CGPointMake(0, 0))
-        trueButton.ff_AlignInner(ff_AlignType.CenterRight, referView: cancleBottomView, size: CGSizeMake(64, 30), offset: CGPointMake(-10, 0))
+        cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(10, 0))
+        sortButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(0, 0))
+        trueButton.ff_AlignInner(ff_AlignType.CenterRight, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(-10, 0))
         exitLogin.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
     }
     
@@ -426,6 +428,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         if (component == 0 && pickViewSourceNameAndCity == false) {
             pickerView.reloadComponent(1)
             self.lastProvinceIndex = row
+            
+            pickView.selectRow(0, inComponent: 1, animated: false)
         }
         
         if pickViewSourceNameAndCity == false {

@@ -37,7 +37,6 @@ class RecommendRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search/label", post: post) { (data, status) -> () in
             if status == RetCode.SUCCESS {
-                
                 // 回调
                 handler(self.dataWithModel(data), status)
                 return
@@ -50,7 +49,7 @@ class RecommendRequest: NSObject {
     func dataWithModel(data: JSON) -> NSMutableDictionary {
         let searchModel = NSMutableDictionary()
         var searchLabels = [RecommendLabel]()
-        var searchDatas = [RecommendCellData]()
+        var searchDatas  = [RecommendCellData]()
         for item in data["label"].arrayValue {
             if let item = item.dictionaryObject {
                 searchLabels.append(RecommendLabel(dict: item))

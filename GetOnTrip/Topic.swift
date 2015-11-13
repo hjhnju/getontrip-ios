@@ -67,6 +67,11 @@ class Topic: NSObject {
     override init(){
         
     }
+    
+    init(id: String){
+        super.init()
+        self.id = id
+    }
 
     init(dict: [String: AnyObject]) {
         super.init()

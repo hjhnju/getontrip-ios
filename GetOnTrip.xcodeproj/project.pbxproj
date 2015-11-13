@@ -14,6 +14,7 @@
 		7206B7CB1BF3759B002E3C9A /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7206B7CA1BF3759B002E3C9A /* LoadingView.swift */; };
 		7216432A1B7DB18F009C292C /* String+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721643291B7DB18F009C292C /* String+Extentions.swift */; };
 		7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7239FDEC1B7F25BB00238A25 /* UIColor+Extentions.swift */; };
+		7240C4601BF5D12F007C12C1 /* RecommendTopicViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7240C45F1BF5D12F007C12C1 /* RecommendTopicViewCell.swift */; };
 		72550E891BE7A956004D4611 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550E881BE7A956004D4611 /* BaseViewController.swift */; };
 		72550E8B1BE7A9AA004D4611 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550E8A1BE7A9AA004D4611 /* UIViewController+Extension.swift */; };
 		72550E9A1BE9A210004D4611 /* CBStoreHouseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */; };
@@ -183,6 +184,7 @@
 		7206B7CA1BF3759B002E3C9A /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		721643291B7DB18F009C292C /* String+Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extentions.swift"; sourceTree = "<group>"; };
 		7239FDEC1B7F25BB00238A25 /* UIColor+Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extentions.swift"; sourceTree = "<group>"; };
+		7240C45F1BF5D12F007C12C1 /* RecommendTopicViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendTopicViewCell.swift; sourceTree = "<group>"; };
 		72550E881BE7A956004D4611 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		72550E8A1BE7A9AA004D4611 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		72550E981BE9A210004D4611 /* CBStoreHouseTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBStoreHouseTransition.h; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				7206B7C41BF35D9F002E3C9A /* CollectionSightViewCell.swift */,
 				7206B7C61BF35E62002E3C9A /* CollectionCityViewCell.swift */,
 				7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */,
+				7240C45F1BF5D12F007C12C1 /* RecommendTopicViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -988,6 +991,7 @@
 				AE20EDF01B9C53B900F26074 /* MessageListRequest.swift in Sources */,
 				7269750F1BE79BD4000C0ABF /* MenuViewController.swift in Sources */,
 				729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */,
+				7240C4601BF5D12F007C12C1 /* RecommendTopicViewCell.swift in Sources */,
 				7216432A1B7DB18F009C292C /* String+Extentions.swift in Sources */,
 				AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */,
 				72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */,

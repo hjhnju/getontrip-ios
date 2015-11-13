@@ -89,6 +89,9 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
         self.collectionView!.mj_header = tbHeaderView
         self.collectionView!.mj_footer = tbFooterView
         
+        if !collectionView!.mj_header.isRefreshing() {
+            collectionView?.mj_header.beginRefreshing()
+        }
     }
 
     // MARK: UICollectionViewDataSource

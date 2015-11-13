@@ -9,6 +9,7 @@
 import Foundation
 
 struct RecommendCellType  {
+    static let TypeTopic = "3"
     static let TypeCity  = "2"
     static let TypeSight = "1"
 }
@@ -23,7 +24,7 @@ class RecommendCellData: NSObject {
     //图片
     var image: String = "" {
         didSet {
-            image = UIKitTools.sliceImageUrl(image, width: Int(UIScreen.mainScreen().bounds.width), height: Int(RecommendTableViewCell.RowHeight))
+            image = UIKitTools.sliceImageUrl(image, width: Int(UIScreen.mainScreen().bounds.width), height: Int(RecommendContant.rowHeight))
         }
     }
     
@@ -48,5 +49,13 @@ class RecommendCellData: NSObject {
     
     func isTypeCity() -> Bool {
         return self.type == RecommendCellType.TypeCity ? true : false
+    }
+    
+    func isTypeTopic() -> Bool {
+        return self.type == RecommendCellType.TypeTopic ? true : false
+    }
+    
+    func isTypeSight() -> Bool {
+        return self.type == RecommendCellType.TypeSight ? true : false
     }
 }
