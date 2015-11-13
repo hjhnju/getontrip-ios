@@ -22,7 +22,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     // MARK: 相关属性
     
     /// 自定义导航
-    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 14)
+    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 14, hasStatusBar: false)
     
     /// 头部视图
     lazy var headerView: UIView = UIView()

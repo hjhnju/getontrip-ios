@@ -78,8 +78,11 @@ class HttpRequest {
             urlPath += "?" + params.joinWithSeparator("&")
         }
         
-        let nsurl =  NSURL(string: urlPath)
+        print("[HttpRequest]:url=\(urlPath)")
+        
+        let nsurl =  NSURL(string: urlPath.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!)
         if nsurl == nil {
+            print("[HttpRequest]:nsurl is nil=\(nsurl)")
             return
         }
         let nsreq = NSMutableURLRequest(URL: nsurl!)
@@ -112,7 +115,7 @@ class HttpRequest {
             }
         }
         
-        print("[HttpRequest]:url=\(urlPath), post=\(post)")
+        print("[HttpRequest]:url=\(urlPath) sync finished")
     }
     
     /// 上传文件

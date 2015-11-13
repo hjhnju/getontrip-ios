@@ -112,15 +112,15 @@ class CustomNavigationBar: UIView {
 //        let viewsBindings = ["titleLabel": titleLabel, "backButton": backButton, "rightButton": rightButton, "rightButton2": rightButton2]
 
         //TODO: 修改为设置frame
-        let y: CGFloat = self.hasStatusBar ? 10 : 5
+        let y: CGFloat = self.hasStatusBar ? 20 : 0
 //        titleLabel.frame = CGRectMake(0, y, self.bounds.width, metric["navbarHeight"]!)
 //        backButton.frame = CGRectMake(0, y, metric["backButtonWidth"]!, metric["navbarHeight"]!)
 //        rightButton.frame = CGRectMake(self.bounds.width - metric["rightButtonWidth"]!, y, metric["rightButtonWidth"]!, metric["navbarHeight"]!)
 //        rightButton2.frame = CGRectMake(self.bounds.width - 2*metric["rightButtonWidth"]!, metric["rightButtonWidth"]!, y, metric["navbarHeight"]!)
         
-        backButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(metric["backButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
-        titleLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(width, metric["navbarHeight"]!), offset: CGPointMake(0, y))
-        rightButton.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
+        backButton.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(metric["backButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
+        titleLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(width, metric["navbarHeight"]!), offset: CGPointMake(0, y))
+        rightButton.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
         rightButton2.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: rightButton, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, 0))
         
 //        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[titleLabel]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))
