@@ -18,14 +18,11 @@ class CollectionSightViewCell: UICollectionViewCell {
     
     lazy var subtitle: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "共10个话题", fontSize: 11, mutiLines: false)
     
-    lazy var collectBtn: CitySightCollectButton = CitySightCollectButton(image: "collect_yellow", title: "", fontSize: 0)
-    
     var collectSight: CollectSight? {
         didSet {
             iconView.sd_setImageWithURL(NSURL(string: collectSight!.image), placeholderImage: PlaceholderImage.defaultSmall)
             title.text = collectSight?.name
             subtitle.text = collectSight?.topicNum
-            collectBtn.selected = true
         }
     }
     
@@ -35,7 +32,6 @@ class CollectionSightViewCell: UICollectionViewCell {
         addSubview(iconView)
         addSubview(title)
         addSubview(subtitle)
-        addSubview(collectBtn)
         iconView.contentMode   = UIViewContentMode.ScaleAspectFill
         iconView.clipsToBounds = true
         setupAutoLayout()
@@ -46,7 +42,6 @@ class CollectionSightViewCell: UICollectionViewCell {
         iconView.frame    = self.bounds
         title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         subtitle.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -11))
-        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(50, 50))
     }
     
     required init(coder aDecoder: NSCoder) {
