@@ -37,16 +37,25 @@ class SightBookViewController: UITableViewController {
         super.viewDidLoad()
         tableView.registerClass(BookCell.self, forCellReuseIdentifier : HistoryTableViewControllerBookCell)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
-        tableView.mj_header = header
         
-        let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
+        let tbHeaderView = MJRefreshNormalHeader { () -> Void in self.refresh() }
+        tableView.mj_header = tbHeaderView
+        tbHeaderView.automaticallyChangeAlpha = true
+        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
+        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
         
-        footer.automaticallyHidden = false
-        footer.automaticallyChangeAlpha = true
-        footer.automaticallyRefresh = true
-        tableView.mj_footer = footer
-        tableView.mj_footer.automaticallyHidden = true
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
+        tableView.mj_footer = tbFooterView
+        tbFooterView.automaticallyHidden = false
+        tbFooterView.automaticallyRefresh = true
+        tbFooterView.automaticallyChangeAlpha = true
+        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
+        
         if !tableView.mj_header.isRefreshing() {
             tableView.mj_header.beginRefreshing()
         }

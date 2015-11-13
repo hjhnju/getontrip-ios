@@ -15,7 +15,7 @@ let collectContentCellIdentifier = "CollectContent_Cell"
 let collectConBookCellIdentifier = "CollectContentBook_Cell"
 
 
-class CollectContentViewController: UITableViewController {
+class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
 
     /// 网络请求加载数据
     var lastRequest: CollectSightRequest?
@@ -83,15 +83,6 @@ class CollectContentViewController: UITableViewController {
             tableView.mj_header.beginRefreshing()
         }
     }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("+++++++++")
-    }
-    
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("========")
-    }
-
 
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -146,25 +137,36 @@ class CollectContentViewController: UITableViewController {
     }
     
     /// 收藏操作
+    var collectTempButton: UIButton?
     func favoriteAction(sender: UIButton) {
         
-        let data = collectContent[sender.tag] as CollectContent
-        var type: Int?
-        if Int(data.type) == FavoriteContant.TypeTopic { type = FavoriteContant.TypeTopic }
-        else { type = FavoriteContant.TypeTopic }
-        
-        let objid = data.id
-        Favorite.doFavorite(type!, objid: objid, isFavorite: !sender.selected) {
-            (result, status) -> Void in
-            if status == RetCode.SUCCESS {
-                sender.selected = !sender.selected
-                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-            } else {
-                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+        let alert = UIAlertView(title: "取消收藏", message: "", delegate: self, cancelButtonTitle: "确定", otherButtonTitles: "取消")
+        alert.show()
+        collectTempButton = sender
+    }
+    
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+
+        if buttonIndex == 0 {
+            let data = collectContent[collectTempButton!.tag] as CollectContent
+            var type: Int?
+            if Int(data.type) == FavoriteContant.TypeTopic { type = FavoriteContant.TypeTopic }
+            else { type = FavoriteContant.TypeBook }
+            
+            let objid = data.id
+            Favorite.doFavorite(type!, objid: objid, isFavorite: false) {
+                (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    self.collectTempButton!.selected = false
+                    SVProgressHUD.showInfoWithStatus("已取消")
+                    self.tableView.mj_header.beginRefreshing()
+                } else {
+                    SVProgressHUD.showInfoWithStatus("网络联连失败，请稍候再试！")
+                }
             }
         }
     }
-    
     
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -194,14 +196,8 @@ class CollectContentViewController: UITableViewController {
             }
             
             if let dataSource = data as? [CollectContent] {
-
                 self?.tableView.mj_header.endRefreshing()
-                //有数据才更新
-//                if dataSource.count > 0 {
-                    self?.collectContent = dataSource
-//                } else {
-//                    self?.collectPrompt.hidden = false
-//                }
+                self?.collectContent = dataSource
             }
             self?.isLoading = false
         }

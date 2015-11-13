@@ -13,7 +13,7 @@ import MJRefresh
 
 let collectionSightViewIdentifier = "CollectionSightView_Cell"
 
-class CollectSightViewController: UICollectionViewController {
+class CollectSightViewController: UICollectionViewController, UIAlertViewDelegate {
     
     /// 网络请求加载数据
     var lastRequest: CollectSightRequest?
@@ -56,12 +56,12 @@ class CollectSightViewController: UICollectionViewController {
         collectPrompt.textAlignment = NSTextAlignment.Center
         collectPrompt.hidden = true
         
-        let w: CGFloat = 170
-        let h: CGFloat = 150
+        let w: CGFloat = (UIScreen.mainScreen().bounds.width - 18 * 3) * 0.5
+        let h: CGFloat = w
         
         layout.itemSize = CGSizeMake(w, h)
         layout.minimumLineSpacing = 15
-        let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
+        let lw: CGFloat = 18
         layout.minimumInteritemSpacing = lw
         layout.sectionInset = UIEdgeInsets(top: lw, left: lw, bottom: 0, right: lw)
         
@@ -128,17 +128,31 @@ class CollectSightViewController: UICollectionViewController {
     }
     
     /// 收藏操作
+    var collectTempButton: UIButton?
     func favoriteAction(sender: UIButton) {
-        let type  = FavoriteContant.TypeSight
-        let sight = collectSights[sender.tag] as CollectSight
-        let objid = sight.id
-        Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
-            (result, status) -> Void in
-            if status == RetCode.SUCCESS {
-                sender.selected = !sender.selected
-                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-            } else {
-                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+        
+        let alert = UIAlertView(title: "取消收藏", message: "", delegate: self, cancelButtonTitle: "确定", otherButtonTitles: "取消")
+        alert.show()
+        collectTempButton = sender
+    }
+    
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        
+        if buttonIndex == 0 {
+            let data = collectSights[collectTempButton!.tag] as CollectSight
+            let type  = FavoriteContant.TypeSight
+            
+            let objid = data.id
+            Favorite.doFavorite(type, objid: objid, isFavorite: false) {
+                (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    self.collectTempButton!.selected = false
+                    SVProgressHUD.showInfoWithStatus("已取消")
+                    self.collectionView!.mj_header.beginRefreshing()
+                } else {
+                    SVProgressHUD.showInfoWithStatus("网络联连失败，请稍候再试！")
+                }
             }
         }
     }
@@ -174,11 +188,8 @@ class CollectSightViewController: UICollectionViewController {
                 
                 self?.collectionView!.mj_header.endRefreshing()
                 //有数据才更新
-                if dataSource.count > 0 {
-                    self?.collectSights = dataSource
-                } else {
-                    self?.collectPrompt.hidden = false
-                }
+                self?.collectSights = dataSource
+
             }
             self?.isLoading = false
         }

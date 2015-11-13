@@ -13,7 +13,7 @@ import MJRefresh
 
 let collectCityViewIdentifier = "CollectCity_Cell"
 
-class CollectCityViewController: UICollectionViewController {
+class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate {
 
     /// 网络请求加载数据
     var lastRequest: CollectSightRequest?
@@ -51,16 +51,15 @@ class CollectCityViewController: UICollectionViewController {
         collectPrompt.textAlignment = NSTextAlignment.Center
         collectPrompt.hidden = true
         
-        let w: CGFloat = 170
-        let h: CGFloat = 150
-        // 每个item的大小
-        layout.itemSize = CGSizeMake(w, h)
-        // 行间距
-        layout.minimumLineSpacing = 15
-        // item之间水平间距
-        let lw: CGFloat = (UIScreen.mainScreen().bounds.width - w * 2) / 3
-        layout.minimumInteritemSpacing = lw
+        let w: CGFloat = (UIScreen.mainScreen().bounds.width - 18 * 3) * 0.5
+        let h: CGFloat = w
         
+        layout.itemSize = CGSizeMake(w, h)
+        layout.minimumLineSpacing = 15
+        
+        // item之间水平间距
+        let lw: CGFloat = 18
+        layout.minimumInteritemSpacing = lw
         layout.sectionInset = UIEdgeInsets(top: lw, left: lw, bottom: 0, right: lw)
         
         // Register cell classes
@@ -83,10 +82,8 @@ class CollectCityViewController: UICollectionViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        
         self.collectionView!.mj_header = tbHeaderView
         self.collectionView!.mj_footer = tbFooterView
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -122,17 +119,31 @@ class CollectCityViewController: UICollectionViewController {
     }
     
     /// 收藏操作
+    var collectTempButton: UIButton?
     func favoriteAction(sender: UIButton) {
-        let type  = FavoriteContant.TypeCity
-        let city = collectCity[sender.tag] as CollectCity
-        let objid = city.id
-        Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
-            (result, status) -> Void in
-            if status == RetCode.SUCCESS {
-                sender.selected = !sender.selected
-                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
-            } else {
-                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+        
+        let alert = UIAlertView(title: "取消收藏", message: "", delegate: self, cancelButtonTitle: "确定", otherButtonTitles: "取消")
+        alert.show()
+        collectTempButton = sender
+    }
+    
+    
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        
+        if buttonIndex == 0 {
+            let data = collectCity[collectTempButton!.tag] as CollectCity
+            let type  = FavoriteContant.TypeCity
+            
+            let objid = data.id
+            Favorite.doFavorite(type, objid: objid, isFavorite: false) {
+                (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    self.collectTempButton!.selected = false
+                    SVProgressHUD.showInfoWithStatus("已取消")
+                    self.collectionView!.mj_header.beginRefreshing()
+                } else {
+                    SVProgressHUD.showInfoWithStatus("网络联连失败，请稍候再试！")
+                }
             }
         }
     }
@@ -168,11 +179,7 @@ class CollectCityViewController: UICollectionViewController {
                 
                 self?.collectionView!.mj_header.endRefreshing()
                 //有数据才更新
-                if dataSource.count > 0 {
-                    self?.collectCity = dataSource
-                } else {
-                    self?.collectPrompt.hidden = false
-                }
+                self?.collectCity = dataSource
             }
             self?.isLoading = false
         }

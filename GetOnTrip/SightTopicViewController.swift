@@ -35,28 +35,26 @@ class SightTopicViewController: UITableViewController {
         
         tableView.registerClass(TopicCell.self, forCellReuseIdentifier : HistoryTableViewControllerElseCell)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        let header = MJRefreshNormalHeader { () -> Void in self.refresh() }
-        // TODO: - 如果要集成使用下面这段代码即可
-//        let loadingView = DGElasticPullToRefreshLoadingViewCircle()
-//        tableView.dg_addPullToRefreshWithActionHandler({ [weak self] () -> Void in
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-//                self?.tableView.dg_stopLoading()
-//            })
-//            }, loadingView: loadingView)
-//        tableView.dg_setPullToRefreshFillColor(UIColor(red: 57/255.0, green: 67/255.0, blue: 89/255.0, alpha: 1.0))
-//        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
-//        header.hidden = true
         
-        tableView.mj_header = header
+        let tbHeaderView = MJRefreshNormalHeader { () -> Void in self.refresh() }
+        tableView.mj_header = tbHeaderView
         
+        tbHeaderView.automaticallyChangeAlpha = true
+        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
+        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
         
-        let footer = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
+        tableView.mj_footer = tbFooterView
+        tbFooterView.automaticallyHidden = false
+        tbFooterView.automaticallyRefresh = true
+        tbFooterView.automaticallyChangeAlpha = true
+        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        footer.automaticallyHidden = false
-        footer.automaticallyChangeAlpha = true
-        footer.automaticallyRefresh = true
-        tableView.mj_footer = footer
-        tableView.mj_footer.automaticallyHidden = true
         if !tableView.mj_header.isRefreshing() {
             tableView.mj_header.beginRefreshing()
         }
