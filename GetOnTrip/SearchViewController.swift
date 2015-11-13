@@ -78,7 +78,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             return
         } else if currentCityId == "" {
             SVProgressHUD.showErrorWithStatus("当前城市未开通")
-            locationCity.hidden = true
         } else {
             let vcity = CityViewController()
             vcity.cityDataSource = City(id: currentCityId!)
@@ -159,9 +158,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
                     self.searchMuch = data
                     self.recordTableView.reloadData()
                 }
-                
-            } else {
-                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
             }
         }
     }
