@@ -125,7 +125,12 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                         self.data.append(v as! CommentList)
                     }
                     self.data.sortInPlace { $0.id > $1.id }
-                    self.tableView.reloadRowsAtIndexPaths(NSArray(object: self.reloadIndexPath) as! [NSIndexPath], withRowAnimation: UITableViewRowAnimation.None)
+                    
+                    if self.reloadIndexPath.row == 0 {
+                        self.tableView.reloadData()
+                    } else {
+                        self.tableView.reloadRowsAtIndexPaths(NSArray(object: self.reloadIndexPath) as! [NSIndexPath], withRowAnimation: UITableViewRowAnimation.None)
+                    }
                 }
             } else {
                 SVProgressHUD.showErrorWithStatus("您的网络连接不稳定，请稍候后连接")
@@ -196,13 +201,14 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell", forIndexPath: indexPath) as! commentTableViewCell
-//        let cell = commentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+//        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell", forIndexPath: indexPath) as! commentTableViewCell
+        let cell = commentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
         for i in cell.commentAnswersView.subviews {
             i.removeFromSuperview()
         }
         cell.data = data[indexPath.row]
         for item in cell.commentAnswersView.subviews {
+           
             if let it = item as? commentPersonButton {
                 it.addTarget(self, action: "commentPersonTouchAction:", forControlEvents: UIControlEvents.TouchUpInside)
             }
@@ -254,7 +260,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     func commentTitleButtonAction() {
         upId = ""
         issueTextfield.placeholder = ""
-        reloadIndexPath = NSIndexPath(forRow: 1, inSection: 0)
+        reloadIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     }
 }
 
