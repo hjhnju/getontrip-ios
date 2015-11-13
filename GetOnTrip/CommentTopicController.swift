@@ -45,7 +45,13 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     var dataDict: NSMutableDictionary = NSMutableDictionary()
         
-    var data: [CommentList] = [CommentList]()
+    var data: [CommentList] = [CommentList]() {
+        didSet {
+            if data.count != 0 {
+                prompt.hidden = true
+            }
+        }
+    }
     
     var reloadIndexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     
