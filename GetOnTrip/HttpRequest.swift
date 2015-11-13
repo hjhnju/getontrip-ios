@@ -38,8 +38,6 @@ class HttpRequest {
         return Manager(configuration: configuration)
     }()
     
-    
-    
     ///  网络访问方法
     ///
     ///  - parameter url:     访问环境

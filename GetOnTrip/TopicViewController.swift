@@ -215,7 +215,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         commentBtn.addTarget(self, action: "doComment:", forControlEvents: UIControlEvents.TouchUpInside)
         cover.addTarget(self, action: "coverClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        
         headerTitleLabel.numberOfLines = 2
         headerTitleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
@@ -401,13 +400,21 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
 
         let keyBoardFrame = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
         let keyBoardY = keyBoardFrame?.origin.y
-        var transFromValue = keyBoardY! - view.bounds.height
-        
+        let transFromValue = keyBoardY! - view.bounds.height
+
+        let bound = UIScreen.mainScreen().bounds
         if transFromValue == 0{
-            transFromValue = 0
+            self.commentVC.view.frame = CGRectMake(0, bound.height - (bound.height / 1.6) - 44, view.bounds.width, bound.height / 1.6)
+            self.commentVC.tableViewConH?.constant = bound.height / 1.6 - 91
+            self.commentVC.tableView.layoutIfNeeded()
         } else {
-            transFromValue = transFromValue + 44
+            self.commentVC.view.frame = CGRectMake(0, 44, view.bounds.width, bound.height - keyBoardFrame!.height - 44)
+            self.commentVC.tableViewConH?.constant = bound.height - keyBoardFrame!.height - 44
+            if self.commentVC.reloadIndexPath.row != 0 {
+                self.commentVC.tableView.scrollToRowAtIndexPath(self.commentVC.reloadIndexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+            }
+            self.commentVC.tableView.layoutIfNeeded()
         }
-        self.commentVC.view.transform = CGAffineTransformMakeTranslation(0, transFromValue)
+        
     }
 }

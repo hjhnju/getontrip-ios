@@ -94,8 +94,6 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
             cell = tableView.dequeueReusableCellWithIdentifier(collectConBookCellIdentifier, forIndexPath: indexPath) as? CollectContentBookCell
             cell?.collectContent = data
         }
-        cell?.collect.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        cell?.collect.tag = indexPath.row
         if indexPath.row == collectContent.count - 1 {
             cell!.baseline.removeFromSuperview()
         }
@@ -128,38 +126,6 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         
         let collect = collectContent[indexPath.row] as CollectContent
         return collect.type == "4" ? 107 : 125
-    }
-    
-    /// 收藏操作
-    var collectTempButton: UIButton?
-    func favoriteAction(sender: UIButton) {
-        
-        let alert = UIAlertView(title: "取消收藏", message: "", delegate: self, cancelButtonTitle: "确定", otherButtonTitles: "取消")
-        alert.show()
-        collectTempButton = sender
-    }
-    
-    
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-
-        if buttonIndex == 0 {
-            let data = collectContent[collectTempButton!.tag] as CollectContent
-            var type: Int?
-            if Int(data.type) == FavoriteContant.TypeTopic { type = FavoriteContant.TypeTopic }
-            else { type = FavoriteContant.TypeBook }
-            
-            let objid = data.id
-            Favorite.doFavorite(type!, objid: objid, isFavorite: false) {
-                (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    self.collectTempButton!.selected = false
-                    SVProgressHUD.showInfoWithStatus("已取消")
-                    self.tableView.mj_header.beginRefreshing()
-                } else {
-                    SVProgressHUD.showInfoWithStatus("网络联连失败，请稍候再试！")
-                }
-            }
-        }
     }
     
     /// 是否正在加载中
@@ -232,7 +198,7 @@ class CollectContentCell: UITableViewCell {
     
     lazy var subtitleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "故宫内真有密道吗？入口在哪里？", fontSize: 16, mutiLines: false)
     
-    lazy var collect: CurentCollectButton = CurentCollectButton(image: "icon_star_gray", title: " 114", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 1.0))
+    lazy var collect: CurentCollectButton = CurentCollectButton(image: "collect_yellow", title: " 114", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 1.0))
     
     lazy var baseline: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     
@@ -242,7 +208,6 @@ class CollectContentCell: UITableViewCell {
             titleLabel.text = collectContent?.subtitle
             subtitleLabel.text = collectContent?.title
             collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
-            collect.selected = true
         }
     }
     
@@ -265,8 +230,6 @@ class CollectContentCell: UITableViewCell {
         addSubview(collect)
         addSubview(baseline)
         
-        collect.selected = true
-        collect.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
         iconView.contentMode    = UIViewContentMode.ScaleAspectFill
         iconView.clipsToBounds  = true
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 120 - 27
@@ -302,7 +265,6 @@ class CollectContentBookCell: CollectContentCell {
             titleLabel.text = collectContent?.subtitle
             subtitleLabel.text = collectContent?.title
             collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
-            collect.selected = true
         }
     }
     

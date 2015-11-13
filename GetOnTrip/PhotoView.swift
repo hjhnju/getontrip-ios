@@ -14,7 +14,7 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
 
     var imgPhoto: UIImageView = UIImageView()
     
-    var img : UIImage? {
+    var img : UIImage = UIImage() {
         didSet{
             imgPhoto.image = img
         }

@@ -43,8 +43,8 @@ class UserLoginRequest: NSObject {
     func signout() {
         let post = [String: String]()
         // 发送网络请求加载数据
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/user/signOut", post: post) { (result, error) -> () in
-            if (error == nil) {
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/signOut", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
                 print(result)
             }
         }

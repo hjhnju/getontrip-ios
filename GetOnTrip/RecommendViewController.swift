@@ -380,9 +380,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     //触发搜索列表的方法
     func clkSearchLabelMethod(sender: UIButton) {
+        
+        if sender.tag == currentSearchLabelButton?.tag { return }
         sender.selected = true
         currentSearchLabelButton?.selected = false
         currentSearchLabelButton = sender
+        
         
         lastRequest?.label = String(sender.tag)
         tableView.mj_header.beginRefreshing()

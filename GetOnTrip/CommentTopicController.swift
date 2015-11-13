@@ -43,6 +43,8 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     lazy var issueCommentTopLine: UIView = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
+    var tableViewConH: NSLayoutConstraint?
+    
     var dataDict: NSMutableDictionary = NSMutableDictionary()
         
     var data: [CommentList] = [CommentList]() {
@@ -187,7 +189,8 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     private func setupAutoLayout() {
         let tbH: CGFloat = UIScreen.mainScreen().bounds.height / 1.6 - 91
         commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 41)
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 41))
+        let cons = tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 41))
+        tableViewConH = tableView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         issueCommentView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
         commentBottomImage.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 6))
         issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))

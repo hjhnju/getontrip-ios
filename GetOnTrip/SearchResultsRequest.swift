@@ -26,40 +26,47 @@ class SearchResultsRequest: NSObject {
         post["query"]    = String(filterString)
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
-        HttpRequest.ajax(AppIni.BaseUri, path: "/api/search", post: post) { (result, error) -> () in
-            if error == nil {
-                let data = result!["data"]
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+
+                let data = result.dictionaryValue
                 var rows = [String : AnyObject]()
                 for section in self.sectionTypes {
                     switch section {
                     case "city":
                         var searchCitys = [SearchResult]()
-                        for item in data!!["city"] as! NSArray {
-                            searchCitys.append(SearchResult(dict: item as! [String : String]))
+                        for item in data["city"]!.arrayValue {
+                            if let item = item.dictionaryObject {
+                                searchCitys.append(SearchResult(dict: item))
+                            }
                         }
                         rows["searchCitys"] = searchCitys
-                        rows["city_num"]    = data!!["city_num"]
+                        rows["city_num"]    = data["city_num"]?.stringValue
                     case "sight":
                         var searchSights = [SearchResult]()
-                        for item in data!!["sight"] as! NSArray {
-                            searchSights.append(SearchResult(dict: item as! [String : String]))
+                        for item in data["sight"]!.arrayValue {
+                            if let item = item.dictionaryObject {
+                                searchSights.append(SearchResult(dict: item))
+                            }
                         }
                         rows["searchSights"] = searchSights
-                        rows["sight_num"]    = data!!["sight_num"]
+                        rows["sight_num"]    = data["sight_num"]?.stringValue
                     case "content":
                         var searchContent = [SearchContent]()
                         
-                        for item in data!!["content"] as! NSArray {
-                            searchContent.append(SearchContent(dict: item as! [String : AnyObject]))
+                        for item in data["content"]!.arrayValue {
+                            if let item = item.dictionaryObject {
+                                searchContent.append(SearchContent(dict: item))
+                            }
                         }
                         rows["searchContent"] = searchContent
-                        rows["content_num"]    = data!!["content_num"]
+                        rows["content_num"]    = data["content_num"]?.stringValue
                     default:
                         break
                     }
                 }
                 handler(rows)
-
+            
             }
         }
     }
