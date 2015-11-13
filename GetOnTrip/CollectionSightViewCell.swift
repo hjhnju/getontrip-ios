@@ -25,6 +25,7 @@ class CollectionSightViewCell: UICollectionViewCell {
             iconView.sd_setImageWithURL(NSURL(string: collectSight!.image), placeholderImage: PlaceholderImage.defaultSmall)
             title.text = collectSight?.name
             subtitle.text = collectSight?.topicNum
+            collectBtn.selected = true
         }
     }
     

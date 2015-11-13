@@ -100,7 +100,7 @@ class CustomNavigationBar: UIView {
         //layout subviews
         autolayoutSubviews()
     }
-    
+        
     /// 布局
     func autolayoutSubviews() {
         //有状态栏情况下的导航

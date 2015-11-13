@@ -179,19 +179,17 @@ class ShareView: UIView {
     ///  分享方法（所有类型）
     private func shareFullType(type: SSDKPlatformType) {
         
-        let shareParame: NSMutableDictionary = shareParames
+        let shareParame: NSMutableDictionary = NSMutableDictionary(dictionary: shareParames)
         if type == SSDKPlatformType.TypeSinaWeibo {
-            let parames = shareParames
             let text = (shareParames["text"] ?? "") as! String + (shareParames["url"] as! NSURL).absoluteString ?? ""
-            parames["text"] = text
+            shareParame["text"] = text
         }
         
         var prompt = "分享成功"
         if type == SSDKPlatformType.TypeCopy {
-            let paramesCopy = shareParames
-            paramesCopy.removeObjectForKey("images")
-            paramesCopy.removeObjectForKey("title")
-            paramesCopy.removeObjectForKey("text")
+            shareParame.removeObjectForKey("images")
+            shareParame.removeObjectForKey("title")
+            shareParame.removeObjectForKey("text")
             prompt = "复制成功"
         }
         

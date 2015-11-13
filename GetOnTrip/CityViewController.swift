@@ -332,7 +332,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let vc       = SightViewController()
+        let vc = SightViewController()
         vc.sightDataSource = collectionDataSource[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }

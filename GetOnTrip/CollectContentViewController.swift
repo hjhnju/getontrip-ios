@@ -248,6 +248,7 @@ class CollectContentCell: UITableViewCell {
             titleLabel.text = collectContent?.subtitle
             subtitleLabel.text = collectContent?.title
             collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
+            collect.selected = true
         }
     }
     
@@ -307,6 +308,7 @@ class CollectContentBookCell: CollectContentCell {
             titleLabel.text = collectContent?.subtitle
             subtitleLabel.text = collectContent?.title
             collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
+            collect.selected = true
         }
     }
     
