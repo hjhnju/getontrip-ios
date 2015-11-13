@@ -32,7 +32,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     /// 发布按钮
     lazy var issueCommentBtn: UIButton = UIButton(title: "确认发布", fontSize: 12, radius: 10, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
     /// 评论标题view
-    lazy var commentTitleView = UIView(color: UIColor.whiteColor())
+    lazy var commentTitleButton: UIButton = UIButton(color: UIColor.whiteColor())
     /// 评论标题
     lazy var commentTitle: UILabel = UILabel(color: SceneColor.bgBlack, title: "评论", fontSize: 16, mutiLines: true)
     /// 评论底线
@@ -44,9 +44,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     lazy var issueCommentTopLine: UIView = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
     var dataDict: NSMutableDictionary = NSMutableDictionary()
-    
-//    var indexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-    
+        
     var data: [CommentList] = [CommentList]()
     
     override func viewDidLoad() {
@@ -60,9 +58,9 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         issueCommentView.addSubview(issueCommentTopLine)
         issueCommentBtn.backgroundColor = SceneColor.shallowYellows
         issueCommentBtn.setTitle("发布中...", forState: UIControlState.Selected)
-        view.addSubview(commentTitleView)
-        commentTitleView.addSubview(commentTitle)
-        commentTitleView.addSubview(commentBottomLine)
+        view.addSubview(commentTitleButton)
+        commentTitleButton.addSubview(commentTitle)
+        commentTitleButton.addSubview(commentBottomLine)
         issueCommentBtn.addTarget(self, action: "sendCommentData:", forControlEvents: UIControlEvents.TouchUpInside)
         commentTitle.textAlignment = NSTextAlignment.Center
         commentTitle.backgroundColor = SceneColor.crystalWhite
@@ -78,6 +76,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(commentTableViewCell.self, forCellReuseIdentifier: "commentTableView_Cell")
         tableView.contentInset = UIEdgeInsets(top: 41, left: 0, bottom: 0, right: 0)
+        commentTitleButton.addTarget(self, action: "commentTitleButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
         
         loadCommentData()
         setupAutoLayout()
@@ -155,9 +154,9 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))
         issueCommentTopLine.ff_AlignInner(ff_AlignType.TopLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width, 0.5))
         issueCommentBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: issueCommentView, size: CGSizeMake(91, 34), offset: CGPointMake(-19, 0))
-        commentTitleView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 41), offset: CGPointMake(0, 0))
-        commentTitle.ff_AlignInner(ff_AlignType.CenterCenter, referView: commentTitleView, size: nil)
-        commentBottomLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: commentTitleView, size: CGSizeMake(view.bounds.width, 0.5))
+        commentTitleButton.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 41), offset: CGPointMake(0, 0))
+        commentTitle.ff_AlignInner(ff_AlignType.CenterCenter, referView: commentTitleButton, size: nil)
+        commentBottomLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: commentTitleButton, size: CGSizeMake(view.bounds.width, 0.5))
     }
     
 
@@ -223,8 +222,11 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         
         issueTextfield.placeholder = "回复 " + btn.from_name + " :"
         upId = btn.upId
-//        to_user = btn.to_name
-        
+    }
+    
+    func commentTitleButtonAction() {
+        upId = ""
+        issueTextfield.placeholder = ""
     }
     
 }

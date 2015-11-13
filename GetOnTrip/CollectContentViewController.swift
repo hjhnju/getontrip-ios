@@ -83,6 +83,14 @@ class CollectContentViewController: UITableViewController {
             tableView.mj_header.beginRefreshing()
         }
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("+++++++++")
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("========")
+    }
 
 
     // MARK: - Table view data source
