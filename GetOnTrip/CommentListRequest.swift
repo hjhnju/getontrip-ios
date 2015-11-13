@@ -25,12 +25,12 @@ class CommentListRequest: NSObject {
     var pageSize: Int = 6
     
     // 将数据回调外界
-    func fetchCommentListModels(handler: [CommentList] -> Void) {
+    func fetchCommentListModels(handler: ([CommentList]?, Int) -> Void) {
         fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: [CommentList] -> Void) {
+    func fetchModels(handler: ([CommentList]?, Int) -> Void) {
         var post         = [String: String]()
         post["topicId"]  = String(topicId)
         post["page"]     = String(page)
@@ -45,8 +45,10 @@ class CommentListRequest: NSObject {
                         comment.append(CommentList(dict: item))
                     }
                 }
-                handler(comment)
+                handler(comment, status)
+                return
             }
+            handler(nil, status)
         }
     }
     

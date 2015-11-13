@@ -90,14 +90,6 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
         self.collectionView!.mj_footer = tbFooterView
         
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if !collectionView!.mj_header.isRefreshing() {
-            collectionView!.mj_header.beginRefreshing()
-        }
-    }
 
     // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

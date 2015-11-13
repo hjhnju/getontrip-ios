@@ -277,7 +277,6 @@
 		AE8C0C161BE8A090003C7942 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		AE8D54A41B9A9EFA009F26DE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		AE926FF51BF0771800F316C0 /* FMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FMDB.framework; path = "Pods/../build/Debug-iphoneos/FMDB.framework"; sourceTree = "<group>"; };
 		AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		AEA24B771B8644D200031FB8 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		AEA94F8F1B9AED30006D6998 /* UserAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAccount.swift; sourceTree = "<group>"; };
@@ -378,7 +377,6 @@
 				AEC421961BF5AA0C0063E27F /* ShareSDKConnector.framework */,
 				AEC421941BF5A95C0063E27F /* ShareSDKConnector */,
 				AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */,
-				AE926FF51BF0771800F316C0 /* FMDB.framework */,
 				AE4E77AC1BCB43B0006480B1 /* libsqlite3.tbd */,
 				AE4E77AA1BCB439A006480B1 /* AdSupport.framework */,
 				AE4E77A61BCB435B006480B1 /* libstdc++.tbd */,

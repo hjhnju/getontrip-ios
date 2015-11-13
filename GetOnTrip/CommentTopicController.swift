@@ -47,6 +47,8 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         
     var data: [CommentList] = [CommentList]()
     
+    var reloadIndexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,7 +77,6 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         tableView.sectionHeaderHeight = 41
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(commentTableViewCell.self, forCellReuseIdentifier: "commentTableView_Cell")
-        tableView.contentInset = UIEdgeInsets(top: 41, left: 0, bottom: 0, right: 0)
         commentTitleButton.addTarget(self, action: "commentTitleButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
         
         loadCommentData()
@@ -89,18 +90,46 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
             commentListRequest!.topicId = topicId
         }
         
-        commentListRequest?.fetchCommentListModels({ (handler) -> Void in
-            
-            for it in handler {
-                self.dataDict.setValue(it, forKey: "\(it.id)")
+        commentListRequest?.fetchCommentListModels({ (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                
+                if let data = result {
+                    for it in data {
+                        self.dataDict.setValue(it, forKey: "\(it.id)")
+                    }
+                    self.data.removeAll(keepCapacity: true)
+                    for (_, v) in self.dataDict {
+                        self.data.append(v as! CommentList)
+                    }
+                    self.data.sortInPlace { $0.id > $1.id }
+                    self.tableView.reloadData()
+                    self.prompt.hidden = self.data.count > 0 ? true : false
+                }
+            } else {
+                SVProgressHUD.showErrorWithStatus("您的网络连接不稳定，请稍候后连接")
             }
-            self.data.removeAll(keepCapacity: true)
-            for (_, v) in self.dataDict {
-                self.data.append(v as! CommentList)
+        })
+    }
+    
+    private func sendcommentRefresh() {
+        
+        commentListRequest?.fetchCommentListModels({ (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                
+                if let data = result {
+                    for it in data {
+                        self.dataDict.setValue(it, forKey: "\(it.id)")
+                    }
+                    self.data.removeAll(keepCapacity: true)
+                    for (_, v) in self.dataDict {
+                        self.data.append(v as! CommentList)
+                    }
+                    self.data.sortInPlace { $0.id > $1.id }
+                    self.tableView.reloadRowsAtIndexPaths(NSArray(object: self.reloadIndexPath) as! [NSIndexPath], withRowAnimation: UITableViewRowAnimation.None)
+                }
+            } else {
+                SVProgressHUD.showErrorWithStatus("您的网络连接不稳定，请稍候后连接")
             }
-            self.data.sortInPlace { $0.id > $1.id }
-            self.tableView.reloadData()
-            self.prompt.hidden = self.data.count > 0 ? true : false
         })
     }
     
@@ -116,8 +145,8 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                 if success {
                     self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {
-                            self.loadCommentData()
                             SVProgressHUD.showInfoWithStatus("发送成功")
+                            self.sendcommentRefresh()
                             
                         } else {
                             SVProgressHUD.showErrorWithStatus("发送失败，请重试")
@@ -131,9 +160,8 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
             
             sendcommentRequest.fetchAddCommentModels(self.topicId, upId: upId, toUserId: to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
                 if status == RetCode.SUCCESS {
-                    self.loadCommentData()
                     SVProgressHUD.showInfoWithStatus("发送成功")
-                    
+                    self.sendcommentRefresh()
                 } else {
                     SVProgressHUD.showErrorWithStatus("发送失败，请重试")
                 }
@@ -146,9 +174,9 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
 
     
     private func setupAutoLayout() {
-        let tbH: CGFloat = UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.height / 1.6 - 44
+        let tbH: CGFloat = UIScreen.mainScreen().bounds.height / 1.6 - 91
         commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 41)
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH - CGFloat(91)), offset: CGPointMake(0, 0))
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 41))
         issueCommentView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
         commentBottomImage.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 6))
         issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))
@@ -168,14 +196,12 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-//        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell", forIndexPath: indexPath) as! commentTableViewCell
-        let cell = commentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell", forIndexPath: indexPath) as! commentTableViewCell
+//        let cell = commentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
         for i in cell.commentAnswersView.subviews {
             i.removeFromSuperview()
         }
         cell.data = data[indexPath.row]
-        cell.commentAnswersView.layoutIfNeeded()
-        
         for item in cell.commentAnswersView.subviews {
             if let it = item as? commentPersonButton {
                 it.addTarget(self, action: "commentPersonTouchAction:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -208,13 +234,14 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        reloadIndexPath = indexPath
         let com = data[indexPath.row]
         upId = String(com.id)
         to_user  = com.from_user_id
         issueTextfield.placeholder = "回复 " + com.from_name + " :"
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         issueTextfield.resignFirstResponder()
     }
     
@@ -227,8 +254,8 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     func commentTitleButtonAction() {
         upId = ""
         issueTextfield.placeholder = ""
+        reloadIndexPath = NSIndexPath(forRow: 1, inSection: 0)
     }
-    
 }
 
 class commentTableViewCell : UITableViewCell {
