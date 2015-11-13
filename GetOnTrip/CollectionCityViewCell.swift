@@ -19,14 +19,11 @@ class CollectCityCell: UICollectionViewCell {
     
     lazy var topicNum: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "", fontSize: 11, mutiLines: false)
     
-    lazy var collectBtn: CitySightCollectButton = CitySightCollectButton(image: "collect_yellow", title: "", fontSize: 0)
-    
     var collectCity: CollectCity? {
         didSet {
             iconView.sd_setImageWithURL(NSURL(string: collectCity!.image), placeholderImage:PlaceholderImage.defaultSmall)
             cityName.text = collectCity!.name
             topicNum.text = collectCity!.topicNum
-            collectBtn.selected = true
         }
     }
     
@@ -36,7 +33,6 @@ class CollectCityCell: UICollectionViewCell {
         addSubview(iconView)
         addSubview(cityName)
         addSubview(topicNum)
-        addSubview(collectBtn)
         iconView.contentMode   = UIViewContentMode.ScaleAspectFill
         iconView.clipsToBounds = true
         setupAutoLayout()
@@ -50,7 +46,6 @@ class CollectCityCell: UICollectionViewCell {
         iconView.frame = bounds
         cityName.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         topicNum.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -11))
-        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(50, 50))
     }
     
 }
