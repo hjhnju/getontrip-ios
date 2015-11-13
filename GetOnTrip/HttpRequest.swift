@@ -10,6 +10,10 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+struct HttpRequestContant {
+    static let timeout: NSTimeInterval = 20
+}
+
 class HttpRequest {
     
     typealias RequestFinishedCallBack = (result: AnyObject?, error: NSError?) -> ()
@@ -21,11 +25,13 @@ class HttpRequest {
     
     static let sharedManager: Manager = {
         let configuration: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.timeoutIntervalForRequest  = 20
-        configuration.timeoutIntervalForResource = 20
         
-        // config.URLCache = urlCache
-        configuration.requestCachePolicy =  NSURLRequestCachePolicy.ReturnCacheDataElseLoad
+        //采用后端控制缓存时间
+        configuration.URLCache = NSURLCache.sharedURLCache()
+        configuration.requestCachePolicy = NSURLRequestCachePolicy.UseProtocolCachePolicy
+        
+        configuration.timeoutIntervalForRequest  = HttpRequestContant.timeout
+        configuration.timeoutIntervalForResource = HttpRequestContant.timeout
         return Manager(configuration: configuration)
     }()
     
@@ -55,16 +61,10 @@ class HttpRequest {
     ///  - parameter post:    参数
     ///  - parameter handler: 回调数据及错误
     class func ajax2(url: String?, path: String?, post: Dictionary<String, String>, handler: RequestJSONCallBack) {
-        
+
+        //GET请求才会有效缓存
         let urlPath = (url ?? "") + (path ?? "")
-        
-        print("[HttpRequest]:url=\(urlPath), post=\(post)")
-        HttpRequest.sharedManager.request(.POST, urlPath, parameters:post).response { request, response, respData, error -> Void in
-            
-//            let ree = NSURLCache.sharedURLCache().cachedResponseForRequest(request!)
-//            print(ree)
-//            print(NSURLCache.sharedURLCache().memoryCapacity)
-//            print(NSHomeDirectory())
+        HttpRequest.sharedManager.request(.GET, urlPath, parameters:post).response { request, response, respData, error -> Void in
             
             //异常
             if error != nil {
@@ -77,6 +77,8 @@ class HttpRequest {
                 return handler(result: json["data"], status: json["status"].intValue)
             }
         }
+        
+        print("[HttpRequest]:url=\(urlPath), post=\(post)")
     }
     
     /// 上传文件
