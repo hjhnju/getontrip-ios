@@ -94,7 +94,6 @@ class HttpRequest {
         }
         
         HttpRequest.sharedManager.request(nsreq).response { request, response, respData, error -> Void in
-            print("urlPath\(urlPath)")
             
             if let etag = response?.allHeaderFields["ETag"] as? String {
                 HttpRequest.kvStore.putString(etag, withId: urlPath, intoTable: "http_etag")
@@ -114,8 +113,6 @@ class HttpRequest {
                 return handler(result: json["data"], status: json["status"].intValue)
             }
         }
-        
-        print("[HttpRequest]:url=\(urlPath) sync finished")
     }
     
     /// 上传文件

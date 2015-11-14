@@ -113,7 +113,6 @@ class LoginView: UIView {
         ShareSDK.authorize(type, settings: nil, onStateChanged: { [weak self] (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
-                
             case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
                 sharedUserAccount = UserAccount(user: user, type: loginType)
                 self?.loginBackgroundClick()

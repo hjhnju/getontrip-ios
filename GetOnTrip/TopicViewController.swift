@@ -91,6 +91,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
                 labelBtn.hidden      = false
                 favNumLabel.hidden   = false
                 visitNumLabel.hidden = false
+                
+                if !topic.isInSomeSight() {
+                    navBar.rightButton.hidden = true
+                }
 
                 showTopicDetail()
             }
@@ -422,9 +426,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     /// 跳至景点页
     func sightAction(sender: UIButton) {
         if let topic = self.topicDataSource {
-            if topic.sightid == "" {
-                return
-            }
             let sightViewController = SightViewController()
             let sight: Sight = Sight(id: topic.sightid)
             sight.name = topic.sight

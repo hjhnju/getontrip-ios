@@ -15,7 +15,7 @@ class RecommendRequest: NSObject {
     // 请求参数
     var label   : String = ""
     var page    : Int = 1
-    var pageSize: Int = 6
+    var pageSize: Int = 15
     
     func fetchNextPageModels(handler: (NSDictionary?, Int) -> Void) {
         page = page + 1

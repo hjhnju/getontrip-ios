@@ -86,4 +86,12 @@ class Topic: NSObject {
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         
     }
+    
+    /// 是否属于某个景点
+    func isInSomeSight() -> Bool {
+        if self.sightid == "" || self.sightid == "0" {
+            return false
+        }
+        return true
+    }
 }
