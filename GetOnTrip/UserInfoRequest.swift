@@ -28,9 +28,12 @@ class UserInfoRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/getinfo", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                if let resu = result.dictionaryObject {
-                    handler(user: UserInfo(dict: resu), status: status)
-                    return
+                
+                if result != nil {
+                    if let resu = result.dictionaryObject {
+                        handler(user: UserInfo(dict: resu), status: status)
+                        return
+                    }
                 }
                 handler(user: nil, status: status)
             }
@@ -44,7 +47,7 @@ class UserInfoRequest: NSObject {
     * @param string  param,eg: param=nick_name:aa,type:jpg,image:bb,sex:1
     * @return json
     */
-    func add(userAccount: UserAccount) {
+    func add(userAccount: UserAccount, handler: (AnyObject?, Int) -> Void) {
         var post          = [String: String]()
         post["nick_name"] = userAccount.nickname
         post["type"]  = String(type)
@@ -56,7 +59,10 @@ class UserInfoRequest: NSObject {
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/addinfo", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 print("更新用户信息成功")
+                handler(result.string, status)
+                return
             }
+            handler(nil, status)
         }
     }
 }

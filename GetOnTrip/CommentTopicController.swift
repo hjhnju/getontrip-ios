@@ -153,7 +153,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         btn.selected = true
         if sharedUserAccount == nil {
             issueTextfield.resignFirstResponder()
-
+            
             LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
                 if success {
                     self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in

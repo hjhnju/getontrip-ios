@@ -59,7 +59,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     var provinceIndex: Int = 0
     
     /// pick切换数据源方法 如果是true则是姓别，false是城市
-    var pickViewSourceNameAndCity: Bool = false
+    var pickViewSourceNameAndCity: Bool = true
     
     var lastProvinceIndex: Int = 0
     
@@ -143,9 +143,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     ///  初始化设置
     private func setupInitSetting() {
         title = SettingViewController.name
-        
         iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount?.icon ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
-        
         
         if      sharedUserAccount?.gender.hashValue == 0 { gender.text = "男" }
         else if sharedUserAccount?.gender.hashValue == 1 { gender.text = "女" }
@@ -238,6 +236,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         pickerView(pickView, didSelectRow: 0, inComponent: 0)
+
     }
     
     func shadeViewClick() {

@@ -144,7 +144,6 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.selectView.center.x = x1 + (self.contentBtn.center.x - x1)
             })
-//            contentScrollView.isHitTest = false
         case 1:
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.selectView.center.x = x1 + (self.sightBtn.center.x - x1)
@@ -163,9 +162,9 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
-//        if contentScrollView.contentOffset.x == 0 {
-//            contentScrollView.isHitTest = false
-//        }
+        if contentScrollView.contentOffset.x == 0 {
+            contentScrollView.isHitTest = false
+        }
     }
 }
 
@@ -173,11 +172,11 @@ class CollectScrollerview: UIScrollView {
     
     /// true 为事件查找到自己，false为事件查找到父类
     var isHitTest: Bool = true
-//    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-//        if (isHitTest == true) {
-//            return self
-//        }
-//        return superview
-//    }
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        if (isHitTest == true) {
+            return super.hitTest(point, withEvent: event)
+        }
+        return superview
+    }
 }
 

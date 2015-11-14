@@ -95,14 +95,26 @@ class UserAccount: NSObject, NSCoding {
         userInfoRequest.type = loginType
         userInfoRequest.fetchModel(){ (user, status) -> Void in
             if status == RetCode.SUCCESS {
-                if let user = user {
-                    self.nickname = user.nick_name
-                    self.icon     = user.image
-                    self.city     = user.city
-                    self.gender   = Int(user.sex)!
-                    self.saveAccount()
+                if user != nil {
+                    if let user = user {
+                        self.nickname = user.nick_name
+                        self.icon     = user.image
+                        self.city     = user.city
+                        self.gender   = Int(user.sex)!
+                        self.saveAccount()
+                    }
                 } else {
-                    self.userInfoRequest.add(self)
+                    self.userInfoRequest.add(self, handler: { (result, status) -> Void in
+                        if status == RetCode.SUCCESS {
+                            if result != nil {
+                                self.saveAccount()
+                            } else {
+                                 SVProgressHUD.showErrorWithStatus("登陆失败")
+                            }
+                        } else {
+                            SVProgressHUD.showErrorWithStatus("网络连接失败，请重新登陆")
+                        }
+                    })
                 }
             } else {
                 SVProgressHUD.showErrorWithStatus("网络连接失败，请重新登陆")
