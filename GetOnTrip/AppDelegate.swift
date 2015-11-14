@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print(NSHomeDirectory())
         ///  bug调试代码仅一行
-        Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
+        //Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
         
         ///  获取uuid
         gainUserUUID()
