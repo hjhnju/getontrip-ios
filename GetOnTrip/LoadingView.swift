@@ -10,9 +10,37 @@ import UIKit
 
 class LoadingView: UIView {
     
-    var messageLabel: UILabel = UILabel(color: SceneColor.bgBlack, title: "正在加载...", fontSize: 12)
+    //MASK: Properties
     
-    var activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+    /// 设置加载中颜色
+    var fontColor: UIColor? {
+        didSet {
+            if let fontColor = fontColor {
+                messageLabel.textColor = fontColor
+            }
+        }
+    }
+    /// 设置背景颜色
+    var bgColor: UIColor? {
+        didSet {
+            if let bgColor = bgColor {
+                backgroundColor = bgColor
+            }
+        }
+    }
+    
+    var activityType: UIActivityIndicatorViewStyle? {
+        didSet {
+            if let type = activityType {
+                activityView.activityIndicatorViewStyle = type
+            }
+        }
+    }
+    
+    //默认字体不显示
+    var messageLabel: UILabel = UILabel(color: UIColor.clearColor(), title: "正在加载...", fontSize: 14)
+    
+    var activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,19 +55,21 @@ class LoadingView: UIView {
         super.layoutSubviews()
     }
     
-    // 自定义方法
+    // MARKS:  自定义方法
     
     func updateUI() {
+        backgroundColor = UIColor.clearColor()
+        
         self.addSubview(activityView)
         self.addSubview(messageLabel)
         self.layer.cornerRadius = 3
-        activityView.ff_AlignInner(.TopCenter, referView: self, size: CGSizeMake(37.0, 37.0))
-        messageLabel.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(60, 60))
+        activityView.ff_AlignInner(.TopCenter, referView: self, size: CGSizeMake(34.0, 34.0), offset: CGPointMake(0, 17))
+        messageLabel.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(70, 20), offset:CGPointMake(0, -6))
         self.hidden = true
     }
     
     func getSize() -> CGSize {
-        return CGSizeMake(60, 60)
+        return CGSizeMake(86, 86)
     }
     
     func start() {

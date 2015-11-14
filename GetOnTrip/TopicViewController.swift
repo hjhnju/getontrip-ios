@@ -264,7 +264,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    var loadingView: LoadingView = LoadingView(color: SceneColor.lightGray)
+    var loadingView: LoadingView = LoadingView()
     
     func webViewDidStartLoad(webView: UIWebView) {
         loadingView.start()

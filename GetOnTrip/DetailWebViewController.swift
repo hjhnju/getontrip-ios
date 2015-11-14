@@ -56,7 +56,7 @@ class DetailWebViewController: BaseViewController {
         NSURLCache.sharedURLCache().removeAllCachedResponses()
     }
     
-    var loadingView: LoadingView = LoadingView(color: SceneColor.lightGray)
+    var loadingView: LoadingView = LoadingView()
     
     func webViewDidStartLoad(webView: UIWebView) {
         loadingView.start()
