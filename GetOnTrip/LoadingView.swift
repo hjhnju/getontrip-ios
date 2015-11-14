@@ -40,7 +40,8 @@ class LoadingView: UIView {
     //默认字体不显示
     var messageLabel: UILabel = UILabel(color: UIColor.clearColor(), title: "正在加载...", fontSize: 14)
     
-    var activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    //默认大的灰色
+    var activityView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,6 +60,7 @@ class LoadingView: UIView {
     
     func updateUI() {
         backgroundColor = UIColor.clearColor()
+        activityView.color = UIColor.grayColor()
         
         self.addSubview(activityView)
         self.addSubview(messageLabel)

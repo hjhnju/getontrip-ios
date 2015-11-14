@@ -15,14 +15,14 @@ public let HistoryTableViewControllerSightCell1:String = "History_Cell1"
 
 class SightLandscapeController: UITableViewController {
 
-    var lastLandscapeRequest = SightLandscapesRequest()
+    var lastRequest = SightLandscapesRequest()
     
     /// 是否正在加载中
     var isLoading:Bool = false
 
     var sightId: String = "" {
         didSet {
-            lastLandscapeRequest.sightId = sightId
+            lastRequest.sightId = sightId
         }
     }
     
@@ -71,7 +71,7 @@ class SightLandscapeController: UITableViewController {
         }
         
         self.isLoading = true
-        lastLandscapeRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
+        lastRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
             //处理异常状态
             if status != RetCode.SUCCESS {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
@@ -126,7 +126,7 @@ class SightLandscapeController: UITableViewController {
     
     /// 底部加载更多
     func loadMore(){
-        lastLandscapeRequest.fetchNextPageModels({ (nextData, status) -> Void in
+        lastRequest.fetchNextPageModels({ (nextData, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let data = nextData {
                     if data.count > 0 {

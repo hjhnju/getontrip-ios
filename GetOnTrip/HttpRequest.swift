@@ -85,6 +85,7 @@ class HttpRequest {
             print("[HttpRequest]:nsurl is nil=\(nsurl)")
             return
         }
+        
         let nsreq = NSMutableURLRequest(URL: nsurl!)
         if let etag = HttpRequest.kvStore.getStringById(urlPath, fromTable: "http_etag") {
             nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match")

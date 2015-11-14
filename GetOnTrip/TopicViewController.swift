@@ -280,12 +280,13 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: UIWebView and UIScrollView Delegate 代理方法
     func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        
-        let localizedErrorMessage = NSLocalizedString("An error occured:", comment: "")
-        
-        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">\(localizedErrorMessage) \(error!.localizedDescription)</div></body></html>"
-        
-        webView.loadHTMLString(errorHTML, baseURL: nil)
+        if let error = error {
+            print("[TopicViewController]webView error \(error.localizedDescription)")
+            
+            let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">内容加载失败，请稍后重试</div></body></html>"
+            
+            webView.loadHTMLString(errorHTML, baseURL: nil)
+        }
     }
     
     /// 显示详情
