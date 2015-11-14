@@ -117,8 +117,7 @@ class LoginView: UIView {
                 
             case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
             self?.loginStatus = true
-            let account = UserAccount(user: user, type: loginType)
-            sharedUserAccount = account
+            sharedUserAccount = UserAccount(user: user, type: loginType)
             self?.loginBackgroundClick()
             case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
             finish(result: false, error: error)

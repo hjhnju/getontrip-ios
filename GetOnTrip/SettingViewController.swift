@@ -59,7 +59,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     var provinceIndex: Int = 0
     
     /// pick切换数据源方法 如果是true则是姓别，false是城市
-    var pickViewSourceNameAndCity: Bool = true
+    var pickViewSourceNameAndCity: Bool = true {
+        didSet {
+            pickView.reloadAllComponents()
+        }
+    }
     
     var lastProvinceIndex: Int = 0
     
@@ -335,7 +339,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         /// pickView 位置动画
         if indexPath.row == SettingCell.cityCell || indexPath.row == SettingCell.sexCell{
-            
+            pickView.reloadAllComponents()
             let h: CGFloat = pickViewSourceNameAndCity ? 162 : 216
             let y1: CGFloat = UIScreen.mainScreen().bounds.height
             let w: CGFloat = UIScreen.mainScreen().bounds.width
