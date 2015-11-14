@@ -106,8 +106,11 @@ class UserAccount: NSObject, NSCoding {
                 } else {
                     self.userInfoRequest.add(self, handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {
+                            print(result)
                             if result != nil {
+                                
                                 self.saveAccount()
+                                
                             } else {
                                  SVProgressHUD.showErrorWithStatus("登陆失败")
                             }

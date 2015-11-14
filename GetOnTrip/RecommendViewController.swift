@@ -234,7 +234,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     ///  添加搜索标签按钮
     private func addSearchLabelButton() {
         //参数
-        let btnWidth:CGFloat  = 87
+        let btnWidth:CGFloat  = 100
         let btnHeight:CGFloat = 17
         let totalCol:Int      = 2
         let totalRow:Int      = 3
@@ -244,7 +244,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
 
         for (var i = 0; i < recommendLabels.count; i++) {
             let btn = UIButton(title: recommendLabels[i].toString(), fontSize: 14, radius: 0)
-            
+//            btn.setsetContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft
+            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             headerView.addSubview(btn)
             
             btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: UIControlEvents.TouchUpInside)
