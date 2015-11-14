@@ -198,9 +198,12 @@ class CollectContentCell: UITableViewCell {
     
     lazy var subtitleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "故宫内真有密道吗？入口在哪里？", fontSize: 16, mutiLines: false)
     
-    lazy var collect: CurentCollectButton = CurentCollectButton(image: "collect_yellow", title: " 114", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 1.0))
-    
     lazy var baseline: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
+    //收藏
+    lazy var collect: UIButton = UIButton(image: "icon_star_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
+    
+    //浏览
+    lazy var visit: UIButton = UIButton(image: "icon_eye_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
     
     var collectContent: CollectContent? {
         didSet {
@@ -208,6 +211,7 @@ class CollectContentCell: UITableViewCell {
             titleLabel.text = collectContent?.subtitle
             subtitleLabel.text = collectContent?.title
             collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
+            visit.setTitle(" " + collectContent!.visit ?? "", forState: UIControlState.Normal)
         }
     }
     
@@ -228,6 +232,7 @@ class CollectContentCell: UITableViewCell {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(collect)
+        addSubview(visit)
         addSubview(baseline)
         
         iconView.contentMode    = UIViewContentMode.ScaleAspectFill
@@ -244,7 +249,8 @@ class CollectContentCell: UITableViewCell {
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(120, 73), offset: CGPointMake(9, 0))
         titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
-        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: CGSizeMake(50, 50), offset: CGPointMake(15, 0))
+        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
+        visit.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))
         baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     
@@ -265,6 +271,7 @@ class CollectContentBookCell: CollectContentCell {
             titleLabel.text = collectContent?.subtitle
             subtitleLabel.text = collectContent?.title
             collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
+            visit.setTitle(" " + collectContent!.visit ?? "", forState: UIControlState.Normal)
         }
     }
     
@@ -286,7 +293,8 @@ class CollectContentBookCell: CollectContentCell {
         iconView.ff_AlignInner(ff_AlignType.CenterCenter, referView: iconBottomView, size: CGSizeMake(62, 86.5))
         titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconBottomView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
-        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconBottomView, size: CGSizeMake(50, 50), offset: CGPointMake(15, 0))
+        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconBottomView, size: nil, offset: CGPointMake(6, 0))
+        visit.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))
         baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     

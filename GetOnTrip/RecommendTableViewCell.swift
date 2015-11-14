@@ -47,13 +47,13 @@ class RecommendTableViewCell: UITableViewCell {
                 btn3.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
 
                 if cellData.isTypeCity() {
-                    btn1.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
-                    btn2.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
-                    btn3.setImage(UIImage(named: "search_fav"), forState: UIControlState.Normal)
-                } else {
-                    btn1.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
-                    btn2.setImage(UIImage(named: "search_comment"), forState: UIControlState.Normal)
-                    btn3.setImage(UIImage(named: "search_fav"), forState: UIControlState.Normal)
+                    btn1.setImage(UIImage(named: "home_content"), forState: UIControlState.Normal)
+                    btn2.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
+                    btn3.setImage(UIImage(named: "search_comment"), forState: UIControlState.Normal)
+                } else {// search_topic
+                    btn1.setImage(UIImage(named: "home_content"), forState: UIControlState.Normal)
+                    btn2.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
+                    btn3.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
                 }
             }
         }
