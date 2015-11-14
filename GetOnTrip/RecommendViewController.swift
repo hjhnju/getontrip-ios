@@ -357,6 +357,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             if let cell = vcell as? RecommendTableViewCell {
                 let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: gap)
                 cell.cellImageView.updateFactor(factor)
+            } else if let cell = vcell as? RecommendTopicViewCell {
+                let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: gap)
+                cell.cellImageView.updateFactor(factor)
             }
         }
     }
