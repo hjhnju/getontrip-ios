@@ -29,8 +29,6 @@ class LoginView: UIView {
     
     static let sharedLoginView = LoginView()
     
-    var loginStatus: Bool = false
-    
     var loginFinished: LoginFinishedOperate?
     
     override init(frame: CGRect) {
@@ -76,7 +74,8 @@ class LoginView: UIView {
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.alpha = 0
             }) { (_) -> Void in
-                self.loginFinished!(result: self.loginStatus, error: nil)
+                let isLogin = sharedUserAccount == nil ? false : true
+                self.loginFinished!(result: isLogin, error: nil)
                 self.removeFromSuperview()
         }
     }
@@ -116,12 +115,10 @@ class LoginView: UIView {
             switch state{
                 
             case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-            self?.loginStatus = true
-            let account = UserAccount(user: user, type: loginType)
-            sharedUserAccount = account
-            self?.loginBackgroundClick()
+                sharedUserAccount = UserAccount(user: user, type: loginType)
+                self?.loginBackgroundClick()
             case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
-            finish(result: false, error: error)
+                finish(result: false, error: error)
             case SSDKResponseState.Cancel:  print("操作取消")
             default:
                 break

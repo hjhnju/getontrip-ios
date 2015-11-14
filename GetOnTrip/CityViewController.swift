@@ -406,8 +406,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     // MARK: 景点列表页
     func sightButtonClick(btn: UIButton) {
         let vc    = CitySightsViewController()
-        vc.title  = cityDataSource?.name
-        vc.cityId = cityId
+        vc.cityDataSource = cityDataSource
         navigationController?.pushViewController(vc, animated: true)
     }
     

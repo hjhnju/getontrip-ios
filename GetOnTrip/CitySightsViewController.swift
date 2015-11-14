@@ -19,7 +19,12 @@ class CitySightsViewController: UICollectionViewController {
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
     
     /// 城市ID
-    var cityId: String = ""
+    var cityId: String {
+        return cityDataSource?.id ?? ""
+    }
+    
+    /// 城市数据
+    var cityDataSource: City?
     
     /// 网络请求加载数据
     var lastRequest: CitySightsRequest?
@@ -45,16 +50,19 @@ class CitySightsViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initProperty()
+        initView()
         initRefresh()
     }
     
-    private func initProperty() {
+    private func initView() {
         view.backgroundColor = SceneColor.frontBlack
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
         collectionView?.frame = CGRectMake(0, 44, view.bounds.width, view.bounds.height - 44)
         
+        if let title = cityDataSource?.name {
+            navBar.setTitle(title)
+        }
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
         navBar.setBlurViewEffect(false)
@@ -104,18 +112,6 @@ class CitySightsViewController: UICollectionViewController {
             collectionView!.mj_header.beginRefreshing()
         }
     }
-    
-//    private func loadData() {        
-//        //获取数据更新tableview
-//        if lastRequest == nil {
-//            lastRequest = CitySightsRequest()
-//            lastRequest?.cityId = cityId
-//        }
-//        
-//        lastRequest?.fetchSightCityModels { (handler: [CitySightBrief]) -> Void in
-//            self.sightCityList = handler
-//        }
-//    }
     
     // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -422,8 +422,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     /// 跳至景点页
     func sightAction(sender: UIButton) {
         if let topic = self.topicDataSource {
+            if topic.sightid == "" {
+                return
+            }
             let sightViewController = SightViewController()
-        
             let sight: Sight = Sight(id: topic.sightid)
             sight.name = topic.sight
             sightViewController.sightDataSource = sight
