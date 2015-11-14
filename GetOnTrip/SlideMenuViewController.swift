@@ -286,7 +286,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             loginAfter.hidden = true
         }
         if sharedUserAccount == nil { return }
-        headerView.sd_setImageWithURL(NSURL(string: (sharedUserAccount?.icon)!), placeholderImage: PlaceholderImage.defaultSmall)
+        headerView.sd_setImageWithURL(NSURL(string: (sharedUserAccount?.icon)!))
         nameLabel.text = sharedUserAccount?.nickname
     }
     

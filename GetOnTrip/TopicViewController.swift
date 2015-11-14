@@ -68,7 +68,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: DataSource of Controller
 
-    var topicId: String {
+    var topicId: String? {
         return self.topicDataSource?.id ?? ""
     }
     

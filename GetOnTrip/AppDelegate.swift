@@ -69,6 +69,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()
         
+
+
+        
+        
         return true
     }
     

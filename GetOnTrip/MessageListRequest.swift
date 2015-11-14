@@ -15,6 +15,18 @@ class MessageListRequest: NSObject {
     var pageSize :Int = 6
     var curPage  :Int = 1
     
+    
+    func fetchNextPageModels(handler: ([MessageList]?, Int) -> Void) {
+        page = page + 1
+        return fetchModels(handler)
+    }
+    
+    func fetchFirstPageModels(handler: ([MessageList]?, Int) -> Void) {
+        page = 1
+        return fetchModels(handler)
+    }
+    
+    
     // 将数据回调外界
     func fetchFeedBackModels(handler: [MessageList] -> Void) {
         fetchModels(handler)
@@ -55,7 +67,7 @@ class MessageList: NSObject {
     /// 头像
     var avatar: String = "" {
         didSet {
-            avatar = AppIni.BaseUri + avatar
+            avatar = UIKitTools.sliceImageUrl(image, width: 35, height: 35)
         }
     }
     
@@ -65,7 +77,7 @@ class MessageList: NSObject {
     /// 图片
     var image: String = "" {
         didSet {
-            image = UIKitTools.sliceImageUrl(AppIni.BaseUri, width: 77, height: 58)
+            image = UIKitTools.sliceImageUrl(image, width: 77, height: 58)
         }
     }
     

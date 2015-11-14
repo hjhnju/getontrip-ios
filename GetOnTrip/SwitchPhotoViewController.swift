@@ -39,6 +39,11 @@ class SwitchPhotoViewController: MenuViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navBar.titleLabel.text = "选择照片"
+        navBar.rightButton.removeFromSuperview()
+        navBar.rightButton2.removeFromSuperview()
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        
         view.backgroundColor = SceneColor.bgBlack
         shade.userInteractionEnabled = true
         shade.multipleTouchEnabled = true

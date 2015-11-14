@@ -116,6 +116,11 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     func pinchGesture(recognizer: UIPinchGestureRecognizer) {
         recognizer.view?.transform = CGAffineTransformScale(recognizer.view!.transform, recognizer.scale, recognizer.scale)
         recognizer.scale = 1
+        
+//        let maxBig = max(imgPhoto.bounds.width, imgPhoto.bounds.height)
+//        print(imgPhoto.bounds.width)
+        
+//        head.transform = CGAffineTransformScale(head.transform, 1.5, 1.5);
     }
     
     // 拖拽

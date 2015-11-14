@@ -47,7 +47,7 @@ class UIKitTools {
         if path.containsString("@") {
             return path
         }
-        let url = "\(AppIni.BaseResourceUri)\(path)@e\(width)w_e\(height)h"
+        let url = "\(AppIni.BaseUri)\(path)@e\(width)w_e\(height)h"
         return url
     }
     
