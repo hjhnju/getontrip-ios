@@ -16,15 +16,15 @@ class MessageListRequest: NSObject {
     var curPage  :Int = 1
     
     
-    func fetchNextPageModels(handler: ([MessageList]?, Int) -> Void) {
-        page = page + 1
-        return fetchModels(handler)
-    }
-    
-    func fetchFirstPageModels(handler: ([MessageList]?, Int) -> Void) {
-        page = 1
-        return fetchModels(handler)
-    }
+//    func fetchNextPageModels(handler: ([MessageList]?, Int) -> Void) {
+//        page = page + 1
+//        return fetchModels(handler)
+//    }
+//    
+//    func fetchFirstPageModels(handler: ([MessageList]?, Int) -> Void) {
+//        page = 1
+//        return fetchModels(handler)
+//    }
     
     
     // 将数据回调外界

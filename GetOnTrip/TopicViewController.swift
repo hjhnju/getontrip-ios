@@ -91,6 +91,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
                 labelBtn.hidden      = false
                 favNumLabel.hidden   = false
                 visitNumLabel.hidden = false
+                
+                if !topic.isInSomeSight() {
+                    navBar.rightButton.hidden = true
+                }
 
                 showTopicDetail()
             }
@@ -131,6 +135,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -173,7 +178,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         cover.backgroundColor = UIColor.blackColor()
         
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
+        navBar.setRightBarButton(UIImage(named: "bar_sight"), title: nil, target: self, action: "sightAction:")
         navBar.setButtonTintColor(SceneColor.frontBlack)
         navBar.setStatusBarHidden(true)
         
@@ -263,7 +268,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    var loadingView: LoadingView = LoadingView(color: SceneColor.lightGray)
+    var loadingView: LoadingView = LoadingView()
     
     func webViewDidStartLoad(webView: UIWebView) {
         loadingView.start()
@@ -275,12 +280,13 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: UIWebView and UIScrollView Delegate 代理方法
     func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        
-        let localizedErrorMessage = NSLocalizedString("An error occured:", comment: "")
-        
-        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">\(localizedErrorMessage) \(error!.localizedDescription)</div></body></html>"
-        
-        webView.loadHTMLString(errorHTML, baseURL: nil)
+        if let error = error {
+            print("[TopicViewController]webView error \(error.localizedDescription)")
+            
+            let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">内容加载失败，请稍后重试</div></body></html>"
+            
+            webView.loadHTMLString(errorHTML, baseURL: nil)
+        }
     }
     
     /// 显示详情
@@ -416,5 +422,16 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
             self.commentVC.tableView.layoutIfNeeded()
         }
         
+    }
+    
+    /// 跳至景点页
+    func sightAction(sender: UIButton) {
+        if let topic = self.topicDataSource {
+            let sightViewController = SightViewController()
+            let sight: Sight = Sight(id: topic.sightid)
+            sight.name = topic.sight
+            sightViewController.sightDataSource = sight
+            navigationController?.pushViewController(sightViewController, animated: true)
+        }
     }
 }

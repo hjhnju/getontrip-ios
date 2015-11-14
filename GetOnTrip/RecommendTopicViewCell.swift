@@ -61,8 +61,6 @@ class RecommendTopicViewCell: UITableViewCell {
         addSubview(favNumLabel)
         addSubview(visitNumLabel)
         
-        
-        
         titleLabel.numberOfLines = 2
         titleLabel.userInteractionEnabled = false
         titleLabel.textAlignment = NSTextAlignment.Center

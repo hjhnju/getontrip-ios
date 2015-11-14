@@ -17,11 +17,11 @@ class CityTopicTableViewCell: UITableViewCell {
     /// 标题
     var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 15, mutiLines: true)
     /// 副标题
-    var subTitle: UILabel = UILabel(color: SceneColor.whiteGrey, title: "", fontSize: 11, mutiLines: false)
+    var subTitle: UILabel = UILabel(color: SceneColor.grayWhite, title: "", fontSize: 11, mutiLines: false)
     /// 标签
-    var label: UILabel = UILabel(color: SceneColor.whiteGrey, title: "", fontSize: 9, mutiLines: false)
+    var label: UILabel = UILabel(color: SceneColor.grayWhite, title: "", fontSize: 9, mutiLines: false)
     /// 浏览数
-    var visit: UIButton = UIButton(title: "", fontSize: 9, radius: 0, titleColor: SceneColor.whiteGrey)
+    var visit: UIButton = UIButton(title: "", fontSize: 9, radius: 0, titleColor: SceneColor.grayWhite)
     /// 底线
     var baseView: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.2)
     

@@ -581,11 +581,11 @@
 			children = (
 				AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */,
 				AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */,
+				7240C45F1BF5D12F007C12C1 /* RecommendTopicViewCell.swift */,
 				AE78983E1BECDAF40073599E /* PhotoView.swift */,
 				7206B7C41BF35D9F002E3C9A /* CollectionSightViewCell.swift */,
 				7206B7C61BF35E62002E3C9A /* CollectionCityViewCell.swift */,
 				7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */,
-				7240C45F1BF5D12F007C12C1 /* RecommendTopicViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1223,8 +1223,6 @@
 					"-framework",
 					"\"Alamofire\"",
 					"-framework",
-					"\"Bugtags\"",
-					"-framework",
 					"\"CFNetwork\"",
 					"-framework",
 					"\"CoreLocation\"",
@@ -1295,8 +1293,6 @@
 					"\"AVFoundation\"",
 					"-framework",
 					"\"Alamofire\"",
-					"-framework",
-					"\"Bugtags\"",
 					"-framework",
 					"\"CFNetwork\"",
 					"-framework",

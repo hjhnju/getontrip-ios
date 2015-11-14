@@ -2,67 +2,101 @@
 //  SightDetailController.swift
 //  GetOnTrip
 //
-//  Created by 王振坤 on 15/10/14.
+//  Created by 和俊华 on 15/11/14.
 //  Copyright © 2015年 Joshua. All rights reserved.
 //
 
 import UIKit
 import FFAutoLayout
+import WebKit
 
-class DetailWebViewController: BaseViewController {
-
-    lazy var webView: UIWebView = UIWebView()
+class DetailWebViewController: BaseViewController, WKNavigationDelegate {
+    
+    /// 书籍内容
+    var webView: WKWebView = WKWebView(color: UIColor.grayColor())
     
     /// 自定义导航
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 14)
     
-    var url: String? {
-        didSet {
-            if let urlStr = url?.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) {
-                webView.loadRequest(NSURLRequest(URL: NSURL(string: urlStr)!))
-            }
-        }
-    }
+    var loadingView: LoadingView = LoadingView()
+    
+    var url: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = SceneColor.frontBlack
         
-        navigationItem.backBarButtonItem  = UIBarButtonItem(title: "途知", style: .Plain, target: nil, action: nil)
-
+        view.backgroundColor = UIColor.whiteColor()
         view.addSubview(webView)
-        webView.addSubview(loadingView)
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
-
-        webView.frame = view.bounds
-        webView.backgroundColor = UIColor.whiteColor()
-        webView.opaque = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
         
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: "途知", target: self, action: "popViewAction:")
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.setBlurViewEffect(false)
         navBar.backgroundColor = SceneColor.frontBlack
         
-        loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, view.bounds.height/2))
+        initWebView()
+        
+        
+        autolayout()
+        loadingWeb()
+    }
+    
+    private func autolayout() {
+        webView.frame = view.bounds
+        loadingView.ff_AlignInner(.CenterCenter, referView: view, size: loadingView.getSize())
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        let vc = parentViewController as? UINavigationController
-        let nav = vc?.visibleViewController as? SightViewController
-        nav?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: "", action: "")
-        NSURLCache.sharedURLCache().removeAllCachedResponses()
+        //NSURLCache.sharedURLCache().removeAllCachedResponses()
     }
     
-    var loadingView: LoadingView = LoadingView(color: SceneColor.lightGray)
+    func initWebView() {
+        webView.scrollView.showsHorizontalScrollIndicator = false
+        webView.scrollView.showsVerticalScrollIndicator   = false
+        webView.navigationDelegate  = self
+        webView.backgroundColor = UIColor.whiteColor()
+        webView.opaque = false
+    }
     
-    func webViewDidStartLoad(webView: UIWebView) {
+    // MARK: webView Delegate
+    
+    private func loadingWeb() {
+        print("[DetailWebViewController]PreLoading: \(url)")
+        //分割＃部分
+        var section = ""
+        if let sectionIndex = url?.rangeOfString("#")?.startIndex {
+            section = url?.substringFromIndex(sectionIndex) ?? ""
+            url = url?.substringToIndex(sectionIndex)
+        }
+        
+        if var url = url?.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) {
+            //合并回＃
+            url = url + section
+            if let nsurl = NSURL(string: url) {
+                print("[DetailWebViewController]:RealLoading=\(nsurl)")
+                webView.loadRequest(NSURLRequest(URL: nsurl))
+            }
+        }
+    }
+    
+    // 页面加载失败时调用
+    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        print("[DetailWebViewController]webView error \(error.localizedDescription)")
+        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">网络内容加载失败</div></body></html>"
+        webView.loadHTMLString(errorHTML, baseURL: nil)
+    }
+    
+    // 页面开始加载时调用
+    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         loadingView.start()
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    // 页面加载完成之后调用
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         loadingView.stop()
     }
 }

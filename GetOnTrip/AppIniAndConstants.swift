@@ -52,7 +52,7 @@ struct SceneColor {
     static let white        = UIColor(hex: 0xFFFFFF, alpha: 1)
     static let crystalWhite = UIColor(hex: 0xFFFFFF, alpha:0.4)
     /// 白色首页话题副标题文字颜色
-    static let whiteGrey   = UIColor(hex: 0x939393, alpha: 1.0)
+    static let grayWhite   = UIColor(hex: 0x939393, alpha: 1.0)
     /// 浅白 设置界面选择城市及性别pickView
     static let shallowWhite = UIColor(hex: 0xDCD7D7, alpha: 1.0)
     /// 979797 浅灰
