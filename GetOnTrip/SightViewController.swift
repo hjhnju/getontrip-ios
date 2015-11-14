@@ -141,13 +141,17 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         var x: CGFloat  = 0
         let h: CGFloat  = 36
         var lW: CGFloat = UIScreen.mainScreen().bounds.width / CGFloat(labels.count)
-        if labels.count >= 7 {
-            lW = UIScreen.mainScreen().bounds.width / CGFloat(7)
-        } 
         var index: Int = 0
         for tag in labels {
+            
+            if labels.count >= 7 {
+                lW = tag.name.sizeofStringWithFount(UIFont.systemFontOfSize(14), maxSize: CGSize(width: CGFloat.max, height: 14)).width + 20
+            }
+            if lW < UIScreen.mainScreen().bounds.width / CGFloat(7) {
+                lW = UIScreen.mainScreen().bounds.width / CGFloat(7)
+            }
             let channelLabel      = UIChannelLabel.channelLabelWithTitle(tag.name, width: lW, height: h, fontSize: 14)
-            channelLabel.adjustsFontSizeToFitWidth = true
+//            channelLabel.adjustsFontSizeToFitWidth = true
             channelLabel.delegate = self
             channelLabel.tag      = index
             channelLabel.frame    = CGRectMake(x, 0, channelLabel.bounds.width, h)

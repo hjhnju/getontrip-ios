@@ -104,7 +104,7 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(collectionSightViewIdentifier, forIndexPath: indexPath) as! CollectionSightViewCell
 
-        cell.collectSight = collectSights[indexPath.row] as CollectSight
+        cell.data = collectSights[indexPath.row] as CollectSight
         return cell
     }
     

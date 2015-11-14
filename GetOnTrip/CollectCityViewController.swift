@@ -100,7 +100,7 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(collectCityViewIdentifier, forIndexPath: indexPath) as! CollectCityCell
-        cell.collectCity = collectCity[indexPath.row] as CollectCity
+        cell.data = collectCity[indexPath.row] as CollectCity
 
         return cell
     }

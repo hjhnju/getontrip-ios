@@ -42,18 +42,18 @@ class RecommendTableViewCell: UITableViewCell {
                 //iconView.sd_setImageWithURL(NSURL(string: cellData.image), placeholderImage: PlaceholderImage.defaultLarge)
                 cellImageView.loadImage(NSURL(string: cellData.image))
                 title.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
-                btn1.setAttributedTitle(cellData.param1.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
-                btn2.setAttributedTitle(cellData.param2.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
-                btn3.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                btn1.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                btn2.setAttributedTitle(cellData.param1.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                btn3.setAttributedTitle(cellData.param2.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
 
                 if cellData.isTypeCity() {
-                    btn1.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
-                    btn2.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
-                    btn3.setImage(UIImage(named: "search_fav"), forState: UIControlState.Normal)
-                } else {
-                    btn1.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
-                    btn2.setImage(UIImage(named: "search_comment"), forState: UIControlState.Normal)
-                    btn3.setImage(UIImage(named: "search_fav"), forState: UIControlState.Normal)
+                    btn1.setImage(UIImage(named: "home_content"), forState: UIControlState.Normal)
+                    btn2.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
+                    btn3.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
+                } else {//
+                    btn1.setImage(UIImage(named: "home_content"), forState: UIControlState.Normal)
+                    btn2.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
+                    btn3.setImage(UIImage(named: "search_comment"), forState: UIControlState.Normal)
                 }
             }
         }

@@ -22,18 +22,18 @@ class CitySightCollectionViewCell: UICollectionViewCell {
     
     lazy var shade: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.35)
     
-    var data: Sight? {
+    var data: AnyObject? {
         didSet {
-            if let sight = data {
+            if let sight = data as? Sight {
                 icon.image = nil
                 icon.sd_setImageWithURL(NSURL(string: sight.image), placeholderImage:PlaceholderImage.defaultSmall)
 
                 title.text = sight.name
 
             let attr = NSMutableAttributedString()
-            attr.appendAttributedString((data?.content.getAttributedStringHeadCharacterBig())!)
+            attr.appendAttributedString((sight.content.getAttributedStringHeadCharacterBig()))
             attr.appendAttributedString(NSAttributedString(string: " | "))
-                attr.appendAttributedString((data?.collect.getAttributedStringHeadCharacterBig())!)
+                attr.appendAttributedString((sight.collect.getAttributedStringHeadCharacterBig()))
                 desc.attributedText = attr
 
             }
