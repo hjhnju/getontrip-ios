@@ -2,7 +2,7 @@
 //  SightDetailController.swift
 //  GetOnTrip
 //
-//  Created by 王振坤 on 15/10/14.
+//  Created by 和俊华 on 15/11/14.
 //  Copyright © 2015年 Joshua. All rights reserved.
 //
 
@@ -65,7 +65,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate {
     // MARK: webView Delegate
     
     private func loadingWeb() {
-        print("[DetailWebView]PreLoading: \(url)")
+        print("[DetailWebViewController]PreLoading: \(url)")
         //分割＃部分
         var section = ""
         if let sectionIndex = url?.rangeOfString("#")?.startIndex {
@@ -77,7 +77,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate {
             //合并回＃
             url = url + section
             if let nsurl = NSURL(string: url) {
-                print("[DetailWebView]:RealLoading=\(nsurl)")
+                print("[DetailWebViewController]:RealLoading=\(nsurl)")
                 webView.loadRequest(NSURLRequest(URL: nsurl))
             }
         }
