@@ -131,6 +131,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -173,7 +174,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         cover.backgroundColor = UIColor.blackColor()
         
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
+        navBar.setRightBarButton(UIImage(named: "bar_sight"), title: nil, target: self, action: "sightAction:")
         navBar.setButtonTintColor(SceneColor.frontBlack)
         navBar.setStatusBarHidden(true)
         
@@ -416,5 +417,17 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
             self.commentVC.tableView.layoutIfNeeded()
         }
         
+    }
+    
+    /// 跳至景点页
+    func sightAction(sender: UIButton) {
+        if let topic = self.topicDataSource {
+            let sightViewController = SightViewController()
+        
+            let sight: Sight = Sight(id: topic.sightid)
+            sight.name = topic.sight
+            sightViewController.sightDataSource = sight
+            navigationController?.pushViewController(sightViewController, animated: true)
+        }
     }
 }

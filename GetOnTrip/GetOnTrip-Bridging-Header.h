@@ -17,7 +17,7 @@
 //新浪微博SDK头文件
 #import "WeiboSDK.h"
 
-#import <Bugtags/Bugtags.h>
+//#import <Bugtags/Bugtags.h>
 
 //转场动画
 #import "CBStoreHouseTransition.h"
