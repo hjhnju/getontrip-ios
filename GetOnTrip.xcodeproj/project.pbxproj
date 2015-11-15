@@ -1193,14 +1193,11 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/GooglePlusSDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/QQSDK",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/RenRenSDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries",
 					"$(PROJECT_DIR)/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/libraries",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/GetOnTrip/libraries",
 				);
@@ -1264,14 +1261,11 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/GooglePlusSDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/QQSDK",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/RenRenSDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries",
 					"$(PROJECT_DIR)/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/libraries",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/GetOnTrip/libraries",
 				);

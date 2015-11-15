@@ -158,13 +158,17 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
             })
             break
         }
+        
+        if contentScrollView.contentOffset.x == 0 {
+            contentScrollView.isHitTest = false
+        } else {
+            contentScrollView.isHitTest = true
+        }
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
-        if contentScrollView.contentOffset.x == 0 {
-            contentScrollView.isHitTest = false
-        }
+        
     }
 }
 
