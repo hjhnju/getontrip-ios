@@ -45,7 +45,7 @@ class SearchMoreRequest: NSObject {
      * 热门搜索词接口
      * @param integer size,条数，默认是10
      */
-    class func fetchSearchMuchLabel(handler: ([String]?, Int) -> Void){
+    class func fetchHotWords(handler: ([String]?, Int) -> Void){
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search/hotWord", post: [String: String]()) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 var data = [String]()

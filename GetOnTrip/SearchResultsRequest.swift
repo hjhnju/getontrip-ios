@@ -10,7 +10,7 @@ import UIKit
 
 class SearchResultsRequest: NSObject {
     
-    static let sharedSearchResultRection = SearchResultsRequest()
+    static let sharedInstance = SearchResultsRequest()
     
     var sectionTypes = ["city", "sight", "content"]
     
@@ -69,63 +69,5 @@ class SearchResultsRequest: NSObject {
             
             }
         }
-    }
-}
-
-
-
-// MARK: - 模型
-/// 搜索城市
-class SearchResult: NSObject {
-    
-    var id: String = ""
-    
-    var name: String = ""
-    
-    var image: String = "" {
-        didSet {
-            image = UIKitTools.sliceImageUrl(image, width: 52, height: 38)
-        }
-    }
-    
-    var desc: String = ""
-    
-    init(dict: [String : AnyObject]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
-}
-
-/// 搜索内容
-class SearchContent: NSObject {
-    
-    var search_type: String = ""
-    
-    var id: String = ""
-    
-    var title: String = ""
-    
-    var image: String = "" {
-        didSet {
-            image = UIKitTools.sliceImageUrl(image, width: 52, height: 38)
-        }
-    }
-    
-    var content: String = ""
-    
-    var url: String = ""
-    
-    init(dict: [String : AnyObject]) {
-        super.init()
-        // book video keyword
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
     }
 }

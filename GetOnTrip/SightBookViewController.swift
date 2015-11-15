@@ -103,8 +103,7 @@ class SightBookViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let bc = BookViewController()
-        let book = dataSource[indexPath.row]
-        bc.bookId = book.id
+        bc.bookDataSource = dataSource[indexPath.row]
         navigationController?.pushViewController(bc, animated: true)
     }
     
@@ -120,7 +119,6 @@ class SightBookViewController: UITableViewController {
     func loadMore(){
         lastRequest.fetchNextPageModels({ (nextData, status) -> Void in
             if status != RetCode.SUCCESS {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
                 self.tableView.mj_footer.endRefreshing()
                 return 
             }

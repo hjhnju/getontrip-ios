@@ -10,7 +10,7 @@ import Foundation
 
 class CommentAddRequest: NSObject {
     
-    // 将数据回调外界 handler: BookDetail -> Void   handler
+    // 将数据回调外界 handler: Book -> Void   handler
     
     ///  发送添加评请求
     ///
