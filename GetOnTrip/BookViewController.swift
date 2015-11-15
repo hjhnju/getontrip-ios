@@ -26,7 +26,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 14)
     
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: BookRequest?
+    var lastRequest: BookRequest?
 
     var bookId: String {
         return bookDataSource?.id ?? ""
@@ -87,6 +87,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
                 bookImageView.sd_setImageWithURL(NSURL(string: data.image))
                 titleLabel.text = data.title
                 authorLabel.text = data.info
+                
                 showBookDetail(data.content_desc)
             }
         }
@@ -279,6 +280,11 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     // 页面加载失败时调用
     func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        //一个页面没有被完全加载之前收到下一个请求，此时迅速会出现此error,error=-999
+        //此时可能已经加载完成，则忽略此error，继续进行加载。
+        if error.code == NSURLErrorCancelled {
+            return
+        }
         print("[BookViewController]webView error \(error.localizedDescription)")
         let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">书籍内容加载失败</div></body></html>"
         webView.loadHTMLString(errorHTML, baseURL: nil)
@@ -314,29 +320,32 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     /// 展示内容书籍
     func showBookDetail(body: String) {
+        if body == "" {
+            return
+        }
         let html = NSMutableString()
         html.appendString("<!DOCTYPE html><html><head><meta charset=\"utf-8\">")
         html.appendString("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no, minimal-ui\">")
         html.appendString("<meta name=\"format-detection\" content=\"telephone=no, email=no\">")
         html.appendString("<title>Examples</title>")
         let path = NSBundle.mainBundle().URLForResource("BookDetail.css", withExtension: nil)
+        print("path=\(path)")
         do {
             let text = try? NSString(contentsOfURL: path ?? NSURL(), encoding: NSUTF8StringEncoding)
             html.appendString("<style>\(text!)</style>")
         }
         html.appendString("</head><body>\(body)</body></html>")
-
         webView.loadHTMLString(html as String, baseURL: nil)
     }
     
     /// 获取数据
     private func loadData() {
-        if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = BookRequest()
-            lastSuccessAddRequest?.book = bookId
+        if lastRequest == nil {
+            lastRequest = BookRequest()
+            lastRequest?.book = bookId
         }
         
-        lastSuccessAddRequest?.fetchTopicDetailModels {(data: Book?, status: Int) -> Void in
+        lastRequest?.fetchTopicDetailModels {(data: Book?, status: Int) -> Void in
             if status == RetCode.SUCCESS {
                 self.bookDataSource = data
             } else {
@@ -362,10 +371,9 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     /// 购买书籍
     func clickBuyButton(btn: UIButton) {
-        
-        if "" != bookDataSource?.url {
+        if let url = bookDataSource?.url {
             let sc = DetailWebViewController()
-            sc.url = bookDataSource?.url
+            sc.url = url
             navigationController?.pushViewController(sc, animated: true)
         } else {
             print("[BookViewController]Warning:无相关购买链接")
@@ -374,9 +382,8 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     /// 分享
     func clickShareButton(button: UIButton) {
-        if bookDataSource != nil {
-            let url = bookDataSource?.url
-            shareView.showShareAction(view, url: url, images: bookImageView.image, title: bookDataSource?.title, subtitle: bookDataSource?.content_desc)
+        if let book = bookDataSource {
+            shareView.showShareAction(view, url: book.url, images: bookImageView.image, title: book.title, subtitle: book.content_desc)
         }
 
     }
