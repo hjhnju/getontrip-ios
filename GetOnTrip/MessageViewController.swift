@@ -46,46 +46,46 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.delegate = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(MessageTableViewCell.self, forCellReuseIdentifier: "Message_Cell")
-        loadFeedBackHistory()
+//        loadFeedBackHistory()
     }
     
     private func initRefresh() {
         //上拉刷新
-//        let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
-//        tbHeaderView.automaticallyChangeAlpha = true
-//        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-//        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
-//        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
-//        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
-//        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
-//        
-//        //下拉刷新
-//        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
-//        tbFooterView.automaticallyRefresh = true
-//        tbFooterView.automaticallyChangeAlpha = true
-//        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
-//        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
-//        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
+        let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
+        tbHeaderView.automaticallyChangeAlpha = true
+        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
+        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
+        
+        //下拉刷新
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
+        tbFooterView.automaticallyRefresh = true
+        tbFooterView.automaticallyChangeAlpha = true
+        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
         
-//        self.tableView.mj_header = tbHeaderView
-//        self.tableView.mj_footer = tbFooterView
-//        
-//        if !tableView.mj_header.isRefreshing() {
-//            tableView.mj_header.beginRefreshing()
-//        }
+        self.tableView.mj_header = tbHeaderView
+        self.tableView.mj_footer = tbFooterView
+        
+        if !tableView.mj_header.isRefreshing() {
+            tableView.mj_header.beginRefreshing()
+        }
     }
     
     // MARK: - 加载更新数据
     /// 加载反馈历史消息(都是提问的问题)
-    private func loadFeedBackHistory() {
-        
-        
-        lastRequest.fetchFeedBackModels {(handler: [MessageList]) -> Void in
-            self.messageLists = handler
-            self.tableView.reloadData()
-        }
-    }
+//    private func loadFeedBackHistory() {
+//        
+//        
+//        lastRequest.fetchFeedBackModels {(handler: [MessageList]) -> Void in
+//            self.messageLists = handler
+//            self.tableView.reloadData()
+//        }
+//    }
 
     // MARK: - Table view data source
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -124,58 +124,58 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
     
     
     /// 是否正在加载中
-//    var isLoading:Bool = false
-//    
-//    /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
-//    private func loadData() {
-//        if self.isLoading {
-//            return
-//        }
-//        
-//        self.isLoading = true
-//        
-//        //清空footer的“加载完成”
-//        self.tableView.mj_footer.resetNoMoreData()
-//        
-//        lastRequest.fetchFirstPageModels {[weak self] (data, status) -> Void in
-//            //处理异常状态
-//            if RetCode.SUCCESS != status {
-//                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-//                self?.tableView.mj_header.endRefreshing()
-//                self?.isLoading = false
-//                return
-//            }
-//            
-//            if let dataSource = data {
-//                self?.tableView.mj_header.endRefreshing()
-//                self?.messageLists = dataSource
-//            }
-//            self?.isLoading = false
-//        }
-//    }
-//    
-//    /// 底部加载更多
-//    func loadMore(){
-//        if self.isLoading {
-//            return
-//        }
-//        self.isLoading = true
-//        //请求下一页
-//        self.lastRequest.fetchNextPageModels { [weak self] (data, status) -> Void in
-//            
-//            if let dataSource = data {
-//                if dataSource.count > 0 {
-//                    if let cells = self?.messageLists {
-////                        self?.collectContent = cells + dataSource
-//                    }
-//                    self?.tableView.mj_footer.endRefreshing()
-//                } else {
-//                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
-//                }
-//            }
-//            self?.isLoading = false
-//        }
-//    }
+    var isLoading:Bool = false
+    
+    /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
+    private func loadData() {
+        if self.isLoading {
+            return
+        }
+        
+        self.isLoading = true
+        
+        //清空footer的“加载完成”
+        self.tableView.mj_footer.resetNoMoreData()
+        
+        lastRequest.fetchFirstPageModels {[weak self] (data, status) -> Void in
+            //处理异常状态
+            if RetCode.SUCCESS != status {
+                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                self?.tableView.mj_header.endRefreshing()
+                self?.isLoading = false
+                return
+            }
+            
+            if let dataSource = data {
+                self?.tableView.mj_header.endRefreshing()
+                self?.messageLists = dataSource
+            }
+            self?.isLoading = false
+        }
+    }
+    
+    /// 底部加载更多
+    func loadMore(){
+        if self.isLoading {
+            return
+        }
+        self.isLoading = true
+        //请求下一页
+        self.lastRequest.fetchNextPageModels { [weak self] (data, status) -> Void in
+            
+            if let dataSource = data {
+                if dataSource.count > 0 {
+                    if let cells = self?.messageLists {
+                        self?.messageLists = cells + dataSource
+                    }
+                    self?.tableView.mj_footer.endRefreshing()
+                } else {
+                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+                }
+            }
+            self?.isLoading = false
+        }
+    }
     
     
 }
