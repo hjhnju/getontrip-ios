@@ -20,8 +20,6 @@ class Book: NSObject {
             image = UIKitTools.sliceImageUrl(image, width: 142, height: 181)
         }
     }
-    /// 内容摘要
-    var abstract: String = ""
     /// 内容
     var content_desc: String = ""
     /// 京东购买url

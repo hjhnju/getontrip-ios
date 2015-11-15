@@ -12,7 +12,10 @@ import FFAutoLayout
 /// 显示更多的cell
 class ShowMoreTableViewCell: UITableViewCell {
     
-    let showMore: UIButton = UIButton(title: "显示全部景点", fontSize: 12, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.8))
+    //搜索类型
+    var type: Int = SearchType.Content
+    
+    var showMore: UIButton = UIButton(title: "显示全部景点", fontSize: 12, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.8))
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

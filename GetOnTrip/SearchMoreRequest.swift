@@ -9,9 +9,32 @@
 import UIKit
 import SwiftyJSON
 
+struct SearchType {
+    static let Sight:Int = 1
+    static let City:Int  = 2
+    static let Content:Int = 3
+}
+
 class SearchMoreRequest: NSObject {
     
+    
+    static let sharedInstance = SearchMoreRequest()
+    
     var vc: SearchResultsViewController?
+    
+    var page    : Int = 0
+    var pageSize: Int = 15
+    var searchType: Int = SearchType.Content
+    
+    func fetchNextPageModels(filter: String, handler: (JSON?, Int) -> Void) {
+        page = page + 1
+        return fetchModels(self.searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
+    }
+    
+    func fetchFirstPageModels(filter: String, handler: (JSON?, Int) -> Void) {
+        page = 1
+        return fetchModels(self.searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
+    }
     
     ///  搜索更多
     ///
@@ -20,7 +43,7 @@ class SearchMoreRequest: NSObject {
     ///  - parameter pageSize: 页面大小
     ///  - parameter query:    查询词
     ///  - parameter handler:  回调数据
-    func fetchMoreResult(type: Int, page: Int, pageSize: Int, query: String, handler: (result: JSON?, status: Int) -> Void) {
+    func fetchModels(type: Int, page: Int, pageSize: Int, query: String, handler: (result: JSON?, status: Int) -> Void) {
         
         var post      = [String: String]()
         post["type"]  = String(type)
@@ -38,24 +61,5 @@ class SearchMoreRequest: NSObject {
             }
         }
         
-    }
-    
-    /**
-     * 接口3：/api/search/hotWord
-     * 热门搜索词接口
-     * @param integer size,条数，默认是10
-     */
-    class func fetchHotWords(handler: ([String]?, Int) -> Void){
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search/hotWord", post: [String: String]()) { (result, status) -> () in
-            if status == RetCode.SUCCESS {
-                var data = [String]()
-                for it in result.arrayValue {
-                    data.append(it.stringValue)
-                }
-                handler(data, status)
-                return
-            }
-            handler(nil, status)
-        }
     }
 }

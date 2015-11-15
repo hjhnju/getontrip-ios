@@ -104,7 +104,6 @@ class SightBookViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let bc = BookViewController()
         bc.bookDataSource = dataSource[indexPath.row]
-        bc.bookDataSource?.content_desc = ""
         navigationController?.pushViewController(bc, animated: true)
     }
     

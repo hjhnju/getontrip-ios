@@ -27,7 +27,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     /// 搜索更多内容
     var contentData = [SearchContent]()
     /// 搜索更多城市
-    var resultMuchData  = [SearchResult]()
+    var cityOrSightData  = [SearchResult]()
     
     var titleMap = ["sight":"景点", "city":"城市", "content":"内容"]
         
@@ -61,9 +61,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
             if self.filterString == "" {
                 self.resultDataSource.removeAll()
                 self.contentData.removeAll()
-                self.resultMuchData.removeAll()
-                pageNum = 1
-                cityNum = 1
+                self.cityOrSightData.removeAll()
                 self.tableView.reloadData()
                 
                 if let searvc = parentViewController as? SearchViewController {
@@ -72,10 +70,10 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 return
             }
             
-            SearchResultsRequest.sharedInstance.fetchSearchResultsModels(page, pageSize: pageSize, filterString: filterString) { (rows) -> Void in
+            SearchRequest.sharedInstance.fetchFirstPageModels(filterString) { (rows, status) -> Void in
                 if self.filterString != "" {
-                    self.resultDataSource = rows as! [String : AnyObject]
-                    if (rows["content_num"]??.intValue == 0) && (rows["city_num"]??.intValue == 0) && (rows["sight_num"]??.intValue == 0) {
+                    self.resultDataSource = rows
+                    if (rows["content_num"]?.intValue == 0) && (rows["city_num"]?.intValue == 0) && (rows["sight_num"]?.intValue == 0) {
                         if let searvc = self.parentViewController as? SearchViewController {
                             searvc.searchResultLabel.hidden = false
                         }
@@ -90,11 +88,11 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupAddProperty()
+        initView()
         setupAutoLayout()
     }
 
-    private func setupAddProperty() {
+    private func initView() {
         
         view.addSubview(tableView)
         tableView.delegate = self
@@ -107,8 +105,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
         tableView.registerClass(ShowMoreTableViewCell.self, forCellReuseIdentifier: "ShowMoreTableView_Cell")
     }
-    
-
     
     private func setupAutoLayout() {
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 64 + 28))
@@ -123,12 +119,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if contentData.count != 0 || resultMuchData.count != 0 { return 1 }
+        if contentData.count != 0 || cityOrSightData.count != 0 { return 1 }
         return resultDataSource.count
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if contentData.count != 0 || resultMuchData.count != 0 { return "" }
+        if contentData.count != 0 || cityOrSightData.count != 0 { return "" }
         switch section {
         case 0:
             if resultDataSource["searchCitys"]!.count == 0 { return "" }
@@ -166,8 +162,8 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         }
         
         
-        if resultMuchData.count != 0 {
-            let data = resultMuchData[indexPath.row]
+        if cityOrSightData.count != 0 {
+            let data = cityOrSightData[indexPath.row]
             if citySightType == 0 {
                 
                 let vc = CityViewController()
@@ -285,7 +281,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if contentData.count != 0 { return contentData.count }
-        if resultMuchData.count != 0 { return resultMuchData.count }
+        if cityOrSightData.count != 0 { return cityOrSightData.count }
         switch section {
         case 0:
             let num = resultDataSource["city_num"]?.intValue
@@ -321,11 +317,11 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if resultMuchData.count != 0 {
+        if cityOrSightData.count != 0 {
             let muchCell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
             muchCell.searchCruxCharacter = filterString
-            muchCell.searchResult = resultMuchData[indexPath.row]
-            if resultMuchData.count - 1 == indexPath.row {
+            muchCell.searchResult = cityOrSightData[indexPath.row]
+            if cityOrSightData.count - 1 == indexPath.row {
                 if cityNum != -1 {
                     cityNum++
                     loadMoreAction(recordLoadButton!)
@@ -350,12 +346,12 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
 
         switch indexPath.section {
         case 0:
-            let data = resultDataSource["searchCitys"]! as! [SearchResult]
+            let data = resultDataSource["searchCitys"] as! [SearchResult]
             if data.count == indexPath.row {
                 let cellMore = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
                 cellMore.showMore.addTarget(self, action: "loadMoreAction:", forControlEvents: UIControlEvents.TouchUpInside)
                 cellMore.showMore.setTitle("显示全部城市", forState: UIControlState.Normal)
-                cellMore.showMore.tag = 2
+                cellMore.showMore.tag = SearchType.City
                 return cellMore
             }
         case 1:
@@ -364,7 +360,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let cellMore = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
                 cellMore.showMore.addTarget(self, action: "loadMoreAction:", forControlEvents: UIControlEvents.TouchUpInside)
                 cellMore.showMore.setTitle("显示全部景点", forState: UIControlState.Normal)
-                cellMore.showMore.tag = 1
+                cellMore.showMore.tag = SearchType.Sight
                 return cellMore
             }
         case 2:
@@ -373,7 +369,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                 let cellMore = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
                 cellMore.showMore.addTarget(self, action: "loadMoreAction:", forControlEvents: UIControlEvents.TouchUpInside)
                 cellMore.showMore.setTitle("显示全部内容", forState: UIControlState.Normal)
-                cellMore.showMore.tag = 3
+                cellMore.showMore.tag = SearchType.Content
                 return cellMore
             }
         default:
@@ -431,17 +427,14 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     // MARK: UISearchResultsUpdating
     func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searvc = parentViewController as? SearchViewController
         if searchController.searchBar.text != "" {
-            if let searvc = parentViewController as? SearchViewController {
-                searvc.locationButton.hidden = true
-            }
+            searvc?.locationButton.hidden = true
         } else {
-            if let searvc = parentViewController as? SearchViewController {
-                searvc.locationButton.hidden = false
-            }
+            searvc?.locationButton.hidden = false
         }
         if !searchController.active { return }
-        filterString = searchController.searchBar.text!
+        filterString = searchController.searchBar.text ?? ""
     }
     
     // MARK: 自定义方法
@@ -451,19 +444,17 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
     }
     
-    var searchMoreRequest: SearchMoreRequest = SearchMoreRequest()
-    
     func loadMoreAction(btn: UIButton) {
         recordLoadButton = btn
-        searchMoreRequest.vc = self
-        
-        searchMoreRequest.fetchMoreResult(btn.tag, page: pageNum, pageSize: 15, query: filterString) { (result, status: Int) -> Void in
+        SearchMoreRequest.sharedInstance.vc = self
+        SearchMoreRequest.sharedInstance.searchType = btn.tag
+        SearchMoreRequest.sharedInstance.fetchNextPageModels(filterString) { (result, status: Int) -> Void in
             if status == RetCode.SUCCESS {
                 if btn.tag == 1 || btn.tag == 2 {
                     self.citySightType = btn.tag
                     for item in result?["data"].arrayValue ?? [] {
                         if let item = item.dictionaryObject {
-                            self.resultMuchData.append(SearchResult(dict: item))
+                            self.cityOrSightData.append(SearchResult(dict: item))
                         }
                     }
                     if let pageN:Int = result?["num"].intValue ?? 0 {

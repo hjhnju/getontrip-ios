@@ -61,7 +61,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         view.addSubview(searchResult.view)
         imageV.frame = UIScreen.mainScreen().bounds
         setupAddProperty()
-        loadSearchMuchLabel()
+        loadHotSearchLabel()
     }
     
     
@@ -146,8 +146,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         }
     }
     
-    private func loadSearchMuchLabel() {
-        SearchMoreRequest.fetchHotWords { (result, status) -> Void in
+    private func loadHotSearchLabel() {
+        SearchRequest.sharedInstance.fetchHotWords { (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let data = result {
                     self.hotwordData = data

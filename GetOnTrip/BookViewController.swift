@@ -320,9 +320,6 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     /// 展示内容书籍
     func showBookDetail(body: String) {
-        if body == "" {
-            return
-        }
         let html = NSMutableString()
         html.appendString("<!DOCTYPE html><html><head><meta charset=\"utf-8\">")
         html.appendString("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no, minimal-ui\">")
