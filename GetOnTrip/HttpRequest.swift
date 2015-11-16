@@ -12,7 +12,7 @@ import SwiftyJSON
 import YTKKeyValueStore
 
 struct HttpRequestContant {
-    static let timeout: NSTimeInterval = 20
+    static let timeout: NSTimeInterval = 10
 }
 
 class HttpRequest {

@@ -142,7 +142,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         super.viewWillDisappear(animated)
     }
     
-    
     override func viewDidDisappear(animated: Bool) {
         //还原
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)

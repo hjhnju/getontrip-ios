@@ -15,10 +15,9 @@ struct SearchType {
     static let Content:Int = 3
 }
 
-class SearchMoreRequest: NSObject {
+class SearchAllRequest: NSObject {
     
-    
-    static let sharedInstance = SearchMoreRequest()
+    static let sharedInstance = SearchAllRequest()
     
     var vc: SearchResultsViewController?
     
@@ -26,13 +25,20 @@ class SearchMoreRequest: NSObject {
     var pageSize: Int = 15
     var searchType: Int = SearchType.Content
     
+    /// 纪录有无更多数据
+    var hasMoreData: Bool = true
+    
     func fetchNextPageModels(filter: String, handler: (JSON?, Int) -> Void) {
+        if !hasMoreData {
+            return
+        }
         page = page + 1
         return fetchModels(self.searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
     }
     
     func fetchFirstPageModels(filter: String, handler: (JSON?, Int) -> Void) {
         page = 1
+        hasMoreData = true
         return fetchModels(self.searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
     }
     
@@ -43,7 +49,7 @@ class SearchMoreRequest: NSObject {
     ///  - parameter pageSize: 页面大小
     ///  - parameter query:    查询词
     ///  - parameter handler:  回调数据
-    func fetchModels(type: Int, page: Int, pageSize: Int, query: String, handler: (result: JSON?, status: Int) -> Void) {
+    private func fetchModels(type: Int, page: Int, pageSize: Int, query: String, handler: (result: JSON?, status: Int) -> Void) {
         
         var post      = [String: String]()
         post["type"]  = String(type)
@@ -53,7 +59,9 @@ class SearchMoreRequest: NSObject {
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search", post: post) { (data, status) -> () in
             if status == RetCode.SUCCESS {
-
+                if data.arrayValue.count == 0 {
+                    self.hasMoreData = false
+                }
                 handler(result: data, status: status)
                 return
             } else {

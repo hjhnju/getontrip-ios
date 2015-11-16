@@ -9,7 +9,7 @@
 import Foundation
 import FFAutoLayout
 
-class SearchMuchCell: UITableViewCell {
+class SearchHotwordTableViewCell: UITableViewCell {
     
     let baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.2)
     

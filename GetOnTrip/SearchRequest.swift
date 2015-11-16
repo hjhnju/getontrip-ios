@@ -34,7 +34,9 @@ class SearchRequest: NSObject {
     ///  - parameter filterString: 搜索内容
     ///  - parameter handler:      回调
     func fetchModels(page: String, pageSize: String, filterString: String, handler: ([String : AnyObject], Int) -> Void) {
-        
+        if filterString == "" {
+            return
+        }
         var post         = [String: String]()
         post["query"]    = String(filterString)
         post["page"]     = String(page)
@@ -54,8 +56,11 @@ class SearchRequest: NSObject {
                                 }
                             }
                         }
-                        rows["searchCitys"] = searchCitys
-                        rows["city_num"]    = data["city_num"]?.stringValue
+                        let num = data["city_num"]?.intValue ?? 0
+                        //if num > 0 {
+                            rows["searchCitys"]    = searchCitys
+                            rows["city_num"] = num
+                        //}
                     case "sight":
                         var searchSights = [SearchResult]()
                         if let sights = data["sight"]?.arrayValue {
@@ -68,11 +73,11 @@ class SearchRequest: NSObject {
                         rows["searchSights"] = searchSights
                         rows["sight_num"]    = data["sight_num"]?.stringValue
                     case "content":
-                        var searchContent = [SearchContent]()
+                        var searchContent = [SearchContentResult]()
                         if let cons = data["content"]?.arrayValue {
                             for item in cons {
                                 if let item = item.dictionaryObject {
-                                    searchContent.append(SearchContent(dict: item))
+                                    searchContent.append(SearchContentResult(dict: item))
                                 }
                             }
                         }

@@ -10,76 +10,67 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
-public let SearchContentKeyWordType: String = "keyword"
-public let SearchContentTopicType  : String = "topic"
-public let SearchContentBookType   : String = "book"
-public let SearchContentVideoType   : String = "video"
+struct SearchResultContant {
+    static let NormalCellHeight:CGFloat = 61
+    static let BookCellHeight:CGFloat   = 70
+}
 
 class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
     
+    /// 第一次搜索结果数据源
     var resultDataSource = [String : AnyObject]() {
         didSet {
-            self.tableView.reloadData()
+            updateNoResultHint()
         }
     }
-    /// 搜索更多内容
-    var contentData = [SearchContent]()
-    /// 搜索更多城市
-    var cityOrSightData  = [SearchResult]()
     
-    var titleMap = ["sight":"景点", "city":"城市", "content":"内容"]
-        
-    var page    : String = "1"
+    /// 结果字段名
+    var sectionFileds    = ["searchCitys", "searchSights", "searchContent"]
+    var sectionNumFileds = ["city_num", "sight_num", "content_num"]
+    var sectionTitles = ["城市", "景点", "内容"]
+    var sectionTypes  = [SearchType.City, SearchType.Sight, SearchType.Content]
     
-    let pageSize: String = "4"
+    /// 是否在“显示全部内容”界面
+    var isSearchingAll: Bool = false
+    
+    /// 显示全部内容的搜索类型
+    var searchType: Int = SearchType.Content
+    
+    /// 搜索更多内容数据
+    var contentData = [SearchContentResult]() {
+        didSet {
+            updateNoResultHint()
+        }
+    }
+    
+    /// 搜索更多城市或者景点数据
+    var normalData  = [SearchResult]() {
+        didSet {
+            updateNoResultHint()
+        }
+    }
     
     var cityId = ""
     
-    var scrollLock:Bool = false
-    
     var tableView = UITableView()
     
-    var pageNum = 1
-    
-    var cityNum = 1
-    
-    var citySightType: Int?
-    
-    var recordLoadButton: UIButton?
-    
-    var cityLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "   城市", fontSize: 12, mutiLines: true)
-    
-    var sightLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "   景点", fontSize: 12, mutiLines: true)
-    
-    var contentLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "   内容", fontSize: 12, mutiLines: true)
-
     var filterString: String = "" {
         didSet {
-
-            if self.filterString == "" {
-                self.resultDataSource.removeAll()
-                self.contentData.removeAll()
-                self.cityOrSightData.removeAll()
-                self.tableView.reloadData()
-                
+            if filterString == "" {
+                isSearchingAll = false
+                resultDataSource.removeAll()
+                contentData.removeAll()
+                normalData.removeAll()
+                tableView.reloadData()
+                //不显示无内容
                 if let searvc = parentViewController as? SearchViewController {
-                    searvc.searchResultLabel.hidden = true
+                    searvc.showNoResult(false)
                 }
                 return
             }
-            
-            SearchRequest.sharedInstance.fetchFirstPageModels(filterString) { (rows, status) -> Void in
-                if self.filterString != "" {
-                    self.resultDataSource = rows
-                    if (rows["content_num"]?.intValue == 0) && (rows["city_num"]?.intValue == 0) && (rows["sight_num"]?.intValue == 0) {
-                        if let searvc = self.parentViewController as? SearchViewController {
-                            searvc.searchResultLabel.hidden = false
-                        }
-                    }
-                }
-            }
+            requestSearching()
         }
     }
     
@@ -99,7 +90,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.dataSource = self
         tableView.tableFooterView = UIView(frame:CGRectZero)
         tableView.separatorColor  = UIColor.grayColor()
-        tableView.rowHeight = 60
+        tableView.rowHeight = SearchResultContant.NormalCellHeight
         tableView.separatorStyle = .None
         tableView.backgroundColor = .clearColor()
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResults_Cell")
@@ -108,297 +99,145 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     private func setupAutoLayout() {
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 64 + 28))
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
     }
     
     // MARK: UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if contentData.count != 0 || cityOrSightData.count != 0 { return 1 }
-        return resultDataSource.count
+        if isSearchingAll {
+            return 1
+        }
+        return sectionTitles.count
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if contentData.count != 0 || cityOrSightData.count != 0 { return "" }
-        switch section {
-        case 0:
-            if resultDataSource["searchCitys"]!.count == 0 { return "" }
-            return "城市"
-        case 1:
-            if resultDataSource["searchSights"]!.count == 0 { return "" }
-            return "景点"
-        case 2:
-            if resultDataSource["searchContent"]!.count == 0 { return "" }
-            return "内容"
-        default:
-            return ""
+        
+        var title: String = ""
+        if isSearchingAll {
+            title = "显示全部内容"
+        } else {
+            let count = resultDataSource[sectionFileds[section]]?.count ?? 0
+            if count == 0 {
+                title =  ""
+            } else {
+                title = "   " + sectionTitles[section]
+            }
         }
+        return title
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            return cityLabel
-        } else if section == 1 {
-            return sightLabel
+        
+        let headerLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "", fontSize: 12, mutiLines: true)
+        
+        if isSearchingAll {
+            headerLabel.text = "   显示全部内容"
         } else {
-            return contentLabel
+            headerLabel.text = "   " + sectionTitles[section]
         }
+        return headerLabel
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         /// 保存搜索记录
-        let sc = parentViewController as! SearchViewController
-
-        if filterString != sc.recordData.first {
-            sc.recordData.insert(filterString, atIndex: 0)
-            if sc.recordData.count >= 6 {
-                sc.recordData.removeLast()
-            }
-        }
-        
-        
-        if cityOrSightData.count != 0 {
-            let data = cityOrSightData[indexPath.row]
-            if citySightType == 0 {
-                
-                let vc = CityViewController()
-                let city = City(id: data.id)
-                vc.cityDataSource = city
-                showSearchResultController(vc)
-                return
-                
-            } else {
-                let vc = SightViewController()
-                let sight = Sight(id: data.id)
-                sight.name = data.name
-                vc.sightDataSource = sight
-                showSearchResultController(vc)
-                return
-            }
-        }
-
-        if contentData.count != 0 {
-            let content = contentData[indexPath.row]
-            if content.search_type == SearchContentKeyWordType || content.search_type == SearchContentVideoType {
-                let vc = DetailWebViewController()
-                vc.url = content.url
-                showSearchResultController(vc)
-
-                return
-            } else if content.search_type == SearchContentTopicType {
-                let vc = TopicViewController()
-                let topic = Topic()
-                topic.id       = content.id
-                topic.image    = content.image
-                topic.title    = content.title
-                vc.topicDataSource = topic
-                showSearchResultController(vc)
-                return
-            } else if content.search_type ==  SearchContentBookType {
-                let vc = BookViewController()
-                let book = Book(id: content.id)
-                book.image = content.image
-                book.title = content.title
-                vc.bookDataSource = book
-                showSearchResultController(vc)
-                return
-            }
-            return
-        }
-    
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        switch indexPath.section {
-        case 0:
-            let data = resultDataSource["searchCitys"] as! [SearchResult]
-            if data.count == indexPath.row { return }
-        case 1:
-            let data = resultDataSource["searchSights"] as! [SearchResult]
-            if data.count == indexPath.row { return }
-        case 2:
-            let contentData = resultDataSource["searchContent"] as! [SearchContent]
-            if contentData.count == indexPath.row { return }
-        default:
-            break
+        if let svc = parentViewController as? SearchViewController {
+            svc.saveRecord(filterString)
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        switch indexPath.section {
-        case 0:
-            if let searchCity = resultDataSource["searchCitys"] {
-                let vc = CityViewController()
-                let searchC = searchCity[indexPath.row] as! SearchResult
-                let city = City(id: searchC.id)
-                city.name = searchC.name
-                city.image = searchC.image
-                vc.cityDataSource = city
-                showSearchResultController(vc)
+        
+        if isSearchingAll {
+            if self.searchType == SearchType.City || self.searchType == SearchType.Sight {
+                let rowData = normalData[indexPath.row]
+                selectNormalCellAction(rowData)
+                return
+            } else if self.searchType == SearchType.Content {
+                let content = contentData[indexPath.row]
+                selectContentCellAction(content)
+                return
             }
-        case 1:
-            if let searchSight = resultDataSource["searchSights"] {
-                
-                let vc = SightViewController()
-                let searchC = searchSight[indexPath.row] as! SearchResult
-                let sight = Sight(id: searchC.id)
-                sight.name = searchC.name
-                sight.image = searchC.image
-                vc.sightDataSource = sight
-                showSearchResultController(vc)
-            }
-        default:
-            if let searchContent = resultDataSource["searchContent"] as? [SearchContent] {
-                
-                let searchType = searchContent[indexPath.row]
-                if searchType.search_type == SearchContentKeyWordType || searchType.search_type == SearchContentVideoType {
-                    let vc = DetailWebViewController()
-                    vc.url = searchType.url
-                    showSearchResultController(vc)
-                } else if searchType.search_type == SearchContentTopicType {
-                    let vc = TopicViewController()
-                    let topic = Topic()
-                    topic.id       = searchType.id
-                    topic.image    = searchType.image
-                    topic.title    = searchType.title
-                    vc.topicDataSource = topic
-                    showSearchResultController(vc)
-                } else if searchType.search_type ==  SearchContentBookType {
-                    let vc = BookViewController()
-                    let book = Book(id: searchType.id)
-                    book.image = searchType.image
-                    book.title = searchType.title
-                    vc.bookDataSource = book
-                    showSearchResultController(vc)
+        } else {
+            if let data = resultDataSource[sectionFileds[indexPath.section]] as? [SearchResult] {
+                //点击查看更多
+                if data.count == indexPath.row {
+                    return
                 }
+                searchType = sectionTypes[indexPath.section]
+                let rowData = data[indexPath.row]
+                selectNormalCellAction(rowData)
             }
-            break
+            if let data = resultDataSource[sectionFileds[indexPath.section]] as? [SearchContentResult] {
+                if data.count == indexPath.row {
+                    return
+                }
+                let rowData = data[indexPath.row]
+                selectContentCellAction(rowData)
+            }
         }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if contentData.count != 0 { return contentData.count }
-        if cityOrSightData.count != 0 { return cityOrSightData.count }
-        switch section {
-        case 0:
-            let num = resultDataSource["city_num"]?.intValue
-                let resultCount = (resultDataSource["searchCitys"]!.count)!
-                if Int(num!) <= resultCount {
-                    return resultCount
-                } else {
-                    return resultCount + 1
-                }
-            
-        case 1:
-             let num = resultDataSource["sight_num"]?.intValue
-                let resultCount = (resultDataSource["searchSights"]!.count)!
-                if Int(num!) <= resultCount {
-                    return resultCount
-                } else {
-                    return resultCount + 1
+        if isSearchingAll {
+            if searchType == SearchType.City || searchType == SearchType.Sight {
+                return normalData.count
+            } else if searchType == SearchType.Content {
+                return contentData.count
             }
-            
-        case 2:
-             let num = resultDataSource["content_num"]?.intValue
-                let resultCount = (resultDataSource["searchContent"]!.count)!
-                if Int(num!) <= resultCount {
-                    return resultCount
-                } else {
-                    return resultCount + 1
+        } else {
+            let num = Int(resultDataSource[sectionNumFileds[section]]?.intValue ?? 0)
+            let resultCount = Int(resultDataSource[sectionFileds[section]]?.count ?? 0)
+            if num > resultCount {
+                return resultCount + 1
             }
-            
-        default:
-            return 0
+            return resultCount
         }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if cityOrSightData.count != 0 {
-            let muchCell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
-            muchCell.searchCruxCharacter = filterString
-            muchCell.searchResult = cityOrSightData[indexPath.row]
-            if cityOrSightData.count - 1 == indexPath.row {
-                if cityNum != -1 {
-                    cityNum++
-                    loadMoreAction(recordLoadButton!)
-                }
+        if isSearchingAll {
+            let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
+            cell.searchCruxCharacter = filterString
+            if searchType == SearchType.City || searchType == SearchType.Sight {
+                cell.searchResult = normalData[indexPath.row]
+            } else if searchType == SearchType.Content {
+                cell.searchContent = contentData[indexPath.row]
             }
-            return muchCell
-        }
-        
-        if contentData.count != 0 {
-            let muchCell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
-            muchCell.searchCruxCharacter = filterString
-            muchCell.searchContent = contentData[indexPath.row]
             if contentData.count - 1 == indexPath.row {
-                
-                if pageNum != -1 {
-                    pageNum++
-                    loadMoreAction(recordLoadButton!)
-                }
+                requestMoreSearchingAll()
             }
-            return muchCell
+            return cell
+        } else {
+            /// 显示更多内容标签视图
+            let sectionData = resultDataSource[sectionFileds[indexPath.section]]
+            if sectionData?.count == indexPath.row {
+                let cell = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
+                cell.showMore.addTarget(self, action: "searchingAllAction:", forControlEvents: UIControlEvents.TouchUpInside)
+                cell.showMore.setTitle("显示全部" + sectionTitles[indexPath.section], forState: UIControlState.Normal)
+                searchType = sectionTypes[indexPath.section]
+                return cell
+            }
+            
+            /// 数据视图
+            let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
+            cell.searchCruxCharacter = filterString
+            if let data = sectionData as? [SearchContentResult] {
+                cell.searchContent = data[indexPath.row]
+            }
+            if let data = sectionData as? [SearchResult] {
+                cell.searchResult  = data[indexPath.row]
+            }
+            return cell
         }
-
-        switch indexPath.section {
-        case 0:
-            let data = resultDataSource["searchCitys"] as! [SearchResult]
-            if data.count == indexPath.row {
-                let cellMore = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
-                cellMore.showMore.addTarget(self, action: "loadMoreAction:", forControlEvents: UIControlEvents.TouchUpInside)
-                cellMore.showMore.setTitle("显示全部城市", forState: UIControlState.Normal)
-                cellMore.showMore.tag = SearchType.City
-                return cellMore
-            }
-        case 1:
-            let data = resultDataSource["searchSights"] as! [SearchResult]
-            if data.count == indexPath.row {
-                let cellMore = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
-                cellMore.showMore.addTarget(self, action: "loadMoreAction:", forControlEvents: UIControlEvents.TouchUpInside)
-                cellMore.showMore.setTitle("显示全部景点", forState: UIControlState.Normal)
-                cellMore.showMore.tag = SearchType.Sight
-                return cellMore
-            }
-        case 2:
-            let Contentdata = resultDataSource["searchContent"] as! [SearchContent]
-            if Contentdata.count == indexPath.row {
-                let cellMore = tableView.dequeueReusableCellWithIdentifier("ShowMoreTableView_Cell", forIndexPath: indexPath) as! ShowMoreTableViewCell
-                cellMore.showMore.addTarget(self, action: "loadMoreAction:", forControlEvents: UIControlEvents.TouchUpInside)
-                cellMore.showMore.setTitle("显示全部内容", forState: UIControlState.Normal)
-                cellMore.showMore.tag = SearchType.Content
-                return cellMore
-            }
-        default:
-            break
-        }
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("SearchResults_Cell", forIndexPath: indexPath) as! SearchResultsCell
-        cell.searchCruxCharacter = filterString
-        switch indexPath.section {
-        case 0:
-            let data = resultDataSource["searchCitys"] as! [SearchResult]
-            cell.searchResult = data[indexPath.row]
-        case 1:
-            let data = resultDataSource["searchSights"] as! [SearchResult]
-            cell.searchResult = data[indexPath.row]
-        case 2:
-            let contentdata = resultDataSource["searchContent"] as! [SearchContent]
-            let contentType = contentdata[indexPath.row]
-                cell.searchContent = contentType
-        default:
-            break
-        }
-
-
-        return cell
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        
         //Apperance of cell
         cell.separatorInset = UIEdgeInsetsZero
         cell.preservesSuperviewLayoutMargins = false
@@ -407,17 +246,16 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
         if contentData.count != 0 {
             if contentData[indexPath.row].search_type == "book" {
-                return 70
+                return SearchResultContant.BookCellHeight
             }
         }
-        return 61
+        return SearchResultContant.NormalCellHeight
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 61
+        return SearchResultContant.NormalCellHeight
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -439,45 +277,147 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     
     // MARK: 自定义方法
     
+    func updateNoResultHint() {
+        let searvc = parentViewController as? SearchViewController
+        if resultDataSource.count == 0 {
+            searvc?.showNoResult()
+        } else {
+            searvc?.showNoResult(false)
+        }
+    }
+    
     func showSearchResultController(vc: UIViewController) {
         //采用push可手势返回
         parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func loadMoreAction(btn: UIButton) {
-        recordLoadButton = btn
-        SearchMoreRequest.sharedInstance.vc = self
-        SearchMoreRequest.sharedInstance.searchType = btn.tag
-        SearchMoreRequest.sharedInstance.fetchNextPageModels(filterString) { (result, status: Int) -> Void in
-            if status == RetCode.SUCCESS {
-                if btn.tag == 1 || btn.tag == 2 {
-                    self.citySightType = btn.tag
-                    for item in result?["data"].arrayValue ?? [] {
-                        if let item = item.dictionaryObject {
-                            self.cityOrSightData.append(SearchResult(dict: item))
+    /**
+    响应“显示全部内容”
+    - parameter btn: sender
+    */
+    func searchingAllAction(btn: UIButton) {
+        //进入“显示全部内容”
+        isSearchingAll = true
+        requestSearching()
+    }
+    
+    func selectContentCellAction(content: SearchContentResult) {
+        if content.isLandscape() || content.isVideo() {
+            let vc = DetailWebViewController()
+            vc.url = content.url
+            showSearchResultController(vc)
+        } else if content.isTopic() {
+            let vc = TopicViewController()
+            let topic = Topic()
+            topic.id       = content.id
+            topic.image    = content.image
+            topic.title    = content.title
+            vc.topicDataSource = topic
+            showSearchResultController(vc)
+        } else if content.isBook() {
+            let vc = BookViewController()
+            let book = Book(id: content.id)
+            book.image = content.image
+            book.title = content.title
+            vc.bookDataSource = book
+            showSearchResultController(vc)
+        }
+    }
+    
+    func selectNormalCellAction(rowData: SearchResult) {
+        if searchType == SearchType.City {
+            let vc = CityViewController()
+            let city = City(id: rowData.id)
+            vc.cityDataSource = city
+            showSearchResultController(vc)
+        } else if searchType == SearchType.Sight {
+            let vc = SightViewController()
+            let sight = Sight(id: rowData.id)
+            sight.name = rowData.name
+            vc.sightDataSource = sight
+            showSearchResultController(vc)
+        }
+    }
+    
+    /**
+    发送首次搜索请求
+    */
+    func requestSearching() {
+        if isSearchingAll {
+            SearchAllRequest.sharedInstance.vc = self
+            SearchAllRequest.sharedInstance.searchType = searchType
+            SearchAllRequest.sharedInstance.fetchFirstPageModels(filterString) { (result, status: Int) -> Void in
+                if status == RetCode.SUCCESS {
+                    //更新DataSource
+                    if self.searchType == SearchType.City || self.searchType == SearchType.Sight {
+                        var newNormalData = [SearchResult]()
+                        for item in result?.arrayValue ?? [] {
+                            if let item = item.dictionaryObject {
+                                newNormalData.append(SearchResult(dict: item))
+                            }
+                        }
+                        self.normalData = newNormalData
+                    } else {
+                        var newContentData = [SearchContentResult]()
+                        for item in result?.arrayValue ?? [] {
+                            if let item = item.dictionaryObject {
+                                newContentData.append(SearchContentResult(dict: item))
+                            }
+                        }
+                        self.contentData = newContentData
+                    }
+                    
+                    //设置无内容
+                    if self.normalData.count == 0 && self.contentData.count == 0 {
+                        if let searvc = self.parentViewController as? SearchViewController {
+                            searvc.showNoResult()
                         }
                     }
-                    if let pageN:Int = result?["num"].intValue ?? 0 {
-                        if Int(pageN / 15) <= self.cityNum {
-                            self.cityNum = -1
+                    self.tableView.reloadData()
+                } else {
+                    SVProgressHUD.showErrorWithStatus("网络连接失败")
+                }
+            }
+        } else {
+            SearchRequest.sharedInstance.fetchFirstPageModels(filterString) { (rows, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    self.resultDataSource = rows
+                    self.tableView.reloadData()
+                    if (rows["content_num"]?.intValue == 0) && (rows["city_num"]?.intValue == 0) && (rows["sight_num"]?.intValue == 0) {
+                        if let searvc = self.parentViewController as? SearchViewController {
+                            searvc.showNoResult()
                         }
                     }
                 } else {
-                    for item in result?["data"].arrayValue ?? [] {
+                    SVProgressHUD.showErrorWithStatus("网络连接失败")
+                }
+            }
+        }
+    }
+    
+    /**
+    搜索全部内容的下一页数据
+    */
+    func requestMoreSearchingAll() {
+        if !isSearchingAll {
+            return
+        }
+        SearchAllRequest.sharedInstance.fetchNextPageModels(filterString) { (result, status: Int) -> Void in
+            if status == RetCode.SUCCESS {
+                if self.searchType == SearchType.City || self.searchType == SearchType.Sight {
+                    for item in result?.arrayValue ?? [] {
                         if let item = item.dictionaryObject {
-                            self.contentData.append(SearchContent(dict: item))
+                            self.normalData.append(SearchResult(dict: item))
                         }
                     }
-                    
-                    if let pageN: Int = result?["num"].intValue ?? 0 {
-                        if Int(pageN / 15) <= self.pageNum {
-                            self.pageNum = -1
+                } else {
+                    for item in result?.arrayValue ?? [] {
+                        if let item = item.dictionaryObject {
+                            self.contentData.append(SearchContentResult(dict: item))
                         }
                     }
                 }
                 self.tableView.reloadData()
-            } else {
-                SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络设置")
             }
         }
     }

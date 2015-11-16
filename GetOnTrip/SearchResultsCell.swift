@@ -11,7 +11,6 @@ import FFAutoLayout
 
 class SearchResultsCell: UITableViewCell {
 
-
     lazy var resultImageView: UIImageView = UIImageView(image: UIImage(named: "default-topic"))
 
     lazy var resultTitleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "长安", fontSize: 16, mutiLines: false)
@@ -45,41 +44,42 @@ class SearchResultsCell: UITableViewCell {
             tempString = temp
             range = NSString(string: temp).rangeOfString(searchCruxCharacter)
         }
-
-        
         return attr
     }
     
     var searchResult: SearchResult? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchResult?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchResult?.name ?? "", titleColor: SceneColor.lightYellow)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchResult?.desc ?? "", titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+            if let result = searchResult {
+                resultImageView.sd_setImageWithURL(NSURL(string: result.image), placeholderImage: PlaceholderImage.defaultSmall)
+                resultTitleLabel.attributedText = searchCruxCharacterAction(result.name, titleColor: SceneColor.lightYellow)
+                resultDescLabel.attributedText  = searchCruxCharacterAction(result.desc, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+            }
         }
     }
     
-    var searchContent: SearchContent? {
+    var searchContent: SearchContentResult? {
         didSet {
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContent?.title ?? "", titleColor: SceneColor.lightYellow)
-            resultDescLabel.attributedText = searchCruxCharacterAction((searchContent?.content)!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-            
-            if searchContent?.search_type == "video" {
-                playImage.hidden = false
-            } else {
-                playImage.hidden = true
-            }
-            
-            
-            if searchContent?.search_type == "book" {
-                resultImageViewHeight?.constant = 48
-                resultImageView.image = UIImage()
-                resultImageView.backgroundColor = UIColor.whiteColor()
-                groundView.sd_setImageWithURL(NSURL(string: searchResult?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
-                groundView.hidden = false
-            } else {
-                resultImageViewHeight?.constant = 37
-                groundView.hidden = true
-                resultImageView.sd_setImageWithURL(NSURL(string: searchContent?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
+            if let content = searchContent {
+                resultTitleLabel.attributedText = searchCruxCharacterAction(content.title, titleColor: SceneColor.lightYellow)
+                resultDescLabel.attributedText = searchCruxCharacterAction(content.content, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+                
+                if content.isVideo() {
+                    playImage.hidden = false
+                } else {
+                    playImage.hidden = true
+                }
+                
+                if content.isBook() {
+                    resultImageViewHeight?.constant = 48
+                    resultImageView.image = UIImage()
+                    resultImageView.backgroundColor = UIColor.whiteColor()
+                    groundView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
+                    groundView.hidden = false
+                } else {
+                    resultImageViewHeight?.constant = 37
+                    groundView.hidden = true
+                    resultImageView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
+                }
             }
         }
     }
