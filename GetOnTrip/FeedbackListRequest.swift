@@ -51,32 +51,3 @@ class FeedbackSendRequest: NSObject {
     }
     
 }
-
-
-/// 景点
-//class CollectSight: NSObject {
-//    
-//    /// 收藏话题id
-//    var id: String = ""
-//    /// 话题名
-//    var name: String = ""
-//    /// 话题图片
-//    
-//    var image: String = "" {
-//        didSet {
-//            image = AppIni.BaseUri + image
-//        }
-//    }
-//    
-//    /// 共几个话题
-//    var topicNum: String = ""
-//    
-//    init(dict: [String : AnyObject]) {
-//        super.init()
-//        setValuesForKeysWithDictionary(dict)
-//    }
-//    
-//    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-//        
-//    }
-//}

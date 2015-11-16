@@ -86,10 +86,20 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
+    
+    var tableViewContentOffset: CGPoint = CGPointZero
 
     var tableViewDataSource = [TopicBrief]() {
         didSet {
             tableView.reloadData()
+//            if tableViewScrollToIndex != nil {
+//                tableView.scrollToRowAtIndexPath(tableViewScrollToIndex!, atScrollPosition: UITableViewScrollPosition.None, animated: false)
+            if tableViewContentOffset != CGPointZero {
+                tableView.contentOffset.y = tableViewContentOffset.y
+            }
+            print(tableView.contentOffset.y)
+            
+//            }
         }
     }
     
@@ -358,7 +368,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         //cell无选中效果
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.topic = tableViewDataSource[indexPath.row]
-        
+//        tableViewScrollToIndex = indexPath
         return cell
     }
     
@@ -375,6 +385,14 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         vc.topicDataSource = Topic.fromBrief(topic)
         navigationController?.pushViewController(vc, animated: true)
 
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        tableViewContentOffset = scrollView.contentOffset
+    }
+    
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+        
     }
     
     //MARK: ScrollViewDelegate
@@ -412,15 +430,20 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
+        sender.selected = !sender.selected
         let type  = FavoriteContant.TypeCity
         let objid = self.cityId
-        Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
+        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) {
             (result, status) -> Void in
             if status == RetCode.SUCCESS {
-                sender.selected = !sender.selected
-                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                if result == nil {
+                    sender.selected = !sender.selected
+                } else {
+                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                }
             } else {
-                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+                SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                sender.selected = !sender.selected
             }
         }
     }

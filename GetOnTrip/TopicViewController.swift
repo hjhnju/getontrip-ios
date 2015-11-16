@@ -68,7 +68,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: DataSource of Controller
 
-    var topicId: String {
+    var topicId: String? {
         return self.topicDataSource?.id ?? ""
     }
     
@@ -337,17 +337,21 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     
     // MARK: - 评论、分享、收藏
     func doFavorite(sender: UIButton) {
-        
+        sender.selected = !sender.selected
         if let topic = topicDataSource {
             let type  = FavoriteContant.TypeTopic
             let objid = topic.id
-            Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
+            Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) {
                 (result, status) -> Void in
                 if status == RetCode.SUCCESS {
-                    sender.selected = !sender.selected
-                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    if result == nil {
+                        sender.selected = !sender.selected
+                    } else {
+                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    }
                 } else {
-                    SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+                    SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                    sender.selected = !sender.selected
                 }
             }
         }

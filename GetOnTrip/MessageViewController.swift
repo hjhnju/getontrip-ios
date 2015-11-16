@@ -1,4 +1,3 @@
-
 //
 //  MessageViewController.swift
 //  GetOnTrip
@@ -9,63 +8,94 @@
 
 import UIKit
 import FFAutoLayout
+import MJRefresh
+import SVProgressHUD
 
 class MessageViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate{
     
     static let name = "消息"
 
-    var lastSuccessRequest: MessageListRequest?
+    var lastRequest: MessageListRequest = MessageListRequest()
     
-    var messageLists: [MessageList]?
+    var messageLists: [MessageList] = [MessageList]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     lazy var tableView: UITableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initProperty()
+        initRefresh()
+    }
+    
+    private func initProperty() {
+        
+        title = "消息"
+        navBar.setTitle(MessageViewController.name)
+        
         view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
+        
         tableView.backgroundColor = UIColor.whiteColor()
-        tableView.frame = CGRectMake(0, 64, view.bounds.width, view.bounds.height)
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64), offset: CGPointMake(0, 64))
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.frame = view.bounds
-        
-        setupProperty()
-        loadFeedBackHistory()
-    }
-    
-    private func setupProperty() {
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(MessageTableViewCell.self, forCellReuseIdentifier: "Message_Cell")
-        title = "消息"
-        navBar.setTitle(MessageViewController.name)
+//        loadFeedBackHistory()
     }
     
+    private func initRefresh() {
+        //上拉刷新
+        let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
+        tbHeaderView.automaticallyChangeAlpha = true
+        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
+        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
+        
+        //下拉刷新
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
+        tbFooterView.automaticallyRefresh = true
+        tbFooterView.automaticallyChangeAlpha = true
+        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
+        
+        
+        self.tableView.mj_header = tbHeaderView
+        self.tableView.mj_footer = tbFooterView
+        
+        if !tableView.mj_header.isRefreshing() {
+            tableView.mj_header.beginRefreshing()
+        }
+    }
     
     // MARK: - 加载更新数据
     /// 加载反馈历史消息(都是提问的问题)
-    private func loadFeedBackHistory() {
-        
-        if lastSuccessRequest == nil {
-            lastSuccessRequest = MessageListRequest()
-        }
-        
-        lastSuccessRequest?.fetchFeedBackModels {(handler: [MessageList]) -> Void in
-            self.messageLists = handler
-            self.tableView.reloadData()
-        }
-    }
+//    private func loadFeedBackHistory() {
+//        
+//        
+//        lastRequest.fetchFeedBackModels {(handler: [MessageList]) -> Void in
+//            self.messageLists = handler
+//            self.tableView.reloadData()
+//        }
+//    }
 
     // MARK: - Table view data source
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return messageLists?.count ?? 0
+        return messageLists.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Message_Cell", forIndexPath: indexPath) as! MessageTableViewCell
-        cell.message = messageLists![indexPath.row] as MessageList
+        cell.message = messageLists[indexPath.row] as MessageList
         return cell
     }
     
@@ -73,10 +103,81 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         return 72
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 72
     }
+    
+    
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let data = messageLists[indexPath.row] as MessageList
+        
+        let vc = TopicViewController()
+        let topic = Topic(id: data.topicId)
+        vc.topicDataSource = topic
+        navigationController?.pushViewController(vc, animated: true)
+        vc.doComment(vc.commentBtn)
+    }
+    
+    
+    
+    
+    /// 是否正在加载中
+    var isLoading:Bool = false
+    
+    /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
+    private func loadData() {
+        if self.isLoading {
+            return
+        }
+        
+        self.isLoading = true
+        
+        //清空footer的“加载完成”
+        self.tableView.mj_footer.resetNoMoreData()
+        
+        lastRequest.fetchFirstPageModels {[weak self] (data, status) -> Void in
+            //处理异常状态
+            if RetCode.SUCCESS != status {
+                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                self?.tableView.mj_header.endRefreshing()
+                self?.isLoading = false
+                return
+            }
+            
+            if let dataSource = data {
+                self?.tableView.mj_header.endRefreshing()
+                self?.messageLists = dataSource
+            }
+            self?.isLoading = false
+        }
+    }
+    
+    /// 底部加载更多
+    func loadMore(){
+        if self.isLoading {
+            return
+        }
+        self.isLoading = true
+        //请求下一页
+        self.lastRequest.fetchNextPageModels { [weak self] (data, status) -> Void in
+            
+            if let dataSource = data {
+                if dataSource.count > 0 {
+                    if let cells = self?.messageLists {
+                        self?.messageLists = cells + dataSource
+                    }
+                    self?.tableView.mj_footer.endRefreshing()
+                } else {
+                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+                }
+            }
+            self?.isLoading = false
+        }
+    }
+    
+    
 }
 
 // MARK: - 回复消息
@@ -99,8 +200,6 @@ class MessageTableViewCell: UITableViewCell {
             restorePerson.text = message?.content
             restoreTime.text = message?.create_time
             restoreImageView.sd_setImageWithURL(NSURL(string: message!.image), placeholderImage: PlaceholderImage.defaultSmall)
-            print(message?.image)
-            
         }
     }
     
@@ -112,6 +211,9 @@ class MessageTableViewCell: UITableViewCell {
         addSubview(restoreTime)
         addSubview(restorePerson)
         addSubview(restoreImageView)
+        
+        iconView.layer.borderWidth = 1.0
+        iconView.layer.borderColor = SceneColor.shallowGrey.CGColor
         
         iconView.clipsToBounds = true
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5

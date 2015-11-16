@@ -25,6 +25,8 @@ class Favorite: NSObject {
             LoginView.sharedLoginView.addLoginFloating({(success, error) -> () in
                 if success {
                     Favorite.doAction(type, objid: objid, isFavorite: isFavorite, handler: handler)
+                } else {
+                   handler(nil, 0)
                 }})
         } else {
             Favorite.doAction(type, objid: objid, isFavorite: isFavorite, handler: handler)

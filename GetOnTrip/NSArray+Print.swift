@@ -44,22 +44,4 @@ extension NSMutableDictionary {
         strM += "}"
         return strM
     }
-    
-    
-    
-//    数组越界例:
-//    @implementation NSArray(Extension)
-//    + (void)load
-//    {
-//    [self swizzleInstanceMethod:NSClassFromString(@"__NSArrayI") originSelector:@selector(objectAtIndex:) otherSelector:@selector(hm_objectAtIndex:)];
-//    }
-//    
-//    - (id)hm_objectAtIndex:(NSUInteger)index
-//    {
-//    if (index < self.count) {
-//    return [self hm_objectAtIndex:index];
-//    } else {
-//    return nil;
-//    }
-//    }
 }

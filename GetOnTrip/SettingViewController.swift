@@ -108,6 +108,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         setupInitSetting()
     }
     
+
     
     ///  初始化属性
     private func setupAddProperty() {
@@ -147,8 +148,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     ///  初始化设置
     private func setupInitSetting() {
         title = SettingViewController.name
-        iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount?.icon ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
-        
+        iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount?.icon ?? ""))
         if      sharedUserAccount?.gender.hashValue == 0 { gender.text = "男" }
         else if sharedUserAccount?.gender.hashValue == 1 { gender.text = "女" }
         else                                             { gender.text = "未知"}
@@ -202,7 +202,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 if let data = result {
                     self.provinces = data
                     
-                    self.pickerView(self.pickView, didSelectRow: 0, inComponent: 0)
                 } else {
                     SVProgressHUD.showErrorWithStatus("数据加载错误，请稍候再试")
                 }
@@ -239,11 +238,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        pickerView(pickView, didSelectRow: 0, inComponent: 0)
-
+        
+        
     }
     
-    func shadeViewClick() {
+    func shadeViewClick(btn: UIButton) {
+        
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.shadeView.alpha = 0.0
             self.pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
@@ -318,6 +318,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             else                       { return 200}
         }
     }
+    
+    var switchPhoto: Bool = false
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -327,19 +329,17 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         /// 先切换数据源方法，再实现动画
         if indexPath.row == SettingCell.sexCell {
             pickViewSourceNameAndCity = true
-            pickView.reloadAllComponents()
             sortClick(sortButton)
         }
         
         if indexPath.row == SettingCell.cityCell {
             pickViewSourceNameAndCity = false
-            pickView.reloadAllComponents()
             sortClick(sortButton)
         }
         
         /// pickView 位置动画
         if indexPath.row == SettingCell.cityCell || indexPath.row == SettingCell.sexCell{
-            pickView.reloadAllComponents()
+
             let h: CGFloat = pickViewSourceNameAndCity ? 162 : 216
             let y1: CGFloat = UIScreen.mainScreen().bounds.height
             let w: CGFloat = UIScreen.mainScreen().bounds.width
@@ -347,8 +347,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             let y: CGFloat = UIScreen.mainScreen().bounds.height - pickView.bounds.height
             cancleBottomView.frame = CGRectMake(0, y1, w, 44)
             
+            pickView.selectRow(0, inComponent: 0, animated: false)
+            pickView.delegate!.pickerView!(pickView, didSelectRow: 0, inComponent: 0)
             UIApplication.sharedApplication().keyWindow!.addSubview(shadeView)
-            shadeView.addTarget(self, action: "shadeViewClick", forControlEvents: UIControlEvents.TouchUpInside)
+            shadeView.addTarget(self, action: "shadeViewClick:", forControlEvents: UIControlEvents.TouchUpInside)
             UIApplication.sharedApplication().keyWindow!.addSubview(pickView)
             UIApplication.sharedApplication().keyWindow!.addSubview(cancleBottomView)
             
@@ -373,6 +375,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
                 return
             }
+            
             let picker = UIImagePickerController()
             picker.delegate = self
             presentViewController(picker, animated: true, completion: nil)
@@ -398,6 +401,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         navigationController?.pushViewController(switchPhotoVC, animated: true)
         switchPhotoVC.photoView.img = image
         self.dismissViewControllerAnimated(true, completion: nil)
+        saveButton = true
 //        // 重新设回导航栏样式
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
@@ -413,7 +417,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             } else {
             if provinces.count == 0 { return 0 }
                 if component == 0 {
-                    return provinces.count
+                    return provinces.count ?? 0
                 } else {
                     let provinceIndex = pickerView.selectedRowInComponent(0)
                     return provinces[provinceIndex].city.count ?? 0
@@ -427,12 +431,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
+        
         //省份选中
         if (component == 0 && pickViewSourceNameAndCity == false) {
             pickerView.reloadComponent(1)
             self.lastProvinceIndex = row
-            
-            pickView.selectRow(0, inComponent: 1, animated: false)
+//            pickView.selectRow(0, inComponent: 1, animated: false)
         }
         
         if pickViewSourceNameAndCity == false {
@@ -469,7 +473,28 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             saveGender = label?.text
         } else {
             
-            label?.text = component == 0 ? provinces[row].name : provinces[lastProvinceIndex].city[row]["name"] as? String
+            if provinces[lastProvinceIndex].city.count <= 0 {
+                label?.userInteractionEnabled = false
+            } else {
+                label?.userInteractionEnabled = true
+            }
+            
+            var lt: String = ""
+            if component == 0 {
+                if let temp = provinces[row] as? Province {
+                    lt = temp.name ?? ""
+                }
+            } else {
+                if lastProvinceIndex < provinces.count {
+                    if let temp = provinces[lastProvinceIndex] as? Province {
+                        if row < temp.city.count {
+                            lt = temp.city[row]["name"] as? String ?? ""
+                        }
+                    }
+                }
+            }
+            
+            label?.text = lt
         }
         return label!
     }
@@ -496,7 +521,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             if sharedUserAccount?.city != city.text { saveButton = true } else { saveButton = false }
             
         }
-        shadeViewClick()
+        shadeViewClick(cancleButton)
     }
 
     
