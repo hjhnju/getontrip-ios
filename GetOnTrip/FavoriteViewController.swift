@@ -107,6 +107,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         contentController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
         sightViewController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
         cityController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
+        contentScrollView.contentInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 0)
     }
     
     
@@ -134,6 +135,20 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         contentScrollView.bounces = false
     }
     
+    var lastScrollViewContentX: CGFloat = 0
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        
+        if scrollView.contentOffset.x < lastScrollViewContentX {
+            contentScrollView.isHitTest = false
+        }
+        
+//        if contentScrollView.contentOffset.x == -1 {
+//            contentScrollView.isHitTest = false
+//        } else {
+//            contentScrollView.isHitTest = true
+//        }
+    }
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         let current = CGFloat(scrollView.contentOffset.x / scrollView.bounds.size.width)
@@ -159,16 +174,14 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
             break
         }
         
+        
+        print("zzzzzz\(contentScrollView.contentOffset.x)zzzzzz")
         if contentScrollView.contentOffset.x == 0 {
-            contentScrollView.isHitTest = false
+            lastScrollViewContentX = contentScrollView.contentOffset.x
+//            contentScrollView.isHitTest = false
         } else {
             contentScrollView.isHitTest = true
         }
-    }
-    
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-        
     }
 }
 
@@ -176,11 +189,11 @@ class CollectScrollerview: UIScrollView {
     
     /// true 为事件查找到自己，false为事件查找到父类
     var isHitTest: Bool = true
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        if (isHitTest == true) {
-            return super.hitTest(point, withEvent: event)
-        }
-        return superview
-    }
+//    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+//        if (isHitTest == true) {
+//            return super.hitTest(point, withEvent: event)
+//        }
+//        return superview
+//    }
 }
 

@@ -15,11 +15,11 @@ class AppIniOnline {
 }
 
 class AppIniDev {
-    static let BaseUri = "http://123.57.46.229:8301"
-    static let BaseResourceUri =  "http://123.57.46.229:8301"
+    static let BaseUri = "http://123.57.46.229:8088"
+    static let BaseResourceUri =  "http://123.57.46.229:8088"
 }
 
-class AppIni:AppIniOnline {
+class AppIni:AppIniDev {
     static let Domain:String = "www.getontrip.cn"
 }
 

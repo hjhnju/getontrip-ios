@@ -344,18 +344,24 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
+        sender.selected = !sender.selected
         let type  = FavoriteContant.TypeBook
         let objid = self.bookId
-        Favorite.doFavorite(type, objid: objid, isFavorite: !sender.selected) {
+        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) {
             (result, status) -> Void in
             if status == RetCode.SUCCESS {
-                sender.selected = !sender.selected
-                SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                if result == nil {
+                    sender.selected = !sender.selected
+                } else {
+                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                }
             } else {
-                SVProgressHUD.showInfoWithStatus("收藏未成功，请稍后再试")
+                SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                sender.selected = !sender.selected
             }
         }
     }
+    
     
     /// 购买书籍
     func clickBuyButton(btn: UIButton) {
