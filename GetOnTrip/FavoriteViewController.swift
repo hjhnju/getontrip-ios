@@ -175,7 +175,6 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         }
         
         
-        print("zzzzzz\(contentScrollView.contentOffset.x)zzzzzz")
         if contentScrollView.contentOffset.x == 0 {
             lastScrollViewContentX = contentScrollView.contentOffset.x
 //            contentScrollView.isHitTest = false

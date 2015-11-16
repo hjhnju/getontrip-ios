@@ -167,10 +167,12 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             labelScrollView.addSubview(channelLabel)
         }
         
-        indicateView.bounds = CGRectMake(0, 0, 56, 1.5)
+        indicateView.bounds = CGRectMake(0, 0, lW, 1.5)
         indicateView.center = CGPointMake(lW * 0.5, CGRectGetMaxY(labelScrollView.frame) - 1.5)
         labelScrollView.contentSize  = CGSizeMake(x, 0)
         labelScrollView.contentInset = UIEdgeInsetsZero
+        labelScrollView.bounces = false
+        labelScrollView.showsHorizontalScrollIndicator = false
         collectionView.contentSize   = CGSizeMake(view.bounds.width * CGFloat(labels.count), view.bounds.height - h)
         
         currentIndex = 0
@@ -248,23 +250,16 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             offset = maxOffset
         }
         
-        let lCount: Int = sightDataSource.tags.count >= 7 ? 7 : sightDataSource.tags.count
-        let x: CGFloat  = sightDataSource.tags.count < 7 ? scrollView.contentOffset.x / CGFloat(lCount) - offset : scrollView.contentOffset.x / CGFloat(lCount) + labCenter.bounds.width * 0.5 - offset
-        let x1: CGFloat = scrollView.contentOffset.x / CGFloat(lCount) + labCenter.bounds.width * 0.5
-        
-        if (offset == 0) || (offset == maxOffset) {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                if lCount >= 7 { self.indicateView.center.x = x }
-                else { self.indicateView.center.x = x1 }
-                self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
-            })
-        } else {
-            self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
-            if self.indicateView.center.x != UIScreen.mainScreen().bounds.width * 0.5 {
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.indicateView.center.x = UIScreen.mainScreen().bounds.width * 0.5
-                })
+
+        let x: CGFloat  = CGFloat(scrollView.contentOffset.x / (view.bounds.width / labCenter.bounds.width)) + labCenter.bounds.width * 0.5
+        self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
+        UIView.animateWithDuration(0.5) { () -> Void in
+            if offset == 0 {
+                self.indicateView.center.x = x
+            } else {
+                self.indicateView.center.x = labCenter.center.x - offset
             }
+            self.indicateView.bounds = CGRectMake(0, 0, labCenter.bounds.width, 1.5)
         }
     }
 

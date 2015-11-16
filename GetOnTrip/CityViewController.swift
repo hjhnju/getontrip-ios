@@ -94,7 +94,6 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             tableView.reloadData()
             
             if abs(tableView.contentOffset.y) == initTableViewContentOffsetY { return }
-            
             if tableViewContentOffset.y != 0 && tableViewContentOffset.y != initTableViewContentOffsetY {
                 tableView.setContentOffset(tableViewContentOffset, animated: false)
             }
@@ -123,26 +122,9 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         loadCityData()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         refreshBar()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
     }
     
     func refreshBar(){
