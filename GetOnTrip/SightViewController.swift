@@ -10,6 +10,17 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
+struct SightLabelType {
+    /// 话题
+    static let Topic = 1
+    /// 景观
+    static let Landscape = 2
+    /// 书籍
+    static let Book  = 3
+    /// 视频
+    static let Video = 4
+}
+
 class SightViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
     
     /// 自定义导航
@@ -212,14 +223,12 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         }
         
         cell.cellId = indexPath.row
-        let tagData = sightDataSource.tags[indexPath.row]
-        tagData.sightId = sightId
-        cell.tagData    = tagData
+        let tagObject = sightDataSource.tags[indexPath.row]
+        tagObject.sightId = sightId
+        cell.tagData      = tagObject
         
-        let type = Int(cell.tagData?.type ?? "0")
-        if type != CategoryLabel.sightLabel &&
-           type != CategoryLabel.bookLabel  &&
-           type != CategoryLabel.videoLabel {
+        let type = Int(tagObject.type)
+        if type == SightLabelType.Topic {
             if let data = collectionViewCellCache[indexPath.row] {
                 cell.topicVC.topics = data
                 cell.topicVC.tableView.reloadData()

@@ -33,6 +33,9 @@ struct SlideMenuOptions {
     static let DrawerHeight: CGFloat = UIScreen.mainScreen().bounds.height
     //超过该滑动阀值开始自动展开/关闭菜单
     static var AutoSlideXOffSet : CGFloat  = 60.0
+    
+    //menu
+    static let MenuTableViewCellID = "MenuTableViewCellID"
 }
 
 protocol SlideMenuViewControllerDelegate {
@@ -231,7 +234,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.delegate   = self
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.rowHeight = view.bounds.height * 0.5 * 0.2
-        tableView.registerClass(MenuSettingTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.MenuTableViewCellID)
+        tableView.registerClass(MenuSettingTableViewCell.self, forCellReuseIdentifier: SlideMenuOptions.MenuTableViewCellID)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.scrollEnabled = false
         
@@ -307,7 +310,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.MenuTableViewCellID, forIndexPath: indexPath) as! MenuSettingTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(SlideMenuOptions.MenuTableViewCellID, forIndexPath: indexPath) as! MenuSettingTableViewCell
         //cell选中效果
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
@@ -572,13 +575,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         ShareSDK.authorize(type, settings: nil, onStateChanged: {  (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
-                
-            case SSDKResponseState.Success: //print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-            let account = UserAccount(user: user, type: loginType)
-            sharedUserAccount = account
-            case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
-            finish(result: false, error: error)
-            case SSDKResponseState.Cancel:  print("操作取消")
+            case SSDKResponseState.Success:
+                let account = UserAccount(user: user, type: loginType)
+                sharedUserAccount = account
+            case SSDKResponseState.Fail:
+                print("授权失败,错误描述:\(error)")
+                finish(result: false, error: error)
+            case SSDKResponseState.Cancel:
+                print("操作取消")
             default:
                 break
             }

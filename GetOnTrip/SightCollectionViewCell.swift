@@ -49,14 +49,15 @@ class SightCollectionViewCell: UICollectionViewCell {
         didSet {
             if let type = type {
                 switch type {
-                case CategoryLabel.sightLabel:
+                case SightLabelType.Landscape:
                     addSubview(landscapeVC.view)
-                case CategoryLabel.bookLabel:
+                case SightLabelType.Book:
                     addSubview(bookVC.view)
-                case CategoryLabel.videoLabel:
+                case SightLabelType.Video:
                     addSubview(videoVC.view)
-                default:
+                case SightLabelType.Topic:
                     addSubview(topicVC.view)
+                default:
                     break
                 }
             }
@@ -67,14 +68,15 @@ class SightCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         switch type! {
-        case CategoryLabel.sightLabel:
+        case SightLabelType.Landscape:
             landscapeVC.view.frame = bounds
-        case CategoryLabel.bookLabel:
+        case SightLabelType.Book:
             bookVC.view.frame = bounds
-        case CategoryLabel.videoLabel:
+        case SightLabelType.Video:
             videoVC.view.frame = bounds
-        default:
+        case SightLabelType.Topic:
             topicVC.view.frame = bounds
+        default:
             break
         }
     }

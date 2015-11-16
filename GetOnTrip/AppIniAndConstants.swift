@@ -15,32 +15,16 @@ class AppIniOnline {
 }
 
 class AppIniDev {
-    static let BaseUri = "http://123.57.46.229:8088"
-    static let BaseResourceUri =  "http://123.57.46.229:8088"
+    static let BaseUri = "http://123.57.46.229:8301"
+    static let BaseResourceUri =  "http://123.57.46.229:8301"
 }
 
 class AppIni:AppIniDev {
     static let Domain:String = "www.getontrip.cn"
 }
 
-
-struct StoryBoardIdentifier {
-    //menu
-    static let MenuTableViewCellID = "MenuTableViewCellID"
-    
-    //search
-    static let RecommendTableViewCellID = "SearchRecommendTableViewCellID"
-    static let RecommendTopicViewCellID = "RecommendTopicViewCellID"
-    
-    //city
-    static let CityTopicTableViewCellID   = "CityHotTopicTableViewCellID"
-    static let CitySightCollectionViewCellID = "CitySightCollectionViewCellID"
-    
-}
-
 struct SceneColor {
     static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
-    
     //背景黑
     static let bgBlack     = UIColor(hex: 0x2A2D2E, alpha:1)
     //前景深黑
@@ -78,18 +62,6 @@ struct LoginType {
     static let weixinLogin = 2
     /// 3
     static let weiboLogin  = 3
-}
-
-
-struct CategoryLabel {
-    /// 10
-    static let sightLabel = 10
-    /// 11
-    static let bookLabel  = 11
-    /// 12
-    static let videoLabel = 12
-    /// 1
-    static let topicLabel = 3
 }
 
 struct SceneFont {
