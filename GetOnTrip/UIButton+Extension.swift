@@ -113,4 +113,8 @@ class commentPersonButton: UIButton {
     var frameUserId: String = ""
     
     var from_name: String = ""
+    
+    var indexPath: NSIndexPath?
+    
+    var index: Int?
 }

@@ -115,30 +115,28 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     // 捏合手势
     func pinchGesture(recognizer: UIPinchGestureRecognizer) {
         
-        
-        print(recognizer.scale)
-//        imgPhoto.layer.transform.m41.m42
-        
         let imgMin = min(imgPhoto.frame.width, imgPhoto.frame.height)
         if imgMin < UIScreen.mainScreen().bounds.width {
-            
-            if recognizer.scale > 1 {
+            if recognizer.scale < 1 {
                 return
             }
-//            imgPhoto.transform = CGAffineTransformScale(recognizer.view!.transform, 1, 1)
-            
-            return
         }
-        
         recognizer.view?.transform = CGAffineTransformScale(recognizer.view!.transform, recognizer.scale, recognizer.scale)
         recognizer.scale = 1
-        
     }
     
     // 拖拽
     func panGesture(recognizer: UIPanGestureRecognizer) {
+        
         let translation = recognizer.translationInView(recognizer.view)
         
+        if CGRectContainsPoint(UIScreen.mainScreen().bounds, imgPhoto.center) {
+//            if translation.x {
+//                return
+//            }
+        }
+        
+        print("\(translation.x) ========== \(translation.y)")
         recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
         recognizer.setTranslation(CGPointZero, inView: recognizer.view)
     }
