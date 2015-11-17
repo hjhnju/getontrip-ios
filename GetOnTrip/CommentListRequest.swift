@@ -24,10 +24,20 @@ class CommentListRequest: NSObject {
     var page    : Int = 1
     var pageSize: Int = 6
     
-    // 将数据回调外界
-    func fetchCommentListModels(handler: ([CommentList]?, Int) -> Void) {
-        fetchModels(handler)
+    func fetchNextPageModels(handler: ([CommentList]?, Int) -> Void) {
+        page = page + 1
+        return fetchModels(handler)
     }
+    
+    func fetchFirstPageModels(handler: ([CommentList]?, Int) -> Void) {
+        page = 1
+        return fetchModels(handler)
+    }
+    
+    // 将数据回调外界
+//    func fetchCommentListModels(handler: ([CommentList]?, Int) -> Void) {
+//        fetchModels(handler)
+//    }
     
     // 异步加载获取数据
     func fetchModels(handler: ([CommentList]?, Int) -> Void) {
@@ -109,16 +119,12 @@ class CommentPersonContent: NSObject {
     
     var to_name: String = ""
     
+    var from_user_id: String = ""
+    
     init(dict: [String: AnyObject]) {
         super.init()
         
-//        setValuesForKeysWithDictionary(dict)
-        
-        id        = String(dict["id"]!)
-        content   = String(dict["content"]!)
-        from_name = String(dict["from_name"]!)
-        to_name   = String(dict["to_name"]!)
-
+        setValuesForKeysWithDictionary(dict)
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

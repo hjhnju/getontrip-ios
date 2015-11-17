@@ -394,6 +394,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
             self?.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
             }) { [weak self]  (_) -> Void in
                 self?.commentVC.issueTextfield.placeholder = ""
+                self?.commentVC.to_user = ""
                 self?.commentVC.upId = ""
                 self?.commentVC.view.removeFromSuperview()
                 self?.cover.removeFromSuperview()
