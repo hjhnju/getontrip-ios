@@ -99,10 +99,12 @@ class SightLandscapeController: UITableViewController {
         if indexPath.row == 0 {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell, forIndexPath: indexPath) as! LandscapeCell
+            cell.superNavigation = navigationController
             cell.landscape = dataSource[indexPath.row]
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1, forIndexPath: indexPath) as! LandscapeCell1
+            cell.superNavigation = navigationController
             cell.landscape = dataSource[indexPath.row]
             return cell
         }

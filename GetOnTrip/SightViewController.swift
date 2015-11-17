@@ -250,15 +250,17 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             offset = maxOffset
         }
         
-
-        let x: CGFloat  = CGFloat(scrollView.contentOffset.x / (view.bounds.width / labCenter.bounds.width)) + labCenter.bounds.width * 0.5
+        var nextLabel: UILabel?
+        let array = collectionView.indexPathsForVisibleItems()
+        for path in array {
+            if path.item != currentIndex {
+                nextLabel = labelScrollView.subviews[path.item] as? UILabel
+            }
+        }
+        if nextLabel == nil { nextLabel = UILabel() }
         self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
         UIView.animateWithDuration(0.5) { () -> Void in
-            if offset == 0 {
-                self.indicateView.center.x = x
-            } else {
-                self.indicateView.center.x = labCenter.center.x - offset
-            }
+            self.indicateView.center.x = (scrollView.contentOffset.x % self.view.bounds.width) / (nextLabel!.center.x - labCenter.center.x) + labCenter.center.x - offset
             self.indicateView.bounds = CGRectMake(0, 0, labCenter.bounds.width, 1.5)
         }
     }

@@ -28,13 +28,13 @@ class LandscapeCell: UITableViewCell {
     
     lazy var labelView4: UIView = UIView()
     
-    lazy var label1: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
+    lazy var label1: UIButton = UIButton(title: "", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.7))
     
-    lazy var label2: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
+    lazy var label2: UIButton = UIButton(title: "", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.7))
     
-    lazy var label3: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
+    lazy var label3: UIButton = UIButton(title: "", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.7))
     
-    lazy var label4: UILabel = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.7), title: "", fontSize: 10, mutiLines: true)
+    lazy var label4: UIButton = UIButton(title: "", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.7))
     /// 垂直线
     lazy var vertical1: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.7)
     
@@ -43,6 +43,8 @@ class LandscapeCell: UITableViewCell {
     lazy var vertical3: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.7)
     
     lazy var baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
+    
+    var superNavigation: UINavigationController?
     
     var landscape: Landscape? {
         didSet {
@@ -54,11 +56,21 @@ class LandscapeCell: UITableViewCell {
                 
                 var index: Int = 0
                 for (name, _) in landscape.catalogs {
-                    if index == 0 { label1.text = name }
-                    if index == 1 { label2.text = name }
-                    if index == 2 { label3.text = name }
-                    if index == 3 { label4.text = name }
+                    if index == 0 { label1.setTitle(name, forState: .Normal)}
+                    if index == 1 { label2.setTitle(name, forState: .Normal)}
+                    if index == 2 { label3.setTitle(name, forState: .Normal)}
+                    if index == 3 { label4.setTitle(name, forState: .Normal)}
                     index += 1
+                }
+                
+                if label2.titleLabel?.text == nil {
+                    vertical1.hidden = true
+                }
+                if label3.titleLabel?.text == nil {
+                    vertical2.hidden = true
+                }
+                if label4.titleLabel?.text == nil {
+                    vertical3.hidden = true
                 }
             }
         }
@@ -91,13 +103,28 @@ class LandscapeCell: UITableViewCell {
         labelView4.addSubview(label4)
         addSubview(baseLine)
         
-        subtitleLabel.numberOfLines = 2
-        label1.textAlignment = NSTextAlignment.Center
-        label2.textAlignment = NSTextAlignment.Center
-        label3.textAlignment = NSTextAlignment.Center
-        label4.textAlignment = NSTextAlignment.Center
-        iconView.contentMode                  = UIViewContentMode.ScaleAspectFill
-        iconView.clipsToBounds                = true
+        label1.titleLabel?.adjustsFontSizeToFitWidth = true
+        label2.titleLabel?.adjustsFontSizeToFitWidth = true
+        label3.titleLabel?.adjustsFontSizeToFitWidth = true
+        label4.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        label1.tag = 1
+        label2.tag = 2
+        label3.tag = 3
+        label4.tag = 4
+        
+        subtitleLabel.numberOfLines      = 2
+        label1.titleLabel!.textAlignment = NSTextAlignment.Center
+        label2.titleLabel!.textAlignment = NSTextAlignment.Center
+        label3.titleLabel!.textAlignment = NSTextAlignment.Center
+        label4.titleLabel!.textAlignment = NSTextAlignment.Center
+        iconView.contentMode             = UIViewContentMode.ScaleAspectFill
+        iconView.clipsToBounds           = true
+        
+        label1.addTarget(self, action: "labelCorrespondingAction:", forControlEvents: .TouchUpInside)
+        label2.addTarget(self, action: "labelCorrespondingAction:", forControlEvents: .TouchUpInside)
+        label3.addTarget(self, action: "labelCorrespondingAction:", forControlEvents: .TouchUpInside)
+        label4.addTarget(self, action: "labelCorrespondingAction:", forControlEvents: .TouchUpInside)
     }
     
     private func setupAutoLayout() {
@@ -117,7 +144,16 @@ class LandscapeCell: UITableViewCell {
         vertical3.ff_AlignInner(ff_AlignType.CenterLeft, referView: labelView4, size: CGSizeMake(0.5, 10), offset: CGPointMake(10, 0))
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
+    
+    ///  标签跳转对应链接的方法
+    func labelCorrespondingAction(btn: UIButton) {
 
+        let sc = DetailWebViewController()
+        let array = Array(landscape!.catalogs.values)
+        sc.url = landscape!.url + array[btn.tag - 1]! ?? ""
+        sc.title = landscape!.name
+        superNavigation?.pushViewController(sc, animated: true)
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
