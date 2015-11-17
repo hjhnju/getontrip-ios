@@ -131,7 +131,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                     }
                     self.data.sortInPlace { $0.id > $1.id }
                     self.tableView.reloadData()
-                    tableView.mj_header.endRefreshing()
+                    self.tableView.mj_header.endRefreshing()
                     self.prompt.hidden = self.data.count > 0 ? true : false
                 }
             } else {

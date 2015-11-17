@@ -252,14 +252,13 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
 
         for (var i = 0; i < recommendLabels.count; i++) {
             let btn = UIButton(title: recommendLabels[i].toString(), fontSize: 14, radius: 0)
-//            btn.setsetContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft
             btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             headerView.addSubview(btn)
             
             btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-            btn.tag = Int(recommendLabels[i].id)!
+            btn.tag = Int(recommendLabels[i].order) ?? 1
             if i == 0 {
                 btn.selected = true
                 currentSearchLabelButton = btn
@@ -399,7 +398,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         currentSearchLabelButton = sender
         
         
-        lastRequest?.label = String(sender.tag)
+        lastRequest?.id = String(sender.tag)
         tableView.mj_header.beginRefreshing()
     }
     
@@ -408,7 +407,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     /// 发送搜索信息
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
-    private func loadData() {
+    func loadData() {
         if self.isLoading {
             return
         }
@@ -420,7 +419,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         self.tableView.mj_footer.resetNoMoreData()
         if lastRequest == nil {
             lastRequest = RecommendRequest()
-            lastRequest?.label = "" //默认返回带所有搜索标签
+            lastRequest?.id = "1" //默认返回带所有搜索标签
         }
         
         lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in

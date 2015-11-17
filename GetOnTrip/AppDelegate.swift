@@ -39,12 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         globalKvStore = YTKKeyValueStore(DBWithName: "getontrip")
         globalKvStore?.createTableWithName("ApiCache")
         
-        print(NSHomeDirectory())
+        //预先加载首页数据
+        let lastRequest = RecommendRequest()
+        lastRequest.fetchFirstPageModels {(data, status) -> Void in }
         
-        ///  bug调试代码仅一行
-        //Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
-        
-        ///  获取uuid
+        //获取uuid
         gainUserUUID()
         
         //status bar
@@ -156,8 +155,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - 设置是否是第一次进入最新版本
     private func defaultViewController() -> UIViewController {
-
-//        return GuideViewController()
         return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
     }
 

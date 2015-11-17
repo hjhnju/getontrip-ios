@@ -59,27 +59,36 @@ class HttpRequest {
             urlPath.replaceRange(range, with: "/api/\(AppIni.ApiVersion)/")
         }
         
-        if let cacheJson = Cache.shareInstance.getString(urlPath)?.dataUsingEncoding(NSUTF8StringEncoding) {
-            //先看有效缓存，有直接返回
-            let cacheJsonObj = JSON(data: cacheJson)
-            handler(result: cacheJsonObj, status: RetCode.SUCCESS)
-            return
-        } else {
-            //无则看有没缓存先用于展示
-            if let cacheJson = Cache.shareInstance.getDisplayString(urlPath)?.dataUsingEncoding(NSUTF8StringEncoding) {
-                let cacheJsonObj = JSON(data: cacheJson)
-                handler(result: cacheJsonObj, status: RetCode.SUCCESS)
-            }
-        }
-        
-        /// 发送真实网络请求
+        //完整url
         var url = (url ?? "") + urlPath
         url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) ?? ""
         let timestamp = String(format: "%.0f", NSDate().timeIntervalSince1970)
         let token     = "\(AppIni.SecretKey)\(timestamp)".sha256 + timestamp
         let postArgs  = ["token": token]
-        print("[HttpRequest]:url=\(url), post=\(postArgs)")
         
+        //缓存获取
+        var hasDisplayCache: Bool = false
+        var hasValidCache: Bool   = false
+        if let cacheJson = Cache.shareInstance.getString(urlPath)?.dataUsingEncoding(NSUTF8StringEncoding) {
+            //先看有效缓存，有直接返回
+            let cacheJsonObj = JSON(data: cacheJson)
+            handler(result: cacheJsonObj, status: RetCode.SUCCESS)
+            hasValidCache = true
+        } else if let cacheJson = Cache.shareInstance.getDisplayString(urlPath)?.dataUsingEncoding(NSUTF8StringEncoding) {
+            //无则看有没缓存先用于展示
+            let cacheJsonObj = JSON(data: cacheJson)
+            handler(result: cacheJsonObj, status: RetCode.SUCCESS)
+            hasDisplayCache = true
+        }
+        
+        //loging
+        print("[HttpRequest]:url=\(url), hasValidCache=\(hasValidCache), hasDisplayCache=\(hasDisplayCache)")
+        
+        if hasValidCache {
+            return
+        }
+        
+        /// 发送真实网络请求
         HttpRequest.sharedManager.request(.POST, url, parameters: postArgs).response { request, response, respData, error -> Void in
             //异常
             if error != nil {
@@ -91,7 +100,8 @@ class HttpRequest {
                 let json = JSON(data: data)
                 
                 //添加缓存
-                if let str = json["data"].rawString() {
+                let rawString = json["data"].rawString()
+                if let str = rawString {
                     Cache.shareInstance.setString(urlPath, value: str)
                 }
                 return handler(result: json["data"], status: json["status"].intValue)

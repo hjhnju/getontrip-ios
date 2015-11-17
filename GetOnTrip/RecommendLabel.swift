@@ -12,6 +12,8 @@ import Foundation
 class RecommendLabel: NSObject {
     /// id
     var id: String = ""
+    /// order
+    var order: String = ""
     /// 标签名
     var name: String = ""
     /// 数字

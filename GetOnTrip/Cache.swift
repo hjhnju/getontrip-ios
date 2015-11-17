@@ -8,13 +8,22 @@
 
 import Foundation
 
+struct CacheContant {
+    static let table: String = "ApiCache"
+}
+
 /// 全局缓存类
 class Cache: NSObject {
     
     static let shareInstance: Cache = Cache()
     
     var cachekeys: [String: NSTimeInterval] = [
-        "/api/1.0/search/label?label=&pageSize=15&page=1" : 10
+        "/api/1.0/search/label?order=1&pageSize=15&page=1" : 600,
+        "/api/1.0/search/label?order=2&pageSize=15&page=1" : 600,
+        "/api/1.0/search/label?order=3&pageSize=15&page=1" : 600,
+        "/api/1.0/search/label?order=4&pageSize=15&page=1" : 600,
+        "/api/1.0/search/label?order=5&pageSize=15&page=1" : 600,
+        "/api/1.0/search/label?order=6&pageSize=15&page=1" : 600,
     ]
     
     /**
@@ -28,16 +37,18 @@ class Cache: NSObject {
     func getString(key: String, expireValid: Bool = true) -> String? {
         if let expire = cachekeys[key] {
             if !expireValid {
-                return globalKvStore?.getStringById(key, fromTable: "ApiCache")
+                let retString = globalKvStore?.getStringById(key, fromTable: CacheContant.table)
+                return retString
             }
             
-            if let item = globalKvStore?.getYTKKeyValueItemById(key, fromTable: "ApiCache") {
-                //TODO: NOT Work yet
+            if let item = globalKvStore?.getYTKKeyValueItemById(key, fromTable: CacheContant.table) {
+                //TODO: not work yet
                 let interval = NSDate().timeIntervalSinceDate(item.createdTime)
-                print("interval=\(interval)")
                 if interval <= expire {
-                    if let str = item.itemObject as? String {
-                        return str
+                    if let arrString = item.itemObject as? [String] {
+                        if arrString.count > 0 {
+                            return arrString[0]
+                        }
                     }
                 }
             }
@@ -65,7 +76,7 @@ class Cache: NSObject {
     */
     func setString(key: String, value:String) -> Bool {
         if cachekeys.keys.contains(key) {
-            globalKvStore?.putString(key, withId: value, intoTable: "ApiCache")
+            globalKvStore?.putString(value, withId: key, intoTable: CacheContant.table)
             return true
         }
         return false
