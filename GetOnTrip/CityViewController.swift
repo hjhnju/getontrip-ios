@@ -92,18 +92,16 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     var tableViewContentOffset: CGPoint = CGPointZero
-
+    var initTableViewContentOffsetY: CGFloat?
     var tableViewDataSource = [TopicBrief]() {
         didSet {
             tableView.reloadData()
-//            if tableViewScrollToIndex != nil {
-//                tableView.scrollToRowAtIndexPath(tableViewScrollToIndex!, atScrollPosition: UITableViewScrollPosition.None, animated: false)
-            if tableViewContentOffset != CGPointZero {
-                tableView.contentOffset.y = tableViewContentOffset.y
-            }
-            print(tableView.contentOffset.y)
             
-//            }
+            if abs(tableView.contentOffset.y) == initTableViewContentOffsetY { return }
+            
+            if tableViewContentOffset.y != 0 && tableViewContentOffset.y != initTableViewContentOffsetY {
+                tableView.setContentOffset(tableViewContentOffset, animated: false)
+            }
         }
     }
     
@@ -129,6 +127,10 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         loadCityData()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         refreshBar()
@@ -136,6 +138,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+    
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -215,6 +218,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         //内容初始位置偏移
         tableView.frame = CGRectMake(0, 0, view.frame.width, view.frame.height)
         tableView.contentInset = UIEdgeInsets(top: CityConstant.headerViewHeight, left: 0, bottom: 0, right: 0)
+        initTableViewContentOffsetY = CityConstant.headerViewHeight
         
         moreSightsButton.backgroundColor = SceneColor.frontBlack
         hotTopBarButton.backgroundColor = SceneColor.frontBlack
@@ -391,6 +395,10 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
 
     }
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        
+    }
+    
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         tableViewContentOffset = scrollView.contentOffset
     }
@@ -405,6 +413,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         let offsetY = scrollView.contentOffset.y
         if offsetY != 0 { //防止collectionView 左右滑动
+            
             //导航变化
             let gap = CityConstant.headerViewHeight + offsetY
             if gap > 0 {

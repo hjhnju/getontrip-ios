@@ -19,8 +19,9 @@ class AppIniDev {
     static let BaseResourceUri =  "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniDev {
+class AppIni:AppIniOnline {
     static let Domain:String = "www.getontrip.cn"
+    static let SecretKey: String = "ahl93##41cfw!@23"
 }
 
 struct SceneColor {
