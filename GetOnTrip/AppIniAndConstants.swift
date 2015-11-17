@@ -54,16 +54,6 @@ struct SceneColor {
     static let thinGray  = UIColor(hex: 0x5C5C5C, alpha: 1.9)
 }
 
-///  登陆类型 1:qq,2:weixin,3:weibo
-struct LoginType {
-    /// 1
-    static let qqLogin     = 1
-    /// 2
-    static let weixinLogin = 2
-    /// 3
-    static let weiboLogin  = 3
-}
-
 struct SceneFont {
     static let heiti = "STHeitiSC-Light"
 }

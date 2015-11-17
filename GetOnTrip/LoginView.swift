@@ -13,23 +13,20 @@ import SVProgressHUD
 
 class LoginView: UIView {
     
-    /// 回调用于做完之后不影响之前的操作
-    typealias LoginFinishedOperate = (result: Bool, error: NSError?) -> ()
+    static let sharedLoginView = LoginView()
     
     lazy var loginBackground: UIButton = UIButton()
     
     lazy var loginPrompt: UILabel = UILabel(color: UIColor.whiteColor(), title: "使用以下账号直接登录", fontSize: 16, mutiLines: true)
-    
-    //微信
+
     lazy var wechatButton: UIButton = UIButton(icon: "icon_weixin", masksToBounds: true)
-    //QQ
+
     lazy var qqButton: UIButton = UIButton(icon: "icon_qq", masksToBounds: true)
-    //微博
+    
     lazy var weiboButton: UIButton = UIButton(icon: "icon_weibo", masksToBounds: true)
     
-    static let sharedLoginView = LoginView()
-    
-    var loginFinished: LoginFinishedOperate?
+    /// 登陆后需要执行的操作
+    var loginFinishedHandler: UserLogin.LoginFinishedHandler?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,7 +39,7 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupAddProperty() {
+    private func setupAddProperty() {
         addSubview(loginBackground)
         addSubview(loginPrompt)
         addSubview(wechatButton)
@@ -52,81 +49,36 @@ class LoginView: UIView {
         loginBackground.backgroundColor = UIColor.blackColor()
         loginBackground.alpha = 0.7
         
-        loginBackground.addTarget(self, action: "loginBackgroundClick", forControlEvents: UIControlEvents.TouchUpInside)
+        loginBackground.addTarget(self, action: "dismissFloating", forControlEvents: UIControlEvents.TouchUpInside)
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
         weiboButton.addTarget(self, action: "weiboLogin", forControlEvents: UIControlEvents.TouchUpInside)
         qqButton.addTarget(self, action: "qqLogin", forControlEvents: UIControlEvents.TouchUpInside)
-        
     }
     
-    
-    func setupAutoLayout() {
-        
+    private func setupAutoLayout() {
         loginBackground.ff_Fill(self)
         loginPrompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, -55))
         qqButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(0, 0))
         weiboButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(50, 0))
         wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 0))
-        
     }
     
-    func loginBackgroundClick() {
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.alpha = 0
-            }) { (_) -> Void in
-                let isLogin = sharedUserAccount == nil ? false : true
-                self.loginFinished!(result: isLogin, error: nil)
-                self.removeFromSuperview()
+    // MARK: 自定义方法
+    
+    func doAfterLogin(handler: UserLogin.LoginFinishedHandler) {
+        //未登录记录操作，待登录后执行；已登陆则直接执行制定操作
+        if globalUser == nil {
+            showFloating()
+            self.loginFinishedHandler = handler
+        } else {
+            handler(result: true, error: nil)
         }
     }
     
-    //微信登陆
-    func wechatLogin() {
-        thirdParthLogin(SSDKPlatformType.TypeWechat, loginType: LoginType.weixinLogin) { (result, error) -> () in
-            if error != nil {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-            }
-        }
-    }
-    
-    //qq登陆
-    func qqLogin() {
-        thirdParthLogin(SSDKPlatformType.TypeQQ, loginType: LoginType.qqLogin) { (result, error) -> () in
-            if error != nil {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-            }
-        }
-    }
-    
-    //新浪微博登陆
-    func weiboLogin() {
-        thirdParthLogin(SSDKPlatformType.TypeSinaWeibo, loginType: LoginType.weiboLogin) { (result, error) -> () in
-            if error != nil {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
-            }
-        }
-    }
-    
-    //第三方登陆
-    private func thirdParthLogin(type: SSDKPlatformType, loginType: Int, finish: LoginFinishedOperate) {
-        //授权
-        ShareSDK.authorize(type, settings: nil, onStateChanged: { [weak self] (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
-            
-            switch state{
-            case SSDKResponseState.Success: print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-                sharedUserAccount = UserAccount(user: user, type: loginType)
-                self?.loginBackgroundClick()
-            case SSDKResponseState.Fail:    print("授权失败,错误描述:\(error)")
-                finish(result: false, error: error)
-            case SSDKResponseState.Cancel:  print("操作取消")
-            default:
-                break
-            }
-            })
-    }
-    
-    //添加登录浮层
-    func addLoginFloating(finish: LoginFinishedOperate) {
+    /**
+    展示登录浮层
+    */
+    private func showFloating() {
         let lv = LoginView.sharedLoginView
         lv.frame = UIScreen.mainScreen().bounds
         UIApplication.sharedApplication().keyWindow?.addSubview(lv)
@@ -134,7 +86,34 @@ class LoginView: UIView {
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             lv.alpha = 1
         })
-        
-        loginFinished = finish
+    }
+    
+    /**
+    取消登录浮层
+    */
+    func dismissFloating() {
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.alpha = 0
+            }) { (_) -> Void in
+                self.removeFromSuperview()
+        }
+    }
+    
+    //微信登陆
+    func wechatLogin() {
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler)
+        dismissFloating()
+    }
+    
+    //qq登陆
+    func qqLogin() {
+        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler)
+        dismissFloating()
+    }
+    
+    //新浪微博登陆
+    func weiboLogin() {
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler)
+        dismissFloating()
     }
 }

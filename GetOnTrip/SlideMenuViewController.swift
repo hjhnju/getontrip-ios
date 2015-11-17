@@ -281,16 +281,15 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //MARK: - 刷新登陆状态
     func refreshLoginStatus() {
-        if sharedUserAccount != nil {
+        if let user = globalUser {
             loginAfter.hidden = false
             loginBefore.hidden = true
+            headerView.sd_setImageWithURL(NSURL(string: user.icon))
+            nameLabel.text = user.nickname
         } else {
             loginBefore.hidden = false
             loginAfter.hidden = true
         }
-        if sharedUserAccount == nil { return }
-        headerView.sd_setImageWithURL(NSURL(string: (sharedUserAccount?.icon)!))
-        nameLabel.text = sharedUserAccount?.nickname
     }
     
     deinit {
@@ -337,13 +336,13 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         //TODO:未登录情况
-        if indexPath.row >= 1  && sharedUserAccount == nil {
-            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
+        if indexPath.row >= 1 {
+            LoginView.sharedLoginView.doAfterLogin() {(success, error) -> () in
                 if success {
                     //调整
                     self.curVCType = self.usingVCTypes[indexPath.row]
                 }
-            })
+            }
             return
         }
         
@@ -537,57 +536,28 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    // MARK: 第三方登陆
-    typealias LoginFinishedOperate = (result: AnyObject?, error: NSError?) -> ()
-
+    // MARK: 支持第三方登录
+    
+    /// 登陆后的操作
+    var loginFinishedHandler: UserLogin.LoginFinishedHandler = { (result, error) -> Void in
+        if error != nil {
+            SVProgressHUD.showErrorWithStatus("登陆失败啦，再试试手气")
+        }
+    }
+    
     //微信登陆
     func wechatLogin() {
-        
-        thirdParthLogin(SSDKPlatformType.TypeWechat, loginType: LoginType.weixinLogin) { (result, error) -> () in
-            if error != nil {
-                SVProgressHUD.showInfoWithStatus(MessageInfo.REQUEST_ERR_RETURN)
-            }
-        }
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler)
     }
     
     //qq登陆
     func qqLogin() {
-        thirdParthLogin(SSDKPlatformType.TypeQQ, loginType: LoginType.qqLogin) { (result, error) -> () in
-            if error != nil {
-                SVProgressHUD.showInfoWithStatus(MessageInfo.REQUEST_ERR_RETURN)
-            }
-        }
+        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler)
     }
     
     //新浪微博登陆
     func weiboLogin() {
-        thirdParthLogin(SSDKPlatformType.TypeSinaWeibo, loginType: LoginType.weiboLogin) { (result, error) -> () in
-            if error != nil {
-                SVProgressHUD.showInfoWithStatus(MessageInfo.REQUEST_ERR_RETURN)
-            }
-        }
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler)
     }
-
-    
-    //第三方登陆
-    func thirdParthLogin(type: SSDKPlatformType, loginType: Int, finish: LoginFinishedOperate) {
-        //授权
-        ShareSDK.authorize(type, settings: nil, onStateChanged: {  (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
-            
-            switch state{
-            case SSDKResponseState.Success:
-                let account = UserAccount(user: user, type: loginType)
-                sharedUserAccount = account
-            case SSDKResponseState.Fail:
-                print("授权失败,错误描述:\(error)")
-                finish(result: false, error: error)
-            case SSDKResponseState.Cancel:
-                print("操作取消")
-            default:
-                break
-            }
-            })
-    }
-
 }
 

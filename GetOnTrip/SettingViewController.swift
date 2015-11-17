@@ -148,13 +148,13 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     ///  初始化设置
     private func setupInitSetting() {
         title = SettingViewController.name
-        iconView.sd_setImageWithURL(NSURL(string: sharedUserAccount?.icon ?? ""))
-        if      sharedUserAccount?.gender.hashValue == 0 { gender.text = "男" }
-        else if sharedUserAccount?.gender.hashValue == 1 { gender.text = "女" }
+        iconView.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""))
+        if      globalUser?.gender.hashValue == 0 { gender.text = "男" }
+        else if globalUser?.gender.hashValue == 1 { gender.text = "女" }
         else                                             { gender.text = "未知"}
         
-        city.text = sharedUserAccount?.city
-        nickName.text = sharedUserAccount?.nickname
+        city.text = globalUser?.city
+        nickName.text = globalUser?.nickname
     }
     
     ///  初始化导航
@@ -179,7 +179,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         let textField = notification.object as! UITextField
         nickName.text = textField.text
         
-        if sharedUserAccount?.nickname != textField.text { saveButton = true } else { saveButton = false }
+        if globalUser?.nickname != textField.text { saveButton = true } else { saveButton = false }
     }
     
     ///  移除通知
@@ -211,21 +211,16 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         }
         
         // 退出登陆
-        exitLogin.addTarget(self, action: "exitLoginClick", forControlEvents: UIControlEvents.TouchUpInside)
+        exitLogin.addTarget(self, action: "exitLoginAction", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
-
-    
     ///  退出登陆
-    func exitLoginClick() {
-        print("退出登录")
-        sharedUserAccount?.exitLogin()
-        sharedUserAccount = nil
+    func exitLoginAction() {
+        UserLogin.sharedInstance.exit()
         // 将页面返回到首页
-        let vc = parentViewController as! UINavigationController
-
-        let nav = vc.parentViewController as! SlideMenuViewController
-        nav.curVCType = RecommendViewController.self
+        if let vc = parentViewController?.parentViewController as? SlideMenuViewController {
+            vc.curVCType = RecommendViewController.self
+        }
     }
     
     func sortClick(btn: UIButton) {
@@ -481,15 +476,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             
             var lt: String = ""
             if component == 0 {
-                if let temp = provinces[row] as? Province {
-                    lt = temp.name ?? ""
-                }
+                lt = provinces[row].name ?? ""
             } else {
                 if lastProvinceIndex < provinces.count {
-                    if let temp = provinces[lastProvinceIndex] as? Province {
-                        if row < temp.city.count {
-                            lt = temp.city[row]["name"] as? String ?? ""
-                        }
+                    if row < provinces[lastProvinceIndex].city.count {
+                        lt = provinces[lastProvinceIndex].city[row]["name"] as? String ?? ""
                     }
                 }
             }
@@ -514,12 +505,13 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             else if gender.text == "女" { sex = 1 }
             else { sex = 2 }
             
-            if sharedUserAccount?.gender != sex { saveButton = true } else { saveButton = false }
+            if globalUser?.gender != sex { saveButton = true }
+            else { saveButton = false }
         } else {
             // 设置城市
             city.text = saveCity + saveTown
-            if sharedUserAccount?.city != city.text { saveButton = true } else { saveButton = false }
-            
+            if globalUser?.city != city.text { saveButton = true }
+            else { saveButton = false }
         }
         shadeViewClick(cancleButton)
     }
@@ -528,6 +520,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     /// MARK: - 保存用户信息
     func saveUserInfo(btn: UIButton) {
         if btn.selected == false { return }
+        
         iconView.image?.scaleImage(200)
         let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
         var sex: Int?
@@ -539,7 +532,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             sex = 2
         }
 
-        sharedUserAccount?.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
+        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
             if error == nil {
                 SVProgressHUD.showInfoWithStatus("保存成功")
                 self.saveButton = false

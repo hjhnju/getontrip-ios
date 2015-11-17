@@ -14,7 +14,7 @@ import Alamofire
 import CoreData
 
 /// 全局变量记录用户账号  $(inherited)
-var sharedUserAccount = UserAccount.loadAccount()
+var globalUser:UserAccount?
 /// 记录uuid
 var appUUID: String?
 /// 当前城市id
@@ -28,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        ///加载用户信息
+        UserLogin.sharedInstance.loadAccount()
         
         print(NSHomeDirectory())
         ///  bug调试代码仅一行
@@ -68,10 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()
-        
-
-
-        
         
         return true
     }
@@ -192,15 +191,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return version > sandBoxVersion
     }
     
-    
-    
 //    func applicationDidEnterBackground(application: UIApplication) {
 //        // 清除数据库缓存
 //        StatusDAL.cleanDBCache()
 //    }
-    
-    
-    
     
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

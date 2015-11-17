@@ -21,17 +21,14 @@ struct FavoriteContant {
 class Favorite: NSObject {
     
     class func doFavorite(type: Int, objid: String, isFavorite: Bool, handler: (String?, Int) -> Void) {
-        if sharedUserAccount == nil {
-            LoginView.sharedLoginView.addLoginFloating({(success, error) -> () in
+            LoginView.sharedLoginView.doAfterLogin() {(success, error) -> () in
                 if success {
                     Favorite.doAction(type, objid: objid, isFavorite: isFavorite, handler: handler)
                 } else {
                    handler(nil, 0)
-                }})
-        } else {
-            Favorite.doAction(type, objid: objid, isFavorite: isFavorite, handler: handler)
+                }
+            }
         }
-    }
     
     class private func doAction(type: Int, objid: String, isFavorite: Bool, handler: (String?, Int) -> Void) {
         var post      = [String: String]()

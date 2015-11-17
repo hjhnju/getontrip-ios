@@ -27,7 +27,6 @@ class UserLoginRequest: NSObject {
         post["type"]     = String(type)
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/login", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                print(result)
                 handler(result: result.stringValue, status: status)
                 return
             }

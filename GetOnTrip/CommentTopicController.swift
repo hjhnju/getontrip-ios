@@ -151,38 +151,27 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     func sendCommentData(btn: UIButton) {
         btn.selected = true
-        if sharedUserAccount == nil {
-            issueTextfield.resignFirstResponder()
-            
-            LoginView.sharedLoginView.addLoginFloating({ (success, error) -> () in
-                if success {
-                    self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
-                        if status == RetCode.SUCCESS {
-                            SVProgressHUD.showInfoWithStatus("发送成功")
-                            self.sendcommentRefresh()
-                            
-                        } else {
-                            SVProgressHUD.showErrorWithStatus("发送失败，请重试")
-                        }
-                        btn.selected = false
-                    })
-                }
-                return
-            })
-        } else {
-            
-            sendcommentRequest.fetchAddCommentModels(self.topicId, upId: upId, toUserId: to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    SVProgressHUD.showInfoWithStatus("发送成功")
-                    self.sendcommentRefresh()
-                } else {
-                    SVProgressHUD.showErrorWithStatus("发送失败，请重试")
-                }
-                btn.selected = false
-            })
-        }
-        issueTextfield.text = ""
         
+        LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
+            self.issueTextfield.resignFirstResponder()
+            if success {
+                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
+                    if status == RetCode.SUCCESS {
+                        SVProgressHUD.showInfoWithStatus("发送成功")
+                        self.sendcommentRefresh()
+                        
+                    } else {
+                        SVProgressHUD.showErrorWithStatus("评论发送失败，请重试")
+                    }
+                    btn.selected = false
+                })
+            } else {
+                SVProgressHUD.showErrorWithStatus("网络无法连接")
+            }
+            return
+        }
+        
+        issueTextfield.text = ""
     }
 
     

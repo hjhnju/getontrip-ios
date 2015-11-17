@@ -20,7 +20,7 @@ class UserInfo : NSObject {
         }
     }
     
-    var sex: String = ""
+    var sex: String = "0"
     
     var city: String = ""
     

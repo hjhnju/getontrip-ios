@@ -40,6 +40,7 @@
 		728747251BF858D800EE36AA /* ShowMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		728747291BF860A800EE36AA /* SearchMuchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747281BF860A800EE36AA /* SearchMuchCell.swift */; settings = {ASSET_TAGS = (); }; };
+		728747301BF9AAE200EE36AA /* UserLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7287472F1BF9AAE200EE36AA /* UserLogin.swift */; settings = {ASSET_TAGS = (); }; };
 		7293A03E1BF4594D0070C64A /* UserLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */; };
 		7293A0401BF470F90070C64A /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */; };
 		7293A0421BF4713A0070C64A /* Province.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A0411BF4713A0070C64A /* Province.swift */; };
@@ -215,6 +216,7 @@
 		728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowMoreTableViewCell.swift; sourceTree = "<group>"; };
 		728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecordTableViewCell.swift; sourceTree = "<group>"; };
 		728747281BF860A800EE36AA /* SearchMuchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMuchCell.swift; sourceTree = "<group>"; };
+		7287472F1BF9AAE200EE36AA /* UserLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLogin.swift; sourceTree = "<group>"; };
 		7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLoginRequest.swift; sourceTree = "<group>"; };
 		7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		7293A0411BF4713A0070C64A /* Province.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Province.swift; sourceTree = "<group>"; };
@@ -555,7 +557,6 @@
 				7269750A1BE6AB82000C0ABF /* CustomNavigationBar.swift */,
 				72550E8A1BE7A9AA004D4611 /* UIViewController+Extension.swift */,
 				AE8C0C141BE8A04F003C7942 /* ShareView.swift */,
-				AE8C0C161BE8A090003C7942 /* LoginView.swift */,
 				72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */,
 				72C16AF21BEDCAB000161A77 /* ScrolledImageView.swift */,
 				7206B7CA1BF3759B002E3C9A /* LoadingView.swift */,
@@ -815,9 +816,11 @@
 			isa = PBXGroup;
 			children = (
 				AEA94F8F1B9AED30006D6998 /* UserAccount.swift */,
+				7287472F1BF9AAE200EE36AA /* UserLogin.swift */,
 				AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */,
 				AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */,
 				7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */,
+				AE8C0C161BE8A090003C7942 /* LoginView.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -1075,6 +1078,7 @@
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
 				AE62E2CA1BB3D9B800B91D33 /* UIImageView+Extension.swift in Sources */,
 				AE488D691BCBDD8E0032B78B /* RecommendTableViewCell.swift in Sources */,
+				728747301BF9AAE200EE36AA /* UserLogin.swift in Sources */,
 				72D25A911BEB25E90044AE04 /* RecommendCellData.swift in Sources */,
 				AEB98F391BE1CAF300183261 /* SightLandscapeController.swift in Sources */,
 				7206B7C91BF36001002E3C9A /* CityAllSightCollectionViewCell.swift in Sources */,
