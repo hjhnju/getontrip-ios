@@ -1,5 +1,5 @@
 //
-//  SightBookDetailRequest.swift
+//  BookRequest.swift
 //  GetOnTrip
 //
 //  Created by 王振坤 on 15/10/14.
@@ -21,18 +21,20 @@ class BookRequest: NSObject {
     var book :String = ""
     
     // 将数据回调外界
-    func fetchTopicDetailModels(handler: (BookDetail?, Int) -> Void) {
+    func fetchTopicDetailModels(handler: (Book?, Int) -> Void) {
         fetchModels(handler)
     }
     
     // 异步加载获取数据
-    func fetchModels(handler: (BookDetail?, Int) -> Void) {
-        var post         = [String: String]()
-        post["book"]  = String(book)
+    func fetchModels(handler: (Book?, Int) -> Void) {
+        var post     = [String: String]()
+        post["book"] = String(book)
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/book", post: post) { (result, status) -> Void in
             if status == RetCode.SUCCESS {
-                handler(BookDetail(dict: result.dictionaryObject), status)
+                if let dict = result.dictionaryObject {
+                    handler(Book(dict: dict), status)
+                }
                 return
             }
             handler(nil, status)

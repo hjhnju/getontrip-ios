@@ -14,6 +14,10 @@ struct CityConstant {
     static let headerViewHeight:CGFloat = 198
     static let collectionViewHeight:CGFloat = 196
     static let subtitleButtonHeight:CGFloat = 34
+    
+    //city
+    static let cityTopicTableViewCellID   = "CityHotTopicTableViewCellID"
+    static let citySightCollectionViewCellID = "CitySightCollectionViewCellID"
 }
 
 /// 城市中间页
@@ -191,7 +195,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.registerClass(CityTopicTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.CityTopicTableViewCellID)
+        tableView.registerClass(CityTopicTableViewCell.self, forCellReuseIdentifier: CityConstant.cityTopicTableViewCellID)
         
         //内容初始位置偏移
         tableView.frame = CGRectMake(0, 0, view.frame.width, view.frame.height)
@@ -207,7 +211,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = UIColor.clearColor()
-        collectionView.registerClass(CitySightCollectionViewCell.self, forCellWithReuseIdentifier: StoryBoardIdentifier.CitySightCollectionViewCellID)
+        collectionView.registerClass(CitySightCollectionViewCell.self, forCellWithReuseIdentifier: CityConstant.citySightCollectionViewCellID)
         collectionView.userInteractionEnabled = true
         
         // 每个item的大小
@@ -290,7 +294,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(StoryBoardIdentifier.CitySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CityConstant.citySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
         cell.icon.image = nil
         cell.data = collectionDataSource[indexPath.row]
         return cell
@@ -349,7 +353,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.CityTopicTableViewCellID, forIndexPath: indexPath) as! CityTopicTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CityConstant.cityTopicTableViewCellID, forIndexPath: indexPath) as! CityTopicTableViewCell
         
         //cell无选中效果
         cell.selectionStyle = UITableViewCellSelectionStyle.None

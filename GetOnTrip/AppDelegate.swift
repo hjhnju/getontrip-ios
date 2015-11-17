@@ -14,7 +14,7 @@ import Alamofire
 import CoreData
 
 /// 全局变量记录用户账号  $(inherited)
-var sharedUserAccount = UserAccount.loadAccount()
+var globalUser:UserAccount?
 /// 记录uuid
 var appUUID: String?
 /// 当前城市id
@@ -29,14 +29,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        ///加载用户信息
+        UserLogin.sharedInstance.loadAccount()
+        
         print(NSHomeDirectory())
         ///  bug调试代码仅一行
         //Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
         
         ///  获取uuid
         gainUserUUID()
-        ///  写入cookie
-        writeCookie()
         
         //status bar
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
@@ -69,33 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()
         
-
-
-        
-        
         return true
-    }
-    
-    ///  将设备id写入cookie
-    private func writeCookie() {
-        
-        var cookieProperties = [String: AnyObject]()
-        cookieProperties[NSHTTPCookieName] = "device_id"
-        cookieProperties[NSHTTPCookieValue] = appUUID!
-        cookieProperties[NSHTTPCookieDomain] = AppIni.BaseUri
-        cookieProperties[NSHTTPCookieOriginURL] = AppIni.BaseUri
-        cookieProperties[NSHTTPCookiePath] = "/"
-        cookieProperties[NSHTTPCookieVersion] = "0"
-        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties)!)
-        
-        var cookieProperties1 = [String: AnyObject]()
-        cookieProperties1[NSHTTPCookieName] = "current_user"
-        cookieProperties1[NSHTTPCookieValue] = "z5K%2bXZURRu4%3d"
-        cookieProperties1[NSHTTPCookieDomain] = AppIni.BaseUri
-        cookieProperties1[NSHTTPCookieOriginURL] = AppIni.BaseUri
-        cookieProperties1[NSHTTPCookiePath] = "/"
-        cookieProperties1[NSHTTPCookieVersion] = "0"
-        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties1)!)
     }
     
     // MARK: - 获取用户uuid
@@ -107,6 +82,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
         }
         appUUID = uuid
+        
+        // 写入cookie
+        Cookie.setCookie("device_id", value: appUUID)
     }
 
     // MARK: - 注册第三方登陆分享应用相关信息
@@ -192,15 +170,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return version > sandBoxVersion
     }
     
-    
-    
 //    func applicationDidEnterBackground(application: UIApplication) {
 //        // 清除数据库缓存
 //        StatusDAL.cleanDBCache()
 //    }
-    
-    
-    
     
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

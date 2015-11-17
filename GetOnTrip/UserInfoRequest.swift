@@ -20,7 +20,7 @@ class UserInfoRequest: NSObject {
     var type: Int = 0
     
     // 异步加载获取数据
-    func fetchModel(handler: (user: UserInfo?, status: Int) -> Void) {
+    func get(handler: (user: UserInfo?, status: Int) -> Void) {
         
         var post      = [String: String]()
         post["type"]  = String(type)
@@ -28,13 +28,14 @@ class UserInfoRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/getinfo", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                
                 if result != nil {
                     if let resu = result.dictionaryObject {
                         handler(user: UserInfo(dict: resu), status: status)
                         return
                     }
                 }
+                handler(user: nil, status: status)
+            } else {
                 handler(user: nil, status: status)
             }
         }

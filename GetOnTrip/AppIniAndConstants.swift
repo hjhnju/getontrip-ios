@@ -15,82 +15,50 @@ class AppIniOnline {
 }
 
 class AppIniDev {
-    static let BaseUri = "http://123.57.46.229:8808"
-    static let BaseResourceUri =  "http://123.57.46.229:8808"
+    static let BaseUri = "http://123.57.46.229:8301"
+    static let BaseResourceUri =  "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniOnline {
-    static let Domain:String = "www.getontrip.cn"
-}
-
-
-struct StoryBoardIdentifier {
-    //menu
-    static let MenuTableViewCellID = "MenuTableViewCellID"
-    
-    //search
-    static let RecommendTableViewCellID = "SearchRecommendTableViewCellID"
-    static let RecommendTopicViewCellID = "RecommendTopicViewCellID"
-    
-    //city
-    static let CityTopicTableViewCellID   = "CityHotTopicTableViewCellID"
-    static let CitySightCollectionViewCellID = "CitySightCollectionViewCellID"
-    
+class AppIni:AppIniDev {
+    static let Domain:String     = "www.getontrip.cn"
+    static let SecretKey: String = "ahl93##41cfw!@23"
+    static let ApiVersion: String = "1.0"
 }
 
 struct SceneColor {
-    static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
     
-    /// 2A2D2E 背景黑
-    static let bgBlack        = UIColor(hex: 0x2A2D2E, alpha:1)
-    /// 1C1C1C 前景深黑
-    static let frontBlack     = UIColor(hex: 0x1C1C1C, alpha: 1)
-    /// 3E3E3E
-    static let gray           = UIColor(hex: 0x3E3E3E, alpha:1)
-    /// 9C9C9C
-    static let lightGray      = UIColor(hex: 0x9C9C9C, alpha:1)
-    /// FFFFFF 1.0
-    static let white          = UIColor(hex: 0xFFFFFF, alpha: 1)
-    /// FFFFFF 0.4
-    static let crystalWhite   = UIColor(hex: 0xFFFFFF, alpha:0.4)
-    /// 939393 白色首页话题副标题文字颜色
-    static let grayWhite      = UIColor(hex: 0x939393, alpha: 1.0)
-    /// DCD7D7 浅白 设置界面选择城市及性别pickView
-    static let shallowWhite   = UIColor(hex: 0xDCD7D7, alpha: 1.0)
-    /// 979797 浅灰
-    static let shallowGrey    = UIColor(hex: 0x979797, alpha: 1.0)
-    /// 1F2122 深灰
-    static let deepGrey       = UIColor(hex: 0x1F2122, alpha: 1.0)
-    /// 696969 评论内容
-    static let fontGray       = UIColor(hex: 0x696969, alpha: 1.0)
-    /// F3FD54 浅黄
+    /** 
+    黄色系列 
+    */
+    static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
+    /// 浅黄
     static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
-    /// D8D8D8
-    static let whiteGray      = UIColor(hex: 0xD8D8D8, alpha: 1.0)
-    /// 5C5C5C
-    static let thinGray       = UIColor(hex: 0x5C5C5C, alpha: 1.9)
-}
-
-///  登陆类型 1:qq,2:weixin,3:weibo
-struct LoginType {
-    /// 1  qq
-    static let qqLogin     = 1
-    /// 2  weixin
-    static let weixinLogin = 2
-    /// 3  weibo
-    static let weiboLogin  = 3
-}
-
-
-struct CategoryLabel {
-    /// 10
-    static let sightLabel = 10
-    /// 11
-    static let bookLabel  = 11
-    /// 12
-    static let videoLabel = 12
-    /// 1
-    static let topicLabel = 3
+    
+    /** 
+    黑色系列
+    */
+    /// 背景黑
+    static let bgBlack      = UIColor(hex: 0x2A2D2E, alpha:1)
+    /// 前景深黑
+    static let frontBlack   = UIColor(hex: 0x1C1C1C, alpha: 1)
+    
+    /**
+    灰色系列 
+    */
+    static let gray        = UIColor(hex: 0x3E3E3E, alpha:1)
+    static let lightGray   = UIColor(hex: 0x9C9C9C, alpha:1)
+    static let shallowGrey = UIColor(hex: 0x979797, alpha: 1.0)
+    static let deepGrey    = UIColor(hex: 0x1F2122, alpha: 1.0)
+    static let fontGray    = UIColor(hex: 0x696969, alpha: 1.0)
+    static let thinGray    = UIColor(hex: 0x5C5C5C, alpha: 1.9)
+    
+    /**
+    白色系列
+    */
+    static let white       = UIColor(hex: 0xFFFFFF, alpha: 1)
+    static let grayWhite   = UIColor(hex: 0x939393, alpha: 1.0)
+    static let shallowWhite = UIColor(hex: 0xDCD7D7, alpha: 1.0)
+    static let whiteGray = UIColor(hex: 0xD8D8D8, alpha: 1.0)
 }
 
 struct SceneFont {

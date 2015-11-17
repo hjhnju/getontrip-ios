@@ -1,5 +1,5 @@
 //
-//  SightBookDetailController.swift
+//  BookViewController.swift
 //  GetOnTrip
 //
 //  Created by 王振坤 on 15/10/14.
@@ -26,9 +26,11 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 14)
     
     /// 网络请求加载数据(添加)
-    var lastSuccessAddRequest: BookRequest?
+    var lastRequest: BookRequest?
 
-    var bookId: String = ""
+    var bookId: String {
+        return bookDataSource?.id ?? ""
+    }
     
     /// headerView的顶部约束
     var headerViewTopConstraint: NSLayoutConstraint?
@@ -40,10 +42,10 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     //var headerView: UIView = UIView(color: UIColor.brownColor())
     
     /// 顶部底图
-    lazy var headerImageView: UIImageView = UIImageView()
+    lazy var headerImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultSmall)
     
     /// 书籍图片
-    lazy var bookImageView: UIImageView = UIImageView()
+    lazy var bookImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultSmall)
     
     /// 图片模糊
     lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
@@ -76,14 +78,16 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     /// 书籍内容
     var webView: WKWebView = WKWebView(color: UIColor.redColor())
     
-    var data: BookDetail? {
+    var bookDataSource: Book? {
         didSet {
-            if let data = data {
+            if let data = bookDataSource {
                 collectBtn.selected = data.collected == "" ? false : true
-                headerImageView.sd_setImageWithURL(NSURL(string: data.image), placeholderImage: PlaceholderImage.defaultSmall)
-                bookImageView.sd_setImageWithURL(NSURL(string: data.image), placeholderImage: PlaceholderImage.defaultSmall)
+                //不用placeimage以免覆盖传入的小图
+                headerImageView.sd_setImageWithURL(NSURL(string: data.image))
+                bookImageView.sd_setImageWithURL(NSURL(string: data.image))
                 titleLabel.text = data.title
                 authorLabel.text = data.info
+                
                 showBookDetail(data.content_desc)
             }
         }
@@ -276,6 +280,11 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     // 页面加载失败时调用
     func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        //一个页面没有被完全加载之前收到下一个请求，此时迅速会出现此error,error=-999
+        //此时可能已经加载完成，则忽略此error，继续进行加载。
+        if error.code == NSURLErrorCancelled {
+            return
+        }
         print("[BookViewController]webView error \(error.localizedDescription)")
         let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">书籍内容加载失败</div></body></html>"
         webView.loadHTMLString(errorHTML, baseURL: nil)
@@ -317,25 +326,25 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         html.appendString("<meta name=\"format-detection\" content=\"telephone=no, email=no\">")
         html.appendString("<title>Examples</title>")
         let path = NSBundle.mainBundle().URLForResource("BookDetail.css", withExtension: nil)
+        print("path=\(path)")
         do {
             let text = try? NSString(contentsOfURL: path ?? NSURL(), encoding: NSUTF8StringEncoding)
             html.appendString("<style>\(text!)</style>")
         }
         html.appendString("</head><body>\(body)</body></html>")
-
         webView.loadHTMLString(html as String, baseURL: nil)
     }
     
     /// 获取数据
     private func loadData() {
-        if lastSuccessAddRequest == nil {
-            lastSuccessAddRequest = BookRequest()
-            lastSuccessAddRequest?.book = bookId
+        if lastRequest == nil {
+            lastRequest = BookRequest()
+            lastRequest?.book = bookId
         }
         
-        lastSuccessAddRequest?.fetchTopicDetailModels {(data: BookDetail?, status: Int) -> Void in
+        lastRequest?.fetchTopicDetailModels {(data: Book?, status: Int) -> Void in
             if status == RetCode.SUCCESS {
-                self.data = data
+                self.bookDataSource = data
             } else {
                 SVProgressHUD.showInfoWithStatus("您的网络不给力!")
             }
@@ -365,21 +374,19 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     /// 购买书籍
     func clickBuyButton(btn: UIButton) {
-        
-        if "" != data?.url {
+        if let url = bookDataSource?.url {
             let sc = DetailWebViewController()
-            sc.url = data?.url
+            sc.url = url
             navigationController?.pushViewController(sc, animated: true)
         } else {
-            print("[BookDetailView]Warning:无相关购买链接")
+            print("[BookViewController]Warning:无相关购买链接")
         }
     }
     
     /// 分享
     func clickShareButton(button: UIButton) {
-        if data != nil {
-            let url = data?.url
-            shareView.showShareAction(view, url: url, images: bookImageView.image, title: data?.title, subtitle: data?.content_desc)
+        if let book = bookDataSource {
+            shareView.showShareAction(view, url: book.url, images: bookImageView.image, title: book.title, subtitle: book.content_desc)
         }
 
     }

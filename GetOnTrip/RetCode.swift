@@ -17,6 +17,9 @@ class RetCode: NSObject {
     /// CSRF验证不通过
     static let  CSRFTOKEN_INVALID = 102
     
+    /// 需要补全信息
+    static let  NEED_ADDINFO      = 103
+    
     /// 前端跳转
     static let  NEED_REDIRECT     = 302
     
@@ -59,7 +62,8 @@ class RetCode: NSObject {
     static let arrErrMap: [Int:String] = [
         RetCode.SUCCESS           : "成功",
         RetCode.UNKNOWN_ERROR     : "未知错误",
-        
+        RetCode.NEED_ADDINFO      : "需要补全信息",
+    
         RetCode.SESSION_INVALID   : "会话无效",
         RetCode.SESSION_DENY      : "非法请求",
         RetCode.SESSION_NOT_LOGIN : "未登录",

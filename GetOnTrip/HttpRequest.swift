@@ -9,10 +9,9 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
-import YTKKeyValueStore
 
 struct HttpRequestContant {
-    static let timeout: NSTimeInterval = 20
+    static let timeout: NSTimeInterval = 10
 }
 
 class HttpRequest {
@@ -38,24 +37,6 @@ class HttpRequest {
         return Manager(configuration: configuration)
     }()
     
-    ///  网络访问方法
-    ///
-    ///  - parameter url:     访问环境
-    ///  - parameter path:    访问网络路径
-    ///  - parameter post:    参数
-    ///  - parameter handler: 回调数据及错误
-    class func ajax(url: String?, path: String?, post: Dictionary<String, String>, handler: RequestFinishedCallBack) {
-        
-        let urlPath = (url ?? "") + (path ?? "")
-        
-        print("[HttpRequest]:url=\(urlPath), post=\(post)")
-
-        request(.POST, urlPath, parameters:post).responseJSON { (response) -> Void in
-            handler(result: response.result.value, error: response.result.error)
-        }
-    }
-    
-    static let kvStore = YTKKeyValueStore(DBWithName: "getontrip")
     
     ///  网络访问方法
     ///
@@ -64,45 +45,30 @@ class HttpRequest {
     ///  - parameter post:    参数
     ///  - parameter handler: 回调数据及错误
     class func ajax2(url: String?, path: String?, post: Dictionary<String, String>, handler: RequestJSONCallBack) {
-
-        HttpRequest.kvStore.createTableWithName("http_etag")
-        HttpRequest.kvStore.createTableWithName("http_lastmodified")
+        
+        var apiPath = path
+        if let range = path?.rangeOfString("/api/") {
+            apiPath?.replaceRange(range, with: "/api/\(AppIni.ApiVersion)/")
+        }
         
         var params = [String]()
         for (field, value) in post {
             params.append("\(field)=\(value)")
         }
-        //GET请求才会有效缓存
-        var urlPath = (url ?? "") + (path ?? "")
+        //G请求才会有效缓存
+        var urlPath = (url ?? "") + (apiPath ?? "")
         if params.count > 0 {
             urlPath += "?" + params.joinWithSeparator("&")
         }
         
-        print("[HttpRequest]:url=\(urlPath)")
+        let url = urlPath.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) ?? ""
         
-        let nsurl =  NSURL(string: urlPath.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!)
-        if nsurl == nil {
-            print("[HttpRequest]:nsurl is nil=\(nsurl)")
-            return
-        }
+        print("[HttpRequest]:url=\(url)")
         
-        let nsreq = NSMutableURLRequest(URL: nsurl!)
-        if let etag = HttpRequest.kvStore.getStringById(urlPath, fromTable: "http_etag") {
-            nsreq.setValue(etag, forHTTPHeaderField: "If-None-Match")
-        }
-        if let lastModified = HttpRequest.kvStore.getStringById(urlPath, fromTable: "http_lastmodified") {
-            nsreq.setValue(lastModified, forKeyPath: "If-Modified-Since")
-        }
-        
-        HttpRequest.sharedManager.request(nsreq).response { request, response, respData, error -> Void in
-            
-            if let etag = response?.allHeaderFields["ETag"] as? String {
-                HttpRequest.kvStore.putString(etag, withId: urlPath, intoTable: "http_etag")
-            }
-            if let lastModified = response?.allHeaderFields["Last-Modified"] as? String {
-                HttpRequest.kvStore.putString(lastModified, withId: urlPath, intoTable: "http_lastmodified")
-            }
-            
+        let ts    = String(format: "%.0f", NSDate().timeIntervalSince1970)
+        let token = "\(AppIni.SecretKey)\(ts)".sha256 + ts
+        let postArgs = ["token": token]
+        HttpRequest.sharedManager.request(.POST, url, parameters: postArgs).response { request, response, respData, error -> Void in
             //异常
             if error != nil {
                 print("[HttpRequest]:error=\(error)")

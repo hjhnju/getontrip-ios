@@ -114,6 +114,8 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     
     // 捏合手势
     func pinchGesture(recognizer: UIPinchGestureRecognizer) {
+        
+        
         recognizer.view?.transform = CGAffineTransformScale(recognizer.view!.transform, recognizer.scale, recognizer.scale)
         recognizer.scale = 1
         

@@ -26,6 +26,10 @@ struct MainViewContant {
 struct RecommendContant {
     static let headerViewHeight:CGFloat = 244
     static let rowHeight:CGFloat = 192
+
+    //search
+    static let recommendTableViewCellID = "SearchRecommendTableViewCellID"
+    static let recommendTopicViewCellID = "RecommendTopicViewCellID"
 }
 
 class RecommendViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
@@ -178,8 +182,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tableView.separatorStyle  = UITableViewCellSeparatorStyle.None
         tableView.contentInset    = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 64, right: 0)
         
-        tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.RecommendTableViewCellID)
-        tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: StoryBoardIdentifier.RecommendTopicViewCellID)
+        tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTableViewCellID)
+        tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
         view.sendSubviewToBack(tableView)
 
         view.bringSubviewToFront(navContainerView)
@@ -280,7 +284,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let data = self.recommendCells[indexPath.row]
         if data.isTypeTopic() {
-            let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.RecommendTopicViewCellID, forIndexPath: indexPath) as! RecommendTopicViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(RecommendContant.recommendTopicViewCellID, forIndexPath: indexPath) as! RecommendTopicViewCell
             cell.backgroundColor = UIColor.clearColor()
             cell.data = self.recommendCells[indexPath.row]
             
@@ -290,7 +294,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             return cell
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(StoryBoardIdentifier.RecommendTableViewCellID, forIndexPath: indexPath) as! RecommendTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(RecommendContant.recommendTableViewCellID, forIndexPath: indexPath) as! RecommendTableViewCell
         cell.backgroundColor = UIColor.clearColor()
         cell.data = self.recommendCells[indexPath.row]
         

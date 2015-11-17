@@ -115,7 +115,10 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = BookViewController()
-            vc.bookId = col.id
+            let book = Book(id: col.id)
+            book.image = col.image
+            book.title = col.title
+            vc.bookDataSource = book
             navigationController?.pushViewController(vc, animated: true)
         }
         

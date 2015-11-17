@@ -9,8 +9,12 @@
 import UIKit
 import FFAutoLayout
 
-class SearchResultsCell: UITableViewCell {
+struct SearchResultCellContant {
+    static let bookImageHeight: CGFloat   = 48
+    static let normalImageHeight: CGFloat = 37
+}
 
+class SearchResultsCell: UITableViewCell {
 
     lazy var resultImageView: UIImageView = UIImageView(image: UIImage(named: "default-topic"))
 
@@ -34,52 +38,51 @@ class SearchResultsCell: UITableViewCell {
         let attr = NSMutableAttributedString(string: title)
         var tempString = title
         var range = (title as NSString).rangeOfString(searchCruxCharacter)
-        
         var location = 0
         
         while range.length > 0 {
-            
             attr.addAttribute(NSForegroundColorAttributeName, value: titleColor, range: NSMakeRange(location + range.location, range.length))
             location += range.location + range.length
             let temp = NSString(string: tempString).substringWithRange((NSMakeRange(range.location + range.length, (title as NSString).length - location)))
             tempString = temp
             range = NSString(string: temp).rangeOfString(searchCruxCharacter)
         }
-
-        
         return attr
     }
     
     var searchResult: SearchResult? {
         didSet {
-            resultImageView.sd_setImageWithURL(NSURL(string: searchResult?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchResult?.name ?? "", titleColor: SceneColor.lightYellow)
-            resultDescLabel.attributedText = searchCruxCharacterAction(searchResult?.desc ?? "", titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+            if let result = searchResult {
+                resultImageView.sd_setImageWithURL(NSURL(string: result.image), placeholderImage: PlaceholderImage.defaultSmall)
+                resultTitleLabel.attributedText = searchCruxCharacterAction(result.name, titleColor: SceneColor.lightYellow)
+                resultDescLabel.attributedText  = searchCruxCharacterAction(result.desc, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+            }
         }
     }
     
-    var searchContent: SearchContent? {
+    var searchContent: SearchContentResult? {
         didSet {
-            resultTitleLabel.attributedText = searchCruxCharacterAction(searchContent?.title ?? "", titleColor: SceneColor.lightYellow)
-            resultDescLabel.attributedText = searchCruxCharacterAction((searchContent?.content)!, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-            
-            if searchContent?.search_type == "video" {
-                playImage.hidden = false
-            } else {
-                playImage.hidden = true
-            }
-            
-            
-            if searchContent?.search_type == "book" {
-                resultImageViewHeight?.constant = 48
-                resultImageView.image = UIImage()
-                resultImageView.backgroundColor = UIColor.whiteColor()
-                groundView.sd_setImageWithURL(NSURL(string: searchResult?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
-                groundView.hidden = false
-            } else {
-                resultImageViewHeight?.constant = 37
-                groundView.hidden = true
-                resultImageView.sd_setImageWithURL(NSURL(string: searchContent?.image ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
+            if let content = searchContent {
+                resultTitleLabel.attributedText = searchCruxCharacterAction(content.title, titleColor: SceneColor.lightYellow)
+                resultDescLabel.attributedText = searchCruxCharacterAction(content.content, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+                
+                if content.isVideo() {
+                    playImage.hidden = false
+                } else {
+                    playImage.hidden = true
+                }
+                
+                if content.isBook() {
+                    resultImageViewHeight?.constant = SearchResultCellContant.bookImageHeight
+                    resultImageView.image           = UIImage()
+                    resultImageView.backgroundColor = SceneColor.lightGray
+                    groundView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
+                    groundView.hidden = false
+                } else {
+                    resultImageViewHeight?.constant = SearchResultCellContant.normalImageHeight
+                    groundView.hidden = true
+                    resultImageView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
+                }
             }
         }
     }
@@ -117,7 +120,7 @@ class SearchResultsCell: UITableViewCell {
         resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: resultImageView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
         baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
         playImage.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: nil)
-        groundView.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: CGSizeMake(31, 44), offset: CGPointMake(0, 0))
+        groundView.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: CGSizeMake(31, SearchResultCellContant.bookImageHeight), offset: CGPointMake(0, 0))
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -129,29 +132,3 @@ class SearchResultsCell: UITableViewCell {
     }
 }
 
-/// 显示更多的cell
-class ShowMoreTableViewCell: UITableViewCell {
-    
-    let showMore: UIButton = UIButton(title: "显示全部景点", fontSize: 12, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.8))
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-       
-        backgroundColor = UIColor.clearColor()
-        addSubview(showMore)
-        
-        showMore.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        
-    }
-    
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
-        
-    }
-}

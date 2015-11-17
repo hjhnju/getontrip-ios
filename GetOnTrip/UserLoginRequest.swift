@@ -27,7 +27,6 @@ class UserLoginRequest: NSObject {
         post["type"]     = String(type)
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/login", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                print(result)
                 handler(result: result.stringValue, status: status)
                 return
             }
@@ -46,22 +45,6 @@ class UserLoginRequest: NSObject {
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/signOut", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 print(result)
-            }
-        }
-    }
-    
-    /**
-    * 接口6：/api/user/checkLogin
-    * result返回用户ID
-    * 检查用户是否登录
-    */
-    func check(handler: (result: Int?, status: Int) -> Void) {
-        let post = [String : String]()
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/checkLogin", post: post) { (result, status) -> () in
-            if status == RetCode.SUCCESS {
-                handler(result: result.intValue, status: status)
-            } else {
-                handler(result: nil, status: status)
             }
         }
     }

@@ -10,42 +10,49 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
+struct SearchViewContant {
+    static let hotwordCellId = "SearchHotwordTableViewCellID"
+    static let recordCellId  = "SearchRecordTableViewCellID"
+    
+    static let recordLimit = 4
+}
+
 class SearchViewController: UISearchController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
-    let searchResult =  SearchResultsViewController()
+    let searchResultViewController =  SearchResultsViewController()
     
     /// 搜索记录TableView
     let recordTableView = UITableView()
     
+    /// 搜索组标题
+    var recordTitleView: UIView = UIView()
+    
+    let recordLabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "  搜索历史", fontSize: 12, mutiLines: true)
+    
+    /// 搜索记录(不可重复，按最近搜索排序）
     var recordData = [String]()
     
-    var searchMuch = [String]()
-    
-    let searchGroupLab = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "  搜索历史", fontSize: 12, mutiLines: true)
-    
-    /// 搜索组标题
-    lazy var groupTitle: UIView = UIView()
-    
-    lazy var hotWord: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "  热门搜索", fontSize: 12, mutiLines: true)
-    
     /// 清除按钮
-    var deleteButton: UIButton = UIButton(title: "清除", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.6))
+    var recordDelButton: UIButton = UIButton(title: "清除", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.6))
     
+    /// 热门搜索词
+    var hotwordData = [String]()
+    
+    var hotWordLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "  热门搜索", fontSize: 12, mutiLines: true)
     
     /// 搜索提示
-    var searchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "当前搜索无内容", fontSize: 14, mutiLines: true)
+    var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "当前搜索无内容", fontSize: 14, mutiLines: true)
+    
     /// 定位城市
-    var locationCity: UIButton = UIButton(image: "location_Yellow", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor(hex: 0xF3FD54, alpha: 1.0))
+    var locationButton: UIButton = UIButton(image: "location_Yellow", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor(hex: 0xF3FD54, alpha: 1.0))
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
     }
     
-    
     init() {
-        super.init(searchResultsController: searchResult)
-        searchResultsUpdater = searchResult
+        super.init(searchResultsController: searchResultViewController)
+        searchResultsUpdater = searchResultViewController
 
     }
 
@@ -58,10 +65,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         
         let imageV = UIImageView(image: UIImage(named: "search-bg")!)
         view.addSubview(imageV)
-        view.addSubview(searchResult.view)
+        view.addSubview(searchResultViewController.view)
         imageV.frame = UIScreen.mainScreen().bounds
         setupAddProperty()
-        loadSearchMuchLabel()
+        loadHotSearchLabel()
     }
     
     
@@ -69,7 +76,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         
         if isLocationCompetence == nil {
             SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!")
-            locationCity.hidden = true
+            locationButton.hidden = true
             return
         }
         
@@ -81,7 +88,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         } else {
             let vcity = CityViewController()
             vcity.cityDataSource = City(id: currentCityId!)
-            searchResult.showSearchResultController(vcity)
+            searchResultViewController.showSearchResultController(vcity)
         }
     }
     
@@ -93,7 +100,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             textfile?.leftView = leftView
             textfile?.rightView?.backgroundColor = UIColor.whiteColor()
             textfile?.attributedPlaceholder = NSAttributedString(string: "搜索", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-//            textfile?.becomeFirstResponder()
         }
     }
     
@@ -102,42 +108,39 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("recordData") as? [String] {
             recordData = userDefault
         }
-        addChildViewController(searchResult)
+        addChildViewController(searchResultViewController)
         view.addSubview(recordTableView)
-        view.addSubview(locationCity)
-        view.addSubview(searchResultLabel)
-        hidesNavigationBarDuringPresentation = false
+        view.addSubview(locationButton)
+        view.addSubview(noSearchResultLabel)
         
+        hidesNavigationBarDuringPresentation = false
         searchBar.barStyle = UIBarStyle.Black
-
-//        searchBar.becomeFirstResponder()
         searchBar.keyboardAppearance = UIKeyboardAppearance.Default
         searchBar.delegate = self
-        recordTableView.registerClass(SearchRecordTableViewCell.self, forCellReuseIdentifier: "SearchRecordTableView_Cell")
+        
+        recordTableView.registerClass(SearchRecordTableViewCell.self, forCellReuseIdentifier: SearchViewContant.recordCellId)
         recordTableView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, UIScreen.mainScreen().bounds.height - 110), offset: CGPointMake(0, 0))
-        locationCity.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
-        searchResultLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: locationCity, size: nil, offset: CGPointMake(0, 81))
+        locationButton.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
+        noSearchResultLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: locationButton, size: nil, offset: CGPointMake(0, 81))
         recordTableView.backgroundColor = UIColor.clearColor()
         recordTableView.dataSource = self
         recordTableView.delegate = self
         recordTableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        groupTitle.addSubview(searchGroupLab)
-        groupTitle.addSubview(deleteButton)
-        deleteButton.addTarget(self, action: "deleteButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
-        searchGroupLab.frame = CGRectMake(0, 50 - 25, 100, 12)
-        deleteButton.frame = CGRectMake(view.bounds.width - 30, 50 - 25 , 20, 10)
-        recordTableView.registerClass(SearchMuchCell.self, forCellReuseIdentifier: "SearchMuch_Cell")
+        recordTitleView.addSubview(recordLabel)
+        recordTitleView.addSubview(recordDelButton)
+        recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
+        recordLabel.frame = CGRectMake(0, 50 - 25, 100, 12)
+        recordDelButton.frame = CGRectMake(view.bounds.width - 30, 50 - 25 , 20, 10)
+        recordTableView.registerClass(SearchHotwordTableViewCell.self, forCellReuseIdentifier: SearchViewContant.hotwordCellId)
         
-        
-        
-        locationCity.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
-        searchResultLabel.hidden = true
+        locationButton.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
+        noSearchResultLabel.hidden = true
         
         searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: UIControlState.Normal)
-
         searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
         searchBar.translucent = true
+        
         for item in searchBar.subviews {
             for it in item.subviews {
                 if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
@@ -150,12 +153,11 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         }
     }
     
-    private func loadSearchMuchLabel() {
-        SearchMoreRequest.fetchSearchMuchLabel { (result, status) -> Void in
+    private func loadHotSearchLabel() {
+        SearchRequest.sharedInstance.fetchHotWords { (result, status) -> Void in
             if status == RetCode.SUCCESS {
-                
                 if let data = result {
-                    self.searchMuch = data
+                    self.hotwordData = data
                     self.recordTableView.reloadData()
                 }
             }
@@ -187,11 +189,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         
         if searchBar.text == "" { // 48 × 51
             recordTableView.hidden = false
-//            textfile?.leftView?.bounds = CGRectMake(0, 0, 15, 15)
             recordTableView.reloadData()
         } else {
-//            textfile?.leftView?.bounds = CGRectZero
-            locationCity.hidden = true
+            locationButton.hidden = true
         }
     }
     
@@ -205,7 +205,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     // MARK: - tableview 数据源及代理方法
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return searchMuch.count == 0 ? 1 : 2
+        return hotwordData.count == 0 ? 1 : 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -215,12 +215,12 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("SearchRecordTableView_Cell", forIndexPath: indexPath) as! SearchRecordTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(SearchViewContant.recordCellId, forIndexPath: indexPath) as! SearchRecordTableViewCell
             cell.textLabel?.text = recordData[indexPath.row]
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("SearchMuch_Cell", forIndexPath: indexPath) as! SearchMuchCell
-            addSearchMuchButtonAction(cell)
+            let cell = tableView.dequeueReusableCellWithIdentifier(SearchViewContant.hotwordCellId, forIndexPath: indexPath) as! SearchHotwordTableViewCell
+            addSearchHotwordButtonAction(cell)
             return cell
         }
     }
@@ -231,9 +231,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            return groupTitle
+            return recordTitleView
         } else {
-            return hotWord
+            return hotWordLabel
         }
     }
     
@@ -266,7 +266,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         recordTableView.reloadData()
     }
     
-    func addSearchMuchButtonAction(cell: UITableViewCell) {
+    func addSearchHotwordButtonAction(cell: UITableViewCell) {
         let btnWidth:CGFloat  = UIScreen.mainScreen().bounds.width / 5
         let btnHeight:CGFloat = 20
         let totalCol:Int      = 5
@@ -275,12 +275,12 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         let yOffset:CGFloat   = 14
         let marginY:CGFloat   = 26
         
-        for (var i = 0; i < searchMuch.count; i++) {
-            let btn = UIButton(title: searchMuch[i], fontSize: 16, radius: 0)
+        for (var i = 0; i < hotwordData.count; i++) {
+            let btn = UIButton(title: hotwordData[i], fontSize: 16, radius: 0)
             btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             cell.addSubview(btn)
             
-            btn.addTarget(self, action: "searchMuchButtonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+            btn.addTarget(self, action: "searchHotwordButtonAction:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             
             let row:Int = i / totalCol
@@ -297,7 +297,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         
     }
     
-    func searchMuchButtonAction(btn: UIButton) {
+    func searchHotwordButtonAction(btn: UIButton) {
         view.endEditing(true)
         searchBar.text = btn.titleLabel?.text
         recordTableView.hidden = true
@@ -307,64 +307,31 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         //采用push可手势返回
         parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
     }
-}
-
-/// 搜索历史cell
-class SearchRecordTableViewCell : UITableViewCell {
     
-    let baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.2)
+    /**
+    设置无搜索结果
+    - parameter isNoResult:
+    */
+    func showNoResult(show: Bool = true) {
+        noSearchResultLabel.hidden = !show
+    }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubview(baseLine)
-        textLabel?.textColor = UIColor.whiteColor()
-        textLabel?.font = UIFont.systemFontOfSize(16)
+    /**
+    保存搜索历史纪录
+    - parameter filterString: query
+    */
+    func saveRecord(filterString: String) {
+        if filterString == "" {
+            return
+        }
         
-        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
-        backgroundColor = UIColor.clearColor()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
+        if let index = recordData.indexOf(filterString) {
+            recordData.removeAtIndex(index)
+        }
         
-        textLabel?.frame.origin.x = 9
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        
-    }
-    
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
-        
-    }
-}
-
-class SearchMuchCell: UITableViewCell {
-    
-    let baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.2)
-
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        addSubview(baseLine)
-        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
-
-        backgroundColor = UIColor.clearColor()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        
-    }
-    
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
-        
+        recordData.insert(filterString, atIndex: 0)
+        if recordData.count > SearchViewContant.recordLimit {
+            recordData.removeLast()
+        }
     }
 }
