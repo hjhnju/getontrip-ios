@@ -30,6 +30,12 @@ class GuideViewController: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    UITraitCollection
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

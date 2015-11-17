@@ -34,14 +34,14 @@
 		727561821BD0F6240089CB27 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561811BD0F6240089CB27 /* City.swift */; };
 		727561841BD0F64A0089CB27 /* Sight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561831BD0F64A0089CB27 /* Sight.swift */; };
 		727561881BD4A92A0089CB27 /* DetailWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561871BD4A92A0089CB27 /* DetailWebViewController.swift */; };
-		728747211BF8581800EE36AA /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747201BF8581800EE36AA /* SearchResult.swift */; settings = {ASSET_TAGS = (); }; };
-		728747231BF8583000EE36AA /* SearchContentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747221BF8583000EE36AA /* SearchContentResult.swift */; settings = {ASSET_TAGS = (); }; };
-		728747251BF858D800EE36AA /* ShowMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		728747291BF860A800EE36AA /* SearchHotwordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		728747301BF9AAE200EE36AA /* UserLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7287472F1BF9AAE200EE36AA /* UserLogin.swift */; settings = {ASSET_TAGS = (); }; };
-		728747321BFACC7300EE36AA /* CryptoAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */; settings = {ASSET_TAGS = (); }; };
-		728747341BFAD25200EE36AA /* Cookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747331BFAD25200EE36AA /* Cookie.swift */; settings = {ASSET_TAGS = (); }; };
+		728747211BF8581800EE36AA /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747201BF8581800EE36AA /* SearchResult.swift */; };
+		728747231BF8583000EE36AA /* SearchContentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747221BF8583000EE36AA /* SearchContentResult.swift */; };
+		728747251BF858D800EE36AA /* ShowMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */; };
+		728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */; };
+		728747291BF860A800EE36AA /* SearchHotwordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */; };
+		728747301BF9AAE200EE36AA /* UserLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7287472F1BF9AAE200EE36AA /* UserLogin.swift */; };
+		728747321BFACC7300EE36AA /* CryptoAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */; };
+		728747341BFAD25200EE36AA /* Cookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747331BFAD25200EE36AA /* Cookie.swift */; };
 		7293A03E1BF4594D0070C64A /* UserLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */; };
 		7293A0401BF470F90070C64A /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */; };
 		7293A0421BF4713A0070C64A /* Province.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A0411BF4713A0070C64A /* Province.swift */; };
@@ -898,7 +898,7 @@
 				TargetAttributes = {
 					72D86DDE1B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = H7P27HMFW7;
+						DevelopmentTeam = 568F62S6LX;
 					};
 					72D86DF31B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1296,7 +1296,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";
@@ -1364,7 +1364,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";
