@@ -69,7 +69,7 @@ class UserLogin: NSObject {
         do {
             try NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
         } catch {
-            print(error)
+            //do nothing for empty file
         }
     }
     

@@ -117,7 +117,6 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         
         let imgMin = min(imgPhoto.frame.width, imgPhoto.frame.height)
         if imgMin < UIScreen.mainScreen().bounds.width {
-            
             if recognizer.scale < 1 {
                 return
             }
@@ -130,7 +129,14 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     func panGesture(recognizer: UIPanGestureRecognizer) {
         
         let translation = recognizer.translationInView(recognizer.view)
-//        print("\(translation.x) ========== \(translation.y)")
+        
+        if CGRectContainsPoint(UIScreen.mainScreen().bounds, imgPhoto.center) {
+//            if translation.x {
+//                return
+//            }
+        }
+        
+        print("\(translation.x) ========== \(translation.y)")
         recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
         recognizer.setTranslation(CGPointZero, inView: recognizer.view)
     }

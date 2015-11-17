@@ -151,7 +151,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         headerView.addSubview(maskView)
         maskView.ff_Fill(headerView)
         
-        //上拉刷新
+        //下拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
         tbHeaderView.automaticallyChangeAlpha = true
         tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
@@ -189,6 +189,10 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         view.bringSubviewToFront(navContainerView)
         
         setupAutoLayout()
+        initData()
+    }
+    
+    func initData() {
         if !tableView.mj_header.isRefreshing() {
             tableView.mj_header.beginRefreshing()
         }
@@ -248,14 +252,13 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
 
         for (var i = 0; i < recommendLabels.count; i++) {
             let btn = UIButton(title: recommendLabels[i].toString(), fontSize: 14, radius: 0)
-//            btn.setsetContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft
             btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             headerView.addSubview(btn)
             
             btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-            btn.tag = Int(recommendLabels[i].id)!
+            btn.tag = Int(recommendLabels[i].order) ?? 1
             if i == 0 {
                 btn.selected = true
                 currentSearchLabelButton = btn
@@ -388,14 +391,13 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     //触发搜索列表的方法
     func clkSearchLabelMethod(sender: UIButton) {
-        
         if sender.tag == currentSearchLabelButton?.tag { return }
         sender.selected = true
         currentSearchLabelButton?.selected = false
         currentSearchLabelButton = sender
         
         
-        lastRequest?.label = String(sender.tag)
+        lastRequest?.order = String(sender.tag)
         tableView.mj_header.beginRefreshing()
     }
     
@@ -404,7 +406,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     /// 发送搜索信息
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
-    private func loadData() {
+    func loadData() {
         if self.isLoading {
             return
         }
@@ -416,7 +418,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         self.tableView.mj_footer.resetNoMoreData()
         if lastRequest == nil {
             lastRequest = RecommendRequest()
-            lastRequest?.label = "" //默认返回带所有搜索标签
+            lastRequest?.order = "1" //默认返回带所有搜索标签
         }
         
         lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
@@ -428,7 +430,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                     self?.errorView.hidden = false
                 } else {
                     //当前有内容显示出错浮层
-                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                    SVProgressHUD.showInfoWithStatus("您的网络无法连接")
                 }
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false

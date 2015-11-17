@@ -20,11 +20,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate {
     
     var loadingView: LoadingView = LoadingView()
     
-    var url: String? {
-        didSet {
-            loadingWeb()
-        }
-    }
+    var url: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +39,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate {
         
         initWebView()
         
-        
+        loadingWeb()
         autolayout()
     }
     

@@ -13,7 +13,7 @@ import CoreData
 class RecommendRequest: NSObject {
     
     // 请求参数
-    var label   : String = ""
+    var order   : String = "1"
     var page    : Int = 1
     var pageSize: Int = 15
     
@@ -30,7 +30,7 @@ class RecommendRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: (NSDictionary?, Int) -> Void) {
         var post         = [String: String]()
-        post["label"]    = String(label)
+        post["order"]    = String(order)
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
         
