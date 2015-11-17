@@ -109,6 +109,7 @@ class UserLogin: NSObject {
             self.infoRequest.add(user) { (result, status) -> Void in
             }
         }
+        self.saveAccount()
     }
     
     /// 上传用户个人信息

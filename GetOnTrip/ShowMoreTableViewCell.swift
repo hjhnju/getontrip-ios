@@ -9,7 +9,7 @@
 import Foundation
 import FFAutoLayout
 
-/// 显示更多的cell
+/// "显示全部XX"的cell
 class ShowMoreTableViewCell: UITableViewCell {
     
     //搜索类型

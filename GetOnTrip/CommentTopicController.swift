@@ -73,7 +73,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         commentTitleButton.addSubview(commentBottomLine)
         issueCommentBtn.addTarget(self, action: "sendCommentData:", forControlEvents: UIControlEvents.TouchUpInside)
         commentTitle.textAlignment = NSTextAlignment.Center
-        commentTitle.backgroundColor = SceneColor.crystalWhite
+        commentTitle.backgroundColor = SceneColor.white.colorWithAlphaComponent(0.4)
         issueTextfield.borderStyle = UITextBorderStyle.RoundedRect
         
         view.addSubview(prompt)

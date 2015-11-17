@@ -38,7 +38,7 @@
 		728747231BF8583000EE36AA /* SearchContentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747221BF8583000EE36AA /* SearchContentResult.swift */; settings = {ASSET_TAGS = (); }; };
 		728747251BF858D800EE36AA /* ShowMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		728747291BF860A800EE36AA /* SearchMuchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747281BF860A800EE36AA /* SearchMuchCell.swift */; settings = {ASSET_TAGS = (); }; };
+		728747291BF860A800EE36AA /* SearchHotwordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		728747301BF9AAE200EE36AA /* UserLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7287472F1BF9AAE200EE36AA /* UserLogin.swift */; settings = {ASSET_TAGS = (); }; };
 		728747321BFACC7300EE36AA /* CryptoAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */; settings = {ASSET_TAGS = (); }; };
 		728747341BFAD25200EE36AA /* Cookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747331BFAD25200EE36AA /* Cookie.swift */; settings = {ASSET_TAGS = (); }; };
@@ -215,7 +215,7 @@
 		728747221BF8583000EE36AA /* SearchContentResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContentResult.swift; sourceTree = "<group>"; };
 		728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowMoreTableViewCell.swift; sourceTree = "<group>"; };
 		728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecordTableViewCell.swift; sourceTree = "<group>"; };
-		728747281BF860A800EE36AA /* SearchMuchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMuchCell.swift; sourceTree = "<group>"; };
+		728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHotwordTableViewCell.swift; sourceTree = "<group>"; };
 		7287472F1BF9AAE200EE36AA /* UserLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLogin.swift; sourceTree = "<group>"; };
 		728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoAlgorithm.swift; sourceTree = "<group>"; };
 		728747331BFAD25200EE36AA /* Cookie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cookie.swift; sourceTree = "<group>"; };
@@ -437,7 +437,7 @@
 				AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */,
 				728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */,
 				728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */,
-				728747281BF860A800EE36AA /* SearchMuchCell.swift */,
+				728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1014,7 +1014,7 @@
 				AECD226F1B9F045D007F1D71 /* CollectCityViewController.swift in Sources */,
 				AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */,
 				728747251BF858D800EE36AA /* ShowMoreTableViewCell.swift in Sources */,
-				728747291BF860A800EE36AA /* SearchMuchCell.swift in Sources */,
+				728747291BF860A800EE36AA /* SearchHotwordTableViewCell.swift in Sources */,
 				7293A0421BF4713A0070C64A /* Province.swift in Sources */,
 				AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */,
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,

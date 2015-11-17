@@ -9,6 +9,11 @@
 import UIKit
 import FFAutoLayout
 
+struct SearchResultCellContant {
+    static let bookImageHeight: CGFloat   = 48
+    static let normalImageHeight: CGFloat = 37
+}
+
 class SearchResultsCell: UITableViewCell {
 
     lazy var resultImageView: UIImageView = UIImageView(image: UIImage(named: "default-topic"))
@@ -33,11 +38,9 @@ class SearchResultsCell: UITableViewCell {
         let attr = NSMutableAttributedString(string: title)
         var tempString = title
         var range = (title as NSString).rangeOfString(searchCruxCharacter)
-        
         var location = 0
         
         while range.length > 0 {
-            
             attr.addAttribute(NSForegroundColorAttributeName, value: titleColor, range: NSMakeRange(location + range.location, range.length))
             location += range.location + range.length
             let temp = NSString(string: tempString).substringWithRange((NSMakeRange(range.location + range.length, (title as NSString).length - location)))
@@ -70,13 +73,13 @@ class SearchResultsCell: UITableViewCell {
                 }
                 
                 if content.isBook() {
-                    resultImageViewHeight?.constant = 48
-                    resultImageView.image = UIImage()
-                    resultImageView.backgroundColor = UIColor.whiteColor()
+                    resultImageViewHeight?.constant = SearchResultCellContant.bookImageHeight
+                    resultImageView.image           = UIImage()
+                    resultImageView.backgroundColor = SceneColor.lightGray
                     groundView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
                     groundView.hidden = false
                 } else {
-                    resultImageViewHeight?.constant = 37
+                    resultImageViewHeight?.constant = SearchResultCellContant.normalImageHeight
                     groundView.hidden = true
                     resultImageView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
                 }
@@ -117,7 +120,7 @@ class SearchResultsCell: UITableViewCell {
         resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: resultImageView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
         baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
         playImage.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: nil)
-        groundView.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: CGSizeMake(31, 44), offset: CGPointMake(0, 0))
+        groundView.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: CGSizeMake(31, SearchResultCellContant.bookImageHeight), offset: CGPointMake(0, 0))
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
