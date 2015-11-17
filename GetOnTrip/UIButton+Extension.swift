@@ -102,3 +102,15 @@ class CurentCollectButton: UIButton {
         titleLabel?.frame = CGRectMake(CGRectGetMaxX(imageView!.frame) + 2, CGRectGetMaxY(imageView!.frame) - 10, 100, 10)
     }
 }
+
+/// 评论人按钮
+class commentPersonButton: UIButton {
+    
+    var to_name: String = ""
+    
+    var upId: String = ""
+    
+    var frameUserId: String = ""
+    
+    var from_name: String = ""
+}
