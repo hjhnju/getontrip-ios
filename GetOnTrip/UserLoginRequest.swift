@@ -48,21 +48,5 @@ class UserLoginRequest: NSObject {
             }
         }
     }
-    
-    /**
-    * 接口6：/api/user/checkLogin
-    * result返回用户ID
-    * 检查用户是否登录
-    */
-    func check(handler: (result: Int?, status: Int) -> Void) {
-        let post = [String : String]()
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/checkLogin", post: post) { (result, status) -> () in
-            if status == RetCode.SUCCESS {
-                handler(result: result.intValue, status: status)
-            } else {
-                handler(result: nil, status: status)
-            }
-        }
-    }
 }
 

@@ -42,14 +42,20 @@ class UserLogin: NSObject {
     ///  用户登陆
     ///  - parameter loginType: 登陆平台类型
     ///  - parameter openId:    openId
-    func login(loginType: Int, openId: String) {
-        loginRequest.openId = openId
+    func login(loginType: Int, user: SSDKUser) {
+        //当前无用户，先使用第三方用户信息
+        globalUser = UserAccount(user: user, type: loginType)
+        
+        //向服务端请求登录，并合并用户信息（以服务端字段为准，无则补充第三方字段）
+        loginRequest.openId = user.uid
         loginRequest.type   = loginType
         loginRequest.login() { (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 self.loadAccount()
+            } else if status == RetCode.NEED_ADDINFO {
+                self.addAccountInfo()
             } else {
-                //登录失败什么也不做，保留本地用户信息
+                //登录失败退出
                 self.exit()
             }
         }
@@ -91,6 +97,16 @@ class UserLogin: NSObject {
                 self.exit()
             } else {
                 //其他情况不做处理，保留本地用户信息
+            }
+        }
+    }
+    
+    /**
+    向服务端添加第三方用户信息
+    */
+    private func addAccountInfo() {
+        if let user = globalUser {
+            self.infoRequest.add(user) { (result, status) -> Void in
             }
         }
     }
@@ -137,11 +153,7 @@ class UserLogin: NSObject {
             switch state{
             case SSDKResponseState.Success:
                 print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-                //1.先使用第三方用户信息
-                globalUser = UserAccount(user: user, type: loginType)
-                //2.向服务端请求登录，并合并用户信息（以服务端字段为准，无则补充第三方字段）
-                self.login(loginType, openId: user.uid)
-                //3.设置本地用户信息
+                self.login(loginType, user: user)
             case SSDKResponseState.Fail:
                 print("授权失败,错误描述:\(error)")
                 finishHandler?(result: false, error: error)

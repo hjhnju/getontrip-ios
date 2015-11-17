@@ -12,7 +12,7 @@ import SVProgressHUD
 
 class UserAccount: NSObject, NSCoding {
     
-    /// 途知用户id
+    /// 途知用户id(目前客户端不获取该id)
     var uid: Int = 0
     
     /// 用户标识
