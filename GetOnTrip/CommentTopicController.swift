@@ -172,6 +172,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         for item in cell.commentAnswersView.subviews {
             if let it = item as? commentPersonButton {
                 it.addTarget(self, action: "commentPersonTouchAction:", forControlEvents: UIControlEvents.TouchUpInside)
+                it.indexPath = indexPath
             }
         }
         
@@ -208,13 +209,26 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func commentPersonTouchAction(btn: commentPersonButton) {
+        reloadIndexPath = btn.indexPath!
+        
+        let com  = data[btn.indexPath!.row]
+        upId = String(com.id)
+        if Int(btn.index! - 1) >= 0 {
+            let comm = com.sub_Comment[btn.index!]
+            to_user = comm.from_user_id
+        } else {
+            upId = ""
+            to_user = ""
+        }
         
         issueTextfield.placeholder = "回复 " + btn.from_name + " :"
+        issueTextfield.becomeFirstResponder()
         to_user = btn.frameUserId
     }
     
     func commentTitleButtonAction() {
         to_user = ""
+        upId = ""
         issueTextfield.placeholder = ""
         reloadIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     }
