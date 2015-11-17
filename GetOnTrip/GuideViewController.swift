@@ -16,7 +16,7 @@ class GuideViewController: UICollectionViewController {
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
     
-    let titles = ["寻找路上的故事", "发现未知的逸事", "感受悠远的历史", ""]
+    let titles = ["这里是路和故事", "这里是读和感受", "眺望诗和远方", ""]
     
     let subtitles = ["旅行，不只有照片", "旅行，不只是看见", "旅行，不会是终点", ""]
     
@@ -29,8 +29,6 @@ class GuideViewController: UICollectionViewController {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    UITraitCollection
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         

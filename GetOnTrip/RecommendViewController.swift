@@ -391,14 +391,13 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     //触发搜索列表的方法
     func clkSearchLabelMethod(sender: UIButton) {
-        
         if sender.tag == currentSearchLabelButton?.tag { return }
         sender.selected = true
         currentSearchLabelButton?.selected = false
         currentSearchLabelButton = sender
         
         
-        lastRequest?.id = String(sender.tag)
+        lastRequest?.order = String(sender.tag)
         tableView.mj_header.beginRefreshing()
     }
     
@@ -419,7 +418,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         self.tableView.mj_footer.resetNoMoreData()
         if lastRequest == nil {
             lastRequest = RecommendRequest()
-            lastRequest?.id = "1" //默认返回带所有搜索标签
+            lastRequest?.order = "1" //默认返回带所有搜索标签
         }
         
         lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in

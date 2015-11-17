@@ -10,10 +10,10 @@ import Foundation
 
 /// 搜索标签
 class RecommendLabel: NSObject {
-    /// id
+    /// 标签的id，前端不使用
     var id: String = ""
-    /// order
-    var order: String = ""
+    /// 默认取第一个
+    var order: String = "1"
     /// 标签名
     var name: String = ""
     /// 数字

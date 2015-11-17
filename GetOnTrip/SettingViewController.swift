@@ -11,6 +11,7 @@ import FFAutoLayout
 import Alamofire
 import SVProgressHUD
 import CoreData
+import SDWebImage
 
 /// 定义选中的是第几行
 struct SettingCell {
@@ -106,9 +107,14 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         setupBarButtonItem()
         loadInitSetting()
         setupInitSetting()
+        
+        initShowCache()
     }
     
-
+    func initShowCache() {
+        let size = SDImageCache.sharedImageCache().getSize()
+        print("image size=\(size)")
+    }
     
     ///  初始化属性
     private func setupAddProperty() {
