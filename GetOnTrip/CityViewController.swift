@@ -97,7 +97,10 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         didSet {
             tableView.reloadData()
             
-            if abs(tableView.contentOffset.y) == initTableViewContentOffsetY { return }
+            if abs(tableView.contentOffset.y) == initTableViewContentOffsetY {
+                tableView.setContentOffset(CGPointMake(0, abs(tableView.contentOffset.y)), animated: false)
+                return
+            }
             if tableViewContentOffset.y != 0 && tableViewContentOffset.y != initTableViewContentOffsetY {
                 tableView.setContentOffset(tableViewContentOffset, animated: false)
             }

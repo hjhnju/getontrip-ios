@@ -9,6 +9,7 @@
 import UIKit
 import FFAutoLayout
 import SVProgressHUD
+import MJRefresh
 
 class CommentTopicController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -57,9 +58,17 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     var reloadIndexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     
+    // MARK: - 初始化
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initProperty()
+        initRefresh()
+        loadCommentData()
+        setupAutoLayout()
+    }
+    
+    private func initProperty() {
         view.addSubview(tableView)
         view.addSubview(commentBottomImage)
         view.addSubview(issueCommentView)
@@ -84,13 +93,24 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         tableView.delegate = self
         tableView.sectionHeaderHeight = 41
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
         tableView.registerClass(commentTableViewCell.self, forCellReuseIdentifier: "commentTableView_Cell")
         commentTitleButton.addTarget(self, action: "commentTitleButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
+    private func initRefresh() {
+        //上拉刷新
         
-        loadCommentData()
-        setupAutoLayout()
+        let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadCommentData)
+        tbHeaderView.automaticallyChangeAlpha = true
+        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbHeaderView.lastUpdatedTimeLabel?.hidden = true
+        tbHeaderView.stateLabel?.hidden = true
+        tbHeaderView.arrowView?.image = UIImage()
+        tableView.mj_header = tbHeaderView
     }
 
+    ///  加载评论数据
     private func loadCommentData() {
         
         if commentListRequest == nil {
@@ -173,7 +193,6 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         
         issueTextfield.text = ""
     }
-
     
     private func setupAutoLayout() {
         let tbH: CGFloat = UIScreen.mainScreen().bounds.height / 1.6 - 91
@@ -245,6 +264,10 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         issueTextfield.placeholder = "回复 " + com.from_name + " :"
     }
     
+    func tableView(tableView: UITableView, willBeginEditingRowAtIndexPath indexPath: NSIndexPath) {
+        print("什么时候调用")
+    }
+    
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         issueTextfield.resignFirstResponder()
     }
@@ -302,32 +325,55 @@ class commentTableViewCell : UITableViewCell {
                 commentPerson.to_name = item.to_name
                 commentPerson.from_name = item.from_name
                 commentPerson.titleLabel?.numberOfLines = 0
-                commentPerson.setTitle(item.from_name + "回复" + item.to_name + item.content, forState: UIControlState.Normal)
-                let size = commentPerson.titleLabel?.text!.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
-                commentPerson.frame = CGRectMake(12, y, size!.width, size!.height)
-                y += size!.height
+                
+                let size = (" " + item.from_name + " 回复 :" + item.to_name + " " + item.content).sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
+                
+                commentPerson.setAttributedTitle(schemeAttributedString(item.from_name, toName: item.to_name, content: item.content), forState: UIControlState.Normal)
+                commentPerson.frame = CGRectMake(12, y, size.width, size.height)
+                y += size.height + 8
             }
             
             var str = ""
             for i in data!.sub_Comment {
-                str = str + i.from_name + "回复" + i.to_name + i.content + "\n"
+                str = str + i.from_name + "   回复 :" + i.to_name + i.content + "\n"
             }
-            answerCommentViewHeight!.constant = str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 8
+            answerCommentViewHeight!.constant = str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + CGFloat(8 * (data!.sub_Comment.count - 1))
             if data?.sub_Comment.count == 0 {
                 commentAnswersView.hidden = true
             }
         }
     }
     
+    func schemeAttributedString(fromName: String, toName: String, content: String) -> NSAttributedString {
+        
+        let attrStr = NSString(string: " " + fromName + " 回复 :" + toName + " " + content)
+        let attr    = NSMutableAttributedString(string: attrStr as String)
+        let comment = attrStr.rangeOfString(" " + fromName)
+        let comMess = attrStr.rangeOfString(" 回复 :")
+        let attrN   = attrStr.rangeOfString(" " + toName)
+        let content = attrStr.rangeOfString(" " + content)
+        
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 8
+        style.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        attr.addAttribute(NSForegroundColorAttributeName, value: SceneColor.fontGray, range: comMess)
+        attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blackColor(), range: comment)
+        attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blackColor(), range: attrN)
+        attr.addAttribute(NSForegroundColorAttributeName, value: SceneColor.fontGray, range: content)
+        attr.addAttribute(NSParagraphStyleAttributeName, value: style, range: NSMakeRange(0, attr.length))
+        attr.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(11), range: NSMakeRange(0, attr.length))
+        
+        return attr
+    }
+    
     func dataWithCellHeight(comment: CommentList) -> CGFloat {
         
         var str = ""
         for i in comment.sub_Comment {
-            str = str + i.from_name + "回复" + i.to_name + i.content + "\n"
-            
+            str = str + i.from_name + "   回复 :" + i.to_name + i.content + "\n"
         }
         
-        var height =  40 + 16 + 9 + comment.content.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height
+        var height =  40 + 16 + 9 + comment.content.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + CGFloat(8 * (comment.sub_Comment.count - 1))
         if comment.sub_Comment.count == 0 {
             height = height - 16
         }
@@ -355,10 +401,7 @@ class commentTableViewCell : UITableViewCell {
         addSubview(answerLabel)
         addSubview(commentAnswersView)
         addSubview(baseLine)
-//        commentAnswersView.addSubview(answerCommentContent)
-//        commentAnswersView.addSubview(commentPerson)
         content.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 75
-//        answerCommentContent.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 75 - 24
         iconView.contentMode = UIViewContentMode.ScaleAspectFill
         iconView.clipsToBounds = true
     }
@@ -370,7 +413,6 @@ class commentTableViewCell : UITableViewCell {
         time.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: nil, offset: CGPointMake(-9, 23))
         answerLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: titleName, size: nil, offset: CGPointMake(6, 0))
         let cons = commentAnswersView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: content, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, 0), offset: CGPointMake(0, 7))
-//        answerCommentContent.ff_AlignInner(ff_AlignType.TopLeft, referView: commentAnswersView, size: nil, offset: CGPointMake(12, 8))
         answerCommentViewHeight = commentAnswersView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 0.5), offset: CGPointMake(0, 0))
     }
@@ -383,6 +425,7 @@ class commentTableViewCell : UITableViewCell {
     }
 }
 
+/// 评论人按钮
 class commentPersonButton: UIButton {
     
     var to_name: String = ""
