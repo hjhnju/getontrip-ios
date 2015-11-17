@@ -46,12 +46,17 @@ class HttpRequest {
     ///  - parameter handler: 回调数据及错误
     class func ajax2(url: String?, path: String?, post: Dictionary<String, String>, handler: RequestJSONCallBack) {
         
+        var apiPath = path
+        if let range = path?.rangeOfString("/api/") {
+            apiPath?.replaceRange(range, with: "/api/\(AppIni.ApiVersion)/")
+        }
+        
         var params = [String]()
         for (field, value) in post {
             params.append("\(field)=\(value)")
         }
         //G请求才会有效缓存
-        var urlPath = (url ?? "") + (path ?? "")
+        var urlPath = (url ?? "") + (apiPath ?? "")
         if params.count > 0 {
             urlPath += "?" + params.joinWithSeparator("&")
         }

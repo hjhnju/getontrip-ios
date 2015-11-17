@@ -20,8 +20,9 @@ class AppIniDev {
 }
 
 class AppIni:AppIniDev {
-    static let Domain:String = "www.getontrip.cn"
+    static let Domain:String     = "www.getontrip.cn"
     static let SecretKey: String = "ahl93##41cfw!@23"
+    static let ApiVersion: String = "1.0"
 }
 
 struct SceneColor {
