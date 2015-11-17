@@ -18,7 +18,6 @@
 		72550E891BE7A956004D4611 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550E881BE7A956004D4611 /* BaseViewController.swift */; };
 		72550E8B1BE7A9AA004D4611 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550E8A1BE7A9AA004D4611 /* UIViewController+Extension.swift */; };
 		72550E9A1BE9A210004D4611 /* CBStoreHouseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */; };
-		72550E9C1BE9ABC6004D4611 /* CustAnimateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550E9B1BE9ABC6004D4611 /* CustAnimateViewController.swift */; };
 		72550EA21BEA0D87004D4611 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA11BEA0D87004D4611 /* Book.swift */; };
 		72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */; };
 		726974281BDF168A000C0ABF /* RetCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726974271BDF168A000C0ABF /* RetCode.swift */; };
@@ -41,6 +40,8 @@
 		728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		728747291BF860A800EE36AA /* SearchMuchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747281BF860A800EE36AA /* SearchMuchCell.swift */; settings = {ASSET_TAGS = (); }; };
 		728747301BF9AAE200EE36AA /* UserLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7287472F1BF9AAE200EE36AA /* UserLogin.swift */; settings = {ASSET_TAGS = (); }; };
+		728747321BFACC7300EE36AA /* CryptoAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */; settings = {ASSET_TAGS = (); }; };
+		728747341BFAD25200EE36AA /* Cookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747331BFAD25200EE36AA /* Cookie.swift */; settings = {ASSET_TAGS = (); }; };
 		7293A03E1BF4594D0070C64A /* UserLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */; };
 		7293A0401BF470F90070C64A /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */; };
 		7293A0421BF4713A0070C64A /* Province.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A0411BF4713A0070C64A /* Province.swift */; };
@@ -194,7 +195,6 @@
 		72550E8A1BE7A9AA004D4611 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		72550E981BE9A210004D4611 /* CBStoreHouseTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBStoreHouseTransition.h; sourceTree = "<group>"; };
 		72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBStoreHouseTransition.m; sourceTree = "<group>"; };
-		72550E9B1BE9ABC6004D4611 /* CustAnimateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustAnimateViewController.swift; sourceTree = "<group>"; };
 		72550EA11BEA0D87004D4611 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequestProtocol.swift; sourceTree = "<group>"; };
 		726974271BDF168A000C0ABF /* RetCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetCode.swift; sourceTree = "<group>"; };
@@ -217,6 +217,8 @@
 		728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecordTableViewCell.swift; sourceTree = "<group>"; };
 		728747281BF860A800EE36AA /* SearchMuchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMuchCell.swift; sourceTree = "<group>"; };
 		7287472F1BF9AAE200EE36AA /* UserLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLogin.swift; sourceTree = "<group>"; };
+		728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoAlgorithm.swift; sourceTree = "<group>"; };
+		728747331BFAD25200EE36AA /* Cookie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cookie.swift; sourceTree = "<group>"; };
 		7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLoginRequest.swift; sourceTree = "<group>"; };
 		7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		7293A0411BF4713A0070C64A /* Province.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Province.swift; sourceTree = "<group>"; };
@@ -561,6 +563,8 @@
 				72C16AF21BEDCAB000161A77 /* ScrolledImageView.swift */,
 				7206B7CA1BF3759B002E3C9A /* LoadingView.swift */,
 				7293A0431BF4745E0070C64A /* LocateToCity.swift */,
+				728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */,
+				728747331BFAD25200EE36AA /* Cookie.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -609,7 +613,6 @@
 				AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */,
 				72D86E091B65E844004B72D0 /* Ucenter */,
 				72550E881BE7A956004D4611 /* BaseViewController.swift */,
-				72550E9B1BE9ABC6004D4611 /* CustAnimateViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1071,9 +1074,9 @@
 				72550E8B1BE7A9AA004D4611 /* UIViewController+Extension.swift in Sources */,
 				7269747B1BE47245000C0ABF /* UIChannelLabel.swift in Sources */,
 				72D25A931BEB2B9F0044AE04 /* CitySightBrief.swift in Sources */,
+				728747341BFAD25200EE36AA /* Cookie.swift in Sources */,
 				AE6D9FB31B84AE46009A8A9D /* SightVideosRequest.swift in Sources */,
 				AE70C1991BCCB7EF00834130 /* CommentTopicController.swift in Sources */,
-				72550E9C1BE9ABC6004D4611 /* CustAnimateViewController.swift in Sources */,
 				728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */,
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
 				AE62E2CA1BB3D9B800B91D33 /* UIImageView+Extension.swift in Sources */,
@@ -1089,6 +1092,7 @@
 				AE2894541BDCDDC20099293F /* SearchViewController.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* SightBooksRequest.swift in Sources */,
 				72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */,
+				728747321BFACC7300EE36AA /* CryptoAlgorithm.swift in Sources */,
 				AECD226D1B9EEC9B007F1D71 /* CollectContentViewController.swift in Sources */,
 				AEAB95181BC7C79A00B6EE62 /* TopicViewController.swift in Sources */,
 				AEC9D2BC1BD7ADE700B28464 /* SendPopoverAnimator.swift in Sources */,

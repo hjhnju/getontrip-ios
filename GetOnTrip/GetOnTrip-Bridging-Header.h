@@ -20,4 +20,7 @@
 //#import <Bugtags/Bugtags.h>
 
 //转场动画
-#import "CBStoreHouseTransition.h"
+//#import "CBStoreHouseTransition.h"
+
+//加密算法
+#import <CommonCrypto/CommonCrypto.h>

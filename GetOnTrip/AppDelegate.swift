@@ -38,8 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ///  获取uuid
         gainUserUUID()
-        ///  写入cookie
-        writeCookie()
         
         //status bar
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
@@ -75,28 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    ///  将设备id写入cookie
-    private func writeCookie() {
-        
-        var cookieProperties = [String: AnyObject]()
-        cookieProperties[NSHTTPCookieName] = "device_id"
-        cookieProperties[NSHTTPCookieValue] = appUUID!
-        cookieProperties[NSHTTPCookieDomain] = AppIni.BaseUri
-        cookieProperties[NSHTTPCookieOriginURL] = AppIni.BaseUri
-        cookieProperties[NSHTTPCookiePath] = "/"
-        cookieProperties[NSHTTPCookieVersion] = "0"
-        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties)!)
-        
-        var cookieProperties1 = [String: AnyObject]()
-        cookieProperties1[NSHTTPCookieName] = "current_user"
-        cookieProperties1[NSHTTPCookieValue] = "z5K%2bXZURRu4%3d"
-        cookieProperties1[NSHTTPCookieDomain] = AppIni.BaseUri
-        cookieProperties1[NSHTTPCookieOriginURL] = AppIni.BaseUri
-        cookieProperties1[NSHTTPCookiePath] = "/"
-        cookieProperties1[NSHTTPCookieVersion] = "0"
-        NSHTTPCookieStorage.sharedHTTPCookieStorage().setCookie(NSHTTPCookie(properties: cookieProperties1)!)
-    }
-    
     // MARK: - 获取用户uuid
     private func gainUserUUID() {
         // 获取uuid
@@ -106,6 +82,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
         }
         appUUID = uuid
+        
+        // 写入cookie
+        Cookie.setCookie("device_id", value: appUUID)
     }
 
     // MARK: - 注册第三方登陆分享应用相关信息
