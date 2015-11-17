@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import YTKKeyValueStore
 
 struct HttpRequestContant {
     static let timeout: NSTimeInterval = 10
@@ -37,7 +38,6 @@ class HttpRequest {
         return Manager(configuration: configuration)
     }()
     
-    
     ///  网络访问方法
     ///
     ///  - parameter url:     访问环境
@@ -46,28 +46,40 @@ class HttpRequest {
     ///  - parameter handler: 回调数据及错误
     class func ajax2(url: String?, path: String?, post: Dictionary<String, String>, handler: RequestJSONCallBack) {
         
-        var apiPath = path
-        if let range = path?.rangeOfString("/api/") {
-            apiPath?.replaceRange(range, with: "/api/\(AppIni.ApiVersion)/")
-        }
-        
+        //拼接urlPath, urlPath维度的缓存，需要加参数以区分
         var params = [String]()
         for (field, value) in post {
             params.append("\(field)=\(value)")
         }
-        //G请求才会有效缓存
-        var urlPath = (url ?? "") + (apiPath ?? "")
+        var urlPath = (path ?? "")
         if params.count > 0 {
             urlPath += "?" + params.joinWithSeparator("&")
         }
+        if let range = urlPath.rangeOfString("/api/") {
+            urlPath.replaceRange(range, with: "/api/\(AppIni.ApiVersion)/")
+        }
         
-        let url = urlPath.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) ?? ""
+        if let cacheJson = Cache.shareInstance.getString(urlPath)?.dataUsingEncoding(NSUTF8StringEncoding) {
+            //先看有效缓存，有直接返回
+            let cacheJsonObj = JSON(data: cacheJson)
+            handler(result: cacheJsonObj, status: RetCode.SUCCESS)
+            return
+        } else {
+            //无则看有没缓存先用于展示
+            if let cacheJson = Cache.shareInstance.getDisplayString(urlPath)?.dataUsingEncoding(NSUTF8StringEncoding) {
+                let cacheJsonObj = JSON(data: cacheJson)
+                handler(result: cacheJsonObj, status: RetCode.SUCCESS)
+            }
+        }
         
-        print("[HttpRequest]:url=\(url)")
+        /// 发送真实网络请求
+        var url = (url ?? "") + urlPath
+        url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) ?? ""
+        let timestamp = String(format: "%.0f", NSDate().timeIntervalSince1970)
+        let token     = "\(AppIni.SecretKey)\(timestamp)".sha256 + timestamp
+        let postArgs  = ["token": token]
+        print("[HttpRequest]:url=\(url), post=\(postArgs)")
         
-        let ts    = String(format: "%.0f", NSDate().timeIntervalSince1970)
-        let token = "\(AppIni.SecretKey)\(ts)".sha256 + ts
-        let postArgs = ["token": token]
         HttpRequest.sharedManager.request(.POST, url, parameters: postArgs).response { request, response, respData, error -> Void in
             //异常
             if error != nil {
@@ -77,6 +89,11 @@ class HttpRequest {
             //处理数据
             if let data = respData {
                 let json = JSON(data: data)
+                
+                //添加缓存
+                if let str = json["data"].rawString() {
+                    Cache.shareInstance.setString(urlPath, value: str)
+                }
                 return handler(result: json["data"], status: json["status"].intValue)
             }
         }

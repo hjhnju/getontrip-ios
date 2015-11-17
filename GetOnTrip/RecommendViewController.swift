@@ -151,7 +151,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         headerView.addSubview(maskView)
         maskView.ff_Fill(headerView)
         
-        //上拉刷新
+        //下拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
         tbHeaderView.automaticallyChangeAlpha = true
         tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
@@ -189,6 +189,10 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         view.bringSubviewToFront(navContainerView)
         
         setupAutoLayout()
+        initData()
+    }
+    
+    func initData() {
         if !tableView.mj_header.isRefreshing() {
             tableView.mj_header.beginRefreshing()
         }
@@ -428,7 +432,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                     self?.errorView.hidden = false
                 } else {
                     //当前有内容显示出错浮层
-                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                    SVProgressHUD.showInfoWithStatus("您的网络无法连接")
                 }
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false

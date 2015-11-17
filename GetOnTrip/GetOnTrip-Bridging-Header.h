@@ -24,3 +24,5 @@
 
 //加密算法
 #import <CommonCrypto/CommonCrypto.h>
+
+#import <sqlite3.h>

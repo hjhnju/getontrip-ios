@@ -12,9 +12,12 @@ import UIKit
 import SSKeychain
 import Alamofire
 import CoreData
+import YTKKeyValueStore
 
 /// 全局变量记录用户账号  $(inherited)
 var globalUser:UserAccount?
+/// 全局缓存
+var globalKvStore: YTKKeyValueStore?
 /// 记录uuid
 var appUUID: String?
 /// 当前城市id
@@ -29,10 +32,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        ///加载用户信息
+        //加载用户信息
         UserLogin.sharedInstance.loadAccount()
         
+        //加载缓存
+        globalKvStore = YTKKeyValueStore(DBWithName: "getontrip")
+        globalKvStore?.createTableWithName("ApiCache")
+        
         print(NSHomeDirectory())
+        
         ///  bug调试代码仅一行
         //Bugtags.startWithAppKey("ec789dd0e94cd047205c87a0c9f05ac9", invocationEvent: BTGInvocationEventBubble)
         
