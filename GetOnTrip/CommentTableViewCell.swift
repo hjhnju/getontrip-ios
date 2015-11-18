@@ -45,22 +45,20 @@ class CommentTableViewCell : UITableViewCell {
             let w: CGFloat = UIScreen.mainScreen().bounds.width - 75 - 24
             var index: Int = 0
             for item in data!.sub_Comment {
-                let commentPerson = commentPersonButton()
+                let commentPerson = commentPersonButton(title: "Clara J:", fontSize: 11, radius: 0, titleColor: SceneColor.fontGray)
                 commentAnswersView.addSubview(commentPerson)
                 commentPerson.upId = String(data!.id)
                 commentPerson.to_name = item.to_name
                 commentPerson.from_name = item.from_name
                 commentPerson.frameUserId = item.from_user_id
-                commentPerson.titleLabel.numberOfLines = 0
+                commentPerson.titleLabel?.numberOfLines = 0
                 commentPerson.index = index
-//                commentPerson.titleLabel.lineBreakMode = NSLineBreakMode.ByCharWrapping
-                commentPerson.titleLabel.text = (" " + item.from_name + " 回复 :" + item.to_name + " " + item.content)
+                
                 let size = (" " + item.from_name + " 回复 :" + item.to_name + " " + item.content).sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
                 
-//                commentPerson.setAttributedTitle(schemeAttributedString(item.from_name, toName: item.to_name, content: item.content), forState: UIControlState.Normal)
-//                commentPerson.titleLabel.attributedText = schemeAttributedString(item.from_name, toName: item.to_name, content: item.content)
+                commentPerson.setAttributedTitle(schemeAttributedString(item.from_name, toName: item.to_name, content: item.content), forState: UIControlState.Normal)
                 commentPerson.frame = CGRectMake(12, y, size.width, size.height)
-                y += size.height
+                y += size.height + 8
                 index++
             }
             
