@@ -17,13 +17,21 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
 
     var lastRequest: MessageListRequest = MessageListRequest()
     
+    let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "您暂时还未收到任何消息\n(∩_∩)", fontSize: 13, mutiLines: true)
+    
     var messageLists: [MessageList] = [MessageList]() {
         didSet {
+            if messageLists.count == 0 {
+                collectPrompt.hidden = true
+            } else {
+                collectPrompt.hidden = false
+            }
             tableView.reloadData()
         }
     }
     
     lazy var tableView: UITableView = UITableView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +47,12 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         
         view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
+        view.addSubview(collectPrompt)
+    
+        tableView.addSubview(collectPrompt)
+        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
+        collectPrompt.textAlignment = NSTextAlignment.Center
+        collectPrompt.hidden = true
         
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
@@ -93,7 +107,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
 
     // MARK: - Table view data source
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        if messageLists.count == 0 { collectPrompt.hidden = false } else { collectPrompt.hidden = true }
         return messageLists.count ?? 0
     }
     
@@ -273,7 +287,7 @@ class MessageTableViewCell: UITableViewCell {
 // MARK: - 系统消息
 class SystemTableViewCell: UITableViewCell {
     /// 头像
-    lazy var iconView: UIImageView = UIImageView()
+    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "icon_app"))
     /// 系统回复
     lazy var restorePerson: UILabel = UILabel(color: SceneColor.frontBlack, title: "系统消息", fontSize: 12, mutiLines: false)
     /// 回复时间
@@ -290,7 +304,6 @@ class SystemTableViewCell: UITableViewCell {
     
     var message: MessageList? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: message!.avatar), placeholderImage: PlaceholderImage.defaultSmall)
             restoreTime.text = message?.create_time
             restoreImageView.sd_setImageWithURL(NSURL(string: message!.image), placeholderImage: PlaceholderImage.defaultSmall)
             

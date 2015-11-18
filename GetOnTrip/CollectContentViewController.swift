@@ -25,9 +25,9 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
     var collectContent = [CollectContent]() {
         didSet {
             if collectContent.count == 0 {
-                collectPrompt.hidden = false
-            } else {
                 collectPrompt.hidden = true
+            } else {
+                collectPrompt.hidden = false
             }
             tableView.reloadData()
         }
@@ -83,6 +83,7 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
 
     // MARK: - Table view data source
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if collectContent.count == 0 { collectPrompt.hidden = false } else { collectPrompt.hidden = true }
         return collectContent.count
     }
 
