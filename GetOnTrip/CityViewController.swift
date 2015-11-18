@@ -57,7 +57,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }()
     
     /// 热门景点
-    lazy var moreSightsButton: homeSightButton = homeSightButton(image: "city_more", title: "热门景点", fontSize: 19, titleColor: SceneColor.white)
+    lazy var moreSightsButton: homeSightButton = homeSightButton(image: "city_more", title: "热门景点", fontSize: 17, titleColor: SceneColor.white)
     
     /// 热门话题标题
     lazy var hotTopBarButton: UIButton = UIButton(title: "热门内容", fontSize: 17, radius: 0, titleColor: SceneColor.white)

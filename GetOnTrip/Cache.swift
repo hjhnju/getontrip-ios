@@ -24,6 +24,9 @@ class Cache: NSObject {
         "/api/1.0/search/label?order=4&pageSize=15&page=1" : 600,
         "/api/1.0/search/label?order=5&pageSize=15&page=1" : 600,
         "/api/1.0/search/label?order=6&pageSize=15&page=1" : 600,
+        "/api/1.0/collect/list?page=1&pageSize=6&type=1"   : 60,
+        "/api/1.0/collect/list?page=1&pageSize=6&type=2"   : 60,
+        "/api/1.0/collect/list?page=1&pageSize=6&type=3"   : 60,
     ]
     
     /**

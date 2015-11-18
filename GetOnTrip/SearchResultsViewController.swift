@@ -118,7 +118,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
         
         var title: String = ""
         if isSearchingAll {
-            title = "显示全部内容"
+            title = ""
         } else {
             let count = resultDataSource[sectionFileds[section]]?.count ?? 0
             if count == 0 {
