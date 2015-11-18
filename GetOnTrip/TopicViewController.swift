@@ -208,7 +208,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
                     self?.topicDataSource = topic
                 }
             } else {
-                SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络")
+                SVProgressHUD.showInfoWithStatus("网络连接失败，请检查网络")
             }
         })
     }

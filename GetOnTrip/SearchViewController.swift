@@ -75,7 +75,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     func switchCurrentCity(btn: UIButton) {
         
         if isLocationCompetence == nil {
-            SVProgressHUD.showErrorWithStatus("未能获取权限定位失败!")
+            SVProgressHUD.showInfoWithStatus("未能获取权限定位失败!")
             locationButton.hidden = true
             return
         }
@@ -84,7 +84,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             SVProgressHUD.showInfoWithStatus("正在定位中", maskType: SVProgressHUDMaskType.Black)
             return
         } else if currentCityId == "" {
-            SVProgressHUD.showErrorWithStatus("当前城市未开通")
+            SVProgressHUD.showInfoWithStatus("当前城市未开通")
         } else {
             let vcity = CityViewController()
             vcity.cityDataSource = City(id: currentCityId!)

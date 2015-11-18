@@ -375,7 +375,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                     }
                     self.tableView.reloadData()
                 } else {
-                    SVProgressHUD.showErrorWithStatus("网络连接失败")
+                    SVProgressHUD.showInfoWithStatus("网络连接失败")
                 }
             }
         } else {
@@ -389,7 +389,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                         }
                     }
                 } else {
-                    SVProgressHUD.showErrorWithStatus("网络连接失败")
+                    SVProgressHUD.showInfoWithStatus("网络连接失败")
                 }
             }
         }

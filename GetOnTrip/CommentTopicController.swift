@@ -127,12 +127,12 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                         SVProgressHUD.showInfoWithStatus("发送成功")
                         self.loadData()
                     } else {
-                        SVProgressHUD.showErrorWithStatus("评论发送失败，请重试")
+                        SVProgressHUD.showInfoWithStatus("评论发送失败，请重试")
                     }
                     btn.selected = false
                 })
             } else {
-                SVProgressHUD.showErrorWithStatus("网络无法连接")
+                SVProgressHUD.showInfoWithStatus("网络无法连接")
             }
             return
         }
@@ -272,7 +272,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                     self!.prompt.hidden = self!.data.count > 0 ? true : false
                 }
             } else {
-                SVProgressHUD.showErrorWithStatus("您的网络连接不稳定，请稍候后连接")
+                SVProgressHUD.showInfoWithStatus("您的网络连接不稳定，请稍候后连接")
             }
             
             self?.isLoading = false
@@ -288,7 +288,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         //请求下一页
         self.lastRequest?.fetchNextPageModels { [weak self] (result, status) -> Void in
             
-            if status != RetCode.SUCCESS { SVProgressHUD.showErrorWithStatus("您的网络连接不稳定，请稍候后连接"); return }
+            if status != RetCode.SUCCESS { SVProgressHUD.showInfoWithStatus("您的网络连接不稳定，请稍候后连接"); return }
             if let dataSource = result {
                 if dataSource.count > 0 {
                     if let cells = self?.data {

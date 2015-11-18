@@ -387,7 +387,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                         if status == RetCode.SUCCESS {
                             currentCityId = result as? String ?? ""
                         } else {
-                            SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络")
+                            SVProgressHUD.showInfoWithStatus("网络连接失败，请检查网络")
                         }
                     })
                 })
@@ -541,7 +541,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     /// 登陆后的操作
     var loginFinishedHandler: UserLogin.LoginFinishedHandler = { (result, error) -> Void in
         if error != nil {
-            SVProgressHUD.showErrorWithStatus("登陆失败啦，再试试手气")
+            SVProgressHUD.showInfoWithStatus("登陆失败啦，再试试手气")
         }
     }
     
