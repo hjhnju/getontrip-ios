@@ -140,7 +140,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         if mes.type == "1" {
             return SystemTableViewCell.messageWithHeight(mes)
         }
-        
         return 75
     }
     

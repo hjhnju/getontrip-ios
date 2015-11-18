@@ -170,7 +170,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 lW = UIScreen.mainScreen().bounds.width / CGFloat(7)
             }
             let channelLabel      = UIChannelLabel.channelLabelWithTitle(tag.name, width: lW, height: h, fontSize: 14)
-//            channelLabel.adjustsFontSizeToFitWidth = true
+            channelLabel.adjustsFontSizeToFitWidth = true
             channelLabel.delegate = self
             channelLabel.tag      = index
             channelLabel.frame    = CGRectMake(x, 0, channelLabel.bounds.width, h)
