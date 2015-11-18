@@ -64,7 +64,7 @@ class CommentTableViewCell : UITableViewCell {
                 index++
             }
             
-            answerCommentViewHeight!.constant = dataWithCellHeight(data!) - 47 - 16 - (data?.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 65, CGFloat.max)).height)! - 4
+            answerCommentViewHeight!.constant = dataWithCellHeight(data!) - 47 - 16 - (data?.content.sizeofStringWithFount(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 65, CGFloat.max)).height)! - 4
             // str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 8
             
             if data?.sub_Comment.count == 0 {
