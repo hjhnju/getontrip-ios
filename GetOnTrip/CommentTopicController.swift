@@ -27,7 +27,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     lazy var tableView: UITableView = UITableView()
     /// 发布底部view
     lazy var issueCommentView: UIView = UIView(color: UIColor.whiteColor())
-    lazy var commentBottomImage: UIImageView = UIImageView(image: UIImage(named: "comment_Bottom"))
+    lazy var commentBottomImage: UIImageView = UIImageView(image: UIImage(named: "comment_bottom"))
     /// 发布textfield
     lazy var issueTextfield: UITextField = UITextField()
     /// 发布按钮

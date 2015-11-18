@@ -27,7 +27,7 @@ class AppIni:AppIniOnline {
 
 struct SceneColor {
     
-    /** 
+    /**
     黄色系列 
     */
     static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)

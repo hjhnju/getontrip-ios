@@ -24,7 +24,7 @@ class SearchResultsCell: UITableViewCell {
     
     lazy var baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.2)
     
-    var playImage: UIImageView = UIImageView(image: UIImage(named: "Play_icon"))
+    var playImage: UIImageView = UIImageView(image: UIImage(named: "search_play"))
     
     var searchCruxCharacter: String = ""
     
