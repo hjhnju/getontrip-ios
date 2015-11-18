@@ -139,7 +139,7 @@ class NewFeatureCell: UICollectionViewCell {
     /// 副标题英文
     lazy var subtitleEnglish: UILabel = UILabel(color: UIColor.whiteColor(), title: "MORE THEN PICTURES", fontSize: 28, mutiLines: true)
     
-    lazy var iconButton: GuideButton = GuideButton(image: "icon_app", title: "尽阅世间之美", fontSize: 20, titleColor: UIColor(hex: 0x202020, alpha: 1.0))
+    lazy var iconButton: GuideButton = GuideButton(image: "icon_app", title: "亦行・亦读", fontSize: 20, titleColor: UIColor(hex: 0x202020, alpha: 1.0))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
