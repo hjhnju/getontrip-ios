@@ -17,7 +17,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
 
     var lastRequest: MessageListRequest = MessageListRequest()
     
-    let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "还木有内容...\n收藏点喜欢的吧(∩_∩)", fontSize: 13, mutiLines: true)
+    let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "您暂时还未收到任何消息\n(∩_∩)", fontSize: 13, mutiLines: true)
     
     var messageLists: [MessageList] = [MessageList]() {
         didSet {
@@ -287,7 +287,7 @@ class MessageTableViewCell: UITableViewCell {
 // MARK: - 系统消息
 class SystemTableViewCell: UITableViewCell {
     /// 头像
-    lazy var iconView: UIImageView = UIImageView()
+    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "icon_app"))
     /// 系统回复
     lazy var restorePerson: UILabel = UILabel(color: SceneColor.frontBlack, title: "系统消息", fontSize: 12, mutiLines: false)
     /// 回复时间
@@ -304,7 +304,6 @@ class SystemTableViewCell: UITableViewCell {
     
     var message: MessageList? {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: message!.avatar), placeholderImage: PlaceholderImage.defaultSmall)
             restoreTime.text = message?.create_time
             restoreImageView.sd_setImageWithURL(NSURL(string: message!.image), placeholderImage: PlaceholderImage.defaultSmall)
             
