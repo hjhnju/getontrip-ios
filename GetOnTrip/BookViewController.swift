@@ -205,6 +205,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         webView.configuration.userContentController = controller
         */
         
+        webView.addSubview(loadingView)
         webView.scrollView.tag = 1
         //automaticallyAdjustsScrollViewInsets = false
         webView.scrollView.showsHorizontalScrollIndicator = false
@@ -246,6 +247,9 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         /// headerView的顶部约束
         headerViewHeightConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: NSLayoutAttribute.Height)
         headerViewTopConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: NSLayoutAttribute.Top)
+        
+        
+        loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height + BookViewContant.headerViewHeight)/2 - 2*TopicViewContant.toolBarHeight))
     }
     
     // MARK: UIScrollView Delegate 代理方法
@@ -264,6 +268,8 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     }
     
     // MARK: WKNavigationDelegate
+    
+    var loadingView: LoadingView = LoadingView()
     
     // 页面开始加载时调用
 //    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
@@ -288,6 +294,16 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         print("[BookViewController]webView error \(error.localizedDescription)")
         let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">书籍内容加载失败</div></body></html>"
         webView.loadHTMLString(errorHTML, baseURL: nil)
+    }
+    
+    // 页面开始加载时调用
+    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        loadingView.start()
+    }
+    
+    // 页面加载完成之后调用
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+        loadingView.stop()
     }
     
     // 接收到服务器跳转请求之后调用
@@ -320,19 +336,13 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     /// 展示内容书籍
     func showBookDetail(body: String) {
-        let html = NSMutableString()
-        html.appendString("<!DOCTYPE html><html><head><meta charset=\"utf-8\">")
-        html.appendString("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no, minimal-ui\">")
-        html.appendString("<meta name=\"format-detection\" content=\"telephone=no, email=no\">")
-        html.appendString("<title>Examples</title>")
-        let path = NSBundle.mainBundle().URLForResource("BookDetail.css", withExtension: nil)
-        print("path=\(path)")
-        do {
-            let text = try? NSString(contentsOfURL: path ?? NSURL(), encoding: NSUTF8StringEncoding)
-            html.appendString("<style>\(text!)</style>")
+        if let book =  bookDataSource {
+            print("[BookViewController]Loading: \(book.url)")
+            if let requestURL = NSURL(string: book.url) {
+                let request = NSURLRequest(URL: requestURL)
+                webView.loadRequest(request)
+            }
         }
-        html.appendString("</head><body>\(body)</body></html>")
-        webView.loadHTMLString(html as String, baseURL: nil)
     }
     
     /// 获取数据
@@ -374,7 +384,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     /// 购买书籍
     func clickBuyButton(btn: UIButton) {
-        if let url = bookDataSource?.url {
+        if let url = bookDataSource?.buyurl {
             let sc = DetailWebViewController()
             sc.url = url
             navigationController?.pushViewController(sc, animated: true)
@@ -386,7 +396,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     /// 分享
     func clickShareButton(button: UIButton) {
         if let book = bookDataSource {
-            shareView.showShareAction(view, url: book.url, images: bookImageView.image, title: book.title, subtitle: book.content_desc)
+            shareView.showShareAction(view, url: book.shareurl, images: bookImageView.image, title: book.title, subtitle: book.content_desc)
         }
 
     }

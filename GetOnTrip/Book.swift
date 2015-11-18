@@ -22,8 +22,12 @@ class Book: NSObject {
     }
     /// 内容
     var content_desc: String = ""
-    /// 京东购买url
+    /// 书籍详情页url
     var url: String = ""
+    /// 京东购买url
+    var buyurl: String = ""
+    /// 京东购买url
+    var shareurl: String = ""
     /// 作者
     var author: String = ""
     /// 作者加出版等信息，例：作者/出版社/等

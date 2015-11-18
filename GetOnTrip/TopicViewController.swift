@@ -10,6 +10,7 @@
 import UIKit
 import FFAutoLayout
 import SVProgressHUD
+import WebKit
 
 struct TopicViewContant {
     static let headerViewHeight:CGFloat = 267
@@ -17,7 +18,7 @@ struct TopicViewContant {
     static let commentViewHeight:CGFloat = UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.height / 1.6 - 44
 }
 
-class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDelegate {
+class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigationDelegate {
     
     // MARK: 相关属性
     
@@ -43,7 +44,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
     lazy var visitNumLabel: UIButton = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
     
     //webView
-    lazy var webView: UIWebView = UIWebView()
+    var webView: WKWebView = WKWebView(color: UIColor.grayColor())
     
     //底部工具栏
     lazy var toolbarView: UIView = UIView()
@@ -123,7 +124,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         initView()
         refreshHeader()
         loadSightData()
-        setupDefaultProperty()
         setupAutoLayout()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
@@ -146,13 +146,14 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         //还原
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
         super.viewDidDisappear(animated)
+        //避免webkit iOS回退bug https://bugs.webkit.org/show_bug.cgi?id=139662
+        self.webView.scrollView.delegate = nil
     }
     
     func initView() {
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
         
         view.addSubview(webView)
-        webView.addSubview(loadingView)
         view.addSubview(headerView)
         view.addSubview(toolbarView)
         view.backgroundColor = UIColor.whiteColor()
@@ -181,39 +182,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         navBar.setButtonTintColor(SceneColor.frontBlack)
         navBar.setStatusBarHidden(true)
         
-        webView.backgroundColor = UIColor.whiteColor()
-        webView.opaque = false
         collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
-    }
-    
-    func refreshHeader(){
-        headerTitleLabel.alpha = headerAlpha
-        favNumLabel.alpha = headerAlpha
-        visitNumLabel.alpha = headerAlpha
-        labelBtn.alpha = headerAlpha
-    }
-    
-    /// 发送反馈消息
-    private func loadSightData() {
         
-        if lastRequest == nil {
-            lastRequest = TopicRequest()
-            lastRequest?.topicId = topicDataSource?.id ?? ""
-            lastRequest?.sightId = topicDataSource?.sightid ?? ""
-        }
-        
-        lastRequest?.fetchModels({[weak self] (result, status) -> Void in
-            if status == RetCode.SUCCESS {
-                if let topic = result {
-                    self?.topicDataSource = topic
-                }
-            } else {
-                SVProgressHUD.showErrorWithStatus("网络连接失败，请检查网络")
-            }
-        })
-    }
-    
-    private func setupDefaultProperty() {
         shareBtn.addTarget(self, action: "doSharing:", forControlEvents: UIControlEvents.TouchUpInside)
         collectBtn.addTarget(self, action: "doFavorite:", forControlEvents: UIControlEvents.TouchUpInside)
         commentBtn.addTarget(self, action: "doComment:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -227,13 +197,27 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         labelBtn.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
         labelBtn.backgroundColor = SceneColor.fontGray
         
-        webView.scalesPageToFit = true
-        webView.dataDetectorTypes = .All
-        webView.scrollView.showsHorizontalScrollIndicator = false
-        webView.scrollView.delegate = self
-        webView.scrollView.contentInset = UIEdgeInsetsMake(TopicViewContant.headerViewHeight, 0, 0, 0)
+        initWebView()
+    }
+    
+
+    func initWebView() {
         automaticallyAdjustsScrollViewInsets = false
-        webView.delegate = self
+        webView.addSubview(loadingView)
+        webView.scrollView.delegate = self
+        webView.scrollView.showsHorizontalScrollIndicator = false
+        webView.scrollView.showsVerticalScrollIndicator   = false
+        webView.navigationDelegate  = self
+        webView.backgroundColor = UIColor.whiteColor()
+        webView.opaque = false
+        webView.scrollView.contentInset = UIEdgeInsetsMake(TopicViewContant.headerViewHeight, 0, 0, 0)
+    }
+    
+    func refreshHeader(){
+        headerTitleLabel.alpha = headerAlpha
+        favNumLabel.alpha = headerAlpha
+        visitNumLabel.alpha = headerAlpha
+        labelBtn.alpha = headerAlpha
     }
     
     private func setupAutoLayout() {
@@ -258,8 +242,28 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
         
-        loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height - TopicViewContant.toolBarHeight + TopicViewContant.headerViewHeight)/2))
+        loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height + TopicViewContant.headerViewHeight)/2 - 2*TopicViewContant.toolBarHeight))
         
+    }
+    
+    /// 发送反馈消息
+    private func loadSightData() {
+        
+        if lastRequest == nil {
+            lastRequest = TopicRequest()
+            lastRequest?.topicId = topicDataSource?.id ?? ""
+            lastRequest?.sightId = topicDataSource?.sightid ?? ""
+        }
+        
+        lastRequest?.fetchModels({[weak self] (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                if let topic = result {
+                    self?.topicDataSource = topic
+                }
+            } else {
+                SVProgressHUD.showErrorWithStatus("网络无法连接")
+            }
+        })
     }
 
     deinit {
@@ -267,29 +271,29 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    // MARK: UIWebView
+    
     var loadingView: LoadingView = LoadingView()
     
-    func webViewDidStartLoad(webView: UIWebView) {
+    /// 页面加载失败时调用
+    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        print("[DetailWebViewController]webView error \(error.localizedDescription)")
+        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">网络内容加载失败</div></body></html>"
+        webView.loadHTMLString(errorHTML, baseURL: nil)
+    }
+    
+    /// 页面开始加载时调用
+    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         loadingView.start()
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    /// 页面加载完成之后调用
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         loadingView.stop()
     }
     
-    // MARK: UIWebView and UIScrollView Delegate 代理方法
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        if let error = error {
-            print("[TopicViewController]webView error \(error.localizedDescription)")
-            
-            let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">内容加载失败，请稍后重试</div></body></html>"
-            
-            webView.loadHTMLString(errorHTML, baseURL: nil)
-        }
-    }
-    
     /// 显示详情
-    func showTopicDetail() {
+    private func showTopicDetail() {
         if let topic =  topicDataSource {
             print("[WebView]Loading: \(topic.contenturl)")
             if let requestURL = NSURL(string: topic.contenturl) {
@@ -299,16 +303,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, UIWebViewDe
         }
     }
     
-    //  TODO: 还需跳转打开单张图片
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        
-        let url = request.URL?.absoluteString
-        let range = url?.rangeOfString("bn:src=")
-        if range != nil {
-            return false
-        }
-        return true
-    }
+    // MARK: ScrollViewDelegate
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         shareView.shareCancleAction()
