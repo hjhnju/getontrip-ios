@@ -60,7 +60,7 @@ class CommentTableViewCell : UITableViewCell {
                 commentPerson.setAttributedTitle(schemeAttributedString(item.from_name, toName: item.to_name, content: item.content), forState: UIControlState.Normal)
                 commentPerson.frame = CGRectMake(12, y, size.width, size.height)
 //                commentPerson.sizeThatFits(size)
-                y += size.height
+                y += size.height + 7
                 index++
             }
             var str = ""
@@ -73,7 +73,9 @@ class CommentTableViewCell : UITableViewCell {
                 }
             }
             
-            answerCommentViewHeight!.constant = str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16
+            let h: CGFloat = data!.sub_Comment.count < 2 ? 0 : CGFloat(data!.sub_Comment.count * 7)
+            
+            answerCommentViewHeight!.constant = str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16 + h
             
             if data?.sub_Comment.count == 0 {
                 commentAnswersView.hidden = true
@@ -117,7 +119,8 @@ class CommentTableViewCell : UITableViewCell {
             }
         }
         
-        var height = 47 + 16 + comment.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16// + comment.sub_Comment.count
+        let h: CGFloat = comment.sub_Comment.count < 2 ? 0 : CGFloat(comment.sub_Comment.count * 7)
+        var height = 47 + 16 + comment.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16 + h
         if comment.sub_Comment.count == 0 {
             height = height - 16
         }
