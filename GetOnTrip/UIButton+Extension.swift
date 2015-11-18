@@ -104,7 +104,7 @@ class CurentCollectButton: UIButton {
 }
 
 /// 评论人按钮
-class commentPersonButton: UIButton {
+class commentPersonButton: UIControl {
     
     var to_name: String = ""
     
@@ -117,4 +117,23 @@ class commentPersonButton: UIButton {
     var indexPath: NSIndexPath?
     
     var index: Int?
+    
+    var titleLabel = UILabel(color: SceneColor.fontGray, title: "", fontSize: 11, mutiLines: true)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        addSubview(titleLabel)
+        titleLabel.numberOfLines = 0
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        titleLabel.frame = frame
+    }
 }

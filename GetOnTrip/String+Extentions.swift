@@ -48,9 +48,9 @@ extension String {
     ///
     ///  - returns: 文字size
     func sizeofStringWithFount(font: UIFont, maxSize: CGSize) -> CGSize {
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = 8
-        let affe = [NSFontAttributeName : font, NSParagraphStyleAttributeName : style]
+//        let style = NSMutableParagraphStyle()
+//        style.lineSpacing = 8
+        let affe = [NSFontAttributeName : font]
         return self.boundingRectWithSize(maxSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: affe, context: nil).size
     }
 
