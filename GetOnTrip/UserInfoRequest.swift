@@ -59,7 +59,6 @@ class UserInfoRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/addinfo", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                print("更新用户信息成功 ====== \(result)")
                 
                 handler(result.string, status)
                 return

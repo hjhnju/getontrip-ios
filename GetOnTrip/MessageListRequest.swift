@@ -42,7 +42,7 @@ class MessageListRequest: NSObject {
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/msg/list", post: post) { (result, status) -> () in
             
             if status == RetCode.SUCCESS {
-                print(result)
+
                 var messageLists = [MessageList]()
                 for item in result.arrayValue {
                     if let item = item.dictionaryObject {

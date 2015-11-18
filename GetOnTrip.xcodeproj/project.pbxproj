@@ -1253,13 +1253,12 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/GooglePlusSDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries",
-					"$(PROJECT_DIR)/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/libraries",
-					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/GetOnTrip/libraries",
+					"$(PROJECT_DIR)/libraries/extends/QQSDK",
+					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/QQSDK",
 				);
 				INFOPLIST_FILE = GetOnTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1321,13 +1320,12 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/GooglePlusSDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries",
-					"$(PROJECT_DIR)/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/libraries",
-					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/GetOnTrip/libraries",
+					"$(PROJECT_DIR)/libraries/extends/QQSDK",
+					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/QQSDK",
 				);
 				INFOPLIST_FILE = GetOnTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

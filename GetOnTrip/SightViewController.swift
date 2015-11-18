@@ -36,6 +36,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         didSet {
             setupChannel(sightDataSource.tags)
             collectionView.reloadData()
+            loadingView.stop()
         }
     }
     
@@ -66,6 +67,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     /// 左滑手势是否生效
     var isPopGesture: Bool = false
     
+    var loadingView: LoadingView = LoadingView()
+    
     /// 缓存cell
     lazy var collectionViewCellCache = [Int : [TopicBrief]]()
     
@@ -74,10 +77,12 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         
         initView()
         loadSightData()
+        loadingView.start()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -115,6 +120,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         labelNavView.addSubview(indicateView)
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
+        view.addSubview(loadingView)
+        
         
         navBar.setTitle(sightDataSource.name)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
@@ -138,6 +145,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         labelNavView.frame = CGRectMake(0, 64, view.bounds.width, 36)
         labelScrollView.frame = labelNavView.bounds
         collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: labelNavView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(labelNavView.frame)), offset: CGPointMake(0, 0))
+        loadingView.ff_AlignInner(ff_AlignType.CenterCenter, referView: view, size: loadingView.getSize(), offset: CGPointMake(0, 0))
         setupLayout()
     }
     
