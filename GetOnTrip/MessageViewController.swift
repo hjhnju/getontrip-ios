@@ -104,10 +104,18 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         if mes.type == "1" {
             let cell = tableView.dequeueReusableCellWithIdentifier("SystemTableView_Cell", forIndexPath: indexPath) as! SystemTableViewCell
             cell.message = mes
+            if messageLists.count - 1 == indexPath.row {
+                cell.baseline.removeFromSuperview()
+            }
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("Message_Cell", forIndexPath: indexPath) as! MessageTableViewCell
             cell.message = mes
+            
+            if messageLists.count - 1 == indexPath.row {
+                cell.baseline.removeFromSuperview()
+            }
+            
             return cell
         }
     }
