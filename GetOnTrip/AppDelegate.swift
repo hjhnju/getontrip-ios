@@ -22,8 +22,6 @@ var globalKvStore: YTKKeyValueStore?
 var appUUID: String?
 /// 当前城市id
 var currentCityId: String?
-/// 是否获取到定位权限
-var isLocationCompetence:Bool?
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

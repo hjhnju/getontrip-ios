@@ -92,10 +92,12 @@ class LoginView: UIView {
     取消登录浮层
     */
     func dismissFloating() {
+        
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.alpha = 0
             }) { (_) -> Void in
                 self.removeFromSuperview()
+                self.loginFinishedHandler?(result: false, error: nil)
         }
     }
     
