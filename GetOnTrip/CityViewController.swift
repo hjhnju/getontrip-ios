@@ -92,19 +92,17 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     var tableViewContentOffset: CGPoint = CGPointZero
-    var initTableViewContentOffsetY: CGFloat?
     var tableViewDataSource = [TopicBrief]() {
         didSet {
+            tableViewContentOffset = tableView.contentOffset
             tableView.reloadData()
-            
-            if abs(tableView.contentOffset.y) == initTableViewContentOffsetY {
-                tableView.setContentOffset(CGPointMake(0, abs(tableView.contentOffset.y)), animated: false)
-                return
-            }
-            if tableViewContentOffset.y != 0 && tableViewContentOffset.y != initTableViewContentOffsetY {
-                tableView.setContentOffset(tableViewContentOffset, animated: false)
-            }
+            tableView.setContentOffset(tableViewContentOffset, animated: false)
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+//        tableViewContentOffset = tableView.contentOffset
     }
     
     var collectionDataSource = [Sight]() {
@@ -203,7 +201,6 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         //内容初始位置偏移
         tableView.frame = CGRectMake(0, 0, view.frame.width, view.frame.height)
         tableView.contentInset = UIEdgeInsets(top: CityConstant.headerViewHeight, left: 0, bottom: 0, right: 0)
-        initTableViewContentOffsetY = CityConstant.headerViewHeight
         
         moreSightsButton.backgroundColor = SceneColor.frontBlack
         hotTopBarButton.backgroundColor = SceneColor.frontBlack
@@ -384,9 +381,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        tableViewContentOffset = scrollView.contentOffset
-    }
+
     
     func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
         

@@ -42,40 +42,42 @@ class CommentTableViewCell : UITableViewCell {
                 answerLabel.hidden = false
             }
             var y: CGFloat = 8
-            let w: CGFloat = UIScreen.mainScreen().bounds.width - 75 - 24
+            let w: CGFloat = UIScreen.mainScreen().bounds.width - 75 - 12
             var index: Int = 0
             for item in data!.sub_Comment {
                 let commentPerson = commentPersonButton(title: "Clara J:", fontSize: 11, radius: 0, titleColor: SceneColor.fontGray)
                 commentAnswersView.addSubview(commentPerson)
+                
                 commentPerson.upId = String(data!.id)
                 commentPerson.to_name = item.to_name
                 commentPerson.from_name = item.from_name
                 commentPerson.frameUserId = item.from_user_id
                 commentPerson.titleLabel?.numberOfLines = 0
                 commentPerson.index = index
+//                commentPerson.titleLabel?.adjustsFontSizeToFitWidth = true
                 
-                let size = (" " + item.from_name + " 回复 :" + item.to_name + " " + item.content).sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
-                
+                let size = (" " + item.from_name + " 回复 : " + item.to_name + " " + item.content).sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
                 commentPerson.setAttributedTitle(schemeAttributedString(item.from_name, toName: item.to_name, content: item.content), forState: UIControlState.Normal)
                 commentPerson.frame = CGRectMake(12, y, size.width, size.height)
+//                commentPerson.sizeThatFits(size)
                 y += size.height + 8
                 index++
             }
             
-            var str = ""
-            for i in data!.sub_Comment {
-                str = str + i.from_name + "   回复 :" + i.to_name + i.content + "\n"
-            }
-            answerCommentViewHeight!.constant = str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16 + CGFloat(2 * (data!.sub_Comment.count - 1))
+            answerCommentViewHeight!.constant = dataWithCellHeight(data!) - 47 - 16 - (data?.content.sizeofStringWithFount(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 65, CGFloat.max)).height)! - 4
+            // str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 8
+            
             if data?.sub_Comment.count == 0 {
                 commentAnswersView.hidden = true
             }
         }
     }
     
+    
+    
     func schemeAttributedString(fromName: String, toName: String, content: String) -> NSAttributedString {
         
-        let attrStr = NSString(string: " " + fromName + " 回复 " + toName + " :" + content)
+        let attrStr = NSString(string: " " + fromName + " 回复 " + toName + " : " + content)
         let attr    = NSMutableAttributedString(string: attrStr as String)
         let comment = attrStr.rangeOfString(" " + fromName)
         let comMess = attrStr.rangeOfString(" 回复 ")
@@ -99,10 +101,10 @@ class CommentTableViewCell : UITableViewCell {
         
         var str = ""
         for i in comment.sub_Comment {
-            str = str + i.from_name + "   回复 :" + i.to_name + i.content + "\n"
+            str = str + i.from_name + "   回复 : " + i.to_name + i.content + "\n"
         }
         
-        var height =  40 + 16 + 9 + comment.content.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16 + CGFloat(2 * (comment.sub_Comment.count - 1))
+        var height = 47 + 16 + comment.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 8
         if comment.sub_Comment.count == 0 {
             height = height - 16
         }

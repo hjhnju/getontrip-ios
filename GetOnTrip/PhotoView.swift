@@ -115,14 +115,15 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     // 捏合手势
     func pinchGesture(recognizer: UIPinchGestureRecognizer) {
         
-        let imgMin = min(imgPhoto.frame.width, imgPhoto.frame.height)
-        if imgMin < UIScreen.mainScreen().bounds.width {
-            if recognizer.scale < 1 {
-                return
-            }
-        }
         recognizer.view?.transform = CGAffineTransformScale(recognizer.view!.transform, recognizer.scale, recognizer.scale)
         recognizer.scale = 1
+        
+        let imgMin = min(imgPhoto.frame.width, imgPhoto.frame.height)
+        if imgMin < UIScreen.mainScreen().bounds.width {
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                recognizer.view?.transform = CGAffineTransformIdentity
+            })
+        }
     }
     
     // 拖拽
@@ -130,17 +131,18 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         
         let translation = recognizer.translationInView(recognizer.view)
         
-        if CGRectContainsPoint(UIScreen.mainScreen().bounds, imgPhoto.center) {
-//            if translation.x {
-//                return
-//            }
+        let rect = self.convertRect(self.imgPhoto.frame, toCoordinateSpace: UIApplication.sharedApplication().keyWindow!)
+        print(rect)
+        let imgFrame = CGRectMake(imgPhoto.frame.origin.x, imgPhoto.frame.origin.y, imgPhoto.frame.width, imgPhoto.frame.height + (UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.width))
+        if (CGRectContainsPoint(imgFrame, CGPointMake(UIScreen.mainScreen().bounds.width * 0.5, UIScreen.mainScreen().bounds.height * 0.5))) {
+            recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
+            recognizer.setTranslation(CGPointZero, inView: recognizer.view)
+        } else {
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                recognizer.view?.transform = CGAffineTransformIdentity
+            })
         }
-        
-        print("\(translation.x) ========== \(translation.y)")
-        recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
-        recognizer.setTranslation(CGPointZero, inView: recognizer.view)
     }
-   
     // 旋转
     func rotationGesture(recognizer: UIRotationGestureRecognizer) {
         recognizer.view?.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)

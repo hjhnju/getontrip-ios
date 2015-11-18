@@ -191,9 +191,6 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         return cell.dataWithCellHeight(data[indexPath.row])
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 200
-    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
