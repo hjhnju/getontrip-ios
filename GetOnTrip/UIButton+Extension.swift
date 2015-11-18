@@ -117,4 +117,8 @@ class commentPersonButton: UIButton {
     var indexPath: NSIndexPath?
     
     var index: Int?
+    
+//    override func layoutSubviews() {
+//        titleLabel?.frame = self.frame
+//    }
 }
