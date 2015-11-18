@@ -43,14 +43,7 @@ class SightVideoViewController: UITableViewController {
         let vc = parentViewController as! SightViewController
         vc.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
         let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
-//        tbFooterView.automaticallyHidden = false
-//        tbFooterView.automaticallyChangeAlpha = true
-//        tbFooterView.automaticallyRefresh = true
-//        tableView.mj_footer = tbFooterView
-//        tableView.mj_footer.automaticallyHidden = true
 
-        
-        
         tableView.mj_header = tbHeaderView
         tbHeaderView.automaticallyChangeAlpha = true
         tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
@@ -58,6 +51,9 @@ class SightVideoViewController: UITableViewController {
         tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
         tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
         tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.hidden = true
+        tbHeaderView.stateLabel?.hidden = true
+        tbHeaderView.arrowView?.image = UIImage()
         
         tableView.mj_footer = tbFooterView
         tbFooterView.automaticallyHidden = false

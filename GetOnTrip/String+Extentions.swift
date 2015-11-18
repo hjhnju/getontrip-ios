@@ -49,7 +49,7 @@ extension String {
     ///  - returns: 文字size
     func sizeofStringWithFount(font: UIFont, maxSize: CGSize) -> CGSize {
         let style = NSMutableParagraphStyle()
-        style.lineSpacing = 8
+        style.lineSpacing = 7
         let affe = [NSFontAttributeName : font, NSParagraphStyleAttributeName : style]
         return self.boundingRectWithSize(maxSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: affe, context: nil).size
     }

@@ -103,11 +103,11 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 72
+        return 75
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 72
+        return 75
     }
     
     
@@ -223,7 +223,7 @@ class MessageTableViewCell: UITableViewCell {
         iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
         restorePerson.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
         restoreTime.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(-9, 0))
+        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 57), offset: CGPointMake(-9, 0))
         baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
 
@@ -253,7 +253,7 @@ class SystemTableViewCell: UITableViewCell {
     /// 系统回复
     lazy var restorePerson: UILabel = UILabel(color: UIColor.whiteColor(), title: "系统消息", fontSize: 12, mutiLines: false)
     /// 回复时间
-    lazy var restoreTime: UILabel = UILabel(color: UIColor.whiteColor(), title: "2天前", fontSize: 9, mutiLines: false)
+    lazy var restoreTime: UILabel = UILabel(color: UIColor(hex: 0x7F7F7F, alpha: 1.0), title: "2天前", fontSize: 9, mutiLines: false)
     /// 标题
     lazy var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "周天赞自己，升级正能量！", fontSize: 12, mutiLines: false)
     /// 副标题
