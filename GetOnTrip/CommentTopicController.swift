@@ -106,6 +106,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         tbHeaderView.lastUpdatedTimeLabel?.hidden = true
         tbHeaderView.stateLabel?.hidden = true
         tbHeaderView.arrowView?.image = UIImage()
+        
         tableView.mj_header = tbHeaderView
         if !tableView.mj_header.isRefreshing() {
             tableView.mj_header.beginRefreshing()

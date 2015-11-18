@@ -76,6 +76,9 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
         tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
         tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
         tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.hidden = true
+        tbHeaderView.stateLabel?.hidden = true
+        tbHeaderView.arrowView?.image = UIImage()
         
         //下拉刷新
         let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
