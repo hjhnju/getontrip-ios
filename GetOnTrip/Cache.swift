@@ -27,6 +27,7 @@ class Cache: NSObject {
         "/api/1.0/collect/list?page=1&pageSize=6&type=1"   : 60,
         "/api/1.0/collect/list?page=1&pageSize=6&type=2"   : 60,
         "/api/1.0/collect/list?page=1&pageSize=6&type=3"   : 60,
+        "/api/1.0/msg/list?pageSize=10&page=1"             : 60,
     ]
     
     /**
