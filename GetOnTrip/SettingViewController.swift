@@ -384,6 +384,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
     }
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        nickName.resignFirstResponder()
+    }
+    
     /// 头像图片
     var iconPhoto: UIImage? {
         didSet{

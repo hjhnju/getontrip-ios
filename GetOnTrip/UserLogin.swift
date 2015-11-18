@@ -115,7 +115,7 @@ class UserLogin: NSObject {
     /// 上传用户个人信息
     func uploadUserInfo(imageData: NSData, sex: Int?, nick_name: String?, city: String?, handler:(result: AnyObject?, error: NSError?) -> Void) {
         
-        let str = "/api/user/editinfo"
+        let str = "/api/\(AppIni.ApiVersion)/user/editinfo"
         
         var post      = [String: String]()
         post["sex"]   = String(sex)
