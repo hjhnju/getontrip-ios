@@ -129,18 +129,20 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     func panGesture(recognizer: UIPanGestureRecognizer) {
         
         let translation = recognizer.translationInView(recognizer.view)
+        print(imgPhoto)
         
-        if CGRectContainsPoint(UIScreen.mainScreen().bounds, imgPhoto.center) {
-//            if translation.x {
-//                return
-//            }
+        let rect = self.convertRect(self.imgPhoto.frame, toCoordinateSpace: UIApplication.sharedApplication().keyWindow!)
+        if (CGRectContainsPoint(UIScreen.mainScreen().bounds, CGPointMake((rect.origin.x + rect.width * 0.5), (rect.origin.y + rect.width * 0.5)))) {
+            recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
+            recognizer.setTranslation(CGPointZero, inView: recognizer.view)
+        } else {
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                recognizer.view?.transform = CGAffineTransformIdentity
+            })
         }
         
         print("\(translation.x) ========== \(translation.y)")
-        recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
-        recognizer.setTranslation(CGPointZero, inView: recognizer.view)
     }
-   
     // 旋转
     func rotationGesture(recognizer: UIRotationGestureRecognizer) {
         recognizer.view?.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)

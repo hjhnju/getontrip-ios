@@ -191,9 +191,6 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         return cell.dataWithCellHeight(data[indexPath.row])
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 200
-    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -211,13 +208,16 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     func commentPersonTouchAction(btn: commentPersonButton) {
         reloadIndexPath = btn.indexPath!
         
+        
+        
         let com  = data[btn.indexPath!.row]
-        upId = String(com.id)
-        if Int(btn.index! - 1) >= 0 {
+        upId     = String(com.id)
+        print(btn.index)
+        if Int(btn.index!) >= 0 {
             let comm = com.sub_Comment[btn.index!]
-            to_user = comm.from_user_id
+            to_user  = comm.from_user_id
         } else {
-            upId = ""
+            upId    = ""
             to_user = ""
         }
         
