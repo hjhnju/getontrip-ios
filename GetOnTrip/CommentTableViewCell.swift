@@ -63,9 +63,19 @@ class CommentTableViewCell : UITableViewCell {
                 y += size.height + 7
                 index++
             }
+            var str = ""
+            for i in data!.sub_Comment {
+                if i == data!.sub_Comment.count {
+                    str = str + i.from_name + "   回复 : " + i.to_name + i.content
+
+                } else {
+                    str = str + i.from_name + "   回复 : " + i.to_name + i.content + "\n"
+                }
+            }
             
-            answerCommentViewHeight!.constant = dataWithCellHeight(data!) - 47 - 16 - (data?.content.sizeofStringWithFount(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 65, CGFloat.max)).height)! - 4
-            // str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 8
+            let h: CGFloat = data!.sub_Comment.count < 2 ? 0 : CGFloat(data!.sub_Comment.count * 7)
+            
+            answerCommentViewHeight!.constant = str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16 + h
             
             if data?.sub_Comment.count == 0 {
                 commentAnswersView.hidden = true
@@ -101,10 +111,16 @@ class CommentTableViewCell : UITableViewCell {
         
         var str = ""
         for i in comment.sub_Comment {
-            str = str + i.from_name + "   回复 : " + i.to_name + i.content
+            if i == comment.sub_Comment.count {
+                str = str + i.from_name + "   回复 : " + i.to_name + i.content
+                
+            } else {
+                str = str + i.from_name + "   回复 : " + i.to_name + i.content + "\n"
+            }
         }
         
-        var height = 47 + 16 + comment.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + CGFloat(comment.sub_Comment.count * 7) + 16
+        let h: CGFloat = comment.sub_Comment.count < 2 ? 0 : CGFloat(comment.sub_Comment.count * 7)
+        var height = 47 + 16 + comment.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16 + h
         if comment.sub_Comment.count == 0 {
             height = height - 16
         }

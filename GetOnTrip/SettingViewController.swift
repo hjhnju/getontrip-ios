@@ -209,10 +209,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                     self.provinces = data
                     
                 } else {
-                    SVProgressHUD.showErrorWithStatus("数据加载错误，请稍候再试")
+                    SVProgressHUD.showInfoWithStatus("数据加载错误，请稍候再试")
                 }
             } else {
-                SVProgressHUD.showErrorWithStatus("城市加载失败您的网络不稳定")
+                SVProgressHUD.showInfoWithStatus("城市加载失败您的网络不稳定")
             }
         }
         

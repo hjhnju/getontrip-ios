@@ -16,9 +16,12 @@ class MessageList: NSObject {
     /// 头像
     var avatar: String = "" {
         didSet {
-            avatar = UIKitTools.sliceImageUrl(image, width: 35, height: 35)
+            avatar = UIKitTools.sliceImageUrl(avatar, width: 35, height: 35)
         }
     }
+    
+    /// 系统消息是否有图片
+    var systemMesIsIcon: Bool = false
     
     /// 标题
     var title: String = ""
@@ -26,6 +29,9 @@ class MessageList: NSObject {
     /// 图片
     var image: String = "" {
         didSet {
+            if image == "" {
+                systemMesIsIcon = true
+            }
             image = UIKitTools.sliceImageUrl(image, width: 77, height: 58)
         }
     }
