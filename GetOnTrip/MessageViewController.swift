@@ -152,13 +152,17 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        
         let data = messageLists[indexPath.row] as MessageList
         
-        let vc = TopicViewController()
-        let topic = Topic(id: data.topicId)
-        vc.topicDataSource = topic
-        navigationController?.pushViewController(vc, animated: true)
-        vc.doComment(vc.commentBtn)
+        if data.type != "1" {
+            let vc = TopicViewController()
+            let topic = Topic(id: data.topicId)
+            vc.topicDataSource = topic
+            navigationController?.pushViewController(vc, animated: true)
+            vc.doComment(vc.commentBtn)
+        }
     }
     
     
