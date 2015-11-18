@@ -104,7 +104,7 @@ class CommentTableViewCell : UITableViewCell {
             str = str + i.from_name + "   回复 : " + i.to_name + i.content + "\n"
         }
         
-        var height = 47 + 16 + comment.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 8
+        var height = 47 + 16 + comment.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + CGFloat(comment.sub_Comment.count * 8)
         if comment.sub_Comment.count == 0 {
             height = height - 16
         }
