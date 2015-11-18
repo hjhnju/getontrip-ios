@@ -121,6 +121,8 @@ class UserLogin: NSObject {
         post["sex"]   = String(sex)
         post["nick_name"] = nick_name
         post["city"]  = city
+        let timestamp = String(format: "%.0f", NSDate().timeIntervalSince1970)
+        post["token"] = "\(AppIni.SecretKey)\(timestamp)".sha256 + timestamp
         
         HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, error) -> () in
             if error != nil {
