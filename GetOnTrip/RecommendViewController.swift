@@ -55,7 +55,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         button.addTarget(self, action: "showSearch", forControlEvents: UIControlEvents.TouchUpInside)
         button.adjustsImageWhenDisabled = false
         button.adjustsImageWhenHighlighted = false
-        let descLabel = UILabel(color: UIColor.whiteColor(), title: "搜索景点、城市等内容", fontSize: 12)
+        let descLabel = UILabel(color: UIColor.whiteColor(), title: "搜索城市、景点等内容", fontSize: 12)
         let iconView = UIImageView(image: UIImage(named: "search_icon"))
         button.addSubview(descLabel)
         button.addSubview(iconView)
