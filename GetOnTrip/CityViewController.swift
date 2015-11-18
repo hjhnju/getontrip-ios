@@ -125,6 +125,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         initView()
         setupAutoLayout()
         loadCityData()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -375,16 +376,6 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         vc.topicDataSource = Topic.fromBrief(topic)
         navigationController?.pushViewController(vc, animated: true)
 
-    }
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        
-    }
-    
-
-    
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
-        
     }
     
     //MARK: ScrollViewDelegate

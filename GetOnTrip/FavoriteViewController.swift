@@ -141,12 +141,6 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         if scrollView.contentOffset.x < lastScrollViewContentX {
             contentScrollView.isHitTest = false
         }
-        
-//        if contentScrollView.contentOffset.x == -1 {
-//            contentScrollView.isHitTest = false
-//        } else {
-//            contentScrollView.isHitTest = true
-//        }
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
