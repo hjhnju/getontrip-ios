@@ -188,7 +188,6 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell") as! CommentTableViewCell
-        
         return cell.dataWithCellHeight(data[indexPath.row])
     }
     

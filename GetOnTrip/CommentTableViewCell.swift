@@ -60,7 +60,7 @@ class CommentTableViewCell : UITableViewCell {
                 commentPerson.setAttributedTitle(schemeAttributedString(item.from_name, toName: item.to_name, content: item.content), forState: UIControlState.Normal)
                 commentPerson.frame = CGRectMake(12, y, size.width, size.height)
 //                commentPerson.sizeThatFits(size)
-                y += size.height + 8
+                y += size.height + 7
                 index++
             }
             
@@ -85,7 +85,7 @@ class CommentTableViewCell : UITableViewCell {
         let content = attrStr.rangeOfString(" " + content)
         
         let style = NSMutableParagraphStyle()
-        style.lineSpacing = 8
+        style.lineSpacing = 7
         style.lineBreakMode = NSLineBreakMode.ByTruncatingTail
         attr.addAttribute(NSForegroundColorAttributeName, value: SceneColor.fontGray, range: comMess)
         attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blackColor(), range: comment)
@@ -101,10 +101,10 @@ class CommentTableViewCell : UITableViewCell {
         
         var str = ""
         for i in comment.sub_Comment {
-            str = str + i.from_name + "   回复 : " + i.to_name + i.content + "\n"
+            str = str + i.from_name + "   回复 : " + i.to_name + i.content
         }
         
-        var height = 47 + 16 + comment.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 8
+        var height = 47 + 16 + comment.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, CGFloat.max)).height + str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + CGFloat(comment.sub_Comment.count * 7) + 16
         if comment.sub_Comment.count == 0 {
             height = height - 16
         }

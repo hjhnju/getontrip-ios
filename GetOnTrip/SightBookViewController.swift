@@ -46,6 +46,9 @@ class SightBookViewController: UITableViewController {
         tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
         tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
         tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
+        tbHeaderView.lastUpdatedTimeLabel?.hidden = true
+        tbHeaderView.stateLabel?.hidden = true
+        tbHeaderView.arrowView?.image = UIImage()
         
         let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
         tableView.mj_footer = tbFooterView
