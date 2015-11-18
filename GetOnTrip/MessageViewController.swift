@@ -17,13 +17,21 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
 
     var lastRequest: MessageListRequest = MessageListRequest()
     
+    let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "还木有内容...\n收藏点喜欢的吧(∩_∩)", fontSize: 13, mutiLines: true)
+    
     var messageLists: [MessageList] = [MessageList]() {
         didSet {
+            if messageLists.count == 0 {
+                collectPrompt.hidden = true
+            } else {
+                collectPrompt.hidden = false
+            }
             tableView.reloadData()
         }
     }
     
     lazy var tableView: UITableView = UITableView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +47,12 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         
         view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
+        view.addSubview(collectPrompt)
+    
+        tableView.addSubview(collectPrompt)
+        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
+        collectPrompt.textAlignment = NSTextAlignment.Center
+        collectPrompt.hidden = true
         
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
@@ -93,7 +107,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
 
     // MARK: - Table view data source
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        if messageLists.count == 0 { collectPrompt.hidden = false } else { collectPrompt.hidden = true }
         return messageLists.count ?? 0
     }
     
