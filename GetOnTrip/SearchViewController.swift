@@ -74,12 +74,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     func switchCurrentCity(btn: UIButton) {
         
-        if isLocationCompetence == nil {
-            SVProgressHUD.showInfoWithStatus("未能获取权限定位失败!")
-            locationButton.hidden = true
-            return
-        }
-        
         if currentCityId == nil {
             SVProgressHUD.showInfoWithStatus("正在定位中", maskType: SVProgressHUDMaskType.Black)
             return
