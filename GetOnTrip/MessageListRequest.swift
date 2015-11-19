@@ -12,7 +12,7 @@ class MessageListRequest: NSObject {
     
     
     // 请求参数
-    var pageSize :Int = 6
+    var pageSize :Int = 10
     var page  :Int = 1
     
     
