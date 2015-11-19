@@ -133,9 +133,8 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         
         let rect = self.convertRect(self.imgPhoto.frame, toCoordinateSpace: UIApplication.sharedApplication().keyWindow!)
         print(rect)
-//        let imgFrame = CGRectMake(imgPhoto.frame.origin.x, imgPhoto.frame.origin.y, imgPhoto.frame.width, imgPhoto.frame.height + (UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.width))
-//        CGRectContainsRect(<#T##rect1: CGRect##CGRect#>, <#T##rect2: CGRect##CGRect#>)
-        if (CGRectContainsRect(CGRectMake(0, (UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.width) * 0.5, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.width), imgPhoto.frame)) {
+        let imgFrame = CGRectMake(imgPhoto.frame.origin.x, imgPhoto.frame.origin.y, imgPhoto.frame.width, imgPhoto.frame.height + (UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.width))
+        if (CGRectContainsPoint(imgFrame, CGPointMake(UIScreen.mainScreen().bounds.width * 0.5, UIScreen.mainScreen().bounds.height * 0.5))) {
             recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
             recognizer.setTranslation(CGPointZero, inView: recognizer.view)
         } else {

@@ -66,8 +66,6 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     lazy var shareBtn: UIButton = UIButton(image: "topic_share", title: "", fontSize: 0)
     
-    lazy var buyBtn: UIButton = UIButton(image: "topic_buy", title: "", fontSize: 0)
-    
     lazy var toolLineView: UIView = UIView(color: SceneColor.lightGray)
     
     //webView初始时的yInset
@@ -137,12 +135,10 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         
         toolbarView.addSubview(collectBtn)
         toolbarView.addSubview(shareBtn)
-        toolbarView.addSubview(buyBtn)
         toolbarView.addSubview(toolLineView)
         
         collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
         collectBtn.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        buyBtn.addTarget(self, action: "clickBuyButton:", forControlEvents: UIControlEvents.TouchUpInside)
         shareBtn.addTarget(self, action: "clickShareButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
         let w = view.bounds.width - 18
@@ -239,8 +235,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         
         toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, BookViewContant.toolBarHeight), offset: CGPointMake(0, 0))
         
-        buyBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
-        shareBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: buyBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
+        shareBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         toolLineView.ff_AlignInner(ff_AlignType.TopLeft, referView: toolbarView, size: CGSizeMake(w, 0.5), offset: CGPointMake(0, 0))
         
@@ -378,18 +373,6 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
                 SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
                 sender.selected = !sender.selected
             }
-        }
-    }
-    
-    
-    /// 购买书籍
-    func clickBuyButton(btn: UIButton) {
-        if let url = bookDataSource?.buyurl {
-            let sc = DetailWebViewController()
-            sc.url = url
-            navigationController?.pushViewController(sc, animated: true)
-        } else {
-            print("[BookViewController]Warning:无相关购买链接")
         }
     }
     
