@@ -55,6 +55,7 @@ class LandscapeCell: UITableViewCell {
                 subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: NSLineBreakMode.ByTruncatingTail)
                 
                 var index: Int = 0
+                
                 for (name, _) in landscape.catalogs {
                     if index == 0 { label1.setTitle(name, forState: .Normal)}
                     if index == 1 { label2.setTitle(name, forState: .Normal)}
