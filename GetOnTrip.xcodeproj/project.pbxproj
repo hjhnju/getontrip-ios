@@ -1219,19 +1219,15 @@
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries",
 					"$(PROJECT_DIR)/libraries",
 					"$(PROJECT_DIR)/GetOnTrip/libraries",
-					"$(PROJECT_DIR)/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/QQSDK",
+					"$(PROJECT_DIR)/libraries/extends/QQSDK",
 				);
 				INFOPLIST_FILE = GetOnTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/SinaWeiboSDK",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/WeChatSDK",
-					"$(PROJECT_DIR)/libraries/extends/WeChatSDK",
 					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/WeChatSDK",
-					"$(PROJECT_DIR)/libraries/extends/SinaWeiboSDK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1285,19 +1281,15 @@
 					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries",
 					"$(PROJECT_DIR)/libraries",
 					"$(PROJECT_DIR)/GetOnTrip/libraries",
-					"$(PROJECT_DIR)/libraries/extends/QQSDK",
 					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/QQSDK",
+					"$(PROJECT_DIR)/libraries/extends/QQSDK",
 				);
 				INFOPLIST_FILE = GetOnTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/SinaWeiboSDK",
-					"$(PROJECT_DIR)/GetOnTrip/SMS_SDK/libraries/extends/WeChatSDK",
-					"$(PROJECT_DIR)/libraries/extends/WeChatSDK",
 					"$(PROJECT_DIR)/GetOnTrip/libraries/extends/WeChatSDK",
-					"$(PROJECT_DIR)/libraries/extends/SinaWeiboSDK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
