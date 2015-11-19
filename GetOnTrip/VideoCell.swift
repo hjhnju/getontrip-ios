@@ -30,6 +30,7 @@ class VideoCell: UITableViewCell {
     var video: Video? {
         didSet {
             if let video = video {
+                iconView.image = PlaceholderImage.defaultLarge
                 iconView.sd_setImageWithURL(NSURL(string: video.image), placeholderImage: iconView.image)
                 if video.isAlbum() {
                     iconView.contentMode = UIViewContentMode.ScaleAspectFit
