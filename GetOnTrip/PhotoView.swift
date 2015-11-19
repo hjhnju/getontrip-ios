@@ -131,16 +131,18 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         
         let translation = recognizer.translationInView(recognizer.view)
         
-        let rect = self.convertRect(self.imgPhoto.frame, toCoordinateSpace: UIApplication.sharedApplication().keyWindow!)
-        print(rect)
-        let imgFrame = CGRectMake(imgPhoto.frame.origin.x, imgPhoto.frame.origin.y, imgPhoto.frame.width, imgPhoto.frame.height + (UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.width))
-        if (CGRectContainsPoint(imgFrame, CGPointMake(UIScreen.mainScreen().bounds.width * 0.5, UIScreen.mainScreen().bounds.height * 0.5))) {
-            recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
-            recognizer.setTranslation(CGPointZero, inView: recognizer.view)
-        } else {
+        let screen = UIScreen.mainScreen().bounds
+        let roundY = (screen.height - screen.width) * 0.5
+        if (CGRectGetMaxX(imgPhoto.frame) < screen.width || imgPhoto.frame.origin.x > 0 ||
+            CGRectGetMaxY(imgPhoto.frame) < screen.width + roundY || imgPhoto.frame.origin.y > roundY ) {
+                
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 recognizer.view?.transform = CGAffineTransformIdentity
             })
+        } else {
+            recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
+            recognizer.setTranslation(CGPointZero, inView: recognizer.view)
+            
         }
     }
     // 旋转
