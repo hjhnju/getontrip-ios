@@ -53,9 +53,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     init() {
         super.init(searchResultsController: searchResultViewController)
         searchResultsUpdater = searchResultViewController
-
+        
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -158,14 +158,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         }
     }
     
-    // MARK: - searchbar 代理方法
-    ///  搜索栏文本开始编辑
-    ///
-    ///  - parameter searchBar: 搜索栏
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        
-    }
-    
     ///  搜索栏结束编辑
     ///
     ///  - parameter searchBar: 搜索栏
@@ -188,14 +180,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             locationButton.hidden = true
         }
     }
-    
-    ///  取消搜索时调用的方法
-    ///
-    ///  - parameter searchBar: 搜索栏
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        
-    }
-    
     
     // MARK: - tableview 数据源及代理方法
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -240,7 +224,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
+        
         view.endEditing(true)
         if indexPath.section != 1 {
             searchBar.text = recordData[indexPath.row]
@@ -303,17 +287,17 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     }
     
     /**
-    设置无搜索结果
-    - parameter isNoResult:
-    */
+     设置无搜索结果
+     - parameter isNoResult:
+     */
     func showNoResult(show: Bool = true) {
         noSearchResultLabel.hidden = !show
     }
     
     /**
-    保存搜索历史纪录
-    - parameter filterString: query
-    */
+     保存搜索历史纪录
+     - parameter filterString: query
+     */
     func saveRecord(filterString: String) {
         if filterString == "" {
             return

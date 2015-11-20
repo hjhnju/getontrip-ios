@@ -4,6 +4,7 @@
 
 
 #import <ShareSDK/ShareSDK.h>
+#import <ShareSDKExtension/ShareSDK+Extension.h>
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
 

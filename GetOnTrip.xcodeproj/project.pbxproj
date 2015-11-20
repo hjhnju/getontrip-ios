@@ -64,6 +64,10 @@
 		72FE631E1BFB08070037C7D6 /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE631D1BFB08070037C7D6 /* MessageList.swift */; };
 		72FE63201BFB1B940037C7D6 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE631F1BFB1B940037C7D6 /* Cache.swift */; };
 		AE012D9C1BFB5E6E00D84C9C /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE012D9B1BFB5E6E00D84C9C /* CommentTableViewCell.swift */; };
+		AE0B6F7D1BFEEBD7002B8806 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */; };
+		AE0B6F7F1BFF1A52002B8806 /* NewUserRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */; };
+		AE0B6F811BFF1EE5002B8806 /* RetrievePasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */; };
+		AE0B6F831BFF42D4002B8806 /* UserRegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F821BFF42D4002B8806 /* UserRegisterRequest.swift */; };
 		AE12FF7F1B9C0BE800C09F8A /* FeedBackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */; };
 		AE20EDEE1B9C4FC100F26074 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */; };
 		AE20EDF01B9C53B900F26074 /* MessageListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */; };
@@ -247,6 +251,10 @@
 		72FE631F1BFB1B940037C7D6 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		97726D23B8E630D4838357FE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		AE012D9B1BFB5E6E00D84C9C /* CommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserRegisterViewController.swift; sourceTree = "<group>"; };
+		AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievePasswordController.swift; sourceTree = "<group>"; };
+		AE0B6F821BFF42D4002B8806 /* UserRegisterRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRegisterRequest.swift; sourceTree = "<group>"; };
 		AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedBackViewController.swift; sourceTree = "<group>"; };
 		AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListRequest.swift; sourceTree = "<group>"; };
@@ -796,6 +804,10 @@
 				AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */,
 				7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */,
 				AE8C0C161BE8A090003C7942 /* LoginView.swift */,
+				AE0B6F821BFF42D4002B8806 /* UserRegisterRequest.swift */,
+				AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */,
+				AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */,
+				AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -987,6 +999,7 @@
 				728747251BF858D800EE36AA /* ShowMoreTableViewCell.swift in Sources */,
 				728747291BF860A800EE36AA /* SearchHotwordTableViewCell.swift in Sources */,
 				7293A0421BF4713A0070C64A /* Province.swift in Sources */,
+				AE0B6F7F1BFF1A52002B8806 /* NewUserRegisterViewController.swift in Sources */,
 				AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */,
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,
 				AE7F0AC91BB95D3E0011F307 /* SightViewController.swift in Sources */,
@@ -997,6 +1010,7 @@
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
+				AE0B6F811BFF1EE5002B8806 /* RetrievePasswordController.swift in Sources */,
 				AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */,
 				727561841BD0F64A0089CB27 /* Sight.swift in Sources */,
 				AE4ECBCD1BB5305D00DC65F7 /* NSArray+Print.swift in Sources */,
@@ -1033,6 +1047,7 @@
 				726974711BE394E3000C0ABF /* Landscape.swift in Sources */,
 				AE8C0C171BE8A090003C7942 /* LoginView.swift in Sources */,
 				AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */,
+				AE0B6F7D1BFEEBD7002B8806 /* LoginViewController.swift in Sources */,
 				AE488D6D1BCBDDDB0032B78B /* RecommendViewController.swift in Sources */,
 				7269750B1BE6AB82000C0ABF /* CustomNavigationBar.swift in Sources */,
 				726974731BE39BA7000C0ABF /* SightTopicsRequest.swift in Sources */,
@@ -1080,6 +1095,7 @@
 				AE7B997B1BA17DE4003034FB /* UserInfoRequest.swift in Sources */,
 				AEC2318B1BCE48BD008C58C9 /* BookViewController.swift in Sources */,
 				72FE631E1BFB08070037C7D6 /* MessageList.swift in Sources */,
+				AE0B6F831BFF42D4002B8806 /* UserRegisterRequest.swift in Sources */,
 				AEEDE1371BDB93E800843C2C /* Favorite.swift in Sources */,
 				AEBB29BC1BEDAA3D000D31B4 /* SwitchPhotoViewController.swift in Sources */,
 				AE2894521BDCCFF50099293F /* SearchRequest.swift in Sources */,

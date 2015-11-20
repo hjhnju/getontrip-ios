@@ -134,6 +134,15 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initViewSetting()
+        initRefresh()
+        initTableView()
+        setupAutoLayout()
+        initData()
+    }
+    
+    /// 初始化设置
+    private func initViewSetting() {
         view.backgroundColor = SceneColor.bgBlack
         
         //nav bar
@@ -150,6 +159,11 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
         headerView.addSubview(maskView)
         maskView.ff_Fill(headerView)
+        view.bringSubviewToFront(navContainerView)
+    }
+    
+    /// 初始化刷新控件
+    private func initRefresh() {
         
         //下拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
@@ -171,10 +185,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        
         self.tableView.mj_header = tbHeaderView
         self.tableView.mj_footer = tbFooterView
-        
+    }
+    
+    /// 初始化tableView
+    private func initTableView() {
         //添加tableview相关属性
         view.addSubview(tableView)
         tableView.dataSource      = self
@@ -189,10 +205,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
         view.sendSubviewToBack(tableView)
 
-        view.bringSubviewToFront(navContainerView)
-        
-        setupAutoLayout()
-        initData()
     }
     
     func initData() {
@@ -200,7 +212,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             tableView.mj_header.beginRefreshing()
         }
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         refreshBar()

@@ -122,12 +122,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //登陆后，名称
     lazy var nameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
     
-    //微信
+    /// 微信
     lazy var wechatButton: UIButton = UIButton(icon: "icon_weixin", masksToBounds: true)
-    //QQ
+    /// QQ
     lazy var qqButton: UIButton = UIButton(icon: "icon_qq", masksToBounds: true)
-    //微博
-    lazy var weiboButton: UIButton = UIButton(icon: "icon_weibo", masksToBounds: true)
+    /// 更多登陆方式按钮
+    lazy var moreButton: UIButton = UIButton(icon: "more_white", masksToBounds: true)
     
     //当前城市
     lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: " 当前城市未知", fontSize: 10)
@@ -184,6 +184,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
+        isInstallLoginClientSide()
     }
     
     //电池栏状态
@@ -218,7 +219,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         loginBefore.addSubview(wechatButton)
         loginBefore.addSubview(qqButton)
-        loginBefore.addSubview(weiboButton)
+        loginBefore.addSubview(moreButton)
         loginBefore.addSubview(welcomeLabel)
         loginBefore.addSubview(descLabel)
         
@@ -227,7 +228,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         currentCityButton.alpha = 0.7
         
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
-        weiboButton.addTarget(self, action: "weiboLogin", forControlEvents: UIControlEvents.TouchUpInside)
+        moreButton.addTarget(self, action: "moreLogin", forControlEvents: UIControlEvents.TouchUpInside)
         qqButton.addTarget(self, action: "qqLogin", forControlEvents: UIControlEvents.TouchUpInside)
         
         tableView.dataSource = self
@@ -240,6 +241,33 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         //添加手势
         menuView.addGestureRecognizer(panGestureRecognizer2)
+    }
+    
+    
+    private func isInstallLoginClientSide() {
+        
+//        let sinaWeiboInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeSinaWeibo)
+        let wechaInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeWechat)
+        let qqInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeQQ)
+        print("wecha \(wechaInstall)")
+        print("qq  \(qqInstall)")
+        if wechaInstall && qqInstall {
+            wechatButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
+            qqButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
+            moreButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
+        } else if !wechaInstall && !qqInstall {
+            moreButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 42), offset: CGPointMake(0, 0))
+            wechatButton.hidden = true
+            qqButton.hidden = true
+        } else if !wechaInstall {
+            qqButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
+            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointZero)
+            wechatButton.hidden = true
+        } else if !qqInstall {
+            wechatButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
+            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointZero)
+            qqButton.hidden = true
+        }
     }
     
     func refreshMask() {
@@ -260,9 +288,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         nameLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
         
         loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
-        qqButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
-        wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
-        weiboButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
+        
         
         welcomeLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
         descLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
@@ -554,9 +580,15 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler)
     }
     
-    //新浪微博登陆
-    func weiboLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler)
+    // 更多登陆方式
+    func moreLogin() {
+        definesPresentationContext = true
+        navigationController
+        let lovc = LoginViewController()
+        let nav = UINavigationController(rootViewController: lovc)
+//        nav.setViewControllers([lovc], animated: true)
+//        let nav = UINavigationController(rootViewController: LoginViewController())
+        presentViewController(nav, animated: true, completion: nil)
     }
 }
 
