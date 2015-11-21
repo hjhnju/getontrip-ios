@@ -115,8 +115,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         loadInitSetting()
         setupInitSetting()
         
-        let size = getUsedCache()
-        print("CachSize=\(size)")
+//        let size = getUsedCache()
+//        print("CachSize=\(size)")
     }
     
     ///  初始化属性
@@ -146,7 +146,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         cancleButton.addTarget(self, action: "shadeViewClick:", forControlEvents: UIControlEvents.TouchUpInside)
         trueButton.addTarget(self, action: "trueButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         sortButton.addTarget(self, action: "sortClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        
+        tableView.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
         tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
         cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(10, 0))
         sortButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(0, 0))
@@ -242,11 +242,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     // MARK: - tableview delegate
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 4 : 1
+        return 4
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -275,11 +275,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             }
         } else {
             if indexPath.row == SettingCell.iconCell {
-                cell.left.text = "清除缓存"
-                cell.addSubview(removeCacheLabel)
-                removeCacheLabel.text = getUsedCache()
-                removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
-                cell.baseline.removeFromSuperview()
+//                cell.left.text = "清除缓存"
+//                cell.addSubview(removeCacheLabel)
+//                removeCacheLabel.text = getUsedCache()
+//                removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+//                cell.baseline.removeFromSuperview()
             } else if indexPath.row == SettingCell.nickCell {
                 // TODO: 以后再加 cell.left.text = "切换夜间模式"
                 
@@ -324,6 +324,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             }
             
             if indexPath.row == SettingCell.nickCell {
+                let nvc = SettingNicknameController()
+                nvc.userNameTextField.text = nickName.text
                 navigationController?.pushViewController(SettingNicknameController(), animated: true)
             }
             
@@ -372,18 +374,27 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             }
         } else {
             if indexPath.row == 0 {
-                let alter = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: UIAlertControllerStyle.ActionSheet)
-                let actionCanale = UIAlertAction(title: "确定", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
-                    self.clearCacheAction()
-                })
-                let actionTrue   = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (alter) -> Void in
-                })
-                alter.addAction(actionCanale)
-                alter.addAction(actionTrue)
-                presentViewController(alter, animated: true, completion: nil)
+                                
+//                let alertController = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: .ActionSheet)
+//                
+//                let actionTrue   = UIAlertAction(title: "取消", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
+//                    alertController.popoverPresentationController?.sourceView = self.view
+////                    alertPopoverPresentationController.sourceView = self.view
+//                })
+//                
+//                let actionCanale = UIAlertAction(title: "确定", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
+//                    self.clearCacheAction()
+//                })
+//                
+//                alertController.addAction(actionCanale)
+//                alertController.addAction(actionTrue)
+//                
+//                presentViewController(alertController, animated: true, completion: nil)
             }
         }
     }
+    
+    
     
     /// 头像图片
     var iconPhoto: UIImage? {

@@ -22,7 +22,7 @@ class SettingTableViewCell: UITableViewCell {
     init() {
         super.init(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
         
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.whiteColor()
         
         addSubview(baseline)
         addSubview(left)
