@@ -14,14 +14,14 @@ import SVProgressHUD
 class RetrievePasswordController: UIViewController {
 
     /// 邮箱
-    lazy var email   = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
+    lazy var emailTextField = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
     
     /// 发送
-    lazy var sendBtn = UIButton(title: "发送", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
+    lazy var sendButton    = UIButton(title: "发送", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
     
-    lazy var backButton   = UIButton(image: "back_white", title: "", fontSize: 0)
+    lazy var backButton    = UIButton(image: "back_white", title: "", fontSize: 0)
     
-    lazy var navTitle     = UILabel(color: UIColor.whiteColor(), title: "找回密码", fontSize: 24, mutiLines: true)
+    lazy var navTitleLabel = UILabel(color: UIColor.whiteColor(), title: "找回密码", fontSize: 24, mutiLines: true)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +34,10 @@ class RetrievePasswordController: UIViewController {
 
     private func initView() {
         view.addSubview(backButton)
-        view.addSubview(navTitle)
-        view.addSubview(email)
-        view.addSubview(sendBtn)
-        sendBtn.backgroundColor = SceneColor.lightblue
+        view.addSubview(navTitleLabel)
+        view.addSubview(emailTextField)
+        view.addSubview(sendButton)
+        sendButton.backgroundColor = SceneColor.lightblue
     }
     
     private func initProperty() {
@@ -47,24 +47,24 @@ class RetrievePasswordController: UIViewController {
         view.addSubview(backgroundImageView)
         backgroundImageView.frame = UIScreen.mainScreen().bounds
         backButton.addTarget(self, action: "backAction", forControlEvents: .TouchUpInside)
-        sendBtn.addTarget(self, action: "sendButtonAction", forControlEvents: .TouchUpInside)
+        sendButton.addTarget(self, action: "sendButtonAction", forControlEvents: .TouchUpInside)
     }
     
     private func initTextField() {
-        email.placeholder         = "请输入邮箱"
-        email.borderStyle         = UITextBorderStyle.RoundedRect
-        email.autocorrectionType  = UITextAutocorrectionType.Default
-        email.returnKeyType       = UIReturnKeyType.Done
-        email.clearButtonMode     = UITextFieldViewMode.WhileEditing
+        emailTextField.placeholder         = "请输入邮箱"
+        emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
+        emailTextField.autocorrectionType  = UITextAutocorrectionType.Default
+        emailTextField.returnKeyType       = UIReturnKeyType.Done
+        emailTextField.clearButtonMode     = UITextFieldViewMode.WhileEditing
     }
     
     private func initAutoLayout() {
         let screen = UIScreen.mainScreen().bounds
         let size = CGSizeMake(screen.width - 110, 42)
         backButton.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(13, 26), offset: CGPointMake(12, 23))
-        navTitle.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 23))
-        email.ff_AlignInner(.TopCenter, referView: view, size: size, offset: CGPointMake(0, 161))
-        sendBtn.ff_AlignVertical(.BottomCenter, referView: email, size: size, offset: CGPointMake(0, 30))
+        navTitleLabel.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 23))
+        emailTextField.ff_AlignInner(.TopCenter, referView: view, size: size, offset: CGPointMake(0, 161))
+        sendButton.ff_AlignVertical(.BottomCenter, referView: emailTextField, size: size, offset: CGPointMake(0, 30))
     }
     
     func backAction() {
@@ -73,9 +73,9 @@ class RetrievePasswordController: UIViewController {
     
     func sendButtonAction() {
         
-        let emailStr = email.text
-        if emailStr!.validateEmail(emailStr!) {
-            UserRegisterRequest.userSendPasswdEmail(email.text!, handler: { (result, status) -> Void in
+        let emailStr = emailTextField.text ?? ""
+        if emailStr.validateEmail(emailStr) {
+            UserRegisterRequest.userSendPasswdEmail(emailStr, handler: { (result, status) -> Void in
                 if status == RetCode.SUCCESS {
                     SVProgressHUD.showInfoWithStatus("发送成功，请重新登陆")
                     self.backAction()
