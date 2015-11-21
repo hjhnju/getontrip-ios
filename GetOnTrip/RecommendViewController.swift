@@ -293,7 +293,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     }
 
     
-    // MASK: - tableView 数据源及代理方法
+    // MASKS: - tableView 数据源及代理方法
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.recommendCells.count
@@ -345,6 +345,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             let topic = Topic(id: data.id)
             topic.title = data.name
             topic.image = data.image
+            topic.sightid = data.param4
             vc.topicDataSource = topic
             navigationController?.pushViewController(vc, animated: true)
         }

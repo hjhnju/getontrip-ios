@@ -34,6 +34,9 @@ class RecommendCellData: NSObject {
     
     var param3: String = ""
     
+    //补充用于话题传景点id
+    var param4: String = ""
+    
     //城市＝2，景点＝1
     var type: String = RecommendCellType.TypeSight
     

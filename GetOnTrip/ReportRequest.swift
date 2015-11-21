@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// 举报请求
 class ReportRequest: NSObject {
     
     // 请求参数
