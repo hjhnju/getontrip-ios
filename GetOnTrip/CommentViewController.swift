@@ -274,6 +274,12 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     
     //发布评论
     func publishAction(btn: UIButton) {
+        let content = self.issueTextfield.text ?? ""
+        if content == "" {
+            SVProgressHUD.showInfoWithStatus("无评论内容")
+            return
+        }
+        
         LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
             self.issueTextfield.resignFirstResponder()
             //1.登录成功
@@ -281,7 +287,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
                 //设置为发布中
                 btn.selected = true
                 //请求发送
-                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.toUser, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
+                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.toUser, content: content, handler: { (result, status) -> Void in
                     if status == RetCode.SUCCESS {
                         SVProgressHUD.showInfoWithStatus("发布成功")
                         self.issueTextfield.text = ""

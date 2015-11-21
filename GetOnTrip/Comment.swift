@@ -10,7 +10,7 @@ import Foundation
 
 class Comment: NSObject {
     
-    /// 上一级评论的id，无上一级为空
+    /// 别人回复当前评论使用的id
     var upid: String = ""
     
     var id: String = ""
@@ -40,13 +40,16 @@ class Comment: NSObject {
     
     init(dict: [String: AnyObject]) {
         super.init()
-        
+    
         setValuesForKeysWithDictionary(dict)
+        //默认第一层为自己的id
+        upid = id
         
         if let subs = dict["subComment"] as? NSArray {
             for it in subs {
                 if let dic = it as? [String : AnyObject] {
                     let sub = Comment(dict: dic)
+                    //第二层为上一层的id
                     sub.upid = id
                     sub_Comment.append(sub)
                 }
