@@ -249,8 +249,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     private func isInstallLoginClientSide() {
         
 //        let sinaWeiboInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeSinaWeibo)
-        let wechaInstall = !UIApplication.sharedApplication().canOpenURL(NSURL(string: "mqqapi://")!)
-        let qqInstall = !UIApplication.sharedApplication().canOpenURL(NSURL(string: "weixin://")!)
+        let wechaInstall = UIApplication.sharedApplication().canOpenURL(NSURL(string: "weixin://")!)
+        let qqInstall = UIApplication.sharedApplication().canOpenURL(NSURL(string: "mqqapi://")!)
         
         print("wecha \(wechaInstall)")
         print("qq  \(qqInstall)")

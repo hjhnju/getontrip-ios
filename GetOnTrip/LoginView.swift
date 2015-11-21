@@ -63,11 +63,22 @@ class LoginView: UIView {
     
     private func setupAutoLayout() {
         loginBackground.ff_Fill(self)
-        loginPrompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, -55))
-        qqButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(0, 0))
-        sinaweiButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(50, 0))
-        wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 0))
-        emailButton.ff_AlignVertical(.BottomCenter, referView: qqButton, size: nil, offset: CGPointMake(0, 126))
+        loginPrompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, -75))
+        
+        
+        let wechaInstall = UIApplication.sharedApplication().canOpenURL(NSURL(string: "weixin://")!)
+        
+        if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad && !wechaInstall {
+            wechatButton.hidden = true
+            qqButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 20))
+            sinaweiButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(50, 20))
+            emailButton.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 126))
+        } else {
+            qqButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(0, -20))
+            sinaweiButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(50, 0))
+            wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 0))
+            emailButton.ff_AlignVertical(.BottomCenter, referView: qqButton, size: nil, offset: CGPointMake(0, 126))
+        }
     }
     
     // MARK: 自定义方法
