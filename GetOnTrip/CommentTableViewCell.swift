@@ -29,14 +29,16 @@ class CommentTableViewCell : UITableViewCell {
     
     var answerCommentViewHeight: NSLayoutConstraint?
     
-    var data: CommentList? {
+    var data: Comment = Comment(id: "") {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: data!.avatar)!, placeholderImage:PlaceholderImage.defaultSmall)
-            titleName.text = data!.from_name
-            content.text = data!.content
-            time.text = data!.create_time
+            if let nsurl = NSURL(string: data.avatar) {
+                iconView.sd_setImageWithURL(nsurl, placeholderImage:PlaceholderImage.defaultSmall)
+            }
+            titleName.text = data.from_name
+            content.text = data.content
+            time.text = data.create_time
             
-            if data?.to_name == "" {
+            if data.to_name == "" {
                 answerLabel.hidden = true
             } else {
                 answerLabel.hidden = false
@@ -44,28 +46,26 @@ class CommentTableViewCell : UITableViewCell {
             var y: CGFloat = 8
             let w: CGFloat = UIScreen.mainScreen().bounds.width - 75 - 12
             var index: Int = 0
-            for item in data!.sub_Comment {
-                let commentPerson = commentPersonButton(title: "Clara J:", fontSize: 11, radius: 0, titleColor: SceneColor.fontGray)
-                commentAnswersView.addSubview(commentPerson)
+            for item in data.sub_Comment {
+                let replay = ReplayButton(title: "Clara J:", fontSize: 11, radius: 0, titleColor: SceneColor.fontGray)
+                commentAnswersView.addSubview(replay)
                 
-                commentPerson.upId = String(data!.id)
-                commentPerson.to_name = item.to_name
-                commentPerson.from_name = item.from_name
-                commentPerson.frameUserId = item.from_user_id
-                commentPerson.titleLabel?.numberOfLines = 0
-                commentPerson.index = index
-                //                commentPerson.titleLabel?.adjustsFontSizeToFitWidth = true
+                replay.upId = String(data.id)
+                replay.to_name = item.to_name
+                replay.from_name = item.from_name
+                replay.frameUserId = item.from_user_id
+                replay.titleLabel?.numberOfLines = 0
+                replay.index = index
                 
                 let size = (" " + item.from_name + " 回复 : " + item.to_name + " " + item.content).sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
-                commentPerson.setAttributedTitle(schemeAttributedString(item.from_name, toName: item.to_name, content: item.content), forState: UIControlState.Normal)
-                commentPerson.frame = CGRectMake(12, y, size.width, size.height)
-                //                commentPerson.sizeThatFits(size)
+                replay.setAttributedTitle(schemeAttributedString(item.from_name, toName: item.to_name, content: item.content), forState: UIControlState.Normal)
+                replay.frame = CGRectMake(12, y, size.width, size.height)
                 y += size.height + 7
                 index++
             }
             var str = ""
-            for i in data!.sub_Comment {
-                if i == data!.sub_Comment.count {
+            for i in data.sub_Comment {
+                if i == data.sub_Comment.count {
                     str = str + i.from_name + "   回复 : " + i.to_name + i.content
                     
                 } else {
@@ -73,11 +73,11 @@ class CommentTableViewCell : UITableViewCell {
                 }
             }
             
-            let h: CGFloat = data!.sub_Comment.count < 2 ? 0 : CGFloat(data!.sub_Comment.count * 7)
+            let h: CGFloat = data.sub_Comment.count < 2 ? 0 : CGFloat(data.sub_Comment.count * 7)
             
             answerCommentViewHeight!.constant = str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16 + h
             
-            if data?.sub_Comment.count == 0 {
+            if data.sub_Comment.count == 0 {
                 commentAnswersView.hidden = true
             }
         }
@@ -107,7 +107,7 @@ class CommentTableViewCell : UITableViewCell {
         return attr
     }
     
-    func dataWithCellHeight(comment: CommentList) -> CGFloat {
+    func dataWithCellHeight(comment: Comment) -> CGFloat {
         
         var str = ""
         for i in comment.sub_Comment {
@@ -169,6 +169,14 @@ class CommentTableViewCell : UITableViewCell {
         
         iconView.layer.cornerRadius = min(iconView.bounds.width, iconView.bounds.height) * 0.5
         iconView.clipsToBounds = true
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        
     }
 }
 

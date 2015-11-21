@@ -91,7 +91,9 @@ class SettingNicknameController: MenuViewController {
             if vc.isKindOfClass(NSClassFromString("GetOnTrip.SettingViewController")!) {
                 if let vc = vc as? SettingViewController {
                     vc.nickName.text = userNameTextField.text
-                    vc.saveUserInfo(navBar.rightButton)
+                    let btn = UIButton()
+                    btn.selected = true
+                    vc.saveUserInfo(btn)
                 }
             }
         }

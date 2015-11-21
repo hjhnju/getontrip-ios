@@ -1,5 +1,5 @@
 //
-//  CommentTopicController.swift
+//  CommentViewController.swift
 //  GetOnTrip
 //
 //  Created by 王振坤 on 15/10/13.
@@ -11,7 +11,7 @@ import FFAutoLayout
 import SVProgressHUD
 import MJRefresh
 
-class CommentTopicController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CommentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate {
     
     /// 评论列表请求
     var lastRequest: CommentListRequest?
@@ -28,9 +28,9 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     /// 给谁评论
     var toUser: String = ""
     
-    var data: [CommentList] = [CommentList]() {
+    var commentsDataSource: [Comment] = [Comment]() {
         didSet {
-            if data.count != 0 {
+            if commentsDataSource.count != 0 {
                 prompt.hidden = true
             }
         }
@@ -144,7 +144,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     // MARK: - tableview datasource and delegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return commentsDataSource.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -153,15 +153,15 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         for i in cell.commentAnswersView.subviews {
             i.removeFromSuperview()
         }
-        cell.data = data[indexPath.row]
+        cell.data = commentsDataSource[indexPath.row]
         for item in cell.commentAnswersView.subviews {
-            if let it = item as? commentPersonButton {
-                it.addTarget(self, action: "commentPersonTouchAction:", forControlEvents: UIControlEvents.TouchUpInside)
+            if let it = item as? ReplayButton {
+                it.addTarget(self, action: "touchReplyCommentAction:", forControlEvents: UIControlEvents.TouchUpInside)
                 it.indexPath = indexPath
             }
         }
         
-        if indexPath.row == data.count - 1 {
+        if indexPath.row == commentsDataSource.count - 1 {
             loadMore()
         }
         
@@ -172,50 +172,45 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell") as! CommentTableViewCell
-        return cell.dataWithCellHeight(data[indexPath.row])
+        return cell.dataWithCellHeight(commentsDataSource[indexPath.row])
     }
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
         reloadIndexPath = indexPath
-        let com  = data[indexPath.row]
-        upId     = String(com.id)
-        toUser  = com.from_user_id
-        issueTextfield.placeholder = "回复 " + com.from_name + " :"
+        let comment  = self.commentsDataSource[indexPath.row]
+        selectRowForComment(comment)
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         issueTextfield.resignFirstResponder()
     }
     
-    func commentPersonTouchAction(btn: commentPersonButton) {
+    //MARKS: 自定义方法
+    
+    /// 点击评论的回复行
+    func touchReplyCommentAction(btn: ReplayButton) {
         reloadIndexPath = btn.indexPath!
-        let com  = data[btn.indexPath!.row]
-        upId     = String(com.id)
-        print(btn.index)
+        let comment  = commentsDataSource[btn.indexPath!.row]
         if Int(btn.index!) >= 0 {
-            let comm = com.sub_Comment[btn.index!]
-            toUser  = comm.from_user_id
+            let replay = comment.sub_Comment[btn.index!]
+            selectRowForComment(replay)
         } else {
             upId    = ""
             toUser = ""
         }
-        
-        issueTextfield.placeholder = "回复 " + btn.from_name + " :"
-        issueTextfield.becomeFirstResponder()
-        toUser = btn.frameUserId
     }
     
     func commentTitleButtonAction() {
         toUser = ""
-        upId = ""
+        upId   = ""
         issueTextfield.placeholder = ""
         reloadIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     }
     
-    
-    // MARK - 是否正在加载中
+    /// 是否正在加载中
     var isLoading:Bool = false
     
     func loadData() {
@@ -232,7 +227,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         lastRequest?.fetchFirstPageModels {[weak self] (result, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                SVProgressHUD.showInfoWithStatus("您的网络无法连接")
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
@@ -240,13 +235,13 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
             
             if status == RetCode.SUCCESS {
                 if let data = result {
-                    self?.data = data
+                    self?.commentsDataSource = data
                     self?.tableView.reloadData()
                     self?.tableView.mj_header.endRefreshing()
-                    self?.prompt.hidden = self?.data.count > 0 ? true : false
+                    self?.prompt.hidden = self?.commentsDataSource.count > 0 ? true : false
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("您的网络连接不稳定，请稍候后连接")
+                SVProgressHUD.showInfoWithStatus("您的网络无法连接")
             }
             
             self?.isLoading = false
@@ -267,8 +262,8 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
             }
             if let dataSource = result {
                 if dataSource.count > 0 {
-                    if let cells = self?.data {
-                        self?.data = cells + dataSource
+                    if let cells = self?.commentsDataSource {
+                        self?.commentsDataSource = cells + dataSource
                         self?.tableView.reloadData()
                     }
                 }
@@ -279,6 +274,12 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     //发布评论
     func publishAction(btn: UIButton) {
+        let content = self.issueTextfield.text ?? ""
+        if content == "" {
+            SVProgressHUD.showInfoWithStatus("无评论内容")
+            return
+        }
+        
         LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
             self.issueTextfield.resignFirstResponder()
             //1.登录成功
@@ -286,7 +287,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                 //设置为发布中
                 btn.selected = true
                 //请求发送
-                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.toUser, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
+                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.toUser, content: content, handler: { (result, status) -> Void in
                     if status == RetCode.SUCCESS {
                         SVProgressHUD.showInfoWithStatus("发布成功")
                         self.issueTextfield.text = ""
@@ -300,6 +301,40 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
             }
             //2.取消登录或登录失败do nothing
         }
+    }
+    
+    /// 选中每行评论
+    func selectRowForComment(comment: Comment) {
+        let alertController = UIAlertController(title: "对 \(comment.from_name) 的评论内容", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+        let replyAction  = UIAlertAction(title: "回复", style: UIAlertActionStyle.Default) { [weak self] (sender) -> Void in
+            LoginView.sharedLoginView.doAfterLogin() {(success, error) -> () in
+                if success {
+                    self?.upId     = String(comment.upid)
+                    self?.toUser   = comment.from_user_id
+                    let placeholder = "回复 \(comment.from_name):"
+                    self?.issueTextfield.placeholder = placeholder
+                    self?.issueTextfield.becomeFirstResponder()
+                }
+            }
+        }
+        
+        let reportAction = UIAlertAction(title: "举报", style: UIAlertActionStyle.Default) { (sender) -> Void in
+            LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
+                if success {
+                    //不管网络是否返回
+                    SVProgressHUD.showInfoWithStatus("已举报")
+                    let req = ReportRequest()
+                    req.commentid = String(comment.id)
+                    req.report()
+                }
+            }
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(replyAction)
+        alertController.addAction(reportAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 
 }

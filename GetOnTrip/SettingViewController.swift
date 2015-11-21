@@ -225,6 +225,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     func shadeViewClick(btn: UIButton) {
@@ -242,11 +243,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     // MARK: - tableview delegate
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return section == 0 ? 4 : 1
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -275,11 +276,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             }
         } else {
             if indexPath.row == SettingCell.iconCell {
-//                cell.left.text = "清除缓存"
-//                cell.addSubview(removeCacheLabel)
-//                removeCacheLabel.text = getUsedCache()
-//                removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
-//                cell.baseline.removeFromSuperview()
+                cell.left.text = "清除缓存"
+                cell.addSubview(removeCacheLabel)
+                removeCacheLabel.text = getUsedCache()
+                removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+                cell.baseline.removeFromSuperview()
             } else if indexPath.row == SettingCell.nickCell {
                 // TODO: 以后再加 cell.left.text = "切换夜间模式"
                 
@@ -374,22 +375,19 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             }
         } else {
             if indexPath.row == 0 {
-                                
-//                let alertController = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: .ActionSheet)
-//                
-//                let actionTrue   = UIAlertAction(title: "取消", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
-//                    alertController.popoverPresentationController?.sourceView = self.view
-////                    alertPopoverPresentationController.sourceView = self.view
-//                })
-//                
-//                let actionCanale = UIAlertAction(title: "确定", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
-//                    self.clearCacheAction()
-//                })
-//                
-//                alertController.addAction(actionCanale)
-//                alertController.addAction(actionTrue)
-//                
-//                presentViewController(alertController, animated: true, completion: nil)
+                let alertController = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: .ActionSheet)
+                let actionTrue   = UIAlertAction(title: "取消", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
+                })
+                let actionCanale = UIAlertAction(title: "确定", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
+                    self.clearCacheAction()
+                })
+                alertController.addAction(actionCanale)
+                alertController.addAction(actionTrue)
+                alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
+                alertController.popoverPresentationController?.sourceView = tableView.cellForRowAtIndexPath(indexPath)
+                alertController.popoverPresentationController?.sourceRect = tableView.cellForRowAtIndexPath(indexPath)?.frame ?? CGRectZero
+                
+                presentViewController(alertController, animated: true, completion: nil)
             }
         }
     }
@@ -555,8 +553,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 SVProgressHUD.showInfoWithStatus("保存成功")
                 UserLogin.sharedInstance.loadAccount()
                 self.saveButton = false
+            } else {
+                SVProgressHUD.showInfoWithStatus("保存失败")
             }
         })
+        self.tableView.reloadData()
     }
     
     /// 获取缓存大小

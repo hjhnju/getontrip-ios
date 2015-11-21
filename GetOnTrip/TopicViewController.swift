@@ -63,8 +63,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
   
     lazy var shareView: ShareView = ShareView()
     
-    lazy var commentVC: CommentTopicController = {
-        return CommentTopicController()
+    lazy var commentVC: CommentViewController = {
+        return CommentViewController()
     }()
     
     // MARK: DataSource of Controller
@@ -169,6 +169,9 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         toolbarView.addSubview(bottomLine)
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
+        view.addSubview(cover)
+        view.addSubview(commentVC.view)
+        commentVC.view.hidden = true
         
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
@@ -364,9 +367,9 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     func doComment(sender: UIButton) {
         let w = view.bounds.width
         let h = view.bounds.height
-        
-        UIApplication.sharedApplication().keyWindow?.addSubview(cover)
-        UIApplication.sharedApplication().keyWindow?.addSubview(commentVC.view)
+        commentVC.view.hidden = false
+//        UIApplication.sharedApplication().keyWindow?.addSubview(cover)
+//        UIApplication.sharedApplication().keyWindow?.addSubview(commentVC.view)
         commentVC.topicId = topicDataSource?.id ?? ""
         commentVC.view.clipsToBounds = true
         commentVC.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
@@ -392,8 +395,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 self?.commentVC.issueTextfield.placeholder = ""
                 self?.commentVC.toUser = ""
                 self?.commentVC.upId   = ""
-                self?.commentVC.view.removeFromSuperview()
-                self?.cover.removeFromSuperview()
+//                self?.commentVC.view.removeFromSuperview()
+//                self?.cover.removeFromSuperview()
         }
     }
     
