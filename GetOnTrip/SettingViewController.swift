@@ -108,12 +108,13 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         loadInitSetting()
         setupInitSetting()
         
-        initShowCache()
+        let size = getUsedCache()
+        print("CachSize=\(size)")
     }
     
-    func initShowCache() {
-        let size = SDImageCache.sharedImageCache().getSize()
-        print("image size=\(size)")
+    func getUsedCache() -> String {
+        let size: CGFloat = CGFloat(SDImageCache.sharedImageCache().getSize()) / 1024.0 / 1024.0
+        return String(format: "%.1f", size)
     }
     
     ///  初始化属性
@@ -174,7 +175,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: UIControlState.Selected)
                 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "nickNameTextFieldTextDidChangeNotification:", name: UITextFieldTextDidChangeNotification, object: nickName)
-
     }
     
     ///  昵称的文本改变时调用的通知
@@ -192,7 +192,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: nickName)
     }
-    
     
     ///  初始化设置
     private func loadInitSetting() {
@@ -239,8 +238,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
     }
     
     func shadeViewClick(btn: UIButton) {
@@ -407,7 +404,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         switchPhotoVC.photoView.img = image
         self.dismissViewControllerAnimated(true, completion: nil)
         saveButton = true
-//        // 重新设回导航栏样式
+        // 重新设回导航栏样式
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
     
@@ -501,7 +498,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     
-    // MARK: - other method
+    // MARK: 自定义方法
+    
     /// 确定按钮
     func trueButtonClick(btn: UIButton) {
         
@@ -529,26 +527,37 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     /// MARK: - 保存用户信息
     func saveUserInfo(btn: UIButton) {
-        if btn.selected == false { return }
-        
-        iconView.image?.scaleImage(200)
-        let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
-        var sex: Int?
-        if gender.text == "男" {
-            sex = 0
-        } else if gender.text == "女" {
-            sex = 1
-        } else {
-            sex = 2
+//        if btn.selected == false { return }
+//        
+//        iconView.image?.scaleImage(200)
+//        let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
+//        var sex: Int?
+//        if gender.text == "男" {
+//            sex = 0
+//        } else if gender.text == "女" {
+//            sex = 1
+//        } else {
+//            sex = 2
+//        }
+//
+//        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
+//            if error == nil {
+//                SVProgressHUD.showInfoWithStatus("保存成功")
+//                UserLogin.sharedInstance.loadAccount()
+//                self.saveButton = false
+//            }
+//        })
+        clearCacheAction()
+    }
+    
+    /// 清除缓存
+    func clearCacheAction() {
+        Cache.shareInstance.clear { () -> Void in }
+        SDImageCache.sharedImageCache().clearDiskOnCompletion { [weak self]() -> Void in
+            //更新显示缓存
+            let size = self?.getUsedCache()
+            print("CachSize2=\(size)")
         }
-
-        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
-            if error == nil {
-                SVProgressHUD.showInfoWithStatus("保存成功")
-                UserLogin.sharedInstance.loadAccount()
-                self.saveButton = false
-            }
-        })
     }
     
 }

@@ -13,6 +13,7 @@ import SVProgressHUD
 class LoginViewController: MainViewController {
     
     // MARK: - 属性
+    
     /// 欢迎label
     lazy var welcomeLabel     = UILabel(color: UIColor.whiteColor(), title: "Welcome", fontSize: 44, mutiLines: true)
     
@@ -48,12 +49,14 @@ class LoginViewController: MainViewController {
     
     /// weibo
     lazy var weiboButton      = UIButton(icon: "icon_weibo", masksToBounds: true)
-    
+
     let emailLabel            = UILabel(color: SceneColor.lightGrayEM, title: "  邮箱 ", fontSize: 18, mutiLines: true)
     
     let passwLabel            = UILabel(color: SceneColor.lightGrayEM, title: "  密码 ", fontSize: 18, mutiLines: true)
     
     lazy var keyboardTakebackBtn = UIButton()
+    
+    let passwordEyeButton     = UIButton(image: "topic_eye_gray", title: "", fontSize: 0)
     
     /// 回调用于做完之后不影响之前的操作
     typealias LoginFinishedHandler = (result: Bool, error: NSError?) -> ()
@@ -93,6 +96,7 @@ class LoginViewController: MainViewController {
         cancleButton.backgroundColor = SceneColor.lightgrey
         loginButton.backgroundColor  = SceneColor.lightblue
         welcomeLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 44)
+        passwordEyeButton.addTarget(self, action: "passwordEyeButton:", forControlEvents: .TouchUpInside)
         retrievePwButton.addTarget(self, action: "retrievePasswordAction", forControlEvents: .TouchUpInside)
         loginButton .addTarget(self, action: "loginButtonAction", forControlEvents: .TouchUpInside)
         registerButton .addTarget(self, action: "newUserRegisterAction", forControlEvents: .TouchUpInside)
@@ -119,8 +123,11 @@ class LoginViewController: MainViewController {
         passwordTextField.autocorrectionType = UITextAutocorrectionType.No
         passwordTextField.returnKeyType    = UIReturnKeyType.Done
         passwordTextField.clearButtonMode  = UITextFieldViewMode.WhileEditing
+        passwordTextField.rightView        = passwordEyeButton
+        passwordTextField.rightViewMode    = UITextFieldViewMode.Always
         passwordTextField.secureTextEntry  = true
         passwLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
+        passwordEyeButton.bounds           = CGRectMake(0, 0, 15, 11)
     }
     
     private func initAutoLayout() {
@@ -193,6 +200,11 @@ class LoginViewController: MainViewController {
     /// 找回密码方法
     func retrievePasswordAction() {
         (parentViewController as? UINavigationController)?.pushViewController(RetrievePasswordController(), animated: true)
+    }
+    
+    func passwordEyeButton(btn: UIButton) {
+        btn.selected = !btn.selected
+        passwordTextField.secureTextEntry  = btn.selected
     }
     
     /// 登陆方法

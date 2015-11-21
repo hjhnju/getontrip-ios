@@ -265,6 +265,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 SVProgressHUD.showErrorWithStatus("网络无法连接")
             }
         })
+        loadingView.start()
     }
 
     deinit {

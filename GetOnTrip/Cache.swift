@@ -85,4 +85,9 @@ class Cache: NSObject {
         }
         return false
     }
+    
+    /// 清除数据
+    func clear(handler: ()->Void) {
+        globalKvStore?.clearTable(CacheContant.table)
+    }
 }
