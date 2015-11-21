@@ -222,6 +222,7 @@ class LoginViewController: MainViewController {
         btn.selected = !btn.selected
         btn.alpha = btn.selected ? 0.3 : 1
         passwordTextField.secureTextEntry  = btn.selected
+        
     }
     
     // 退出按钮

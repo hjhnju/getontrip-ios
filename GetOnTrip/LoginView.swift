@@ -132,6 +132,7 @@ class LoginView: UIView {
         let nav = UINavigationController(rootViewController: log)
         log.loginFinished = self.loginFinishedHandler
         self.dismissFloating()
+        
         UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(nav, animated: true, completion: { () -> Void in
         })
     }
