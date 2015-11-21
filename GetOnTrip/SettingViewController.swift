@@ -32,7 +32,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     lazy var tableView: UITableView = UITableView()
     
     /// 头像
-    lazy var iconView: UIImageView = UIImageView()
+    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "icon_app"))
     
     /// 昵称
     lazy var nickName: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 16, mutiLines: true) //(alignment: NSTextAlignment.Right, sizeFout: 16, color: UIColor.blackColor())
@@ -157,7 +157,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     ///  初始化设置
     private func setupInitSetting() {
         title = SettingViewController.name
-        iconView.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""))
+        if globalUser?.icon != "" && globalUser?.icon != nil {
+            iconView.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""))
+        }
         if      globalUser?.gender.hashValue == 0 { gender.text = "男" }
         else if globalUser?.gender.hashValue == 1 { gender.text = "女" }
         else                                      { gender.text = "未知"}
