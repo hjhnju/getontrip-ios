@@ -16,7 +16,9 @@ class UserInfo : NSObject {
     
     var image: String = "" {
         didSet {
-            image = UIKitTools.sliceImageUrl(image, width: 200, height: 200)
+            if image != "" {
+                image = UIKitTools.sliceImageUrl(image, width: 200, height: 200)
+            }
         }
     }
     

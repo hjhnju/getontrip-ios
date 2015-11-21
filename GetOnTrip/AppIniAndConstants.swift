@@ -81,6 +81,7 @@ struct PlaceholderImage {
     static let userIcon = "user_icon"
     static let defaultSmall = UIImage(named: "default_small")
     static let defaultLarge = UIImage(named: "default_large")
+    static let defaultUser  = UIImage(named: "icon_app")
 }
 
 struct MessageInfo {

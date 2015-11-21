@@ -118,7 +118,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //说明
     lazy var descLabel    = UILabel(color: UIColor.whiteColor(), fontSize: 12, mutiLines: true)
     //登陆后，头像
-    lazy var headerView: UIImageView = UIImageView()
+    lazy var headerView: UIImageView = UIImageView(image: PlaceholderImage.defaultUser)
     //登陆后，名称
     lazy var nameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
     
@@ -251,9 +251,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
 //        let sinaWeiboInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeSinaWeibo)
         let wechaInstall = UIApplication.sharedApplication().canOpenURL(NSURL(string: "weixin://")!)
         let qqInstall = UIApplication.sharedApplication().canOpenURL(NSURL(string: "mqqapi://")!)
-        
-        print("wecha \(wechaInstall)")
-        print("qq  \(qqInstall)")
         
         if wechaInstall && qqInstall {
             qqButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))

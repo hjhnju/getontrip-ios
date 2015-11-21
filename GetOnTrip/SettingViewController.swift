@@ -157,7 +157,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     ///  初始化设置
     private func setupInitSetting() {
         title = SettingViewController.name
-        if globalUser?.icon != "http://static.getontrip.cn@e400w_e400h" {
+        if (globalUser?.icon ?? "") != "" {
             iconView.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""))
         }
         if      globalUser?.gender.hashValue == 0 { gender.text = "男" }
