@@ -24,23 +24,18 @@ class CommentListRequest: NSObject {
     var page    : Int = 1
     var pageSize: Int = 6
     
-    func fetchNextPageModels(handler: ([CommentList]?, Int) -> Void) {
+    func fetchNextPageModels(handler: ([Comment]?, Int) -> Void) {
         page = page + 1
         return fetchModels(handler)
     }
     
-    func fetchFirstPageModels(handler: ([CommentList]?, Int) -> Void) {
+    func fetchFirstPageModels(handler: ([Comment]?, Int) -> Void) {
         page = 1
         return fetchModels(handler)
     }
     
-    // 将数据回调外界
-//    func fetchCommentListModels(handler: ([CommentList]?, Int) -> Void) {
-//        fetchModels(handler)
-//    }
-    
     // 异步加载获取数据
-    func fetchModels(handler: ([CommentList]?, Int) -> Void) {
+    func fetchModels(handler: ([Comment]?, Int) -> Void) {
         var post         = [String: String]()
         post["topicId"]  = String(topicId)
         post["page"]     = String(page)
@@ -49,10 +44,10 @@ class CommentListRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/comment/list", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                var comment = [CommentList]()
+                var comment = [Comment]()
                 for item in result.arrayValue {
                     if let item = item.dictionaryObject {
-                        comment.append(CommentList(dict: item))
+                        comment.append(Comment(dict: item))
                     }
                 }
                 handler(comment, status)
@@ -62,72 +57,4 @@ class CommentListRequest: NSObject {
         }
     }
     
-}
-
-class CommentList: NSObject {
-    
-    var id:        Int = 0
-    
-    var content:   String = ""
-    
-    var to_name:   String = ""
-    
-    var from_name: String = ""
-    
-    var create_time: String = ""
-    
-    var from_user_id: String = ""
-    
-    var avatar: String = "" {
-        didSet {
-            avatar = AppIni.BaseUri + avatar
-        }
-    }
-    
-    var sub_Comment: [CommentPersonContent] = [CommentPersonContent]()
-    
-    init(dict: [String: AnyObject]) {
-        super.init()
-        
-//        setValuesForKeysWithDictionary(dict)
-        id          = ((dict["id"])?.integerValue)!//         as! String
-        avatar      = AppIni.BaseUri + String(dict["avatar"]!)//     as! String
-        content     = String(dict["content"]!) //   as! String
-        to_name     = String(dict["to_name"]!)//    as! String
-        create_time = String(dict["create_time"]!)//as! String
-        from_name   = String(dict["from_name"]!)
-        from_user_id = String(dict["from_user_id"]!)
-
-        for it in dict["subComment"] as! NSArray {
-            sub_Comment.append(CommentPersonContent(dict: it as! [String : AnyObject]))
-        }
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
-}
-
-
-class CommentPersonContent: NSObject {
-    
-    var id: String = ""
-    
-    var content: String = ""
-    
-    var from_name: String = ""
-    
-    var to_name: String = ""
-    
-    var from_user_id: String = ""
-    
-    init(dict: [String: AnyObject]) {
-        super.init()
-        
-        setValuesForKeysWithDictionary(dict)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
-    }
 }

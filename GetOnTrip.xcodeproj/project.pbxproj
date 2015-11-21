@@ -20,6 +20,10 @@
 		72550E9A1BE9A210004D4611 /* CBStoreHouseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */; };
 		72550EA21BEA0D87004D4611 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA11BEA0D87004D4611 /* Book.swift */; };
 		72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */; };
+		725A84751C009552007623C9 /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84741C009552007623C9 /* ReportRequest.swift */; };
+		725A84771C00A0AD007623C9 /* ReplayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84761C00A0AD007623C9 /* ReplayButton.swift */; };
+		725A84791C00A239007623C9 /* CommentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84781C00A239007623C9 /* CommentList.swift */; };
+		725A847B1C00A2C1007623C9 /* Replay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A847A1C00A2C1007623C9 /* Replay.swift */; };
 		726974281BDF168A000C0ABF /* RetCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726974271BDF168A000C0ABF /* RetCode.swift */; };
 		7269746B1BE3924F000C0ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7269746A1BE3924F000C0ABF /* Tag.swift */; };
 		7269746D1BE39434000C0ABF /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7269746C1BE39434000C0ABF /* Video.swift */; };
@@ -202,6 +206,10 @@
 		72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBStoreHouseTransition.m; sourceTree = "<group>"; };
 		72550EA11BEA0D87004D4611 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequestProtocol.swift; sourceTree = "<group>"; };
+		725A84741C009552007623C9 /* ReportRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
+		725A84761C00A0AD007623C9 /* ReplayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayButton.swift; sourceTree = "<group>"; };
+		725A84781C00A239007623C9 /* CommentList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentList.swift; sourceTree = "<group>"; };
+		725A847A1C00A2C1007623C9 /* Replay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Replay.swift; sourceTree = "<group>"; };
 		726974271BDF168A000C0ABF /* RetCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetCode.swift; sourceTree = "<group>"; };
 		7269746A1BE3924F000C0ABF /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		7269746C1BE39434000C0ABF /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
@@ -758,6 +766,10 @@
 				AE7E8CC61BD8C05900E7D9EB /* CommentListRequest.swift */,
 				726974761BE39F8A000C0ABF /* CommentAddRequest.swift */,
 				72550EA11BEA0D87004D4611 /* Book.swift */,
+				725A84741C009552007623C9 /* ReportRequest.swift */,
+				725A84781C00A239007623C9 /* CommentList.swift */,
+				725A84761C00A0AD007623C9 /* ReplayButton.swift */,
+				725A847A1C00A2C1007623C9 /* Replay.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1001,6 +1013,7 @@
 				AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */,
 				726974751BE39D38000C0ABF /* TopicBrief.swift in Sources */,
 				AE8586CB1BC7820500406BEF /* SearchResultsViewController.swift in Sources */,
+				725A84751C009552007623C9 /* ReportRequest.swift in Sources */,
 				7206B7CB1BF3759B002E3C9A /* LoadingView.swift in Sources */,
 				726974BE1BE6536B000C0ABF /* Topic.swift in Sources */,
 				AEB98F351BE1CAC400183261 /* SightVideoViewController.swift in Sources */,
@@ -1017,6 +1030,7 @@
 				7293A0421BF4713A0070C64A /* Province.swift in Sources */,
 				AE0B6F7F1BFF1A52002B8806 /* NewUserRegisterViewController.swift in Sources */,
 				AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */,
+				725A84771C00A0AD007623C9 /* ReplayButton.swift in Sources */,
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,
 				AE7F0AC91BB95D3E0011F307 /* SightViewController.swift in Sources */,
 				AEB98F331BE1CAB500183261 /* SightTopicViewController.swift in Sources */,
@@ -1028,9 +1042,11 @@
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
 				AE0B6F811BFF1EE5002B8806 /* RetrievePasswordController.swift in Sources */,
 				AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */,
+				725A847B1C00A2C1007623C9 /* Replay.swift in Sources */,
 				727561841BD0F64A0089CB27 /* Sight.swift in Sources */,
 				AE4ECBCD1BB5305D00DC65F7 /* NSArray+Print.swift in Sources */,
 				729574001BCF345600343F8F /* UIKitTools.swift in Sources */,
+				725A84791C00A239007623C9 /* CommentList.swift in Sources */,
 				AE6079B71BB2677C00DB2955 /* UIButton+Extension.swift in Sources */,
 				72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */,
 				AE20EDF01B9C53B900F26074 /* MessageListRequest.swift in Sources */,
