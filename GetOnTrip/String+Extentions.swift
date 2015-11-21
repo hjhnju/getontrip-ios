@@ -26,6 +26,17 @@ extension String {
         return attributedString
     }
     
+    /// 改变某一段字的颜色
+    func getAttributedStringColor(changeStr: String, normalColor: UIColor, differentColor: UIColor) -> NSAttributedString{
+        let attr = NSMutableAttributedString(string: self)
+        
+        let changeS = NSString(string: self).rangeOfString(changeStr)
+        attr.addAttribute(NSForegroundColorAttributeName, value: normalColor, range: NSMakeRange(0, attr.length))
+        attr.addAttribute(NSForegroundColorAttributeName, value: differentColor, range: changeS)
+    
+        return attr
+    }
+    
     func getAttributedStringHeadCharacterBig() -> NSAttributedString{
         let attr = NSMutableAttributedString(string: self)
         

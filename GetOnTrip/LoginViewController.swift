@@ -53,6 +53,8 @@ class LoginViewController: MainViewController {
     
     let passwLabel            = UILabel(color: SceneColor.lightGrayEM, title: "  密码 ", fontSize: 18, mutiLines: true)
     
+    lazy var keyboardTakebackBtn = UIButton()
+    
     /// 回调用于做完之后不影响之前的操作
     typealias LoginFinishedHandler = (result: Bool, error: NSError?) -> ()
 
@@ -70,7 +72,10 @@ class LoginViewController: MainViewController {
     private func initView() {
         let backgroundImageView = UIImageView(image: UIImage(named: "login_background"))
         view.addSubview(backgroundImageView)
+        view.addSubview(keyboardTakebackBtn)
         backgroundImageView.frame = UIScreen.mainScreen().bounds
+        keyboardTakebackBtn.frame = UIScreen.mainScreen().bounds
+        keyboardTakebackBtn.addTarget(self, action: "keyboardTakebackBtnAction:", forControlEvents: .TouchUpInside)
         
         view.addSubview(welcomeLabel)
         view.addSubview(emailTextField)
@@ -87,6 +92,7 @@ class LoginViewController: MainViewController {
         
         cancleButton.backgroundColor = SceneColor.lightgrey
         loginButton.backgroundColor  = SceneColor.lightblue
+        welcomeLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 44)
         retrievePwButton.addTarget(self, action: "retrievePasswordAction", forControlEvents: .TouchUpInside)
         loginButton .addTarget(self, action: "loginButtonAction", forControlEvents: .TouchUpInside)
         registerButton .addTarget(self, action: "newUserRegisterAction", forControlEvents: .TouchUpInside)
@@ -99,7 +105,8 @@ class LoginViewController: MainViewController {
     private func initTextField() {
         let size = emailLabel.text?.sizeofStringWithFount1(UIFont.systemFontOfSize(18), maxSize: CGSizeMake(CGFloat.max, CGFloat.max))
         emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
-        emailTextField.autocorrectionType  = UITextAutocorrectionType.Yes
+        emailTextField.autocorrectionType  = UITextAutocorrectionType.No
+        emailTextField.autocapitalizationType = UITextAutocapitalizationType.None
         emailTextField.returnKeyType       = UIReturnKeyType.Done
         emailTextField.clearButtonMode     = UITextFieldViewMode.WhileEditing
         emailTextField.leftView            = emailLabel
@@ -113,12 +120,12 @@ class LoginViewController: MainViewController {
         passwordTextField.returnKeyType    = UIReturnKeyType.Done
         passwordTextField.clearButtonMode  = UITextFieldViewMode.WhileEditing
         passwordTextField.secureTextEntry  = true
-        passwLabel.bounds           = CGRectMake(0, 0, size!.width, size!.height)
+        passwLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
     }
     
     private func initAutoLayout() {
         let screen = UIScreen.mainScreen().bounds
-        let size = CGSizeMake(screen.width - 110, 42)
+        let size = CGSizeMake(screen.width * 0.73, 42)
         emailTextField.ff_AlignInner(.TopCenter, referView: view, size: size, offset: CGPointMake(0, screen.height * 0.2))
         passwordTextField.ff_AlignVertical(.BottomCenter, referView: emailTextField, size: size, offset: CGPointMake(0, 6))
         loginButton.ff_AlignVertical(.BottomCenter, referView: passwordTextField, size: size, offset: CGPointMake(0, screen.height * 0.04))
@@ -126,16 +133,21 @@ class LoginViewController: MainViewController {
         welcomeLabel.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, screen.height * 0.1))
         retrievePwButton.ff_AlignVertical(.BottomLeft, referView: cancleButton, size: nil, offset: CGPointMake(0, screen.height * 0.02))
         registerButton.ff_AlignVertical(.BottomRight, referView: cancleButton, size: nil, offset: CGPointMake(0, screen.height * 0.02))
-        qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.15)))
+        qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.13)))
         wechatButton.ff_AlignHorizontal(.CenterLeft, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(-49, 0))
         weiboButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(49, 0))
-        baseLineView.ff_AlignVertical(.TopCenter, referView: qqButton, size: CGSizeMake(screen.width - 66, 0.5), offset: CGPointMake(0, -(screen.height * 0.033)))
+        baseLineView.ff_AlignVertical(.TopCenter, referView: qqButton, size: CGSizeMake(screen.width * 0.84, 0.5), offset: CGPointMake(0, -(screen.height * 0.033)))
         elseLoginLabel.ff_AlignVertical(.TopCenter, referView: baseLineView, size: nil, offset: CGPointMake(0, -5))
     }
     
     // MARK: - 自定义方法
     func cancleAction() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // 收回键盘方法
+    func keyboardTakebackBtnAction(btn: UIButton) {
+        view.endEditing(true)
     }
     
     //微信登陆

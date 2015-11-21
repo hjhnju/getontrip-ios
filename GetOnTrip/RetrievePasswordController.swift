@@ -23,6 +23,8 @@ class RetrievePasswordController: UIViewController {
     
     lazy var navTitleLabel = UILabel(color: UIColor.whiteColor(), title: "找回密码", fontSize: 24, mutiLines: true)
     
+    lazy var keyboardTakebackBtn = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,6 +47,8 @@ class RetrievePasswordController: UIViewController {
         navigationItem.titleView = UILabel(color: UIColor.whiteColor(), title: "找回密码", fontSize: 24, mutiLines: true)
         let backgroundImageView = UIImageView(image: UIImage(named: "login_background"))
         view.addSubview(backgroundImageView)
+        view.addSubview(keyboardTakebackBtn)
+        keyboardTakebackBtn.addTarget(self, action: "keyboardTakebackBtnAction:", forControlEvents: .TouchUpInside)
         backgroundImageView.frame = UIScreen.mainScreen().bounds
         backButton.addTarget(self, action: "backAction", forControlEvents: .TouchUpInside)
         sendButton.addTarget(self, action: "sendButtonAction", forControlEvents: .TouchUpInside)
@@ -56,14 +60,16 @@ class RetrievePasswordController: UIViewController {
         emailTextField.autocorrectionType  = UITextAutocorrectionType.Default
         emailTextField.returnKeyType       = UIReturnKeyType.Done
         emailTextField.clearButtonMode     = UITextFieldViewMode.WhileEditing
+        emailTextField.keyboardType        = UIKeyboardType.URL
+        emailTextField.autocapitalizationType = UITextAutocapitalizationType.None
     }
     
     private func initAutoLayout() {
         let screen = UIScreen.mainScreen().bounds
         let size = CGSizeMake(screen.width - 110, 42)
-        backButton.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(13, 26), offset: CGPointMake(12, 23))
-        navTitleLabel.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 23))
-        emailTextField.ff_AlignInner(.TopCenter, referView: view, size: size, offset: CGPointMake(0, 161))
+        backButton.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(13, 26), offset: CGPointMake(12, screen.height * 0.1))
+        navTitleLabel.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, screen.height * 0.1))
+        emailTextField.ff_AlignInner(.TopCenter, referView: view, size: size, offset: CGPointMake(0, screen.height * 0.21))
         sendButton.ff_AlignVertical(.BottomCenter, referView: emailTextField, size: size, offset: CGPointMake(0, 30))
     }
     
@@ -71,6 +77,13 @@ class RetrievePasswordController: UIViewController {
         navigationController?.popViewControllerAnimated(true)
     }
     
+    // 收回键盘方法
+    func keyboardTakebackBtnAction(btn: UIButton) {
+//        UIApplication.sharedApplication().keyWindow?.endEditing(true)
+        view.endEditing(true)
+    }
+    
+    // 发送验证邮箱方法
     func sendButtonAction() {
         
         let emailStr = emailTextField.text ?? ""
@@ -86,8 +99,5 @@ class RetrievePasswordController: UIViewController {
         } else {
             SVProgressHUD.showInfoWithStatus("邮箱格式错误")
         }
-        
-        
     }
-
 }

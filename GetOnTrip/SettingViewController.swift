@@ -157,7 +157,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         iconView.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""))
         if      globalUser?.gender.hashValue == 0 { gender.text = "男" }
         else if globalUser?.gender.hashValue == 1 { gender.text = "女" }
-        else                                             { gender.text = "未知"}
+        else                                      { gender.text = "未知"}
         
         city.text = globalUser?.city
         nickName.text = globalUser?.nickname
