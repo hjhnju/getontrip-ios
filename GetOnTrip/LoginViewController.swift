@@ -99,7 +99,7 @@ class LoginViewController: MainViewController {
     private func initTextField() {
         let size = emailLab.text?.sizeofStringWithFount1(UIFont.systemFontOfSize(18), maxSize: CGSizeMake(CGFloat.max, CGFloat.max))
         email.borderStyle         = UITextBorderStyle.RoundedRect
-        email.autocorrectionType  = UITextAutocorrectionType.Default
+        email.autocorrectionType  = UITextAutocorrectionType.Yes
         email.returnKeyType       = UIReturnKeyType.Done
         email.clearButtonMode     = UITextFieldViewMode.WhileEditing
         email.leftView            = emailLab
@@ -109,7 +109,7 @@ class LoginViewController: MainViewController {
         password.borderStyle      = UITextBorderStyle.RoundedRect
         password.leftView         = passwLab
         password.leftViewMode     = UITextFieldViewMode.Always
-        password.autocorrectionType = UITextAutocorrectionType.Default
+        password.autocorrectionType = UITextAutocorrectionType.No
         password.returnKeyType    = UIReturnKeyType.Done
         password.clearButtonMode  = UITextFieldViewMode.WhileEditing
         password.secureTextEntry  = true
@@ -119,17 +119,17 @@ class LoginViewController: MainViewController {
     private func initAutoLayout() {
         let screen = UIScreen.mainScreen().bounds
         let size = CGSizeMake(screen.width - 110, 42)
-        cancleBtn.ff_AlignInner(.CenterCenter, referView: view, size: size, offset: CGPointMake(0, 0))
-        loginBtn.ff_AlignVertical(.TopCenter, referView: cancleBtn, size: size, offset: CGPointMake(0, -6))
-        password.ff_AlignVertical(.TopCenter, referView: loginBtn, size: size, offset: CGPointMake(0, -30))
-        email.ff_AlignVertical(.TopCenter, referView: password, size: size, offset: CGPointMake(0, -6))
-        welcome.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 42))
-        retrievePw.ff_AlignVertical(.BottomLeft, referView: cancleBtn, size: nil, offset: CGPointMake(0, 20))
-        register.ff_AlignVertical(.BottomRight, referView: cancleBtn, size: nil, offset: CGPointMake(0, 20))
-        qqBtn.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.16)))
+        email.ff_AlignInner(.TopCenter, referView: view, size: size, offset: CGPointMake(0, screen.height * 0.2))
+        password.ff_AlignVertical(.BottomCenter, referView: email, size: size, offset: CGPointMake(0, 6))
+        loginBtn.ff_AlignVertical(.BottomCenter, referView: password, size: size, offset: CGPointMake(0, screen.height * 0.04))
+        cancleBtn.ff_AlignVertical(.BottomCenter, referView: loginBtn, size: size, offset: CGPointMake(0, 6))
+        welcome.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, screen.height * 0.1))
+        retrievePw.ff_AlignVertical(.BottomLeft, referView: cancleBtn, size: nil, offset: CGPointMake(0, screen.height * 0.02))
+        register.ff_AlignVertical(.BottomRight, referView: cancleBtn, size: nil, offset: CGPointMake(0, screen.height * 0.02))
+        qqBtn.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.15)))
         wechatBtn.ff_AlignHorizontal(.CenterLeft, referView: qqBtn, size: CGSizeMake(45, 45), offset: CGPointMake(-49, 0))
         weiboBtn.ff_AlignHorizontal(.CenterRight, referView: qqBtn, size: CGSizeMake(45, 45), offset: CGPointMake(49, 0))
-        baseLine.ff_AlignVertical(.TopCenter, referView: qqBtn, size: CGSizeMake(screen.width - 66, 0.5), offset: CGPointMake(0, -25))
+        baseLine.ff_AlignVertical(.TopCenter, referView: qqBtn, size: CGSizeMake(screen.width - 66, 0.5), offset: CGPointMake(0, -(screen.height * 0.033)))
         elseLogin.ff_AlignVertical(.TopCenter, referView: baseLine, size: nil, offset: CGPointMake(0, -5))
     }
     
