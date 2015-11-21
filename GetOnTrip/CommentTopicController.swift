@@ -25,17 +25,24 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     /// 评论内容tableview
     lazy var tableView: UITableView = UITableView()
+    
     /// 发布底部view
     lazy var issueCommentView: UIView = UIView(color: UIColor.whiteColor())
+    
     lazy var commentBottomImage: UIImageView = UIImageView(image: UIImage(named: "comment_bottom"))
+    
     /// 发布textfield
     lazy var issueTextfield: UITextField = UITextField()
+    
     /// 发布按钮
     lazy var issueCommentBtn: UIButton = UIButton(title: "确认发布", fontSize: 12, radius: 10, titleColor: UIColor(hex: 0x696969, alpha: 1.0))
+    
     /// 评论标题view
     lazy var commentTitleButton: UIButton = UIButton(color: UIColor.whiteColor())
+    
     /// 评论标题
     lazy var commentTitle: UILabel = UILabel(color: SceneColor.bgBlack, title: "评论", fontSize: 16, mutiLines: true)
+    
     /// 评论底线
     lazy var commentBottomLine = UIView(color: SceneColor.lightGray, alphaF: 0.5)
     
@@ -79,7 +86,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         view.addSubview(commentTitleButton)
         commentTitleButton.addSubview(commentTitle)
         commentTitleButton.addSubview(commentBottomLine)
-        issueCommentBtn.addTarget(self, action: "sendCommentData:", forControlEvents: UIControlEvents.TouchUpInside)
+        issueCommentBtn.addTarget(self, action: "publishAction:", forControlEvents: UIControlEvents.TouchUpInside)
         commentTitle.textAlignment = NSTextAlignment.Center
         commentTitle.backgroundColor = SceneColor.white.colorWithAlphaComponent(0.4)
         issueTextfield.borderStyle = UITextBorderStyle.RoundedRect
@@ -115,30 +122,6 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     var upId    : String = ""
     var to_user : String = ""
-    
-    func sendCommentData(btn: UIButton) {
-        btn.selected = true
-        
-        LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
-            self.issueTextfield.resignFirstResponder()
-            if success {
-                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
-                    if status == RetCode.SUCCESS {
-                        SVProgressHUD.showInfoWithStatus("发送成功")
-                        self.loadData()
-                    } else {
-                        SVProgressHUD.showInfoWithStatus("评论发送失败，请重试")
-                    }
-                    btn.selected = false
-                })
-            } else {
-                SVProgressHUD.showInfoWithStatus("网络无法连接")
-            }
-            return
-        }
-        
-        issueTextfield.text = ""
-    }
     
     private func setupAutoLayout() {
         let tbH: CGFloat = UIScreen.mainScreen().bounds.height / 1.6 - 91
@@ -299,5 +282,31 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
             self?.isLoading = false
         }
     }
+    
+    //发布评论
+    func publishAction(btn: UIButton) {
+        LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
+            self.issueTextfield.resignFirstResponder()
+            //1.登录成功
+            if success {
+                //设置为发布中
+                btn.selected = true
+                //请求发送
+                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
+                    if status == RetCode.SUCCESS {
+                        SVProgressHUD.showInfoWithStatus("发布成功")
+                        self.issueTextfield.text = ""
+                        self.loadData()
+                    } else {
+                        SVProgressHUD.showInfoWithStatus("评论发布失败")
+                    }
+                    //发布结束
+                    btn.selected = false
+                })
+            }
+            //2.取消登录或登录失败do nothing
+        }
+    }
+
 }
 
