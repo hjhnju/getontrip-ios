@@ -224,7 +224,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         loginBefore.addSubview(descLabel)
         
         welcomeLabel.text = "Hello!"
-        descLabel.text   = "使用以下账号直接登录"
+        welcomeLabel.font = UIFont(name: "PingFangTC-Light", size: 36)
+
+        descLabel.text   = "登录/注册"
         currentCityButton.alpha = 0.7
         
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
@@ -247,9 +249,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     private func isInstallLoginClientSide() {
         
 //        let sinaWeiboInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeSinaWeibo)
-        let wechaInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeWechat)
-        let qqInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeQQ)
-    
+        let wechaInstall = !UIApplication.sharedApplication().canOpenURL(NSURL(string: "mqqapi://")!)
+        let qqInstall = !UIApplication.sharedApplication().canOpenURL(NSURL(string: "weixin://")!)
+        
         print("wecha \(wechaInstall)")
         print("qq  \(qqInstall)")
         
@@ -262,12 +264,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             wechatButton.hidden = true
             qqButton.hidden = true
         } else if !wechaInstall {
-            qqButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
-            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointZero)
+            qqButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
+            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
             wechatButton.hidden = true
         } else if !qqInstall {
-            wechatButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
-            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
+            wechatButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
+            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
             qqButton.hidden = true
         }
     }
@@ -289,8 +291,11 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         headerView.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
         nameLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
         
-        loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
-        
+        if UIScreen.mainScreen().bounds.width == 320 {
+            loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.4, view.bounds.height * 0.2), offset: CGPointMake(0, 34))
+        } else {
+            loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
+        }
         
         welcomeLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
         descLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
