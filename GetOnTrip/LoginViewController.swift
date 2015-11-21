@@ -56,10 +56,12 @@ class LoginViewController: MainViewController {
     
     lazy var keyboardTakebackBtn = UIButton()
     
-    let passwordEyeButton     = UIButton(image: "topic_eye_gray", title: "", fontSize: 0)
+    let passwordEyeButton     = UIButton(image: "show_Password", title: "", fontSize: 20)
     
     /// 回调用于做完之后不影响之前的操作
     typealias LoginFinishedHandler = (result: Bool, error: NSError?) -> ()
+    
+    let exitButton            = UIButton(image: "exit_x", title: "", fontSize: 0)
 
     var loginFinished: LoginFinishedHandler?
     
@@ -92,6 +94,7 @@ class LoginViewController: MainViewController {
         view.addSubview(wechatButton)
         view.addSubview(qqButton)
         view.addSubview(weiboButton)
+        view.addSubview(exitButton)
         
         cancleButton.backgroundColor = SceneColor.lightgrey
         loginButton.backgroundColor  = SceneColor.lightblue
@@ -104,6 +107,7 @@ class LoginViewController: MainViewController {
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: .TouchUpInside)
         weiboButton .addTarget(self, action: "weiboLogin", forControlEvents: .TouchUpInside)
         qqButton    .addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
+        exitButton  .addTarget(self, action: "exitButtonAction", forControlEvents: .TouchUpInside)
     }
     
     private func initTextField() {
@@ -115,7 +119,9 @@ class LoginViewController: MainViewController {
         emailTextField.clearButtonMode     = UITextFieldViewMode.WhileEditing
         emailTextField.leftView            = emailLabel
         emailTextField.leftViewMode        = UITextFieldViewMode.Always
-        emailLabel.bounds           = CGRectMake(0, 0, size!.width, size!.height)
+        emailLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
+        emailTextField.keyboardType        = UIKeyboardType.URL
+
         
         passwordTextField.borderStyle      = UITextBorderStyle.RoundedRect
         passwordTextField.leftView         = passwLabel
@@ -127,7 +133,7 @@ class LoginViewController: MainViewController {
         passwordTextField.rightViewMode    = UITextFieldViewMode.Always
         passwordTextField.secureTextEntry  = true
         passwLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
-        passwordEyeButton.bounds           = CGRectMake(0, 0, 15, 11)
+        passwordEyeButton.bounds           = CGRectMake(0, 0, 26, 11)
     }
     
     private func initAutoLayout() {
@@ -145,6 +151,7 @@ class LoginViewController: MainViewController {
         weiboButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(49, 0))
         baseLineView.ff_AlignVertical(.TopCenter, referView: qqButton, size: CGSizeMake(screen.width * 0.84, 0.5), offset: CGPointMake(0, -(screen.height * 0.033)))
         elseLoginLabel.ff_AlignVertical(.TopCenter, referView: baseLineView, size: nil, offset: CGPointMake(0, -5))
+        exitButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(34, 34), offset: CGPointMake(0, -(screen.height * 0.052)))
     }
     
     // MARK: - 自定义方法
@@ -202,9 +209,16 @@ class LoginViewController: MainViewController {
         (parentViewController as? UINavigationController)?.pushViewController(RetrievePasswordController(), animated: true)
     }
     
+    // 显示密码
     func passwordEyeButton(btn: UIButton) {
         btn.selected = !btn.selected
+        btn.alpha = btn.selected ? 0.4 : 0.8
         passwordTextField.secureTextEntry  = btn.selected
+    }
+    
+    // 退出按钮
+    func exitButtonAction() {
+        cancleAction()
     }
     
     /// 登陆方法
@@ -218,33 +232,34 @@ class LoginViewController: MainViewController {
                     if status == RetCode.SUCCESS {
                         UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
                             if status == RetCode.SUCCESS {
-                                UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
-                                    if status == RetCode.SUCCESS {
-                                        let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
-                                            vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
-                                            vc?.curVCType = RecommendViewController.self
-                                            self.loginFinished?(result: true, error: nil)
-                                        })
-                                        if vc == nil {
-                                            UIApplication.sharedApplication().keyWindow?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
-                                            self.loginFinished?(result: true, error: nil)
-                                        }
-                                    } else {
-                                        SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
-                                        self.loginFinished?(result: false, error: nil)
-                                    }
+                                let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
+                                vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
+                                    vc?.curVCType = RecommendViewController.self
+                                    self.loginFinished?(result: true, error: nil)
                                 })
-                            } else {
-                                SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                                if vc == nil {
+                                    UIApplication.sharedApplication().keyWindow?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
+                                    self.loginFinished?(result: true, error: nil)
+                                }
+                            }  else {
+                                if RetCode.getShowMsg(status) == "" {
+                                    SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                                } else {
+                                    SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                                }
                                 self.loginFinished?(result: false, error: nil)
                             }
                         })
                     } else {
-                        SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                        if RetCode.getShowMsg(status) == "" {
+                            SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                        }
                     }
                 })
             } else {
-                SVProgressHUD.showInfoWithStatus("请输入6～32位字母、数字及常用符号组成")
+                SVProgressHUD.showInfoWithStatus("请输入6～20位字母、数字及常用符号组成")
             }
         } else {
             SVProgressHUD.showInfoWithStatus("邮箱格式错误")

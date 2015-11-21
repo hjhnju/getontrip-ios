@@ -59,6 +59,21 @@ class RetCode: NSObject {
     /// 网络请求失败
     static let  NETWORK_ERROR     = 508
     
+    //邮箱格式错误
+    static let EMAIL_FORMAT_WRONG  = 1027
+    
+    //密码格式错误
+    static let PASSWD_FORMAT_WRONG = 1028
+    
+    //邮箱不存在
+    static let EMAIL_WRONG         = 1029
+    
+    //密码错误
+    static let PASSWD_WORNG        = 1030
+    
+    //邮箱已被注册
+    static let EMAIL_EXSIT         = 1031
+    
     static let arrErrMap: [Int:String] = [
         RetCode.SUCCESS           : "成功",
         RetCode.UNKNOWN_ERROR     : "未知错误",
@@ -83,6 +98,19 @@ class RetCode: NSObject {
     //获取错误信息
     static func getMsg(retCode: Int) -> String {
         return arrErrMap[retCode] ?? ""
+    }
+    
+    // 给用户显示的信息
+    static let arrErrMapLogin: [Int:String] = [
+        RetCode.EMAIL_FORMAT_WRONG  : "邮箱格式错误",
+        RetCode.PASSWD_FORMAT_WRONG : "密码格式错误",
+        RetCode.EMAIL_WRONG         : "邮箱不存在",
+        RetCode.PASSWD_WORNG        : "密码错误",
+        RetCode.EMAIL_EXSIT         : "邮箱已被注册"
+    ]
+    
+    static func getShowMsg(retCode: Int) -> String {
+        return arrErrMapLogin[retCode] ?? ""
     }
 
 }

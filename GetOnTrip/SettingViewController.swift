@@ -252,10 +252,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UILabel(color: UIColor(hex: 0x1C1C1C, alpha: 0.7), title: "   基本资料", fontSize: 11, mutiLines: false)
-    }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = SettingTableViewCell()

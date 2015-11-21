@@ -38,6 +38,8 @@ class NewUserRegisterViewController: UIViewController {
     
     lazy var navTitleLabel      = UILabel(color: UIColor.whiteColor(), title: "注册", fontSize: 24, mutiLines: true)
     
+    let passwordEyeButton     = UIButton(image: "show_Password", title: "", fontSize: 20)
+    
     lazy var keyboardTakebackBtn = UIButton()
     
     override func viewDidLoad() {
@@ -77,8 +79,10 @@ class NewUserRegisterViewController: UIViewController {
         userProtocolButton.addTarget(self, action: "userProtocolAction:", forControlEvents: .TouchUpInside)
         backButton.addTarget(self, action: "backAction", forControlEvents: .TouchUpInside)
         nextButton.addTarget(self, action: "nexButtonAction", forControlEvents: .TouchUpInside)
+        passwordEyeButton.addTarget(self, action: "passwordEyeButton:", forControlEvents: .TouchUpInside)
         nextButton.backgroundColor = SceneColor.lightblue
-        userProtocolButton.setAttributedTitle("我已阅读并同意《用户注册协议》".getAttributedStringColor("《用户注册协议》", normalColor: UIColor(hex: 0xFFFFFF, alpha: 0.7), differentColor: SceneColor.lightblue), forState: .Normal)
+        userProtocolButton.setAttributedTitle("我已阅读并同意《用户注册协议》"
+        .getAttributedStringColor("《用户注册协议》", normalColor: UIColor(hex: 0xFFFFFF, alpha: 0.7), differentColor: SceneColor.lightblue), forState: .Normal)
     }
 
     private func initTextField() {
@@ -106,8 +110,8 @@ class NewUserRegisterViewController: UIViewController {
     private func initAutoLayout() {
         let screen = UIScreen.mainScreen().bounds
         let size = CGSizeMake(screen.width - 110, 42)
-        backButton.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(13, 26), offset: CGPointMake(12, screen.height * 0.1))
-        navTitleLabel.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, screen.height * 0.1))
+        backButton.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(13, 26), offset: CGPointMake(12, 42))
+        navTitleLabel.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 42))
         emailTextField.ff_AlignInner(.TopCenter, referView: view, size: size, offset: CGPointMake(0, screen.height * 0.21))
         passwordTextField.ff_AlignVertical(.BottomCenter, referView: emailTextField, size: size, offset: CGPointMake(0, 6))
         userAgreeButton.ff_AlignVertical(.BottomLeft, referView: passwordTextField, size: CGSizeMake(15, 15), offset: CGPointMake(0, 5))
@@ -138,6 +142,13 @@ class NewUserRegisterViewController: UIViewController {
         view.endEditing(true)
     }
     
+    // 显示密码
+    func passwordEyeButton(btn: UIButton) {
+        btn.selected = !btn.selected
+        btn.alpha = btn.selected ? 0.4 : 0.8
+        passwordTextField.secureTextEntry  = btn.selected
+    }
+    
     // 下一步操作按钮
     func nexButtonAction() {
         
@@ -145,6 +156,7 @@ class NewUserRegisterViewController: UIViewController {
             SVProgressHUD.showInfoWithStatus("请阅读《用户注册协议》")
             return
         }
+        
         
         let emailStr = emailTextField.text ?? ""
         let passwStr = passwordTextField.text ?? ""
@@ -154,23 +166,21 @@ class NewUserRegisterViewController: UIViewController {
                     if status == RetCode.SUCCESS {
                         UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
                             if status == RetCode.SUCCESS {
-                                UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
-                                    if status == RetCode.SUCCESS {
-                                        let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
-                                        vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
-                                            vc?.curVCType = SettingViewController.self
-                                            
-                                        })
-                                    } else {
-                                        SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
-                                    }
+                                let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
+                                vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
+                                    vc?.curVCType = SettingViewController.self
+                                    
                                 })
                             } else {
                                 SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
                             }
                         })
                     } else {
-                        SVProgressHUD.showInfoWithStatus("网络连接失败，请稍候注册")
+                        if RetCode.getShowMsg(status) == "" {
+                            SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                        }
                     }
                 })
             } else {

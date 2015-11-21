@@ -88,7 +88,7 @@ extension String {
     // 验证密码
     func validatePassword(password: String) -> Bool {
         
-        let mailPattern = "^[a-zA-Z0-9]{6,20}+$"
+        let mailPattern = "^[a-zA-Z0-9]{6,20}$"
         let matcher = MyRegex(mailPattern)
         return matcher.match(password)
     }
