@@ -84,7 +84,7 @@ class HttpRequest {
         //loging
         print("[HttpRequest]:url=\(url), hasValidCache=\(hasValidCache), hasDisplayCache=\(hasDisplayCache)")
         
-        if hasValidCache {
+        if hasValidCache && AppIni.UseValidCache {
             return
         }
         
@@ -98,13 +98,16 @@ class HttpRequest {
             //处理数据
             if let data = respData {
                 let json = JSON(data: data)
-                
-                //添加缓存
-                let rawString = json["data"].rawString()
-                if let str = rawString {
-                    Cache.shareInstance.setString(urlPath, value: str)
+                if json["status"].stringValue != "" {
+                    //添加缓存
+                    let rawString = json["data"].rawString()
+                    if let str = rawString {
+                        Cache.shareInstance.setString(urlPath, value: str)
+                    }
+                    return handler(result: json["data"], status: json["status"].intValue)
+                } else {
+                    return handler(result: nil, status: RetCode.UNKNOWN_ERROR)
                 }
-                return handler(result: json["data"], status: json["status"].intValue)
             }
         }
     }
