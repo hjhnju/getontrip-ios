@@ -249,13 +249,13 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
 //        let sinaWeiboInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeSinaWeibo)
         let wechaInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeWechat)
         let qqInstall = ShareSDK.isClientInstalled(SSDKPlatformType.TypeQQ)
-        
+    
         print("wecha \(wechaInstall)")
         print("qq  \(qqInstall)")
         
         if wechaInstall && qqInstall {
-            wechatButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
-            qqButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: wechatButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
+            qqButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
+            wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
             moreButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
         } else if !wechaInstall && !qqInstall {
             moreButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 42), offset: CGPointMake(0, 0))

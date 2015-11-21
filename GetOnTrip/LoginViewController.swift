@@ -56,7 +56,7 @@ class LoginViewController: MainViewController {
     
     lazy var keyboardTakebackBtn = UIButton()
     
-    let passwordEyeButton     = UIButton(image: "topic_eye_gray", title: "", fontSize: 0)
+    let passwordEyeButton     = UIButton(image: "show_Password", title: " ", fontSize: 10)
     
     /// 回调用于做完之后不影响之前的操作
     typealias LoginFinishedHandler = (result: Bool, error: NSError?) -> ()
