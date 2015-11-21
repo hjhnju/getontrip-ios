@@ -112,11 +112,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         print("CachSize=\(size)")
     }
     
-    func getUsedCache() -> String {
-        let size: CGFloat = CGFloat(SDImageCache.sharedImageCache().getSize()) / 1024.0 / 1024.0
-        return String(format: "%.1f", size)
-    }
-    
     ///  初始化属性
     private func setupAddProperty() {
 
@@ -256,10 +251,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     // MARK: - tableview delegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UILabel(color: UIColor(hex: 0x1C1C1C, alpha: 0.7), title: "   基本资料", fontSize: 11, mutiLines: false)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -525,29 +516,34 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     }
 
     
-    /// MARK: - 保存用户信息
+    /// 保存用户信息
     func saveUserInfo(btn: UIButton) {
-//        if btn.selected == false { return }
-//        
-//        iconView.image?.scaleImage(200)
-//        let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
-//        var sex: Int?
-//        if gender.text == "男" {
-//            sex = 0
-//        } else if gender.text == "女" {
-//            sex = 1
-//        } else {
-//            sex = 2
-//        }
-//
-//        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
-//            if error == nil {
-//                SVProgressHUD.showInfoWithStatus("保存成功")
-//                UserLogin.sharedInstance.loadAccount()
-//                self.saveButton = false
-//            }
-//        })
-        clearCacheAction()
+        if btn.selected == false { return }
+        
+        iconView.image?.scaleImage(200)
+        let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
+        var sex: Int?
+        if gender.text == "男" {
+            sex = 0
+        } else if gender.text == "女" {
+            sex = 1
+        } else {
+            sex = 2
+        }
+
+        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
+            if error == nil {
+                SVProgressHUD.showInfoWithStatus("保存成功")
+                UserLogin.sharedInstance.loadAccount()
+                self.saveButton = false
+            }
+        })
+    }
+    
+    /// 获取缓存大小
+    func getUsedCache() -> String {
+        let size: CGFloat = CGFloat(SDImageCache.sharedImageCache().getSize()) / 1024.0 / 1024.0
+        return String(format: "%.1f M", size)
     }
     
     /// 清除缓存

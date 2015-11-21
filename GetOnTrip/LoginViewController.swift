@@ -119,7 +119,9 @@ class LoginViewController: MainViewController {
         emailTextField.clearButtonMode     = UITextFieldViewMode.WhileEditing
         emailTextField.leftView            = emailLabel
         emailTextField.leftViewMode        = UITextFieldViewMode.Always
-        emailLabel.bounds           = CGRectMake(0, 0, size!.width, size!.height)
+        emailLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
+        emailTextField.keyboardType        = UIKeyboardType.URL
+
         
         passwordTextField.borderStyle      = UITextBorderStyle.RoundedRect
         passwordTextField.leftView         = passwLabel
@@ -230,33 +232,34 @@ class LoginViewController: MainViewController {
                     if status == RetCode.SUCCESS {
                         UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
                             if status == RetCode.SUCCESS {
-                                UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
-                                    if status == RetCode.SUCCESS {
-                                        let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
-                                            vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
-                                            vc?.curVCType = RecommendViewController.self
-                                            self.loginFinished?(result: true, error: nil)
-                                        })
-                                        if vc == nil {
-                                            UIApplication.sharedApplication().keyWindow?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
-                                            self.loginFinished?(result: true, error: nil)
-                                        }
-                                    } else {
-                                        SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
-                                        self.loginFinished?(result: false, error: nil)
-                                    }
+                                let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
+                                vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
+                                    vc?.curVCType = RecommendViewController.self
+                                    self.loginFinished?(result: true, error: nil)
                                 })
-                            } else {
-                                SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                                if vc == nil {
+                                    UIApplication.sharedApplication().keyWindow?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
+                                    self.loginFinished?(result: true, error: nil)
+                                }
+                            }  else {
+                                if RetCode.getShowMsg(status) == "" {
+                                    SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                                } else {
+                                    SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                                }
                                 self.loginFinished?(result: false, error: nil)
                             }
                         })
                     } else {
-                        SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                        if RetCode.getShowMsg(status) == "" {
+                            SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                        }
                     }
                 })
             } else {
-                SVProgressHUD.showInfoWithStatus("请输入6～32位字母、数字及常用符号组成")
+                SVProgressHUD.showInfoWithStatus("请输入6～20位字母、数字及常用符号组成")
             }
         } else {
             SVProgressHUD.showInfoWithStatus("邮箱格式错误")

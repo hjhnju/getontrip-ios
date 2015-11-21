@@ -157,6 +157,7 @@ class NewUserRegisterViewController: UIViewController {
             return
         }
         
+        
         let emailStr = emailTextField.text ?? ""
         let passwStr = passwordTextField.text ?? ""
         if emailStr.validateEmail(emailStr) {
@@ -165,23 +166,21 @@ class NewUserRegisterViewController: UIViewController {
                     if status == RetCode.SUCCESS {
                         UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
                             if status == RetCode.SUCCESS {
-                                UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
-                                    if status == RetCode.SUCCESS {
-                                        let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
-                                        vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
-                                            vc?.curVCType = SettingViewController.self
-                                            
-                                        })
-                                    } else {
-                                        SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
-                                    }
+                                let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
+                                vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
+                                    vc?.curVCType = SettingViewController.self
+                                    
                                 })
                             } else {
                                 SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
                             }
                         })
                     } else {
-                        SVProgressHUD.showInfoWithStatus("网络连接失败，请稍候注册")
+                        if RetCode.getShowMsg(status) == "" {
+                            SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                        } else {
+                            SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                        }
                     }
                 })
             } else {

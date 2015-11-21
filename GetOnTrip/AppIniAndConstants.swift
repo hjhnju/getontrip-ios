@@ -23,6 +23,9 @@ class AppIni:AppIniDev {
     static let Domain:String      = "www.getontrip.cn"
     static let SecretKey: String  = "ahl93##41cfw!@23"
     static let ApiVersion: String = "1.0"
+    
+    /// 是否直接使用未过期的缓存，并不再发送相同的数据请求
+    static let UseValidCache: Bool = true
 }
 
 struct SceneColor {

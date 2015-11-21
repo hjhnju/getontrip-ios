@@ -92,7 +92,11 @@ class RetrievePasswordController: UIViewController {
                     SVProgressHUD.showInfoWithStatus("发送成功，请重新登陆")
                     self.backAction()
                 } else {
-                    SVProgressHUD.showInfoWithStatus("您输入的邮箱可能有误，请重新输入")
+                    if RetCode.getShowMsg(status) == "" {
+                        SVProgressHUD.showInfoWithStatus("您输入的邮箱可能有误，请重新输入")
+                    } else {
+                        SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                    }
                 }
             })
         } else {
