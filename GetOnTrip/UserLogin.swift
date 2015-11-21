@@ -61,6 +61,10 @@ class UserLogin: NSObject {
         }
     }
     
+    func login2() {
+        
+    }
+    
     // MARK: - 退出登陆
     func exit() {
         globalUser = nil
@@ -86,7 +90,6 @@ class UserLogin: NSObject {
             if status == RetCode.SUCCESS {
                 //更新服务端用户最新信息
                 if let userinfo = userinfo {
-                    globalUser = UserAccount(user: SSDKUser(), type: 0)
                     globalUser?.nickname = userinfo.nick_name
                     globalUser?.gender   = Int(userinfo.sex) ?? 0
                     globalUser?.icon     = userinfo.image
