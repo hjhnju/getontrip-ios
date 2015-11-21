@@ -171,6 +171,7 @@ class NewUserRegisterViewController: UIViewController {
             if passwStr.validatePassword(passwStr) {
                 UserRegisterRequest.userRegister(emailStr, passwd: passwStr, handler: { (result, status) -> Void in
                     if status == RetCode.SUCCESS {
+                        globalUser = UserAccount(email: emailStr, passwd: passwStr)
                         UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
                             if status == RetCode.SUCCESS {
                                 let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
