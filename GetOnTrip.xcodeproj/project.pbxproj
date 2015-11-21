@@ -407,6 +407,9 @@
 		722BA3031C002049007C1E6C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */,
+				AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */,
+				AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */,
 				72D721341B6C4500005BDE55 /* FavoriteViewController.swift */,
 				AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */,
 				AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */,
@@ -423,11 +426,17 @@
 		722BA3041C002055007C1E6C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */,
+				AEA94F8F1B9AED30006D6998 /* UserAccount.swift */,
+				7287472F1BF9AAE200EE36AA /* UserLogin.swift */,
+				AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */,
+				AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */,
 				AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */,
 				AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */,
 				AEFC4E601BE62180001CCC8B /* FeedbackListRequest.swift */,
 				7293A0411BF4713A0070C64A /* Province.swift */,
 				72FE631D1BFB08070037C7D6 /* MessageList.swift */,
+				AE0B6F821BFF42D4002B8806 /* UserRegisterRequest.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -435,6 +444,7 @@
 		722BA3051C00205B007C1E6C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AE8C0C161BE8A090003C7942 /* LoginView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -534,8 +544,7 @@
 				727561801BCFC7160089CB27 /* City */,
 				AE7F0AC41BB95CA90011F307 /* Sight */,
 				AEAB95131BC7C2DF00B6EE62 /* Content */,
-				72D86E091B65E844004B72D0 /* Ucenter */,
-				AEC8007E1BA1354200099DD9 /* Login */,
+				72D86E091B65E844004B72D0 /* User */,
 				72D86E081B65E82B004B72D0 /* Common */,
 				72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */,
 				72D86DE41B65D94D004B72D0 /* AppDelegate.swift */,
@@ -605,14 +614,14 @@
 			name = Common;
 			sourceTree = "<group>";
 		};
-		72D86E091B65E844004B72D0 /* Ucenter */ = {
+		72D86E091B65E844004B72D0 /* User */ = {
 			isa = PBXGroup;
 			children = (
 				722BA3031C002049007C1E6C /* Controller */,
 				722BA3051C00205B007C1E6C /* View */,
 				722BA3041C002055007C1E6C /* Model */,
 			);
-			name = Ucenter;
+			name = User;
 			sourceTree = "<group>";
 		};
 		AE6849791B9BD94100F00560 /* location(地理位置) */ = {
@@ -817,23 +826,6 @@
 				AEC4217F1BF5A8BE0063E27F /* WXApiObject.h */,
 			);
 			path = WeChatSDK;
-			sourceTree = "<group>";
-		};
-		AEC8007E1BA1354200099DD9 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				AEA94F8F1B9AED30006D6998 /* UserAccount.swift */,
-				7287472F1BF9AAE200EE36AA /* UserLogin.swift */,
-				AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */,
-				AE7B997A1BA17DE4003034FB /* UserInfoRequest.swift */,
-				7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */,
-				AE8C0C161BE8A090003C7942 /* LoginView.swift */,
-				AE0B6F821BFF42D4002B8806 /* UserRegisterRequest.swift */,
-				AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */,
-				AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */,
-				AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */,
-			);
-			name = Login;
 			sourceTree = "<group>";
 		};
 		FDE1EB2793573F05036A1ECF /* Pods */ = {

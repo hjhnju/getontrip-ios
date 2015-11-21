@@ -141,7 +141,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         saveButton = false
         shadeView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
-        cancleButton.addTarget(self, action: "shadeViewClick", forControlEvents: UIControlEvents.TouchUpInside)
+        cancleButton.addTarget(self, action: "shadeViewClick:", forControlEvents: UIControlEvents.TouchUpInside)
         trueButton.addTarget(self, action: "trueButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         sortButton.addTarget(self, action: "sortClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
