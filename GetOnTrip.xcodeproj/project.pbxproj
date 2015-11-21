@@ -23,6 +23,7 @@
 		725A84751C009552007623C9 /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84741C009552007623C9 /* ReportRequest.swift */; };
 		725A84771C00A0AD007623C9 /* ReplayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84761C00A0AD007623C9 /* ReplayButton.swift */; };
 		725A84791C00A239007623C9 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84781C00A239007623C9 /* Comment.swift */; };
+		725A847D1C00CEAC007623C9 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A847C1C00CEAC007623C9 /* Device.swift */; };
 		726974281BDF168A000C0ABF /* RetCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726974271BDF168A000C0ABF /* RetCode.swift */; };
 		7269746B1BE3924F000C0ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7269746A1BE3924F000C0ABF /* Tag.swift */; };
 		7269746D1BE39434000C0ABF /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7269746C1BE39434000C0ABF /* Video.swift */; };
@@ -209,6 +210,7 @@
 		725A84741C009552007623C9 /* ReportRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		725A84761C00A0AD007623C9 /* ReplayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayButton.swift; sourceTree = "<group>"; };
 		725A84781C00A239007623C9 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		725A847C1C00CEAC007623C9 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		726974271BDF168A000C0ABF /* RetCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetCode.swift; sourceTree = "<group>"; };
 		7269746A1BE3924F000C0ABF /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		7269746C1BE39434000C0ABF /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
@@ -619,6 +621,7 @@
 				728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */,
 				728747331BFAD25200EE36AA /* Cookie.swift */,
 				72FE631F1BFB1B940037C7D6 /* Cache.swift */,
+				725A847C1C00CEAC007623C9 /* Device.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1034,6 +1037,7 @@
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,
 				AE7F0AC91BB95D3E0011F307 /* SightViewController.swift in Sources */,
 				AEB98F331BE1CAB500183261 /* SightTopicViewController.swift in Sources */,
+				725A847D1C00CEAC007623C9 /* Device.swift in Sources */,
 				AE79EED21BBA8A30005A7709 /* CityTopicTableViewCell.swift in Sources */,
 				727561821BD0F6240089CB27 /* City.swift in Sources */,
 				72D25A8F1BEB25C50044AE04 /* RecommendLabel.swift in Sources */,
