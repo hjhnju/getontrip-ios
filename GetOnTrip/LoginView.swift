@@ -66,9 +66,9 @@ class LoginView: UIView {
         loginPrompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, -75))
         
         
-        let wechaInstall = UIApplication.sharedApplication().canOpenURL(NSURL(string: "weixin://")!)
+        let wechaInstall = Device.isWeixinInstalled()
         
-        if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad && !wechaInstall {
+        if Device.isIPad() && !wechaInstall {
             wechatButton.hidden = true
             qqButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 20))
             sinaweiButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(50, 20))
