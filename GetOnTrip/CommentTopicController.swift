@@ -15,13 +15,26 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     /// 评论列表请求
     var lastRequest: CommentListRequest?
-    var page: Int = 0
     
     /// 发送评论请求
     var sendcommentRequest: CommentAddRequest = CommentAddRequest()
     
     /// 话题ID
     var topicId: String = ""
+    
+    /// 上层的评论的id
+    var upId: String = ""
+    
+    /// 给谁评论
+    var toUser: String = ""
+    
+    var data: [CommentList] = [CommentList]() {
+        didSet {
+            if data.count != 0 {
+                prompt.hidden = true
+            }
+        }
+    }
     
     /// 评论内容tableview
     lazy var tableView: UITableView = UITableView()
@@ -53,60 +66,52 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     var tableViewConH: NSLayoutConstraint?
     
-    var dataDict: NSMutableDictionary = NSMutableDictionary()
-        
-    var data: [CommentList] = [CommentList]() {
-        didSet {
-            if data.count != 0 {
-                prompt.hidden = true
-            }
-        }
-    }
-    
     var reloadIndexPath: NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     
     // MARK: - 初始化
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initProperty()
-        initRefresh()
-        setupAutoLayout()
+        initView()
+        initTableView()
+        autolayout()
     }
     
-    private func initProperty() {
+    private func initView() {
         view.addSubview(tableView)
         view.addSubview(commentBottomImage)
         view.addSubview(issueCommentView)
+        view.addSubview(commentTitleButton)
+        view.addSubview(prompt)
+        
         issueCommentView.addSubview(issueTextfield)
         issueCommentView.addSubview(issueCommentBtn)
         issueCommentView.addSubview(issueCommentTopLine)
         issueCommentBtn.backgroundColor = SceneColor.shallowYellows
         issueCommentBtn.setTitle("发布中...", forState: UIControlState.Selected)
-        view.addSubview(commentTitleButton)
+        issueCommentBtn.addTarget(self, action: "publishAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        
         commentTitleButton.addSubview(commentTitle)
         commentTitleButton.addSubview(commentBottomLine)
-        issueCommentBtn.addTarget(self, action: "publishAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        commentTitleButton.addTarget(self, action: "commentTitleButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
+        
         commentTitle.textAlignment = NSTextAlignment.Center
         commentTitle.backgroundColor = SceneColor.white.colorWithAlphaComponent(0.4)
+        
         issueTextfield.borderStyle = UITextBorderStyle.RoundedRect
         
-        view.addSubview(prompt)
         prompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: tableView, size: nil, offset: CGPointMake(0, -20))
         prompt.textAlignment = NSTextAlignment.Center
-        
+    }
+    
+    private func initTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.sectionHeaderHeight = 41
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        
         tableView.registerClass(CommentTableViewCell.self, forCellReuseIdentifier: "commentTableView_Cell")
-        commentTitleButton.addTarget(self, action: "commentTitleButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
-    }
-    
-    private func initRefresh() {
-        //上拉刷新
         
+        //上拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
         tbHeaderView.automaticallyChangeAlpha = true
         tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
@@ -120,10 +125,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    var upId    : String = ""
-    var to_user : String = ""
-    
-    private func setupAutoLayout() {
+    private func autolayout() {
         let tbH: CGFloat = UIScreen.mainScreen().bounds.height / 1.6 - 91
         commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 41)
         let cons = tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 41))
@@ -147,7 +149,6 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-//        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell", forIndexPath: indexPath) as! commentTableViewCell
         let cell = CommentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
         for i in cell.commentAnswersView.subviews {
             i.removeFromSuperview()
@@ -180,7 +181,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         reloadIndexPath = indexPath
         let com  = data[indexPath.row]
         upId     = String(com.id)
-        to_user  = com.from_user_id
+        toUser  = com.from_user_id
         issueTextfield.placeholder = "回复 " + com.from_name + " :"
     }
     
@@ -190,27 +191,24 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     func commentPersonTouchAction(btn: commentPersonButton) {
         reloadIndexPath = btn.indexPath!
-        
-        
-        
         let com  = data[btn.indexPath!.row]
         upId     = String(com.id)
         print(btn.index)
         if Int(btn.index!) >= 0 {
             let comm = com.sub_Comment[btn.index!]
-            to_user  = comm.from_user_id
+            toUser  = comm.from_user_id
         } else {
             upId    = ""
-            to_user = ""
+            toUser = ""
         }
         
         issueTextfield.placeholder = "回复 " + btn.from_name + " :"
         issueTextfield.becomeFirstResponder()
-        to_user = btn.frameUserId
+        toUser = btn.frameUserId
     }
     
     func commentTitleButtonAction() {
-        to_user = ""
+        toUser = ""
         upId = ""
         issueTextfield.placeholder = ""
         reloadIndexPath = NSIndexPath(forRow: 0, inSection: 0)
@@ -221,14 +219,14 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     var isLoading:Bool = false
     
     func loadData() {
-        if self.isLoading {
+        if isLoading {
             return
         }
         
-        self.isLoading = true
+        isLoading = true
         if lastRequest == nil {
             lastRequest = CommentListRequest()
-            lastRequest!.topicId = topicId
+            lastRequest?.topicId = topicId
         }
         
         lastRequest?.fetchFirstPageModels {[weak self] (result, status) -> Void in
@@ -242,17 +240,10 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
             
             if status == RetCode.SUCCESS {
                 if let data = result {
-                    for it in data {
-                        self!.dataDict.setValue(it, forKey: "\(it.id)")
-                    }
-                    self!.data.removeAll(keepCapacity: true)
-                    for (_, v) in self!.dataDict {
-                        self!.data.append(v as! CommentList)
-                    }
-                    self!.data.sortInPlace { $0.id > $1.id }
-                    self!.tableView.reloadData()
-                    self!.tableView.mj_header.endRefreshing()
-                    self!.prompt.hidden = self!.data.count > 0 ? true : false
+                    self?.data = data
+                    self?.tableView.reloadData()
+                    self?.tableView.mj_header.endRefreshing()
+                    self?.prompt.hidden = self?.data.count > 0 ? true : false
                 }
             } else {
                 SVProgressHUD.showInfoWithStatus("您的网络连接不稳定，请稍候后连接")
@@ -264,18 +255,21 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     
     /// 底部加载更多
     func loadMore(){
-        if self.isLoading {
+        if isLoading {
             return
         }
-        self.isLoading = true
+        isLoading = true
         //请求下一页
-        self.lastRequest?.fetchNextPageModels { [weak self] (result, status) -> Void in
-            
-            if status != RetCode.SUCCESS { SVProgressHUD.showInfoWithStatus("您的网络连接不稳定，请稍候后连接"); return }
+        lastRequest?.fetchNextPageModels { [weak self] (result, status) -> Void in
+            if status != RetCode.SUCCESS {
+                //不提示
+                return
+            }
             if let dataSource = result {
                 if dataSource.count > 0 {
                     if let cells = self?.data {
                         self?.data = cells + dataSource
+                        self?.tableView.reloadData()
                     }
                 }
             }
@@ -292,7 +286,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                 //设置为发布中
                 btn.selected = true
                 //请求发送
-                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.to_user, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
+                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.toUser, content: self.issueTextfield.text ?? "", handler: { (result, status) -> Void in
                     if status == RetCode.SUCCESS {
                         SVProgressHUD.showInfoWithStatus("发布成功")
                         self.issueTextfield.text = ""

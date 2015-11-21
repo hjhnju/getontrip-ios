@@ -104,8 +104,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     /// 网络请求加载数据(添加)
     var lastRequest: TopicRequest?
-    
-    
+
     //导航背景，用于完成渐变
     weak var navUnderlayView:UIView?
     
@@ -391,8 +390,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
             self?.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
             }) { [weak self]  (_) -> Void in
                 self?.commentVC.issueTextfield.placeholder = ""
-                self?.commentVC.to_user = ""
-                self?.commentVC.upId = ""
+                self?.commentVC.toUser = ""
+                self?.commentVC.upId   = ""
                 self?.commentVC.view.removeFromSuperview()
                 self?.cover.removeFromSuperview()
         }
