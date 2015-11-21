@@ -112,6 +112,7 @@
 		AE8586CB1BC7820500406BEF /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */; };
 		AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
+		AE8BA8961C008B8600F17F2A /* SettingNicknameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8BA8951C008B8600F17F2A /* SettingNicknameController.swift */; };
 		AE8C0C151BE8A04F003C7942 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8C0C141BE8A04F003C7942 /* ShareView.swift */; };
 		AE8C0C171BE8A090003C7942 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8C0C161BE8A090003C7942 /* LoginView.swift */; };
 		AE8C0C191BE8AB2D003C7942 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */; };
@@ -299,6 +300,7 @@
 		AE8586CA1BC7820500406BEF /* SearchResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsCell.swift; sourceTree = "<group>"; };
 		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
+		AE8BA8951C008B8600F17F2A /* SettingNicknameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingNicknameController.swift; sourceTree = "<group>"; };
 		AE8C0C141BE8A04F003C7942 /* ShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		AE8C0C161BE8A090003C7942 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */,
 				AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */,
 				AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */,
+				AE8BA8951C008B8600F17F2A /* SettingNicknameController.swift */,
 				AECD226C1B9EEC9B007F1D71 /* CollectContentViewController.swift */,
 				AECD22651B9ECDD5007F1D71 /* CollectSightViewController.swift */,
 				AECD226E1B9F045D007F1D71 /* CollectCityViewController.swift */,
@@ -1101,6 +1104,7 @@
 				AEAB95181BC7C79A00B6EE62 /* TopicViewController.swift in Sources */,
 				AEC9D2BC1BD7ADE700B28464 /* SendPopoverAnimator.swift in Sources */,
 				726974281BDF168A000C0ABF /* RetCode.swift in Sources */,
+				AE8BA8961C008B8600F17F2A /* SettingNicknameController.swift in Sources */,
 				AE2EEE941BCF58ED00ED0937 /* CitySightsRequest.swift in Sources */,
 				AEEA552D1BBFD7F7009AF772 /* TopicCell.swift in Sources */,
 				728747211BF8581800EE36AA /* SearchResult.swift in Sources */,

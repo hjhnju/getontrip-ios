@@ -35,7 +35,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     lazy var iconView: UIImageView = UIImageView()
     
     /// 昵称
-    lazy var nickName: UITextField = UITextField(alignment: NSTextAlignment.Right, sizeFout: 16, color: UIColor.blackColor())
+    lazy var nickName: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 16, mutiLines: true) //(alignment: NSTextAlignment.Right, sizeFout: 16, color: UIColor.blackColor())
     /// 性别
     lazy var gender: UILabel = UILabel(color: UIColor.blackColor(), title: "男", fontSize: 16, mutiLines: false)
     
@@ -89,6 +89,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     /// 退出登陆按钮
     lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 14, radius: 0, titleColor: UIColor.blackColor())
     
+    /// 清除缓存Label
+    var removeCacheLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "0.0M", fontSize: 16, mutiLines: true)
+    
+    /// 设置昵称控制器
+    lazy var nicknameController: SettingNicknameController = SettingNicknameController()
+    
     var saveButton: Bool = false {
         didSet {
             navBar.rightButton.selected = saveButton
@@ -103,6 +109,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         addChildViewController(switchPhotoVC)
+        addChildViewController(nicknameController)
         setupAddProperty()
         setupBarButtonItem()
         loadInitSetting()
@@ -140,7 +147,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         trueButton.addTarget(self, action: "trueButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         sortButton.addTarget(self, action: "sortClick:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64), offset: CGPointMake(0, 64))
+        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
         cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(10, 0))
         sortButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(0, 0))
         trueButton.ff_AlignInner(ff_AlignType.CenterRight, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(-10, 0))
@@ -167,26 +174,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
         navBar.rightButton.selected = false
         navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: UIControlState.Normal)
-        navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: UIControlState.Selected)
-                
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "nickNameTextFieldTextDidChangeNotification:", name: UITextFieldTextDidChangeNotification, object: nickName)
+        navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: UIControlState.Selected)                
     }
     
-    ///  昵称的文本改变时调用的通知
-    ///
-    ///  - parameter notification: 通知
-    func nickNameTextFieldTextDidChangeNotification(notification: NSNotification) {
-        
-        let textField = notification.object as! UITextField
-        nickName.text = textField.text
-        
-        if globalUser?.nickname != textField.text { saveButton = true } else { saveButton = false }
-    }
-    
-    ///  移除通知
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: nickName)
-    }
     
     ///  初始化设置
     private func loadInitSetting() {
@@ -249,49 +239,56 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     // MARK: - tableview delegate
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return section == 0 ? 4 : 1
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = SettingTableViewCell()
         
+        if indexPath.section == 0 {
             if indexPath.row == SettingCell.iconCell {
-
-                let baseView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
                 cell.left.text = "头像"
                 cell.addSubview(iconView)
                 iconView.layer.cornerRadius = 66 * 0.5
                 iconView.layer.masksToBounds = true
                 iconView.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: CGSizeMake(66, 66), offset: CGPointMake(-10, 0))
-                cell.addSubview(baseView)
-                baseView.ff_AlignInner(ff_AlignType.TopCenter, referView: cell, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-                
             } else if indexPath.row == SettingCell.nickCell {
-                
                 cell.left.text = "昵称"
                 cell.addSubview(nickName)
-                nickName.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: CGSizeMake(200, 17), offset: CGPointMake(-10, 0))
-                
+                nickName.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: nil, offset: CGPointMake(-10, 0))
             } else if indexPath.row == SettingCell.sexCell {
-                
                 cell.left.text = "性别"
                 cell.addSubview(gender)
                 gender.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
-                
             } else {
-                
                 cell.left.text = "城市"
                 cell.addSubview(city)
                 city.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
                 cell.baseline.removeFromSuperview()
             }
+        } else {
+            if indexPath.row == SettingCell.iconCell {
+                cell.left.text = "清除缓存"
+                cell.addSubview(removeCacheLabel)
+                removeCacheLabel.text = getUsedCache()
+                removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+                cell.baseline.removeFromSuperview()
+            } else if indexPath.row == SettingCell.nickCell {
+                // TODO: 以后再加 cell.left.text = "切换夜间模式"
+                
+            }
+        }
         
         return cell
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 46 : 94
+        return 15
     }
 
     /// 每行的行高
@@ -312,68 +309,78 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        // 退出键盘
-        nickName.resignFirstResponder()
-        
-        /// 先切换数据源方法，再实现动画
-        if indexPath.row == SettingCell.sexCell {
-            pickViewSourceNameAndCity = true
-            sortClick(sortButton)
-        }
-        
-        if indexPath.row == SettingCell.cityCell {
-            pickViewSourceNameAndCity = false
-            sortClick(sortButton)
-        }
-        
-        /// pickView 位置动画
-        if indexPath.row == SettingCell.cityCell || indexPath.row == SettingCell.sexCell{
-
-            let h: CGFloat = pickViewSourceNameAndCity ? 162 : 216
-            let y1: CGFloat = UIScreen.mainScreen().bounds.height
-            let w: CGFloat = UIScreen.mainScreen().bounds.width
-            pickView.frame = CGRectMake(0, y1, w, h)
-            let y: CGFloat = UIScreen.mainScreen().bounds.height - pickView.bounds.height
-            cancleBottomView.frame = CGRectMake(0, y1, w, 44)
+        if indexPath.section == 0 {
+            /// 先切换数据源方法，再实现动画
+            if indexPath.row == SettingCell.sexCell {
+                pickViewSourceNameAndCity = true
+                sortClick(sortButton)
+            }
             
-            pickView.selectRow(0, inComponent: 0, animated: false)
-            pickView.delegate!.pickerView!(pickView, didSelectRow: 0, inComponent: 0)
-            UIApplication.sharedApplication().keyWindow!.addSubview(shadeView)
-            shadeView.addTarget(self, action: "shadeViewClick:", forControlEvents: UIControlEvents.TouchUpInside)
-            UIApplication.sharedApplication().keyWindow!.addSubview(pickView)
-            UIApplication.sharedApplication().keyWindow!.addSubview(cancleBottomView)
+            if indexPath.row == SettingCell.cityCell {
+                pickViewSourceNameAndCity = false
+                sortClick(sortButton)
+            }
             
-            pickView.hidden = false
-            if pickView.frame.origin.y > y {
-            pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
-            let cy: CGFloat = y1 - pickView.frame.height - 44
+            if indexPath.row == SettingCell.nickCell {
+                navigationController?.pushViewController(SettingNicknameController(), animated: true)
+            }
+            
+            /// pickView 位置动画
+            if indexPath.row == SettingCell.cityCell || indexPath.row == SettingCell.sexCell{
+                
+                let h: CGFloat = pickViewSourceNameAndCity ? 162 : 216
+                let y1: CGFloat = UIScreen.mainScreen().bounds.height
+                let w: CGFloat = UIScreen.mainScreen().bounds.width
+                pickView.frame = CGRectMake(0, y1, w, h)
+                let y: CGFloat = UIScreen.mainScreen().bounds.height - pickView.bounds.height
+                cancleBottomView.frame = CGRectMake(0, y1, w, 44)
+                
+                pickView.selectRow(0, inComponent: 0, animated: false)
+                pickView.delegate!.pickerView!(pickView, didSelectRow: 0, inComponent: 0)
+                UIApplication.sharedApplication().keyWindow!.addSubview(shadeView)
+                shadeView.addTarget(self, action: "shadeViewClick:", forControlEvents: UIControlEvents.TouchUpInside)
+                UIApplication.sharedApplication().keyWindow!.addSubview(pickView)
+                UIApplication.sharedApplication().keyWindow!.addSubview(cancleBottomView)
+                
+                pickView.hidden = false
+                if pickView.frame.origin.y > y {
+                    pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
+                    let cy: CGFloat = y1 - pickView.frame.height - 44
+                    UIView.animateWithDuration(0.5, animations: { () -> Void in
+                        self.pickView.frame.origin.y = y
+                        self.shadeView.alpha = 0.5
+                        self.cancleBottomView.frame.origin.y = cy
+                    })
+                }
+            } else {
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.pickView.frame.origin.y = y
-                    self.shadeView.alpha = 0.5
-                    self.cancleBottomView.frame.origin.y = cy
+                    self.pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
                 })
             }
-        } else {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
-            })
-        }
-        
-        if indexPath.row == SettingCell.iconCell {
-            // 选择照片
-            if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
-                return
-            }
             
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            presentViewController(picker, animated: true, completion: nil)
+            if indexPath.row == SettingCell.iconCell {
+                // 选择照片
+                if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+                    return
+                }
+                
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                presentViewController(picker, animated: true, completion: nil)
+            }
+        } else {
+            if indexPath.row == 0 {
+                let alter = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: UIAlertControllerStyle.ActionSheet)
+                let actionCanale = UIAlertAction(title: "确定", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
+                    self.clearCacheAction()
+                })
+                let actionTrue   = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (alter) -> Void in
+                })
+                alter.addAction(actionCanale)
+                alter.addAction(actionTrue)
+                presentViewController(alter, animated: true, completion: nil)
+            }
         }
-
-    }
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        nickName.resignFirstResponder()
     }
     
     /// 头像图片
@@ -488,7 +495,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         return label!
     }
     
-    
     // MARK: 自定义方法
     
     /// 确定按钮
@@ -553,6 +559,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             //更新显示缓存
             let size = self?.getUsedCache()
             print("CachSize2=\(size)")
+            self!.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 1)], withRowAnimation: .None)
         }
     }
     
