@@ -306,6 +306,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     /// 选中每行评论
     func selectRowForComment(comment: Comment) {
         let alertController = UIAlertController(title: "对 \(comment.from_name) 的评论内容", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
         let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
         let replyAction  = UIAlertAction(title: "回复", style: UIAlertActionStyle.Default) { [weak self] (sender) -> Void in
             LoginView.sharedLoginView.doAfterLogin() {(success, error) -> () in
@@ -333,6 +334,12 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         alertController.addAction(cancelAction)
         alertController.addAction(replyAction)
         alertController.addAction(reportAction)
+        
+        // for iPad
+        alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = self.view.frame
+        
         self.presentViewController(alertController, animated: true, completion: nil)
     }
 
