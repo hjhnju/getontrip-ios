@@ -23,7 +23,7 @@ class LoginView: UIView {
 
     lazy var qqButton: UIButton = UIButton(icon: "icon_qq", masksToBounds: true)
     
-    lazy var weiboButton: UIButton = UIButton(icon: "icon_weibo", masksToBounds: true)
+    lazy var moreButton: UIButton = UIButton(icon: "more_white", masksToBounds: true)
     
     /// 登陆后需要执行的操作
     var loginFinishedHandler: UserLogin.LoginFinishedHandler?
@@ -44,14 +44,14 @@ class LoginView: UIView {
         addSubview(loginPrompt)
         addSubview(wechatButton)
         addSubview(qqButton)
-        addSubview(weiboButton)
+        addSubview(moreButton)
         
         loginBackground.backgroundColor = UIColor.blackColor()
         loginBackground.alpha = 0.7
         
         loginBackground.addTarget(self, action: "dismissFloating", forControlEvents: UIControlEvents.TouchUpInside)
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
-        weiboButton.addTarget(self, action: "weiboLogin", forControlEvents: UIControlEvents.TouchUpInside)
+        moreButton.addTarget(self, action: "moreLogin", forControlEvents: UIControlEvents.TouchUpInside)
         qqButton.addTarget(self, action: "qqLogin", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
@@ -59,7 +59,7 @@ class LoginView: UIView {
         loginBackground.ff_Fill(self)
         loginPrompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, -55))
         qqButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(0, 0))
-        weiboButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(50, 0))
+        moreButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(50, 0))
         wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 0))
     }
     
@@ -114,8 +114,14 @@ class LoginView: UIView {
     }
     
     //新浪微博登陆
-    func weiboLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler)
-        dismissFloating()
+    func moreLogin() {
+        let log = LoginViewController()
+        log.loginFinished = self.loginFinishedHandler
+        self.dismissFloating()
+        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(log, animated: true, completion: { () -> Void in
+        })
+
+//        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler)
+//        dismissFloating()
     }
 }

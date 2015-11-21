@@ -21,7 +21,7 @@ extension NSMutableArray {
         enumerateObjectsUsingBlock { (obj, idx, stop) -> Void in
             strM += "\t\(obj),\n"
         }
-        strM + ")"
+        strM += ")"
         return strM.copy() as! String
     }
     

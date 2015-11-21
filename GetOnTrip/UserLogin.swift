@@ -74,7 +74,7 @@ class UserLogin: NSObject {
     }
     
     /// 加载用户信息
-    func loadAccount() {
+    func loadAccount(handler: ((AnyObject?, Int) -> Void)? = nil) {
         /// 程序启动先调用登陆状态如果后台说未登陆就让它下线
         
         //先使用本地用户信息
@@ -86,17 +86,21 @@ class UserLogin: NSObject {
             if status == RetCode.SUCCESS {
                 //更新服务端用户最新信息
                 if let userinfo = userinfo {
+                    globalUser = UserAccount(user: SSDKUser(), type: 0)
                     globalUser?.nickname = userinfo.nick_name
                     globalUser?.gender   = Int(userinfo.sex) ?? 0
                     globalUser?.icon     = userinfo.image
                     globalUser?.city     = userinfo.city
                 }
                 self.saveAccount()
+                handler?(userinfo, status)
             } else if status == RetCode.SESSION_NOT_LOGIN {
                 //确定的未登录状态
                 self.exit()
+                handler?(nil, status)
             } else {
                 //其他情况不做处理，保留本地用户信息
+                handler?(nil, status)
             }
         }
     }
@@ -155,8 +159,9 @@ class UserLogin: NSObject {
             
             switch state{
             case SSDKResponseState.Success:
-                print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+//                print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
                 self.login(loginType, user: user)
+                finishHandler?(result: true, error: nil)
             case SSDKResponseState.Fail:
                 print("授权失败,错误描述:\(error)")
                 finishHandler?(result: false, error: error)
@@ -167,6 +172,4 @@ class UserLogin: NSObject {
             }
         })
     }
-
-
 }

@@ -54,12 +54,12 @@ class CommentTableViewCell : UITableViewCell {
                 commentPerson.frameUserId = item.from_user_id
                 commentPerson.titleLabel?.numberOfLines = 0
                 commentPerson.index = index
-//                commentPerson.titleLabel?.adjustsFontSizeToFitWidth = true
+                //                commentPerson.titleLabel?.adjustsFontSizeToFitWidth = true
                 
                 let size = (" " + item.from_name + " 回复 : " + item.to_name + " " + item.content).sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(w, CGFloat.max))
                 commentPerson.setAttributedTitle(schemeAttributedString(item.from_name, toName: item.to_name, content: item.content), forState: UIControlState.Normal)
                 commentPerson.frame = CGRectMake(12, y, size.width, size.height)
-//                commentPerson.sizeThatFits(size)
+                //                commentPerson.sizeThatFits(size)
                 y += size.height + 7
                 index++
             }
@@ -67,7 +67,7 @@ class CommentTableViewCell : UITableViewCell {
             for i in data!.sub_Comment {
                 if i == data!.sub_Comment.count {
                     str = str + i.from_name + "   回复 : " + i.to_name + i.content
-
+                    
                 } else {
                     str = str + i.from_name + "   回复 : " + i.to_name + i.content + "\n"
                 }

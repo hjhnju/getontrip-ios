@@ -131,6 +131,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.webView.scrollView.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
