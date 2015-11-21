@@ -22,7 +22,7 @@ class SettingNicknameController: MenuViewController {
         initView()
         initTextField()
         setupBarButtonItem()
-        navBar.setTitle(SettingViewController.name)
+        navBar.setTitle("昵称")
     }
     
     private func initView() {
