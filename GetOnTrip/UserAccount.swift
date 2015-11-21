@@ -30,6 +30,9 @@ class UserAccount: NSObject, NSCoding {
     /// 城市
     var city: String = ""
     
+    /// 邮箱
+    var email: String = ""
+    
     /// 原始数据
     var rawData: NSDictionary = NSDictionary()
     
@@ -48,6 +51,7 @@ class UserAccount: NSObject, NSCoding {
     /// 保存和加载文件
     static let accountPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).last!.stringByAppendingString("/account.plist")
     
+    /// 第三方账号构造
     init(user: SSDKUser?, type: Int) {
         openid     = user?.uid ?? ""
         nickname   = user?.nickname ?? ""
@@ -56,6 +60,11 @@ class UserAccount: NSObject, NSCoding {
         rawData    = user?.rawData ?? NSDictionary()
         self.type  = type
         super.init()
+    }
+    
+    /// email构造
+    init(email: String, passwd: String){
+        self.email = email
     }
     
     // MARK: - NSCoding 归档解档
