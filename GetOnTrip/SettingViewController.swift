@@ -133,7 +133,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         cancleButton.backgroundColor = SceneColor.lightYellow
         trueButton.backgroundColor   = SceneColor.lightYellow
         sortButton.backgroundColor   = UIColor.clearColor()
-        exitLogin.backgroundColor    = UIColor(hex: 0xF0F0F0, alpha: 1.0)
+        exitLogin.backgroundColor    = UIColor.whiteColor()
         
         cancleButton.alpha = 0.5
         view.addSubview(exitLogin)
@@ -157,7 +157,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     ///  初始化设置
     private func setupInitSetting() {
         title = SettingViewController.name
-        if globalUser?.icon != "" && globalUser?.icon != nil {
+        if globalUser?.icon != "http://static.getontrip.cn@e400w_e400h" {
             iconView.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""))
         }
         if      globalUser?.gender.hashValue == 0 { gender.text = "男" }
@@ -325,8 +325,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             
             if indexPath.row == SettingCell.nickCell {
                 let nvc = SettingNicknameController()
-                nvc.userNameTextField.text = nickName.text
-                navigationController?.pushViewController(SettingNicknameController(), animated: true)
+                nvc.userNameTextField.text = globalUser?.nickname
+                navigationController?.pushViewController(nvc, animated: true)
             }
             
             /// pickView 位置动画

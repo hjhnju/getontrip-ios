@@ -56,6 +56,12 @@ class SettingNicknameController: MenuViewController {
 
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        userNameTextField.becomeFirstResponder()
+    }
+    
     ///  昵称的文本改变时调用的通知
     ///
     ///  - parameter notification: 通知
@@ -64,21 +70,11 @@ class SettingNicknameController: MenuViewController {
         let textField = notification.object as! UITextField
         userNameTextField.text = textField.text
         
-        let vc = parentViewController as? UINavigationController ?? UINavigationController()
-        for vc in vc.viewControllers {
-            if vc.isKindOfClass(NSClassFromString("GetOnTrip.SettingViewController")!) {
-                if let vc = vc as? SettingViewController {
-                    if globalUser?.nickname != textField.text && textField.text != "" {
-                        vc.saveButton = true
-                        navBar.rightButton.selected = true
-                    } else {
-                        vc.saveButton = false
-                        navBar.rightButton.selected = false
-                    }
-                }
-            }
+        if globalUser?.nickname != textField.text && textField.text != "" {
+            navBar.rightButton.selected = true
+        } else {
+            navBar.rightButton.selected = false
         }
-        
     }
     
     ///  移除通知
@@ -95,6 +91,7 @@ class SettingNicknameController: MenuViewController {
             if vc.isKindOfClass(NSClassFromString("GetOnTrip.SettingViewController")!) {
                 if let vc = vc as? SettingViewController {
                     vc.nickName.text = userNameTextField.text
+                    vc.saveUserInfo(navBar.rightButton)
                 }
             }
         }

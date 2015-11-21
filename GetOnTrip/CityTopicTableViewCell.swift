@@ -31,8 +31,11 @@ class CityTopicTableViewCell: UITableViewCell {
                 iconView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage:PlaceholderImage.defaultSmall)
                 title.text = topic.title
                 subTitle.text = topic.subtitle
-
-                label.text = "\(topic.sight)・\(topic.tagname)"
+                if topic.sight != "" {
+                    label.text = "\(topic.sight)・\(topic.tagname)"
+                } else {
+                    label.text = "\(topic.tagname)"
+                }
                 visit.setTitle(" " + topic.visit, forState: UIControlState.Normal)
             }
         }
