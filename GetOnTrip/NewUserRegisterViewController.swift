@@ -83,6 +83,10 @@ class NewUserRegisterViewController: UIViewController {
         nextButton.backgroundColor = SceneColor.lightblue
         userProtocolButton.setAttributedTitle("我已阅读并同意《用户注册协议》"
         .getAttributedStringColor("《用户注册协议》", normalColor: UIColor(hex: 0xFFFFFF, alpha: 0.7), differentColor: SceneColor.lightblue), forState: .Normal)
+        emailLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
+        passwLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
+        nextButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
+        navTitleLabel.font = UIFont(name: "PingFangTC-Light", size: 24)
     }
 
     private func initTextField() {
@@ -100,6 +104,9 @@ class NewUserRegisterViewController: UIViewController {
         passwordTextField.borderStyle      = UITextBorderStyle.RoundedRect
         passwordTextField.leftView         = passwLabel
         passwordTextField.leftViewMode     = UITextFieldViewMode.Always
+        passwordTextField.rightView        = passwordEyeButton
+        passwordTextField.rightViewMode    = UITextFieldViewMode.Always
+        passwordEyeButton.bounds           = CGRectMake(0, 0, 36, 11)
         passwordTextField.autocorrectionType = UITextAutocorrectionType.Default
         passwordTextField.returnKeyType    = UIReturnKeyType.Done
         passwordTextField.clearButtonMode  = UITextFieldViewMode.WhileEditing
@@ -169,15 +176,14 @@ class NewUserRegisterViewController: UIViewController {
                                 let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
                                 vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
                                     vc?.curVCType = SettingViewController.self
-                                    
                                 })
                             } else {
-                                SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                                SVProgressHUD.showInfoWithStatus("注册失败，请稍候注册")
                             }
                         })
                     } else {
                         if RetCode.getShowMsg(status) == "" {
-                            SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                            SVProgressHUD.showInfoWithStatus("注册失败，请稍候注册")
                         } else {
                             SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
                         }

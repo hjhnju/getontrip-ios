@@ -17,13 +17,15 @@ class LoginView: UIView {
     
     lazy var loginBackground: UIButton = UIButton()
     
-    lazy var loginPrompt: UILabel = UILabel(color: UIColor.whiteColor(), title: "使用以下账号直接登录", fontSize: 16, mutiLines: true)
+    lazy var loginPrompt: UILabel      = UILabel(color: UIColor.whiteColor(), title: "使用以下账号直接登录", fontSize: 16, mutiLines: true)
 
-    lazy var wechatButton: UIButton = UIButton(icon: "icon_weixin", masksToBounds: true)
+    lazy var wechatButton: UIButton    = UIButton(icon: "icon_weixin", masksToBounds: true)
 
-    lazy var qqButton: UIButton = UIButton(icon: "icon_qq", masksToBounds: true)
+    lazy var qqButton: UIButton        = UIButton(icon: "icon_qq", masksToBounds: true)
     
-    lazy var moreButton: UIButton = UIButton(icon: "more_white", masksToBounds: true)
+    lazy var sinaweiButton: UIButton   = UIButton(icon: "icon_weibo", masksToBounds: true)
+    
+    lazy var emailButton: UIButton     = UIButton(title: "或使用邮箱密码 登录", fontSize: 16, radius: 0, titleColor: UIColor.whiteColor())
     
     /// 登陆后需要执行的操作
     var loginFinishedHandler: UserLogin.LoginFinishedHandler?
@@ -44,23 +46,28 @@ class LoginView: UIView {
         addSubview(loginPrompt)
         addSubview(wechatButton)
         addSubview(qqButton)
-        addSubview(moreButton)
+        addSubview(sinaweiButton)
+        addSubview(emailButton)
         
         loginBackground.backgroundColor = UIColor.blackColor()
         loginBackground.alpha = 0.7
         
-        loginBackground.addTarget(self, action: "dismissFloating", forControlEvents: UIControlEvents.TouchUpInside)
-        wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
-        moreButton.addTarget(self, action: "moreLogin", forControlEvents: UIControlEvents.TouchUpInside)
-        qqButton.addTarget(self, action: "qqLogin", forControlEvents: UIControlEvents.TouchUpInside)
+        loginBackground.addTarget(self, action: "dismissFloating", forControlEvents: .TouchUpInside)
+        wechatButton   .addTarget(self, action: "wechatLogin", forControlEvents: .TouchUpInside)
+        sinaweiButton  .addTarget(self, action: "moreLogin", forControlEvents: .TouchUpInside)
+        qqButton       .addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
+        emailButton    .addTarget(self, action: "emailButtonAction", forControlEvents: .TouchUpInside)
+        let attr = "或使用邮箱密码 登录".getAttributedStringColor("登录", normalColor: UIColor.whiteColor(), differentColor: SceneColor.lightblue)
+        emailButton.setAttributedTitle(attr, forState: .Normal)
     }
     
     private func setupAutoLayout() {
         loginBackground.ff_Fill(self)
         loginPrompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, -55))
         qqButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(0, 0))
-        moreButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(50, 0))
+        sinaweiButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(50, 0))
         wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 0))
+        emailButton.ff_AlignVertical(.BottomCenter, referView: qqButton, size: nil, offset: CGPointMake(0, 126))
     }
     
     // MARK: 自定义方法
@@ -115,13 +122,17 @@ class LoginView: UIView {
     
     //新浪微博登陆
     func moreLogin() {
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler)
+        dismissFloating()
+    }
+    
+    // 邮箱登陆
+    func emailButtonAction() {
         let log = LoginViewController()
+        let nav = UINavigationController(rootViewController: log)
         log.loginFinished = self.loginFinishedHandler
         self.dismissFloating()
-        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(log, animated: true, completion: { () -> Void in
+        UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(nav, animated: true, completion: { () -> Void in
         })
-
-//        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler)
-//        dismissFloating()
     }
 }

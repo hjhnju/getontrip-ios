@@ -52,6 +52,12 @@ class RetrievePasswordController: UIViewController {
         backgroundImageView.frame = UIScreen.mainScreen().bounds
         backButton.addTarget(self, action: "backAction", forControlEvents: .TouchUpInside)
         sendButton.addTarget(self, action: "sendButtonAction", forControlEvents: .TouchUpInside)
+        navTitleLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
+        sendButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
+        navTitleLabel.font = UIFont(name: "PingFangTC-Light", size: 24)
+        let attr = NSMutableAttributedString(string: "请输入邮箱")
+        attr.addAttribute(NSFontAttributeName, value: UIFont(name: "PingFangTC-Light", size: 18) ?? UIFont.systemFontOfSize(18) , range: NSMakeRange(0, attr.length))
+        emailTextField.attributedPlaceholder = attr
     }
     
     private func initTextField() {

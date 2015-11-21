@@ -108,6 +108,10 @@ class LoginViewController: MainViewController {
         weiboButton .addTarget(self, action: "weiboLogin", forControlEvents: .TouchUpInside)
         qqButton    .addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
         exitButton  .addTarget(self, action: "exitButtonAction", forControlEvents: .TouchUpInside)
+        emailLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
+        passwLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
+        loginButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
+        cancleButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
     }
     
     private func initTextField() {
@@ -133,7 +137,7 @@ class LoginViewController: MainViewController {
         passwordTextField.rightViewMode    = UITextFieldViewMode.Always
         passwordTextField.secureTextEntry  = true
         passwLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
-        passwordEyeButton.bounds           = CGRectMake(0, 0, 26, 11)
+        passwordEyeButton.bounds           = CGRectMake(0, 0, 36, 11)
     }
     
     private func initAutoLayout() {
@@ -143,10 +147,14 @@ class LoginViewController: MainViewController {
         passwordTextField.ff_AlignVertical(.BottomCenter, referView: emailTextField, size: size, offset: CGPointMake(0, 6))
         loginButton.ff_AlignVertical(.BottomCenter, referView: passwordTextField, size: size, offset: CGPointMake(0, screen.height * 0.04))
         cancleButton.ff_AlignVertical(.BottomCenter, referView: loginButton, size: size, offset: CGPointMake(0, 6))
-        welcomeLabel.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, screen.height * 0.1))
+        welcomeLabel.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 42))
         retrievePwButton.ff_AlignVertical(.BottomLeft, referView: cancleButton, size: nil, offset: CGPointMake(0, screen.height * 0.02))
         registerButton.ff_AlignVertical(.BottomRight, referView: cancleButton, size: nil, offset: CGPointMake(0, screen.height * 0.02))
-        qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.13)))
+        if (UIScreen.mainScreen().bounds.width == 320) {
+            qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.13)))
+        } else {
+            qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.167)))
+        }
         wechatButton.ff_AlignHorizontal(.CenterLeft, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(-49, 0))
         weiboButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(49, 0))
         baseLineView.ff_AlignVertical(.TopCenter, referView: qqButton, size: CGSizeMake(screen.width * 0.84, 0.5), offset: CGPointMake(0, -(screen.height * 0.033)))
@@ -212,7 +220,7 @@ class LoginViewController: MainViewController {
     // 显示密码
     func passwordEyeButton(btn: UIButton) {
         btn.selected = !btn.selected
-        btn.alpha = btn.selected ? 0.4 : 0.8
+        btn.alpha = btn.selected ? 0.3 : 1
         passwordTextField.secureTextEntry  = btn.selected
     }
     
