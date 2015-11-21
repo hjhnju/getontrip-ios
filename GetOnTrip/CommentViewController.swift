@@ -1,5 +1,5 @@
 //
-//  CommentTopicController.swift
+//  CommentViewController.swift
 //  GetOnTrip
 //
 //  Created by 王振坤 on 15/10/13.
@@ -11,7 +11,7 @@ import FFAutoLayout
 import SVProgressHUD
 import MJRefresh
 
-class CommentTopicController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate {
+class CommentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate {
     
     /// 评论列表请求
     var lastRequest: CommentListRequest?
@@ -194,28 +194,21 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
     func touchReplyCommentAction(btn: ReplayButton) {
         reloadIndexPath = btn.indexPath!
         let comment  = commentsDataSource[btn.indexPath!.row]
-        upId     = String(comment.id)
-        print(btn.index)
         if Int(btn.index!) >= 0 {
             let replay = comment.sub_Comment[btn.index!]
-            toUser  = replay.from_user_id
+            selectRowForComment(replay)
         } else {
             upId    = ""
             toUser = ""
         }
-        
-        issueTextfield.placeholder = "回复 " + btn.from_name + " :"
-        issueTextfield.becomeFirstResponder()
-        toUser = btn.frameUserId
     }
     
     func commentTitleButtonAction() {
         toUser = ""
-        upId = ""
+        upId   = ""
         issueTextfield.placeholder = ""
         reloadIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     }
-    
     
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -234,7 +227,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         lastRequest?.fetchFirstPageModels {[weak self] (result, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                SVProgressHUD.showInfoWithStatus("您的网络无法连接")
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
@@ -248,7 +241,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
                     self?.prompt.hidden = self?.commentsDataSource.count > 0 ? true : false
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("您的网络连接不稳定，请稍候后连接")
+                SVProgressHUD.showInfoWithStatus("您的网络无法连接")
             }
             
             self?.isLoading = false
@@ -311,7 +304,7 @@ class CommentTopicController: UIViewController, UITableViewDataSource, UITableVi
         let replyAction  = UIAlertAction(title: "回复", style: UIAlertActionStyle.Default) { [weak self] (sender) -> Void in
             LoginView.sharedLoginView.doAfterLogin() {(success, error) -> () in
                 if success {
-                    self?.upId     = String(comment.id)
+                    self?.upId     = String(comment.upid)
                     self?.toUser   = comment.from_user_id
                     let placeholder = "回复 \(comment.from_name):"
                     self?.issueTextfield.placeholder = placeholder

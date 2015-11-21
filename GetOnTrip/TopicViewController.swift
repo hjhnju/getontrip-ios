@@ -63,8 +63,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
   
     lazy var shareView: ShareView = ShareView()
     
-    lazy var commentVC: CommentTopicController = {
-        return CommentTopicController()
+    lazy var commentVC: CommentViewController = {
+        return CommentViewController()
     }()
     
     // MARK: DataSource of Controller

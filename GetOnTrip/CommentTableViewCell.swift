@@ -29,14 +29,16 @@ class CommentTableViewCell : UITableViewCell {
     
     var answerCommentViewHeight: NSLayoutConstraint?
     
-    var data: Comment? {
+    var data: Comment = Comment(id: "") {
         didSet {
-            iconView.sd_setImageWithURL(NSURL(string: data!.avatar)!, placeholderImage:PlaceholderImage.defaultSmall)
-            titleName.text = data!.from_name
-            content.text = data!.content
-            time.text = data!.create_time
+            if let nsurl = NSURL(string: data.avatar) {
+                iconView.sd_setImageWithURL(nsurl, placeholderImage:PlaceholderImage.defaultSmall)
+            }
+            titleName.text = data.from_name
+            content.text = data.content
+            time.text = data.create_time
             
-            if data?.to_name == "" {
+            if data.to_name == "" {
                 answerLabel.hidden = true
             } else {
                 answerLabel.hidden = false
@@ -44,11 +46,11 @@ class CommentTableViewCell : UITableViewCell {
             var y: CGFloat = 8
             let w: CGFloat = UIScreen.mainScreen().bounds.width - 75 - 12
             var index: Int = 0
-            for item in data!.sub_Comment {
+            for item in data.sub_Comment {
                 let replay = ReplayButton(title: "Clara J:", fontSize: 11, radius: 0, titleColor: SceneColor.fontGray)
                 commentAnswersView.addSubview(replay)
                 
-                replay.upId = String(data!.id)
+                replay.upId = String(data.id)
                 replay.to_name = item.to_name
                 replay.from_name = item.from_name
                 replay.frameUserId = item.from_user_id
@@ -62,8 +64,8 @@ class CommentTableViewCell : UITableViewCell {
                 index++
             }
             var str = ""
-            for i in data!.sub_Comment {
-                if i == data!.sub_Comment.count {
+            for i in data.sub_Comment {
+                if i == data.sub_Comment.count {
                     str = str + i.from_name + "   回复 : " + i.to_name + i.content
                     
                 } else {
@@ -71,11 +73,11 @@ class CommentTableViewCell : UITableViewCell {
                 }
             }
             
-            let h: CGFloat = data!.sub_Comment.count < 2 ? 0 : CGFloat(data!.sub_Comment.count * 7)
+            let h: CGFloat = data.sub_Comment.count < 2 ? 0 : CGFloat(data.sub_Comment.count * 7)
             
             answerCommentViewHeight!.constant = str.sizeofStringWithFount(UIFont.systemFontOfSize(11), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 75 - 24, CGFloat.max)).height + 16 + h
             
-            if data?.sub_Comment.count == 0 {
+            if data.sub_Comment.count == 0 {
                 commentAnswersView.hidden = true
             }
         }
