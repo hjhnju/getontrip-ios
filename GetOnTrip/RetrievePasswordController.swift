@@ -14,14 +14,14 @@ import SVProgressHUD
 class RetrievePasswordController: UIViewController {
 
     /// 邮箱
-    lazy var email   = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
+    var email   = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
     
     /// 发送
-    lazy var sendBtn = UIButton(title: "发送", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
+    var sendBtn = UIButton(title: "发送", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
     
-    lazy var backButton   = UIButton(image: "back_white", title: "", fontSize: 0)
+    var backButton   = UIButton(image: "back_white", title: "", fontSize: 0)
     
-    lazy var navTitle     = UILabel(color: UIColor.whiteColor(), title: "找回密码", fontSize: 24, mutiLines: true)
+    var navTitle     = UILabel(color: UIColor.whiteColor(), title: "找回密码", fontSize: 24, mutiLines: true)
     
     override func viewDidLoad() {
         super.viewDidLoad()

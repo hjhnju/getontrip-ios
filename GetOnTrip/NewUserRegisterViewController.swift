@@ -14,13 +14,13 @@ import SVProgressHUD
 class NewUserRegisterViewController: UIViewController {
 
     /// 邮箱
-    lazy var email     = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
+    var email     = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
     
     /// 密码
-    lazy var password  = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
+    var password  = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
     
     /// 下一步按钮
-    lazy var nextBtn   = UIButton(title: "下一步", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
+    var nextBtn   = UIButton(title: "下一步", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
     
     /// 邮箱字
     let emailLab: UILabel = UILabel(color: SceneColor.lightGrayEM, title: "  邮箱 ", fontSize: 18, mutiLines: true)
@@ -29,14 +29,14 @@ class NewUserRegisterViewController: UIViewController {
     let passwLab: UILabel = UILabel(color: SceneColor.lightGrayEM, title: "  密码 ", fontSize: 18, mutiLines: true)
     
     /// 用户协议
-    lazy var userProtocol = UIButton(title: "我已阅读并同意《用户注册协议》", fontSize: 11, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
+    var userProtocol = UIButton(title: "我已阅读并同意《用户注册协议》", fontSize: 11, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
     
     /// 用户
-    lazy var userAgree    = UIButton(image: "userProtocol_false", title: "", fontSize: 11)
+    var userAgree    = UIButton(image: "userProtocol_false", title: "", fontSize: 11)
     
-    lazy var backButton   = UIButton(image: "back_white", title: "", fontSize: 0)
+    var backButton   = UIButton(image: "back_white", title: "", fontSize: 0)
     
-    lazy var navTitle     = UILabel(color: UIColor.whiteColor(), title: "注册", fontSize: 24, mutiLines: true)
+    var navTitle     = UILabel(color: UIColor.whiteColor(), title: "注册", fontSize: 24, mutiLines: true)
     
     override func viewDidLoad() {
         super.viewDidLoad()

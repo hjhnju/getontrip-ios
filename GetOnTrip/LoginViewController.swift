@@ -14,40 +14,40 @@ class LoginViewController: MainViewController {
     
     // MARK: - 属性
     /// 欢迎label
-    lazy var welcome   = UILabel(color: UIColor.whiteColor(), title: "Welcome", fontSize: 44, mutiLines: true)
+    var welcome   = UILabel(color: UIColor.whiteColor(), title: "Welcome", fontSize: 44, mutiLines: true)
     
     /// 邮箱
-    lazy var email     = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
+    var email     = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
     
     /// 密码
-    lazy var password  = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
+    var password  = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
     
     /// 登录
-    lazy var loginBtn  = UIButton(title: "登录", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
+    var loginBtn  = UIButton(title: "登录", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
     
     /// 取消
-    lazy var cancleBtn = UIButton(title: "取消", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
+    var cancleBtn = UIButton(title: "取消", fontSize: 20, radius: 2, titleColor: UIColor.whiteColor())
     
     /// 忘忆密码
-    lazy var retrievePw = UIButton(title: "忘记密码", fontSize: 13, radius: 0, titleColor: UIColor.whiteColor())
+    var retrievePw = UIButton(title: "忘记密码", fontSize: 13, radius: 0, titleColor: UIColor.whiteColor())
     
     /// 注册
-    lazy var register  = UIButton(title: "新用户注册", fontSize: 13, radius: 0, titleColor: UIColor.whiteColor())
+    var register  = UIButton(title: "新用户注册", fontSize: 13, radius: 0, titleColor: UIColor.whiteColor())
     
     /// 其他登陆方式
-    lazy var elseLogin = UILabel(color: UIColor.whiteColor(), title: "或使用第三方账号登录", fontSize: 13, mutiLines: true)
+    var elseLogin = UILabel(color: UIColor.whiteColor(), title: "或使用第三方账号登录", fontSize: 13, mutiLines: true)
     
     /// 基线
-    lazy var baseLine  = UIView(color: UIColor.whiteColor(), alphaF: 0.5)
+    var baseLine  = UIView(color: UIColor.whiteColor(), alphaF: 0.5)
     
     /// 微信
-    lazy var wechatBtn = UIButton(icon: "icon_weixin", masksToBounds: true)
+    var wechatBtn = UIButton(icon: "icon_weixin", masksToBounds: true)
     
     /// qq
-    lazy var qqBtn     = UIButton(icon: "icon_qq", masksToBounds: true)
+    var qqBtn     = UIButton(icon: "icon_qq", masksToBounds: true)
     
     /// weibo
-    lazy var weiboBtn  = UIButton(icon: "icon_weibo", masksToBounds: true)
+    var weiboBtn  = UIButton(icon: "icon_weibo", masksToBounds: true)
     
     let emailLab = UILabel(color: SceneColor.lightGrayEM, title: "  邮箱 ", fontSize: 18, mutiLines: true)
     
