@@ -52,7 +52,7 @@ class RecommendTableViewCell: UITableViewCell {
                     btn3.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
                 } else {//
                     btn1.setImage(UIImage(named: "search_star"), forState: UIControlState.Normal)
-                    btn2.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
+                    btn2.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
                     btn3.setImage(UIImage(named: "search_comment"), forState: UIControlState.Normal)
                 }
             }

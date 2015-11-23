@@ -257,20 +257,22 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     ///  添加搜索标签按钮
     private func addSearchLabelButton() {
         //参数
-        let btnWidth:CGFloat  = 100
-        let btnHeight:CGFloat = 17
+        let btnWidth:CGFloat  = (UIScreen.mainScreen().bounds.width * 0.5) - (84 * 0.5)
+        let btnHeight:CGFloat = (244 - 75) / 3
         let totalCol:Int      = 2
         let totalRow:Int      = 3
-        let marginX:CGFloat   = (headerView.bounds.size.width - btnWidth * CGFloat(totalCol)) / CGFloat(totalCol + 1)
-        let yOffset:CGFloat   = 105
-        let marginY:CGFloat   = 26
+        let yOffset:CGFloat   = 75
+        let marginY:CGFloat   = 0
 
         for (var i = 0; i < recommendLabels.count; i++) {
             let btn = UIButton(title: recommendLabels[i].toString(), fontSize: 14, radius: 0)
-            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+            if ((i % 2) == 0) {
+                btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+            } else {
+                btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+            }
             headerView.addSubview(btn)
-            
-            btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: UIControlEvents.TouchUpInside)
+            btn.backgroundColor = UIColor.randomColor()
             btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
             btn.tag = Int(recommendLabels[i].order) ?? 1
@@ -279,13 +281,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 currentSearchLabelButton = btn
             }
             let row:Int = i / totalCol
-            let col:Int = i % totalCol
             
             if row >= totalRow {
                 break
             }
             
-            let btnX:CGFloat = marginX + (marginX + btnWidth) * CGFloat(col)
+            let btnX:CGFloat = ((i % 2) == 0) ? 0 : 84 + btnWidth
             let btnY:CGFloat = yOffset + (marginY + btnHeight) * CGFloat(row)
             
             btn.frame = CGRectMake(btnX, btnY, btnWidth, btnHeight)
