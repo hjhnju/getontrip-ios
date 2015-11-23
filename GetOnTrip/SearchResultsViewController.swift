@@ -267,8 +267,10 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let searvc = parentViewController as? SearchViewController
         if searchController.searchBar.text != "" {
+            tableView.hidden = false
             searvc?.locationButton.hidden = true
         } else {
+            tableView.hidden = true
             searvc?.locationButton.hidden = false
         }
         if !searchController.active { return }
