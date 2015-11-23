@@ -10,7 +10,8 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
-class LoginViewController: MainViewController {
+
+class LoginViewController: MainViewController, UITextFieldDelegate {
     
     // MARK: - 属性
     
@@ -98,6 +99,8 @@ class LoginViewController: MainViewController {
         
         cancleButton.backgroundColor = SceneColor.lightgrey
         loginButton.backgroundColor  = SceneColor.lightblue
+        emailTextField.delegate      = self
+        passwordTextField.delegate   = self
         welcomeLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 44)
         passwordEyeButton.addTarget(self, action: "passwordEyeButton:", forControlEvents: .TouchUpInside)
         retrievePwButton.addTarget(self, action: "retrievePasswordAction", forControlEvents: .TouchUpInside)
@@ -126,8 +129,8 @@ class LoginViewController: MainViewController {
         emailLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
         emailTextField.keyboardType        = UIKeyboardType.URL
 
-        
         passwordTextField.borderStyle      = UITextBorderStyle.RoundedRect
+        passwordTextField.keyboardAppearance = UIKeyboardAppearance.Alert
         passwordTextField.leftView         = passwLabel
         passwordTextField.leftViewMode     = UITextFieldViewMode.Always
         passwordTextField.autocorrectionType = UITextAutocorrectionType.No
@@ -137,7 +140,20 @@ class LoginViewController: MainViewController {
         passwordTextField.rightViewMode    = UITextFieldViewMode.Always
         passwordTextField.secureTextEntry  = true
         passwLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
+        passwordEyeButton.alpha            = 0.3
         passwordEyeButton.bounds           = CGRectMake(0, 0, 36, 11)
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        let cs = NSCharacterSet(charactersInString: Regular.letterAndNum).invertedSet
+        let filtered = string.componentsSeparatedByCharactersInSet(cs).joinWithSeparator("")
+        // 是否包含中文
+        let isContainChinese: Bool = (string == filtered)
+        if !isContainChinese {
+            SVProgressHUD.showInfoWithStatus("格式错误\n请重新输入")
+        }
+        return isContainChinese
     }
     
     private func initAutoLayout() {
@@ -220,8 +236,8 @@ class LoginViewController: MainViewController {
     // 显示密码
     func passwordEyeButton(btn: UIButton) {
         btn.selected = !btn.selected
-        btn.alpha = btn.selected ? 0.3 : 1
-        passwordTextField.secureTextEntry  = btn.selected
+        passwordTextField.secureTextEntry  = !btn.selected
+        btn.alpha = btn.selected ? 1 : 0.3
         
     }
     

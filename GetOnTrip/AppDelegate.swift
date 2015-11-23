@@ -78,6 +78,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+//    func application(application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: String) -> Bool {
+//        return false
+//    }
+    
     // MARK: - 获取用户uuid
     private func gainUserUUID() {
         // 获取uuid

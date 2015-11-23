@@ -11,7 +11,7 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
-class NewUserRegisterViewController: UIViewController {
+class NewUserRegisterViewController: UIViewController, UITextFieldDelegate {
 
     /// 邮箱
     lazy var emailTextField     = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
@@ -90,6 +90,9 @@ class NewUserRegisterViewController: UIViewController {
     }
 
     private func initTextField() {
+        emailTextField.delegate    = self
+        passwordTextField.delegate = self
+        
         let size = emailLabel.text?.sizeofStringWithFount1(UIFont.systemFontOfSize(18), maxSize: CGSizeMake(CGFloat.max, CGFloat.max))
         emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
         emailTextField.autocorrectionType  = UITextAutocorrectionType.Default
@@ -124,6 +127,19 @@ class NewUserRegisterViewController: UIViewController {
         userAgreeButton.ff_AlignVertical(.BottomLeft, referView: passwordTextField, size: CGSizeMake(15, 15), offset: CGPointMake(0, 5))
         userProtocolButton.ff_AlignHorizontal(.CenterRight, referView: userAgreeButton, size: nil, offset: CGPointMake(5, 0))
         nextButton.ff_AlignVertical(.BottomCenter, referView: passwordTextField, size: size, offset: CGPointMake(0, 78))
+    }
+    
+    // MARK: - textfield delegate
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        let cs = NSCharacterSet(charactersInString: Regular.letterAndNum).invertedSet
+        let filtered = string.componentsSeparatedByCharactersInSet(cs).joinWithSeparator("")
+        // 是否包含中文
+        let isContainChinese: Bool = (string == filtered)
+        if !isContainChinese {
+            SVProgressHUD.showInfoWithStatus("格式错误\n请重新输入")
+        }
+        return isContainChinese
     }
     
     // MARK: - 自定义方法

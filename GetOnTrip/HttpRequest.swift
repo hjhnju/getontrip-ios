@@ -88,8 +88,15 @@ class HttpRequest {
             return
         }
         
+        // 打开网络指示器
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
         /// 发送真实网络请求
         HttpRequest.sharedManager.request(.POST, url, parameters: postArgs).response { request, response, respData, error -> Void in
+            
+            // 关闭网络指示器
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            
             //异常
             if error != nil {
                 print("[HttpRequest]:error=\(error)")
@@ -120,10 +127,16 @@ class HttpRequest {
     /// - parameter finished:   完成回调
     func upload(urlString: String, data: NSData, parameters: [String: AnyObject]?, finished: RequestFinishedCallBack) {
         
+        // 打开网络指示器
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
         let urlStr = AppIni.BaseUri + urlString
         Alamofire.upload(.POST,
             urlStr,
             multipartFormData: { (multipartFormData) in
+                
+                // 关闭网络指示器
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 
                 multipartFormData.appendBodyPart(data: data, name: "file", fileName: "123.png", mimeType: "image/png")
                 

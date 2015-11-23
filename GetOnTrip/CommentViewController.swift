@@ -148,7 +148,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+//        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell", forIndexPath: indexPath) as! CommentTableViewCell
         let cell = CommentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
         for i in cell.commentAnswersView.subviews {
             i.removeFromSuperview()
@@ -167,7 +167,6 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         
         return cell
     }
-    
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         

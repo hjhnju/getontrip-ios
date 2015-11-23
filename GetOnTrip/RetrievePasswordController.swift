@@ -11,7 +11,7 @@ import UIKit
 import FFAutoLayout
 import SVProgressHUD
 
-class RetrievePasswordController: UIViewController {
+class RetrievePasswordController: UIViewController, UITextFieldDelegate {
 
     /// 邮箱
     lazy var emailTextField = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
@@ -61,6 +61,7 @@ class RetrievePasswordController: UIViewController {
     }
     
     private func initTextField() {
+        emailTextField.delegate            = self
         emailTextField.placeholder         = "请输入邮箱"
         emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
         emailTextField.autocorrectionType  = UITextAutocorrectionType.Default
@@ -79,6 +80,20 @@ class RetrievePasswordController: UIViewController {
         sendButton.ff_AlignVertical(.BottomCenter, referView: emailTextField, size: size, offset: CGPointMake(0, 30))
     }
     
+    // MARK: - textfield delegate
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        let cs = NSCharacterSet(charactersInString: Regular.letterAndNum).invertedSet
+        let filtered = string.componentsSeparatedByCharactersInSet(cs).joinWithSeparator("")
+        // 是否包含中文
+        let isContainChinese: Bool = (string == filtered)
+        if !isContainChinese {
+            SVProgressHUD.showInfoWithStatus("格式错误\n请重新输入")
+        }
+        return isContainChinese
+    }
+    
+    // MARK: - 自定义方法
     func backAction() {
         navigationController?.popViewControllerAnimated(true)
     }

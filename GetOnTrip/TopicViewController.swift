@@ -371,7 +371,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
 //        UIApplication.sharedApplication().keyWindow?.addSubview(cover)
 //        UIApplication.sharedApplication().keyWindow?.addSubview(commentVC.view)
         commentVC.topicId = topicDataSource?.id ?? ""
-        commentVC.view.clipsToBounds = true
+//        commentVC.view.clipsToBounds = true
         commentVC.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
         cover.frame = UIScreen.mainScreen().bounds
         
@@ -379,14 +379,14 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
             self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, UIScreen.mainScreen().bounds.height / 1.6)
             self.cover.alpha = 0.7
             }) { (_) -> Void in
-                self.commentVC.view.clipsToBounds = false
+//                self.commentVC.view.clipsToBounds = false
         }
     }
     
 
     /// 评论时遮罩层的点击方法
     func coverClick(serder: UIButton) {
-        self.commentVC.view.clipsToBounds = true
+//        self.commentVC.view.clipsToBounds = true
         self.commentVC.issueTextfield.resignFirstResponder()
         UIView.animateWithDuration(0.3, animations: { [weak self] () -> Void in
             self?.cover.alpha = 0.0
@@ -395,6 +395,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 self?.commentVC.issueTextfield.placeholder = ""
                 self?.commentVC.toUser = ""
                 self?.commentVC.upId   = ""
+                self?.commentVC.view.hidden = true
 //                self?.commentVC.view.removeFromSuperview()
 //                self?.cover.removeFromSuperview()
         }
