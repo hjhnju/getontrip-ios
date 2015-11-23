@@ -41,13 +41,18 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         return view
         }()
     
+    let slideNavButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: UIColor.whiteColor())
+    
     //自定义导航栏
     lazy var custNavView:UIView = {
         let view = UIView()
-        view.addSubview(self.slideButton)
+        self.slideButton.removeFromSuperview()
+        self.slideNavButton.backgroundColor = UIColor.randomColor()
+        self.slideNavButton.addTarget(self, action: "toggleMenu", forControlEvents: .TouchUpInside)
+        view.addSubview(self.slideNavButton)
         view.addSubview(self.searchButton)
         return view
-        }()
+    }()
     
     lazy var searchButton: UIButton = {
         let button = UIButton(type: UIButtonType.Custom)
@@ -204,7 +209,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTableViewCellID)
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
         view.sendSubviewToBack(tableView)
-
     }
     
     func initData() {
@@ -230,6 +234,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         navBarHeight = (MainViewContant.MaxNavbarHeight - MainViewContant.MinNavbarHeight)  * (1-navBarAlpha) + MainViewContant.MinNavbarHeight
         navContainerView.frame = CGRectMake(0, 0, view.bounds.width, MainViewContant.StatusBarHeight + navBarHeight)
         custNavView.frame      = CGRectMake(0, MainViewContant.StatusBarHeight, view.bounds.width, navBarHeight)
+        slideNavButton.frame   = CGRectMake(0, 0, 50, navBarHeight)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -272,7 +277,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             }
             headerView.addSubview(btn)
-            btn.backgroundColor = UIColor.randomColor()
+            btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
             btn.tag = Int(recommendLabels[i].order) ?? 1
@@ -288,7 +293,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             
             let btnX:CGFloat = ((i % 2) == 0) ? 0 : 84 + btnWidth
             let btnY:CGFloat = yOffset + (marginY + btnHeight) * CGFloat(row)
-            
             btn.frame = CGRectMake(btnX, btnY, btnWidth, btnHeight)
         }
     }

@@ -31,8 +31,6 @@ class MainViewController: BaseViewController {
         
         //初始定义bar隐藏
         navigationController?.navigationBar.hidden = true
-        
-        slideButton.frame  = CGRectMake(0, 0, 21, 14)
     }
     
     override func viewWillAppear(animated: Bool) {
