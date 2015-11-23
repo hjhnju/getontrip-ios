@@ -42,6 +42,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     /// 发布底部view
     lazy var issueCommentView: UIView = UIView(color: UIColor.whiteColor())
     
+    /// 评论底部小箭头图标
     lazy var commentBottomImage: UIImageView = UIImageView(image: UIImage(named: "comment_bottom"))
     
     /// 发布textfield
@@ -131,7 +132,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         let cons = tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 41))
         tableViewConH = tableView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         issueCommentView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
-        commentBottomImage.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 6))
+        commentBottomImage.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 10))
         issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))
         issueCommentTopLine.ff_AlignInner(ff_AlignType.TopLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width, 0.5))
         issueCommentBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: issueCommentView, size: CGSizeMake(91, 34), offset: CGPointMake(-19, 0))
@@ -291,6 +292,10 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
                         SVProgressHUD.showInfoWithStatus("发布成功")
                         self.issueTextfield.text = ""
                         self.loadData()
+                        let parentVC = self.parentViewController as? TopicViewController
+                        let topic: Topic = parentVC?.topicDataSource ?? Topic()
+                        topic.commentNum = String((Int(parentVC?.topicDataSource?.commentNum ?? "0") ?? 0) + 1)
+                        parentVC?.topicDataSource = topic
                     } else {
                         SVProgressHUD.showInfoWithStatus("评论发布失败")
                     }

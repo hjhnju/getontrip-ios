@@ -24,25 +24,11 @@ class Landscape: NSObject {
             image = UIKitTools.sliceImageUrl(image, width: 119, height: 84)
         }
     }
-    /// 目录名: 分节（"简介":"#1"）
-    var catalogs = [String:String?]()
-    
     
     init(dict: [String: AnyObject]) {
         super.init()
         
         setValuesForKeysWithDictionary(dict)
-        
-        catalogs.removeAll()
-        if let cats = dict["catalog"] as? NSArray {
-            for dic in cats {
-                if let item = dic as? [String : String] {
-                    let name = item["name"] ?? ""
-                    let section = item["section"] ?? ""
-                    catalogs[name] = section
-                }
-            }
-        }
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

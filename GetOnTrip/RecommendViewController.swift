@@ -47,7 +47,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     lazy var custNavView:UIView = {
         let view = UIView()
         self.slideButton.removeFromSuperview()
-        self.slideNavButton.backgroundColor = UIColor.randomColor()
         self.slideNavButton.addTarget(self, action: "toggleMenu", forControlEvents: .TouchUpInside)
         view.addSubview(self.slideNavButton)
         view.addSubview(self.searchButton)

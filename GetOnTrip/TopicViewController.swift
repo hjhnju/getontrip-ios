@@ -49,7 +49,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     //底部工具栏
     lazy var toolbarView: UIView = UIView()
     
-    lazy var commentLab: UILabel = UILabel(color: UIColor(hex: 0x9C9C9C, alpha: 1.0), title: "", fontSize: 11, mutiLines: true)
+    /// 评论显示多少条
+    lazy var commentNumLabel: UILabel = UILabel(color: UIColor(hex: 0x9C9C9C, alpha: 1.0), title: "", fontSize: 11, mutiLines: true)
     
     lazy var commentBtn: UIButton = UIButton(image: "topic_comment", title: "", fontSize: 0)
 
@@ -88,7 +89,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 
                 collectBtn.selected = topic.collected == "" ? false : true
                 commentVC.topicId   = topic.id
-                commentLab.text     = topic.comment
+                commentNumLabel.text = topic.comment
                 labelBtn.hidden      = false
                 favNumLabel.hidden   = false
                 visitNumLabel.hidden = false
@@ -162,7 +163,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerView.addSubview(labelBtn)
         headerView.addSubview(favNumLabel)
         headerView.addSubview(visitNumLabel)
-        toolbarView.addSubview(commentLab)
+        toolbarView.addSubview(commentNumLabel)
         toolbarView.addSubview(commentBtn)
         toolbarView.addSubview(shareBtn)
         toolbarView.addSubview(collectBtn)
@@ -172,6 +173,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         view.addSubview(cover)
         view.addSubview(commentVC.view)
         commentVC.view.hidden = true
+        addChildViewController(commentVC)
         
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
@@ -239,7 +241,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         
         //toolbar views
-        commentLab.ff_AlignInner(ff_AlignType.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
+        commentNumLabel.ff_AlignInner(ff_AlignType.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
         commentBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
         shareBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: commentBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
