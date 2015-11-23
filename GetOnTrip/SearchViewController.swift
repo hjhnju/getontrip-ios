@@ -158,6 +158,13 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         }
     }
     
+    // 点击搜索之后调用保存方法
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        if searchBar.text != "" {
+            saveRecord(searchBar.text!)
+        }
+    }
+    
     ///  搜索栏结束编辑
     ///
     ///  - parameter searchBar: 搜索栏

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingNicknameController: MenuViewController {
+class SettingNicknameController: MenuViewController, UITextFieldDelegate {
 
     lazy var newNickNameLabel = UILabel(color: UIColor(hex: 0x1C1C1C, alpha: 0.7), title: "新昵称", fontSize: 14, mutiLines: true)
     
@@ -37,11 +37,12 @@ class SettingNicknameController: MenuViewController {
     }
     
     private func initTextField() {
-        userNameTextField.borderStyle         = UITextBorderStyle.None
-        userNameTextField.autocorrectionType  = UITextAutocorrectionType.No
+        userNameTextField.borderStyle         = UITextBorderStyle.RoundedRect
+        userNameTextField.autocorrectionType  = UITextAutocorrectionType.Yes
         userNameTextField.autocapitalizationType = UITextAutocapitalizationType.None
-        userNameTextField.returnKeyType       = UIReturnKeyType.Done
+        userNameTextField.returnKeyType       = UIReturnKeyType.Go
         userNameTextField.clearButtonMode     = UITextFieldViewMode.Always
+        userNameTextField.delegate            = self
     }
     
     ///  初始化导航
@@ -98,6 +99,17 @@ class SettingNicknameController: MenuViewController {
             }
         }
         navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        print(textField.text)
+        return true
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        print(string)
+        return true
     }
     
 }

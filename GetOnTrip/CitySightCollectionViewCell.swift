@@ -35,7 +35,6 @@ class CitySightCollectionViewCell: UICollectionViewCell {
             attr.appendAttributedString(NSAttributedString(string: " | "))
                 attr.appendAttributedString((sight.collect.getAttributedStringHeadCharacterBig()))
                 desc.attributedText = attr
-
             }
         }
     }
@@ -49,12 +48,18 @@ class CitySightCollectionViewCell: UICollectionViewCell {
         addSubview(desc)
         icon.contentMode   = UIViewContentMode.ScaleAspectFill
         icon.clipsToBounds = true
-        
+        title.adjustsFontSizeToFitWidth = true
+        title.textAlignment = NSTextAlignment.Center
         
         icon.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
         shade.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size)
-        title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         desc.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -5))
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(bounds.width, 16), offset: CGPointMake(0, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {
