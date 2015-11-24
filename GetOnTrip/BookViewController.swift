@@ -164,7 +164,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         if CGRectGetMaxY(headerLineView.frame) > yInset {
             yInset = CGRectGetMaxY(headerLineView.frame)
             webView.scrollView.contentInset = UIEdgeInsetsMake(yInset, 0, 0, 0)
-            webView.scrollView
+//            webView.scrollView.contentSize = CGSizeMake(1000, 500)
             
         }
     }
@@ -210,6 +210,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         webView.scrollView.scrollEnabled = true
         webView.backgroundColor = UIColor.randomColor()
         webView.opaque = false
+        webView.sizeToFit()
         
 //        webView.scrollView.contentInset = UIEdgeInsetsMake(BookViewContant.headerViewHeight, 0, 0, 0)
 
@@ -303,36 +304,16 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         loadingView.stop()
         
-        for it in webView.scrollView.subviews {
-            if it.isKindOfClass(NSClassFromString("WKContentView")!) {
-                print(it.subviews)
-//                webView.scrollView.contentInset
-            }
-        }
+        
+        
+//        for it in webView.scrollView.subviews {
+//            if it.isKindOfClass(NSClassFromString("WKContentView")!) {
+//                print(webView.scrollView.contentSize.height - it.frame.height)
+//                webView.scrollView.contentInset.bottom = webView.scrollView.contentSize.height - it.frame.height
+//            }
+//        }
 //        print(webView.scrollView.subviews)
     }
-    
-//    CGFloat webViewHeight = 0.0f;
-//    
-//    if ([webView.subviews count] > 0) {
-//    
-//    UIView *scrollerView = webView.subviews[0];
-//    if ([scrollerView.subviews count] > 0) {
-//    UIView *webDocView = scrollerView.subviews.lastObject;
-//    if ([webDocView isKindOfClass:[NSClassFromString(@"UIWebDocumentView") class]]) {
-//
-//    webViewHeight = webDocView.frame.size.height;//获取文档的高度
-//    webView.frame = webDocView.frame;
-//    
-//    //更新UIWebView 的高度
-//    
-//    }
-//    }
-//    
-//    
-//    
-//    }
-
     
     // 接收到服务器跳转请求之后调用
 //    func webView(webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {

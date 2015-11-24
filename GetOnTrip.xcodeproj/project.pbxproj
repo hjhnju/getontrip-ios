@@ -154,6 +154,7 @@
 		AECD226D1B9EEC9B007F1D71 /* CollectContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD226C1B9EEC9B007F1D71 /* CollectContentViewController.swift */; };
 		AECD226F1B9F045D007F1D71 /* CollectCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD226E1B9F045D007F1D71 /* CollectCityViewController.swift */; };
 		AED4B8671C041B0200DAC9D3 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B8661C041B0200DAC9D3 /* Regex.swift */; };
+		AED4B8691C043A7B00DAC9D3 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B8681C043A7B00DAC9D3 /* FavoriteCollectionViewCell.swift */; };
 		AEEA552D1BBFD7F7009AF772 /* TopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA552C1BBFD7F7009AF772 /* TopicCell.swift */; };
 		AEEA552F1BC02363009AF772 /* LandscapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA552E1BC02363009AF772 /* LandscapeCell.swift */; };
 		AEEA553B1BC0F92C009AF772 /* SightLandscapesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA553A1BC0F92C009AF772 /* SightLandscapesRequest.swift */; };
@@ -354,6 +355,7 @@
 		AECD226C1B9EEC9B007F1D71 /* CollectContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectContentViewController.swift; sourceTree = "<group>"; };
 		AECD226E1B9F045D007F1D71 /* CollectCityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectCityViewController.swift; sourceTree = "<group>"; };
 		AED4B8661C041B0200DAC9D3 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		AED4B8681C043A7B00DAC9D3 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
 		AEEA552C1BBFD7F7009AF772 /* TopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicCell.swift; sourceTree = "<group>"; };
 		AEEA552E1BC02363009AF772 /* LandscapeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeCell.swift; sourceTree = "<group>"; };
 		AEEA553A1BC0F92C009AF772 /* SightLandscapesRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightLandscapesRequest.swift; sourceTree = "<group>"; };
@@ -460,6 +462,7 @@
 			isa = PBXGroup;
 			children = (
 				AE8C0C161BE8A090003C7942 /* LoginView.swift */,
+				AED4B8681C043A7B00DAC9D3 /* FavoriteCollectionViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1087,6 +1090,7 @@
 				72C16AF31BEDCAB000161A77 /* ScrolledImageView.swift in Sources */,
 				AE62E2CE1BB3EF6500B91D33 /* UIPickerView+Extension.swift in Sources */,
 				AE8C0C191BE8AB2D003C7942 /* UserInfo.swift in Sources */,
+				AED4B8691C043A7B00DAC9D3 /* FavoriteCollectionViewCell.swift in Sources */,
 				726974711BE394E3000C0ABF /* Landscape.swift in Sources */,
 				AE8C0C171BE8A090003C7942 /* LoginView.swift in Sources */,
 				AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */,

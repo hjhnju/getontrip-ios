@@ -9,15 +9,12 @@
 import UIKit
 import FFAutoLayout
 
-class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
+class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
     static let name = "我的收藏"
     
     // MARK: - 属性
     lazy var titleBackground: UIView = UIView()
-    
-    /// 内容底部scrollview
-    lazy var contentScrollView: CollectScrollerview = CollectScrollerview()
     
     /// 景点按钮
     lazy var sightBtn: UIButton = UIButton(title: "景点", fontSize: 14, radius: 0, titleColor: UIColor.whiteColor())
@@ -39,46 +36,46 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
     // 城市控制器
     lazy var cityController: CollectCityViewController = CollectCityViewController()
     
+    /// 流水布局
+    lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    
+    /// 左侧滑动的view
+    var slideView = UIView()
+    
+    /// 底部容器view
+    lazy var collectionView: UICollectionView = { [weak self] in
+        let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
+        return cv
+        }()
+    
+    /// 左滑手势是否生效
+    var isPopGesture: Bool = false
+    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        initView()
+        setupLayout()
+        setupAutoLayout()
+        setupAddSubViewAndAction()
+    }
+    
+    private func initView() {
         view.backgroundColor = SceneColor.bgBlack
         titleBackground.backgroundColor = SceneColor.bgBlack
-        contentScrollView.backgroundColor = UIColor.whiteColor()
-        
         navBar.setTitle(FavoriteViewController.name)
         
-        setupAddSubViewAndAction()
-        setupAutoLayout()
-        setupChildControllerProperty()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    override func loadView() {
-        super.loadView()
-        
-    }
-    
-    private func setupAddSubViewAndAction() {
-    
         view.addSubview(titleBackground)
-        view.addSubview(contentScrollView)
+        view.addSubview(collectionView)
         titleBackground.addSubview(cityBtn)
         titleBackground.addSubview(sightBtn)
         titleBackground.addSubview(contentBtn)
-        contentScrollView.addSubview(cityController.view)
-        contentScrollView.addSubview(contentController.view)
-        contentScrollView.addSubview(sightViewController.view)
         titleBackground.addSubview(selectView)
-        
+        view.addSubview(slideView)
+    }
+    
+    private func setupAddSubViewAndAction() {
         addChildViewController(cityController)
         addChildViewController(contentController)
         addChildViewController(sightViewController)
@@ -86,10 +83,28 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         cityBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         sightBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
         contentBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        contentBtn.tag = 0
+        sightBtn.tag   = 1
+        cityBtn.tag    = 2
+        
+        collectionView.dataSource = self
+        collectionView.delegate   = self
+        collectionView.bounces    = false
+        collectionView.backgroundColor = UIColor.randomColor()
+        collectionView.registerClass(FavoriteCollectionViewCell.self, forCellWithReuseIdentifier: "FavoriteCollectionViewCell")
     }
     
+    // 初始化collection布局
+    private func setupLayout() {
+        layout.itemSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 36)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing      = 0
+        layout.scrollDirection         = UICollectionViewScrollDirection.Horizontal
+        collectionView.pagingEnabled   = true
+        collectionView.showsHorizontalScrollIndicator = false
+    }
     
-    // MARK: - 初始化自动布局
     private func setupAutoLayout() {
         
         automaticallyAdjustsScrollViewInsets = false
@@ -97,51 +112,55 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
         sightBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         contentBtn.ff_AlignInner(ff_AlignType.CenterLeft, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         cityBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
+        collectionView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 36), offset: CGPointMake(0, 0))
+        slideView.frame = CGRectMake(0, 100, 10, UIScreen.mainScreen().bounds.height - 100)
         selectView.frame = CGRectMake(11, 34, 73, 1.5)
-        
-        let wBounds = UIScreen.mainScreen().bounds.width
-        let hBounds = UIScreen.mainScreen().bounds.height - 64 - 32
-        contentScrollView.frame = CGRectMake(0, 64 + 36, wBounds, hBounds)
-        contentScrollView.contentSize = CGSize(width: wBounds * 3, height: hBounds)
-        contentScrollView.contentOffset = CGPointMake(0, 0)
-        contentController.view.frame = CGRectMake(0, 0, wBounds, hBounds)
-        sightViewController.view.frame = CGRectMake(wBounds, 0, wBounds, hBounds)
-        cityController.view.frame = CGRectMake(wBounds * 2, 0, wBounds, hBounds)
-        contentScrollView.contentInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 0)
     }
+    
+    // MARK: - 系统调用方法
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
+    }
+    
+    // MARK: - collectionView 数据源方法
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        isPopGesture = indexPath.row == 0 ? true : false
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FavoriteCollectionViewCell", forIndexPath: indexPath) as! FavoriteCollectionViewCell
+        cell.viewController.view.removeFromSuperview()
+        if indexPath.row == 0 {
+            slideView.hidden = false
+            cell.viewController = contentController
+        } else if indexPath.row == 1 {
+            slideView.hidden = true
+            cell.viewController = sightViewController
+            slideView.hidden = true
+        } else if indexPath.row == 2 {
+            cell.viewController = cityController
+        }
+        
+        return cell
+    }
+
     
     
     /// MARK: - 切换收藏视图方法
     var selectedIndex: Int?
     func switchCollectButtonClick(sender: UIButton) {
         
-        UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
-            self.selectView.center.x = sender.center.x
-        }
+        let indexPath = NSIndexPath(forItem: sender.tag, inSection: 0)
+        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+    }
 
-        if sender == contentBtn { selectedIndex = 0 }
-        else if sender == sightBtn { selectedIndex = 1 }
-        else if sender == cityBtn { selectedIndex = 2 }
-        UIView.animateWithDuration(0.5) { [unowned self] () -> Void in
-            self.contentScrollView.contentOffset.x = self.contentScrollView.bounds.width * CGFloat(self.selectedIndex!)
-        }
-    }
-    
-    
-    func setupChildControllerProperty() {
-        contentScrollView.pagingEnabled = true
-        contentScrollView.showsHorizontalScrollIndicator = false
-        contentScrollView.delegate = self
-        contentScrollView.bounces = false
-    }
-    
-    var lastScrollViewContentX: CGFloat = 0
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        
-        if scrollView.contentOffset.x < lastScrollViewContentX {
-            contentScrollView.isHitTest = false
-        }
-    }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
@@ -166,26 +185,6 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate {
             })
             break
         }
-        
-        
-        if contentScrollView.contentOffset.x == 0 {
-            lastScrollViewContentX = contentScrollView.contentOffset.x
-//            contentScrollView.isHitTest = false
-        } else {
-            contentScrollView.isHitTest = true
-        }
     }
-}
-
-class CollectScrollerview: UIScrollView {
-    
-    /// true 为事件查找到自己，false为事件查找到父类
-    var isHitTest: Bool = true
-//    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-//        if (isHitTest == true) {
-//            return super.hitTest(point, withEvent: event)
-//        }
-//        return superview
-//    }
 }
 
