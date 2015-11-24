@@ -210,7 +210,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         webView.scrollView.scrollEnabled = true
         webView.backgroundColor = UIColor.randomColor()
         webView.opaque = false
-//        webView.
+        
 //        webView.scrollView.contentInset = UIEdgeInsetsMake(BookViewContant.headerViewHeight, 0, 0, 0)
 
         //webView.scrollView.contentSize = CGSizeMake(view.bounds.width, view.bounds.height - BookViewContant.headerViewHeight)
@@ -302,8 +302,14 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     // 页面加载完成之后调用
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         loadingView.stop()
-       
-        print(webView.subviews)
+        
+        for it in webView.scrollView.subviews {
+            if it.isKindOfClass(NSClassFromString("WKContentView")!) {
+                print(it.subviews)
+//                webView.scrollView.contentInset
+            }
+        }
+//        print(webView.scrollView.subviews)
     }
     
 //    CGFloat webViewHeight = 0.0f;

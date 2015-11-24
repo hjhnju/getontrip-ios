@@ -251,8 +251,8 @@ class LoginViewController: MainViewController, UITextFieldDelegate {
         
         let emailStr = emailTextField.text ?? ""
         let passwStr = passwordTextField.text ?? ""
-        if emailStr.validateEmail(emailStr) {
-            if passwStr.validatePassword(passwStr) {
+        if RegexString.validateEmail(emailStr) {
+            if RegexString.validatePassword(passwStr) {
                 UserRegisterRequest.userEmailLogin(emailStr, passwd: passwStr, handler: { (result, status) -> Void in
                     if status == RetCode.SUCCESS {
                         globalUser = UserAccount(email: emailStr, passwd: passwStr)

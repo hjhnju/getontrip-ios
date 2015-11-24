@@ -27,20 +27,21 @@ struct MyRegex {
     }
 }
 
-extension String {
+class RegexString {
+    
     // TODO: 都不能出现中文否则会崩
     // 验证邮箱
-    func validateEmail(email: String) -> Bool {
+    class func validateEmail(email: String) -> Bool {
         let mailPattern = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$"
-        let matcher = MyRegex(mailPattern)
+        let matcher     = MyRegex(mailPattern)
         return matcher.match(email)
     }
     
     // 验证密码
-    func validatePassword(password: String) -> Bool {
+    class func validatePassword(password: String) -> Bool {
         
         let mailPattern = "^[a-zA-Z0-9]{6,20}$"
-        let matcher = MyRegex(mailPattern)
+        let matcher     = MyRegex(mailPattern)
         return matcher.match(password)
     }
 }
