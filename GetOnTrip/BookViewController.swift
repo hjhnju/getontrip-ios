@@ -165,8 +165,9 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
             yInset = CGRectGetMaxY(headerLineView.frame)
             webView.scrollView.contentInset = UIEdgeInsetsMake(yInset, 0, 0, 0)
             webView.scrollView.contentOffset = CGPointMake(0, -yInset)
-        }
+            webView.scrollView.contentInset = UIEdgeInsetsMake(300, 0, 0, 0)
 
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -210,6 +211,9 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         webView.scrollView.scrollEnabled = true
         webView.backgroundColor = UIColor.whiteColor()
         webView.opaque = false
+//        webView.
+//        webView.scrollView.contentInset = UIEdgeInsetsMake(-BookViewContant.headerViewHeight, 0, 0, 0)
+
         //webView.scrollView.contentSize = CGSizeMake(view.bounds.width, view.bounds.height - BookViewContant.headerViewHeight)
 //
         //webView.sizeThatFits(CGSizeZero)

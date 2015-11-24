@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingNicknameController: MenuViewController, UITextFieldDelegate {
+class SettingNicknameController: MenuViewController {
 
     lazy var newNickNameLabel = UILabel(color: UIColor(hex: 0x1C1C1C, alpha: 0.7), title: "新昵称", fontSize: 14, mutiLines: true)
     
@@ -33,16 +33,15 @@ class SettingNicknameController: MenuViewController, UITextFieldDelegate {
         newNickNameLabel.ff_AlignInner(.TopLeft, referView: view, size: nil, offset: CGPointMake(9, 88))
         baseLineView.ff_AlignVertical(.BottomLeft, referView: newNickNameLabel, size: CGSizeMake(view.bounds.width - 18, 0.5), offset: CGPointMake(0, 2))
         userNameTextField.ff_AlignVertical(.BottomLeft, referView: newNickNameLabel, size: CGSizeMake(view.bounds.width - 18, 42), offset: CGPointMake(0, 0))
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "nickNameTextFieldTextDidChangeNotification:", name: UITextFieldTextDidChangeNotification, object: userNameTextField)
     }
     
     private func initTextField() {
-        userNameTextField.borderStyle         = UITextBorderStyle.RoundedRect
-        userNameTextField.autocorrectionType  = UITextAutocorrectionType.Yes
+        userNameTextField.borderStyle         = UITextBorderStyle.None
+        userNameTextField.autocorrectionType  = UITextAutocorrectionType.Default
         userNameTextField.autocapitalizationType = UITextAutocapitalizationType.None
-        userNameTextField.returnKeyType       = UIReturnKeyType.Go
+        userNameTextField.returnKeyType       = UIReturnKeyType.Done
         userNameTextField.clearButtonMode     = UITextFieldViewMode.Always
-        userNameTextField.delegate            = self
+        userNameTextField.addTarget(self, action: "nickNameTextFieldTextDidChangeNotification:", forControlEvents: .EditingChanged)
     }
     
     ///  初始化导航
@@ -66,10 +65,7 @@ class SettingNicknameController: MenuViewController, UITextFieldDelegate {
     ///  昵称的文本改变时调用的通知
     ///
     ///  - parameter notification: 通知
-    func nickNameTextFieldTextDidChangeNotification(notification: NSNotification) {
-        
-        let textField = notification.object as! UITextField
-        userNameTextField.text = textField.text
+    func nickNameTextFieldTextDidChangeNotification(textField: UITextField) {
         
         if globalUser?.nickname != textField.text && textField.text != "" {
             navBar.rightButton.selected = true
@@ -77,12 +73,6 @@ class SettingNicknameController: MenuViewController, UITextFieldDelegate {
             navBar.rightButton.selected = false
         }
     }
-    
-    ///  移除通知
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: userNameTextField)
-    }
-
     
     /// 保存用户名
     func saveUserName() {
@@ -99,17 +89,6 @@ class SettingNicknameController: MenuViewController, UITextFieldDelegate {
             }
         }
         navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
-        print(textField.text)
-        return true
-    }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        print(string)
-        return true
     }
     
 }
