@@ -11,11 +11,11 @@ import UIKit
 struct FavoriteContant {
     //查询用
     static let TypeContent = 1
-    
     static let TypeSight   = 2
     static let TypeCity    = 3
     static let TypeTopic   = 4
     static let TypeBook    = 5
+    static let TypeVideo   = 6
 }
 
 class Favorite: NSObject {
