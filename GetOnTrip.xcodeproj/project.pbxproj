@@ -20,6 +20,7 @@
 		72550E9A1BE9A210004D4611 /* CBStoreHouseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */; };
 		72550EA21BEA0D87004D4611 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA11BEA0D87004D4611 /* Book.swift */; };
 		72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */; };
+		725A62C61C033B1B00661555 /* CacheRegexConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A62C51C033B1B00661555 /* CacheRegexConfig.swift */; };
 		725A84751C009552007623C9 /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84741C009552007623C9 /* ReportRequest.swift */; };
 		725A84771C00A0AD007623C9 /* ReplayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84761C00A0AD007623C9 /* ReplayButton.swift */; };
 		725A84791C00A239007623C9 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84781C00A239007623C9 /* Comment.swift */; };
@@ -209,6 +210,7 @@
 		72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBStoreHouseTransition.m; sourceTree = "<group>"; };
 		72550EA11BEA0D87004D4611 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequestProtocol.swift; sourceTree = "<group>"; };
+		725A62C51C033B1B00661555 /* CacheRegexConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheRegexConfig.swift; sourceTree = "<group>"; };
 		725A84741C009552007623C9 /* ReportRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		725A84761C00A0AD007623C9 /* ReplayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayButton.swift; sourceTree = "<group>"; };
 		725A84781C00A239007623C9 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -473,6 +475,15 @@
 			name = Animation;
 			sourceTree = "<group>";
 		};
+		725A62C41C033B0500661555 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				72FE631F1BFB1B940037C7D6 /* Cache.swift */,
+				725A62C51C033B1B00661555 /* CacheRegexConfig.swift */,
+			);
+			name = Cache;
+			sourceTree = "<group>";
+		};
 		727561801BCFC7160089CB27 /* City */ = {
 			isa = PBXGroup;
 			children = (
@@ -600,6 +611,7 @@
 		72D86E081B65E82B004B72D0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				725A62C41C033B0500661555 /* Cache */,
 				72550E971BE8E14C004D4611 /* Animation */,
 				72A5BF311B73351400F3AB26 /* HttpRequest.swift */,
 				AE4ECBCC1BB5305D00DC65F7 /* NSArray+Print.swift */,
@@ -624,7 +636,6 @@
 				7293A0431BF4745E0070C64A /* LocateToCity.swift */,
 				728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */,
 				728747331BFAD25200EE36AA /* Cookie.swift */,
-				72FE631F1BFB1B940037C7D6 /* Cache.swift */,
 				725A847C1C00CEAC007623C9 /* Device.swift */,
 				AED4B8661C041B0200DAC9D3 /* Regex.swift */,
 			);
@@ -913,7 +924,7 @@
 				TargetAttributes = {
 					72D86DDE1B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 568F62S6LX;
+						DevelopmentTeam = H7P27HMFW7;
 					};
 					72D86DF31B65D94D004B72D0 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1051,6 +1062,7 @@
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
+				725A62C61C033B1B00661555 /* CacheRegexConfig.swift in Sources */,
 				AE0B6F811BFF1EE5002B8806 /* RetrievePasswordController.swift in Sources */,
 				AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */,
 				727561841BD0F64A0089CB27 /* Sight.swift in Sources */,
@@ -1316,7 +1328,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";
@@ -1378,7 +1390,7 @@
 					"-framework",
 					"\"UIKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip1;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.getontrip.GetOnTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GetOnTrip/GetOnTrip-Bridging-Header.h";

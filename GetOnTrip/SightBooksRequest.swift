@@ -22,7 +22,7 @@ class SightBooksRequest: NSObject {
     // 请求参数
     var sightId :String = ""
     var page    :Int = 1
-    var pageSize:Int = 6
+    var pageSize:Int = 10
     
     // 将数据回调外界
     func fetchNextPageModels(handler: ([Book]?, Int) -> Void) {

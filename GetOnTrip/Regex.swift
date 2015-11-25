@@ -9,12 +9,13 @@
 
 import Foundation
 
-struct MyRegex {
+class MyRegex {
     let regex: NSRegularExpression?
     
     init(_ pattern: String) {
         regex = try? NSRegularExpression(pattern: pattern, options: [])
     }
+    
     func match(input: String) -> Bool {
         
         if let matches = regex?.matchesInString(input,

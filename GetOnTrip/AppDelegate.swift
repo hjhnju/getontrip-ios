@@ -30,12 +30,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        //加载用户信息
-        UserLogin.sharedInstance.loadAccount()
-        
-        //加载缓存
+        //加载缓存(最早，否则config无法获取
         globalKvStore = YTKKeyValueStore(DBWithName: "getontrip")
         globalKvStore?.createTableWithName("ApiCache")
+        
+        //加载用户信息
+        UserLogin.sharedInstance.loadAccount()
         
         //预先加载首页数据
         let lastRequest = RecommendRequest()
