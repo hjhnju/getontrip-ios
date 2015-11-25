@@ -55,13 +55,13 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var commentNumLabel  = UILabel(color: UIColor(hex: 0x9C9C9C, alpha: 1.0), title: "", fontSize: 11, mutiLines: true)
     
     /// 底部评论按钮
-    lazy var commentBotton    = UIButton(image: "topic_comment", title: "", fontSize: 0)
+    lazy var commentBotton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: SceneColor.lightYellow)
 
     /// 底部分享按钮
     lazy var shareBotton      = UIButton(image: "topic_share", title: "", fontSize: 0)
     
     /// 底部收藏按钮
-    lazy var collectBotton    = UIButton(image: "topic_star", title: "", fontSize: 0)
+    lazy var collectBotton    = UIButton(image: "topic_star", title: "", fontSize: 0, titleColor: SceneColor.lightYellow)
     
     /// 底部线
     lazy var bottomLineView   = UIView(color: SceneColor.lightGray)
@@ -106,6 +106,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 labelButton.setTitle("  " + topic.tagname + "  ", forState: .Normal)
                 favNumLabel.setTitle(" " + topic.collect, forState: .Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: .Normal)
+                commentBotton.setTitle(topic.commentNum, forState: .Normal)
                 
                 collectBotton.selected = topic.collected == "" ? false : true
                 commentVC.topicId      = topic.id
@@ -167,6 +168,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         visitNumLabel.hidden        = true
         coverButton.backgroundColor = UIColor.blackColor()
         
+//        commentBotton.backgroundColor = UIColor(patternImage: UIImage(named: "topic_comment")!)
         collectBotton.setImage(UIImage(named: "topic_star_select"), forState: .Selected)
         shareBotton  .addTarget(self, action: "doSharing:", forControlEvents: .TouchUpInside)
         collectBotton.addTarget(self, action: "doFavorite:", forControlEvents: .TouchUpInside)

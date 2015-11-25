@@ -208,16 +208,9 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         webView.scrollView.showsVerticalScrollIndicator   = true
         webView.navigationDelegate  = self
         webView.scrollView.scrollEnabled = true
-        webView.backgroundColor = UIColor.randomColor()
+        // webView.backgroundColor = UIColor.randomColor()
         webView.opaque = false
         webView.sizeToFit()
-        
-//        webView.scrollView.contentInset = UIEdgeInsetsMake(BookViewContant.headerViewHeight, 0, 0, 0)
-
-        //webView.scrollView.contentSize = CGSizeMake(view.bounds.width, view.bounds.height - BookViewContant.headerViewHeight)
-//
-        //webView.sizeThatFits(CGSizeZero)
-        //webView.sizeToFit()
         
         //允许手势，后退前进等操作
         //webView.allowsBackForwardNavigationGestures = true

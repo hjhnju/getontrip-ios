@@ -10,6 +10,9 @@ import Foundation
 
 class MessageList: NSObject {
     
+    /// 消息id
+    var mid: String = ""
+    
     /// 内容
     var content: String = ""
     

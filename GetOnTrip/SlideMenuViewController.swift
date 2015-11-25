@@ -160,14 +160,16 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     var logined: Bool = true
     
     //滑动手势
-    lazy var panGestureRecognizer: UIPanGestureRecognizer = {
-        let pan = UIPanGestureRecognizer()
+    lazy var panGestureRecognizer: UIScreenEdgePanGestureRecognizer = {
+        let pan = UIScreenEdgePanGestureRecognizer()
+        pan.edges = UIRectEdge.Left
         pan.addTarget(self, action:"panGestureHandler:")
         return pan
     }()
     
-    lazy var panGestureRecognizer2: UIPanGestureRecognizer = {
-        let pan = UIPanGestureRecognizer()
+    lazy var panGestureRecognizer2: UIScreenEdgePanGestureRecognizer = {
+        let pan = UIScreenEdgePanGestureRecognizer()
+        pan.edges = UIRectEdge.Left
         pan.addTarget(self, action:"panGestureHandler:")
         return pan
         }()

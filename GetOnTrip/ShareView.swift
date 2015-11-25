@@ -21,9 +21,9 @@ class ShareView: UIView {
     /// 新浪微博
     lazy var shareBtn3: shareButton = shareButton(image: "share_weibo", title: "新浪微博", fontSize: 12, titleColor: SceneColor.fontGray)
     /// qq
-    lazy var shareBtn4: shareButton = shareButton(image: "share_qq", title: "QQ空间", fontSize: 12, titleColor: SceneColor.fontGray)
+    lazy var shareBtn4: shareButton = shareButton(image: "share_qq_zone", title: "QQ空间", fontSize: 12, titleColor: SceneColor.fontGray)
     /// 复制链接
-    lazy var shareBtn5: shareButton = shareButton(image: "share_link", title: "复制链接", fontSize: 12, titleColor: SceneColor.fontGray)
+    lazy var shareBtn5: shareButton = shareButton(image: "share_qq", title: "qq好友", fontSize: 12, titleColor: SceneColor.fontGray)
     /// 取消按钮
     lazy var shareCancle: UIButton = UIButton(title: "取消", fontSize: 13, radius: 15)
     /// 分享至标题
@@ -170,7 +170,7 @@ class ShareView: UIView {
         case 2: shareFullType(SSDKPlatformType.SubTypeWechatTimeline)
         case 3: shareFullType(SSDKPlatformType.TypeSinaWeibo)
         case 4: shareFullType(SSDKPlatformType.SubTypeQZone)
-        case 5: shareFullType(SSDKPlatformType.TypeCopy)
+        case 5: shareFullType(SSDKPlatformType.SubTypeQQFriend)
         default:
             break
         }
@@ -178,19 +178,16 @@ class ShareView: UIView {
     
     ///  分享方法（所有类型）
     private func shareFullType(type: SSDKPlatformType) {
-        
+        var shareAlert = "微信"
         let shareParame: NSMutableDictionary = NSMutableDictionary(dictionary: shareParames)
         if type == SSDKPlatformType.TypeSinaWeibo {
             let text = (shareParames["text"] ?? "") as! String + (shareParames["url"] as! NSURL).absoluteString ?? ""
             shareParame["text"] = text
+            shareAlert = "微博"
         }
         
-        var prompt = "分享成功"
-        if type == SSDKPlatformType.TypeCopy {
-            shareParame.removeObjectForKey("images")
-            shareParame.removeObjectForKey("title")
-            shareParame.removeObjectForKey("text")
-            prompt = "复制成功"
+        if type == SSDKPlatformType.SubTypeQZone || type == SSDKPlatformType.SubTypeQQFriend {
+            shareAlert = "qq"
         }
         
         ShareSDK.share(type, parameters: shareParame)
@@ -198,12 +195,17 @@ class ShareView: UIView {
             
             switch state{
             case SSDKResponseState.Success:
-                
-                let alert = UIAlertView(title: prompt, message: "", delegate: self, cancelButtonTitle: "确定")
+                let alert = UIAlertView(title: "分享成功", message: "", delegate: self, cancelButtonTitle: "确定")
                 alert.show()
             case SSDKResponseState.Fail:    print("分享失败,错误描述:\(error)")
+            if error.code == 208 {
+                let alert = UIAlertView(title: "分享失败", message: "您未安装\(shareAlert)无法进行分享", delegate: self, cancelButtonTitle: "确定")
+                alert.show()
+            } else {
                 let alert = UIAlertView(title: "分享失败", message: "您的网络不稳定，请稍候分享", delegate: self, cancelButtonTitle: "确定")
                 alert.show()
+            }
+            
             case SSDKResponseState.Cancel:  print("分享取消")
                 
             default:
@@ -226,7 +228,6 @@ class ShareView: UIView {
             self.shareBtn4.layoutIfNeeded()
             self.shareBtn5.layoutIfNeeded()
             }) { (_) -> Void in
-                
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                     self.shareViewCY?.constant = self.bounds.height
                     self.shareView.layoutIfNeeded()

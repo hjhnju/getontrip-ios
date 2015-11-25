@@ -25,9 +25,9 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
     var collectContent = [CollectContent]() {
         didSet {
             if collectContent.count == 0 {
-                collectPrompt.hidden = true
-            } else {
                 collectPrompt.hidden = false
+            } else {
+                collectPrompt.hidden = true
             }
             tableView.reloadData()
         }

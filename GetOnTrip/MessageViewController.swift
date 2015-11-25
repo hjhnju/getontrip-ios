@@ -61,7 +61,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(MessageTableViewCell.self, forCellReuseIdentifier: "Message_Cell")
         tableView.registerClass(SystemTableViewCell.self, forCellReuseIdentifier: "SystemTableView_Cell")
-//        loadFeedBackHistory()
     }
     
     private func initRefresh() {
@@ -93,17 +92,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
             tableView.mj_header.beginRefreshing()
         }
     }
-    
-    // MARK: - 加载更新数据
-    /// 加载反馈历史消息(都是提问的问题)
-//    private func loadFeedBackHistory() {
-//        
-//        
-//        lastRequest.fetchFeedBackModels {(handler: [MessageList]) -> Void in
-//            self.messageLists = handler
-//            self.tableView.reloadData()
-//        }
-//    }
 
     // MARK: - Table view data source
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -160,11 +148,26 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
             let topic = Topic(id: data.topicId)
             vc.topicDataSource = topic
             navigationController?.pushViewController(vc, animated: true)
-//            vc.doComment(vc.commentButton)
         }
     }
     
-    
+    // 删除方法
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle != UITableViewCellEditingStyle.Delete { return }
+        
+        let msg = messageLists[indexPath.row]
+        MessageListRequest.deleteMessage(msg.mid) { (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                print(result)
+                self.messageLists.removeAtIndex(indexPath.row)
+                tableView.reloadData()
+                SVProgressHUD.showInfoWithStatus("删除成功")
+            } else {
+                SVProgressHUD.showInfoWithStatus("删除失败，请重新删除")
+            }
+        }
+        
+    }
     
     
     /// 是否正在加载中
