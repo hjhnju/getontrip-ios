@@ -548,8 +548,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             sex = 2
         }
 
-        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
+        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex!, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
             if error == nil {
+                print(result)
                 SVProgressHUD.showInfoWithStatus("保存成功")
                 UserLogin.sharedInstance.loadAccount()
                 self.saveButton = false

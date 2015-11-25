@@ -107,7 +107,8 @@ class RetrievePasswordController: UIViewController, UITextFieldDelegate {
     func sendButtonAction() {
         
         let emailStr = emailTextField.text ?? ""
-        if emailStr.validateEmail(emailStr) {
+
+        if RegexString.validateEmail(emailStr) {
             UserRegisterRequest.userSendPasswdEmail(emailStr, handler: { (result, status) -> Void in
                 if status == RetCode.SUCCESS {
                     SVProgressHUD.showInfoWithStatus("发送成功，请重新登陆")

@@ -131,10 +131,10 @@ class HttpRequest {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
         let urlStr = AppIni.BaseUri + urlString
+        print(urlStr)
         Alamofire.upload(.POST,
             urlStr,
             multipartFormData: { (multipartFormData) in
-                
                 // 关闭网络指示器
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 
@@ -152,6 +152,7 @@ class HttpRequest {
                 switch encodingResult {
                 case .Success(let upload, _, _):
                     upload.responseJSON { response in
+                        print(response.result.value)
                         finished(result: response.result.value, error: response.result.error)
                     }
                 case .Failure(let encodingError):

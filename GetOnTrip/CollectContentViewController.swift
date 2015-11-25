@@ -11,9 +11,9 @@ import FFAutoLayout
 import SVProgressHUD
 import MJRefresh
 
-let collectContentCellIdentifier = "CollectContent_Cell"
-let collectConBookCellIdentifier = "CollectContentBook_Cell"
-
+let CollectContentVideoCellIdentifier = "CollectContentVideoCell"
+let CollectContentBookCellIdentifier  = "CollectContentBookCell"
+let CollectContentCellIdentifier      = "CollectContentCell"
 
 class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
 
@@ -38,6 +38,7 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         super.viewDidLoad()
     
         initProperty()
+        initRefresh()
     }
     
     private func initProperty() {
@@ -49,9 +50,12 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         collectPrompt.hidden = true
         
         tableView.backgroundColor = UIColor.clearColor()
-        tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: collectContentCellIdentifier)
-        tableView.registerClass(CollectContentBookCell.self, forCellReuseIdentifier: collectConBookCellIdentifier)
-        
+        tableView.registerClass(CollectContentVideoCell.self, forCellReuseIdentifier: CollectContentVideoCellIdentifier)
+        tableView.registerClass(CollectContentBookCell.self, forCellReuseIdentifier: CollectContentBookCellIdentifier)
+        tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: CollectContentCellIdentifier)
+    }
+    
+    private func initRefresh() {
         //上拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
         tbHeaderView.automaticallyChangeAlpha = true
@@ -72,13 +76,13 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        
         self.tableView.mj_header = tbHeaderView
         self.tableView.mj_footer = tbFooterView
         
         if !tableView.mj_header.isRefreshing() {
             tableView.mj_header.beginRefreshing()
         }
+
     }
 
     // MARK: - Table view data source
@@ -89,15 +93,24 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: CollectContentCell?
+        let cell: BaseTableViewCell?
         let data = collectContent[indexPath.row] as CollectContent
-        if data.type == "4" {
-            cell = tableView.dequeueReusableCellWithIdentifier(collectContentCellIdentifier, forIndexPath: indexPath) as? CollectContentCell
-            cell?.collectContent = data
-        } else {
-            cell = tableView.dequeueReusableCellWithIdentifier(collectConBookCellIdentifier, forIndexPath: indexPath) as? CollectContentBookCell
-            cell?.collectContent = data
+        
+        switch Int(data.type ?? "0") {
+        case FavoriteContant.TypeTopic?:
+            cell = tableView.dequeueReusableCellWithIdentifier(CollectContentCellIdentifier, forIndexPath: indexPath) as! CollectContentCell
+            cell?.data = data
+        case FavoriteContant.TypeBook?:
+            cell = tableView.dequeueReusableCellWithIdentifier(CollectContentBookCellIdentifier, forIndexPath: indexPath) as! CollectContentBookCell
+            cell?.data = data
+        case FavoriteContant.TypeVideo?:
+            cell = tableView.dequeueReusableCellWithIdentifier(CollectContentVideoCellIdentifier, forIndexPath: indexPath) as! CollectContentVideoCell
+            cell?.data = data
+        default:
+            cell = tableView.dequeueReusableCellWithIdentifier(CollectContentCellIdentifier, forIndexPath: indexPath) as? CollectContentCell
+            break
         }
+        
         if indexPath.row == collectContent.count - 1 {
             cell!.baseline.removeFromSuperview()
         }
@@ -108,7 +121,8 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let col = collectContent[indexPath.row] as CollectContent
-        if col.type == "4" {
+        switch Int(col.type ?? "0") {
+        case FavoriteContant.TypeTopic?:
             let vc = TopicViewController()
             let topic = Topic()
             topic.id       = col.id
@@ -117,15 +131,25 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
             topic.subtitle = col.subtitle
             vc.topicDataSource = topic
             navigationController?.pushViewController(vc, animated: true)
-        } else {
+        case FavoriteContant.TypeBook?:
             let vc = BookViewController()
             let book = Book(id: col.id)
             book.image = col.image
             book.title = col.title
             vc.bookDataSource = book
             navigationController?.pushViewController(vc, animated: true)
+        case FavoriteContant.TypeVideo?:
+            let vc = DetailWebViewController()
+            let video = Video()
+            video.url = col.url
+            video.id  = col.id
+            video.collected = "1"
+            vc.video  = video
+            vc.url    = col.url
+            navigationController?.pushViewController(vc, animated: true)
+        default:
+            break
         }
-        
     }
     
 
@@ -191,125 +215,5 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
             }
             self?.isLoading = false
         }
-    }
-}
-
-// MARK: - CollectTopicCell
-
-class CollectContentCell: UITableViewCell {
-
-    
-    lazy var iconView: UIImageView = UIImageView()
-    
-    lazy var titleLabel: UILabel = UILabel(color: UIColor(hex: 0x939393, alpha: 1.0), title: "密道传说常年有", fontSize: 13, mutiLines: false)
-    
-    lazy var subtitleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "故宫内真有密道吗？入口在哪里？", fontSize: 16, mutiLines: false)
-    
-    lazy var baseline: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
-    //收藏
-    lazy var collect: UIButton = UIButton(image: "icon_star_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
-    
-    //浏览
-    lazy var visit: UIButton = UIButton(image: "icon_eye_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
-    
-    var collectContent: CollectContent? {
-        didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectContent!.image))
-            titleLabel.text = collectContent?.subtitle
-            subtitleLabel.text = collectContent?.title
-            collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
-            visit.setTitle(" " + collectContent!.visit ?? "", forState: UIControlState.Normal)
-        }
-    }
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setupProperty()
-        setupAutoLayout()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupProperty() {
-        
-        addSubview(iconView)
-        addSubview(titleLabel)
-        addSubview(subtitleLabel)
-        addSubview(collect)
-        addSubview(visit)
-        addSubview(baseline)
-        
-        iconView.contentMode    = UIViewContentMode.ScaleAspectFill
-        iconView.clipsToBounds  = true
-        let w: CGFloat = UIScreen.mainScreen().bounds.width - 120 - 27
-        titleLabel.preferredMaxLayoutWidth = w
-        subtitleLabel.preferredMaxLayoutWidth = w
-        titleLabel.numberOfLines = 2
-        subtitleLabel.numberOfLines = 3
-    }
-    
-    private func setupAutoLayout() {
-
-        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(120, 73), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
-        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
-        visit.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))
-        baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        
-    }
-    
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
-        
-    }
-}
-
-class CollectContentBookCell: CollectContentCell {
-    
-    override var collectContent: CollectContent? {
-        didSet {
-            iconView.sd_setImageWithURL(NSURL(string: collectContent!.image))
-            titleLabel.text = collectContent?.subtitle
-            subtitleLabel.text = collectContent?.title
-            collect.setTitle(" " + collectContent!.collect ?? "", forState: UIControlState.Normal)
-            visit.setTitle(" " + collectContent!.visit ?? "", forState: UIControlState.Normal)
-        }
-    }
-    
-    lazy var iconBottomView: UIView = UIView(color:UIColor(hex: 0xEDEDED, alpha: 1.0))
-    
-    private override func setupProperty() {
-        super.setupProperty()
-        
-        addSubview(iconBottomView)
-        iconBottomView.addSubview(iconView)
-        titleLabel.font = UIFont.systemFontOfSize(16)
-        titleLabel.textColor = UIColor.blackColor()
-        iconView.clipsToBounds = true
-    }
-    
-    private override func setupAutoLayout() {
-        
-        iconBottomView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(120, 91), offset: CGPointMake(9, 0))
-        iconView.ff_AlignInner(ff_AlignType.CenterCenter, referView: iconBottomView, size: CGSizeMake(62, 86.5))
-        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconBottomView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
-        collect.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconBottomView, size: nil, offset: CGPointMake(6, 0))
-        visit.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))
-        baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        
-    }
-    
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
-        
     }
 }

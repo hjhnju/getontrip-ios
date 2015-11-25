@@ -143,10 +143,6 @@ class LoginView: UIView {
         let nav = UINavigationController(rootViewController: log)
         log.loginFinished = self.loginFinishedHandler
         self.dismissFloating()
-//        print(UIApplication.sharedApplication().windows?.rootViewController?.dismissViewControllerAnimated(true, completion: nil))
-//        for vc in UIApplication.sharedApplication().windows {
-//            print(vc)
-//        }
         UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(nav, animated: true, completion: { () -> Void in
             UIApplication.sharedApplication().keyWindow?.bringSubviewToFront(nav.view)
         })

@@ -167,6 +167,8 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)
         navBar.titleLabel.hidden = true
+        navBar.rightButton.removeFromSuperview()
+        
         
         headerImageView.userInteractionEnabled = true
         collectionView.showsHorizontalScrollIndicator = false

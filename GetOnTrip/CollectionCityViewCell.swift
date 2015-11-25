@@ -11,9 +11,9 @@ import FFAutoLayout
 import SVProgressHUD
 
 // MARK: - CollectTopicCell
-class CollectCityCell: CitySightCollectionViewCell {
+class CollectCityCell: BaseCollectionCell {
     
-    override var data: AnyObject? {
+    var data: AnyObject? {
         didSet { // CollectCity
             if let sight = data as? CollectCity {
                 
@@ -24,7 +24,6 @@ class CollectCityCell: CitySightCollectionViewCell {
                 attr.appendAttributedString(NSAttributedString(string: " | "))
                 attr.appendAttributedString((sight.collect.getAttributedStringHeadCharacterBig()))
                 desc.attributedText = attr
-                
             }
         }
     }

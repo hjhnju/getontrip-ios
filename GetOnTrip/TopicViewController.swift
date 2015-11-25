@@ -26,47 +26,67 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 14, hasStatusBar: false)
     
     /// 头部视图
-    lazy var headerView: UIView = UIView()
+    lazy var headerView       = UIView()
     
     /// 头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
     
-    lazy var headerImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
+    lazy var headerImageView  = UIImageView(image: PlaceholderImage.defaultLarge)
     
     /// 文章标题
-    lazy var headerTitleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false)
+    lazy var headerTitleLabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false)
     
     /// 标签 - 历史
-    lazy var labelBtn: UIButton = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
+    lazy var labelButton      = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
     
-    lazy var favNumLabel: UIButton = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
+    /// 收藏数量标签
+    lazy var favNumLabel      = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
 
-    lazy var visitNumLabel: UIButton = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
+    /// 浏览标签
+    lazy var visitNumLabel    = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
     
     //webView
-    var webView: WKWebView = WKWebView(color: UIColor.grayColor())
+    var webView               = WKWebView(color: UIColor.grayColor())
     
     //底部工具栏
-    lazy var toolbarView: UIView = UIView()
+    lazy var toolbarView      = UIView()
     
     /// 评论显示多少条
-    lazy var commentNumLabel: UILabel = UILabel(color: UIColor(hex: 0x9C9C9C, alpha: 1.0), title: "", fontSize: 11, mutiLines: true)
+    lazy var commentNumLabel  = UILabel(color: UIColor(hex: 0x9C9C9C, alpha: 1.0), title: "", fontSize: 11, mutiLines: true)
     
-    lazy var commentBtn: UIButton = UIButton(image: "topic_comment", title: "", fontSize: 0)
+    /// 底部评论按钮
+    lazy var commentBotton    = UIButton(image: "topic_comment", title: "", fontSize: 0)
 
-    lazy var shareBtn: UIButton = UIButton(image: "topic_share", title: "", fontSize: 0)
+    /// 底部分享按钮
+    lazy var shareBotton      = UIButton(image: "topic_share", title: "", fontSize: 0)
     
-    lazy var collectBtn: UIButton = UIButton(image: "topic_star", title: "", fontSize: 0)
+    /// 底部收藏按钮
+    lazy var collectBotton    = UIButton(image: "topic_star", title: "", fontSize: 0)
     
-    lazy var bottomLine: UIView = UIView(color: SceneColor.lightGray)
+    /// 底部线
+    lazy var bottomLineView   = UIView(color: SceneColor.lightGray)
     
-    lazy var cover: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
+    /// 遮罩按钮
+    lazy var coverButton: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
   
     lazy var shareView: ShareView = ShareView()
     
-    lazy var commentVC: CommentViewController = {
-        return CommentViewController()
-    }()
+    /// 网络请求加载数据(添加)
+    var lastRequest: TopicRequest?
+    
+    //导航背景，用于完成渐变
+    weak var navUnderlayView:UIView?
+    
+    //导航透明度
+    var headerAlpha:CGFloat = 1.0
+    
+    //原导航底图
+    var oldBgImage: UIImage?
+    
+    var oldNavTintColor: UIColor?
+    
+    /// 评论控制器
+    lazy var commentVC: CommentViewController = CommentViewController()
     
     // MARK: DataSource of Controller
 
@@ -83,16 +103,16 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 headerTitleLabel.text = topic.title
                 
                 navBar.setTitle(topic.sight)
-                labelBtn.setTitle("  " + topic.tagname + "  ", forState: UIControlState.Normal)
-                favNumLabel.setTitle(" " + topic.collect, forState: UIControlState.Normal)
-                visitNumLabel.setTitle(" " + topic.visit, forState: UIControlState.Normal)
+                labelButton.setTitle("  " + topic.tagname + "  ", forState: .Normal)
+                favNumLabel.setTitle(" " + topic.collect, forState: .Normal)
+                visitNumLabel.setTitle(" " + topic.visit, forState: .Normal)
                 
-                collectBtn.selected = topic.collected == "" ? false : true
-                commentVC.topicId   = topic.id
-                commentNumLabel.text = topic.comment
-                labelBtn.hidden      = false
-                favNumLabel.hidden   = false
-                visitNumLabel.hidden = false
+                collectBotton.selected = topic.collected == "" ? false : true
+                commentVC.topicId      = topic.id
+                commentNumLabel.text   = topic.comment
+                labelButton.hidden     = false
+                favNumLabel.hidden     = false
+                visitNumLabel.hidden   = false
                 
                 if !topic.isInSomeSight() {
                     navBar.rightButton.hidden = true
@@ -103,54 +123,19 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         }
     }
     
-    /// 网络请求加载数据(添加)
-    var lastRequest: TopicRequest?
-
-    //导航背景，用于完成渐变
-    weak var navUnderlayView:UIView?
-    
-    //导航透明度
-    var headerAlpha:CGFloat = 1.0
-    
-    //原导航底图
-    var oldBgImage: UIImage?
-    
-    var oldNavTintColor: UIColor?
-    
     // MARK: - 初始化方法
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initView()
+        initNavBar()
+        initWebView()
         refreshHeader()
         loadSightData()
         setupAutoLayout()
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.webView.scrollView.delegate = self
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        //还原
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
-        super.viewDidDisappear(animated)
-        //避免webkit iOS回退bug https://bugs.webkit.org/show_bug.cgi?id=139662
-        self.webView.scrollView.delegate = nil
-    }
-    
+   
     func initView() {
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
         
@@ -160,49 +145,49 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         view.backgroundColor = UIColor.whiteColor()
         headerView.addSubview(headerImageView)
         headerView.addSubview(headerTitleLabel)
-        headerView.addSubview(labelBtn)
+        headerView.addSubview(labelButton)
         headerView.addSubview(favNumLabel)
         headerView.addSubview(visitNumLabel)
         toolbarView.addSubview(commentNumLabel)
-        toolbarView.addSubview(commentBtn)
-        toolbarView.addSubview(shareBtn)
-        toolbarView.addSubview(collectBtn)
-        toolbarView.addSubview(bottomLine)
+        toolbarView.addSubview(commentBotton)
+        toolbarView.addSubview(shareBotton)
+        toolbarView.addSubview(collectBotton)
+        toolbarView.addSubview(bottomLineView)
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
-        view.addSubview(cover)
+        view.addSubview(coverButton)
         view.addSubview(commentVC.view)
         commentVC.view.hidden = true
         addChildViewController(commentVC)
         
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
-        labelBtn.hidden      = true
-        favNumLabel.hidden   = true
-        visitNumLabel.hidden = true
-        cover.backgroundColor = UIColor.blackColor()
+        labelButton.hidden          = true
+        favNumLabel.hidden          = true
+        visitNumLabel.hidden        = true
+        coverButton.backgroundColor = UIColor.blackColor()
         
+        collectBotton.setImage(UIImage(named: "topic_star_select"), forState: .Selected)
+        shareBotton  .addTarget(self, action: "doSharing:", forControlEvents: .TouchUpInside)
+        collectBotton.addTarget(self, action: "doFavorite:", forControlEvents: .TouchUpInside)
+        commentBotton.addTarget(self, action: "doComment:", forControlEvents: .TouchUpInside)
+        coverButton  .addTarget(self, action: "coverClick:", forControlEvents: .TouchUpInside)
+        
+        headerTitleLabel.numberOfLines = 2
+        headerTitleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
+        headerImageView.contentMode   = UIViewContentMode.ScaleAspectFill
+        headerImageView.clipsToBounds = true
+        labelButton.layer.borderWidth = 0.5
+        labelButton.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
+        labelButton.backgroundColor   = SceneColor.fontGray
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    private func initNavBar() {
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "bar_sight"), title: nil, target: self, action: "sightAction:")
         navBar.setButtonTintColor(SceneColor.frontBlack)
         navBar.setStatusBarHidden(true)
-        
-        collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
-        
-        shareBtn.addTarget(self, action: "doSharing:", forControlEvents: UIControlEvents.TouchUpInside)
-        collectBtn.addTarget(self, action: "doFavorite:", forControlEvents: UIControlEvents.TouchUpInside)
-        commentBtn.addTarget(self, action: "doComment:", forControlEvents: UIControlEvents.TouchUpInside)
-        cover.addTarget(self, action: "coverClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        headerTitleLabel.numberOfLines = 2
-        headerTitleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
-        headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
-        headerImageView.clipsToBounds = true
-        labelBtn.layer.borderWidth = 0.5
-        labelBtn.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
-        labelBtn.backgroundColor = SceneColor.fontGray
-        
-        initWebView()
     }
     
 
@@ -220,60 +205,60 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     func refreshHeader(){
         headerTitleLabel.alpha = headerAlpha
-        favNumLabel.alpha = headerAlpha
+        favNumLabel.alpha   = headerAlpha
         visitNumLabel.alpha = headerAlpha
-        labelBtn.alpha = headerAlpha
+        labelButton.alpha   = headerAlpha
     }
     
     private func setupAutoLayout() {
-        
-        let cons = headerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, TopicViewContant.headerViewHeight), offset: CGPointMake(0, 0))
-        webView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - TopicViewContant.toolBarHeight), offset: CGPointMake(0, 0))
-        toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, TopicViewContant.toolBarHeight), offset: CGPointMake(0, 0))
+        let th: CGFloat = TopicViewContant.headerViewHeight
+        let tt: CGFloat = TopicViewContant.toolBarHeight
+        let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, th), offset: CGPointMake(0, 0))
+        webView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - tt), offset: CGPointMake(0, 0))
+        toolbarView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, tt), offset: CGPointMake(0, 0))
         
         //header views
         headerImageView.ff_Fill(headerView)
-        labelBtn.contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
-        labelBtn.ff_AlignVertical(ff_AlignType.TopLeft, referView: headerTitleLabel, size: nil, offset: CGPointMake(0, -5))
-        favNumLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(20, -7))
-        visitNumLabel.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
-        headerTitleLabel.ff_AlignVertical(ff_AlignType.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, 1))
-        headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
+        labelButton   .contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
+        labelButton   .ff_AlignVertical(.TopLeft, referView: headerTitleLabel, size: nil, offset: CGPointMake(0, -5))
+        favNumLabel   .ff_AlignInner(.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(20, -7))
+        visitNumLabel .ff_AlignHorizontal(.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
+        headerTitleLabel.ff_AlignVertical(.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, 1))
+        headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
         
         //toolbar views
-        commentNumLabel.ff_AlignInner(ff_AlignType.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
-        commentBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
-        shareBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: commentBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
-        collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
-        bottomLine.ff_AlignInner(ff_AlignType.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
-        
-        loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height + TopicViewContant.headerViewHeight)/2 - 2*TopicViewContant.toolBarHeight))
-        
-    }
-    
-    /// 发送反馈消息
-    private func loadSightData() {
-        
-        if lastRequest == nil {
-            lastRequest = TopicRequest()
-            lastRequest?.topicId = topicDataSource?.id ?? ""
-            lastRequest?.sightId = topicDataSource?.sightid ?? ""
-        }
-        
-        lastRequest?.fetchModels({[weak self] (result, status) -> Void in
-            if status == RetCode.SUCCESS {
-                if let topic = result {
-                    self?.topicDataSource = topic
-                }
-            } else {
-                SVProgressHUD.showErrorWithStatus("网络无法连接")
-            }
-        })
-        loadingView.start()
+        commentNumLabel.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
+        commentBotton .ff_AlignInner(.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
+        shareBotton   .ff_AlignHorizontal(.CenterLeft, referView: commentBotton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
+        collectBotton .ff_AlignHorizontal(.CenterLeft, referView: shareBotton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
+        bottomLineView.ff_AlignInner(.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
+        loadingView   .ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height + th)/2 - 2*tt))
     }
 
+    // MARK: - 系统方法
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.webView.scrollView.delegate = self
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        //还原
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
+        super.viewDidDisappear(animated)
+        //避免webkit iOS回退bug https://bugs.webkit.org/show_bug.cgi?id=139662
+        self.webView.scrollView.delegate = nil
+    }
+    
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -336,7 +321,29 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         refreshHeader()
     }
     
-    // MARK: - 评论、分享、收藏
+    // MARK: - 自定义方法
+    /// 加载景点数据
+    private func loadSightData() {
+        
+        if lastRequest == nil {
+            lastRequest = TopicRequest()
+            lastRequest?.topicId = topicDataSource?.id ?? ""
+            lastRequest?.sightId = topicDataSource?.sightid ?? ""
+        }
+        
+        lastRequest?.fetchModels({[weak self] (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                if let topic = result {
+                    self?.topicDataSource = topic
+                }
+            } else {
+                SVProgressHUD.showErrorWithStatus("网络无法连接")
+            }
+            })
+        loadingView.start()
+    }
+
+    
     func doFavorite(sender: UIButton) {
         sender.selected = !sender.selected
         if let topic = topicDataSource {
@@ -370,36 +377,29 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         let w = view.bounds.width
         let h = view.bounds.height
         commentVC.view.hidden = false
-//        UIApplication.sharedApplication().keyWindow?.addSubview(cover)
-//        UIApplication.sharedApplication().keyWindow?.addSubview(commentVC.view)
         commentVC.topicId = topicDataSource?.id ?? ""
-//        commentVC.view.clipsToBounds = true
         commentVC.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
-        cover.frame = UIScreen.mainScreen().bounds
+        coverButton.frame = UIScreen.mainScreen().bounds
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, UIScreen.mainScreen().bounds.height / 1.6)
-            self.cover.alpha = 0.7
+            self.coverButton.alpha = 0.7
             }) { (_) -> Void in
-//                self.commentVC.view.clipsToBounds = false
         }
     }
     
 
     /// 评论时遮罩层的点击方法
     func coverClick(serder: UIButton) {
-//        self.commentVC.view.clipsToBounds = true
         self.commentVC.issueTextfield.resignFirstResponder()
         UIView.animateWithDuration(0.3, animations: { [weak self] () -> Void in
-            self?.cover.alpha = 0.0
+            self?.coverButton.alpha = 0.0
             self?.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
             }) { [weak self]  (_) -> Void in
                 self?.commentVC.issueTextfield.placeholder = ""
                 self?.commentVC.toUser = ""
                 self?.commentVC.upId   = ""
                 self?.commentVC.view.hidden = true
-//                self?.commentVC.view.removeFromSuperview()
-//                self?.cover.removeFromSuperview()
         }
     }
     
@@ -425,7 +425,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
             self.commentVC.view.frame = CGRectMake(0, 44, view.bounds.width, bound.height - keyBoardFrame!.height - 44)
             self.commentVC.tableViewConH?.constant = bound.height - keyBoardFrame!.height - 44
             if self.commentVC.reloadIndexPath.row != 0 {
-                self.commentVC.tableView.scrollToRowAtIndexPath(self.commentVC.reloadIndexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                self.commentVC.tableView.scrollToRowAtIndexPath(self.commentVC.reloadIndexPath, atScrollPosition: .Middle, animated: true)
             }
             self.commentVC.tableView.layoutIfNeeded()
         }

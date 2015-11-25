@@ -114,6 +114,7 @@ class SightVideoViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let sc = DetailWebViewController()
         let dataI = dataSource[indexPath.row]
+        sc.video = dataI
         sc.url = dataI.url
         navigationController?.pushViewController(sc, animated: true)
     }
@@ -159,6 +160,7 @@ class SightVideoViewController: UITableViewController {
     func watchClick(btn: UIButton) {
         let sc = DetailWebViewController()
         let dataI = dataSource[btn.tag]
+        sc.video = dataI
         sc.url = dataI.url
         navigationController?.pushViewController(sc, animated: true)
     }

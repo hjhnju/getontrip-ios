@@ -79,6 +79,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureHandler:")
             maskView.addGestureRecognizer(tapGestureRecognizer)
+            
+            if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.FavoriteViewController")!) {
+                let vc = mainViewController as! FavoriteViewController
+                vc.slideView.addGestureRecognizer(tapGestureRecognizer)
+            }
+            
             mainViewController.view.addGestureRecognizer(panGestureRecognizer)
             mainViewController.slideDelegate = self
             refreshMask()
@@ -538,11 +544,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 //self.menuAlpha = 0.0
             }
         )
-        
-        if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.FavoriteViewController")!) {
-            let vc = mainViewController as? FavoriteViewController
-            vc!.contentScrollView.isHitTest = true
-        }
         
         refreshMask()
     }
