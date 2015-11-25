@@ -49,7 +49,6 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         view.bringSubviewToFront(navBar)
         view.addSubview(loadingView)
         view.bringSubviewToFront(loadingView)
-        
     }
     
     private func initNavBar() {
@@ -63,8 +62,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         navBar.rightButton2.setImage(UIImage(named: "topic_share"), forState: .Normal)
         navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Selected)
         navBar.rightButton2.addTarget(self, action: "shareVideoAction:", forControlEvents: .TouchUpInside)
-        navBar.rightButton.hidden  = video == nil ? true : false
-        navBar.rightButton2.hidden = video == nil ? true : false
+        navBar.rightButton.selected  = video?.collected == "1" ? true  : false
     }
     
     private func autolayout() {

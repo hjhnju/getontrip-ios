@@ -10,9 +10,9 @@ import UIKit
 import FFAutoLayout
 
 // 收藏景点的cell
-class CollectionSightViewCell: CitySightCollectionViewCell {
+class CollectionSightViewCell: BaseCollectionCell {
     
-    override var data: AnyObject? {
+    var data: AnyObject? {
         didSet {
             if let sight = data as? CollectSight {
 

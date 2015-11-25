@@ -33,11 +33,16 @@ class Video: NSObject {
     ///  时长
     var len: String = ""
     
+    var collected: String = ""
+    
     init(dict: [String: AnyObject]) {
         super.init()
         
         setValuesForKeysWithDictionary(dict)
-        
+    }
+    
+    override init() {
+        super.init()
     }
     
     func isAlbum() -> Bool {

@@ -323,7 +323,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     }
     
     // MARK: - 自定义方法
-    /// 发送反馈消息
+    /// 加载景点数据
     private func loadSightData() {
         
         if lastRequest == nil {

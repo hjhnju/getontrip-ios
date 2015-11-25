@@ -121,6 +121,8 @@ class CollectContent: NSObject {
 
     var type: String = ""
     
+    var url: String = ""
+    
     init(dict: [String : AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
