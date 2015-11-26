@@ -199,7 +199,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         webView.scrollView.delegate = self
         webView.scrollView.showsHorizontalScrollIndicator = false
         webView.scrollView.showsVerticalScrollIndicator   = true
-
         webView.navigationDelegate  = self
         webView.backgroundColor = UIColor.whiteColor()
         webView.opaque = false

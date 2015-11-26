@@ -24,10 +24,27 @@ class Cache: NSObject {
         "/api/1.0/search/label?order=4&pageSize=15&page=1" : 600,
         "/api/1.0/search/label?order=5&pageSize=15&page=1" : 600,
         "/api/1.0/search/label?order=6&pageSize=15&page=1" : 600,
-        "/api/1.0/collect/list?page=1&pageSize=6&type=1"   : 60,
-        "/api/1.0/collect/list?page=1&pageSize=6&type=2"   : 60,
-        "/api/1.0/collect/list?page=1&pageSize=6&type=3"   : 60,
-        "/api/1.0/msg/list?pageSize=10&page=1"             : 60,
+        //一秒的有效缓存，主要用于显示
+        "/api/1.0/collect/list?page=1&pageSize=6&type=1"   : 1,
+        "/api/1.0/collect/list?page=1&pageSize=6&type=2"   : 1,
+        "/api/1.0/collect/list?page=1&pageSize=6&type=3"   : 1,
+        "/api/1.0/msg/list?pageSize=10&page=1"             : 1,
+    ]
+    
+    /// 正则缓存配置
+    var cacheRegexConfs: [CacheRegexConfig] = [
+        //城市页缓存
+        CacheRegexConfig(expr: "^/api/1\\.0/city\\?city=([0-9]+)$", buffer: 10, expire: 600),
+        //景点缓存（标签等信息）
+        CacheRegexConfig(expr: "^/api/1\\.0/sight\\?sightId=([0-9]+)$", buffer: 50, expire: 600),
+        //景点话题列表缓存
+        CacheRegexConfig(expr: "^/api/1\\.0/sight/topic\\?tags=([0-9]+)&page=1&sightId=([0-9]+)&pageSize=10$", buffer: 100, expire: 600),
+        //景观列表缓存
+        CacheRegexConfig(expr: "^/api/1\\.0/sight/landscape\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 600),
+        //书籍列表缓存
+        CacheRegexConfig(expr: "^/api/1\\.0/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 600),
+        //视频列表缓存
+        CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 600),
     ]
     
     /**
@@ -39,14 +56,13 @@ class Cache: NSObject {
     若设expireValid=true则超过时间的不返回（用于减少网络请求，但没有删除）
     */
     func getString(key: String, expireValid: Bool = true) -> String? {
-        if let expire = cachekeys[key] {
+        if let expire = getCacheExpire(key)  {
             if !expireValid {
                 let retString = globalKvStore?.getStringById(key, fromTable: CacheContant.table)
                 return retString
             }
             
             if let item = globalKvStore?.getYTKKeyValueItemById(key, fromTable: CacheContant.table) {
-                //TODO: not work yet
                 let interval = NSDate().timeIntervalSinceDate(item.createdTime)
                 if interval <= expire {
                     if let arrString = item.itemObject as? [String] {
@@ -82,6 +98,17 @@ class Cache: NSObject {
         if cachekeys.keys.contains(key) {
             globalKvStore?.putString(value, withId: key, intoTable: CacheContant.table)
             return true
+        } else {
+            /// 缓存区溢出的key删除
+            for conf in cacheRegexConfs {
+                if conf.isCacheKey(key) {
+                    globalKvStore?.putString(value, withId: key, intoTable: CacheContant.table)
+                    if let overflowKey = conf.appendBuffer(key) {
+                        globalKvStore?.deleteObjectById(overflowKey, fromTable: CacheContant.table)
+                    }
+                    return true
+                }
+            }
         }
         return false
     }
@@ -89,5 +116,20 @@ class Cache: NSObject {
     /// 清除数据
     func clear(handler: ()->Void) {
         globalKvStore?.clearTable(CacheContant.table)
+    }
+    
+    // 获取缓存有效期
+    private func getCacheExpire(key: String) -> NSTimeInterval? {
+        if let expire = cachekeys[key] {
+            return expire
+        } else {
+            for conf in cacheRegexConfs {
+                if let expire = conf.getCacheExpire(key) {
+                    return expire
+                }
+            }
+        }
+        
+        return nil
     }
 }

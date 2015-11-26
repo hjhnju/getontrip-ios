@@ -20,6 +20,7 @@
 		72550E9A1BE9A210004D4611 /* CBStoreHouseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */; };
 		72550EA21BEA0D87004D4611 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA11BEA0D87004D4611 /* Book.swift */; };
 		72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */; };
+		725A62C61C033B1B00661555 /* CacheRegexConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A62C51C033B1B00661555 /* CacheRegexConfig.swift */; };
 		725A84751C009552007623C9 /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84741C009552007623C9 /* ReportRequest.swift */; };
 		725A84771C00A0AD007623C9 /* ReplayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84761C00A0AD007623C9 /* ReplayButton.swift */; };
 		725A84791C00A239007623C9 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725A84781C00A239007623C9 /* Comment.swift */; };
@@ -134,6 +135,8 @@
 		AE8C0C191BE8AB2D003C7942 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */; };
 		AE926FF71BF078E000F316C0 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77AC1BCB43B0006480B1 /* libsqlite3.tbd */; };
 		AE926FF91BF078EE00F316C0 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */; };
+		AE9385F51C05D9CA00B80D31 /* CityBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */; };
+		AE9385F71C05DD7C00B80D31 /* CityBrowseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */; };
 		AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B771B8644D200031FB8 /* VideoCell.swift */; };
 		AEA94F901B9AED30006D6998 /* UserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA94F8F1B9AED30006D6998 /* UserAccount.swift */; };
 		AEAB3A631C03077D00713C36 /* RecommendSlideButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB3A621C03077D00713C36 /* RecommendSlideButton.swift */; };
@@ -217,6 +220,7 @@
 		72550E991BE9A210004D4611 /* CBStoreHouseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBStoreHouseTransition.m; sourceTree = "<group>"; };
 		72550EA11BEA0D87004D4611 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		72550EA31BEA121C004D4611 /* HttpRequestProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequestProtocol.swift; sourceTree = "<group>"; };
+		725A62C51C033B1B00661555 /* CacheRegexConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheRegexConfig.swift; sourceTree = "<group>"; };
 		725A84741C009552007623C9 /* ReportRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		725A84761C00A0AD007623C9 /* ReplayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayButton.swift; sourceTree = "<group>"; };
 		725A84781C00A239007623C9 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -338,6 +342,8 @@
 		AE8C0C181BE8AB2D003C7942 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		AE8D54A41B9A9EFA009F26DE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseViewController.swift; sourceTree = "<group>"; };
+		AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseRequest.swift; sourceTree = "<group>"; };
 		AEA24B771B8644D200031FB8 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		AEA94F8F1B9AED30006D6998 /* UserAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAccount.swift; sourceTree = "<group>"; };
 		AEA94FC91B9B150E006D6998 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -495,6 +501,15 @@
 			name = Animation;
 			sourceTree = "<group>";
 		};
+		725A62C41C033B0500661555 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				72FE631F1BFB1B940037C7D6 /* Cache.swift */,
+				725A62C51C033B1B00661555 /* CacheRegexConfig.swift */,
+			);
+			name = Cache;
+			sourceTree = "<group>";
+		};
 		727561801BCFC7160089CB27 /* City */ = {
 			isa = PBXGroup;
 			children = (
@@ -622,6 +637,7 @@
 		72D86E081B65E82B004B72D0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				725A62C41C033B0500661555 /* Cache */,
 				72550E971BE8E14C004D4611 /* Animation */,
 				AED4B8721C0492DC00DAC9D3 /* Base */,
 				72A5BF311B73351400F3AB26 /* HttpRequest.swift */,
@@ -647,7 +663,6 @@
 				7293A0431BF4745E0070C64A /* LocateToCity.swift */,
 				728747311BFACC7300EE36AA /* CryptoAlgorithm.swift */,
 				728747331BFAD25200EE36AA /* Cookie.swift */,
-				72FE631F1BFB1B940037C7D6 /* Cache.swift */,
 				725A847C1C00CEAC007623C9 /* Device.swift */,
 				AED4B8661C041B0200DAC9D3 /* Regex.swift */,
 			);
@@ -736,6 +751,7 @@
 				AE6079B41BB2612D00DB2955 /* MainViewController.swift */,
 				AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */,
 				72550E881BE7A956004D4611 /* BaseViewController.swift */,
+				AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -760,6 +776,7 @@
 				72D25A8E1BEB25C50044AE04 /* RecommendLabel.swift */,
 				72D25A901BEB25E90044AE04 /* RecommendCellData.swift */,
 				AEEDE1361BDB93E800843C2C /* Favorite.swift */,
+				AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1083,6 +1100,7 @@
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
+				725A62C61C033B1B00661555 /* CacheRegexConfig.swift in Sources */,
 				AE0B6F811BFF1EE5002B8806 /* RetrievePasswordController.swift in Sources */,
 				AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */,
 				727561841BD0F64A0089CB27 /* Sight.swift in Sources */,
@@ -1156,6 +1174,7 @@
 				7293A0441BF4745E0070C64A /* LocateToCity.swift in Sources */,
 				AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */,
 				AE66012D1C055216007ED37A /* CommentButton.swift in Sources */,
+				AE9385F51C05D9CA00B80D31 /* CityBrowseViewController.swift in Sources */,
 				AE2894541BDCDDC20099293F /* SearchViewController.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* SightBooksRequest.swift in Sources */,
 				72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */,
@@ -1183,6 +1202,7 @@
 				AE79EEC91BBA8440005A7709 /* SightCollectionViewCell.swift in Sources */,
 				AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */,
 				AED4B86D1C048AC100DAC9D3 /* BaseTableViewCell.swift in Sources */,
+				AE9385F71C05DD7C00B80D31 /* CityBrowseRequest.swift in Sources */,
 				72550E891BE7A956004D4611 /* BaseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

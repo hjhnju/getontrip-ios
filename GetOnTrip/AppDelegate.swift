@@ -9,7 +9,6 @@
 // $(TARGET_NAME)  项目名
 
 import UIKit
-import SSKeychain
 import Alamofire
 import CoreData
 import YTKKeyValueStore
@@ -18,8 +17,6 @@ import YTKKeyValueStore
 var globalUser:UserAccount?
 /// 全局缓存
 var globalKvStore: YTKKeyValueStore?
-/// 记录uuid
-var appUUID: String?
 /// 当前城市id
 var currentCityId: String?
 
@@ -30,19 +27,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        //加载用户信息
-        UserLogin.sharedInstance.loadAccount()
-        
-        //加载缓存
+        //加载缓存(最早，否则config无法获取
         globalKvStore = YTKKeyValueStore(DBWithName: "getontrip")
         globalKvStore?.createTableWithName("ApiCache")
+        
+        //加载用户信息
+        UserLogin.sharedInstance.loadAccount()
         
         //预先加载首页数据
         let lastRequest = RecommendRequest()
         lastRequest.fetchFirstPageModels {(data, status) -> Void in }
         
-        //获取uuid
-        gainUserUUID()
         // 初始化navbar
         initNavigationBar()
         
@@ -80,20 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().setBackgroundImage(bgImage, forBarMetrics: UIBarMetrics.Default)
         //默认隐藏导航（navigationConroller在SlideMenuViewController中定义）
         UINavigationBar.appearance().hidden = true
-    }
-    
-    // MARK: - 获取用户uuid
-    private func gainUserUUID() {
-        // 获取uuid
-        var uuid = SSKeychain.passwordForService(NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        if (uuid == nil) {
-            uuid = NSUUID().UUIDString
-            SSKeychain.setPassword(uuid, forService: NSBundle.mainBundle().bundleIdentifier, account: "uuid")
-        }
-        appUUID = uuid
-        
-        // 写入cookie
-        Cookie.setCookie("device_id", value: appUUID)
     }
 
     // MARK: - 设置是否是第一次进入最新版本

@@ -22,7 +22,7 @@ class SightLandscapesRequest: NSObject {
     // 请求参数
     var sightId :String = ""
     var page    :Int = 1
-    var pageSize:Int = 6
+    var pageSize:Int = 10
     
     func fetchNextPageModels(handler: ([Landscape]?, Int) -> Void) {
         page = page + 1

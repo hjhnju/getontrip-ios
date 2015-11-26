@@ -298,7 +298,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             lastRequest?.sightId = sightId
         }
         
-        lastRequest?.fetchFirstPageModels({ [weak self] (sight, status) -> Void in
+        lastRequest?.fetchModels({ [weak self] (sight, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let sight = sight {
                     self?.sightDataSource = sight

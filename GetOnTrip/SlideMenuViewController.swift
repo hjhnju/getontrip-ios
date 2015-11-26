@@ -139,10 +139,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: " 当前城市未知", fontSize: 10)
     
     //设置菜单的数据源
-    let tableViewDataSource = ["首页", FavoriteViewController.name, MessageViewController.name, SettingViewController.name] // FeedBackViewController.name
+    let tableViewDataSource = ["首页", CityBrowseViewController.name, FavoriteViewController.name, MessageViewController.name, SettingViewController.name] // FeedBackViewController.name
     
     //菜单对应元类
-    let usingVCTypes: [AnyClass] = [RecommendViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
+    let usingVCTypes: [AnyClass] = [RecommendViewController.self, CityBrowseViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
     
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
@@ -160,16 +160,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     var logined: Bool = true
     
     //滑动手势
-    lazy var panGestureRecognizer: UIScreenEdgePanGestureRecognizer = {
-        let pan = UIScreenEdgePanGestureRecognizer()
-        pan.edges = UIRectEdge.Left
+    lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+        let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action:"panGestureHandler:")
         return pan
     }()
     
-    lazy var panGestureRecognizer2: UIScreenEdgePanGestureRecognizer = {
-        let pan = UIScreenEdgePanGestureRecognizer()
-        pan.edges = UIRectEdge.Left
+    lazy var panGestureRecognizer2: UIPanGestureRecognizer = {
+        let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action:"panGestureHandler:")
         return pan
         }()

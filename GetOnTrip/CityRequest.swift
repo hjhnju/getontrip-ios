@@ -9,16 +9,8 @@
 import UIKit
 
 class CityRequest {
-    /**
-    * 接口1：/api/home
-    * 城市中间页   首页入口一
-    * @param string deviceId，设备ID
-    * @param string city,城市ID
-    * @return json
-    */
     
     // 请求参数
-    var deviceId :String = appUUID!
     var cityId: String     = ""
     
     // 异步加载获取数据
