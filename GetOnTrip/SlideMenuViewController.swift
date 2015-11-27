@@ -10,7 +10,7 @@
 import UIKit
 import FFAutoLayout
 import CoreLocation
-import SVProgressHUD
+import JGProgressHUD
 
 //定义侧边栏的两种状态（打开，关闭）枚举类型
 enum SlideMenuState: Int {
@@ -422,7 +422,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                         if status == RetCode.SUCCESS {
                             currentCityId = result as? String ?? ""
                         } else {
-                            SVProgressHUD.showInfoWithStatus("网络连接失败，请检查网络")
+                            let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
+                            hud.textLabel.text = "网络连接失败，请检查网络"
+                            hud.showInView(self?.view)
+                            hud.dismissAfterDelay(3.0)
                         }
                     })
                 })
@@ -571,7 +574,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     /// 登陆后的操作
     var loginFinishedHandler: UserLogin.LoginFinishedHandler = { (result, error) -> Void in
         if error != nil {
-            SVProgressHUD.showInfoWithStatus("登陆失败啦，再试试手气")
+            let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
+            hud.textLabel.text = "登陆失败啦，再试试手气"
+            hud.showInView(UIApplication.sharedApplication().keyWindow)
+            hud.dismissAfterDelay(3.0)
         }
     }
     

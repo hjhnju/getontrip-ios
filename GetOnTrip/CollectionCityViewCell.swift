@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
 // MARK: - CollectTopicCell
 class CollectCityCell: BaseCollectionCell {

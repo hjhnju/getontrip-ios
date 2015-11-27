@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
 struct SearchResultContant {
     static let NormalCellHeight:CGFloat = 61
@@ -377,7 +376,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                     }
                     self.tableView.reloadData()
                 } else {
-                    SVProgressHUD.showInfoWithStatus("网络连接失败")
+                    ProgressHUD.showErrorHUD(self.view, text: "网络连接失败")
                 }
             }
         } else {
@@ -391,7 +390,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                         }
                     }
                 } else {
-                    SVProgressHUD.showInfoWithStatus("网络连接失败")
+                    ProgressHUD.showErrorHUD(self.view, text: "网络连接失败")
                 }
             }
         }

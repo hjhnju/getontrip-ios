@@ -9,7 +9,6 @@
 
 import Foundation
 import FFAutoLayout
-import SVProgressHUD
 
 class LoginView: UIView {
     

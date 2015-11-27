@@ -8,7 +8,6 @@
 
 import UIKit
 import MJRefresh
-import SVProgressHUD
 
 public let HistoryTableViewControllerSightCell: String = "Landscape_Cell"
 public let HistoryTableViewControllerSightCell1:String = "History_Cell1"
@@ -77,7 +76,7 @@ class SightLandscapeController: UITableViewController {
         lastRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
             //处理异常状态
             if status != RetCode.SUCCESS {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力!")
             }
             //处理数据
             if let data = dataSource {
@@ -149,7 +148,7 @@ class SightLandscapeController: UITableViewController {
                     self.isLoading = false
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力!")
                 return
             }
             

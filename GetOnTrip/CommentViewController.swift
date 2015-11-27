@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 import MJRefresh
 
 class CommentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,  UIActionSheetDelegate {
@@ -108,7 +107,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     private func initTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.sectionHeaderHeight = 41
+        tableView.sectionHeaderHeight = 38
         tableView.separatorStyle = .None
         tableView.registerClass(CommentTableViewCell.self, forCellReuseIdentifier: "CommentTableViewCell")
         
@@ -127,23 +126,25 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     private func autolayout() {
-        let tbH: CGFloat = UIScreen.mainScreen().bounds.height * 0.76 - 91
-        commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 41)
-        let cons = tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 41))
+        let tbH: CGFloat = UIScreen.mainScreen().bounds.height * 0.72 - 88
+        commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 38)
+        let cons = tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 38))
         tableViewConH = tableView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         issueCommentView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
         commentBottomImage.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 10))
         issueTextfield.ff_AlignInner(.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))
         issueCommentTopLine.ff_AlignInner(.TopLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width, 0.5))
         issueCommentBtn.ff_AlignInner(.CenterRight, referView: issueCommentView, size: CGSizeMake(91, 34), offset: CGPointMake(-19, 0))
-        commentTitleButton.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 41), offset: CGPointMake(0, 0))
+        commentTitleButton.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 38), offset: CGPointMake(0, 0))
         commentTitle.ff_AlignInner(.CenterCenter, referView: commentTitleButton, size: nil)
         commentBottomLine.ff_AlignInner(.BottomCenter, referView: commentTitleButton, size: CGSizeMake(view.bounds.width, 0.5))
     }
     
         
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        issueTextfield.resignFirstResponder()
+        if issueTextfield.text == "" {
+            issueTextfield.resignFirstResponder()
+        }
     }
     
     //MARKS: 自定义方法
@@ -185,7 +186,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         lastRequest?.fetchFirstPageModels {[weak self] (result, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                SVProgressHUD.showInfoWithStatus("您的网络无法连接")
+                ProgressHUD.showErrorHUD(self?.view, text: "您的网络无法连接")
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
@@ -199,7 +200,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
                     self?.prompt.hidden = self?.dataSource.count > 0 ? true : false
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("您的网络无法连接")
+                ProgressHUD.showErrorHUD(self?.view, text: "您的网络无法连接")
             }
             
             self?.isLoading = false
@@ -234,7 +235,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     func publishAction(btn: UIButton) {
         let content = self.issueTextfield.text ?? ""
         if content == "" {
-            SVProgressHUD.showInfoWithStatus("无评论内容")
+            ProgressHUD.showSuccessHUD(self.view, text: "无评论内容")
             return
         }
         
@@ -247,7 +248,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
                 //请求发送
                 self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.toUser, content: content, handler: { (result, status) -> Void in
                     if status == RetCode.SUCCESS {
-                        SVProgressHUD.showInfoWithStatus("发布成功")
+                        ProgressHUD.showSuccessHUD(self.view, text: "发布成功")
                         self.issueTextfield.text = ""
                         self.loadData()
                         let parentVC = self.parentViewController as? TopicViewController
@@ -255,7 +256,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
                         topic.commentNum = String((Int(parentVC?.topicDataSource?.commentNum ?? "0") ?? 0) + 1)
                         parentVC?.topicDataSource = topic
                     } else {
-                        SVProgressHUD.showInfoWithStatus("评论发布失败")
+                        ProgressHUD.showErrorHUD(self.view, text: "评论发布失败")
                     }
                     //发布结束
                     btn.selected = false

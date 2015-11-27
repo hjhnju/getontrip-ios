@@ -9,7 +9,6 @@
 import UIKit
 import WebKit
 import FFAutoLayout
-import SVProgressHUD
 
 class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrollViewDelegate {
     
@@ -162,10 +161,10 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试")
                 sender.selected = !sender.selected
             }
         }

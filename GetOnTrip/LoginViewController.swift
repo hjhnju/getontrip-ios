@@ -8,10 +8,8 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
-
-class LoginViewController: MainViewController, UITextFieldDelegate {
+class LoginViewController: MainViewController {
     
     // MARK: - 属性
     
@@ -99,8 +97,6 @@ class LoginViewController: MainViewController, UITextFieldDelegate {
         
         cancleButton.backgroundColor = SceneColor.lightgrey
         loginButton.backgroundColor  = SceneColor.lightblue
-        emailTextField.delegate      = self
-        passwordTextField.delegate   = self
         welcomeLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 44)
         passwordEyeButton.addTarget(self, action: "passwordEyeButton:", forControlEvents: .TouchUpInside)
         retrievePwButton.addTarget(self, action: "retrievePasswordAction", forControlEvents: .TouchUpInside)
@@ -142,18 +138,6 @@ class LoginViewController: MainViewController, UITextFieldDelegate {
         passwLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
         passwordEyeButton.alpha            = 0.3
         passwordEyeButton.bounds           = CGRectMake(0, 0, 36, 11)
-    }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        let cs = NSCharacterSet(charactersInString: Regular.letterAndNum).invertedSet
-        let filtered = string.componentsSeparatedByCharactersInSet(cs).joinWithSeparator("")
-        // 是否包含中文
-        let isContainChinese: Bool = (string == filtered)
-        if !isContainChinese {
-            SVProgressHUD.showInfoWithStatus("格式错误\n请重新输入")
-        }
-        return isContainChinese
     }
     
     private func initAutoLayout() {
@@ -212,13 +196,13 @@ class LoginViewController: MainViewController, UITextFieldDelegate {
     /// 登陆后的处理
     private func loginResultDispose(result: Bool, error: NSError?) {
         if error != nil {
-            SVProgressHUD.showWithStatus("您的网络链接不稳定，请稍候登录")
+            ProgressHUD.showErrorHUD(self.view, text: "您的网络链接不稳定，请稍候登录")
             return
         } else {
             if result == true {
                 cancleAction()
             } else {
-                SVProgressHUD.showWithStatus("您的网络链接不稳定，请稍候登录")
+                ProgressHUD.showErrorHUD(self.view, text: "您的网络链接不稳定，请稍候登录")
             }
         }
     }
@@ -269,26 +253,26 @@ class LoginViewController: MainViewController, UITextFieldDelegate {
                                 }
                             }  else {
                                 if RetCode.getShowMsg(status) == "" {
-                                    SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                                    ProgressHUD.showErrorHUD(self.view, text: "登陆失败，请重新登陆")
                                 } else {
-                                    SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                                    ProgressHUD.showErrorHUD(self.view, text: (RetCode.getShowMsg(status)))
                                 }
                                 self.loginFinished?(result: false, error: nil)
                             }
                         })
                     } else {
                         if RetCode.getShowMsg(status) == "" {
-                            SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                            ProgressHUD.showErrorHUD(self.view, text: "登陆失败，请重新登陆")
                         } else {
-                            SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                            ProgressHUD.showErrorHUD(self.view, text: (RetCode.getShowMsg(status)))
                         }
                     }
                 })
             } else {
-                SVProgressHUD.showInfoWithStatus("请输入6～20位字母、数字及常用符号组成")
+                ProgressHUD.showErrorHUD(self.view, text: "请输入6～20位字母、数字及常用符号组成")
             }
         } else {
-            SVProgressHUD.showInfoWithStatus("邮箱格式错误")
+            ProgressHUD.showErrorHUD(self.view, text: "邮箱格式错误")
         }
     }
 }

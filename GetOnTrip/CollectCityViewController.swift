@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 import MJRefresh
 
 let collectCityViewIdentifier = "CollectCity_Cell"
@@ -136,7 +135,7 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: "网络连接失败")
                 self?.collectionView!.mj_header.endRefreshing()
                 self?.isLoading = false
                 return

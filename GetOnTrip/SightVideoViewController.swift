@@ -8,7 +8,6 @@
 
 import UIKit
 import MJRefresh
-import SVProgressHUD
 
 public let HistoryTableViewControllerVideoCell: String = "Video_Cell"
 
@@ -81,7 +80,7 @@ class SightVideoViewController: UITableViewController {
             if status == RetCode.SUCCESS {
                 self!.tableView.mj_header.endRefreshing()
             } else {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self!.view, text: "您的网络不给力!")
             }
             self!.isLoading = false
             if let data = dataSource {
@@ -131,7 +130,7 @@ class SightVideoViewController: UITableViewController {
     func loadMore(){
         lastVideoRequest.fetchNextPageModels({ (nextData, status) -> Void in
             if status != RetCode.SUCCESS {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力!")
                 self.tableView.mj_footer.endRefreshing()
                 return
             }

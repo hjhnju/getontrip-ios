@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
 struct SightLabelType {
     /// 话题
@@ -305,7 +304,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                     self?.navBar.rightButton.selected = sight.isFavorite()
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: "您的网络不给力!")
             }
         })
     }
@@ -327,11 +326,11 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
                 sender.selected = !sender.selected
-                SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍后再试")
             }
         }
     }

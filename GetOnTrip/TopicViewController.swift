@@ -9,7 +9,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 import WebKit
 
 struct TopicViewContant {
@@ -168,7 +167,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         visitNumLabel.hidden        = true
         coverButton.backgroundColor = UIColor.blackColor()
         
-//        commentBotton.backgroundColor = UIColor(patternImage: UIImage(named: "topic_comment")!)
         collectBotton.setImage(UIImage(named: "topic_star_select"), forState: .Selected)
         shareBotton  .addTarget(self, action: "doSharing:", forControlEvents: .TouchUpInside)
         collectBotton.addTarget(self, action: "doFavorite:", forControlEvents: .TouchUpInside)
@@ -339,7 +337,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                     self?.topicDataSource = topic
                 }
             } else {
-                SVProgressHUD.showErrorWithStatus("网络无法连接")
+                ProgressHUD.showErrorHUD(self?.view, text: "网络无法连接")
             }
             })
         loadingView.start()
@@ -357,10 +355,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                     if result == nil {
                         sender.selected = !sender.selected
                     } else {
-                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                        ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                     }
                 } else {
-                    SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                    ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
                     sender.selected = !sender.selected
                 }
             }
@@ -420,12 +418,12 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
 
         let bound = UIScreen.mainScreen().bounds
         if transFromValue == 0{
-            self.commentVC.view.frame = CGRectMake(0, bound.height - (bound.height * 0.76) - 44, view.bounds.width, bound.height * 0.76)
-            self.commentVC.tableViewConH?.constant = bound.height * 0.76 - 91
+            self.commentVC.view.frame = CGRectMake(0, bound.height - (bound.height * 0.72) - 44, view.bounds.width, bound.height * 0.72)
+            self.commentVC.tableViewConH?.constant = bound.height * 0.72 - 88
             self.commentVC.tableView.layoutIfNeeded()
         } else {
             self.commentVC.view.frame = CGRectMake(0, 44, view.bounds.width, bound.height - keyBoardFrame!.height - 44)
-            self.commentVC.tableViewConH?.constant = bound.height - keyBoardFrame!.height - 44
+            self.commentVC.tableViewConH?.constant = bound.height - keyBoardFrame!.height - 44 - 88
             if self.commentVC.reloadIndexPath.row != 0 {
                 self.commentVC.tableView.scrollToRowAtIndexPath(self.commentVC.reloadIndexPath, atScrollPosition: .Middle, animated: true)
             }

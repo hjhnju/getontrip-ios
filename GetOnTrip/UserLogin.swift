@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import Alamofire
-import SVProgressHUD
 
 ///  登陆类型 1:qq,2:weixin,3:weibo
 struct LoginType {

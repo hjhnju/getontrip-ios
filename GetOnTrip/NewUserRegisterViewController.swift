@@ -9,9 +9,8 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
-class NewUserRegisterViewController: UIViewController, UITextFieldDelegate {
+class NewUserRegisterViewController: UIViewController {
 
     /// 邮箱
     lazy var emailTextField     = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
@@ -38,7 +37,7 @@ class NewUserRegisterViewController: UIViewController, UITextFieldDelegate {
     
     lazy var navTitleLabel      = UILabel(color: UIColor.whiteColor(), title: "注册", fontSize: 24, mutiLines: true)
     
-    let passwordEyeButton     = UIButton(image: "show_Password", title: "", fontSize: 20)
+    let passwordEyeButton       = UIButton(image: "show_Password", title: "", fontSize: 20)
     
     lazy var keyboardTakebackBtn = UIButton()
     
@@ -63,9 +62,6 @@ class NewUserRegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func initProperty() {
-//        navigationItem.backBarButtonItem = UIBarButtonItem(title: "注册", style: .Plain, target: "", action: "")
-        
-//        navigationItem.backBarButtonItem = UIBarButtonItem // setBackBarButton(UIImage(named: "icon_back"), title: "途知", target: self, action: "popViewAction:")
         view.backgroundColor = UIColor.whiteColor()
         let backgroundImageView = UIImageView(image: UIImage(named: "login_background"))
         view.addSubview(backgroundImageView)
@@ -90,8 +86,6 @@ class NewUserRegisterViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func initTextField() {
-        emailTextField.delegate    = self
-        passwordTextField.delegate = self
         
         let size = emailLabel.text?.sizeofStringWithFount1(UIFont.systemFontOfSize(18), maxSize: CGSizeMake(CGFloat.max, CGFloat.max))
         emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
@@ -129,19 +123,6 @@ class NewUserRegisterViewController: UIViewController, UITextFieldDelegate {
         nextButton.ff_AlignVertical(.BottomCenter, referView: passwordTextField, size: size, offset: CGPointMake(0, 78))
     }
     
-    // MARK: - textfield delegate
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        let cs = NSCharacterSet(charactersInString: Regular.letterAndNum).invertedSet
-        let filtered = string.componentsSeparatedByCharactersInSet(cs).joinWithSeparator("")
-        // 是否包含中文
-        let isContainChinese: Bool = (string == filtered)
-        if !isContainChinese {
-            SVProgressHUD.showInfoWithStatus("格式错误\n请重新输入")
-        }
-        return isContainChinese
-    }
-    
     // MARK: - 自定义方法
     func userAgreeAction(btn: UIButton) {
         btn.selected = !btn.selected
@@ -176,10 +157,9 @@ class NewUserRegisterViewController: UIViewController, UITextFieldDelegate {
     func nexButtonAction() {
         
         if userAgreeButton.selected == false {
-            SVProgressHUD.showInfoWithStatus("请阅读《用户注册协议》")
+            ProgressHUD.showSuccessHUD(self.view, text: "请阅读《用户注册协议》")
             return
         }
-        
         
         let emailStr = emailTextField.text ?? ""
         let passwStr = passwordTextField.text ?? ""
@@ -195,22 +175,22 @@ class NewUserRegisterViewController: UIViewController, UITextFieldDelegate {
                                     vc?.curVCType = SettingViewController.self
                                 })
                             } else {
-                                SVProgressHUD.showInfoWithStatus("注册失败，请稍候注册")
+                                ProgressHUD.showErrorHUD(self.view, text: "注册失败，请稍候注册")
                             }
                         })
                     } else {
                         if RetCode.getShowMsg(status) == "" {
-                            SVProgressHUD.showInfoWithStatus("注册失败，请稍候注册")
+                            ProgressHUD.showErrorHUD(self.view, text: "注册失败，请稍候注册")
                         } else {
-                            SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                            ProgressHUD.showErrorHUD(self.view, text: RetCode.getShowMsg(status))
                         }
                     }
                 })
             } else {
-                SVProgressHUD.showInfoWithStatus("请输入6～32位字母、数字及常用符号组成")
+                ProgressHUD.showErrorHUD(self.view, text: "请输入6～32位字母、数字及常用符号组成")
             }
         } else {
-            SVProgressHUD.showInfoWithStatus("邮箱格式错误")
+            ProgressHUD.showErrorHUD(self.view, text: "邮箱格式错误")
         }
     }
 }

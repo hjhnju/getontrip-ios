@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Alamofire
-import SVProgressHUD
 
 class UserAccount: NSObject, NSCoding {
     

@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 import MJRefresh
 
 let sightListCityIdentifier = "SightListCity_Cell"
@@ -151,10 +150,10 @@ class CitySightsViewController: UICollectionViewController {
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍后再试")
                 sender.selected = !sender.selected
             }
         }
@@ -180,8 +179,7 @@ class CitySightsViewController: UICollectionViewController {
         lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                
-                    SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: "您的网络不给力!")
                 self?.collectionView?.mj_header.endRefreshing()
                 self?.isLoading = false
                 return

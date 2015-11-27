@@ -8,7 +8,6 @@
 //
 
 import Foundation
-import SVProgressHUD
 import UIKit
 
 // 将原文件的逻辑运算抽出
@@ -74,7 +73,7 @@ extension CommentViewController {
             LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
                 if success {
                     //不管网络是否返回
-                    SVProgressHUD.showInfoWithStatus("已举报")
+                    ProgressHUD.showSuccessHUD(self.view, text: "已举报")
                     let req = ReportRequest()
                     req.commentid = String(comment.id)
                     req.report()

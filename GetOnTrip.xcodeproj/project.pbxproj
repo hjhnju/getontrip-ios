@@ -98,6 +98,7 @@
 		AE3CA1221C05638600669BA0 /* ShareSDKUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AE3CA1171C05638600669BA0 /* ShareSDKUI.bundle */; };
 		AE3CA1231C05638600669BA0 /* ShareSDKUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA1181C05638600669BA0 /* ShareSDKUI.framework */; };
 		AE43E16E1C07FEB70021964E /* ControllerTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE43E16D1C07FEB70021964E /* ControllerTools.swift */; };
+		AE43E1711C082B980021964E /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE43E1701C082B980021964E /* ProgressHUD.swift */; };
 		AE488D691BCBDD8E0032B78B /* RecommendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */; };
 		AE488D6B1BCBDDAE0032B78B /* RecommendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6A1BCBDDAE0032B78B /* RecommendRequest.swift */; };
 		AE488D6D1BCBDDDB0032B78B /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */; };
@@ -307,6 +308,7 @@
 		AE3CA1171C05638600669BA0 /* ShareSDKUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKUI.bundle; sourceTree = "<group>"; };
 		AE3CA1181C05638600669BA0 /* ShareSDKUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKUI.framework; sourceTree = "<group>"; };
 		AE43E16D1C07FEB70021964E /* ControllerTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerTools.swift; sourceTree = "<group>"; };
+		AE43E1701C082B980021964E /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendTableViewCell.swift; sourceTree = "<group>"; };
 		AE488D6A1BCBDDAE0032B78B /* RecommendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendRequest.swift; sourceTree = "<group>"; };
 		AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				725A847C1C00CEAC007623C9 /* Device.swift */,
 				AED4B8661C041B0200DAC9D3 /* Regex.swift */,
 				AE43E16D1C07FEB70021964E /* ControllerTools.swift */,
+				AE43E1701C082B980021964E /* ProgressHUD.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1191,6 +1194,7 @@
 				AEC9D2BC1BD7ADE700B28464 /* SendPopoverAnimator.swift in Sources */,
 				726974281BDF168A000C0ABF /* RetCode.swift in Sources */,
 				AE8BA8961C008B8600F17F2A /* SettingNicknameController.swift in Sources */,
+				AE43E1711C082B980021964E /* ProgressHUD.swift in Sources */,
 				AE2EEE941BCF58ED00ED0937 /* CitySightsRequest.swift in Sources */,
 				AEEA552D1BBFD7F7009AF772 /* TopicCell.swift in Sources */,
 				728747211BF8581800EE36AA /* SearchResult.swift in Sources */,

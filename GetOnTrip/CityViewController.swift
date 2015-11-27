@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
 struct CityConstant {
     static let headerViewHeight:CGFloat = 198
@@ -425,10 +424,10 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                ProgressHUD.showSuccessHUD(self.view, text: "操作未成功，请稍候再试!")
                 sender.selected = !sender.selected
             }
         }

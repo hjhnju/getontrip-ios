@@ -10,7 +10,6 @@ import UIKit
 import FFAutoLayout
 import Alamofire
 import MJRefresh
-import SVProgressHUD
 
 struct MainViewContant {
     //状态栏高度
@@ -458,7 +457,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                     self?.errorView.hidden = false
                 } else {
                     //当前有内容显示出错浮层
-                    SVProgressHUD.showInfoWithStatus("您的网络无法连接")
+                    ProgressHUD.showErrorHUD(self?.view, text: "您的网络无法连接")
                 }
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false

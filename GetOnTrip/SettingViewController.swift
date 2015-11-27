@@ -8,10 +8,9 @@
 
 import UIKit
 import FFAutoLayout
-import Alamofire
-import SVProgressHUD
-import CoreData
 import SDWebImage
+import Alamofire
+import CoreData
 
 /// 定义选中的是第几行
 struct SettingCell {
@@ -193,12 +192,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             if status == RetCode.SUCCESS {
                 if let data = result {
                     self.provinces = data
-                    
                 } else {
-                    SVProgressHUD.showInfoWithStatus("数据加载错误，请稍候再试")
+                    ProgressHUD.showErrorHUD(self.view, text: "数据加载失败，请稍候再试!")
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("城市加载失败您的网络不稳定")
+                ProgressHUD.showErrorHUD(self.view, text: "城市加载失败您的网络不稳定")
+
             }
         }
         
@@ -551,11 +550,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex!, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
             if error == nil {
                 print(result)
-                SVProgressHUD.showInfoWithStatus("保存成功")
+                ProgressHUD.showSuccessHUD(self.view, text: "保存成功")
                 UserLogin.sharedInstance.loadAccount()
                 self.saveButton = false
             } else {
-                SVProgressHUD.showInfoWithStatus("保存失败")
+                ProgressHUD.showErrorHUD(self.view, text: "保存失败")
             }
         })
         self.tableView.reloadData()

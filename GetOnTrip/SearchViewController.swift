@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
 struct SearchViewContant {
     static let hotwordCellId = "SearchHotwordTableViewCellID"
@@ -75,10 +74,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     func switchCurrentCity(btn: UIButton) {
         
         if currentCityId == nil {
-            SVProgressHUD.showInfoWithStatus("正在定位中", maskType: SVProgressHUDMaskType.Black)
+            ProgressHUD.showErrorHUD(self.view, text: "正在定位中")
             return
         } else if currentCityId == "" {
-            SVProgressHUD.showInfoWithStatus("当前城市未开通")
+            ProgressHUD.showSuccessHUD(self.view, text: "当前城市未开通")
         } else {
             let vcity = CityViewController()
             vcity.cityDataSource = City(id: currentCityId!)

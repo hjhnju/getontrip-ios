@@ -9,7 +9,6 @@
 import UIKit
 import FFAutoLayout
 import MJRefresh
-import SVProgressHUD
 
 class MessageViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate{
     
@@ -161,9 +160,10 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
                 print(result)
                 self.messageLists.removeAtIndex(indexPath.row)
                 tableView.reloadData()
-                SVProgressHUD.showInfoWithStatus("删除成功")
+                ProgressHUD.showErrorHUD(self.view, text: "删除成功")
+
             } else {
-                SVProgressHUD.showInfoWithStatus("删除失败，请重新删除")
+                ProgressHUD.showErrorHUD(self.view, text: "删除失败，请重新删除")
             }
         }
         
@@ -187,7 +187,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         lastRequest.fetchFirstPageModels {[weak self] (data, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: "您的网络不给力！")
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
