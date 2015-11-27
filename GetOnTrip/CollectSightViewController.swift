@@ -46,6 +46,9 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
         super.viewDidLoad()
         
         initProperty()
+        if globalUser != nil {
+            initRefresh()
+        }
     }
     
     private func initProperty() {
@@ -66,7 +69,9 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
         
         // Register cell classes
         collectionView?.registerClass(CollectionSightViewCell.self, forCellWithReuseIdentifier: collectionSightViewIdentifier)
-        
+    }
+    
+    private func initRefresh() {
         //上拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
         tbHeaderView.automaticallyChangeAlpha = true

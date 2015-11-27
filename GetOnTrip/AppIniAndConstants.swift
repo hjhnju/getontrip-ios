@@ -19,7 +19,7 @@ class AppIniDev {
     static let BaseResourceUri =  "http://123.57.46.229:8301"
 }
 
-class AppIni:AppIniDev {
+class AppIni:AppIniOnline {
     static let Domain:String      = "www.getontrip.cn"
     static let SecretKey: String  = "ahl93##41cfw!@23"
     static let ApiVersion: String = "1.0"
@@ -92,4 +92,9 @@ struct MessageInfo {
 /// 正则抓取包含字母和数字
 struct Regular {
     static let letterAndNum = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@."
+}
+
+/// 字体
+struct Font {
+    static let defaultFont = "PingFangTC-Light"
 }

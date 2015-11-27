@@ -53,7 +53,6 @@ class SettingNicknameController: MenuViewController {
         navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: .Normal)
         navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: .Selected)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-
     }
     
     override func viewWillAppear(animated: Bool) {

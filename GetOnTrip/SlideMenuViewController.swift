@@ -230,7 +230,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         loginBefore.addSubview(descLabel)
         
         welcomeLabel.text = "Hello!"
-        welcomeLabel.font = UIFont(name: "PingFangTC-Light", size: 36)
+        welcomeLabel.font = UIFont(name: Font.defaultFont, size: 36)
 
         descLabel.text   = "登录/注册"
         currentCityButton.alpha = 0.7
@@ -370,19 +370,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        //TODO:未登录情况
-        if indexPath.row >= 1 {
-            LoginView.sharedLoginView.doAfterLogin() {(success, error) -> () in
-                if success {
-                    //调整
-                    self.curVCType = self.usingVCTypes[indexPath.row]
-                }
-            }
-            return
-        }
-        
-        //调整
         curVCType = usingVCTypes[indexPath.row]
     }
     
@@ -597,8 +584,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         navigationController
         let lovc = LoginViewController()
         let nav = UINavigationController(rootViewController: lovc)
-//        nav.setViewControllers([lovc], animated: true)
-//        let nav = UINavigationController(rootViewController: LoginViewController())
         presentViewController(nav, animated: true, completion: nil)
     }
 }

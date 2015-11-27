@@ -37,7 +37,9 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         super.viewDidLoad()
     
         initProperty()
-        initRefresh()
+        if globalUser != nil {
+            initRefresh()
+        }
     }
     
     private func initProperty() {

@@ -79,10 +79,10 @@ class NewUserRegisterViewController: UIViewController {
         nextButton.backgroundColor = SceneColor.lightblue
         userProtocolButton.setAttributedTitle("我已阅读并同意《用户注册协议》"
         .getAttributedStringColor("《用户注册协议》", normalColor: UIColor(hex: 0xFFFFFF, alpha: 0.7), differentColor: SceneColor.lightblue), forState: .Normal)
-        emailLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
-        passwLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
-        nextButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
-        navTitleLabel.font = UIFont(name: "PingFangTC-Light", size: 24)
+        emailLabel.font = UIFont(name: Font.defaultFont, size: 18)
+        passwLabel.font = UIFont(name: Font.defaultFont, size: 18)
+        nextButton.titleLabel?.font = UIFont(name: Font.defaultFont, size: 18)
+        navTitleLabel.font = UIFont(name: Font.defaultFont, size: 24)
     }
 
     private func initTextField() {

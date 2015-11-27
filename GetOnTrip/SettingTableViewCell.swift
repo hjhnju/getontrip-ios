@@ -18,17 +18,15 @@ class SettingTableViewCell: UITableViewCell {
     /// 设置底线
     lazy var baseline: UIView! = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
     
-    init() {
-        super.init(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
-        
-        backgroundColor = UIColor.whiteColor()
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         addSubview(baseline)
         addSubview(left)
-        
-        selectionStyle = UITableViewCellSelectionStyle.None
-        baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-        left.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: nil, offset: CGPointMake(9, 0))
+        backgroundColor = .whiteColor()
+        selectionStyle = .None
+        baseline.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        left.ff_AlignInner(.CenterLeft, referView: self, size: nil, offset: CGPointMake(9, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -129,7 +129,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         let tbH: CGFloat = UIScreen.mainScreen().bounds.height * 0.72 - 88
         commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 38)
         let cons = tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 38))
-        tableViewConH = tableView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
+        tableViewConH = tableView.ff_Constraint(cons, attribute: .Height)
         issueCommentView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
         commentBottomImage.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 10))
         issueTextfield.ff_AlignInner(.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))

@@ -119,17 +119,16 @@ class UserLogin: NSObject {
     }
     
     /// 上传用户个人信息
-    func uploadUserInfo(imageData: NSData, sex: Int?, nick_name: String?, city: String?, handler:(result: AnyObject?, error: NSError?) -> Void) {
+    func uploadUserInfo(imageData: NSData?, sex: Int?, nick_name: String?, handler:(result: AnyObject?, error: NSError?) -> Void) {
         
         let str = "/api/\(AppIni.ApiVersion)/user/editinfo"
         
         var post      = [String: String]()
         post["sex"]   = String(sex ?? 2)
         post["nick_name"] = nick_name ?? ""
-        post["city"]  = city ?? ""
         let timestamp = String(format: "%.0f", NSDate().timeIntervalSince1970)
         post["token"] = "\(AppIni.SecretKey)\(timestamp)".sha256 + timestamp
-        print("sex == \(sex)  nick_name == \(nick_name)  city == \(city)")
+        print("sex == \(sex)  nick_name == \(nick_name)")
         HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, error) -> () in
             if error != nil {
                 handler(result: result, error: error)

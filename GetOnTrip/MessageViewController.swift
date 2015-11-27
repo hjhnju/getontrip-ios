@@ -36,7 +36,9 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         initProperty()
-        initRefresh()
+        if globalUser != nil {
+            initRefresh()
+        }
     }
     
     private func initProperty() {

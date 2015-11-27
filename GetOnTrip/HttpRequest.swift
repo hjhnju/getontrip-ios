@@ -125,7 +125,7 @@ class HttpRequest {
     /// - parameter data:       要上传文件的二进制数据
     /// - parameter parameters: 参数字典
     /// - parameter finished:   完成回调
-    func upload(urlString: String, data: NSData, parameters: [String: AnyObject]?, finished: RequestFinishedCallBack) {
+    func upload(urlString: String, data: NSData?, parameters: [String: AnyObject]?, finished: RequestFinishedCallBack) {
         
         // 打开网络指示器
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -138,7 +138,7 @@ class HttpRequest {
                 // 关闭网络指示器
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 
-                multipartFormData.appendBodyPart(data: data, name: "file", fileName: "123.png", mimeType: "image/png")
+                multipartFormData.appendBodyPart(data: data ?? NSData(), name: "file", fileName: "123.png", mimeType: "image/png")
                 
                 guard let params = parameters else {
                     return

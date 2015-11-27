@@ -107,10 +107,10 @@ class LoginViewController: MainViewController {
         weiboButton .addTarget(self, action: "weiboLogin", forControlEvents: .TouchUpInside)
         qqButton    .addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
         exitButton  .addTarget(self, action: "exitButtonAction", forControlEvents: .TouchUpInside)
-        emailLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
-        passwLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
-        loginButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
-        cancleButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
+        emailLabel.font = UIFont(name: Font.defaultFont, size: 18)
+        passwLabel.font = UIFont(name: Font.defaultFont, size: 18)
+        loginButton.titleLabel?.font = UIFont(name: Font.defaultFont, size: 18)
+        cancleButton.titleLabel?.font = UIFont(name: Font.defaultFont, size: 18)
     }
     
     private func initTextField() {
