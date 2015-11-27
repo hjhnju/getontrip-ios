@@ -261,22 +261,24 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     ///  添加搜索标签按钮
     private func addSearchLabelButton() {
         //参数
-        let btnWidth:CGFloat  = 100
-        let btnHeight:CGFloat = (244 - 75) / 3
+        let btnWidth:CGFloat  = 95
+        let btnHeight:CGFloat = (244 - 75) / 3 - 15
         let totalCol:Int      = 2
         let totalRow:Int      = 3
         let yOffset:CGFloat   = 75
         let marginX:CGFloat   = (headerView.bounds.size.width - btnWidth * CGFloat(totalCol)) / CGFloat(totalCol + 1)
-        let marginY:CGFloat   = 0
+        let marginY:CGFloat   = 15
 
         for (var i = 0; i < recommendLabels.count; i++) {
             let btn = UIButton(title: recommendLabels[i].toString(), fontSize: 14, radius: 0)
-            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             headerView.addSubview(btn)
+            btn.titleLabel?.textAlignment = NSTextAlignment.Center
+            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
             btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
             btn.tag = Int(recommendLabels[i].order) ?? 1
+//            btn.backgroundColor = UIColor.randomColor()
             if i == 0 {
                 btn.selected = true
                 currentSearchLabelButton = btn
@@ -287,9 +289,17 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             if row >= totalRow {
                 break
             }
-                
-            let btnX:CGFloat = marginX + (marginX + btnWidth) * CGFloat(col)
+            
+            var btnX:CGFloat = marginX + (marginX + btnWidth) * CGFloat(col)
             let btnY:CGFloat = yOffset + (marginY + btnHeight) * CGFloat(row)
+            
+            btnX += i % 2 == 0 ? 5 : -5
+            if i == 0 || i == 1 {
+                btn.contentVerticalAlignment = UIControlContentVerticalAlignment.Bottom
+            } else if i == 4 || i == 5 {
+                btn.contentVerticalAlignment = UIControlContentVerticalAlignment.Top
+            }
+            
             btn.frame = CGRectMake(btnX, btnY, btnWidth, btnHeight)
         }
     }

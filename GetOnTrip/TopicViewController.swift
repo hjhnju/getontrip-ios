@@ -15,7 +15,7 @@ import WebKit
 struct TopicViewContant {
     static let headerViewHeight:CGFloat = 267
     static let toolBarHeight:CGFloat    = 47
-    static let commentViewHeight:CGFloat = UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.height / 1.6 - 44
+    static let commentViewHeight:CGFloat = UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.height * 0.72 - 44
 }
 
 class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigationDelegate {
@@ -384,7 +384,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         coverButton.frame = UIScreen.mainScreen().bounds
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, UIScreen.mainScreen().bounds.height / 1.6)
+            self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, UIScreen.mainScreen().bounds.height * 0.72)
             self.coverButton.alpha = 0.7
             }) { (_) -> Void in
         }
@@ -420,8 +420,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
 
         let bound = UIScreen.mainScreen().bounds
         if transFromValue == 0{
-            self.commentVC.view.frame = CGRectMake(0, bound.height - (bound.height / 1.6) - 44, view.bounds.width, bound.height / 1.6)
-            self.commentVC.tableViewConH?.constant = bound.height / 1.6 - 91
+            self.commentVC.view.frame = CGRectMake(0, bound.height - (bound.height * 0.76) - 44, view.bounds.width, bound.height * 0.76)
+            self.commentVC.tableViewConH?.constant = bound.height * 0.76 - 91
             self.commentVC.tableView.layoutIfNeeded()
         } else {
             self.commentVC.view.frame = CGRectMake(0, 44, view.bounds.width, bound.height - keyBoardFrame!.height - 44)

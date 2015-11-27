@@ -11,7 +11,7 @@ import FFAutoLayout
 import SVProgressHUD
 import MJRefresh
 
-class CommentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate {
+class CommentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,  UIActionSheetDelegate {
     
     /// 评论列表请求
     var lastRequest: CommentListRequest?
@@ -28,9 +28,9 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     /// 给谁评论
     var toUser: String = ""
     
-    var commentsDataSource: [Comment] = [Comment]() {
+    var dataSource: [Comment] = [Comment]() {
         didSet {
-            if commentsDataSource.count != 0 {
+            if dataSource.count != 0 {
                 prompt.hidden = true
             }
         }
@@ -90,11 +90,11 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         issueCommentView.addSubview(issueCommentTopLine)
         issueCommentBtn.backgroundColor = SceneColor.shallowYellows
         issueCommentBtn.setTitle("发布中...", forState: UIControlState.Selected)
-        issueCommentBtn.addTarget(self, action: "publishAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        issueCommentBtn.addTarget(self, action: "publishAction:", forControlEvents: .TouchUpInside)
         
         commentTitleButton.addSubview(commentTitle)
         commentTitleButton.addSubview(commentBottomLine)
-        commentTitleButton.addTarget(self, action: "commentTitleButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
+        commentTitleButton.addTarget(self, action: "commentTitleButtonAction", forControlEvents: .TouchUpInside)
         
         commentTitle.textAlignment = NSTextAlignment.Center
         commentTitle.backgroundColor = SceneColor.white.colorWithAlphaComponent(0.4)
@@ -102,15 +102,15 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         issueTextfield.borderStyle = UITextBorderStyle.RoundedRect
         
         prompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: tableView, size: nil, offset: CGPointMake(0, -20))
-        prompt.textAlignment = NSTextAlignment.Center
+        prompt.textAlignment = .Center
     }
     
     private func initTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.sectionHeaderHeight = 41
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.registerClass(CommentTableViewCell.self, forCellReuseIdentifier: "commentTableView_Cell")
+        tableView.separatorStyle = .None
+        tableView.registerClass(CommentTableViewCell.self, forCellReuseIdentifier: "CommentTableViewCell")
         
         //上拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
@@ -127,75 +127,33 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     private func autolayout() {
-        let tbH: CGFloat = UIScreen.mainScreen().bounds.height / 1.6 - 91
+        let tbH: CGFloat = UIScreen.mainScreen().bounds.height * 0.76 - 91
         commentTitle.bounds = CGRectMake(0, 0, view.bounds.width, 41)
-        let cons = tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 41))
+        let cons = tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, tbH), offset: CGPointMake(0, 41))
         tableViewConH = tableView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
-        issueCommentView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
-        commentBottomImage.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 10))
-        issueTextfield.ff_AlignInner(ff_AlignType.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))
-        issueCommentTopLine.ff_AlignInner(ff_AlignType.TopLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width, 0.5))
-        issueCommentBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: issueCommentView, size: CGSizeMake(91, 34), offset: CGPointMake(-19, 0))
-        commentTitleButton.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 41), offset: CGPointMake(0, 0))
-        commentTitle.ff_AlignInner(ff_AlignType.CenterCenter, referView: commentTitleButton, size: nil)
-        commentBottomLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: commentTitleButton, size: CGSizeMake(view.bounds.width, 0.5))
+        issueCommentView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
+        commentBottomImage.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 10))
+        issueTextfield.ff_AlignInner(.CenterLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width - 19 - 15 - 91 - 9, 34), offset: CGPointMake(9, 0))
+        issueCommentTopLine.ff_AlignInner(.TopLeft, referView: issueCommentView, size: CGSizeMake(view.bounds.width, 0.5))
+        issueCommentBtn.ff_AlignInner(.CenterRight, referView: issueCommentView, size: CGSizeMake(91, 34), offset: CGPointMake(-19, 0))
+        commentTitleButton.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 41), offset: CGPointMake(0, 0))
+        commentTitle.ff_AlignInner(.CenterCenter, referView: commentTitleButton, size: nil)
+        commentBottomLine.ff_AlignInner(.BottomCenter, referView: commentTitleButton, size: CGSizeMake(view.bounds.width, 0.5))
     }
     
-
-    
-    // MARK: - tableview datasource and delegate
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commentsDataSource.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell", forIndexPath: indexPath) as! CommentTableViewCell
-        let cell = CommentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
-        for i in cell.commentAnswersView.subviews {
-            i.removeFromSuperview()
-        }
-        cell.data = commentsDataSource[indexPath.row]
-        for item in cell.commentAnswersView.subviews {
-            if let it = item as? ReplayButton {
-                it.addTarget(self, action: "touchReplyCommentAction:", forControlEvents: UIControlEvents.TouchUpInside)
-                it.indexPath = indexPath
-            }
-        }
         
-        if indexPath.row == commentsDataSource.count - 1 {
-            loadMore()
-        }
-        
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("commentTableView_Cell") as! CommentTableViewCell
-        return cell.dataWithCellHeight(commentsDataSource[indexPath.row])
-    }
-    
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        reloadIndexPath = indexPath
-        let comment  = self.commentsDataSource[indexPath.row]
-        selectRowForComment(comment)
-    }
-    
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         issueTextfield.resignFirstResponder()
     }
     
     //MARKS: 自定义方法
-    
     /// 点击评论的回复行
     func touchReplyCommentAction(btn: ReplayButton) {
         reloadIndexPath = btn.indexPath!
-        let comment  = commentsDataSource[btn.indexPath!.row]
+        let comment  = dataSource[btn.indexPath!.row]
         if Int(btn.index!) >= 0 {
             let replay = comment.sub_Comment[btn.index!]
+            
             selectRowForComment(replay)
         } else {
             upId    = ""
@@ -235,10 +193,10 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
             
             if status == RetCode.SUCCESS {
                 if let data = result {
-                    self?.commentsDataSource = data
+                    self?.dataSource = data
                     self?.tableView.reloadData()
                     self?.tableView.mj_header.endRefreshing()
-                    self?.prompt.hidden = self?.commentsDataSource.count > 0 ? true : false
+                    self?.prompt.hidden = self?.dataSource.count > 0 ? true : false
                 }
             } else {
                 SVProgressHUD.showInfoWithStatus("您的网络无法连接")
@@ -262,8 +220,8 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
             }
             if let dataSource = result {
                 if dataSource.count > 0 {
-                    if let cells = self?.commentsDataSource {
-                        self?.commentsDataSource = cells + dataSource
+                    if let cells = self?.dataSource {
+                        self?.dataSource = cells + dataSource
                         self?.tableView.reloadData()
                     }
                 }
@@ -306,47 +264,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
             //2.取消登录或登录失败do nothing
         }
     }
-    
-    /// 选中每行评论
-    func selectRowForComment(comment: Comment) {
-        let alertController = UIAlertController(title: "对 \(comment.from_name) 的评论内容", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        
-        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
-        let replyAction  = UIAlertAction(title: "回复", style: UIAlertActionStyle.Default) { [weak self] (sender) -> Void in
-            LoginView.sharedLoginView.doAfterLogin() {(success, error) -> () in
-                if success {
-                    self?.upId     = String(comment.upid)
-                    self?.toUser   = comment.from_user_id
-                    let placeholder = "回复 \(comment.from_name):"
-                    self?.issueTextfield.placeholder = placeholder
-                    self?.issueTextfield.becomeFirstResponder()
-                }
-            }
-        }
-        
-        let reportAction = UIAlertAction(title: "举报", style: UIAlertActionStyle.Default) { (sender) -> Void in
-            LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
-                if success {
-                    //不管网络是否返回
-                    SVProgressHUD.showInfoWithStatus("已举报")
-                    let req = ReportRequest()
-                    req.commentid = String(comment.id)
-                    req.report()
-                }
-            }
-        }
-        
-        alertController.addAction(cancelAction)
-        alertController.addAction(replyAction)
-        alertController.addAction(reportAction)
-        
-        // for iPad
-        alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
-        alertController.popoverPresentationController?.sourceView = self.view
-        alertController.popoverPresentationController?.sourceRect = self.view.frame
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-
 }
+
+
 

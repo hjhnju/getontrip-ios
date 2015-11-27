@@ -84,6 +84,8 @@
 		AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */; };
 		AE2EEE941BCF58ED00ED0937 /* CitySightsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */; };
 		AE2EEE961BCF833E00ED0937 /* TopicRefreshRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */; };
+		AE3321DE1C06B92D00B95FA4 /* CommentViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3321DD1C06B92D00B95FA4 /* CommentViewController+extension.swift */; };
+		AE3321E01C06BAE500B95FA4 /* CommentPersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */; };
 		AE3CA1191C05638600669BA0 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA10B1C05638600669BA0 /* TencentOpenAPI.framework */; };
 		AE3CA11A1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AE3CA10C1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		AE3CA11B1C05638600669BA0 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA10E1C05638600669BA0 /* libWeChatSDK.a */; };
@@ -95,6 +97,7 @@
 		AE3CA1211C05638600669BA0 /* ShareSDKExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA1161C05638600669BA0 /* ShareSDKExtension.framework */; };
 		AE3CA1221C05638600669BA0 /* ShareSDKUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AE3CA1171C05638600669BA0 /* ShareSDKUI.bundle */; };
 		AE3CA1231C05638600669BA0 /* ShareSDKUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA1181C05638600669BA0 /* ShareSDKUI.framework */; };
+		AE43E16E1C07FEB70021964E /* ControllerTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE43E16D1C07FEB70021964E /* ControllerTools.swift */; };
 		AE488D691BCBDD8E0032B78B /* RecommendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */; };
 		AE488D6B1BCBDDAE0032B78B /* RecommendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6A1BCBDDAE0032B78B /* RecommendRequest.swift */; };
 		AE488D6D1BCBDDDB0032B78B /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */; };
@@ -110,7 +113,6 @@
 		AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6079B41BB2612D00DB2955 /* MainViewController.swift */; };
 		AE6079B71BB2677C00DB2955 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6079B61BB2677C00DB2955 /* UIButton+Extension.swift */; };
 		AE6079B91BB26DCA00DB2955 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6079B81BB26DCA00DB2955 /* UIView+Extension.swift */; };
-		AE62E2CA1BB3D9B800B91D33 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62E2C91BB3D9B800B91D33 /* UIImageView+Extension.swift */; };
 		AE62E2CC1BB3DED900B91D33 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62E2CB1BB3DED900B91D33 /* UITextField+Extension.swift */; };
 		AE62E2CE1BB3EF6500B91D33 /* UIPickerView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62E2CD1BB3EF6500B91D33 /* UIPickerView+Extension.swift */; };
 		AE66012D1C055216007ED37A /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE66012C1C055216007ED37A /* CommentButton.swift */; };
@@ -289,6 +291,8 @@
 		AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsViewController.swift; sourceTree = "<group>"; };
 		AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsRequest.swift; sourceTree = "<group>"; };
 		AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicRefreshRequest.swift; sourceTree = "<group>"; };
+		AE3321DD1C06B92D00B95FA4 /* CommentViewController+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CommentViewController+extension.swift"; sourceTree = "<group>"; };
+		AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentPersonCell.swift; sourceTree = "<group>"; };
 		AE3CA10B1C05638600669BA0 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		AE3CA10C1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		AE3CA10E1C05638600669BA0 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
@@ -302,6 +306,7 @@
 		AE3CA1161C05638600669BA0 /* ShareSDKExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKExtension.framework; sourceTree = "<group>"; };
 		AE3CA1171C05638600669BA0 /* ShareSDKUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKUI.bundle; sourceTree = "<group>"; };
 		AE3CA1181C05638600669BA0 /* ShareSDKUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKUI.framework; sourceTree = "<group>"; };
+		AE43E16D1C07FEB70021964E /* ControllerTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerTools.swift; sourceTree = "<group>"; };
 		AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendTableViewCell.swift; sourceTree = "<group>"; };
 		AE488D6A1BCBDDAE0032B78B /* RecommendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendRequest.swift; sourceTree = "<group>"; };
 		AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
@@ -317,7 +322,6 @@
 		AE6079B41BB2612D00DB2955 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		AE6079B61BB2677C00DB2955 /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		AE6079B81BB26DCA00DB2955 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		AE62E2C91BB3D9B800B91D33 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		AE62E2CB1BB3DED900B91D33 /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		AE62E2CD1BB3EF6500B91D33 /* UIPickerView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIPickerView+Extension.swift"; sourceTree = "<group>"; };
 		AE66012C1C055216007ED37A /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
@@ -650,7 +654,6 @@
 				AE6079B61BB2677C00DB2955 /* UIButton+Extension.swift */,
 				AE62E2CB1BB3DED900B91D33 /* UITextField+Extension.swift */,
 				AEC9D2B71BD7387E00B28464 /* UIImage+Extension.swift */,
-				AE62E2C91BB3D9B800B91D33 /* UIImageView+Extension.swift */,
 				AE62E2CD1BB3EF6500B91D33 /* UIPickerView+Extension.swift */,
 				729573FF1BCF345600343F8F /* UIKitTools.swift */,
 				726974271BDF168A000C0ABF /* RetCode.swift */,
@@ -665,6 +668,7 @@
 				728747331BFAD25200EE36AA /* Cookie.swift */,
 				725A847C1C00CEAC007623C9 /* Device.swift */,
 				AED4B8661C041B0200DAC9D3 /* Regex.swift */,
+				AE43E16D1C07FEB70021964E /* ControllerTools.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -871,6 +875,7 @@
 			children = (
 				AEAB95931BC8D82700B6EE62 /* BookDetail.css */,
 				AE012D9B1BFB5E6E00D84C9C /* CommentTableViewCell.swift */,
+				AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */,
 				AE66012C1C055216007ED37A /* CommentButton.swift */,
 			);
 			name = Views;
@@ -882,6 +887,7 @@
 				727561871BD4A92A0089CB27 /* DetailWebViewController.swift */,
 				AEAB95171BC7C79A00B6EE62 /* TopicViewController.swift */,
 				AE70C1981BCCB7EF00834130 /* CommentViewController.swift */,
+				AE3321DD1C06B92D00B95FA4 /* CommentViewController+extension.swift */,
 				AEC9D2BB1BD7ADE700B28464 /* SendPopoverAnimator.swift */,
 				AEC2318A1BCE48BD008C58C9 /* BookViewController.swift */,
 			);
@@ -1100,6 +1106,7 @@
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
+				AE3321E01C06BAE500B95FA4 /* CommentPersonCell.swift in Sources */,
 				725A62C61C033B1B00661555 /* CacheRegexConfig.swift in Sources */,
 				AE0B6F811BFF1EE5002B8806 /* RetrievePasswordController.swift in Sources */,
 				AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */,
@@ -1152,6 +1159,7 @@
 				AE6DCC6A1BDF3AB800D817E9 /* SearchAllRequest.swift in Sources */,
 				AEFC4E611BE62180001CCC8B /* FeedbackListRequest.swift in Sources */,
 				7293A0401BF470F90070C64A /* SettingTableViewCell.swift in Sources */,
+				AE43E16E1C07FEB70021964E /* ControllerTools.swift in Sources */,
 				AE7F0AC21BB954730011F307 /* SightRequest.swift in Sources */,
 				7293A03E1BF4594D0070C64A /* UserLoginRequest.swift in Sources */,
 				72550E8B1BE7A9AA004D4611 /* UIViewController+Extension.swift in Sources */,
@@ -1163,7 +1171,6 @@
 				AE70C1991BCCB7EF00834130 /* CommentViewController.swift in Sources */,
 				728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */,
 				72D721351B6C4500005BDE55 /* FavoriteViewController.swift in Sources */,
-				AE62E2CA1BB3D9B800B91D33 /* UIImageView+Extension.swift in Sources */,
 				AE488D691BCBDD8E0032B78B /* RecommendTableViewCell.swift in Sources */,
 				728747301BF9AAE200EE36AA /* UserLogin.swift in Sources */,
 				72D25A911BEB25E90044AE04 /* RecommendCellData.swift in Sources */,
@@ -1201,6 +1208,7 @@
 				AE2894521BDCCFF50099293F /* SearchRequest.swift in Sources */,
 				AE79EEC91BBA8440005A7709 /* SightCollectionViewCell.swift in Sources */,
 				AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */,
+				AE3321DE1C06B92D00B95FA4 /* CommentViewController+extension.swift in Sources */,
 				AED4B86D1C048AC100DAC9D3 /* BaseTableViewCell.swift in Sources */,
 				AE9385F71C05DD7C00B80D31 /* CityBrowseRequest.swift in Sources */,
 				72550E891BE7A956004D4611 /* BaseViewController.swift in Sources */,
