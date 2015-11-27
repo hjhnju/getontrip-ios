@@ -34,6 +34,8 @@ class CommentTableViewCell : UITableViewCell, UITableViewDelegate, UITableViewDa
     
     var comTableCons: NSLayoutConstraint?
     
+    var timeXCons: NSLayoutConstraint?
+    
     var data: Comment = Comment(id: "") {
         didSet {
             
@@ -64,16 +66,16 @@ class CommentTableViewCell : UITableViewCell, UITableViewDelegate, UITableViewDa
         var h: CGFloat = 0
         let iconMaxY: CGFloat = 58
         let contentY: CGFloat = 40 + comment.content.sizeofStringWithFount(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(screen.width - 67, CGFloat.max)).height
-        h = max(iconMaxY, contentY) + 18
+        h = max(iconMaxY, contentY) + (iconMaxY >= contentY ? 14 : 10)
         
         if comment.sub_Comment.count == 0 {
-            return h - 7
+            return h
         } else {
             var comH: CGFloat = 0
             for i in comment.sub_Comment {
                 comH += CommentPersonCell.dataWithRowHeight(i)
             }
-            return h + comH + 7
+            return h + comH + 14
         }
     }
     
@@ -113,11 +115,12 @@ class CommentTableViewCell : UITableViewCell, UITableViewDelegate, UITableViewDa
         iconViewImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(44, 44), offset: CGPointMake(11, 14))
         nameLabel.ff_AlignHorizontal(.TopRight, referView: iconViewImageView, size: nil, offset: CGPointMake(10, 0))
         contentLabel.ff_AlignVertical(.BottomLeft, referView: nameLabel, size: nil, offset: CGPointMake(0, 4))
-        timeLabel.ff_AlignInner(.TopRight, referView: self, size: nil, offset: CGPointMake(-9, 23))
-        answerLabel.ff_AlignHorizontal(.CenterRight, referView: nameLabel, size: nil, offset: CGPointMake(6, 0))
+        answerLabel.ff_AlignHorizontal(.BottomRight, referView: nameLabel, size: nil, offset: CGPointMake(6, 0))
+        let tcons = timeLabel.ff_AlignHorizontal(.CenterRight, referView: answerLabel, size: nil, offset: CGPointMake(0, 0))
         baseLineView.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 0.5), offset: CGPointMake(0, 0))
-        let cons = commentTableView.ff_AlignVertical(.BottomLeft, referView: contentLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, 0), offset: CGPointMake(0, 7))
+        let cons  = commentTableView.ff_AlignVertical(.BottomLeft, referView: contentLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, 0), offset: CGPointMake(0, 4))
         comTableCons = commentTableView.ff_Constraint(cons, attribute: .Height)
+        timeXCons = timeLabel.ff_Constraint(tcons, attribute: .Left)
     }
     
     override func layoutSubviews() {
@@ -125,6 +128,7 @@ class CommentTableViewCell : UITableViewCell, UITableViewDelegate, UITableViewDa
         
         iconViewImageView.layer.cornerRadius = min(iconViewImageView.bounds.width, iconViewImageView.bounds.height) * 0.5
         iconViewImageView.clipsToBounds = true
+        timeXCons?.constant = UIScreen.mainScreen().bounds.width - CGRectGetMaxX(answerLabel.frame) - timeLabel.bounds.width - 9
     }
     
     // MARK: - tableView delegate

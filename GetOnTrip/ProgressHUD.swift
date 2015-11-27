@@ -16,8 +16,10 @@ class ProgressHUD: NSObject {
         
         let hud = JGProgressHUD(style: style)
         hud.textLabel.text = text
-        hud.indicatorView = JGProgressHUDErrorIndicatorView()
-        hud.square = true
+        hud.indicatorView = nil
+        // 注释图标
+        //        hud.indicatorView = JGProgressHUDErrorIndicatorView()
+        //        hud.square = true
         if view == nil {
             hud.showInView(UIApplication.sharedApplication().keyWindow)
         } else {
@@ -30,14 +32,19 @@ class ProgressHUD: NSObject {
         
         let hud = JGProgressHUD(style: style)
         hud.textLabel.text = text
-        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-        hud.square = true
+        // 注释图标
+        hud.indicatorView = nil
+        //        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+        //        hud.square = true
+        hud.position = JGProgressHUDPosition.Center
+        hud.marginInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         if view == nil {
             hud.showInView(UIApplication.sharedApplication().keyWindow)
         } else {
             hud.showInView(view)
         }
         hud.dismissAfterDelay(3.0)
+        
     }
     
 }

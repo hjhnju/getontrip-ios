@@ -64,7 +64,7 @@ class CommentPersonCell: UITableViewCell {
         style.lineBreakMode = NSLineBreakMode.ByTruncatingTail
         attr.addAttribute(NSForegroundColorAttributeName, value: SceneColor.fontGray, range: comMess)
         attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blackColor(), range: comment)
-        attr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blackColor(), range: attrN)
+        attr.addAttribute(NSForegroundColorAttributeName, value: SceneColor.fontGray, range: attrN)
         attr.addAttribute(NSForegroundColorAttributeName, value: SceneColor.fontGray, range: content)
         attr.addAttribute(NSParagraphStyleAttributeName, value: style, range: NSMakeRange(0, attr.length))
         attr.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(11), range: NSMakeRange(0, attr.length))
