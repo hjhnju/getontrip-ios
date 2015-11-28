@@ -143,8 +143,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     func setupAutlLayout() {
         labelNavView.frame = CGRectMake(0, 64, view.bounds.width, 36)
         labelScrollView.frame = labelNavView.bounds
-        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: labelNavView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(labelNavView.frame)), offset: CGPointMake(0, 0))
-        loadingView.ff_AlignInner(ff_AlignType.CenterCenter, referView: view, size: loadingView.getSize(), offset: CGPointMake(0, 0))
+        collectionView.ff_AlignVertical(.BottomLeft, referView: labelNavView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(labelNavView.frame)), offset: CGPointMake(0, 0))
+        loadingView.ff_AlignInner(.CenterCenter, referView: view, size: loadingView.getSize(), offset: CGPointMake(0, 0))
         setupLayout()
     }
     

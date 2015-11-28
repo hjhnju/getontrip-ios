@@ -51,12 +51,12 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         view.addSubview(collectPrompt)
     
         tableView.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
+        collectPrompt.ff_AlignInner(.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = NSTextAlignment.Center
         collectPrompt.hidden = true
         
         tableView.backgroundColor = UIColor.whiteColor()
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
+        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
@@ -266,11 +266,11 @@ class MessageTableViewCell: UITableViewCell {
         
         iconView.clipsToBounds = true
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
-        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
-        restorePerson.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreTime.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 57), offset: CGPointMake(-9, 0))
-        baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
+        restorePerson.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        restoreTime.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        restoreImageView.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(77, 57), offset: CGPointMake(-9, 0))
+        baseline.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -359,13 +359,13 @@ class SystemTableViewCell: UITableViewCell {
         iconView.clipsToBounds = true
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
         
-        iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(10, 19))
-        restorePerson.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreTime.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(-9, 0))
-        title.ff_AlignHorizontal(ff_AlignType.TopRight, referView: restorePerson, size: nil, offset: CGPointMake(15, 0))
-        subTitle.ff_AlignVertical(ff_AlignType.BottomLeft, referView: title, size: nil, offset: CGPointMake(0, 8))
-        baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(10, 19))
+        restorePerson.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        restoreTime.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        restoreImageView.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(-9, 0))
+        title.ff_AlignHorizontal(.TopRight, referView: restorePerson, size: nil, offset: CGPointMake(15, 0))
+        subTitle.ff_AlignVertical(.BottomLeft, referView: title, size: nil, offset: CGPointMake(0, 8))
+        baseline.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {

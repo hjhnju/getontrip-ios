@@ -54,8 +54,8 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
     private func initProperty() {
         collectionView?.backgroundColor = UIColor.clearColor()
         collectionView?.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 135))
-        collectPrompt.textAlignment = NSTextAlignment.Center
+        collectPrompt.ff_AlignInner(.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 135))
+        collectPrompt.textAlignment = .Center
         collectPrompt.hidden = true
         
         let w: CGFloat = (UIScreen.mainScreen().bounds.width - 18 * 3) * 0.5
@@ -75,7 +75,7 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
         //上拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
         tbHeaderView.automaticallyChangeAlpha = true
-        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbHeaderView.activityIndicatorViewStyle = .Gray
         tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
         tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
@@ -88,7 +88,7 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
         let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
         tbFooterView.automaticallyRefresh = true
         tbFooterView.automaticallyChangeAlpha = true
-        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbFooterView.activityIndicatorViewStyle = .White
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         

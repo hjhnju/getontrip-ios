@@ -97,7 +97,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     private func setupAutoLayout() {
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 64 + 28))
+        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 64 + 28))
     }
     
     override func viewWillAppear(animated: Bool) {

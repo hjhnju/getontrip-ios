@@ -70,14 +70,14 @@ class CityAllSightCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupAutoLayout() {
-        iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
-        cityName.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
-        topicNum.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -11))
-        shade.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
-        shadeTop.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(bounds.width, 2), offset: CGPointMake(0, 0))
-        shadeLeft.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(2, bounds.height), offset: CGPointMake(0, 0))
-        shadeRight.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(2, bounds.height), offset: CGPointMake(0, 0))
-        shadeBottom.ff_AlignInner(ff_AlignType.BottomLeft, referView: self, size: CGSizeMake(bounds.width, 2), offset: CGPointMake(0, 0))
-        collectBtn.ff_AlignInner(ff_AlignType.TopRight, referView: self, size: CGSizeMake(50, 50), offset: CGPointMake(0, 0))
+        iconView.ff_AlignInner(.TopLeft, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
+        cityName.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
+        topicNum.ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -11))
+        shade.ff_AlignInner(.TopLeft, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
+        shadeTop.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(bounds.width, 2), offset: CGPointMake(0, 0))
+        shadeLeft.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(2, bounds.height), offset: CGPointMake(0, 0))
+        shadeRight.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(2, bounds.height), offset: CGPointMake(0, 0))
+        shadeBottom.ff_AlignInner(.BottomLeft, referView: self, size: CGSizeMake(bounds.width, 2), offset: CGPointMake(0, 0))
+        collectBtn.ff_AlignInner(.TopRight, referView: self, size: CGSizeMake(50, 50), offset: CGPointMake(0, 0))
     }
 }

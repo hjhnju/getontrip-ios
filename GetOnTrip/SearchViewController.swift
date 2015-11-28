@@ -112,9 +112,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         searchBar.delegate = self
         
         recordTableView.registerClass(SearchRecordTableViewCell.self, forCellReuseIdentifier: SearchViewContant.recordCellId)
-        recordTableView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, UIScreen.mainScreen().bounds.height - 110), offset: CGPointMake(0, 0))
-        locationButton.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
-        noSearchResultLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: locationButton, size: nil, offset: CGPointMake(0, 81))
+        recordTableView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, UIScreen.mainScreen().bounds.height - 110), offset: CGPointMake(0, 0))
+        locationButton.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 92))
+        noSearchResultLabel.ff_AlignVertical(.BottomCenter, referView: locationButton, size: nil, offset: CGPointMake(0, 81))
         recordTableView.backgroundColor = UIColor.clearColor()
         recordTableView.dataSource = self
         recordTableView.delegate = self

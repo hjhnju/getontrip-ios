@@ -28,9 +28,9 @@ extension UIButton {
     convenience init(title: String, fontSize: CGFloat, radius: CGFloat, titleColor: UIColor = UIColor.whiteColor()) {
         
         self.init()
-        setTitle(title, forState: UIControlState.Normal)
+        setTitle(title, forState: .Normal)
         titleLabel?.font = UIFont.systemFontOfSize(fontSize)
-        setTitleColor(titleColor, forState: UIControlState.Normal)
+        setTitleColor(titleColor, forState: .Normal)
         layer.cornerRadius = radius
         layer.masksToBounds = true
     }
@@ -39,11 +39,11 @@ extension UIButton {
     convenience init(image: String, title: String, fontSize: CGFloat, titleColor: UIColor = UIColor.whiteColor()) {
         
         self.init()
-        self.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        setImage(UIImage(named: image), forState: UIControlState.Normal)
-        setTitle(title, forState: UIControlState.Normal)
+        self.imageView?.contentMode = .ScaleAspectFit
+        setImage(UIImage(named: image), forState: .Normal)
+        setTitle(title, forState: .Normal)
         titleLabel?.font = UIFont.systemFontOfSize(fontSize)
-        setTitleColor(titleColor, forState: UIControlState.Normal)
+        setTitleColor(titleColor, forState: .Normal)
     }
 }
 
@@ -53,7 +53,7 @@ class shareButton : UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        titleLabel?.textAlignment = NSTextAlignment.Center
+        titleLabel?.textAlignment = .Center
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -88,17 +88,5 @@ class CitySightCollectButton: UIButton {
         
         imageView?.bounds = CGRectMake(0, 0, 17, 16)
         imageView?.center = CGPointMake(bounds.width - 16, 16)
-    }
-}
-
-class CurentCollectButton: UIButton {
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-//        imageView?.frame = CGRectMake(0, 0, 10, 10)
-        imageView?.bounds = CGRectMake(0, 0, 10, 10)
-        imageView?.center = CGPointMake(0, bounds.height - 5)
-        titleLabel?.frame = CGRectMake(CGRectGetMaxX(imageView!.frame) + 2, CGRectGetMaxY(imageView!.frame) - 10, 100, 10)
     }
 }

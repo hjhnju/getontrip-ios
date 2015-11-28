@@ -54,11 +54,11 @@ class SwitchPhotoViewController: MenuViewController {
         bottomView.addSubview(cancelBtn)
         bottomView.addSubview(trueBtn)
 //        navBar.hidden = true
-        photoView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
-        shade.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
-        bottomView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSize(width: view.bounds.width, height: 44), offset: CGPointMake(0, 0))
-        cancelBtn.ff_AlignInner(ff_AlignType.CenterLeft, referView: bottomView, size: CGSizeMake(50, 44), offset: CGPointMake(0, 0))
-        trueBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: bottomView, size: CGSizeMake(50, 44), offset: CGPointMake(0, 0))
+        photoView.ff_AlignInner(.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
+        shade.ff_AlignInner(.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
+        bottomView.ff_AlignInner(.BottomLeft, referView: view, size: CGSize(width: view.bounds.width, height: 44), offset: CGPointMake(0, 0))
+        cancelBtn.ff_AlignInner(.CenterLeft, referView: bottomView, size: CGSizeMake(50, 44), offset: CGPointMake(0, 0))
+        trueBtn.ff_AlignInner(.CenterRight, referView: bottomView, size: CGSizeMake(50, 44), offset: CGPointMake(0, 0))
         
         cancelBtn.addTarget(self, action: "cancelAction:", forControlEvents: UIControlEvents.TouchUpInside)
         trueBtn.addTarget(self, action: "trueAction:", forControlEvents: UIControlEvents.TouchUpInside)        

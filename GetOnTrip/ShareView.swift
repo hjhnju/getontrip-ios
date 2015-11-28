@@ -74,12 +74,12 @@ class ShareView: UIView {
         shareCancle.backgroundColor = SceneColor.lightYellow
         shareCancle.setTitleColor(SceneColor.bgBlack, forState: UIControlState.Normal)
         
-        shareCancle.addTarget(self, action: "shareCancleAction", forControlEvents: UIControlEvents.TouchUpInside)
-        shareBtn1.addTarget(self, action: "shareAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        shareBtn2.addTarget(self, action: "shareAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        shareBtn3.addTarget(self, action: "shareAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        shareBtn4.addTarget(self, action: "shareAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        shareBtn5.addTarget(self, action: "shareAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        shareCancle.addTarget(self, action: "shareCancleAction", forControlEvents: .TouchUpInside)
+        shareBtn1.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
+        shareBtn2.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
+        shareBtn3.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
+        shareBtn4.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
+        shareBtn5.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
     }
     
     ///  初始化自动布局
@@ -88,22 +88,22 @@ class ShareView: UIView {
         let size = CGSizeMake(50, 73)
         
         
-        let shareVCons = shareView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: self, size: CGSize(width: bounds.width, height: 197), offset: CGPoint(x: 0, y: 0))
+        let shareVCons = shareView.ff_AlignVertical(.BottomLeft, referView: self, size: CGSize(width: bounds.width, height: 197), offset: CGPoint(x: 0, y: 0))
         
-        let s1 = shareBtn1.ff_AlignInner(ff_AlignType.CenterLeft, referView: shareView, size: size, offset: CGPoint(x: sbx, y: 150))
-        let s2 = shareBtn2.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn1, size: size, offset: CGPoint(x: sbx, y: 200))
-        let s3 = shareBtn3.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn2, size: size, offset: CGPoint(x: sbx, y: 250))
-        let s4 = shareBtn4.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn3, size: size, offset: CGPoint(x: sbx, y: 300))
-        let s5 = shareBtn5.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: shareBtn4, size: size, offset: CGPoint(x: sbx, y: 350))
-        shareCancle.ff_AlignInner(ff_AlignType.BottomCenter, referView: shareView, size: CGSizeMake(93, 34), offset: CGPointMake(0, -17))
-        shareBtnY1 = shareBtn1.ff_Constraint(s1, attribute: NSLayoutAttribute.CenterY)
-        shareBtnY2 = shareBtn2.ff_Constraint(s2, attribute: NSLayoutAttribute.CenterY)
-        shareBtnY3 = shareBtn3.ff_Constraint(s3, attribute: NSLayoutAttribute.CenterY)
-        shareBtnY4 = shareBtn4.ff_Constraint(s4, attribute: NSLayoutAttribute.CenterY)
-        shareBtnY5 = shareBtn5.ff_Constraint(s5, attribute: NSLayoutAttribute.CenterY)
+        let s1 = shareBtn1.ff_AlignInner(.CenterLeft, referView: shareView, size: size, offset: CGPoint(x: sbx, y: 150))
+        let s2 = shareBtn2.ff_AlignHorizontal(.CenterRight, referView: shareBtn1, size: size, offset: CGPoint(x: sbx, y: 200))
+        let s3 = shareBtn3.ff_AlignHorizontal(.CenterRight, referView: shareBtn2, size: size, offset: CGPoint(x: sbx, y: 250))
+        let s4 = shareBtn4.ff_AlignHorizontal(.CenterRight, referView: shareBtn3, size: size, offset: CGPoint(x: sbx, y: 300))
+        let s5 = shareBtn5.ff_AlignHorizontal(.CenterRight, referView: shareBtn4, size: size, offset: CGPoint(x: sbx, y: 350))
+        shareCancle.ff_AlignInner(.BottomCenter, referView: shareView, size: CGSizeMake(93, 34), offset: CGPointMake(0, -17))
+        shareBtnY1 = shareBtn1.ff_Constraint(s1, attribute: .CenterY)
+        shareBtnY2 = shareBtn2.ff_Constraint(s2, attribute: .CenterY)
+        shareBtnY3 = shareBtn3.ff_Constraint(s3, attribute: .CenterY)
+        shareBtnY4 = shareBtn4.ff_Constraint(s4, attribute: .CenterY)
+        shareBtnY5 = shareBtn5.ff_Constraint(s5, attribute: .CenterY)
         
-        shareLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: shareView, size: nil, offset: CGPointMake(0, 18))
-        shareViewCY = shareView.ff_Constraint(shareVCons, attribute: NSLayoutAttribute.Top)
+        shareLabel.ff_AlignInner(.TopCenter, referView: shareView, size: nil, offset: CGPointMake(0, 18))
+        shareViewCY = shareView.ff_Constraint(shareVCons, attribute: .Top)
     }
     
     required init?(coder aDecoder: NSCoder) {

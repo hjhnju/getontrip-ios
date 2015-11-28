@@ -109,18 +109,18 @@ class SearchResultsCell: UITableViewCell {
     ///  让子类来重写，所以只放需要更改的设置
     private func rewriteProperty() {
         addSubview(resultImageView)
-        let cons = resultImageView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
+        let cons = resultImageView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(52, 37), offset: CGPointMake(9, 0))
         resultImageViewHeight = resultImageView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
     }
     
     private func setupAutoLayout() {
         
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 18 - 52 - 6
-        resultTitleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: resultImageView, size: CGSizeMake(w, 16), offset: CGPointMake(6, 0))
-        resultDescLabel.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: resultImageView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
-        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
-        playImage.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: nil)
-        groundView.ff_AlignInner(ff_AlignType.CenterCenter, referView: resultImageView, size: CGSizeMake(31, SearchResultCellContant.bookImageHeight), offset: CGPointMake(0, 0))
+        resultTitleLabel.ff_AlignHorizontal(.TopRight, referView: resultImageView, size: CGSizeMake(w, 16), offset: CGPointMake(6, 0))
+        resultDescLabel.ff_AlignHorizontal(.BottomRight, referView: resultImageView, size: CGSizeMake(w, 13), offset: CGPointMake(6, 0))
+        baseLine.ff_AlignInner(.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
+        playImage.ff_AlignInner(.CenterCenter, referView: resultImageView, size: nil)
+        groundView.ff_AlignInner(.CenterCenter, referView: resultImageView, size: CGSizeMake(31, SearchResultCellContant.bookImageHeight), offset: CGPointMake(0, 0))
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

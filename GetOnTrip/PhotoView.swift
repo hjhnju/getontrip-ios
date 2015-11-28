@@ -1,4 +1,3 @@
-
 //
 //  PhotoView.swift
 //  GetOnTrip
@@ -29,7 +28,7 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         imgPhoto.userInteractionEnabled = true
         imgPhoto.multipleTouchEnabled   = true
         imgPhoto.backgroundColor = UIColor.randomColor()
-        imgPhoto.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
+        imgPhoto.ff_AlignInner(.TopLeft, referView: self, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
         /// 旋转
         let rotation = UIRotationGestureRecognizer(target: self, action: "rotationGesture:")
         rotation.delegate = self

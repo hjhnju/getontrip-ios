@@ -257,20 +257,20 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let qqInstall    = Device.isQQInstalled()
         
         if wechaInstall && qqInstall {
-            qqButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
-            wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
-            moreButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
+            qqButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
+            wechatButton.ff_AlignHorizontal(.CenterLeft, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
+            moreButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
         } else if !wechaInstall && !qqInstall {
-            moreButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 42), offset: CGPointMake(0, 0))
+            moreButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 42), offset: CGPointMake(0, 0))
             wechatButton.hidden = true
             qqButton.hidden = true
         } else if !wechaInstall {
-            qqButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
-            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
+            qqButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
+            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
             wechatButton.hidden = true
         } else if !qqInstall {
-            wechatButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
-            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
+            wechatButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
+            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
             qqButton.hidden = true
         }
     }
@@ -283,24 +283,24 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //初始化自动布局
     private func setupAutoLayout() {
         //menu
-        menuView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
+        menuView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
         bgImageView.ff_Fill(menuView)
         blurView.ff_Fill(bgImageView)
-        tableView.ff_AlignInner(ff_AlignType.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
+        tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
         
-        loginAfter.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
-        headerView.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
-        nameLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
+        loginAfter.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
+        headerView.ff_AlignInner(.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
+        nameLabel.ff_AlignVertical(.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
         
         if UIScreen.mainScreen().bounds.width == 320 {
-            loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.4, view.bounds.height * 0.2), offset: CGPointMake(0, 34))
+            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.4, view.bounds.height * 0.2), offset: CGPointMake(0, 34))
         } else {
-            loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
+            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
         }
         
-        welcomeLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
-        descLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
-        currentCityButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: menuView, size: nil, offset: CGPointMake(0, -21))
+        welcomeLabel.ff_AlignInner(.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
+        descLabel.ff_AlignInner(.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
+        currentCityButton.ff_AlignInner(.BottomCenter, referView: menuView, size: nil, offset: CGPointMake(0, -21))
         
         //main
         maskView.ff_Fill(mainViewController.view)
@@ -355,7 +355,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         /*if indexPath.row == 0 {
             let baselineView = UIView(color: UIColor(white: 0xFFFFFF, alpha: 1), alphaF: 0.3)
             cell.addSubview(baselineView)
-            baselineView.ff_AlignInner(ff_AlignType.TopLeft, referView: cell, size: CGSizeMake(cell.bounds.width, 0.5), offset: CGPointMake(0, 0))
+            baselineView.ff_AlignInner(.TopLeft, referView: cell, size: CGSizeMake(cell.bounds.width, 0.5), offset: CGPointMake(0, 0))
         }*/
         
         //最后一行无底部横线

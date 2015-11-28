@@ -60,13 +60,13 @@ class CityTopicTableViewCell: UITableViewCell {
         iconView.contentMode   = UIViewContentMode.ScaleAspectFill
         iconView.clipsToBounds = true
         
-        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(124, 84), offset: CGPointMake(9, 0))
-        subTitle.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
-        title.ff_AlignVertical(ff_AlignType.BottomLeft, referView: subTitle, size: nil, offset: CGPointMake(0, 5))
-        label.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
-        baseView.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 19, 0.5), offset: CGPointMake(0, 0))
-//        visit.ff_AlignInner(ff_AlignType.TopRight, referView: baseView, size: CGSizeMake(33, 11), offset: CGPointMake(0, -10))
-        visit.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: CGSizeMake(33, 11), offset: CGPoint(x: UIScreen.mainScreen().bounds.width - 124 - 10 - 33, y: 2))
+        iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(124, 84), offset: CGPointMake(9, 0))
+        subTitle.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
+        title.ff_AlignVertical(.BottomLeft, referView: subTitle, size: nil, offset: CGPointMake(0, 5))
+        label.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
+        baseView.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 19, 0.5), offset: CGPointMake(0, 0))
+//        visit.ff_AlignInner(.TopRight, referView: baseView, size: CGSizeMake(33, 11), offset: CGPointMake(0, -10))
+        visit.ff_AlignHorizontal(.BottomRight, referView: iconView, size: CGSizeMake(33, 11), offset: CGPoint(x: UIScreen.mainScreen().bounds.width - 124 - 10 - 33, y: 2))
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -62,8 +62,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         let iconView = UIImageView(image: UIImage(named: "search_icon"))
         button.addSubview(descLabel)
         button.addSubview(iconView)
-        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: button, size: CGSize(width: 15, height: 16.5), offset: CGPoint(x:8, y:0))
-        descLabel.ff_AlignInner(ff_AlignType.CenterLeft, referView: button, size: CGSize(width: 120, height: 12), offset: CGPoint(x: 26, y: 0))
+        iconView.ff_AlignInner(.CenterLeft, referView: button, size: CGSize(width: 15, height: 16.5), offset: CGPoint(x:8, y:0))
+        descLabel.ff_AlignInner(.CenterLeft, referView: button, size: CGSize(width: 120, height: 12), offset: CGPoint(x: 26, y: 0))
         return button
         }()
     
@@ -113,9 +113,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         view.addSubview(refreshButton)
         view.addSubview(refreshHint1)
         view.addSubview(refreshHint2)
-        refreshButton.ff_AlignInner(ff_AlignType.TopCenter, referView: view, size: CGSize(width: 26, height: 26), offset: CGPointMake(0, 30))
-        refreshHint1.ff_AlignVertical(ff_AlignType.BottomCenter, referView: refreshButton, size: nil, offset: CGPointMake(0, 12))
-        refreshHint2.ff_AlignVertical(ff_AlignType.BottomCenter, referView: refreshHint1, size: nil, offset: CGPointMake(0, 0))
+        refreshButton.ff_AlignInner(.TopCenter, referView: view, size: CGSize(width: 26, height: 26), offset: CGPointMake(0, 30))
+        refreshHint1.ff_AlignVertical(.BottomCenter, referView: refreshButton, size: nil, offset: CGPointMake(0, 12))
+        refreshHint2.ff_AlignVertical(.BottomCenter, referView: refreshHint1, size: nil, offset: CGPointMake(0, 0))
         
         //add target
         refreshButton.addTarget(self, action: "refreshFromErrorView:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -245,15 +245,15 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     //布局
     private func setupAutoLayout() {
         //导航布局
-        slideButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: custNavView, size: CGSize(width: 21, height: 14), offset: CGPointMake(9, 0))
-        searchButton.ff_AlignInner(ff_AlignType.CenterRight, referView: custNavView, size: CGSize(width: view.bounds.width-(414-356), height: MainViewContant.SearchBarHeight), offset: CGPointMake(-9, 0))
+        slideButton.ff_AlignInner(.CenterLeft, referView: custNavView, size: CGSize(width: 21, height: 14), offset: CGPointMake(9, 0))
+        searchButton.ff_AlignInner(.CenterRight, referView: custNavView, size: CGSize(width: view.bounds.width-(414-356), height: MainViewContant.SearchBarHeight), offset: CGPointMake(-9, 0))
         
-        let cons = headerView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, RecommendContant.headerViewHeight), offset: CGPointMake(0, 0))
+        let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, RecommendContant.headerViewHeight), offset: CGPointMake(0, 0))
         headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Top)
         
         
         //表格
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
+        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
         headerImageView.ff_Fill(headerView)
     }
     

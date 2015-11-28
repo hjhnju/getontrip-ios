@@ -26,13 +26,13 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     static let name = "设置"
     
-    lazy var tableView: UITableView = UITableView()
+    lazy var tableView = UITableView()
     
     /// 头像
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "icon_app"))
+    lazy var iconView  = UIImageView(image: UIImage(named: "icon_app"))
     
     /// 昵称
-    lazy var nickName: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 16, mutiLines: true)
+    lazy var nickName  = UILabel(color: UIColor.blackColor(), title: "", fontSize: 16, mutiLines: true)
     
     /// 性别
     lazy var gender: UILabel = UILabel(color: UIColor.blackColor(), title: "男", fontSize: 16, mutiLines: false)
@@ -43,8 +43,22 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     /// 清除缓存Label
     var removeCacheLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "0.0M", fontSize: 16, mutiLines: true)
     
+    /// 请登陆按钮
+    var pleaseLoginButton: PleaseLoginButton = PleaseLoginButton(image: "icon_app", title: "请登陆", fontSize: 16, titleColor: SceneColor.frontBlack)
+    
     /// 设置昵称控制器
     lazy var nicknameController: SettingNicknameController = SettingNicknameController()
+    
+    /// 未登陆第一组显示几条
+    var notLoginCount = 1
+    
+    /// 登陆状态
+    var isLoginStatus: Bool = false {
+        didSet {
+            setupIsLoginSetting()
+            tableView.reloadData()
+        }
+    }
     
     var saveButton: Bool = false {
         didSet {
@@ -58,21 +72,24 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        addChildViewController(switchPhotoVC)
-        addChildViewController(nicknameController)
+    
         setupAddProperty()
         setupBarButtonItem()
-        setupInitSetting()
+        setupIsLoginSetting()
     }
     
     ///  初始化属性
     private func setupAddProperty() {
-
-        navBar.setTitle(SettingViewController.name)
-
+        
+        title = SettingViewController.name
         view.addSubview(tableView)
         view.addSubview(exitLogin)
+        pleaseLoginButton.adjustsImageWhenHighlighted = false
+        pleaseLoginButton.addTarget(self, action: "pleaseLoginButtonAction", forControlEvents: .TouchUpInside)
+        
+        addChildViewController(switchPhotoVC)
+        addChildViewController(nicknameController)
+        
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.separatorStyle = .None
@@ -80,39 +97,46 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
         
         saveButton = false
-        exitLogin.backgroundColor = UIColor.whiteColor()
+        exitLogin.backgroundColor = .whiteColor()
         exitLogin.addTarget(self, action: "exitLoginAction", forControlEvents: .TouchUpInside)
         exitLogin.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
+        
+        isLoginStatus = globalUser == nil ? false : true
     }
     
-    ///  初始化设置
-    private func setupInitSetting() {
-        title = SettingViewController.name
-        if (globalUser?.icon ?? "") != "" {
+    ///  初始化是否登陆设置
+    private func setupIsLoginSetting() {
+        
+        if isLoginStatus == true {
+            notLoginCount = 3
+        } else {
+            notLoginCount = 1
+            
+            switch globalUser?.gender.hashValue ?? 3 {
+            case 0:
+                gender.text = "男"
+            case 1:
+                gender.text = "女"
+            default:
+                gender.text = "未知"
+                break
+            }
+            nickName.text = globalUser?.nickname
+            if (globalUser?.icon ?? "") == "" { return }
             iconView.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""))
         }
-        if      globalUser?.gender.hashValue == 0 { gender.text = "男" }
-        else if globalUser?.gender.hashValue == 1 { gender.text = "女" }
-        else                                      { gender.text = "未知"}
-        
-        nickName.text = globalUser?.nickname
     }
     
     ///  初始化导航
     private func setupBarButtonItem() {
         
         navBar.rightButton.selected = false
+        navBar.setTitle(SettingViewController.name)
         navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
         navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserInfo:")
         navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: .Normal)
         navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: .Selected)
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
-    
     
     // MARK: - tableview delegate
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -120,41 +144,49 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 3 : 1
+        return section == 0 ? notLoginCount : 1
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = SettingTableViewCell()
         
         if indexPath.section == 0 {
-            if indexPath.row == SettingCell.iconCell {
+            if isLoginStatus == false {
+                let cel = UITableViewCell()
+                cel.addSubview(pleaseLoginButton)
+                pleaseLoginButton.ff_AlignInner(.CenterCenter, referView: cel, size: nil, offset: CGPointMake(0, -15))
+                return cel
+            }
+            switch indexPath.row {
+            case SettingCell.iconCell:
                 cell.left.text = "头像"
                 cell.addSubview(iconView)
                 iconView.layer.cornerRadius = 66 * 0.5
                 iconView.layer.masksToBounds = true
                 iconView.ff_AlignInner(.CenterRight, referView: cell, size: CGSizeMake(66, 66), offset: CGPointMake(-10, 0))
-            } else if indexPath.row == SettingCell.nickCell {
+            case SettingCell.nickCell:
                 cell.left.text = "昵称"
                 cell.addSubview(nickName)
                 nickName.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-10, 0))
-            } else if indexPath.row == SettingCell.sexCell {
+            case SettingCell.sexCell:
                 cell.left.text = "性别"
                 cell.addSubview(gender)
                 gender.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+            default:
+                break
             }
         } else {
-            if indexPath.row == SettingCell.iconCell {
+            switch indexPath.row {
+            case 0:
                 cell.left.text = "清除缓存"
                 cell.addSubview(removeCacheLabel)
                 removeCacheLabel.text = getUsedCache()
                 removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
                 cell.baseline.removeFromSuperview()
-            } else if indexPath.row == SettingCell.nickCell {
-                // TODO: 以后再加 cell.left.text = "切换夜间模式"
-                
+            default:
+                break
             }
         }
-        
         return cell
     }
     
@@ -165,53 +197,54 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     /// 每行的行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 && indexPath.row == 0 {
-            return 102
+            return isLoginStatus == true ? 102 : 159
         }
         return 51
     }
     
     var switchPhoto: Bool = false
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if indexPath.section == 0 {
-            
-            if indexPath.row == SettingCell.iconCell {
-                // 选择照片
+            if isLoginStatus == false { return }
+            switch indexPath.row {
+            case SettingCell.iconCell: // 选择照片
                 if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) { return }
-                
                 let picker = UIImagePickerController()
                 picker.delegate = self
                 presentViewController(picker, animated: true, completion: nil)
-            }
-            
-            if indexPath.row == SettingCell.nickCell {
+            case SettingCell.nickCell: // 选择昵称
                 let nvc = SettingNicknameController()
                 nvc.userNameTextField.text = globalUser?.nickname
                 navigationController?.pushViewController(nvc, animated: true)
-            }
-            
-            if indexPath.row == SettingCell.sexCell {
+            case SettingCell.sexCell:  // 选择性别
                 let vc = SettingSexViewController()
                 navigationController?.pushViewController(vc, animated: true)
+            default:
+                break
             }
-            
         } else {
-            if indexPath.row == 0 {
-                let alertController = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: .ActionSheet)
-                let actionTrue   = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (alter) -> Void in
-                })
-                let actionCanale = UIAlertAction(title: "确定", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
-                    self.clearCacheAction()
-                })
-                alertController.addAction(actionCanale)
-                alertController.addAction(actionTrue)
-                alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
-                alertController.popoverPresentationController?.sourceView = tableView.cellForRowAtIndexPath(indexPath)
-                alertController.popoverPresentationController?.sourceRect = tableView.cellForRowAtIndexPath(indexPath)?.frame ?? CGRectZero
-                
-                presentViewController(alertController, animated: true, completion: nil)
+            switch indexPath.row {
+            case 1: // 清除缓存
+                clearCacheSetting(indexPath)
+            default:
+                break
             }
         }
+    }
+    
+    /// 清除缓存设置
+    private func clearCacheSetting(indexPath: NSIndexPath) {
+        let alertController = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: .ActionSheet)
+        let actionTrue      = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+        let actionCanale    = UIAlertAction(title: "确定", style: .Default) { (_) -> Void in self.clearCacheAction()}
+        alertController.addAction(actionCanale)
+        alertController.addAction(actionTrue)
+        alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        alertController.popoverPresentationController?.sourceView = tableView.cellForRowAtIndexPath(indexPath)
+        alertController.popoverPresentationController?.sourceRect = tableView.cellForRowAtIndexPath(indexPath)?.frame ?? CGRectZero
+        
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     /// 头像图片
@@ -234,26 +267,25 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         self.dismissViewControllerAnimated(true, completion: nil)
         saveButton = true
         // 重新设回导航栏样式
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
     
     // MARK: 自定义方法
+    // 让用户登陆的方法，弹出登陆浮尘
+    func pleaseLoginButtonAction() {
+        
+        
+    }
+    
     /// 保存用户信息
     func saveUserInfo(btn: UIButton) {
         if btn.selected == false { return }
         
         iconView.image?.scaleImage(200)
         let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
-        var sex: Int?
-        if gender.text == "男" {
-            sex = 0
-        } else if gender.text == "女" {
-            sex = 1
-        } else {
-            sex = 2
-        }
-
-        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex!, nick_name: nickName.text, handler: { (result, error) -> Void in
+        
+        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: nil, nick_name: nil) { (result, error) -> Void in
+            
             if error == nil {
                 print(result)
                 ProgressHUD.showSuccessHUD(self.view, text: "保存成功")
@@ -262,7 +294,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             } else {
                 ProgressHUD.showErrorHUD(self.view, text: "保存失败")
             }
-        })
+        }
         self.tableView.reloadData()
     }
     
@@ -287,9 +319,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     func exitLoginAction() {
         
         let alertController = UIAlertController(title: "", message: "确认退出登录", preferredStyle: .ActionSheet)
-        let actionTrue   = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: { (alter) -> Void in
-        })
-        let actionCanale = UIAlertAction(title: "确定", style: UIAlertActionStyle.Default, handler: { [weak self] (alter) -> Void in
+        let actionTrue      = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+        let actionCanale    = UIAlertAction(title: "确定", style: .Default, handler: { [weak self] (alter) -> Void in
             UserLogin.sharedInstance.exit()
             // 将页面返回到首页
             if let vc = self?.parentViewController?.parentViewController as? SlideMenuViewController {
@@ -298,25 +329,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         })
         alertController.addAction(actionCanale)
         alertController.addAction(actionTrue)
-        alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        alertController.modalPresentationStyle = .Popover
         alertController.popoverPresentationController?.sourceView = exitLogin
         alertController.popoverPresentationController?.sourceRect = exitLogin.frame
-        
         presentViewController(alertController, animated: true, completion: nil)
     }
 }
-
-/*
-//TODO:未登录情况
-if indexPath.row >= 1 {
-LoginView.sharedLoginView.doAfterLogin() {(success, error) -> () in
-if success {
-//调整
-self.curVCType = self.usingVCTypes[indexPath.row]
-}
-}
-return
-}
-*/
-
 

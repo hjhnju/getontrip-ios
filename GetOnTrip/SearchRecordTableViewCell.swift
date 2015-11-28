@@ -20,7 +20,7 @@ class SearchRecordTableViewCell : UITableViewCell {
         textLabel?.textColor = UIColor.whiteColor()
         textLabel?.font = UIFont.systemFontOfSize(16)
         
-        baseLine.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
+        baseLine.ff_AlignInner(.TopCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
         backgroundColor = UIColor.clearColor()
     }
     

@@ -49,7 +49,7 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
     private func initProperty() {
         collectionView?.backgroundColor = UIColor.clearColor()
         collectionView?.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 135))
+        collectPrompt.ff_AlignInner(.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = NSTextAlignment.Center
         collectPrompt.hidden = true
         

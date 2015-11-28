@@ -23,7 +23,7 @@ class ShowMoreTableViewCell: UITableViewCell {
         backgroundColor = UIColor.clearColor()
         addSubview(showMore)
         
-        showMore.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
+        showMore.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {

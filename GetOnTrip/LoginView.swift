@@ -62,26 +62,25 @@ class LoginView: UIView {
     
     private func setupAutoLayout() {
         loginBackground.ff_Fill(self)
-        loginPrompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, -75))
+        loginPrompt.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, -75))
         
         
         let wechaInstall = Device.isWeixinInstalled()
         
         if Device.isIPad() && !wechaInstall {
             wechatButton.hidden = true
-            qqButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 20))
-            sinaweiButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(50, 20))
+            qqButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 20))
+            sinaweiButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(50, 20))
             emailButton.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 126))
         } else {
-            qqButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(0, -20))
-            sinaweiButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(50, 0))
-            wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 0))
+            qqButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(55, 55), offset: CGPointMake(0, -20))
+            sinaweiButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(50, 0))
+            wechatButton.ff_AlignHorizontal(.CenterLeft, referView: qqButton, size: CGSizeMake(55, 55), offset: CGPointMake(-50, 0))
             emailButton.ff_AlignVertical(.BottomCenter, referView: qqButton, size: nil, offset: CGPointMake(0, 126))
         }
     }
     
     // MARK: 自定义方法
-    
     func doAfterLogin(handler: UserLogin.LoginFinishedHandler) {
         //未登录记录操作，待登录后执行；已登陆则直接执行制定操作
         if globalUser == nil {
@@ -109,7 +108,6 @@ class LoginView: UIView {
     取消登录浮层
     */
     func dismissFloating() {
-        
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.alpha = 0
             }) { (_) -> Void in

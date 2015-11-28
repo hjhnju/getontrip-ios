@@ -108,10 +108,10 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
     private func setupAutoLayout() {
         
         automaticallyAdjustsScrollViewInsets = false
-        titleBackground.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 36), offset: CGPointMake(0, 64))
-        sightBtn.ff_AlignInner(ff_AlignType.CenterCenter, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
-        contentBtn.ff_AlignInner(ff_AlignType.CenterLeft, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
-        cityBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
+        titleBackground.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 36), offset: CGPointMake(0, 64))
+        sightBtn.ff_AlignInner(.CenterCenter, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
+        contentBtn.ff_AlignInner(.CenterLeft, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
+        cityBtn.ff_AlignInner(.CenterRight, referView: titleBackground, size: CGSizeMake(100, 36), offset: CGPointMake(0, 0))
         collectionView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 36), offset: CGPointMake(0, 0))
         slideView.frame = CGRectMake(0, 100, 10, UIScreen.mainScreen().bounds.height - 100)
         selectView.frame = CGRectMake(11, 34, 73, 1.5)

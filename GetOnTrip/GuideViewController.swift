@@ -38,7 +38,7 @@ class GuideViewController: UICollectionViewController {
         super.viewDidLoad()
         
         view.addSubview(pagecontrol)
-        pagecontrol.ff_AlignInner(ff_AlignType.BottomCenter, referView: view, size: nil, offset: CGPointMake(0, -10))
+        pagecontrol.ff_AlignInner(.BottomCenter, referView: view, size: nil, offset: CGPointMake(0, -10))
         
         // 注册可重用 cell
         self.collectionView!.registerClass(NewFeatureCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -165,13 +165,13 @@ class NewFeatureCell: UICollectionViewCell {
     }
     
     private func setupAutoLayout() {
-        iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(bounds.width, bounds.height))
-        cover.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(bounds.width, bounds.height))
-        title.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 136))
-        subtitle.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -79))
-        subtitleEnglish.ff_AlignVertical(ff_AlignType.TopCenter, referView: subtitle, size: nil, offset: CGPointMake(0, -6))
-        startButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(228, 64), offset: CGPointMake(0, 50))
-        iconButton.ff_AlignInner(ff_AlignType.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 150))
+        iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(bounds.width, bounds.height))
+        cover.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(bounds.width, bounds.height))
+        title.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 136))
+        subtitle.ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -79))
+        subtitleEnglish.ff_AlignVertical(.TopCenter, referView: subtitle, size: nil, offset: CGPointMake(0, -6))
+        startButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(228, 64), offset: CGPointMake(0, 50))
+        iconButton.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 150))
     }
     
     required init(coder aDecoder: NSCoder) {

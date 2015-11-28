@@ -100,7 +100,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
         
         issueTextfield.borderStyle = UITextBorderStyle.RoundedRect
         
-        prompt.ff_AlignInner(ff_AlignType.CenterCenter, referView: tableView, size: nil, offset: CGPointMake(0, -20))
+        prompt.ff_AlignInner(.CenterCenter, referView: tableView, size: nil, offset: CGPointMake(0, -20))
         prompt.textAlignment = .Center
     }
     

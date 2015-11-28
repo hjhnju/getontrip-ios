@@ -238,16 +238,16 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     /// 设置布局
     private func setupAutoLayout() {
-        let cons = headerImageView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, CityConstant.headerViewHeight), offset: CGPointMake(0, 0))
+        let cons = headerImageView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, CityConstant.headerViewHeight), offset: CGPointMake(0, 0))
         headerHeightConstraint = headerImageView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
-        cityNameLabel.ff_AlignInner(ff_AlignType.BottomLeft, referView: headerImageView, size: nil, offset: CGPointMake(9, -13))
-        favTextBtn.ff_AlignInner(ff_AlignType.BottomRight, referView: headerImageView, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
-        favIconBtn.ff_AlignVertical(ff_AlignType.TopCenter, referView: favTextBtn, size: CGSizeMake(21, 20), offset:CGPointMake(0, -5))
+        cityNameLabel.ff_AlignInner(.BottomLeft, referView: headerImageView, size: nil, offset: CGPointMake(9, -13))
+        favTextBtn.ff_AlignInner(.BottomRight, referView: headerImageView, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
+        favIconBtn.ff_AlignVertical(.TopCenter, referView: favTextBtn, size: CGSizeMake(21, 20), offset:CGPointMake(0, -5))
         
         moreSightsButton.ff_AlignInner(.TopLeft, referView: tableHeaderView, size: CGSizeMake(view.bounds.width, CityConstant.subtitleButtonHeight), offset: CGPointMake(0, 8))
-        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: moreSightsButton, size: CGSizeMake(view.bounds.width, CityConstant.collectionViewHeight), offset: CGPointMake(0, 8))
-        hotTopBarButton.ff_AlignVertical(ff_AlignType.BottomLeft, referView: collectionView, size: CGSizeMake(view.bounds.width, CityConstant.subtitleButtonHeight), offset: CGPointMake(0, 8))
-        refreshTopicButton.ff_AlignInner(ff_AlignType.CenterRight, referView: hotTopBarButton, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
+        collectionView.ff_AlignVertical(.BottomLeft, referView: moreSightsButton, size: CGSizeMake(view.bounds.width, CityConstant.collectionViewHeight), offset: CGPointMake(0, 8))
+        hotTopBarButton.ff_AlignVertical(.BottomLeft, referView: collectionView, size: CGSizeMake(view.bounds.width, CityConstant.subtitleButtonHeight), offset: CGPointMake(0, 8))
+        refreshTopicButton.ff_AlignInner(.CenterRight, referView: hotTopBarButton, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
     }
     
     //请求数据
