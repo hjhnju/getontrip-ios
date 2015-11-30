@@ -30,6 +30,9 @@ class CommentTableViewCell : UITableViewCell, UITableViewDelegate, UITableViewDa
         return tab
     }()
     
+    /// 当前indexPath
+    var currentIndex: NSIndexPath?
+    
     var dataSource: [Comment] = [Comment]()
     
     var comTableCons: NSLayoutConstraint?
@@ -113,12 +116,12 @@ class CommentTableViewCell : UITableViewCell, UITableViewDelegate, UITableViewDa
     
     private func setAutoLayout() {
         iconViewImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(44, 44), offset: CGPointMake(11, 14))
-        nameLabel.ff_AlignHorizontal(.TopRight, referView: iconViewImageView, size: nil, offset: CGPointMake(10, 0))
+        nameLabel.ff_AlignHorizontal(.CenterRight, referView: iconViewImageView, size: nil, offset: CGPointMake(10, -18))
         contentLabel.ff_AlignVertical(.BottomLeft, referView: nameLabel, size: nil, offset: CGPointMake(0, 4))
         answerLabel.ff_AlignHorizontal(.BottomRight, referView: nameLabel, size: nil, offset: CGPointMake(6, 0))
         let tcons = timeLabel.ff_AlignHorizontal(.CenterRight, referView: answerLabel, size: nil, offset: CGPointMake(0, 0))
         baseLineView.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 0.5), offset: CGPointMake(0, 0))
-        let cons  = commentTableView.ff_AlignVertical(.BottomLeft, referView: contentLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, 0), offset: CGPointMake(0, 4))
+        let cons  = commentTableView.ff_AlignVertical(.BottomLeft, referView: contentLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 75, 0), offset: CGPointMake(0, 0))
         comTableCons = commentTableView.ff_Constraint(cons, attribute: .Height)
         timeXCons = timeLabel.ff_Constraint(tcons, attribute: .Left)
     }
@@ -141,6 +144,11 @@ class CommentTableViewCell : UITableViewCell, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCellWithIdentifier("CommentPersonCell", forIndexPath: indexPath) as! CommentPersonCell
         cell.data = dataSource[indexPath.row]
         cell.replayButton.index = indexPath.row
+        
+        let vc = ControllerTools.parentViewController(self, viewController: "CommentViewController") as? CommentViewController
+        cell.replayButton.addTarget(vc, action: "touchReplyCommentAction:", forControlEvents: .TouchUpInside)
+        cell.replayButton.indexPath = currentIndex
+        
         return cell
     }
     
@@ -156,13 +164,12 @@ class CommentTableViewCell : UITableViewCell, UITableViewDelegate, UITableViewDa
         return 30
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        let vc = ControllerTools.parentViewController(self, viewController: "CommentViewController") as? CommentViewController
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! CommentPersonCell
-        cell.replayButton.addTarget(vc, action: "touchReplyCommentAction:", forControlEvents: .TouchUpInside)
-        cell.replayButton.indexPath = indexPath
-    }
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        
+//        
+//        
+//        cell.replayButton.indexPath = indexPath
+//    }
     
     override func setSelected(selected: Bool, animated: Bool) {
         

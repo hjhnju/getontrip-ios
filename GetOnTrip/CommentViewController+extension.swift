@@ -24,13 +24,7 @@ extension CommentViewController {
         let data = dataSource[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("CommentTableViewCell", forIndexPath: indexPath) as! CommentTableViewCell
         cell.data = data
-
-        for item in cell.commentTableView.visibleCells {
-            if let it = item as? CommentPersonCell {
-                it.replayButton.addTarget(self, action: "touchReplyCommentAction:", forControlEvents: UIControlEvents.TouchUpInside)
-                it.replayButton.indexPath = indexPath
-            }
-        }
+        cell.currentIndex = indexPath
         
         // 滚动到最后一行的时候加载
         if indexPath.row == dataSource.count - 1 { loadMore() }
@@ -68,6 +62,20 @@ extension CommentViewController {
                 }
             }
         }
+        let delAction = UIAlertAction(title: "删除", style: .Default) { (_) -> Void in
+            ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在删除中", style: nil, handler: { (handler) -> Void in
+                CommentAddAndDelRequest.fetchDelCommentModel(comment.id, handler: { (result, status) -> Void in
+                    handler()
+                    print(result)
+                    if status == RetCode.SUCCESS {
+                        ProgressHUD.showSuccessHUD(nil, text: "删除成功")
+                        self.loadData()
+                    } else {
+                        ProgressHUD.showErrorHUD(nil, text: "删除失败")
+                    }
+                })
+            })
+        }
         
         let reportAction = UIAlertAction(title: "举报", style: .Default) { (sender) -> Void in
             LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
@@ -83,6 +91,9 @@ extension CommentViewController {
         
         alertController.addAction(cancelAction)
         alertController.addAction(replyAction)
+        if globalUser?.nickname == comment.from_name {
+            alertController.addAction(delAction)
+        }
         alertController.addAction(reportAction)
         
         // for iPad

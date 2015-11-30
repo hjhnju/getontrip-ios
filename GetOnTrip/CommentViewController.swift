@@ -16,7 +16,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     var lastRequest: CommentListRequest?
     
     /// 发送评论请求
-    var sendcommentRequest: CommentAddRequest = CommentAddRequest()
+    var sendcommentRequest: CommentAddAndDelRequest = CommentAddAndDelRequest()
     
     /// 话题ID
     var topicId: String = ""
@@ -42,7 +42,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     lazy var issueCommentView: UIView = UIView(color: UIColor.whiteColor())
     
     /// 评论底部小箭头图标
-    lazy var commentBottomImage: UIImageView = UIImageView(image: UIImage(named: "comment_bottom"))
+    lazy var commentBottomImage: UIImageView = UIImageView(image: UIImage(named: "comment_Bottom"))
     
     /// 发布textfield
     lazy var issueTextfield: UITextField = UITextField()
