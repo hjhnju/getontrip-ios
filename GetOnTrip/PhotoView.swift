@@ -78,10 +78,8 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
                 }, completion: { (_) -> Void in
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
                         recognizer.view?.alpha = 1
-                        
                         let vc = self.viewcontroller() as? SwitchPhotoViewController
-                        vc?.saveImage = self.avatarSubtract(PhotoView.captureShotWithView(self))
-                        vc?.dismissViewControllerAnimated(true, completion: nil)
+                        vc?.trueAction()
                     })
             })
         }
@@ -97,9 +95,8 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         return image
     }
     
-    func savePhotoAction() {
-        let vc = self.viewcontroller() as? SwitchPhotoViewController
-        vc?.saveImage = self.avatarSubtract(PhotoView.captureShotWithView(self))
+    func savePhotoAction() -> UIImage{
+         return self.avatarSubtract(PhotoView.captureShotWithView(self))
     }
     
     func avatarSubtract(image: UIImage) -> UIImage {
@@ -149,6 +146,4 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         recognizer.view?.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)
         recognizer.rotation = 0
     }
-
-
 }

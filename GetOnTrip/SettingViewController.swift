@@ -38,7 +38,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     lazy var gender: UILabel = UILabel(color: UIColor.blackColor(), title: "男", fontSize: 16, mutiLines: false)
     
     /// 退出登陆按钮
-    lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 14, radius: 0, titleColor: UIColor.blackColor())
+    lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 14, radius: 0, titleColor: UIColor(hex: 0x707070, alpha: 0.7))
     
     /// 清除缓存Label
     var removeCacheLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "0.0M", fontSize: 16, mutiLines: true)
@@ -57,12 +57,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         didSet {
             setupIsLoginSetting()
             tableView.reloadData()
-        }
-    }
-    
-    var saveButton: Bool = false {
-        didSet {
-            navBar.rightButton.selected = saveButton
         }
     }
     
@@ -96,21 +90,18 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
         
-        saveButton = false
         exitLogin.backgroundColor = .whiteColor()
         exitLogin.addTarget(self, action: "exitLoginAction", forControlEvents: .TouchUpInside)
         exitLogin.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
-        
-        isLoginStatus = globalUser == nil ? false : true
     }
     
     ///  初始化是否登陆设置
     private func setupIsLoginSetting() {
         
-        if isLoginStatus == true {
-            notLoginCount = 3
-        } else {
+        if isLoginStatus == false {
             notLoginCount = 1
+        } else {
+            notLoginCount = 3
             
             switch globalUser?.gender.hashValue ?? 3 {
             case 0:
@@ -133,9 +124,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         navBar.rightButton.selected = false
         navBar.setTitle(SettingViewController.name)
         navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
-        navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserInfo:")
-        navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: .Normal)
-        navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: .Selected)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        isLoginStatus = globalUser == nil ? false : true
     }
     
     // MARK: - tableview delegate
@@ -219,6 +213,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 navigationController?.pushViewController(nvc, animated: true)
             case SettingCell.sexCell:  // 选择性别
                 let vc = SettingSexViewController()
+                vc.sex = globalUser?.gender.hashValue ?? 3
                 navigationController?.pushViewController(vc, animated: true)
             default:
                 break
@@ -247,25 +242,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         presentViewController(alertController, animated: true, completion: nil)
     }
     
-    /// 头像图片
-    var iconPhoto: UIImage? {
-        didSet{
-            iconView.image = iconPhoto?.scaleImage(200)
-            if !(iconView.image!.isEqual(iconPhoto)) {
-                saveButton = true
-            } else {
-                saveButton = false
-            }
-        }
-    }
-    
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         
 
         navigationController?.pushViewController(switchPhotoVC, animated: true)
         switchPhotoVC.photoView.img = image
         self.dismissViewControllerAnimated(true, completion: nil)
-        saveButton = true
         // 重新设回导航栏样式
         UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
@@ -274,28 +256,13 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     // 让用户登陆的方法，弹出登陆浮尘
     func pleaseLoginButtonAction() {
         
-        
-    }
-    
-    /// 保存用户信息
-    func saveUserInfo(btn: UIButton) {
-        if btn.selected == false { return }
-        
-        iconView.image?.scaleImage(200)
-        let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
-        
-        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: nil, nick_name: nil) { (result, error) -> Void in
-            
+        LoginView.sharedLoginView.doAfterLogin { (result, error) -> () in
             if error == nil {
-                print(result)
-                ProgressHUD.showSuccessHUD(self.view, text: "保存成功")
-                UserLogin.sharedInstance.loadAccount()
-                self.saveButton = false
-            } else {
-                ProgressHUD.showErrorHUD(self.view, text: "保存失败")
+                self.isLoginStatus = true
+                return
             }
+            ProgressHUD.showErrorHUD(self.view, text: "登陆失败")
         }
-        self.tableView.reloadData()
     }
     
     /// 获取缓存大小
@@ -330,8 +297,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         alertController.addAction(actionCanale)
         alertController.addAction(actionTrue)
         alertController.modalPresentationStyle = .Popover
-        alertController.popoverPresentationController?.sourceView = exitLogin
-        alertController.popoverPresentationController?.sourceRect = exitLogin.frame
+        alertController.popoverPresentationController?.sourceView = view
+        alertController.popoverPresentationController?.sourceRect = CGRectMake(0, view.bounds.height - 180, view.bounds.width, 180)
         presentViewController(alertController, animated: true, completion: nil)
     }
 }

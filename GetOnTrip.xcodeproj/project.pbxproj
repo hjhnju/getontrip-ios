@@ -498,6 +498,7 @@
 				AED4B86E1C048B4B00DAC9D3 /* CollectContentBookCell.swift */,
 				AED4B8731C04933800DAC9D3 /* CollectContentVideoCell.swift */,
 				AE13CE681C0A12B20091CAE3 /* PleaseLoginButton.swift */,
+				AE78983E1BECDAF40073599E /* PhotoView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -783,7 +784,6 @@
 				AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */,
 				AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */,
 				7240C45F1BF5D12F007C12C1 /* RecommendTopicViewCell.swift */,
-				AE78983E1BECDAF40073599E /* PhotoView.swift */,
 				7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */,
 				AEAB3A621C03077D00713C36 /* RecommendSlideButton.swift */,
 			);

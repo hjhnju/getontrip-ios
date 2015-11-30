@@ -1,4 +1,3 @@
-
 //
 //  SwitchPhotoViewController.swift
 //  GetOnTrip
@@ -24,18 +23,6 @@ class SwitchPhotoViewController: MenuViewController {
     
     lazy var shade: PhotoShadeView = PhotoShadeView(color: UIColor.clearColor(), alphaF: 1.0)
     
-    var saveImage: UIImage? {
-        didSet{
-
-            for item in super.parentViewController!.childViewControllers {
-                if item.isKindOfClass(NSClassFromString("GetOnTrip.SettingViewController")!) {
-                    let it = item as? SettingViewController
-                    it?.iconPhoto = saveImage
-                }
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,15 +40,14 @@ class SwitchPhotoViewController: MenuViewController {
         view.addSubview(bottomView)
         bottomView.addSubview(cancelBtn)
         bottomView.addSubview(trueBtn)
-//        navBar.hidden = true
         photoView.ff_AlignInner(.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
         shade.ff_AlignInner(.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
         bottomView.ff_AlignInner(.BottomLeft, referView: view, size: CGSize(width: view.bounds.width, height: 44), offset: CGPointMake(0, 0))
         cancelBtn.ff_AlignInner(.CenterLeft, referView: bottomView, size: CGSizeMake(50, 44), offset: CGPointMake(0, 0))
         trueBtn.ff_AlignInner(.CenterRight, referView: bottomView, size: CGSizeMake(50, 44), offset: CGPointMake(0, 0))
         
-        cancelBtn.addTarget(self, action: "cancelAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        trueBtn.addTarget(self, action: "trueAction:", forControlEvents: UIControlEvents.TouchUpInside)        
+        cancelBtn.addTarget(self, action: "cancelAction:", forControlEvents: .TouchUpInside)
+        trueBtn.addTarget(self, action: "trueAction", forControlEvents: .TouchUpInside)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -76,12 +62,27 @@ class SwitchPhotoViewController: MenuViewController {
     }
     
     ///  确定按钮方法
-    func trueAction(btn: UIButton) {
-        photoView.savePhotoAction()
-        navigationController?.popViewControllerAnimated(true)
+    func trueAction() {
+        let imageData = UIImagePNGRepresentation(photoView.savePhotoAction().scaleImage(200))
+        ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在保存中", style: nil) { (handler) -> Void in
+            UserLogin.sharedInstance.uploadUserInfo(imageData, sex: nil, nick_name: nil) { (result, error) -> Void in
+                handler()
+                if error == nil {
+                    UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
+                        if status == RetCode.SUCCESS {
+                            ProgressHUD.showSuccessHUD(nil, text: "保存成功")
+                            UserLogin.sharedInstance.loadAccount()
+                            self.navigationController?.popViewControllerAnimated(true)
+                            return
+                        }
+                        ProgressHUD.showErrorHUD(self.view, text: "保存失败")
+                    })
+                } else {
+                    ProgressHUD.showErrorHUD(self.view, text: "保存失败")
+                }
+            }
+        }
     }
-    
-    
 }
 
 /// 照片遮罩
@@ -119,5 +120,4 @@ class PhotoShadeView: UIView {
         CGContextFillPath(ctx1)
         
     }
-    
 }

@@ -135,9 +135,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     /// 更多登陆方式按钮
     lazy var moreButton: UIButton = UIButton(icon: "more_white", masksToBounds: true)
     
-    //当前城市
-    lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: " 当前城市未知", fontSize: 10)
-    
     //设置菜单的数据源
     let tableViewDataSource = ["首页", CityBrowseViewController.name, FavoriteViewController.name, MessageViewController.name, SettingViewController.name] // FeedBackViewController.name
     
@@ -147,12 +144,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
     
-    //地理位置
+    //地理位置 TODO: - 需更改
     var city: String? {
         didSet {
-            if let city = city {
-                currentCityButton.setTitle(city, forState: UIControlState.Normal)
-            }
+            
         }
     }
     
@@ -206,7 +201,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         menuView.addSubview(tableView)
         menuView.addSubview(loginAfter)
         menuView.addSubview(loginBefore)
-        menuView.addSubview(currentCityButton)
         
         //初始菜单
         view.addSubview(menuView)
@@ -222,7 +216,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         loginAfter.addSubview(headerView)
         loginAfter.addSubview(nameLabel)
-        
         loginBefore.addSubview(wechatButton)
         loginBefore.addSubview(qqButton)
         loginBefore.addSubview(moreButton)
@@ -233,8 +226,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         welcomeLabel.font = UIFont(name: Font.defaultFont, size: 36)
 
         descLabel.text   = "登录/注册"
-        currentCityButton.alpha = 0.7
-        
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
         moreButton.addTarget(self, action: "moreLogin", forControlEvents: UIControlEvents.TouchUpInside)
         qqButton.addTarget(self, action: "qqLogin", forControlEvents: UIControlEvents.TouchUpInside)
@@ -300,7 +291,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         welcomeLabel.ff_AlignInner(.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
         descLabel.ff_AlignInner(.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
-        currentCityButton.ff_AlignInner(.BottomCenter, referView: menuView, size: nil, offset: CGPointMake(0, -21))
         
         //main
         maskView.ff_Fill(mainViewController.view)

@@ -138,7 +138,9 @@ class HttpRequest {
                 // 关闭网络指示器
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 
-                multipartFormData.appendBodyPart(data: data ?? NSData(), name: "file", fileName: "123.png", mimeType: "image/png")
+                if data != nil {
+                    multipartFormData.appendBodyPart(data: data ?? NSData(), name: "file", fileName: "123.png", mimeType: "image/png")
+                }
                 
                 guard let params = parameters else {
                     return

@@ -16,6 +16,27 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
     
     lazy var womanSwitch = UISwitch()
     
+    var sex: Int = 3 {
+        didSet {
+            switch sex {
+            case 0:
+                manSwitch.setOn(true, animated: true)
+                womanSwitch.setOn(false, animated: true)
+            case 1:
+                manSwitch.setOn(false, animated: true)
+                womanSwitch.setOn(true, animated: true)
+            default:
+                break
+            }
+        }
+    }
+    
+    var tempSex: Int = 2 {
+        didSet {
+            navBar.rightButton.selected = globalUser?.gender != tempSex ? true : false
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,7 +62,7 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
     private func setupBarButtonItem() {
         navBar.setTitle("性别")
         navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
-        navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserName")
+        navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserSexAction:")
         navBar.rightButton.selected = false
         navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: .Normal)
         navBar.rightButton.setTitleColor(.yellowColor(), forState: .Selected)
@@ -69,10 +90,12 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
         return cell
     }
     
+    // 行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 52
     }
     
+    // 预估行高 可减少行高的大量调用
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 52
     }
@@ -85,6 +108,33 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
         } else {
             manSwitch.setOn(!sexSwitch.on, animated: true)
         }
+        
+        tempSex = manSwitch.on ? 0 : 1
     }
     
+    /// 保存用户信息
+    func saveUserSexAction(btn: UIButton) {
+        if btn.selected == false { return }
+        
+        ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在保存中", style: nil) { (handler) -> Void in
+            
+            UserLogin.sharedInstance.uploadUserInfo(nil, sex: self.tempSex, nick_name: nil) { (result, error) -> Void in
+                handler()
+                if error == nil {
+                    UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
+                        if status == RetCode.SUCCESS {
+                            ProgressHUD.showSuccessHUD(nil, text: "保存成功")
+                            self.navBar.rightButton.selected = false
+                            self.navigationController?.popViewControllerAnimated(true)
+                            return
+                        }
+                        ProgressHUD.showErrorHUD(nil, text: "保存失败")
+                    })
+                } else {
+                    ProgressHUD.showErrorHUD(nil, text: "保存失败")
+                    self.sex = globalUser?.gender ?? 2
+                }
+            }
+        }
+    }
 }

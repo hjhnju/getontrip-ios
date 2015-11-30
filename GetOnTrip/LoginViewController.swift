@@ -115,25 +115,25 @@ class LoginViewController: MainViewController {
     
     private func initTextField() {
         let size = emailLabel.text?.sizeofStringWithFount1(UIFont.systemFontOfSize(18), maxSize: CGSizeMake(CGFloat.max, CGFloat.max))
-        emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
-        emailTextField.autocorrectionType  = UITextAutocorrectionType.No
-        emailTextField.autocapitalizationType = UITextAutocapitalizationType.None
-        emailTextField.returnKeyType       = UIReturnKeyType.Done
-        emailTextField.clearButtonMode     = UITextFieldViewMode.WhileEditing
+        emailTextField.borderStyle         = .RoundedRect
+        emailTextField.autocorrectionType  = .No
+        emailTextField.autocapitalizationType = .None
+        emailTextField.returnKeyType       = .Done
+        emailTextField.clearButtonMode     = .WhileEditing
         emailTextField.leftView            = emailLabel
-        emailTextField.leftViewMode        = UITextFieldViewMode.Always
+        emailTextField.leftViewMode        = .Always
         emailLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
-        emailTextField.keyboardType        = UIKeyboardType.URL
+        emailTextField.keyboardType        = .URL
 
-        passwordTextField.borderStyle      = UITextBorderStyle.RoundedRect
-        passwordTextField.keyboardAppearance = UIKeyboardAppearance.Alert
+        passwordTextField.borderStyle      = .RoundedRect
+        passwordTextField.keyboardAppearance = .Alert
         passwordTextField.leftView         = passwLabel
-        passwordTextField.leftViewMode     = UITextFieldViewMode.Always
-        passwordTextField.autocorrectionType = UITextAutocorrectionType.No
-        passwordTextField.returnKeyType    = UIReturnKeyType.Done
-        passwordTextField.clearButtonMode  = UITextFieldViewMode.WhileEditing
+        passwordTextField.leftViewMode     = .Always
+        passwordTextField.autocorrectionType = .No
+        passwordTextField.returnKeyType    = .Done
+        passwordTextField.clearButtonMode  = .WhileEditing
         passwordTextField.rightView        = passwordEyeButton
-        passwordTextField.rightViewMode    = UITextFieldViewMode.Always
+        passwordTextField.rightViewMode    = .Always
         passwordTextField.secureTextEntry  = true
         passwLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
         passwordEyeButton.alpha            = 0.3
