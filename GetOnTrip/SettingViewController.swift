@@ -220,7 +220,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             }
         } else {
             switch indexPath.row {
-            case 1: // 清除缓存
+            case 0: // 清除缓存
                 clearCacheSetting(indexPath)
             default:
                 break
@@ -258,7 +258,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         LoginView.sharedLoginView.doAfterLogin { (result, error) -> () in
             if error == nil {
-                self.isLoginStatus = true
+                if result == true {
+                    self.isLoginStatus = true
+                }
                 return
             }
             ProgressHUD.showErrorHUD(self.view, text: "登陆失败")

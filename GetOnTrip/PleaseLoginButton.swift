@@ -13,20 +13,11 @@ class PleaseLoginButton: UIButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        imageView?.layer.cornerRadius = min(imageView!.frame.width, imageView!.frame.height) * 0.5
+        imageView?.clipsToBounds = true
+        
         imageView?.center = CGPointMake(frame.width * 0.5, frame.height * 0.5)
         titleLabel?.center = CGPointMake(imageView!.center.x, CGRectGetMaxY(imageView!.frame) + titleLabel!.frame.height * 0.5 + 10)
     }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        
-    }
-    
-    
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
 }

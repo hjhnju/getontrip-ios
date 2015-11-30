@@ -119,7 +119,7 @@ class UserLogin: NSObject {
     }
     
     /// 上传用户个人信息
-    func uploadUserInfo(imageData: NSData?, sex: Int?, nick_name: String?, handler:(result: AnyObject?, error: NSError?) -> Void) {
+    func uploadUserInfo(imageData: NSData?, sex: Int?, nick_name: String?, handler:(result: AnyObject?, status: Int?) -> Void) {
         
         let str = "/api/\(AppIni.ApiVersion)/user/editinfo"
         var post      = [String: String]()
@@ -131,12 +131,12 @@ class UserLogin: NSObject {
         post["token"] = "\(AppIni.SecretKey)\(timestamp)".sha256 + timestamp
         print(str)
         print(post)
-        HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, error) -> () in
-            if error != nil {
-                handler(result: result, error: error)
+        HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                handler(result: result.object, status: status)
                 return
             }
-            handler(result: nil, error: error)
+            handler(result: nil, status: status)
         }
     }
     

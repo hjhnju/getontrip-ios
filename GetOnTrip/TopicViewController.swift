@@ -1,4 +1,3 @@
-
 //
 //  TopicViewController.swift
 //  GetOnTrip
@@ -434,12 +433,24 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     /// 跳至景点页
     func sightAction(sender: UIButton) {
-        if let topic = self.topicDataSource {
-            let sightViewController = SightViewController()
-            let sight: Sight = Sight(id: topic.sightid)
-            sight.name = topic.sight
-            sightViewController.sightDataSource = sight
-            navigationController?.pushViewController(sightViewController, animated: true)
-        }
+        
+        let sendPopoverAnimator = SendPopoverAnimator()
+        let vc = TopicEnterSightController()
+        vc.nav = navigationController
+        vc.dataSource = topicDataSource?.arrsight
+        // 1. 设置`转场 transitioning`代理
+        vc.transitioningDelegate = sendPopoverAnimator
+        // 2. 设置视图的展现大小
+        let screen = UIScreen.mainScreen().bounds
+        let h: CGFloat = screen.height * 0.46 + 74
+        let w: CGFloat = screen.width * 0.63
+        let x: CGFloat = (screen.width - w) * 0.5
+        let y: CGFloat = screen.height * 0.27
+        sendPopoverAnimator.presentFrame = CGRectMake(x, y, w, h)
+        vc.view.clipsToBounds = true
+        // 3. 设置专场的模式 - 自定义转场动画
+        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+        presentViewController(vc, animated: true, completion: nil)
+        
     }
 }

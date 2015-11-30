@@ -65,20 +65,19 @@ class SwitchPhotoViewController: MenuViewController {
     func trueAction() {
         let imageData = UIImagePNGRepresentation(photoView.savePhotoAction().scaleImage(200))
         ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在保存中", style: nil) { (handler) -> Void in
-            UserLogin.sharedInstance.uploadUserInfo(imageData, sex: nil, nick_name: nil) { (result, error) -> Void in
+            UserLogin.sharedInstance.uploadUserInfo(imageData, sex: nil, nick_name: nil) { (result, status) -> Void in
                 handler()
-                if error == nil {
+                if status == RetCode.SUCCESS {
                     UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
                         if status == RetCode.SUCCESS {
                             ProgressHUD.showSuccessHUD(nil, text: "保存成功")
-                            UserLogin.sharedInstance.loadAccount()
                             self.navigationController?.popViewControllerAnimated(true)
-                            return
+                        } else {
+                            ProgressHUD.showErrorHUD(nil, text: "保存失败")
                         }
-                        ProgressHUD.showErrorHUD(self.view, text: "保存失败")
                     })
                 } else {
-                    ProgressHUD.showErrorHUD(self.view, text: "保存失败")
+                    ProgressHUD.showErrorHUD(self.view, text: RetCode.getShowUNE(status ?? 0))
                 }
             }
         }

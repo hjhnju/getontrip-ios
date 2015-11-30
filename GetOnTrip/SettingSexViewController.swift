@@ -49,13 +49,14 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
         manSwitch.addTarget(self, action: "sexSwitchAction:", forControlEvents: .ValueChanged)
         womanSwitch.addTarget(self, action: "sexSwitchAction:", forControlEvents: .ValueChanged)
         view.addSubview(tableView)
+        view.backgroundColor      = UIColor(hex: 0xF0F0F0, alpha: 1.0)
         tableView.delegate        = self
         tableView.dataSource      = self
         tableView.bounces         = false
         tableView.separatorStyle  = .None
         tableView.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
         tableView.registerClass(SettingTableViewCell.self, forCellReuseIdentifier: "SettingTableViewCell")
-        tableView.ff_AlignInner(.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 64))
+        tableView.ff_AlignInner(.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 79))
     }
     
     ///  初始化导航
@@ -118,9 +119,9 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
         
         ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在保存中", style: nil) { (handler) -> Void in
             
-            UserLogin.sharedInstance.uploadUserInfo(nil, sex: self.tempSex, nick_name: nil) { (result, error) -> Void in
+            UserLogin.sharedInstance.uploadUserInfo(nil, sex: self.tempSex, nick_name: nil) { (result, status) -> Void in
                 handler()
-                if error == nil {
+                if status == RetCode.SUCCESS {
                     UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
                         if status == RetCode.SUCCESS {
                             ProgressHUD.showSuccessHUD(nil, text: "保存成功")
@@ -131,7 +132,7 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
                         ProgressHUD.showErrorHUD(nil, text: "保存失败")
                     })
                 } else {
-                    ProgressHUD.showErrorHUD(nil, text: "保存失败")
+                    ProgressHUD.showErrorHUD(nil, text: RetCode.getShowUNE(status ?? 0))
                     self.sex = globalUser?.gender ?? 2
                 }
             }

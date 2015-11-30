@@ -125,7 +125,7 @@ class HttpRequest {
     /// - parameter data:       要上传文件的二进制数据
     /// - parameter parameters: 参数字典
     /// - parameter finished:   完成回调
-    func upload(urlString: String, data: NSData?, parameters: [String: AnyObject]?, finished: RequestFinishedCallBack) {
+    func upload(urlString: String, data: NSData?, parameters: [String: AnyObject]?, handler: RequestJSONCallBack) {
         
         // 打开网络指示器
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -153,13 +153,28 @@ class HttpRequest {
             }) { (encodingResult) -> Void in
                 switch encodingResult {
                 case .Success(let upload, _, _):
-                    upload.responseJSON { response in
-                        print(response.result.value)
-                        finished(result: response.result.value, error: response.result.error)
+                    
+                    upload.response { request, response, respData, error -> Void in
+                        
+                        //异常
+                        if error != nil {
+                            print("[HttpRequest]:error=\(error)")
+                            return handler(result: nil, status: RetCode.NETWORK_ERROR)
+                        }
+                        //处理数据
+                        if let data = respData {
+                            let json = JSON(data: data)
+                            if json["status"].stringValue != "" {
+
+                                return handler(result: json["data"], status: json["status"].intValue)
+                            } else {
+                                return handler(result: nil, status: RetCode.UNKNOWN_ERROR)
+                            }
+                        }
                     }
-                case .Failure(let encodingError):
-                    print(encodingError)
-                    finished(result: nil, error: nil)
+                    
+                case .Failure(_):
+                    handler(result: nil, status: RetCode.UNKNOWN_ERROR)
                 }
         }
     }

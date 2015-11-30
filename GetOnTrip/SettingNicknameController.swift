@@ -102,9 +102,9 @@ class SettingNicknameController: MenuViewController, UITableViewDataSource, UITa
         if btn.selected == false { return }
         ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在保存中", style: nil) { (handler) -> Void in
             
-            UserLogin.sharedInstance.uploadUserInfo(nil, sex: nil, nick_name: self.userNameTextField.text) { (result, error) -> Void in
+            UserLogin.sharedInstance.uploadUserInfo(nil, sex: nil, nick_name: self.userNameTextField.text) { (result, status) -> Void in
                 handler()
-                if error == nil {
+                if status == RetCode.SUCCESS {
                     UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
                         if status == RetCode.SUCCESS {
                             ProgressHUD.showSuccessHUD(nil, text: "保存成功")
@@ -115,10 +115,9 @@ class SettingNicknameController: MenuViewController, UITableViewDataSource, UITa
                         ProgressHUD.showErrorHUD(nil, text: "保存失败")
                     })
                 } else {
-                    ProgressHUD.showErrorHUD(nil, text: "保存失败")
+                    ProgressHUD.showErrorHUD(nil, text: RetCode.getShowUNE(status ?? 0))
                 }
             }
         }
     }
-    
 }
