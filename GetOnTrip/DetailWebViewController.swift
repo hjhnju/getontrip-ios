@@ -55,10 +55,10 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.setBlurViewEffect(false)
         navBar.backgroundColor = SceneColor.frontBlack
-        navBar.rightButton.setImage(UIImage(named: "topic_star"), forState: .Normal)
+        navBar.rightButton.setImage(UIImage(named: "bar_collect"), forState: .Normal)
         navBar.rightButton.setImage(UIImage(named: "bar_collect_select"), forState: .Selected)
         navBar.rightButton.addTarget(self, action: "collectVideoAction:", forControlEvents: .TouchUpInside)
-        navBar.rightButton2.setImage(UIImage(named: "topic_share"), forState: .Normal)
+        navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Normal)
         navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Selected)
         navBar.rightButton2.addTarget(self, action: "shareVideoAction:", forControlEvents: .TouchUpInside)
         navBar.rightButton.selected  = video?.collected == "1" ? true  : false
@@ -143,11 +143,10 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         if sender.selected {
             let videoImageView = UIImageView()
             videoImageView.sd_setImageWithURL(NSURL(string: video?.image ?? ""))
-            shareView.showShareAction(self.view, url: video?.url, images: videoImageView.image, title: video?.title, subtitle: nil)            
+            shareView.showShareAction(self.view, url: video?.url, images: videoImageView.image, title: video?.title, subtitle: nil)
         } else {
             shareView.shareCancleAction()
         }
-        
     }
     
     /// 收藏视频方法

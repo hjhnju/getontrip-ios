@@ -25,9 +25,8 @@ class ProgressHUD: NSObject {
         let hud = JGProgressHUD(style: style!)
         hud.textLabel.text = text
         hud.indicatorView = nil
-//        if isOperation == true {
-//            hud.interactionType = .BlockTouchesOnHUDView
-//        }
+        // 允许用户进行操作
+        hud.interactionType = .BlockTouchesOnHUDView
         // 注释图标
         //        hud.indicatorView = JGProgressHUDErrorIndicatorView()
         //        hud.square = true
@@ -44,6 +43,8 @@ class ProgressHUD: NSObject {
         
         let hud = JGProgressHUD(style: style)
         hud.textLabel.text = text
+        // 允许用户进行操作
+        hud.interactionType = .BlockTouchesOnHUDView
         // 注释图标
         hud.indicatorView = nil
         //        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
