@@ -174,23 +174,23 @@ class LoginViewController: MainViewController {
     
     //微信登陆
     func wechatLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin) { (result, error) -> () in
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: { (result, error) -> () in
             self.loginResultDispose(result, error: error)
-        }
+            }, handler: nil)
     }
     
     //qq登陆
     func qqLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.QQ) { (result, error) -> () in
+        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: { (result, error) -> () in
             self.loginResultDispose(result, error: error)
-        }
+            }, handler: nil)
     }
     
     //新浪微博登陆
     func weiboLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo) { (result, error) -> () in
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: { (result, error) -> () in
             self.loginResultDispose(result, error: error)
-        }
+            }, handler: nil)
     }
     
     /// 登陆后的处理

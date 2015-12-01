@@ -560,12 +560,15 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     //微信登陆
     func wechatLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler)
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler){ (_) -> Void in
+        }
+
     }
     
     //qq登陆
     func qqLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler)
+        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler){ (_) -> Void in
+        }
     }
     
     // 更多登陆方式

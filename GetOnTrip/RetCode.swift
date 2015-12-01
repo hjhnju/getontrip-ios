@@ -77,6 +77,9 @@ class RetCode: NSObject {
     /// 用户名已存在
     static let UserNameExist       = 1032
     
+    /// 重复点赞
+    static let praised             = 1025
+    
     static let arrErrMap: [Int:String] = [
         RetCode.SUCCESS           : "成功",
         RetCode.UNKNOWN_ERROR     : "未知错误",

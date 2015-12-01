@@ -49,8 +49,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     //底部工具栏
     lazy var toolbarView      = UIView()
     
-    /// 评论显示多少条
-    lazy var commentNumLabel  = UILabel(color: UIColor(hex: 0x9C9C9C, alpha: 1.0), title: "", fontSize: 11, mutiLines: true)
+    /// 点赞按钮
+    lazy var praisedBUtton   = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
     
     /// 底部评论按钮
     lazy var commentBotton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: SceneColor.lightYellow)
@@ -105,10 +105,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 favNumLabel.setTitle(" " + topic.collect, forState: .Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: .Normal)
                 commentBotton.setTitle(topic.commentNum, forState: .Normal)
+                praisedBUtton.setTitle(" " + topic.praiseNum, forState: .Normal)
                 
                 collectBotton.selected = topic.collected == "" ? false : true
+                praisedBUtton.selected = topic.praised == "" ? false : true
                 commentVC.topicId      = topic.id
-                commentNumLabel.text   = topic.comment
                 labelButton.hidden     = false
                 favNumLabel.hidden     = false
                 visitNumLabel.hidden   = false
@@ -147,7 +148,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerView.addSubview(labelButton)
         headerView.addSubview(favNumLabel)
         headerView.addSubview(visitNumLabel)
-        toolbarView.addSubview(commentNumLabel)
+        toolbarView.addSubview(praisedBUtton)
         toolbarView.addSubview(commentBotton)
         toolbarView.addSubview(shareBotton)
         toolbarView.addSubview(collectBotton)
@@ -158,6 +159,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         view.addSubview(commentVC.view)
         commentVC.view.hidden = true
         addChildViewController(commentVC)
+        praisedBUtton.setImage(UIImage(named: "dotLike_no"), forState: .Normal)
+        praisedBUtton.setImage(UIImage(named: "dotLike_yes"), forState: .Selected)
         
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
@@ -171,6 +174,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         collectBotton.addTarget(self, action: "doFavorite:", forControlEvents: .TouchUpInside)
         commentBotton.addTarget(self, action: "doComment:", forControlEvents: .TouchUpInside)
         coverButton  .addTarget(self, action: "coverClick:", forControlEvents: .TouchUpInside)
+        praisedBUtton.addTarget(self, action: "praisedAction:", forControlEvents: .TouchUpInside)
         
         headerTitleLabel.numberOfLines = 2
         headerTitleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
@@ -227,7 +231,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
         
         //toolbar views
-        commentNumLabel.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
+        praisedBUtton.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
         commentBotton .ff_AlignInner(.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
         shareBotton   .ff_AlignHorizontal(.CenterLeft, referView: commentBotton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         collectBotton .ff_AlignHorizontal(.CenterLeft, referView: shareBotton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
@@ -403,12 +407,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         }
     }
     
-    ///  搜索跳入之后消失控制器
-    func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    
     /// 当键盘弹出的时候，执行相关操作
     func keyboardChanged(not: NSNotification) {
 
@@ -429,7 +427,32 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
             }
             self.commentVC.tableView.layoutIfNeeded()
         }
-        
+    }
+    
+    /// 点赞方法
+    func praisedAction(sender: UIButton) {
+        sender.selected = !sender.selected
+        if let topic = topicDataSource {
+            let type  = PraisedContant.TypeTopic
+            let objid = topic.id
+            Praised.praised(type, objid: objid, isFavorite: sender.selected, handler: { (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if result == "-1" {
+                        sender.selected = !sender.selected
+                    } else {
+                        ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已点赞" : "已取消")
+                    }
+                } else {
+                    if status == RetCode.praised {
+                        ProgressHUD.showErrorHUD(nil, text: "您已点过赞")
+                        sender.selected = true
+                    } else {
+                        ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
+                        sender.selected = !sender.selected
+                    }
+                }
+            })
+        }
     }
     
     /// 跳至景点页

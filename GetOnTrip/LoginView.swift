@@ -112,26 +112,31 @@ class LoginView: UIView {
             self.alpha = 0
             }) { (_) -> Void in
                 self.removeFromSuperview()
-                self.loginFinishedHandler?(result: false, error: nil)
+                if globalUser == nil {
+                    self.loginFinishedHandler?(result: false, error: nil)
+                }
         }
     }
     
     //微信登陆
     func wechatLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler)
-        dismissFloating()
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler){ (_) -> Void in
+        }
+        self.dismissFloating()
     }
     
     //qq登陆
     func qqLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler)
-        dismissFloating()
+        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler){ (_) -> Void in
+        }
+        self.dismissFloating()
     }
     
     //新浪微博登陆
     func moreLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler)
-        dismissFloating()
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler){ (_) -> Void in
+        }
+        self.dismissFloating()
     }
     
     // 邮箱登陆

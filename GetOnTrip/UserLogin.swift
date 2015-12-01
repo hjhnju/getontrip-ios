@@ -155,14 +155,14 @@ class UserLogin: NSObject {
     }
     
     //第三方登陆
-    func thirdLogin(loginType: Int, finishHandler: LoginFinishedHandler?) {
+    func thirdLogin(loginType: Int, finishHandler: LoginFinishedHandler?, handler: (Void -> Void)? = nil) {
         let ssdkType = getThirdType(loginType)
         //授权
         ShareSDK.authorize(ssdkType, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
             case SSDKResponseState.Success:
-//                print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            // print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
                 self.login(loginType, user: user)
                 finishHandler?(result: true, error: nil)
             case SSDKResponseState.Fail:
@@ -173,6 +173,7 @@ class UserLogin: NSObject {
             default:
                 break
             }
+            handler?()
         })
     }
 }

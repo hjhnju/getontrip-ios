@@ -309,11 +309,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         })
     }
     
-    ///  搜索跳入之后消失控制器
-    func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
         

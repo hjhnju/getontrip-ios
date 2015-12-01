@@ -64,6 +64,11 @@ class Topic: NSObject {
     /// 当前用户是否已收藏
     var collected: String = ""
     
+    /// 是否点过赞
+    var praised: String = ""
+    /// 点赞数量
+    var praiseNum: String = ""
+    
     var arrsight = [[String : String]]()
     
     override init(){

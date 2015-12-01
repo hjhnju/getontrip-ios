@@ -11,12 +11,6 @@ import UIKit
 // 从话题进入景点控制器
 class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    /// 浏览提示
-    lazy var browseLabel = UILabel(color: UIColor.whiteColor(), title: "选择您想浏览的景点", fontSize: 17)
-    
-    /// 顶部线
-    lazy var topLineView = UIView(color: UIColor.whiteColor())
-    
     /// 列表
     lazy var tableView  = UITableView()
     

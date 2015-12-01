@@ -389,9 +389,4 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         }
 
     }
-
-    /// 搜索跳入之后消失控制器
-    func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
 }
