@@ -116,7 +116,7 @@ class CommentTableViewCell : UITableViewCell, UITableViewDelegate, UITableViewDa
     
     private func setAutoLayout() {
         iconViewImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(44, 44), offset: CGPointMake(11, 14))
-        nameLabel.ff_AlignHorizontal(.TopRight, referView: iconViewImageView, size: nil, offset: CGPointMake(10, -18))
+        nameLabel.ff_AlignHorizontal(.CenterRight, referView: iconViewImageView, size: nil, offset: CGPointMake(10, -7))
         contentLabel.ff_AlignVertical(.BottomLeft, referView: nameLabel, size: nil, offset: CGPointMake(0, 4))
         answerLabel.ff_AlignHorizontal(.BottomRight, referView: nameLabel, size: nil, offset: CGPointMake(6, 0))
         let tcons = timeLabel.ff_AlignHorizontal(.CenterRight, referView: answerLabel, size: nil, offset: CGPointMake(0, 0))

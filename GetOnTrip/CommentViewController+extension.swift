@@ -19,7 +19,6 @@ extension CommentViewController {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        //        let cell = CommentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
         
         let data = dataSource[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("CommentTableViewCell", forIndexPath: indexPath) as! CommentTableViewCell

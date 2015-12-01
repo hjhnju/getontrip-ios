@@ -432,9 +432,9 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     }
     
     /// 跳至景点页
+    let sendPopoverAnimator = SendPopoverAnimator()
     func sightAction(sender: UIButton) {
         
-        let sendPopoverAnimator = SendPopoverAnimator()
         let vc = TopicEnterSightController()
         vc.nav = navigationController
         vc.dataSource = topicDataSource?.arrsight
