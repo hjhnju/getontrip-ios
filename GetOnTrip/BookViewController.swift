@@ -72,12 +72,18 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     lazy var shareView: ShareView = ShareView()
     
+    /// 点赞按钮
+    lazy var praisedBUtton   = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
+    
     /// 书籍内容
-    var webView: WKWebView = WKWebView(color: UIColor.redColor())
+    var webView: WKWebView = WKWebView()
     
     var bookDataSource: Book? {
         didSet {
             if let data = bookDataSource {
+                praisedBUtton.setTitle(" " + data.praiseNum, forState: .Normal)
+                praisedBUtton.selected = data.praised == "" ? false : true
+
                 collectBtn.selected = data.collected == "" ? false : true
                 //不用placeimage以免覆盖传入的小图
                 headerImageView.sd_setImageWithURL(NSURL(string: data.image))
@@ -135,10 +141,14 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         toolbarView.addSubview(collectBtn)
         toolbarView.addSubview(shareBtn)
         toolbarView.addSubview(toolLineView)
+        toolbarView.addSubview(praisedBUtton)
         
-        collectBtn.setImage(UIImage(named: "topic_star_select"), forState: UIControlState.Selected)
-        collectBtn.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        shareBtn.addTarget(self, action: "clickShareButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        praisedBUtton.setImage(UIImage(named: "dotLike_no"), forState: .Normal)
+        praisedBUtton.setImage(UIImage(named: "dotLike_yes"), forState: .Selected)
+        collectBtn.setImage(UIImage(named: "topic_star_select"), forState: .Selected)
+        collectBtn.addTarget(self, action: "favoriteAction:", forControlEvents: .TouchUpInside)
+        shareBtn.addTarget(self, action: "clickShareButton:", forControlEvents: .TouchUpInside)
+        praisedBUtton.addTarget(self, action: "praisedAction:", forControlEvents: .TouchUpInside)
         
         let w = view.bounds.width - 18
         titleLabel.preferredMaxLayoutWidth = w
@@ -234,7 +244,8 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         shareBtn.ff_AlignInner(.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
         collectBtn.ff_AlignHorizontal(.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         toolLineView.ff_AlignInner(.TopLeft, referView: toolbarView, size: CGSizeMake(w, 0.5), offset: CGPointMake(0, 0))
-        
+        praisedBUtton.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
+
         /// headerView的顶部约束
         headerViewHeightConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: .Height)
         headerViewTopConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: .Top)
@@ -382,10 +393,51 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         }
     }
     
+    /// 点赞方法
+    var praiseNum: String = ""
+    func praisedAction(sender: UIButton) {
+        
+        sender.selected = !sender.selected
+        praiseNum = bookDataSource?.praiseNum ?? "0"
+        refreshPraisedButton(String(Int(bookDataSource?.praiseNum ?? "0")! + (sender.selected ? 1 : -1)))
+        if let topic = bookDataSource {
+            let type  = PraisedContant.TypeBook
+            let objid = topic.id
+            Praised.praised(type, objid: objid, isFavorite: sender.selected, handler: { (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if result == "-1" {
+                        sender.selected = !sender.selected
+                        self.refreshPraisedButton(self.praiseNum)
+                    } else {
+                        ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已点赞" : "已取消")
+                    }
+                } else {
+                    if status == RetCode.praised {
+                        ProgressHUD.showErrorHUD(nil, text: "您已点过赞")
+                        sender.selected = true
+                        self.refreshPraisedButton(self.praiseNum)
+                    } else {
+                        sender.selected = !sender.selected
+                        ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
+                        self.refreshPraisedButton(self.praiseNum)
+                    }
+                }
+            })
+        }
+        
+    }
+    
+    private func refreshPraisedButton(praiseNum: String) {
+        self.bookDataSource?.praiseNum = praiseNum
+        self.praisedBUtton.setTitle(" " + "\(self.bookDataSource?.praiseNum ?? "0")", forState: .Normal)
+        self.praisedBUtton.setTitle(" " + "\(self.bookDataSource?.praiseNum ?? "0")", forState: .Selected)
+    }
+    
     /// 分享
     func clickShareButton(button: UIButton) {
         if let book = bookDataSource {
-            shareView.showShareAction(view, url: book.shareurl, images: bookImageView.image, title: book.title, subtitle: book.content_desc)
+            let bookTitle = "《" + book.title + "》"
+            shareView.showShareAction(view, url: book.shareurl, images: bookImageView.image, title: bookTitle, subtitle: book.content_desc)
         }
 
     }

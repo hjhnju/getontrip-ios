@@ -21,9 +21,9 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
     var dataSource: [[String : String]]? {
         didSet {
             let screen = UIScreen.mainScreen().bounds
-            var h: CGFloat = 5 * 53 + 47
+            var h: CGFloat = 5 * 53 + 54
             if dataSource?.count < 5 {
-                h = CGFloat((5 - Int(dataSource?.count ?? 0)) * 53) + 47
+                h = CGFloat((4 - Int(dataSource?.count ?? 0)) * 53) + 54
             }
             
             tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(screen.width * 0.63, h))

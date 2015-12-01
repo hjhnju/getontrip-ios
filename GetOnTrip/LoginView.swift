@@ -107,12 +107,14 @@ class LoginView: UIView {
     /**
     取消登录浮层
     */
+    // 是否回调
+    var isFinish: Bool = true
     func dismissFloating() {
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.alpha = 0
             }) { (_) -> Void in
                 self.removeFromSuperview()
-                if globalUser == nil {
+                if self.isFinish == true {
                     self.loginFinishedHandler?(result: false, error: nil)
                 }
         }
@@ -122,6 +124,7 @@ class LoginView: UIView {
     func wechatLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler){ (_) -> Void in
         }
+        isFinish = false
         self.dismissFloating()
     }
     
@@ -129,6 +132,7 @@ class LoginView: UIView {
     func qqLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler){ (_) -> Void in
         }
+        isFinish = false
         self.dismissFloating()
     }
     
@@ -136,6 +140,7 @@ class LoginView: UIView {
     func moreLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler){ (_) -> Void in
         }
+        isFinish = false
         self.dismissFloating()
     }
     
@@ -144,6 +149,7 @@ class LoginView: UIView {
         let log = LoginViewController()
         let nav = UINavigationController(rootViewController: log)
         log.loginFinished = self.loginFinishedHandler
+        isFinish = false
         self.dismissFloating()
         UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(nav, animated: true, completion: { () -> Void in
             UIApplication.sharedApplication().keyWindow?.bringSubviewToFront(nav.view)

@@ -277,7 +277,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
             btn.tag = Int(recommendLabels[i].order) ?? 1
-//            btn.backgroundColor = UIColor.randomColor()
             if i == 0 {
                 btn.selected = true
                 currentSearchLabelButton = btn

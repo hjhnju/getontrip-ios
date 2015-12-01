@@ -430,8 +430,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     }
     
     /// 点赞方法
+    var praiseNum: String = ""
     func praisedAction(sender: UIButton) {
         sender.selected = !sender.selected
+        praiseNum = topicDataSource?.praiseNum ?? "0"
+        refreshPraisedButton(String(Int(topicDataSource?.praiseNum ?? "0")! + (sender.selected ? 1 : -1)))
         if let topic = topicDataSource {
             let type  = PraisedContant.TypeTopic
             let objid = topic.id
@@ -439,6 +442,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 if status == RetCode.SUCCESS {
                     if result == "-1" {
                         sender.selected = !sender.selected
+                        self.refreshPraisedButton(self.praiseNum)
                     } else {
                         ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已点赞" : "已取消")
                     }
@@ -446,13 +450,21 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                     if status == RetCode.praised {
                         ProgressHUD.showErrorHUD(nil, text: "您已点过赞")
                         sender.selected = true
+                        self.refreshPraisedButton(self.praiseNum)
                     } else {
-                        ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
                         sender.selected = !sender.selected
+                        ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
+                        self.refreshPraisedButton(self.praiseNum)
                     }
                 }
             })
         }
+    }
+    
+    private func refreshPraisedButton(praiseNum: String) {
+        self.topicDataSource?.praiseNum = praiseNum
+        self.praisedBUtton.setTitle(" " + "\(self.topicDataSource?.praiseNum ?? "0")", forState: .Normal)
+        self.praisedBUtton.setTitle(" " + "\(self.topicDataSource?.praiseNum ?? "0")", forState: .Selected)
     }
     
     /// 跳至景点页

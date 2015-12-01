@@ -34,6 +34,10 @@ class Book: NSObject {
     var info: String = ""
     /// 收藏数
     var collected: String = ""
+    /// 是否点过赞
+    var praised: String = ""
+    /// 点赞数量
+    var praiseNum: String = ""
     
     init(id: String){
         super.init()
