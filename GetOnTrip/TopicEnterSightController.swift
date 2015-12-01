@@ -26,7 +26,14 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
     /// 需要选择的景点
     var dataSource: [[String : String]]? {
         didSet {
-            tableView.rowHeight = CGFloat(UIScreen.mainScreen().bounds.height * 0.46 - 54) / CGFloat(dataSource?.count ?? 0)
+            let screen = UIScreen.mainScreen().bounds
+            var h: CGFloat = 5 * 53 + 47
+            if dataSource?.count < 5 {
+                h = CGFloat((5 - Int(dataSource?.count ?? 0)) * 53) + 47
+            }
+            
+            tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(screen.width * 0.63, h))
+            tableView.rowHeight = 53
             tableView.reloadData()
         }
     }
@@ -49,7 +56,6 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
         tableView.bounces    = false
         tableView.separatorStyle = .None
         tableView.backgroundColor = UIColor(hex: 0x838383, alpha: 0.8)
-        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.63, UIScreen.mainScreen().bounds.height * 0.46))
         tableView.registerClass(TopicSightListTableViewCell.self, forCellReuseIdentifier: "TopicSightListTableViewCell")
         
         exitButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(34, 34))
@@ -96,7 +102,7 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
     func wantBrowseSight() -> UIView {
         let w: CGFloat = UIScreen.mainScreen().bounds.width * 0.63
         let wantView = UIView(frame: CGRectMake(0, 0, w, 54))
-        let wantBrowse = UILabel(color: .whiteColor(), title: "选择您想浏览的景点", fontSize: 17, mutiLines: true)
+        let wantBrowse = UILabel(color: .whiteColor(), title: "浏览相关景点", fontSize: 17, mutiLines: true)
         let baseLine   = UIView(color: .whiteColor())
         wantView.addSubview(wantBrowse)
         wantView.addSubview(baseLine)

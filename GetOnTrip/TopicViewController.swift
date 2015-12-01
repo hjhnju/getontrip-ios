@@ -113,7 +113,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 favNumLabel.hidden     = false
                 visitNumLabel.hidden   = false
                 
-                if !topic.isInSomeSight() {
+                if topicDataSource?.arrsight.count == 0 {
                     navBar.rightButton.hidden = true
                 }
 
@@ -185,6 +185,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     private func initNavBar() {
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "bar_sight"), title: nil, target: self, action: "sightAction:")
+        
         navBar.setButtonTintColor(SceneColor.frontBlack)
         navBar.setStatusBarHidden(true)
     }
@@ -437,20 +438,25 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         
         // 如果是从景点的页面跳进去，并且，只有一个景点可去，点跳入景点就相当于返回
         let nav = parentViewController as? UINavigationController
-        if ((nav?.viewControllers[(nav?.viewControllers.count ?? 1) - 1].isKindOfClass(NSClassFromString("GetOnTrip.SightViewController")!)) != nil &&
-            topicDataSource?.arrsight.count == 1 ) {
-            self.navigationController?.popToRootViewControllerAnimated(true)
+        
+        for item in nav?.viewControllers ?? [UIViewController()] {
+            if item.isKindOfClass(NSClassFromString("GetOnTrip.SightViewController")!) && topicDataSource?.arrsight.count == 1 {
+                navigationController?.popViewControllerAnimated(true)
+                return
+            }
+        }
+        
+        // 如果只有一个景点就直接跳转
+        if topicDataSource?.arrsight.count == 1 {
+            let sightViewController = SightViewController()
+            let sight: Sight = Sight(id: topicDataSource?.sightid ?? "")
+            sight.name = topicDataSource?.sight ?? ""
+            sightViewController.sightDataSource = sight
+            navigationController?.pushViewController(sightViewController, animated: true)
             return
         }
         
-        if topicDataSource?.arrsight.count == 1 {
-            let sightViewController = SightViewController()
-            sightViewController.sightDataSource = topicDataSource?.sight
-            sight.name =
-            sightViewController.sightDataSource = sight
-            navigationController.pushViewController(sightViewController, animated: true)
-        }
-        
+        // 其他情况如果有多个景点可去的情况
         let vc = TopicEnterSightController()
         vc.nav = navigationController
         vc.dataSource = topicDataSource?.arrsight
@@ -458,9 +464,9 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         vc.transitioningDelegate = sendPopoverAnimator
         // 2. 设置视图的展现大小
         let screen = UIScreen.mainScreen().bounds
-        var h: CGFloat = screen.height * 0.46 + 74
-        if topicDataSource?.arrsight.count < 5 && topicDataSource?.arrsight.count > 2 {
-            h -= CGFloat(5 - Int(topicDataSource?.arrsight.count ?? 0) * 53)
+        var h: CGFloat = 5 * 53 + 120
+        if topicDataSource?.arrsight.count < 5 && topicDataSource?.arrsight.count >= 2 {
+            h -= CGFloat((5 - Int(topicDataSource?.arrsight.count ?? 0)) * 53)
         }
         let w: CGFloat = screen.width * 0.63
         let x: CGFloat = (screen.width - w) * 0.5
