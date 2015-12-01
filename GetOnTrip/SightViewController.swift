@@ -33,9 +33,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     /// 数据
     var sightDataSource = Sight(id: "") {
         didSet {
-            setupChannel(sightDataSource.tags)
             collectionView.reloadData()
-            loadingView.stop()
         }
     }
     
@@ -66,6 +64,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     /// 左滑手势是否生效
     var isPopGesture: Bool = false
     
+    /// 更在加载中提示
     var loadingView: LoadingView = LoadingView()
     
     /// 缓存cell
@@ -75,8 +74,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         super.viewDidLoad()
         
         initView()
+        setupAutlLayout()
         loadSightData()
-        loadingView.start()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -87,6 +86,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -105,7 +105,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        setupAutlLayout()
         labelNavView.layoutIfNeeded()
         labelScrollView.layoutIfNeeded()
     }
@@ -121,7 +120,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         view.bringSubviewToFront(navBar)
         view.addSubview(loadingView)
         
-        
         navBar.setTitle(sightDataSource.name)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "bar_collect"), title: nil, target: self, action: "favoriteAction:")
@@ -135,9 +133,9 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         
         collectionView.dataSource = self
         collectionView.delegate   = self
+        collectionView.bounces    = false
+        collectionView.backgroundColor = .whiteColor()
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
-        collectionView.bounces = false
-        collectionView.backgroundColor = UIColor.whiteColor()
     }
     
     func setupAutlLayout() {
@@ -296,11 +294,13 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             lastRequest = SightRequest()
             lastRequest?.sightId = sightId
         }
-        
+        loadingView.start()
         lastRequest?.fetchModels({ [weak self] (sight, status) -> Void in
+            self?.loadingView.stop()
             if status == RetCode.SUCCESS {
                 if let sight = sight {
                     self?.sightDataSource = sight
+                    self?.setupChannel(sight.tags)
                     self?.navBar.rightButton.selected = sight.isFavorite()
                 }
             } else {
