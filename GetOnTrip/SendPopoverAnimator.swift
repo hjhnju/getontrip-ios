@@ -94,7 +94,7 @@ class SendPopoverAnimator: NSObject, UIViewControllerTransitioningDelegate, UIVi
                 toView.transform = CGAffineTransformMakeScale(1.0, 0)
                 toView.layer.anchorPoint = CGPoint(x: -1, y: 1)
                 
-                UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
                     
                     toView.transform = CGAffineTransformIdentity
                     

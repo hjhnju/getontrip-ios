@@ -63,7 +63,6 @@
 		72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86DE41B65D94D004B72D0 /* AppDelegate.swift */; };
 		72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86DE61B65D94D004B72D0 /* ViewController.swift */; };
 		72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72D86DEB1B65D94D004B72D0 /* Images.xcassets */; };
-		72D86DEF1B65D94D004B72D0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 72D86DED1B65D94D004B72D0 /* LaunchScreen.xib */; };
 		72D86DFB1B65D94D004B72D0 /* GetOnTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D86DFA1B65D94D004B72D0 /* GetOnTripTests.swift */; };
 		72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72D86E331B678D51004B72D0 /* CoreLocation.framework */; };
 		72FE631E1BFB08070037C7D6 /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE631D1BFB08070037C7D6 /* MessageList.swift */; };
@@ -144,6 +143,7 @@
 		AE9385F71C05DD7C00B80D31 /* CityBrowseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */; };
 		AEA241021C0C3BE400049882 /* TopicEnterSightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA241011C0C3BE400049882 /* TopicEnterSightController.swift */; };
 		AEA241041C0C6AA200049882 /* TopicSightListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA241031C0C6AA200049882 /* TopicSightListTableViewCell.swift */; };
+		AEA241081C0D526B00049882 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEA241071C0D526B00049882 /* LaunchScreen.storyboard */; };
 		AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B771B8644D200031FB8 /* VideoCell.swift */; };
 		AEA94F901B9AED30006D6998 /* UserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA94F8F1B9AED30006D6998 /* UserAccount.swift */; };
 		AEAB3A631C03077D00713C36 /* RecommendSlideButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB3A621C03077D00713C36 /* RecommendSlideButton.swift */; };
@@ -272,7 +272,6 @@
 		72D86DE41B65D94D004B72D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72D86DE61B65D94D004B72D0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		72D86DEB1B65D94D004B72D0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		72D86DEE1B65D94D004B72D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		72D86DF41B65D94D004B72D0 /* GetOnTripTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GetOnTripTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D86DF91B65D94D004B72D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72D86DFA1B65D94D004B72D0 /* GetOnTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetOnTripTests.swift; sourceTree = "<group>"; };
@@ -358,6 +357,7 @@
 		AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseRequest.swift; sourceTree = "<group>"; };
 		AEA241011C0C3BE400049882 /* TopicEnterSightController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicEnterSightController.swift; sourceTree = "<group>"; };
 		AEA241031C0C6AA200049882 /* TopicSightListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicSightListTableViewCell.swift; sourceTree = "<group>"; };
+		AEA241071C0D526B00049882 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AEA24B771B8644D200031FB8 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		AEA94F8F1B9AED30006D6998 /* UserAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAccount.swift; sourceTree = "<group>"; };
 		AEA94FC91B9B150E006D6998 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -625,9 +625,9 @@
 			isa = PBXGroup;
 			children = (
 				AE7AD7511BA7C37D006857EB /* Plist */,
-				72D86DED1B65D94D004B72D0 /* LaunchScreen.xib */,
 				72D86DEB1B65D94D004B72D0 /* Images.xcassets */,
 				72D86DE61B65D94D004B72D0 /* ViewController.swift */,
+				AEA241071C0D526B00049882 /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1025,9 +1025,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE3CA11A1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				AEA241081C0D526B00049882 /* LaunchScreen.storyboard in Resources */,
 				AEAB95941BC8D82700B6EE62 /* BookDetail.css in Resources */,
 				AE3CA1221C05638600669BA0 /* ShareSDKUI.bundle in Resources */,
-				72D86DEF1B65D94D004B72D0 /* LaunchScreen.xib in Resources */,
 				72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */,
 				AE3CA11E1C05638600669BA0 /* ShareSDK.bundle in Resources */,
 				AE3CA11C1C05638600669BA0 /* read_me.txt in Resources */,
@@ -1260,17 +1260,6 @@
 			targetProxy = 72D86DF51B65D94D004B72D0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		72D86DED1B65D94D004B72D0 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72D86DEE1B65D94D004B72D0 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		72D86DFC1B65D94D004B72D0 /* Debug */ = {

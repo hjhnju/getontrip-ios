@@ -168,6 +168,7 @@ extension AppDelegate {
                         authType : SSDKAuthTypeBoth)
                     break
                     
+                    
                 case SSDKPlatformType.TypeWechat:
                     //设置微信应用信息
                     appInfo.SSDKSetupWeChatByAppId("wx2af0c4fd046e238f", appSecret: "bbc1c1086c1c5ef7bad02489c4e18ea5")
