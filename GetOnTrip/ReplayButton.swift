@@ -22,4 +22,10 @@ class ReplayButton: UIButton {
     var indexPath: NSIndexPath?
     
     var index: Int?
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        titleLabel?.frame = CGRectMake(0, 0, bounds.width, bounds.height)
+    }
 }

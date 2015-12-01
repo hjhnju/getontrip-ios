@@ -9,9 +9,9 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
+import JGProgressHUD
 
-class RetrievePasswordController: UIViewController, UITextFieldDelegate {
+class RetrievePasswordController: UIViewController {
 
     /// 邮箱
     lazy var emailTextField = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())
@@ -52,16 +52,15 @@ class RetrievePasswordController: UIViewController, UITextFieldDelegate {
         backgroundImageView.frame = UIScreen.mainScreen().bounds
         backButton.addTarget(self, action: "backAction", forControlEvents: .TouchUpInside)
         sendButton.addTarget(self, action: "sendButtonAction", forControlEvents: .TouchUpInside)
-        navTitleLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
-        sendButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
-        navTitleLabel.font = UIFont(name: "PingFangTC-Light", size: 24)
+        navTitleLabel.font = UIFont(name: Font.defaultFont, size: 18)
+        sendButton.titleLabel?.font = UIFont(name: Font.defaultFont, size: 18)
+        navTitleLabel.font = UIFont(name: Font.defaultFont, size: 24)
         let attr = NSMutableAttributedString(string: "请输入邮箱")
-        attr.addAttribute(NSFontAttributeName, value: UIFont(name: "PingFangTC-Light", size: 18) ?? UIFont.systemFontOfSize(18) , range: NSMakeRange(0, attr.length))
+        attr.addAttribute(NSFontAttributeName, value: UIFont(name: Font.defaultFont, size: 18) ?? UIFont.systemFontOfSize(18) , range: NSMakeRange(0, attr.length))
         emailTextField.attributedPlaceholder = attr
     }
     
     private func initTextField() {
-        emailTextField.delegate            = self
         emailTextField.placeholder         = "请输入邮箱"
         emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
         emailTextField.autocorrectionType  = UITextAutocorrectionType.Default
@@ -80,19 +79,6 @@ class RetrievePasswordController: UIViewController, UITextFieldDelegate {
         sendButton.ff_AlignVertical(.BottomCenter, referView: emailTextField, size: size, offset: CGPointMake(0, 30))
     }
     
-    // MARK: - textfield delegate
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        let cs = NSCharacterSet(charactersInString: Regular.letterAndNum).invertedSet
-        let filtered = string.componentsSeparatedByCharactersInSet(cs).joinWithSeparator("")
-        // 是否包含中文
-        let isContainChinese: Bool = (string == filtered)
-        if !isContainChinese {
-            SVProgressHUD.showInfoWithStatus("格式错误\n请重新输入")
-        }
-        return isContainChinese
-    }
-    
     // MARK: - 自定义方法
     func backAction() {
         navigationController?.popViewControllerAnimated(true)
@@ -107,22 +93,25 @@ class RetrievePasswordController: UIViewController, UITextFieldDelegate {
     func sendButtonAction() {
         
         let emailStr = emailTextField.text ?? ""
-
+        
         if RegexString.validateEmail(emailStr) {
             UserRegisterRequest.userSendPasswdEmail(emailStr, handler: { (result, status) -> Void in
                 if status == RetCode.SUCCESS {
-                    SVProgressHUD.showInfoWithStatus("发送成功，请重新登陆")
-                    self.backAction()
+                    ProgressHUD.showSuccessHUD(self.view, text: "发送成功，请重新登陆")
+                    dispatch_after(2, dispatch_get_main_queue(), { () -> Void in
+//                        NSThread.sleepForTimeInterval(2) // TODO: 加上它才能延迟
+                        self.backAction()
+                    })
                 } else {
                     if RetCode.getShowMsg(status) == "" {
-                        SVProgressHUD.showInfoWithStatus("您输入的邮箱可能有误，请重新输入")
+                        ProgressHUD.showErrorHUD(self.view, text: "您输入的邮箱可能有误，请重新输入")
                     } else {
-                        SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                        ProgressHUD.showErrorHUD(self.view, text: RetCode.getShowMsg(status))
                     }
                 }
             })
         } else {
-            SVProgressHUD.showInfoWithStatus("邮箱格式错误")
+            ProgressHUD.showErrorHUD(self.view, text: "邮箱格式错误")
         }
     }
 }

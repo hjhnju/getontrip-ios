@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import Alamofire
-import SVProgressHUD
 
 ///  登陆类型 1:qq,2:weixin,3:weibo
 struct LoginType {
@@ -120,23 +119,24 @@ class UserLogin: NSObject {
     }
     
     /// 上传用户个人信息
-    func uploadUserInfo(imageData: NSData, sex: Int?, nick_name: String?, city: String?, handler:(result: AnyObject?, error: NSError?) -> Void) {
+    func uploadUserInfo(imageData: NSData?, sex: Int?, nick_name: String?, handler:(result: AnyObject?, status: Int?) -> Void) {
         
         let str = "/api/\(AppIni.ApiVersion)/user/editinfo"
-        
         var post      = [String: String]()
-        post["sex"]   = String(sex ?? 2)
-        post["nick_name"] = nick_name ?? ""
-        post["city"]  = city ?? ""
+        
+        if sex       != nil { post["sex"]   = String(sex ?? 2) }
+        if nick_name != nil { post["nick_name"] = nick_name ?? "" }
+        
         let timestamp = String(format: "%.0f", NSDate().timeIntervalSince1970)
         post["token"] = "\(AppIni.SecretKey)\(timestamp)".sha256 + timestamp
-        print("sex == \(sex)  nick_name == \(nick_name)  city == \(city)")
-        HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, error) -> () in
-            if error != nil {
-                handler(result: result, error: error)
+        print(str)
+        print(post)
+        HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                handler(result: result.object, status: status)
                 return
             }
-            handler(result: nil, error: error)
+            handler(result: nil, status: status)
         }
     }
     
@@ -155,14 +155,14 @@ class UserLogin: NSObject {
     }
     
     //第三方登陆
-    func thirdLogin(loginType: Int, finishHandler: LoginFinishedHandler?) {
+    func thirdLogin(loginType: Int, finishHandler: LoginFinishedHandler?, handler: (Void -> Void)? = nil) {
         let ssdkType = getThirdType(loginType)
         //授权
         ShareSDK.authorize(ssdkType, settings: nil, onStateChanged: { (state : SSDKResponseState, user : SSDKUser!, error : NSError!) -> Void in
             
             switch state{
             case SSDKResponseState.Success:
-//                print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
+            // print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
                 self.login(loginType, user: user)
                 finishHandler?(result: true, error: nil)
             case SSDKResponseState.Fail:
@@ -173,6 +173,7 @@ class UserLogin: NSObject {
             default:
                 break
             }
+            handler?()
         })
     }
 }

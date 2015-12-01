@@ -70,12 +70,12 @@ class RecommendTopicViewCell: UITableViewCell {
     }
     
     private func setupAutoLayout() {
-        cellImageView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight-2), offset: CGPointMake(0, 2))
-        titleLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
-        tagButton.ff_AlignVertical(ff_AlignType.TopCenter, referView: titleLabel, size: nil, offset: CGPointMake(0, -9))
+        cellImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight-2), offset: CGPointMake(0, 2))
+        titleLabel.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
+        tagButton.ff_AlignVertical(.TopCenter, referView: titleLabel, size: nil, offset: CGPointMake(0, -9))
         
-        favNumLabel.ff_AlignInner(ff_AlignType.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(-20, -10))
-        visitNumLabel.ff_AlignInner(ff_AlignType.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(20, -10))
+        favNumLabel.ff_AlignInner(.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(-20, -10))
+        visitNumLabel.ff_AlignInner(.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(20, -10))
         
         titleLabel.preferredMaxLayoutWidth = self.bounds.width - 20
     }

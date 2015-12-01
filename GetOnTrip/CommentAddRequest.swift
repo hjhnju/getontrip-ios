@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CommentAddRequest: NSObject {
+class CommentAddAndDelRequest: NSObject {
     
     // 将数据回调外界 handler: Book -> Void   handler
     
@@ -40,4 +40,24 @@ class CommentAddRequest: NSObject {
             handler(result: nil, status: status)
         }
     }
+    
+    /**
+    * 接口3：/api/1.0/comment/del
+    * 删除评论
+    * @param integer  id,评论ID
+    * @return json
+    */
+    class func fetchDelCommentModel(id: String, handler: (AnyObject?, Int) -> Void) {
+        var post = [String: String]()
+        post["id"] = id
+        
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/comment/del", post: post) { (result, status) -> () in
+            if status == RetCode.SUCCESS {
+                handler(result.object, status)
+                return
+            }
+            handler(nil, status)
+        }
+    }
+    
 }

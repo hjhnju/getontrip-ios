@@ -74,6 +74,12 @@ class RetCode: NSObject {
     //邮箱已被注册
     static let EMAIL_EXSIT         = 1031
     
+    /// 用户名已存在
+    static let UserNameExist       = 1032
+    
+    /// 重复点赞
+    static let praised             = 1025
+    
     static let arrErrMap: [Int:String] = [
         RetCode.SUCCESS           : "成功",
         RetCode.UNKNOWN_ERROR     : "未知错误",
@@ -95,6 +101,10 @@ class RetCode: NSObject {
         RetCode.LOCK_ERROR        : "加锁失败",
     ]
     
+    static let userNameArrErrMap: [Int:String] = [
+        RetCode.UserNameExist : "用户名已存在"
+    ]
+    
     //获取错误信息
     static func getMsg(retCode: Int) -> String {
         return arrErrMap[retCode] ?? ""
@@ -112,5 +122,9 @@ class RetCode: NSObject {
     static func getShowMsg(retCode: Int) -> String {
         return arrErrMapLogin[retCode] ?? ""
     }
-
+    
+    /// 用户名获取错误信息
+    static func getShowUNE(retCode: Int) -> String {
+        return userNameArrErrMap[retCode] ?? ""
+    }
 }

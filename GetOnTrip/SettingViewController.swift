@@ -8,10 +8,9 @@
 
 import UIKit
 import FFAutoLayout
-import Alamofire
-import SVProgressHUD
-import CoreData
 import SDWebImage
+import Alamofire
+import CoreData
 
 /// 定义选中的是第几行
 struct SettingCell {
@@ -21,83 +20,43 @@ struct SettingCell {
     static let nickCell = 1
     /// 2
     static let sexCell  = 2
-    /// 3
-    static let cityCell = 3
 }
 
-class SettingViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class SettingViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     static let name = "设置"
     
-    lazy var tableView: UITableView = UITableView()
+    lazy var tableView = UITableView()
     
     /// 头像
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "icon_app"))
+    lazy var iconView  = UIImageView(image: UIImage(named: "icon_app"))
     
     /// 昵称
-    lazy var nickName: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 16, mutiLines: true) //(alignment: NSTextAlignment.Right, sizeFout: 16, color: UIColor.blackColor())
+    lazy var nickName  = UILabel(color: UIColor.blackColor(), title: "", fontSize: 16, mutiLines: true)
+    
     /// 性别
     lazy var gender: UILabel = UILabel(color: UIColor.blackColor(), title: "男", fontSize: 16, mutiLines: false)
     
-    /// 临时保存性别
-    var saveGender: String?
-    
-    /// 城市
-    lazy var city: UILabel = UILabel(color: UIColor.blackColor(), title: "未知", fontSize: 16, mutiLines: false)
-    
-    /// 临时保存城市
-    var saveCity: String = ""
-    var saveTown: String = ""
-    
-    /// 省市联动
-    var provinces = [Province]() {
-        didSet {
-            pickView.reloadAllComponents()
-        }
-    }
-    
-    /// 当前省的索引
-    var provinceIndex: Int = 0
-    
-    /// pick切换数据源方法 如果是true则是姓别，false是城市
-    var pickViewSourceNameAndCity: Bool = true {
-        didSet {
-            pickView.reloadAllComponents()
-        }
-    }
-    
-    var lastProvinceIndex: Int = 0
-    
-    /// 选择城市/姓别
-    lazy var pickView: UIPickerView = UIPickerView(color: UIColor.whiteColor(), hidde: true)
-    
-    /// 选择底部的view
-    lazy var cancleBottomView: UIView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 43))
-    
-    /// 取消按钮
-    lazy var cancleButton: UIButton = UIButton(title: "取消", fontSize: 14, radius: 2, titleColor: SceneColor.frontBlack)
-
-    /// 确定按钮
-    lazy var trueButton: UIButton = UIButton(title: "确定", fontSize: 14, radius: 2, titleColor: SceneColor.frontBlack)
-    
-    /// 性别按钮
-    lazy var sortButton: UIButton = UIButton(title: "性别", fontSize: 18, radius: 2, titleColor: SceneColor.frontBlack)
-    
-    /// 遮罩
-    lazy var shadeView: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
-    
     /// 退出登陆按钮
-    lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 14, radius: 0, titleColor: UIColor.blackColor())
+    lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 14, radius: 0, titleColor: UIColor(hex: 0x707070, alpha: 0.7))
     
     /// 清除缓存Label
     var removeCacheLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "0.0M", fontSize: 16, mutiLines: true)
     
+    /// 请登陆按钮
+    var pleaseLoginButton: PleaseLoginButton = PleaseLoginButton(image: "icon_app", title: "请登陆", fontSize: 16, titleColor: SceneColor.frontBlack)
+    
     /// 设置昵称控制器
     lazy var nicknameController: SettingNicknameController = SettingNicknameController()
     
-    var saveButton: Bool = false {
+    /// 未登陆第一组显示几条
+    var notLoginCount = 1
+    
+    /// 登陆状态
+    var isLoginStatus: Bool = false {
         didSet {
-            navBar.rightButton.selected = saveButton
+            setupIsLoginSetting()
+            tableView.reloadData()
         }
     }
     
@@ -107,138 +66,70 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        addChildViewController(switchPhotoVC)
-        addChildViewController(nicknameController)
+    
         setupAddProperty()
         setupBarButtonItem()
-        loadInitSetting()
-        setupInitSetting()
-        
-//        let size = getUsedCache()
-//        print("CachSize=\(size)")
+        setupIsLoginSetting()
     }
     
     ///  初始化属性
     private func setupAddProperty() {
-
-        navBar.setTitle(SettingViewController.name)
-
+        
+        title = SettingViewController.name
         view.addSubview(tableView)
-        cancleBottomView.addSubview(trueButton)
-        cancleBottomView.addSubview(sortButton)
-        cancleBottomView.addSubview(cancleButton)
-        
-        cancleBottomView.backgroundColor = SceneColor.whiteGray
-        cancleButton.backgroundColor = SceneColor.lightYellow
-        trueButton.backgroundColor   = SceneColor.lightYellow
-        sortButton.backgroundColor   = UIColor.clearColor()
-        exitLogin.backgroundColor    = UIColor.whiteColor()
-        
-        cancleButton.alpha = 0.5
         view.addSubview(exitLogin)
+        pleaseLoginButton.adjustsImageWhenHighlighted = false
+        pleaseLoginButton.addTarget(self, action: "pleaseLoginButtonAction", forControlEvents: .TouchUpInside)
+        
+        addChildViewController(switchPhotoVC)
+        addChildViewController(nicknameController)
         
         tableView.dataSource = self
-        tableView.delegate = self
-        
-        saveButton = false
-        shadeView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
-        cancleButton.addTarget(self, action: "shadeViewClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        trueButton.addTarget(self, action: "trueButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        sortButton.addTarget(self, action: "sortClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        tableView.delegate   = self
+        tableView.separatorStyle = .None
         tableView.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
-        cancleButton.ff_AlignInner(ff_AlignType.CenterLeft, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(10, 0))
-        sortButton.ff_AlignInner(ff_AlignType.CenterCenter, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(0, 0))
-        trueButton.ff_AlignInner(ff_AlignType.CenterRight, referView: cancleBottomView, size: CGSizeMake(53, 25), offset: CGPointMake(-10, 0))
-        exitLogin.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
+        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
+        
+        exitLogin.backgroundColor = .whiteColor()
+        exitLogin.addTarget(self, action: "exitLoginAction", forControlEvents: .TouchUpInside)
+        exitLogin.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
     }
     
-    ///  初始化设置
-    private func setupInitSetting() {
-        title = SettingViewController.name
-        if (globalUser?.icon ?? "") != "" {
+    ///  初始化是否登陆设置
+    private func setupIsLoginSetting() {
+        
+        if isLoginStatus == false {
+            notLoginCount = 1
+        } else {
+            notLoginCount = 3
+            
+            switch globalUser?.gender.hashValue ?? 3 {
+            case 0:
+                gender.text = "男"
+            case 1:
+                gender.text = "女"
+            default:
+                gender.text = "未知"
+                break
+            }
+            nickName.text = globalUser?.nickname
+            if (globalUser?.icon ?? "") == "" { return }
             iconView.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""))
         }
-        if      globalUser?.gender.hashValue == 0 { gender.text = "男" }
-        else if globalUser?.gender.hashValue == 1 { gender.text = "女" }
-        else                                      { gender.text = "未知"}
-        
-        city.text = globalUser?.city
-        nickName.text = globalUser?.nickname
     }
     
     ///  初始化导航
     private func setupBarButtonItem() {
         
-        navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserInfo:")
-
         navBar.rightButton.selected = false
-        navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: UIControlState.Normal)
-        navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: UIControlState.Selected)                
-    }
-    
-    
-    ///  初始化设置
-    private func loadInitSetting() {
-        // tableview设置
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        
-        // 省市联动
-        pickView.dataSource = self
-        pickView.delegate = self
-        
-        LocateToCity.getCityProvinceInfo { (result, status) -> Void in
-            if status == RetCode.SUCCESS {
-                if let data = result {
-                    self.provinces = data
-                    
-                } else {
-                    SVProgressHUD.showInfoWithStatus("数据加载错误，请稍候再试")
-                }
-            } else {
-                SVProgressHUD.showInfoWithStatus("城市加载失败您的网络不稳定")
-            }
-        }
-        
-        // 退出登陆
-        exitLogin.addTarget(self, action: "exitLoginAction", forControlEvents: UIControlEvents.TouchUpInside)
-    }
-    
-    ///  退出登陆
-    func exitLoginAction() {
-        UserLogin.sharedInstance.exit()
-        // 将页面返回到首页
-        if let vc = parentViewController?.parentViewController as? SlideMenuViewController {
-            vc.curVCType = RecommendViewController.self
-        }
-    }
-    
-    func sortClick(btn: UIButton) {
-        if pickViewSourceNameAndCity == true {
-            btn.setTitle("性别", forState: UIControlState.Normal)
-        } else {
-            btn.setTitle("城市", forState: UIControlState.Normal)
-        }
+        navBar.setTitle(SettingViewController.name)
+        navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
-    
-    func shadeViewClick(btn: UIButton) {
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.shadeView.alpha = 0.0
-            self.pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
-            self.cancleBottomView.frame.origin.y = UIScreen.mainScreen().bounds.height
-        }) { (_) -> Void in
-            self.shadeView.removeFromSuperview()
-            self.pickView.removeFromSuperview()
-            self.cancleBottomView.removeFromSuperview()
-        }
+        isLoginStatus = globalUser == nil ? false : true
     }
     
     // MARK: - tableview delegate
@@ -247,46 +138,49 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 4 : 1
+        return section == 0 ? notLoginCount : 1
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = SettingTableViewCell()
         
         if indexPath.section == 0 {
-            if indexPath.row == SettingCell.iconCell {
+            if isLoginStatus == false {
+                let cel = UITableViewCell()
+                cel.addSubview(pleaseLoginButton)
+                pleaseLoginButton.ff_AlignInner(.CenterCenter, referView: cel, size: nil, offset: CGPointMake(0, -15))
+                return cel
+            }
+            switch indexPath.row {
+            case SettingCell.iconCell:
                 cell.left.text = "头像"
                 cell.addSubview(iconView)
                 iconView.layer.cornerRadius = 66 * 0.5
                 iconView.layer.masksToBounds = true
-                iconView.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: CGSizeMake(66, 66), offset: CGPointMake(-10, 0))
-            } else if indexPath.row == SettingCell.nickCell {
+                iconView.ff_AlignInner(.CenterRight, referView: cell, size: CGSizeMake(66, 66), offset: CGPointMake(-10, 0))
+            case SettingCell.nickCell:
                 cell.left.text = "昵称"
                 cell.addSubview(nickName)
-                nickName.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: nil, offset: CGPointMake(-10, 0))
-            } else if indexPath.row == SettingCell.sexCell {
+                nickName.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-10, 0))
+            case SettingCell.sexCell:
                 cell.left.text = "性别"
                 cell.addSubview(gender)
-                gender.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
-            } else {
-                cell.left.text = "城市"
-                cell.addSubview(city)
-                city.ff_AlignInner(ff_AlignType.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
-                cell.baseline.removeFromSuperview()
+                gender.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+            default:
+                break
             }
         } else {
-            if indexPath.row == SettingCell.iconCell {
+            switch indexPath.row {
+            case 0:
                 cell.left.text = "清除缓存"
                 cell.addSubview(removeCacheLabel)
                 removeCacheLabel.text = getUsedCache()
                 removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
                 cell.baseline.removeFromSuperview()
-            } else if indexPath.row == SettingCell.nickCell {
-                // TODO: 以后再加 cell.left.text = "切换夜间模式"
-                
+            default:
+                break
             }
         }
-        
         return cell
     }
     
@@ -296,114 +190,56 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
     /// 每行的行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            
-            if      indexPath.row == 0 { return 102}
-            else if indexPath.row == 1 { return 51 }
-            else if indexPath.row == 2 { return 51 }
-            else                       { return 51 }
-        } else {
-            if      indexPath.row == 0 { return 51 }
-            else                       { return 200}
+        if indexPath.section == 0 && indexPath.row == 0 {
+            return isLoginStatus == true ? 102 : 159
         }
+        return 51
     }
     
     var switchPhoto: Bool = false
-
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if indexPath.section == 0 {
-            /// 先切换数据源方法，再实现动画
-            if indexPath.row == SettingCell.sexCell {
-                pickViewSourceNameAndCity = true
-                sortClick(sortButton)
-            }
-            
-            if indexPath.row == SettingCell.cityCell {
-                pickViewSourceNameAndCity = false
-                sortClick(sortButton)
-            }
-            
-            if indexPath.row == SettingCell.nickCell {
-                let nvc = SettingNicknameController()
-                nvc.userNameTextField.text = globalUser?.nickname
-                navigationController?.pushViewController(nvc, animated: true)
-            }
-            
-            /// pickView 位置动画
-            if indexPath.row == SettingCell.cityCell || indexPath.row == SettingCell.sexCell{
-                
-                let h: CGFloat = pickViewSourceNameAndCity ? 162 : 216
-                let y1: CGFloat = UIScreen.mainScreen().bounds.height
-                let w: CGFloat = UIScreen.mainScreen().bounds.width
-                pickView.frame = CGRectMake(0, y1, w, h)
-                let y: CGFloat = UIScreen.mainScreen().bounds.height - pickView.bounds.height
-                cancleBottomView.frame = CGRectMake(0, y1, w, 44)
-                
-                pickView.selectRow(0, inComponent: 0, animated: false)
-                pickView.delegate!.pickerView!(pickView, didSelectRow: 0, inComponent: 0)
-                UIApplication.sharedApplication().keyWindow!.addSubview(shadeView)
-                shadeView.addTarget(self, action: "shadeViewClick:", forControlEvents: UIControlEvents.TouchUpInside)
-                UIApplication.sharedApplication().keyWindow!.addSubview(pickView)
-                UIApplication.sharedApplication().keyWindow!.addSubview(cancleBottomView)
-                
-                pickView.hidden = false
-                if pickView.frame.origin.y > y {
-                    pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
-                    let cy: CGFloat = y1 - pickView.frame.height - 44
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        self.pickView.frame.origin.y = y
-                        self.shadeView.alpha = 0.5
-                        self.cancleBottomView.frame.origin.y = cy
-                    })
-                }
-            } else {
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.pickView.frame.origin.y = UIScreen.mainScreen().bounds.height
-                })
-            }
-            
-            if indexPath.row == SettingCell.iconCell {
-                // 选择照片
-                if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
-                    return
-                }
-                
+            if isLoginStatus == false { return }
+            switch indexPath.row {
+            case SettingCell.iconCell: // 选择照片
+                if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) { return }
                 let picker = UIImagePickerController()
                 picker.delegate = self
                 presentViewController(picker, animated: true, completion: nil)
+            case SettingCell.nickCell: // 选择昵称
+                let nvc = SettingNicknameController()
+                nvc.userNameTextField.text = globalUser?.nickname
+                navigationController?.pushViewController(nvc, animated: true)
+            case SettingCell.sexCell:  // 选择性别
+                let vc = SettingSexViewController()
+                vc.sex = globalUser?.gender.hashValue ?? 3
+                navigationController?.pushViewController(vc, animated: true)
+            default:
+                break
             }
         } else {
-            if indexPath.row == 0 {
-                let alertController = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: .ActionSheet)
-                let actionTrue   = UIAlertAction(title: "取消", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
-                })
-                let actionCanale = UIAlertAction(title: "确定", style: UIAlertActionStyle.Default, handler: { (alter) -> Void in
-                    self.clearCacheAction()
-                })
-                alertController.addAction(actionCanale)
-                alertController.addAction(actionTrue)
-                alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
-                alertController.popoverPresentationController?.sourceView = tableView.cellForRowAtIndexPath(indexPath)
-                alertController.popoverPresentationController?.sourceRect = tableView.cellForRowAtIndexPath(indexPath)?.frame ?? CGRectZero
-                
-                presentViewController(alertController, animated: true, completion: nil)
+            switch indexPath.row {
+            case 0: // 清除缓存
+                clearCacheSetting(indexPath)
+            default:
+                break
             }
         }
     }
     
-    
-    
-    /// 头像图片
-    var iconPhoto: UIImage? {
-        didSet{
-            iconView.image = iconPhoto?.scaleImage(200)
-            if !(iconView.image!.isEqual(iconPhoto)) {
-                saveButton = true
-            } else {
-                saveButton = false
-            }
-        }
+    /// 清除缓存设置
+    private func clearCacheSetting(indexPath: NSIndexPath) {
+        let alertController = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: .ActionSheet)
+        let actionTrue      = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+        let actionCanale    = UIAlertAction(title: "确定", style: .Default) { (_) -> Void in self.clearCacheAction()}
+        alertController.addAction(actionCanale)
+        alertController.addAction(actionTrue)
+        alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        alertController.popoverPresentationController?.sourceView = tableView.cellForRowAtIndexPath(indexPath)
+        alertController.popoverPresentationController?.sourceRect = tableView.cellForRowAtIndexPath(indexPath)?.frame ?? CGRectZero
+        
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
@@ -412,153 +248,23 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         navigationController?.pushViewController(switchPhotoVC, animated: true)
         switchPhotoVC.photoView.img = image
         self.dismissViewControllerAnimated(true, completion: nil)
-        saveButton = true
         // 重新设回导航栏样式
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-    }
-    
-    // MARK: - pickView dataSource
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return pickViewSourceNameAndCity ? 1 : 2
-    }
-    
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickViewSourceNameAndCity {
-                return 2
-            } else {
-            if provinces.count == 0 { return 0 }
-                if component == 0 {
-                    return provinces.count ?? 0
-                } else {
-                    let provinceIndex = pickerView.selectedRowInComponent(0)
-                    return provinces[provinceIndex].city.count ?? 0
-                }
-        }
-    }
-    
-    func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 32
-    }
-    
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        
-        //省份选中
-        if (component == 0 && pickViewSourceNameAndCity == false) {
-            pickerView.reloadComponent(1)
-            self.lastProvinceIndex = row
-//            pickView.selectRow(0, inComponent: 1, animated: false)
-        }
-        
-        if pickViewSourceNameAndCity == false {
-            if provinces.count == 0 { return }
-            let provin = provinces[lastProvinceIndex] as Province
-            switch (component) {
-            case 0:
-                saveCity = provin.name ?? ""
-                let city = provin.city
-                saveTown = city[0]["name"]as? String ?? ""
-
-                break;
-            case 1:
-                let city = provin.city
-                saveTown = city[row]["name"] as? String ?? ""
-                
-                break;
-            default:
-                break;
-            }
-        }
-    }
-    
-    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
-        
-        var label: UILabel?
-        
-        label = view != nil ? view as? UILabel : UILabel()
-        
-        label?.textAlignment = NSTextAlignment.Center
-        
-        if pickViewSourceNameAndCity {
-            label?.text = row == 0 ? "男" : "女"
-            saveGender = label?.text
-        } else {
-            
-            if provinces[lastProvinceIndex].city.count <= 0 {
-                label?.userInteractionEnabled = false
-            } else {
-                label?.userInteractionEnabled = true
-            }
-            
-            var lt: String = ""
-            if component == 0 {
-                lt = provinces[row].name ?? ""
-            } else {
-                if lastProvinceIndex < provinces.count {
-                    if row < provinces[lastProvinceIndex].city.count {
-                        lt = provinces[lastProvinceIndex].city[row]["name"] as? String ?? ""
-                    }
-                }
-            }
-            
-            label?.text = lt
-        }
-        return label!
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
     
     // MARK: 自定义方法
-    
-    /// 确定按钮
-    func trueButtonClick(btn: UIButton) {
+    // 让用户登陆的方法，弹出登陆浮尘
+    func pleaseLoginButtonAction() {
         
-        if pickViewSourceNameAndCity {
-            // 设置性别
-            gender.text = saveGender
-            pickView.selectedRowInComponent(0)
-            
-            var sex: Int?
-            if gender.text == "男" { sex = 0 }
-            else if gender.text == "女" { sex = 1 }
-            else { sex = 2 }
-            
-            if globalUser?.gender != sex { saveButton = true }
-            else { saveButton = false }
-        } else {
-            // 设置城市
-            city.text = saveCity + saveTown
-            if globalUser?.city != city.text { saveButton = true }
-            else { saveButton = false }
-        }
-        shadeViewClick(cancleButton)
-    }
-
-    
-    /// 保存用户信息
-    func saveUserInfo(btn: UIButton) {
-        if btn.selected == false { return }
-        
-        iconView.image?.scaleImage(200)
-        let imageData = UIImagePNGRepresentation(iconView.image!) ?? NSData()
-        var sex: Int?
-        if gender.text == "男" {
-            sex = 0
-        } else if gender.text == "女" {
-            sex = 1
-        } else {
-            sex = 2
-        }
-
-        UserLogin.sharedInstance.uploadUserInfo(imageData, sex: sex!, nick_name: nickName.text, city: city.text, handler: { (result, error) -> Void in
+        LoginView.sharedLoginView.doAfterLogin { (result, error) -> () in
             if error == nil {
-                print(result)
-                SVProgressHUD.showInfoWithStatus("保存成功")
-                UserLogin.sharedInstance.loadAccount()
-                self.saveButton = false
-            } else {
-                SVProgressHUD.showInfoWithStatus("保存失败")
+                if result == true {
+                    self.isLoginStatus = true
+                }
+                return
             }
-        })
-        self.tableView.reloadData()
+            ProgressHUD.showErrorHUD(self.view, text: "登陆失败")
+        }
     }
     
     /// 获取缓存大小
@@ -578,4 +284,24 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         }
     }
     
+    ///  退出登陆
+    func exitLoginAction() {
+        
+        let alertController = UIAlertController(title: "", message: "确认退出登录", preferredStyle: .ActionSheet)
+        let actionTrue      = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+        let actionCanale    = UIAlertAction(title: "确定", style: .Default, handler: { [weak self] (alter) -> Void in
+            UserLogin.sharedInstance.exit()
+            // 将页面返回到首页
+            if let vc = self?.parentViewController?.parentViewController as? SlideMenuViewController {
+                vc.curVCType = RecommendViewController.self
+            }
+        })
+        alertController.addAction(actionCanale)
+        alertController.addAction(actionTrue)
+        alertController.modalPresentationStyle = .Popover
+        alertController.popoverPresentationController?.sourceView = view
+        alertController.popoverPresentationController?.sourceRect = CGRectMake(0, view.bounds.height - 180, view.bounds.width, 180)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
 }
+

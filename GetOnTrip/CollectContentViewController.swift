@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 import MJRefresh
 
 let CollectContentVideoCellIdentifier = "CollectContentVideoCell"
@@ -25,9 +24,9 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
     var collectContent = [CollectContent]() {
         didSet {
             if collectContent.count == 0 {
-                collectPrompt.hidden = true
-            } else {
                 collectPrompt.hidden = false
+            } else {
+                collectPrompt.hidden = true
             }
             tableView.reloadData()
         }
@@ -38,15 +37,17 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         super.viewDidLoad()
     
         initProperty()
-        initRefresh()
+        if globalUser != nil {
+            initRefresh()
+        }
     }
     
     private func initProperty() {
         
         tableView?.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: tableView!, size: nil, offset: CGPointMake(0, 135))
-        collectPrompt.textAlignment = NSTextAlignment.Center
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        collectPrompt.ff_AlignInner(.TopCenter, referView: tableView!, size: nil, offset: CGPointMake(0, 135))
+        collectPrompt.textAlignment = .Center
+        tableView.separatorStyle = .None
         collectPrompt.hidden = true
         
         tableView.backgroundColor = UIColor.clearColor()
@@ -59,7 +60,7 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         //上拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
         tbHeaderView.automaticallyChangeAlpha = true
-        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        tbHeaderView.activityIndicatorViewStyle = .Gray
         tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
         tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
@@ -72,7 +73,7 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
         tbFooterView.automaticallyRefresh = true
         tbFooterView.automaticallyChangeAlpha = true
-        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbFooterView.activityIndicatorViewStyle = .White
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
@@ -180,7 +181,7 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: "您的网络不给力!")
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return

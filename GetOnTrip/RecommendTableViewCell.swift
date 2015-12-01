@@ -96,14 +96,14 @@ class RecommendTableViewCell: UITableViewCell {
     }
     
     private func setupAutoLayout() {
-        //iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
-        cellImageView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight-2), offset: CGPointMake(0, 2))
-        title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
-        shade.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 26), offset: CGPointMake(0, 0))
-        btn1.ff_AlignInner(ff_AlignType.CenterCenter, referView: shade, size: nil, offset: CGPointMake(-80, 0))
-        btn2.ff_AlignInner(ff_AlignType.CenterCenter, referView: shade, size: nil, offset: CGPointMake(0, 0))
-        btn3.ff_AlignInner(ff_AlignType.CenterCenter, referView: shade, size: nil, offset: CGPointMake(80, 0))
-        titleBackgroud.ff_AlignInner(ff_AlignType.CenterCenter, referView: title, size: CGSizeMake(title.bounds.width, title.bounds.height), offset: CGPointMake(0, 0))
+        //iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
+        cellImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight-2), offset: CGPointMake(0, 2))
+        title.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
+        shade.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 26), offset: CGPointMake(0, 0))
+        btn1.ff_AlignInner(.CenterCenter, referView: shade, size: nil, offset: CGPointMake(-80, 0))
+        btn2.ff_AlignInner(.CenterCenter, referView: shade, size: nil, offset: CGPointMake(0, 0))
+        btn3.ff_AlignInner(.CenterCenter, referView: shade, size: nil, offset: CGPointMake(80, 0))
+        titleBackgroud.ff_AlignInner(.CenterCenter, referView: title, size: CGSizeMake(title.bounds.width, title.bounds.height), offset: CGPointMake(0, 0))
     }
 
     required init?(coder aDecoder: NSCoder) {

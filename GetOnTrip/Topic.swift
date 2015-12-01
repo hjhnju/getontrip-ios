@@ -64,6 +64,13 @@ class Topic: NSObject {
     /// 当前用户是否已收藏
     var collected: String = ""
     
+    /// 是否点过赞
+    var praised: String = ""
+    /// 点赞数量
+    var praiseNum: String = ""
+    
+    var arrsight = [[String : String]]()
+    
     override init(){
         
     }
@@ -80,6 +87,15 @@ class Topic: NSObject {
         if dict["tags"] != nil {
             let lab = dict["tags"] as? NSArray
             tagname = (lab?.firstObject as? String) ?? ""
+        }
+        print(dict["arrsights"])
+        if dict["arrsights"] != nil {
+            if let dict = dict["arrsights"] {
+                for item in dict as? [[String : String]] ?? [[String : String]]() {
+                    arrsight.append(item)
+                }
+            }
+           
         }
     }
 

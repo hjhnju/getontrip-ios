@@ -28,6 +28,7 @@ class UserInfoRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/getinfo", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
+
                 if result != nil {
                     if let resu = result.dictionaryObject {
                         handler(user: UserInfo(dict: resu), status: status)

@@ -60,18 +60,18 @@ class BookCell: UITableViewCell {
         subtitleLabel.preferredMaxLayoutWidth = w
         titleLabel.numberOfLines              = 2
         subtitleLabel.numberOfLines           = 0
-        iconView.contentMode                  = UIViewContentMode.ScaleAspectFill
+        iconView.contentMode                  = .ScaleAspectFill
         iconView.clipsToBounds                = true
     }
     
     private func setupAutoLayout() {
         
-        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(115, 145), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        let cons = subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 115 - 18 - 7, 80), offset: CGPointMake(0, 12))
-        subtitleHeight = subtitleLabel.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
-        author.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
+        iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(115, 145), offset: CGPointMake(9, 0))
+        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        let cons = subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 115 - 18 - 7, 80), offset: CGPointMake(0, 12))
+        subtitleHeight = subtitleLabel.ff_Constraint(cons, attribute: .Height)
+        author.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        baseLine.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

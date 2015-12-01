@@ -41,7 +41,7 @@ class CollectContentBookCell: BaseTableViewCell {
 
     
     // 父类给子类需要重写的方法，在此方法中添加想添加的属性及方法
-    override func overrideAfterAction() {
+    override func overrideBeforeAction() {
         initView()
     }
     

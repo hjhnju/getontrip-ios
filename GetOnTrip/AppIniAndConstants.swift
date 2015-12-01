@@ -36,6 +36,7 @@ struct SceneColor {
     static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
     /// 浅黄
     static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
+    static let darkYellows = UIColor(hex: 0xF3FC51, alpha: 1.0)
     
     /** 
     黑色系列
@@ -57,6 +58,7 @@ struct SceneColor {
     static let lightgrey   = UIColor(hex: 0xB8B8B8, alpha: 1.0)
     static let darkgray    = UIColor(hex: 0x5D5D5D, alpha: 0.5)
     static let lightGrayEM = UIColor(hex: 0x474747, alpha: 1.0)
+    static let lightgrayCM = UIColor(hex: 0xA6A6A6, alpha: 0.2)
     
     /**
     白色系列
@@ -91,4 +93,9 @@ struct MessageInfo {
 /// 正则抓取包含字母和数字
 struct Regular {
     static let letterAndNum = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@."
+}
+
+/// 字体
+struct Font {
+    static let defaultFont = "PingFangTC-Light"
 }

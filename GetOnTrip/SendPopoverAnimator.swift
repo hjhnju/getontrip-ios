@@ -10,13 +10,12 @@ import UIKit
 
 class SendPresentationController: UIPresentationController {
     /// 展现视图的 frame
-    var presentFrame = CGRectMake(UIScreen.mainScreen().bounds.width - 28, UIScreen.mainScreen().bounds.height - 44, 0, 0)
+    var presentFrame = CGRectZero
     
     /// 遮罩视图
     lazy var dummyView: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor(white: 0.0, alpha: 0.2)
-        
+        v.backgroundColor = UIColor(hex: 0x1B1B1B, alpha: 0.7)
         let tap = UITapGestureRecognizer(target: self, action: "close")
         v.addGestureRecognizer(tap)
         
@@ -36,7 +35,7 @@ class SendPresentationController: UIPresentationController {
         super.containerViewWillLayoutSubviews()
         
         // 添加并且设置 dummyView
-        dummyView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
+        dummyView.frame = UIScreen.mainScreen().bounds
         containerView?.insertSubview(dummyView, atIndex: 0)
         
         // 设置视图大小
@@ -47,7 +46,7 @@ class SendPresentationController: UIPresentationController {
 class SendPopoverAnimator: NSObject, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
             
         /// 展现视图的大小
-        var presentFrame = CGRectMake(UIScreen.mainScreen().bounds.width - 28, UIScreen.mainScreen().bounds.height - 44, 0, 0)
+        var presentFrame = CGRectZero
         
         /// 是否展现的标记
         var isPresented = false
@@ -95,7 +94,7 @@ class SendPopoverAnimator: NSObject, UIViewControllerTransitioningDelegate, UIVi
                 toView.transform = CGAffineTransformMakeScale(1.0, 0)
                 toView.layer.anchorPoint = CGPoint(x: -1, y: 1)
                 
-                UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
                     
                     toView.transform = CGAffineTransformIdentity
                     
@@ -104,12 +103,13 @@ class SendPopoverAnimator: NSObject, UIViewControllerTransitioningDelegate, UIVi
                         transitionContext.completeTransition(true)
                 })
             } else {
+                
                 // 1. 取消 － fromView 删除
                 let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
                 
                 UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
-//                    fromView.transform = CGAffineTransformMakeScale(1.0, 0.0001)
-//                    fromView.transform = CGAffineTransformMakeTranslation(0.5, 0.5)
+                    fromView.transform = CGAffineTransformMakeScale(1.0, 0.0001)
+                    
                     }, completion: { (_) -> Void in
                         
                         fromView.removeFromSuperview()

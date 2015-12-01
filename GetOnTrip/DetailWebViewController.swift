@@ -9,7 +9,6 @@
 import UIKit
 import WebKit
 import FFAutoLayout
-import SVProgressHUD
 
 class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrollViewDelegate {
     
@@ -30,7 +29,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
     
     /// 分享view
     lazy var shareView: ShareView = ShareView()
-    
+        
     // MARK: - 初始化控件
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,10 +55,10 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.setBlurViewEffect(false)
         navBar.backgroundColor = SceneColor.frontBlack
-        navBar.rightButton.setImage(UIImage(named: "topic_star"), forState: .Normal)
+        navBar.rightButton.setImage(UIImage(named: "bar_collect"), forState: .Normal)
         navBar.rightButton.setImage(UIImage(named: "bar_collect_select"), forState: .Selected)
         navBar.rightButton.addTarget(self, action: "collectVideoAction:", forControlEvents: .TouchUpInside)
-        navBar.rightButton2.setImage(UIImage(named: "topic_share"), forState: .Normal)
+        navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Normal)
         navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Selected)
         navBar.rightButton2.addTarget(self, action: "shareVideoAction:", forControlEvents: .TouchUpInside)
         navBar.rightButton.selected  = video?.collected == "1" ? true  : false
@@ -130,9 +129,11 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         loadingView.stop()
     }
     
-    // MARK: - scrollview delegate
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         shareView.shareCancleAction()
+    }
+    
+    func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView?) {
     }
     
     // MARK: - 自定义方法
@@ -142,11 +143,10 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         if sender.selected {
             let videoImageView = UIImageView()
             videoImageView.sd_setImageWithURL(NSURL(string: video?.image ?? ""))
-            shareView.showShareAction(self.view, url: video?.url, images: videoImageView.image, title: video?.title, subtitle: nil)            
+            shareView.showShareAction(self.view, url: video?.url, images: videoImageView.image, title: video?.title, subtitle: nil)
         } else {
             shareView.shareCancleAction()
         }
-        
     }
     
     /// 收藏视频方法
@@ -160,10 +160,10 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试")
                 sender.selected = !sender.selected
             }
         }

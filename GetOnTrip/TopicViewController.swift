@@ -1,4 +1,3 @@
-
 //
 //  TopicViewController.swift
 //  GetOnTrip
@@ -9,13 +8,12 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 import WebKit
 
 struct TopicViewContant {
     static let headerViewHeight:CGFloat = 267
     static let toolBarHeight:CGFloat    = 47
-    static let commentViewHeight:CGFloat = UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.height / 1.6 - 44
+    static let commentViewHeight:CGFloat = UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.height * 0.72 - 44
 }
 
 class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigationDelegate {
@@ -51,17 +49,17 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     //底部工具栏
     lazy var toolbarView      = UIView()
     
-    /// 评论显示多少条
-    lazy var commentNumLabel  = UILabel(color: UIColor(hex: 0x9C9C9C, alpha: 1.0), title: "", fontSize: 11, mutiLines: true)
+    /// 点赞按钮
+    lazy var praisedBUtton   = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
     
     /// 底部评论按钮
-    lazy var commentBotton    = UIButton(image: "topic_comment", title: "", fontSize: 0)
+    lazy var commentBotton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: SceneColor.lightYellow)
 
     /// 底部分享按钮
     lazy var shareBotton      = UIButton(image: "topic_share", title: "", fontSize: 0)
     
     /// 底部收藏按钮
-    lazy var collectBotton    = UIButton(image: "topic_star", title: "", fontSize: 0)
+    lazy var collectBotton    = UIButton(image: "topic_star", title: "", fontSize: 0, titleColor: SceneColor.lightYellow)
     
     /// 底部线
     lazy var bottomLineView   = UIView(color: SceneColor.lightGray)
@@ -106,15 +104,17 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 labelButton.setTitle("  " + topic.tagname + "  ", forState: .Normal)
                 favNumLabel.setTitle(" " + topic.collect, forState: .Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: .Normal)
+                commentBotton.setTitle(topic.commentNum, forState: .Normal)
+                praisedBUtton.setTitle(" " + topic.praiseNum, forState: .Normal)
                 
                 collectBotton.selected = topic.collected == "" ? false : true
+                praisedBUtton.selected = topic.praised == "" ? false : true
                 commentVC.topicId      = topic.id
-                commentNumLabel.text   = topic.comment
                 labelButton.hidden     = false
                 favNumLabel.hidden     = false
                 visitNumLabel.hidden   = false
                 
-                if !topic.isInSomeSight() {
+                if topicDataSource?.arrsight.count == 0 {
                     navBar.rightButton.hidden = true
                 }
 
@@ -148,7 +148,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerView.addSubview(labelButton)
         headerView.addSubview(favNumLabel)
         headerView.addSubview(visitNumLabel)
-        toolbarView.addSubview(commentNumLabel)
+        toolbarView.addSubview(praisedBUtton)
         toolbarView.addSubview(commentBotton)
         toolbarView.addSubview(shareBotton)
         toolbarView.addSubview(collectBotton)
@@ -159,6 +159,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         view.addSubview(commentVC.view)
         commentVC.view.hidden = true
         addChildViewController(commentVC)
+        praisedBUtton.setImage(UIImage(named: "dotLike_no"), forState: .Normal)
+        praisedBUtton.setImage(UIImage(named: "dotLike_yes"), forState: .Selected)
         
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
@@ -172,6 +174,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         collectBotton.addTarget(self, action: "doFavorite:", forControlEvents: .TouchUpInside)
         commentBotton.addTarget(self, action: "doComment:", forControlEvents: .TouchUpInside)
         coverButton  .addTarget(self, action: "coverClick:", forControlEvents: .TouchUpInside)
+        praisedBUtton.addTarget(self, action: "praisedAction:", forControlEvents: .TouchUpInside)
         
         headerTitleLabel.numberOfLines = 2
         headerTitleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
@@ -186,6 +189,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     private func initNavBar() {
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "bar_sight"), title: nil, target: self, action: "sightAction:")
+        
         navBar.setButtonTintColor(SceneColor.frontBlack)
         navBar.setStatusBarHidden(true)
     }
@@ -227,7 +231,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
         
         //toolbar views
-        commentNumLabel.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
+        praisedBUtton.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
         commentBotton .ff_AlignInner(.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
         shareBotton   .ff_AlignHorizontal(.CenterLeft, referView: commentBotton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         collectBotton .ff_AlignHorizontal(.CenterLeft, referView: shareBotton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
@@ -337,7 +341,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                     self?.topicDataSource = topic
                 }
             } else {
-                SVProgressHUD.showErrorWithStatus("网络无法连接")
+                ProgressHUD.showErrorHUD(self?.view, text: "网络无法连接")
             }
             })
         loadingView.start()
@@ -355,10 +359,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                     if result == nil {
                         sender.selected = !sender.selected
                     } else {
-                        SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                        ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                     }
                 } else {
-                    SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                    ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
                     sender.selected = !sender.selected
                 }
             }
@@ -382,7 +386,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         coverButton.frame = UIScreen.mainScreen().bounds
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, UIScreen.mainScreen().bounds.height / 1.6)
+            self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, UIScreen.mainScreen().bounds.height * 0.72)
             self.coverButton.alpha = 0.7
             }) { (_) -> Void in
         }
@@ -403,12 +407,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         }
     }
     
-    ///  搜索跳入之后消失控制器
-    func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    
     /// 当键盘弹出的时候，执行相关操作
     func keyboardChanged(not: NSNotification) {
 
@@ -418,28 +416,88 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
 
         let bound = UIScreen.mainScreen().bounds
         if transFromValue == 0{
-            self.commentVC.view.frame = CGRectMake(0, bound.height - (bound.height / 1.6) - 44, view.bounds.width, bound.height / 1.6)
-            self.commentVC.tableViewConH?.constant = bound.height / 1.6 - 91
+            self.commentVC.view.frame = CGRectMake(0, bound.height - (bound.height * 0.72) - 44, view.bounds.width, bound.height * 0.72)
+            self.commentVC.tableViewConH?.constant = bound.height * 0.72 - 88
             self.commentVC.tableView.layoutIfNeeded()
         } else {
             self.commentVC.view.frame = CGRectMake(0, 44, view.bounds.width, bound.height - keyBoardFrame!.height - 44)
-            self.commentVC.tableViewConH?.constant = bound.height - keyBoardFrame!.height - 44
+            self.commentVC.tableViewConH?.constant = bound.height - keyBoardFrame!.height - 44 - 88
             if self.commentVC.reloadIndexPath.row != 0 {
                 self.commentVC.tableView.scrollToRowAtIndexPath(self.commentVC.reloadIndexPath, atScrollPosition: .Middle, animated: true)
             }
             self.commentVC.tableView.layoutIfNeeded()
         }
-        
+    }
+    
+    /// 点赞方法
+    func praisedAction(sender: UIButton) {
+        sender.selected = !sender.selected
+        if let topic = topicDataSource {
+            let type  = PraisedContant.TypeTopic
+            let objid = topic.id
+            Praised.praised(type, objid: objid, isFavorite: sender.selected, handler: { (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if result == "-1" {
+                        sender.selected = !sender.selected
+                    } else {
+                        ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已点赞" : "已取消")
+                    }
+                } else {
+                    if status == RetCode.praised {
+                        ProgressHUD.showErrorHUD(nil, text: "您已点过赞")
+                        sender.selected = true
+                    } else {
+                        ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
+                        sender.selected = !sender.selected
+                    }
+                }
+            })
+        }
     }
     
     /// 跳至景点页
+    let sendPopoverAnimator = SendPopoverAnimator()
     func sightAction(sender: UIButton) {
-        if let topic = self.topicDataSource {
+        
+        // 如果是从景点的页面跳进去，并且，只有一个景点可去，点跳入景点就相当于返回
+        let nav = parentViewController as? UINavigationController
+        
+        for item in nav?.viewControllers ?? [UIViewController()] {
+            if item.isKindOfClass(NSClassFromString("GetOnTrip.SightViewController")!) && topicDataSource?.arrsight.count == 1 {
+                navigationController?.popViewControllerAnimated(true)
+                return
+            }
+        }
+        
+        // 如果只有一个景点就直接跳转
+        if topicDataSource?.arrsight.count == 1 {
             let sightViewController = SightViewController()
-            let sight: Sight = Sight(id: topic.sightid)
-            sight.name = topic.sight
+            let sight: Sight = Sight(id: topicDataSource?.sightid ?? "")
+            sight.name = topicDataSource?.sight ?? ""
             sightViewController.sightDataSource = sight
             navigationController?.pushViewController(sightViewController, animated: true)
+            return
         }
+        
+        // 其他情况如果有多个景点可去的情况
+        let vc = TopicEnterSightController()
+        vc.nav = navigationController
+        vc.dataSource = topicDataSource?.arrsight
+        // 1. 设置`转场 transitioning`代理
+        vc.transitioningDelegate = sendPopoverAnimator
+        // 2. 设置视图的展现大小
+        let screen = UIScreen.mainScreen().bounds
+        var h: CGFloat = 5 * 53 + 120
+        if topicDataSource?.arrsight.count < 5 && topicDataSource?.arrsight.count >= 2 {
+            h -= CGFloat((5 - Int(topicDataSource?.arrsight.count ?? 0)) * 53)
+        }
+        let w: CGFloat = screen.width * 0.63
+        let x: CGFloat = (screen.width - w) * 0.5
+        let y: CGFloat = screen.height * 0.27
+        sendPopoverAnimator.presentFrame = CGRectMake(x, y, w, h)
+        vc.view.clipsToBounds = true
+        // 3. 设置专场的模式 - 自定义转场动画
+        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+        presentViewController(vc, animated: true, completion: nil)
     }
 }

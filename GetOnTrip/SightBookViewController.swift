@@ -8,7 +8,6 @@
 
 import UIKit
 import MJRefresh
-import SVProgressHUD
 
 public let HistoryTableViewControllerBookCell : String = "Book_Cell"
 
@@ -73,7 +72,7 @@ class SightBookViewController: UITableViewController {
         self.isLoading = true
         lastRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
             if status != RetCode.SUCCESS {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力!")
             }
             //处理数据
             if let data = dataSource {

@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
 struct SearchResultContant {
     static let NormalCellHeight:CGFloat = 61
@@ -98,7 +97,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     }
     
     private func setupAutoLayout() {
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 64 + 28))
+        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 64 + 28))
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -377,7 +376,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                     }
                     self.tableView.reloadData()
                 } else {
-                    SVProgressHUD.showInfoWithStatus("网络连接失败")
+                    ProgressHUD.showErrorHUD(self.view, text: "网络连接失败")
                 }
             }
         } else {
@@ -391,7 +390,7 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
                         }
                     }
                 } else {
-                    SVProgressHUD.showInfoWithStatus("网络连接失败")
+                    ProgressHUD.showErrorHUD(self.view, text: "网络连接失败")
                 }
             }
         }

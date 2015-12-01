@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 import WebKit
 
 struct BookViewContant {
@@ -208,16 +207,9 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         webView.scrollView.showsVerticalScrollIndicator   = true
         webView.navigationDelegate  = self
         webView.scrollView.scrollEnabled = true
-        webView.backgroundColor = UIColor.randomColor()
+        // webView.backgroundColor = UIColor.randomColor()
         webView.opaque = false
         webView.sizeToFit()
-        
-//        webView.scrollView.contentInset = UIEdgeInsetsMake(BookViewContant.headerViewHeight, 0, 0, 0)
-
-        //webView.scrollView.contentSize = CGSizeMake(view.bounds.width, view.bounds.height - BookViewContant.headerViewHeight)
-//
-        //webView.sizeThatFits(CGSizeZero)
-        //webView.sizeToFit()
         
         //允许手势，后退前进等操作
         //webView.allowsBackForwardNavigationGestures = true
@@ -232,20 +224,20 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         
         let headerImageViewCons = headerImageView.ff_AlignInner(.TopLeft, referView: webView, size: CGSizeMake(view.bounds.width, BookViewContant.headerImageViewHeight))
         blurView.ff_Fill(headerImageView)
-        bookImageView.ff_AlignInner(ff_AlignType.CenterCenter, referView: headerImageView, size: CGSizeMake(142, 181), offset: CGPointMake(0, (BookViewContant.headerImageViewHeight-BookViewContant.bookViewHeight)/2 - 11))
-        titleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: headerImageView, size: nil, offset: CGPointMake(10, 17))
-        authorLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 6))
-        headerLineView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: authorLabel, size: CGSizeMake(w - 18, 0.5), offset: CGPointMake(0, 17))
+        bookImageView.ff_AlignInner(.CenterCenter, referView: headerImageView, size: CGSizeMake(142, 181), offset: CGPointMake(0, (BookViewContant.headerImageViewHeight-BookViewContant.bookViewHeight)/2 - 11))
+        titleLabel.ff_AlignVertical(.BottomLeft, referView: headerImageView, size: nil, offset: CGPointMake(10, 17))
+        authorLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 6))
+        headerLineView.ff_AlignVertical(.BottomLeft, referView: authorLabel, size: CGSizeMake(w - 18, 0.5), offset: CGPointMake(0, 17))
         
-        toolbarView.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, BookViewContant.toolBarHeight), offset: CGPointMake(0, 0))
+        toolbarView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, BookViewContant.toolBarHeight), offset: CGPointMake(0, 0))
         
-        shareBtn.ff_AlignInner(ff_AlignType.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
-        collectBtn.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
-        toolLineView.ff_AlignInner(ff_AlignType.TopLeft, referView: toolbarView, size: CGSizeMake(w, 0.5), offset: CGPointMake(0, 0))
+        shareBtn.ff_AlignInner(.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
+        collectBtn.ff_AlignHorizontal(.CenterLeft, referView: shareBtn, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
+        toolLineView.ff_AlignInner(.TopLeft, referView: toolbarView, size: CGSizeMake(w, 0.5), offset: CGPointMake(0, 0))
         
         /// headerView的顶部约束
-        headerViewHeightConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: NSLayoutAttribute.Height)
-        headerViewTopConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: NSLayoutAttribute.Top)
+        headerViewHeightConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: .Height)
+        headerViewTopConstraint = headerImageView.ff_Constraint(headerImageViewCons, attribute: .Top)
         
         
         loadingView.ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height + BookViewContant.headerViewHeight)/2 - 2*TopicViewContant.toolBarHeight))
@@ -365,7 +357,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
             if status == RetCode.SUCCESS {
                 self.bookDataSource = data
             } else {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力!")
             }
         }
     }
@@ -381,10 +373,10 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
                 sender.selected = !sender.selected
             }
         }
@@ -396,10 +388,5 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
             shareView.showShareAction(view, url: book.shareurl, images: bookImageView.image, title: book.title, subtitle: book.content_desc)
         }
 
-    }
-
-    /// 搜索跳入之后消失控制器
-    func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -29,14 +29,14 @@ class BaseCollectionCell: UICollectionViewCell {
         addSubview(title)
         addSubview(desc)
         
-        icon.contentMode   = UIViewContentMode.ScaleAspectFill
-        icon.clipsToBounds = true
+        icon .contentMode   = .ScaleAspectFill
+        icon .clipsToBounds = true
         title.adjustsFontSizeToFitWidth = true
-        title.textAlignment = NSTextAlignment.Center
-        icon.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
-        shade.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: bounds.size)
-        desc.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -5))
-        title.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: CGSizeMake(bounds.width, 16), offset: CGPointMake(0, 0))
+        title.textAlignment = .Center
+        icon .ff_AlignInner(.CenterCenter, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
+        shade.ff_AlignInner(.CenterCenter, referView: self, size: bounds.size)
+        desc .ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -5))
+        title.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(bounds.width, 16), offset: CGPointMake(0, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {

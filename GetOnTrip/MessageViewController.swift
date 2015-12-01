@@ -9,7 +9,6 @@
 import UIKit
 import FFAutoLayout
 import MJRefresh
-import SVProgressHUD
 
 class MessageViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate{
     
@@ -37,7 +36,9 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         initProperty()
-        initRefresh()
+        if globalUser != nil {
+            initRefresh()
+        }
     }
     
     private func initProperty() {
@@ -50,18 +51,17 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         view.addSubview(collectPrompt)
     
         tableView.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
+        collectPrompt.ff_AlignInner(.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = NSTextAlignment.Center
         collectPrompt.hidden = true
         
         tableView.backgroundColor = UIColor.whiteColor()
-        tableView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
+        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.registerClass(MessageTableViewCell.self, forCellReuseIdentifier: "Message_Cell")
         tableView.registerClass(SystemTableViewCell.self, forCellReuseIdentifier: "SystemTableView_Cell")
-//        loadFeedBackHistory()
     }
     
     private func initRefresh() {
@@ -93,17 +93,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
             tableView.mj_header.beginRefreshing()
         }
     }
-    
-    // MARK: - 加载更新数据
-    /// 加载反馈历史消息(都是提问的问题)
-//    private func loadFeedBackHistory() {
-//        
-//        
-//        lastRequest.fetchFeedBackModels {(handler: [MessageList]) -> Void in
-//            self.messageLists = handler
-//            self.tableView.reloadData()
-//        }
-//    }
 
     // MARK: - Table view data source
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -160,11 +149,27 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
             let topic = Topic(id: data.topicId)
             vc.topicDataSource = topic
             navigationController?.pushViewController(vc, animated: true)
-//            vc.doComment(vc.commentButton)
         }
     }
     
-    
+    // 删除方法
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle != UITableViewCellEditingStyle.Delete { return }
+        
+        let msg = messageLists[indexPath.row]
+        MessageListRequest.deleteMessage(msg.mid) { (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                print(result)
+                self.messageLists.removeAtIndex(indexPath.row)
+                tableView.reloadData()
+                ProgressHUD.showErrorHUD(self.view, text: "删除成功")
+
+            } else {
+                ProgressHUD.showErrorHUD(self.view, text: "删除失败，请重新删除")
+            }
+        }
+        
+    }
     
     
     /// 是否正在加载中
@@ -184,7 +189,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         lastRequest.fetchFirstPageModels {[weak self] (data, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: "您的网络不给力！")
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
@@ -261,11 +266,11 @@ class MessageTableViewCell: UITableViewCell {
         
         iconView.clipsToBounds = true
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
-        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
-        restorePerson.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreTime.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 57), offset: CGPointMake(-9, 0))
-        baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
+        restorePerson.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        restoreTime.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        restoreImageView.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(77, 57), offset: CGPointMake(-9, 0))
+        baseline.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -354,13 +359,13 @@ class SystemTableViewCell: UITableViewCell {
         iconView.clipsToBounds = true
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
         
-        iconView.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(10, 19))
-        restorePerson.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreTime.ff_AlignHorizontal(ff_AlignType.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(-9, 0))
-        title.ff_AlignHorizontal(ff_AlignType.TopRight, referView: restorePerson, size: nil, offset: CGPointMake(15, 0))
-        subTitle.ff_AlignVertical(ff_AlignType.BottomLeft, referView: title, size: nil, offset: CGPointMake(0, 8))
-        baseline.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(10, 19))
+        restorePerson.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        restoreTime.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
+        restoreImageView.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(-9, 0))
+        title.ff_AlignHorizontal(.TopRight, referView: restorePerson, size: nil, offset: CGPointMake(15, 0))
+        subTitle.ff_AlignVertical(.BottomLeft, referView: title, size: nil, offset: CGPointMake(0, 8))
+        baseline.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -8,10 +8,8 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
-
-class LoginViewController: MainViewController, UITextFieldDelegate {
+class LoginViewController: MainViewController {
     
     // MARK: - 属性
     
@@ -99,8 +97,6 @@ class LoginViewController: MainViewController, UITextFieldDelegate {
         
         cancleButton.backgroundColor = SceneColor.lightgrey
         loginButton.backgroundColor  = SceneColor.lightblue
-        emailTextField.delegate      = self
-        passwordTextField.delegate   = self
         welcomeLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 44)
         passwordEyeButton.addTarget(self, action: "passwordEyeButton:", forControlEvents: .TouchUpInside)
         retrievePwButton.addTarget(self, action: "retrievePasswordAction", forControlEvents: .TouchUpInside)
@@ -111,49 +107,37 @@ class LoginViewController: MainViewController, UITextFieldDelegate {
         weiboButton .addTarget(self, action: "weiboLogin", forControlEvents: .TouchUpInside)
         qqButton    .addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
         exitButton  .addTarget(self, action: "exitButtonAction", forControlEvents: .TouchUpInside)
-        emailLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
-        passwLabel.font = UIFont(name: "PingFangTC-Light", size: 18)
-        loginButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
-        cancleButton.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18)
+        emailLabel.font = UIFont(name: Font.defaultFont, size: 18)
+        passwLabel.font = UIFont(name: Font.defaultFont, size: 18)
+        loginButton.titleLabel?.font = UIFont(name: Font.defaultFont, size: 18)
+        cancleButton.titleLabel?.font = UIFont(name: Font.defaultFont, size: 18)
     }
     
     private func initTextField() {
         let size = emailLabel.text?.sizeofStringWithFount1(UIFont.systemFontOfSize(18), maxSize: CGSizeMake(CGFloat.max, CGFloat.max))
-        emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
-        emailTextField.autocorrectionType  = UITextAutocorrectionType.No
-        emailTextField.autocapitalizationType = UITextAutocapitalizationType.None
-        emailTextField.returnKeyType       = UIReturnKeyType.Done
-        emailTextField.clearButtonMode     = UITextFieldViewMode.WhileEditing
+        emailTextField.borderStyle         = .RoundedRect
+        emailTextField.autocorrectionType  = .No
+        emailTextField.autocapitalizationType = .None
+        emailTextField.returnKeyType       = .Done
+        emailTextField.clearButtonMode     = .WhileEditing
         emailTextField.leftView            = emailLabel
-        emailTextField.leftViewMode        = UITextFieldViewMode.Always
+        emailTextField.leftViewMode        = .Always
         emailLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
-        emailTextField.keyboardType        = UIKeyboardType.URL
+        emailTextField.keyboardType        = .URL
 
-        passwordTextField.borderStyle      = UITextBorderStyle.RoundedRect
-        passwordTextField.keyboardAppearance = UIKeyboardAppearance.Alert
+        passwordTextField.borderStyle      = .RoundedRect
+        passwordTextField.keyboardAppearance = .Alert
         passwordTextField.leftView         = passwLabel
-        passwordTextField.leftViewMode     = UITextFieldViewMode.Always
-        passwordTextField.autocorrectionType = UITextAutocorrectionType.No
-        passwordTextField.returnKeyType    = UIReturnKeyType.Done
-        passwordTextField.clearButtonMode  = UITextFieldViewMode.WhileEditing
+        passwordTextField.leftViewMode     = .Always
+        passwordTextField.autocorrectionType = .No
+        passwordTextField.returnKeyType    = .Done
+        passwordTextField.clearButtonMode  = .WhileEditing
         passwordTextField.rightView        = passwordEyeButton
-        passwordTextField.rightViewMode    = UITextFieldViewMode.Always
+        passwordTextField.rightViewMode    = .Always
         passwordTextField.secureTextEntry  = true
         passwLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
         passwordEyeButton.alpha            = 0.3
         passwordEyeButton.bounds           = CGRectMake(0, 0, 36, 11)
-    }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        let cs = NSCharacterSet(charactersInString: Regular.letterAndNum).invertedSet
-        let filtered = string.componentsSeparatedByCharactersInSet(cs).joinWithSeparator("")
-        // 是否包含中文
-        let isContainChinese: Bool = (string == filtered)
-        if !isContainChinese {
-            SVProgressHUD.showInfoWithStatus("格式错误\n请重新输入")
-        }
-        return isContainChinese
     }
     
     private func initAutoLayout() {
@@ -190,35 +174,35 @@ class LoginViewController: MainViewController, UITextFieldDelegate {
     
     //微信登陆
     func wechatLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin) { (result, error) -> () in
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: { (result, error) -> () in
             self.loginResultDispose(result, error: error)
-        }
+            }, handler: nil)
     }
     
     //qq登陆
     func qqLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.QQ) { (result, error) -> () in
+        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: { (result, error) -> () in
             self.loginResultDispose(result, error: error)
-        }
+            }, handler: nil)
     }
     
     //新浪微博登陆
     func weiboLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo) { (result, error) -> () in
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: { (result, error) -> () in
             self.loginResultDispose(result, error: error)
-        }
+            }, handler: nil)
     }
     
     /// 登陆后的处理
     private func loginResultDispose(result: Bool, error: NSError?) {
         if error != nil {
-            SVProgressHUD.showWithStatus("您的网络链接不稳定，请稍候登录")
+            ProgressHUD.showErrorHUD(self.view, text: "您的网络链接不稳定，请稍候登录")
             return
         } else {
             if result == true {
                 cancleAction()
             } else {
-                SVProgressHUD.showWithStatus("您的网络链接不稳定，请稍候登录")
+                ProgressHUD.showErrorHUD(self.view, text: "您的网络链接不稳定，请稍候登录")
             }
         }
     }
@@ -269,26 +253,26 @@ class LoginViewController: MainViewController, UITextFieldDelegate {
                                 }
                             }  else {
                                 if RetCode.getShowMsg(status) == "" {
-                                    SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                                    ProgressHUD.showErrorHUD(self.view, text: "登陆失败，请重新登陆")
                                 } else {
-                                    SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                                    ProgressHUD.showErrorHUD(self.view, text: (RetCode.getShowMsg(status)))
                                 }
                                 self.loginFinished?(result: false, error: nil)
                             }
                         })
                     } else {
                         if RetCode.getShowMsg(status) == "" {
-                            SVProgressHUD.showInfoWithStatus("登陆失败，请重新登陆")
+                            ProgressHUD.showErrorHUD(self.view, text: "登陆失败，请重新登陆")
                         } else {
-                            SVProgressHUD.showInfoWithStatus(RetCode.getShowMsg(status))
+                            ProgressHUD.showErrorHUD(self.view, text: (RetCode.getShowMsg(status)))
                         }
                     }
                 })
             } else {
-                SVProgressHUD.showInfoWithStatus("请输入6～20位字母、数字及常用符号组成")
+                ProgressHUD.showErrorHUD(self.view, text: "请输入6～20位字母、数字及常用符号组成")
             }
         } else {
-            SVProgressHUD.showInfoWithStatus("邮箱格式错误")
+            ProgressHUD.showErrorHUD(self.view, text: "邮箱格式错误")
         }
     }
 }

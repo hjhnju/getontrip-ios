@@ -126,8 +126,9 @@ class CollectContent: NSObject {
     init(dict: [String : AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
+        
         image = UIKitTools.sliceImageUrl(image, width: 120, height: 73)
-        if String(dict["type"]) == "5" {
+        if String(dict["type"]) == String(FavoriteContant.TypeBook) {
             image = UIKitTools.sliceImageUrl(image, width: 120, height: 91)
         }
     }

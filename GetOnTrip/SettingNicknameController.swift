@@ -8,13 +8,11 @@
 
 import UIKit
 
-class SettingNicknameController: MenuViewController {
-
-    lazy var newNickNameLabel = UILabel(color: UIColor(hex: 0x1C1C1C, alpha: 0.7), title: "新昵称", fontSize: 14, mutiLines: true)
+class SettingNicknameController: MenuViewController, UITableViewDataSource, UITableViewDelegate {
     
-    lazy var baseLineView     = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
+    lazy var tableView = UITableView()
     
-    lazy var userNameTextField = UITextField(alignment: NSTextAlignment.Left, sizeFout: 16, color: UIColor.blackColor())
+    lazy var userNameTextField = UITextField(alignment: .Left, sizeFout: 16, color: UIColor.blackColor())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,21 +24,22 @@ class SettingNicknameController: MenuViewController {
     }
     
     private func initView() {
-        view.backgroundColor = UIColor.whiteColor()
-        view.addSubview(newNickNameLabel)
-        view.addSubview(baseLineView)
-        view.addSubview(userNameTextField)
-        newNickNameLabel.ff_AlignInner(.TopLeft, referView: view, size: nil, offset: CGPointMake(9, 88))
-        baseLineView.ff_AlignVertical(.BottomLeft, referView: newNickNameLabel, size: CGSizeMake(view.bounds.width - 18, 0.5), offset: CGPointMake(0, 2))
-        userNameTextField.ff_AlignVertical(.BottomLeft, referView: newNickNameLabel, size: CGSizeMake(view.bounds.width - 18, 42), offset: CGPointMake(0, 0))
+        view.addSubview(tableView)
+        view.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
+        tableView.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
+        tableView.separatorStyle = .None
+        tableView.dataSource = self
+        tableView.delegate   = self
+        tableView.ff_AlignInner(.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 79))
     }
     
     private func initTextField() {
-        userNameTextField.borderStyle         = UITextBorderStyle.None
-        userNameTextField.autocorrectionType  = UITextAutocorrectionType.Default
-        userNameTextField.autocapitalizationType = UITextAutocapitalizationType.None
-        userNameTextField.returnKeyType       = UIReturnKeyType.Done
-        userNameTextField.clearButtonMode     = UITextFieldViewMode.Always
+        userNameTextField.backgroundColor     = .whiteColor()
+        userNameTextField.borderStyle         = .None
+        userNameTextField.autocorrectionType  = .Default
+        userNameTextField.autocapitalizationType = .None
+        userNameTextField.returnKeyType       = .Done
+        userNameTextField.clearButtonMode     = .Always
         userNameTextField.addTarget(self, action: "nickNameTextFieldTextDidChangeNotification:", forControlEvents: .EditingChanged)
     }
     
@@ -48,18 +47,41 @@ class SettingNicknameController: MenuViewController {
     private func setupBarButtonItem() {
         
         navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
-        navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserName")
+        navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserName:")
         navBar.rightButton.selected = false
         navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: .Normal)
         navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: .Selected)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         userNameTextField.becomeFirstResponder()
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.addSubview(userNameTextField)
+        userNameTextField.ff_AlignInner(.CenterCenter, referView: cell, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 52))
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 52
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 52
     }
     
     ///  昵称的文本改变时调用的通知
@@ -75,20 +97,27 @@ class SettingNicknameController: MenuViewController {
     }
     
     /// 保存用户名
-    func saveUserName() {
-        if navBar.rightButton.selected == false { return }
-        let vc = parentViewController as? UINavigationController ?? UINavigationController()
-        for vc in vc.viewControllers {
-            if vc.isKindOfClass(NSClassFromString("GetOnTrip.SettingViewController")!) {
-                if let vc = vc as? SettingViewController {
-                    vc.nickName.text = userNameTextField.text
-                    let btn = UIButton()
-                    btn.selected = true
-                    vc.saveUserInfo(btn)
+    func saveUserName(btn: UIButton) {
+        
+        if btn.selected == false { return }
+        ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在保存中", style: nil) { (handler) -> Void in
+            
+            UserLogin.sharedInstance.uploadUserInfo(nil, sex: nil, nick_name: self.userNameTextField.text) { (result, status) -> Void in
+                handler()
+                if status == RetCode.SUCCESS {
+                    UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
+                        if status == RetCode.SUCCESS {
+                            ProgressHUD.showSuccessHUD(nil, text: "保存成功")
+                            self.navBar.rightButton.selected = false
+                            self.navigationController?.popViewControllerAnimated(true)
+                            return
+                        }
+                        ProgressHUD.showErrorHUD(nil, text: "保存失败")
+                    })
+                } else {
+                    ProgressHUD.showErrorHUD(nil, text: RetCode.getShowUNE(status ?? 0))
                 }
             }
         }
-        navigationController?.popViewControllerAnimated(true)
     }
-    
 }

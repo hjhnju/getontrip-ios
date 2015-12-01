@@ -1,4 +1,3 @@
-
 //
 //  PhotoView.swift
 //  GetOnTrip
@@ -29,7 +28,7 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         imgPhoto.userInteractionEnabled = true
         imgPhoto.multipleTouchEnabled   = true
         imgPhoto.backgroundColor = UIColor.randomColor()
-        imgPhoto.ff_AlignInner(ff_AlignType.TopLeft, referView: self, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
+        imgPhoto.ff_AlignInner(.TopLeft, referView: self, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
         /// 旋转
         let rotation = UIRotationGestureRecognizer(target: self, action: "rotationGesture:")
         rotation.delegate = self
@@ -79,10 +78,8 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
                 }, completion: { (_) -> Void in
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
                         recognizer.view?.alpha = 1
-                        
                         let vc = self.viewcontroller() as? SwitchPhotoViewController
-                        vc?.saveImage = self.avatarSubtract(PhotoView.captureShotWithView(self))
-                        vc?.dismissViewControllerAnimated(true, completion: nil)
+                        vc?.trueAction()
                     })
             })
         }
@@ -98,9 +95,8 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         return image
     }
     
-    func savePhotoAction() {
-        let vc = self.viewcontroller() as? SwitchPhotoViewController
-        vc?.saveImage = self.avatarSubtract(PhotoView.captureShotWithView(self))
+    func savePhotoAction() -> UIImage{
+         return self.avatarSubtract(PhotoView.captureShotWithView(self))
     }
     
     func avatarSubtract(image: UIImage) -> UIImage {
@@ -150,6 +146,4 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         recognizer.view?.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)
         recognizer.rotation = 0
     }
-
-
 }

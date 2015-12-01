@@ -8,7 +8,6 @@
 
 import UIKit
 import MJRefresh
-import SVProgressHUD
 
 public let HistoryTableViewControllerElseCell : String = "History_Cell"
 
@@ -82,7 +81,7 @@ class SightTopicViewController: UITableViewController {
         self.isLoading = true
         lastRequest?.fetchFirstPageModels({ [weak self] (topics, status) -> Void in
             if status != RetCode.SUCCESS {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: "您的网络不给力!")
             }
             if let topics = topics {
                 self?.topics = topics
@@ -125,7 +124,7 @@ class SightTopicViewController: UITableViewController {
     func loadMore(){
         lastRequest?.fetchNextPageModels({ (topics, status) -> Void in
             if status != RetCode.SUCCESS {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力！")
                 self.tableView.mj_footer.endRefreshing()
                 return
             }

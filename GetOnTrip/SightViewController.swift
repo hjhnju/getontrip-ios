@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 
 struct SightLabelType {
     /// 话题
@@ -34,9 +33,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     /// 数据
     var sightDataSource = Sight(id: "") {
         didSet {
-            setupChannel(sightDataSource.tags)
             collectionView.reloadData()
-            loadingView.stop()
         }
     }
     
@@ -67,6 +64,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     /// 左滑手势是否生效
     var isPopGesture: Bool = false
     
+    /// 更在加载中提示
     var loadingView: LoadingView = LoadingView()
     
     /// 缓存cell
@@ -76,8 +74,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         super.viewDidLoad()
         
         initView()
+        setupAutlLayout()
         loadSightData()
-        loadingView.start()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -88,6 +86,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -106,7 +105,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        setupAutlLayout()
         labelNavView.layoutIfNeeded()
         labelScrollView.layoutIfNeeded()
     }
@@ -122,7 +120,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         view.bringSubviewToFront(navBar)
         view.addSubview(loadingView)
         
-        
         navBar.setTitle(sightDataSource.name)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "bar_collect"), title: nil, target: self, action: "favoriteAction:")
@@ -136,16 +133,16 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         
         collectionView.dataSource = self
         collectionView.delegate   = self
+        collectionView.bounces    = false
+        collectionView.backgroundColor = .whiteColor()
         collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
-        collectionView.bounces = false
-        collectionView.backgroundColor = UIColor.whiteColor()
     }
     
     func setupAutlLayout() {
         labelNavView.frame = CGRectMake(0, 64, view.bounds.width, 36)
         labelScrollView.frame = labelNavView.bounds
-        collectionView.ff_AlignVertical(ff_AlignType.BottomLeft, referView: labelNavView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(labelNavView.frame)), offset: CGPointMake(0, 0))
-        loadingView.ff_AlignInner(ff_AlignType.CenterCenter, referView: view, size: loadingView.getSize(), offset: CGPointMake(0, 0))
+        collectionView.ff_AlignVertical(.BottomLeft, referView: labelNavView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(labelNavView.frame)), offset: CGPointMake(0, 0))
+        loadingView.ff_AlignInner(.CenterCenter, referView: view, size: loadingView.getSize(), offset: CGPointMake(0, 0))
         setupLayout()
     }
     
@@ -297,22 +294,19 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             lastRequest = SightRequest()
             lastRequest?.sightId = sightId
         }
-        
+        loadingView.start()
         lastRequest?.fetchModels({ [weak self] (sight, status) -> Void in
+            self?.loadingView.stop()
             if status == RetCode.SUCCESS {
                 if let sight = sight {
                     self?.sightDataSource = sight
+                    self?.setupChannel(sight.tags)
                     self?.navBar.rightButton.selected = sight.isFavorite()
                 }
             } else {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: "您的网络不给力!")
             }
         })
-    }
-    
-    ///  搜索跳入之后消失控制器
-    func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
     }
     
     /// 收藏操作
@@ -327,11 +321,11 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    SVProgressHUD.showInfoWithStatus(sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
                 sender.selected = !sender.selected
-                SVProgressHUD.showInfoWithStatus("操作未成功，请稍后再试")
+                ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍后再试")
             }
         }
     }

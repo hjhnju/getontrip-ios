@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import SVProgressHUD
 import MJRefresh
 
 let collectCityViewIdentifier = "CollectCity_Cell"
@@ -42,12 +41,15 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         super.viewDidLoad()
         
         initProperty()
+        if globalUser != nil {
+            initRefresh()
+        }
     }
     
     private func initProperty() {
         collectionView?.backgroundColor = UIColor.clearColor()
         collectionView?.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(ff_AlignType.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 135))
+        collectPrompt.ff_AlignInner(.TopCenter, referView: collectionView!, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = NSTextAlignment.Center
         collectPrompt.hidden = true
         
@@ -65,6 +67,10 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         // Register cell classes
         collectionView?.registerClass(CollectCityCell.self, forCellWithReuseIdentifier: collectCityViewIdentifier)
         
+        
+    }
+    
+    private func initRefresh() {
         //上拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
         tbHeaderView.automaticallyChangeAlpha = true
@@ -136,7 +142,7 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                SVProgressHUD.showInfoWithStatus("您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: "网络连接失败")
                 self?.collectionView!.mj_header.endRefreshing()
                 self?.isLoading = false
                 return

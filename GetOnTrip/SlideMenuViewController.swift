@@ -10,7 +10,7 @@
 import UIKit
 import FFAutoLayout
 import CoreLocation
-import SVProgressHUD
+import JGProgressHUD
 
 //定义侧边栏的两种状态（打开，关闭）枚举类型
 enum SlideMenuState: Int {
@@ -135,24 +135,19 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     /// 更多登陆方式按钮
     lazy var moreButton: UIButton = UIButton(icon: "more_white", masksToBounds: true)
     
-    //当前城市
-    lazy var currentCityButton: UIButton = UIButton(image: "icon_locate", title: " 当前城市未知", fontSize: 10)
-    
     //设置菜单的数据源
-    let tableViewDataSource = ["首页", FavoriteViewController.name, MessageViewController.name, SettingViewController.name] // FeedBackViewController.name
+    let tableViewDataSource = ["首页", CityBrowseViewController.name, FavoriteViewController.name, MessageViewController.name, SettingViewController.name] // FeedBackViewController.name
     
     //菜单对应元类
-    let usingVCTypes: [AnyClass] = [RecommendViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
+    let usingVCTypes: [AnyClass] = [RecommendViewController.self, CityBrowseViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
     
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
     
-    //地理位置
+    //地理位置 TODO: - 需更改
     var city: String? {
         didSet {
-            if let city = city {
-                currentCityButton.setTitle(city, forState: UIControlState.Normal)
-            }
+            
         }
     }
     
@@ -206,7 +201,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         menuView.addSubview(tableView)
         menuView.addSubview(loginAfter)
         menuView.addSubview(loginBefore)
-        menuView.addSubview(currentCityButton)
         
         //初始菜单
         view.addSubview(menuView)
@@ -222,7 +216,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         loginAfter.addSubview(headerView)
         loginAfter.addSubview(nameLabel)
-        
         loginBefore.addSubview(wechatButton)
         loginBefore.addSubview(qqButton)
         loginBefore.addSubview(moreButton)
@@ -230,11 +223,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         loginBefore.addSubview(descLabel)
         
         welcomeLabel.text = "Hello!"
-        welcomeLabel.font = UIFont(name: "PingFangTC-Light", size: 36)
+        welcomeLabel.font = UIFont(name: Font.defaultFont, size: 36)
 
         descLabel.text   = "登录/注册"
-        currentCityButton.alpha = 0.7
-        
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
         moreButton.addTarget(self, action: "moreLogin", forControlEvents: UIControlEvents.TouchUpInside)
         qqButton.addTarget(self, action: "qqLogin", forControlEvents: UIControlEvents.TouchUpInside)
@@ -257,20 +248,20 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let qqInstall    = Device.isQQInstalled()
         
         if wechaInstall && qqInstall {
-            qqButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
-            wechatButton.ff_AlignHorizontal(ff_AlignType.CenterLeft, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
-            moreButton.ff_AlignHorizontal(ff_AlignType.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
+            qqButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
+            wechatButton.ff_AlignHorizontal(.CenterLeft, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
+            moreButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
         } else if !wechaInstall && !qqInstall {
-            moreButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 42), offset: CGPointMake(0, 0))
+            moreButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 42), offset: CGPointMake(0, 0))
             wechatButton.hidden = true
             qqButton.hidden = true
         } else if !wechaInstall {
-            qqButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
-            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
+            qqButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
+            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
             wechatButton.hidden = true
         } else if !qqInstall {
-            wechatButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
-            moreButton.ff_AlignInner(ff_AlignType.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
+            wechatButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
+            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
             qqButton.hidden = true
         }
     }
@@ -283,24 +274,23 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //初始化自动布局
     private func setupAutoLayout() {
         //menu
-        menuView.ff_AlignInner(ff_AlignType.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
+        menuView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
         bgImageView.ff_Fill(menuView)
         blurView.ff_Fill(bgImageView)
-        tableView.ff_AlignInner(ff_AlignType.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
+        tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
         
-        loginAfter.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
-        headerView.ff_AlignInner(ff_AlignType.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
-        nameLabel.ff_AlignVertical(ff_AlignType.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
+        loginAfter.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
+        headerView.ff_AlignInner(.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
+        nameLabel.ff_AlignVertical(.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
         
         if UIScreen.mainScreen().bounds.width == 320 {
-            loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.4, view.bounds.height * 0.2), offset: CGPointMake(0, 34))
+            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.4, view.bounds.height * 0.2), offset: CGPointMake(0, 34))
         } else {
-            loginBefore.ff_AlignInner(ff_AlignType.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
+            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
         }
         
-        welcomeLabel.ff_AlignInner(ff_AlignType.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
-        descLabel.ff_AlignInner(ff_AlignType.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
-        currentCityButton.ff_AlignInner(ff_AlignType.BottomCenter, referView: menuView, size: nil, offset: CGPointMake(0, -21))
+        welcomeLabel.ff_AlignInner(.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
+        descLabel.ff_AlignInner(.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
         
         //main
         maskView.ff_Fill(mainViewController.view)
@@ -355,7 +345,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         /*if indexPath.row == 0 {
             let baselineView = UIView(color: UIColor(white: 0xFFFFFF, alpha: 1), alphaF: 0.3)
             cell.addSubview(baselineView)
-            baselineView.ff_AlignInner(ff_AlignType.TopLeft, referView: cell, size: CGSizeMake(cell.bounds.width, 0.5), offset: CGPointMake(0, 0))
+            baselineView.ff_AlignInner(.TopLeft, referView: cell, size: CGSizeMake(cell.bounds.width, 0.5), offset: CGPointMake(0, 0))
         }*/
         
         //最后一行无底部横线
@@ -370,19 +360,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        //TODO:未登录情况
-        if indexPath.row >= 1 {
-            LoginView.sharedLoginView.doAfterLogin() {(success, error) -> () in
-                if success {
-                    //调整
-                    self.curVCType = self.usingVCTypes[indexPath.row]
-                }
-            }
-            return
-        }
-        
-        //调整
         curVCType = usingVCTypes[indexPath.row]
     }
     
@@ -422,7 +399,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                         if status == RetCode.SUCCESS {
                             currentCityId = result as? String ?? ""
                         } else {
-                            SVProgressHUD.showInfoWithStatus("网络连接失败，请检查网络")
+                            let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
+                            hud.textLabel.text = "网络连接失败，请检查网络"
+                            hud.showInView(self?.view)
+                            hud.dismissAfterDelay(3.0)
                         }
                     })
                 })
@@ -571,18 +551,24 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     /// 登陆后的操作
     var loginFinishedHandler: UserLogin.LoginFinishedHandler = { (result, error) -> Void in
         if error != nil {
-            SVProgressHUD.showInfoWithStatus("登陆失败啦，再试试手气")
+            let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
+            hud.textLabel.text = "登陆失败啦，再试试手气"
+            hud.showInView(UIApplication.sharedApplication().keyWindow)
+            hud.dismissAfterDelay(3.0)
         }
     }
     
     //微信登陆
     func wechatLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler)
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler){ (_) -> Void in
+        }
+
     }
     
     //qq登陆
     func qqLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler)
+        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler){ (_) -> Void in
+        }
     }
     
     // 更多登陆方式
@@ -591,8 +577,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         navigationController
         let lovc = LoginViewController()
         let nav = UINavigationController(rootViewController: lovc)
-//        nav.setViewControllers([lovc], animated: true)
-//        let nav = UINavigationController(rootViewController: LoginViewController())
         presentViewController(nav, animated: true, completion: nil)
     }
 }

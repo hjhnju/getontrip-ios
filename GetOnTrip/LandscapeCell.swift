@@ -55,10 +55,10 @@ class LandscapeCell: UITableViewCell {
     private func setupAutoLayout() {
         
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 119 - 15 - 6
-        iconView.ff_AlignInner(ff_AlignType.CenterRight, referView: self, size: CGSizeMake(119, 84), offset: CGPointMake(-9, 0))
-        titleLabel.ff_AlignHorizontal(ff_AlignType.TopLeft, referView: iconView, size: CGSizeMake(w, 21), offset: CGPointMake(0, 0))
-        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomLeft, referView: titleLabel, size: CGSizeMake(w - 10, 57), offset: CGPointMake(0, 5))
-        baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        iconView.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(119, 84), offset: CGPointMake(-9, 0))
+        titleLabel.ff_AlignHorizontal(.TopLeft, referView: iconView, size: CGSizeMake(w, 21), offset: CGPointMake(0, 0))
+        subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: CGSizeMake(w - 10, 57), offset: CGPointMake(0, 5))
+        baseLine.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,9 +79,9 @@ class LandscapeCell1: LandscapeCell {
     override func setupAutoLayout() {
         
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 119 - 15 - 9
-        iconView.ff_AlignInner(ff_AlignType.CenterLeft, referView: self, size: CGSizeMake(119, 84), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(ff_AlignType.TopRight, referView: iconView, size: CGSizeMake(w, 21), offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignVertical(ff_AlignType.BottomRight, referView: titleLabel, size: CGSizeMake(w, 57), offset: CGPointMake(0, 5))
-        baseLine.ff_AlignInner(ff_AlignType.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(119, 84), offset: CGPointMake(9, 0))
+        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 21), offset: CGPointMake(9, 0))
+        subtitleLabel.ff_AlignVertical(.BottomRight, referView: titleLabel, size: CGSizeMake(w, 57), offset: CGPointMake(0, 5))
+        baseLine.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
 }
