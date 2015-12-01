@@ -435,6 +435,22 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     let sendPopoverAnimator = SendPopoverAnimator()
     func sightAction(sender: UIButton) {
         
+        // 如果是从景点的页面跳进去，并且，只有一个景点可去，点跳入景点就相当于返回
+        let nav = parentViewController as? UINavigationController
+        if ((nav?.viewControllers[(nav?.viewControllers.count ?? 1) - 1].isKindOfClass(NSClassFromString("GetOnTrip.SightViewController")!)) != nil &&
+            topicDataSource?.arrsight.count == 1 ) {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+            return
+        }
+        
+        if topicDataSource?.arrsight.count == 1 {
+            let sightViewController = SightViewController()
+            sightViewController.sightDataSource = topicDataSource?.sight
+            sight.name =
+            sightViewController.sightDataSource = sight
+            navigationController.pushViewController(sightViewController, animated: true)
+        }
+        
         let vc = TopicEnterSightController()
         vc.nav = navigationController
         vc.dataSource = topicDataSource?.arrsight
@@ -442,7 +458,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         vc.transitioningDelegate = sendPopoverAnimator
         // 2. 设置视图的展现大小
         let screen = UIScreen.mainScreen().bounds
-        let h: CGFloat = screen.height * 0.46 + 74
+        var h: CGFloat = screen.height * 0.46 + 74
+        if topicDataSource?.arrsight.count < 5 && topicDataSource?.arrsight.count > 2 {
+            h -= CGFloat(5 - Int(topicDataSource?.arrsight.count ?? 0) * 53)
+        }
         let w: CGFloat = screen.width * 0.63
         let x: CGFloat = (screen.width - w) * 0.5
         let y: CGFloat = screen.height * 0.27
@@ -451,6 +470,5 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         // 3. 设置专场的模式 - 自定义转场动画
         vc.modalPresentationStyle = UIModalPresentationStyle.Custom
         presentViewController(vc, animated: true, completion: nil)
-        
     }
 }
