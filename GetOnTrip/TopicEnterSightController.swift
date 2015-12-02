@@ -21,7 +21,7 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
     var dataSource: [[String : String]]? {
         didSet {
             let screen = UIScreen.mainScreen().bounds
-            var h: CGFloat = 5 * 53 + 54
+            var h: CGFloat = 5 * 53 + 54 + 26.5
             if dataSource?.count < 5 {
                 h = CGFloat((4 - Int(dataSource?.count ?? 0)) * 53) + 54
             }
@@ -81,7 +81,6 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
         let sight: Sight = Sight(id: (data?["id"] ?? ""))
         sight.name = data?["name"] ?? ""
         sightViewController.sightDataSource = sight
-        
         self.nav?.pushViewController(sightViewController, animated: true)
         dismissViewControllerAnimated(false, completion: nil)
     }

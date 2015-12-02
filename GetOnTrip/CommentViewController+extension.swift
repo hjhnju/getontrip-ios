@@ -69,6 +69,12 @@ extension CommentViewController {
                     if status == RetCode.SUCCESS {
                         ProgressHUD.showSuccessHUD(nil, text: "删除成功")
                         self.loadData()
+                        if self.upId == "" {
+                            let parentVC = self.parentViewController as? TopicViewController
+                            let topic: Topic = parentVC?.topicDataSource ?? Topic()
+                            topic.commentNum = String((Int(parentVC?.topicDataSource?.commentNum ?? "0") ?? 0) - 1)
+                            parentVC?.topicDataSource = topic
+                        }
                     } else {
                         ProgressHUD.showErrorHUD(nil, text: "删除失败")
                     }

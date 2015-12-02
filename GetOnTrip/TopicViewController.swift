@@ -50,16 +50,16 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var toolbarView      = UIView()
     
     /// 点赞按钮
-    lazy var praisedBUtton   = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
+    lazy var praisedButton    = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
     
     /// 底部评论按钮
-    lazy var commentBotton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: UIColor.blackColor())
+    lazy var commentButton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
 
     /// 底部分享按钮
-    lazy var shareBotton      = UIButton(image: "topic_share", title: "", fontSize: 0)
+    lazy var shareButton      = UIButton(image: "topic_share", title: "", fontSize: 0)
     
     /// 底部收藏按钮
-    lazy var collectBotton    = UIButton(image: "topic_star", title: "", fontSize: 0, titleColor: SceneColor.lightYellow)
+    lazy var collectButton    = UIButton(image: "topic_star", title: "", fontSize: 0, titleColor: SceneColor.lightYellow)
     
     /// 底部线
     lazy var bottomLineView   = UIView(color: SceneColor.lightGray)
@@ -104,11 +104,13 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 labelButton.setTitle("  " + topic.tagname + "  ", forState: .Normal)
                 favNumLabel.setTitle(" " + topic.collect, forState: .Normal)
                 visitNumLabel.setTitle(" " + topic.visit, forState: .Normal)
-                commentBotton.setTitle(topic.commentNum, forState: .Normal)
-                praisedBUtton.setTitle(" " + topic.praiseNum, forState: .Normal)
+                if topic.commentNum != "0" {
+                    commentButton.setTitle(topic.commentNum, forState: .Normal)
+                }
+                praisedButton.setTitle(" " + topic.praiseNum, forState: .Normal)
                 
-                collectBotton.selected = topic.collected == "" ? false : true
-                praisedBUtton.selected = topic.praised == "" ? false : true
+                collectButton.selected = topic.collected == "" ? false : true
+                praisedButton.selected = topic.praised == "" ? false : true
                 commentVC.topicId      = topic.id
                 labelButton.hidden     = false
                 favNumLabel.hidden     = false
@@ -148,10 +150,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerView.addSubview(labelButton)
         headerView.addSubview(favNumLabel)
         headerView.addSubview(visitNumLabel)
-        toolbarView.addSubview(praisedBUtton)
-        toolbarView.addSubview(commentBotton)
-        toolbarView.addSubview(shareBotton)
-        toolbarView.addSubview(collectBotton)
+        toolbarView.addSubview(praisedButton)
+        toolbarView.addSubview(commentButton)
+        toolbarView.addSubview(shareButton)
+        toolbarView.addSubview(collectButton)
         toolbarView.addSubview(bottomLineView)
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
@@ -159,8 +161,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         view.addSubview(commentVC.view)
         commentVC.view.hidden = true
         addChildViewController(commentVC)
-        praisedBUtton.setImage(UIImage(named: "dotLike_no"), forState: .Normal)
-        praisedBUtton.setImage(UIImage(named: "dotLike_yes"), forState: .Selected)
+        praisedButton.setImage(UIImage(named: "dotLike_no"), forState: .Normal)
+        praisedButton.setImage(UIImage(named: "dotLike_yes"), forState: .Selected)
         
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
@@ -169,12 +171,12 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         visitNumLabel.hidden        = true
         coverButton.backgroundColor = UIColor.blackColor()
         
-        collectBotton.setImage(UIImage(named: "topic_star_select"), forState: .Selected)
-        shareBotton  .addTarget(self, action: "doSharing:", forControlEvents: .TouchUpInside)
-        collectBotton.addTarget(self, action: "doFavorite:", forControlEvents: .TouchUpInside)
-        commentBotton.addTarget(self, action: "doComment:", forControlEvents: .TouchUpInside)
+        collectButton.setImage(UIImage(named: "topic_star_select"), forState: .Selected)
+        shareButton  .addTarget(self, action: "doSharing:", forControlEvents: .TouchUpInside)
+        collectButton.addTarget(self, action: "doFavorite:", forControlEvents: .TouchUpInside)
+        commentButton.addTarget(self, action: "doComment:", forControlEvents: .TouchUpInside)
         coverButton  .addTarget(self, action: "coverClick:", forControlEvents: .TouchUpInside)
-        praisedBUtton.addTarget(self, action: "praisedAction:", forControlEvents: .TouchUpInside)
+        praisedButton.addTarget(self, action: "praisedAction:", forControlEvents: .TouchUpInside)
         
         headerTitleLabel.numberOfLines = 2
         headerTitleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
@@ -231,10 +233,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
         
         //toolbar views
-        praisedBUtton.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
-        commentBotton .ff_AlignInner(.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
-        shareBotton   .ff_AlignHorizontal(.CenterLeft, referView: commentBotton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
-        collectBotton .ff_AlignHorizontal(.CenterLeft, referView: shareBotton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
+        praisedButton.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))
+        commentButton .ff_AlignInner(.CenterRight, referView: toolbarView, size: CGSizeMake(28, 28), offset: CGPointMake(-10, 0))
+        shareButton   .ff_AlignHorizontal(.CenterLeft, referView: commentButton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
+        collectButton .ff_AlignHorizontal(.CenterLeft, referView: shareButton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLineView.ff_AlignInner(.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
         loadingView   .ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height + th)/2 - 2*tt))
     }
@@ -466,8 +468,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     private func refreshPraisedButton(praiseNum: String) {
         self.topicDataSource?.praiseNum = praiseNum
-        self.praisedBUtton.setTitle(" " + "\(self.topicDataSource?.praiseNum ?? "0")", forState: .Normal)
-        self.praisedBUtton.setTitle(" " + "\(self.topicDataSource?.praiseNum ?? "0")", forState: .Selected)
+        self.praisedButton.setTitle(" " + "\(self.topicDataSource?.praiseNum ?? "0")", forState: .Normal)
+        self.praisedButton.setTitle(" " + "\(self.topicDataSource?.praiseNum ?? "0")", forState: .Selected)
     }
     
     /// 跳至景点页
@@ -502,10 +504,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         vc.transitioningDelegate = sendPopoverAnimator
         // 2. 设置视图的展现大小
         let screen = UIScreen.mainScreen().bounds
-        var h: CGFloat = 5 * 53 + 120
+        var h: CGFloat = 5 * 53 + 120 + 26.5
         if topicDataSource?.arrsight.count < 5 && topicDataSource?.arrsight.count >= 2 {
-            h -= CGFloat((5 - Int(topicDataSource?.arrsight.count ?? 0)) * 53)
+            h -= CGFloat((5 - Int(topicDataSource?.arrsight.count ?? 0)) * 53) - 26.5
         }
+        
         let w: CGFloat = screen.width * 0.63
         let x: CGFloat = (screen.width - w) * 0.5
         let y: CGFloat = (screen.height - h) * 0.5 // screen.height * 0.27

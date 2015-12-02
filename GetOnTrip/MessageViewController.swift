@@ -10,6 +10,8 @@ import UIKit
 import FFAutoLayout
 import MJRefresh
 
+
+
 class MessageViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate{
     
     static let name = "消息"
@@ -84,7 +86,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        
         self.tableView.mj_header = tbHeaderView
         self.tableView.mj_footer = tbFooterView
         
@@ -139,7 +140,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
         
         let data = messageLists[indexPath.row] as MessageList
         
@@ -297,6 +297,7 @@ class MessageTableViewCell: UITableViewCell {
         iconView.layer.cornerRadius = max(iconView.bounds.width, iconView.bounds.height) * 0.5
         iconView.clipsToBounds = true
     }
+    
     
 //    func swipeGesture(recognizer: UISwipeGestureRecognizer) {
 //        let startPoint = recognizer.view!.center
