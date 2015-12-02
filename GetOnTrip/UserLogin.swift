@@ -41,7 +41,7 @@ class UserLogin: NSObject {
     ///  用户登陆
     ///  - parameter loginType: 登陆平台类型
     ///  - parameter openId:    openId
-    func login(loginType: Int, user: SSDKUser) {
+    func login(loginType: Int, user: SSDKUser, handler: (Void -> Void)? = nil) {
         //当前无用户，先使用第三方用户信息
         globalUser = UserAccount(user: user, type: loginType)
         
@@ -50,7 +50,9 @@ class UserLogin: NSObject {
         loginRequest.type   = loginType
         loginRequest.login() { (result, status) -> Void in
             if status == RetCode.SUCCESS {
-                self.loadAccount()
+                self.loadAccount({ (result, status) -> Void in
+                    handler?()
+                })
             } else if status == RetCode.NEED_ADDINFO {
                 self.addAccountInfo()
             } else {
@@ -163,8 +165,9 @@ class UserLogin: NSObject {
             switch state{
             case SSDKResponseState.Success:
             // print("授权成功,用户信息为\(user)\n ----- 授权凭证为\(user.credential)")
-                self.login(loginType, user: user)
-                finishHandler?(result: true, error: nil)
+                self.login(loginType, user: user, handler: { (_) -> Void in
+                    finishHandler?(result: true, error: nil)
+                })
             case SSDKResponseState.Fail:
                 print("授权失败,错误描述:\(error)")
                 finishHandler?(result: false, error: error)
