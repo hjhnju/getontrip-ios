@@ -139,7 +139,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     let tableViewDataSource = ["首页", CityBrowseViewController.name, FavoriteViewController.name, MessageViewController.name, SettingViewController.name] // FeedBackViewController.name
     
     //菜单对应元类
-    let usingVCTypes: [AnyClass] = [RecommendViewController.self, CityBrowseViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
+    let usingVCTypes: [AnyClass] = [RecommendViewController.self, FavoriteViewController.self, MessageViewController.self, SettingViewController.self, FeedBackViewController.self]
     
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing

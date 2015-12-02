@@ -238,6 +238,8 @@ class MessageTableViewCell: UITableViewCell {
     lazy var restoreTime: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 9, mutiLines: false)
     /// 所回复的照片
     lazy var restoreImageView: UIImageView = UIImageView()
+    /// 删除按钮
+    lazy var deleteButton = UIButton(title: "删除", fontSize: 20, radius: 0, titleColor: UIColor.blackColor())
     
     /// 设置底线
     lazy var baseline: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
@@ -254,22 +256,36 @@ class MessageTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addSubview(baseline)
-        addSubview(iconView)
-        addSubview(restoreTime)
-        addSubview(restorePerson)
-        addSubview(restoreImageView)
+//        addSubview(deleteButton)
+        contentView.addSubview(baseline)
+        contentView.addSubview(iconView)
+        contentView.addSubview(restoreTime)
+        contentView.addSubview(restorePerson)
+        contentView.addSubview(restoreImageView)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
+        contentView.addGestureRecognizer(swipeLeft)
+        
+//        swipeLeft.requireGestureRecognizerToFail(<#T##otherGestureRecognizer: UIGestureRecognizer##UIGestureRecognizer#>)
+//        requireGestureRecognizerToFail
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
+        swipeRight.direction = UISwipeGestureRecognizerDirection.Right
+        contentView.addGestureRecognizer(swipeRight)
         
         iconView.layer.borderWidth = 1.0
         iconView.layer.borderColor = SceneColor.shallowGrey.CGColor
         
         iconView.clipsToBounds = true
         iconView.layer.cornerRadius = iconView.bounds.width * 0.5
-        iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
+        iconView.ff_AlignInner(.CenterLeft, referView: contentView, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
         restorePerson.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
         restoreTime.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(77, 57), offset: CGPointMake(-9, 0))
-        baseline.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        restoreImageView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(77, 57), offset: CGPointMake(-9, 0))
+        baseline.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+//        deleteButton.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(100, 75))
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -281,6 +297,30 @@ class MessageTableViewCell: UITableViewCell {
         iconView.layer.cornerRadius = max(iconView.bounds.width, iconView.bounds.height) * 0.5
         iconView.clipsToBounds = true
     }
+    
+//    func swipeGesture(recognizer: UISwipeGestureRecognizer) {
+//        let startPoint = recognizer.view!.center
+//        var endPoint: CGPoint?
+//        let w = recognizer.view!.frame.size.width
+//        
+//        if recognizer.direction == UISwipeGestureRecognizerDirection.Left {
+//            
+//            // 左扫
+//            endPoint = CGPointMake(startPoint.x - 1.2 * w, startPoint.y)
+//        } else {
+//            
+//            // 右扫
+//            endPoint = CGPointMake(startPoint.x + 1.2 * w, startPoint.y)
+//        }
+//        
+//        UIView.animateWithDuration(0.5, animations: { () -> Void in
+//            recognizer.view!.center = endPoint!
+//            }) { (_) -> Void in
+//                UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                    recognizer.view?.center = startPoint
+//                })
+//        }
+//    }
     
     override func setSelected(selected: Bool, animated: Bool) {
         
