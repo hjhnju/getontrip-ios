@@ -35,7 +35,7 @@ class ProgressHUD: NSObject {
         } else {
             hud.showInView(view)
         }
-        hud.dismissAfterDelay(3.0)
+        hud.dismissAfterDelay(1.0)
     }
     
     // 显示成功提示
@@ -56,7 +56,7 @@ class ProgressHUD: NSObject {
         } else {
             hud.showInView(view)
         }
-        hud.dismissAfterDelay(3.0)
+        hud.dismissAfterDelay(1.0)
     }
     
     /// 显示操作提示

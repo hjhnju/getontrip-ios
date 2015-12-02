@@ -82,9 +82,8 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
         sight.name = data?["name"] ?? ""
         sightViewController.sightDataSource = sight
         
-        self.dismissViewControllerAnimated(true) { () -> Void in
-            self.nav?.pushViewController(sightViewController, animated: true)
-        }
+        self.nav?.pushViewController(sightViewController, animated: true)
+        dismissViewControllerAnimated(false, completion: nil)
     }
     
     // 退出按钮

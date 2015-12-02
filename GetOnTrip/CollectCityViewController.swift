@@ -98,7 +98,6 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
             collectionView?.mj_header.beginRefreshing()
         }
     }
-
     
     // MARK: UICollectionViewDataSource
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

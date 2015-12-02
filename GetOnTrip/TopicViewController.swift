@@ -53,7 +53,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var praisedBUtton   = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
     
     /// 底部评论按钮
-    lazy var commentBotton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: SceneColor.lightYellow)
+    lazy var commentBotton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: UIColor.blackColor())
 
     /// 底部分享按钮
     lazy var shareBotton      = UIButton(image: "topic_share", title: "", fontSize: 0)
@@ -384,11 +384,13 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         commentVC.topicId = topicDataSource?.id ?? ""
         commentVC.view.frame = CGRectMake(w - 28, h - 44, 0, 0)
         coverButton.frame = UIScreen.mainScreen().bounds
+        commentVC.view.clipsToBounds = true
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.commentVC.view.frame = CGRectMake(0, TopicViewContant.commentViewHeight, w, UIScreen.mainScreen().bounds.height * 0.72)
             self.coverButton.alpha = 0.7
             }) { (_) -> Void in
+                self.commentVC.view.clipsToBounds = false
         }
     }
     
@@ -396,6 +398,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     /// 评论时遮罩层的点击方法
     func coverClick(serder: UIButton) {
         self.commentVC.issueTextfield.resignFirstResponder()
+        self.commentVC.view.clipsToBounds = true
         UIView.animateWithDuration(0.3, animations: { [weak self] () -> Void in
             self?.coverButton.alpha = 0.0
             self?.commentVC.view.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 22, UIScreen.mainScreen().bounds.height - 34, 0, 0)
@@ -505,7 +508,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         }
         let w: CGFloat = screen.width * 0.63
         let x: CGFloat = (screen.width - w) * 0.5
-        let y: CGFloat = screen.height * 0.27
+        let y: CGFloat = (screen.height - h) * 0.5 // screen.height * 0.27
         sendPopoverAnimator.presentFrame = CGRectMake(x, y, w, h)
         vc.view.clipsToBounds = true
         // 3. 设置专场的模式 - 自定义转场动画

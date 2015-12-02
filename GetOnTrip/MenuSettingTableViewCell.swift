@@ -11,7 +11,7 @@ import FFAutoLayout
 
 class MenuSettingTableViewCell: UITableViewCell {
 
-    lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 16, mutiLines: true)
+    lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 18, mutiLines: true)
     
     // 设置底线
     lazy var baseline: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
@@ -29,6 +29,8 @@ class MenuSettingTableViewCell: UITableViewCell {
         addSubview(baseline)
         addSubview(titleLabel)
         
+        titleLabel.font = UIFont(name: Font.defaultFont, size: 18)
+        
         backgroundColor = UIColor.clearColor()
         baseline.ff_AlignInner(.BottomLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 0.5), offset: CGPointMake(0, 0))
         titleLabel.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
@@ -37,6 +39,4 @@ class MenuSettingTableViewCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-
 }

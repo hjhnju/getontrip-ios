@@ -132,7 +132,7 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
                         ProgressHUD.showErrorHUD(nil, text: "保存失败")
                     })
                 } else {
-                    ProgressHUD.showErrorHUD(nil, text: RetCode.getShowUNE(status ?? 0))
+                    ProgressHUD.showErrorHUD(nil, text: "保存失败")
                     self.sex = globalUser?.gender ?? 2
                 }
             }

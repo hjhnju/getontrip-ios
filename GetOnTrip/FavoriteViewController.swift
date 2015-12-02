@@ -48,9 +48,6 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         return cv
         }()
     
-    /// 左滑手势是否生效
-    var isPopGesture: Bool = false
-    
     // MARK: - 初始化相关设置
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,24 +114,13 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         selectView.frame = CGRectMake(11, 34, 73, 1.5)
     }
     
-    // MARK: - 系统调用方法
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
-    }
-    
     // MARK: - collectionView 数据源方法
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        isPopGesture = indexPath.row == 0 ? true : false
+        slideView.hidden = indexPath.row == 0 ? false : true
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FavoriteCollectionViewCell", forIndexPath: indexPath) as! FavoriteCollectionViewCell
         cell.viewController.view.removeFromSuperview()
         if indexPath.row == 0 {
