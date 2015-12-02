@@ -16,6 +16,8 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
 
     var lastRequest: MessageListRequest = MessageListRequest()
     
+    lazy var tableView: UITableView = UITableView()
+    
     let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "您暂时还未收到任何消息\n(∩_∩)", fontSize: 13, mutiLines: true)
     
     var messageLists: [MessageList] = [MessageList]() {
@@ -28,9 +30,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
             tableView.reloadData()
         }
     }
-    
-    lazy var tableView: UITableView = UITableView()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

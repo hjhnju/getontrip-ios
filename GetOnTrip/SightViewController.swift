@@ -150,7 +150,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     var indicateW: CGFloat?
     
     func setupChannel(labels: [Tag]) {
-        if labels.count == 0 {
+        if labels.count == 0 || labelScrollView.subviews.count > 2 {
             return
         }
         /// 间隔
