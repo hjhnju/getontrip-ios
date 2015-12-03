@@ -17,6 +17,9 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
     /// 退出按钮
     let exitButton      = UIButton(image: "topicSight_x", title: "", fontSize: 0)
     
+    /// 上一个景点的id
+    var upSightId: String = ""
+    
     /// 需要选择的景点
     var dataSource: [[String : String]]? {
         didSet {
@@ -77,12 +80,19 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let data = dataSource?[indexPath.row]
-        let sightViewController = SightViewController()
-        let sight: Sight = Sight(id: (data?["id"] ?? ""))
-        sight.name = data?["name"] ?? ""
-        sightViewController.sightDataSource = sight
-        self.nav?.pushViewController(sightViewController, animated: true)
-        dismissViewControllerAnimated(false, completion: nil)
+        
+        if data?["id"] == upSightId {
+            dismissViewControllerAnimated(true, completion: nil)
+            self.nav?.popViewControllerAnimated(true)
+        } else {
+            let sightViewController = SightViewController()
+            let sight: Sight = Sight(id: (data?["id"] ?? ""))
+            sight.name = data?["name"] ?? ""
+            sightViewController.sightDataSource = sight
+            self.nav?.pushViewController(sightViewController, animated: true)
+            dismissViewControllerAnimated(false, completion: nil)
+        }
+        
     }
     
     // 退出按钮

@@ -81,7 +81,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - 设置是否是第一次进入最新版本
     private func defaultViewController() -> UIViewController {
-        return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
+//        return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
+        return GuideViewController()
     }
 
     // 是否新版本

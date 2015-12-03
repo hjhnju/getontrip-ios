@@ -16,11 +16,21 @@ class GuideViewController: UICollectionViewController {
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
     
-    let titles = ["这里是路和故事", "这里是阅读和领悟", "这里是诗和远方", ""]
+    let titles = ["寻找路上的故事", "发现未知的逸事", "感受悠远的历史", "亦行 · 亦读"]
     
     let subtitles = ["旅行，不只有照片", "旅行，不只是看见", "旅行，不会是终点", ""]
     
-    let subtitleEnglish = ["MORE THEN PICTURES", "SOMETHING SPECIAL", "ON THE WAY", ""]
+    let subtitleEnglish = ["MORE THAN PICTURES", "WANT SEE MORE", "ON THE WAY", ""]
+    
+    // 分页
+    lazy var pagecontrol: UIPageControl = {
+        var pageC = UIPageControl()
+        pageC.numberOfPages = 4
+        pageC.currentPage = 0
+        pageC.addTarget(self, action: "pageChanged", forControlEvents: UIControlEvents.ValueChanged)
+        pageC.userInteractionEnabled = false
+        return pageC
+    }()
     
     init() {
         super.init(collectionViewLayout: layout)
@@ -38,7 +48,7 @@ class GuideViewController: UICollectionViewController {
         super.viewDidLoad()
         
         view.addSubview(pagecontrol)
-        pagecontrol.ff_AlignInner(.BottomCenter, referView: view, size: nil, offset: CGPointMake(0, -10))
+        pagecontrol.ff_AlignInner(.BottomCenter, referView: view, size: nil, offset: CGPointMake(0, -20))
         
         // 注册可重用 cell
         self.collectionView!.registerClass(NewFeatureCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -74,13 +84,6 @@ class GuideViewController: UICollectionViewController {
         cell.subtitleEnglish.text = subtitleEnglish[indexPath.row]
         cell.imageIndex = indexPath.row
         pagecontrol.currentPage = indexPath.row
-        if indexPath.row == 3 {
-            cell.cover.hidden = true
-            cell.iconButton.hidden = false
-        } else {
-            cell.cover.hidden = false
-            cell.iconButton.hidden = true
-        }
         return cell
     }
     
@@ -99,16 +102,6 @@ class GuideViewController: UICollectionViewController {
             (collectionView.cellForItemAtIndexPath(path as! NSIndexPath) as! NewFeatureCell).showStartButton()
         }
     }
-    
-    // 分页
-    lazy var pagecontrol: UIPageControl = {
-        var pageC = UIPageControl()
-        pageC.numberOfPages = 4
-        pageC.currentPage = 0
-        pageC.addTarget(self, action: "pageChanged", forControlEvents: UIControlEvents.ValueChanged)
-        pageC.userInteractionEnabled = false
-        return pageC
-        }()
 }
 
 class NewFeatureCell: UICollectionViewCell {
@@ -125,10 +118,10 @@ class NewFeatureCell: UICollectionViewCell {
     lazy var iconView: UIImageView = UIImageView()
     
     // 开始按钮
-    lazy var startButton: UIButton = UIButton(title: "开启探索之旅", fontSize: 20, radius: 10, titleColor: UIColor(hex: 0x202020, alpha: 1.0))
+    lazy var startButton: UIButton = UIButton(title: "开启探索之旅", fontSize: 20, radius: 10, titleColor: UIColor.whiteColor())
     
     /// 蒙版
-    lazy var cover: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
+    lazy var cover: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.40)
     
     /// 标题
     lazy var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "寻找路上的故事", fontSize: 32, mutiLines: true)
@@ -138,8 +131,6 @@ class NewFeatureCell: UICollectionViewCell {
     
     /// 副标题英文
     lazy var subtitleEnglish: UILabel = UILabel(color: UIColor.whiteColor(), title: "MORE THEN PICTURES", fontSize: 28, mutiLines: true)
-    
-    lazy var iconButton: GuideButton = GuideButton(image: "icon_app", title: "亦行・亦读", fontSize: 20, titleColor: UIColor(hex: 0x202020, alpha: 1.0))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -155,11 +146,14 @@ class NewFeatureCell: UICollectionViewCell {
         addSubview(subtitle)
         addSubview(subtitleEnglish)
         addSubview(startButton)
-        addSubview(iconButton)
-        subtitleEnglish.font = UIFont.systemFontOfSize(28)// (name: "PingFangSC-Regular", size: 28)
-        
+//        subtitleEnglish.font = UIFont.systemFontOfSize(28)// (name: "PingFangSC-Regular", size: 28)
+        iconView.contentMode = UIViewContentMode.ScaleAspectFill
+        subtitle.font = UIFont(name: Font.defaultFont, size: 24)
+        subtitleEnglish.font = UIFont(name: Font.defaultFont, size: 28)
         startButton.addTarget(self, action: "startButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
-        startButton.backgroundColor = SceneColor.lightYellow
+        startButton.layer.borderWidth = 1.0
+        startButton.layer.borderColor = UIColor.whiteColor().CGColor
+        startButton.layer.cornerRadius = 15
         title.textAlignment = NSTextAlignment.Center
         subtitle.textAlignment = NSTextAlignment.Center
     }
@@ -170,8 +164,7 @@ class NewFeatureCell: UICollectionViewCell {
         title.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 136))
         subtitle.ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -79))
         subtitleEnglish.ff_AlignVertical(.TopCenter, referView: subtitle, size: nil, offset: CGPointMake(0, -6))
-        startButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(228, 64), offset: CGPointMake(0, 50))
-        iconButton.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 150))
+        startButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.55, 64), offset: CGPointMake(0, 50))
     }
     
     required init(coder aDecoder: NSCoder) {

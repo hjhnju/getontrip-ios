@@ -136,28 +136,20 @@ extension TopicViewController {
     /// 跳至景点页
     func sightAction(sender: UIButton) {
         
-        // 如果是从景点的页面跳进去，并且，只有一个景点可去，点跳入景点就相当于返回
-        let nav = parentViewController as? UINavigationController
-        
-        for item in nav?.viewControllers ?? [UIViewController()] {
-            if item.isKindOfClass(NSClassFromString("GetOnTrip.SightViewController")!) && topicDataSource?.arrsight.count == 1 {
-                navigationController?.popViewControllerAnimated(true)
-                return
-            }
-        }
-        
-        // 如果只有一个景点就直接跳转
+        // 如果只有一个景点,那这个景点肯定是由上一个景点跳进来了，所以跳回去，而不是重新创建
         if topicDataSource?.arrsight.count == 1 {
-            let sightViewController = SightViewController()
-            let sight: Sight = Sight(id: topicDataSource?.sightid ?? "")
-            sight.name = topicDataSource?.sight ?? ""
-            sightViewController.sightDataSource = sight
-            navigationController?.pushViewController(sightViewController, animated: true)
+            navigationController?.popViewControllerAnimated(true)
+//            let sightViewController = SightViewController()
+//            let sight: Sight = Sight(id: topicDataSource?.sightid ?? "")
+//            sight.name = topicDataSource?.sight ?? ""
+//            sightViewController.sightDataSource = sight
+//            navigationController?.pushViewController(sightViewController, animated: true)
             return
         }
         
         // 其他情况如果有多个景点可去的情况
         let vc = TopicEnterSightController()
+        vc.upSightId = topicDataSource?.sightid ?? ""
         vc.nav = navigationController
         vc.dataSource = topicDataSource?.arrsight
         // 1. 设置`转场 transitioning`代理

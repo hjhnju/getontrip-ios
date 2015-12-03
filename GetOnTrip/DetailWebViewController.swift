@@ -62,6 +62,8 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Selected)
         navBar.rightButton2.addTarget(self, action: "shareVideoAction:", forControlEvents: .TouchUpInside)
         navBar.rightButton.selected  = video?.collected == "1" ? true  : false
+        navBar.rightButton.hidden = video == nil ? true : false
+        navBar.rightButton2.hidden = video == nil ? true : false
     }
     
     private func autolayout() {
