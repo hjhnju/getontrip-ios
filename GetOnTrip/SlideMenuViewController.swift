@@ -215,7 +215,11 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         loginBefore.addSubview(descLabel)
         
         welcomeLabel.text = "Hello!"
-        welcomeLabel.font = UIFont(name: Font.defaultFont, size: 36)
+        if #available(iOS 9.0, *) {
+            welcomeLabel.font = UIFont(name: Font.defaultFont, size: 36)
+        } else {
+            // Fallback on earlier versions
+        }
 
         descLabel.text   = "登录/注册"
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
@@ -249,12 +253,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             wechatButton.hidden = true
             qqButton.hidden = true
         } else if !wechaInstall {
-            qqButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
-            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
+            qqButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(10, 0))
+            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-10, 0))
             wechatButton.hidden = true
         } else if !qqInstall {
-            wechatButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(25, 0))
-            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-25, 0))
+            wechatButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(10, 0))
+            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-10, 0))
             qqButton.hidden = true
         }
     }

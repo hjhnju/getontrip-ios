@@ -262,9 +262,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             if error == nil {
                 if result == true {
                     self.isLoginStatus = true
+                } else {
+                    self.isLoginStatus = false
                 }
                 return
             }
+            self.isLoginStatus = false
             ProgressHUD.showErrorHUD(self.view, text: "登录失败")
         }
     }
