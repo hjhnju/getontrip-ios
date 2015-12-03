@@ -252,7 +252,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
 
-        print(self.tableView)
         if touch.view!.isKindOfClass(NSClassFromString("GetOnTrip.MessageTableView")!) {
             return false
         }
