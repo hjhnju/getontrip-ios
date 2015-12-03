@@ -172,7 +172,7 @@ class NewUserRegisterViewController: UIViewController {
                             if status == RetCode.SUCCESS {
                                 let vc = self.parentViewController?.presentingViewController as? SlideMenuViewController
                                 vc?.dismissViewControllerAnimated(true, completion: { () -> Void in
-                                    vc?.curVCType = SettingViewController.self
+                                    vc?.curVCType = RecommendViewController.self
                                 })
                             } else {
                                 ProgressHUD.showErrorHUD(self.view, text: "注册失败，请稍候注册")
