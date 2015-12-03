@@ -139,12 +139,14 @@ class NewFeatureCell: UICollectionViewCell {
         if #available(iOS 9.0, *) {
             title.font = UIFont(name: Font.PingFangTCThin, size: 32)
             subtitle.font = UIFont(name: Font.PingFangTCThin, size: 24)
+            startButton.titleLabel!.font = UIFont(name: Font.PingFangTCThin, size: 20)
         } else {
-            
+            title.font = UIFont.systemFontOfSize(32)
+            subtitle.font = UIFont.systemFontOfSize(24)
+            startButton.titleLabel!.font = UIFont.systemFontOfSize(20)
         }
         
         
-        startButton.titleLabel!.font = UIFont(name: Font.PingFangTCThin, size: 20)
         iconView.contentMode = UIViewContentMode.ScaleAspectFill
         subtitleEnglish.font = UIFont(name: Font.HelveticaNeueThin, size: 28)
         startButton.addTarget(self, action: "startButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
