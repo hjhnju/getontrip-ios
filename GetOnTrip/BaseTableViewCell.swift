@@ -59,14 +59,14 @@ class BaseTableViewCell: UITableViewCell {
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 120 - 27
         titleLabel.preferredMaxLayoutWidth    = w
         subtitleLabel.preferredMaxLayoutWidth = w
-        titleLabel.numberOfLines    = 2
+        titleLabel.numberOfLines    = 1
         subtitleLabel.numberOfLines = 3
     }
     
     func setupAutoLayout() {
         
         iconView  .ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(120, 73), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 120 - 27, 13), offset: CGPointMake(9, 0))
+        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
         collect   .ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
         visit     .ff_AlignHorizontal(.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))

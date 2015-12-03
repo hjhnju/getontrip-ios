@@ -115,7 +115,8 @@ class CollectContent: NSObject {
     var image: String = ""
     
     var visit: String = ""
-    
+    /// 作者
+    var author: String = ""
     /// 副标题
     var subtitle: String = ""
 
