@@ -10,18 +10,19 @@ import UIKit
 import FFAutoLayout
 import MJRefresh
 
-
-
-class MessageViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate{
+class MessageViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
     
     static let name = "消息"
 
+    /// 请求
     var lastRequest: MessageListRequest = MessageListRequest()
-    
-    lazy var tableView: UITableView = UITableView()
-    
+    /// tableView
+    lazy var tableView: MessageTableView = MessageTableView()
+    /// 左侧滑动view
+    lazy var slideView: UIView = UIView()
+    /// 未收到消息提示
     let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "您暂时还未收到任何消息\n(∩_∩)", fontSize: 13, mutiLines: true)
-    
+    /// 消息列表
     var messageLists: [MessageList] = [MessageList]() {
         didSet {
             if messageLists.count == 0 {
@@ -52,19 +53,22 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         view.addSubview(collectPrompt)
     
         tableView.addSubview(collectPrompt)
+        view.addSubview(slideView)
+        slideView.frame = CGRectMake(0, 0, 50, UIScreen.mainScreen().bounds.height)
         collectPrompt.ff_AlignInner(.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = NSTextAlignment.Center
         collectPrompt.hidden = true
         
         tableView.backgroundColor = UIColor.whiteColor()
-        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
+        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.separatorStyle = .None
         tableView.registerClass(MessageTableViewCell.self, forCellReuseIdentifier: "Message_Cell")
         tableView.registerClass(SystemTableViewCell.self, forCellReuseIdentifier: "SystemTableView_Cell")
     }
     
+
     private func initRefresh() {
         //上拉刷新
         let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
@@ -92,6 +96,27 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         if !tableView.mj_header.isRefreshing() {
             tableView.mj_header.beginRefreshing()
         }
+    }
+    
+    var isGestureRecognizer: Bool = true
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        isGestureRecognizer = true
+        slideView.tag = 1
+        self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        isGestureRecognizer = false
+        self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
+        
+        let touch = UITouch()
+        touch.setValue(slideView, forKey: "view")
+        slideView.tag = 2
+        self.gestureRecognizer(UIGestureRecognizer(), shouldReceiveTouch: touch)
     }
 
     // MARK: - Table view data source
@@ -136,8 +161,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         return 75
     }
     
-    
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
@@ -167,9 +190,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
                 ProgressHUD.showErrorHUD(self.view, text: "删除失败，请重新删除")
             }
         }
-        
     }
-    
     
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -225,204 +246,20 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         }
     }
     
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return isGestureRecognizer
+    }
     
-}
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
 
-// MARK: - 回复消息
-class MessageTableViewCell: UITableViewCell {
-    /// 头像
-    lazy var iconView: UIImageView = UIImageView()
-    /// 回复人
-    lazy var restorePerson: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 12, mutiLines: false)
-    /// 回复时间
-    lazy var restoreTime: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 9, mutiLines: false)
-    /// 所回复的照片
-    lazy var restoreImageView: UIImageView = UIImageView()
-    /// 删除按钮
-    lazy var deleteButton = UIButton(title: "删除", fontSize: 20, radius: 0, titleColor: UIColor.blackColor())
-    
-    /// 设置底线
-    lazy var baseline: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
-    
-    var message: MessageList? {
-        didSet {
-            iconView.sd_setImageWithURL(NSURL(string: message!.avatar), placeholderImage: PlaceholderImage.defaultSmall)
-            restorePerson.text = message?.content
-            restoreTime.text = message?.create_time
-            restoreImageView.sd_setImageWithURL(NSURL(string: message!.image), placeholderImage: PlaceholderImage.defaultSmall)
+        print(self.tableView)
+        if touch.view!.isKindOfClass(NSClassFromString("GetOnTrip.MessageTableView")!) {
+            return false
         }
-    }
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-//        addSubview(deleteButton)
-        contentView.addSubview(baseline)
-        contentView.addSubview(iconView)
-        contentView.addSubview(restoreTime)
-        contentView.addSubview(restorePerson)
-        contentView.addSubview(restoreImageView)
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
-        contentView.addGestureRecognizer(swipeLeft)
-        
-//        swipeLeft.requireGestureRecognizerToFail(<#T##otherGestureRecognizer: UIGestureRecognizer##UIGestureRecognizer#>)
-//        requireGestureRecognizerToFail
-        
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
-        swipeRight.direction = UISwipeGestureRecognizerDirection.Right
-        contentView.addGestureRecognizer(swipeRight)
-        
-        iconView.layer.borderWidth = 1.0
-        iconView.layer.borderColor = SceneColor.shallowGrey.CGColor
-        
-        iconView.clipsToBounds = true
-        iconView.layer.cornerRadius = iconView.bounds.width * 0.5
-        iconView.ff_AlignInner(.CenterLeft, referView: contentView, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
-        restorePerson.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreTime.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(77, 57), offset: CGPointMake(-9, 0))
-        baseline.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-//        deleteButton.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(100, 75))
-        
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        iconView.layer.cornerRadius = max(iconView.bounds.width, iconView.bounds.height) * 0.5
-        iconView.clipsToBounds = true
-    }
-    
-    
-//    func swipeGesture(recognizer: UISwipeGestureRecognizer) {
-//        let startPoint = recognizer.view!.center
-//        var endPoint: CGPoint?
-//        let w = recognizer.view!.frame.size.width
-//        
-//        if recognizer.direction == UISwipeGestureRecognizerDirection.Left {
-//            
-//            // 左扫
-//            endPoint = CGPointMake(startPoint.x - 1.2 * w, startPoint.y)
-//        } else {
-//            
-//            // 右扫
-//            endPoint = CGPointMake(startPoint.x + 1.2 * w, startPoint.y)
-//        }
-//        
-//        UIView.animateWithDuration(0.5, animations: { () -> Void in
-//            recognizer.view!.center = endPoint!
-//            }) { (_) -> Void in
-//                UIView.animateWithDuration(0.5, animations: { () -> Void in
-//                    recognizer.view?.center = startPoint
-//                })
-//        }
-//    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        
-    }
-    
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
-        
+        if (touch.view!.isKindOfClass(NSClassFromString("UITableViewCellContentView")!) && slideView.tag == 1) {
+                return false
+        }
+        return true
     }
 }
 
-// MARK: - 系统消息
-class SystemTableViewCell: UITableViewCell {
-    /// 头像
-    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "icon_app"))
-    /// 系统回复
-    lazy var restorePerson: UILabel = UILabel(color: SceneColor.frontBlack, title: "系统消息", fontSize: 12, mutiLines: false)
-    /// 回复时间
-    lazy var restoreTime: UILabel = UILabel(color: SceneColor.frontBlack, title: "2天前", fontSize: 9, mutiLines: false)
-    /// 标题
-    lazy var title: UILabel = UILabel(color: SceneColor.frontBlack, title: "周天赞自己，升级正能量！", fontSize: 12, mutiLines: false)
-    /// 副标题
-    lazy var subTitle: UILabel = UILabel(color: SceneColor.frontBlack, title: "给负能量除以二，让好心情翻一番。来途知查看你的爱心话题，推荐有趣的话题，传递周一正能量能量！查看你的爱心话题，推荐有趣的话题，传递周一正能量能量能量能能量", fontSize: 12, mutiLines: false)
-    /// 图片
-    lazy var restoreImageView: UIImageView = UIImageView()
-    
-    /// 设置底线
-    lazy var baseline: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
-    
-    var message: MessageList? {
-        didSet {
-            restoreTime.text = message?.create_time
-            restoreImageView.sd_setImageWithURL(NSURL(string: message!.image), placeholderImage: PlaceholderImage.defaultSmall)
-            
-            let getWidth = CGRectGetMaxX(restorePerson.frame) + 8
-            title.text = message?.title
-            subTitle.text = message?.content
-            if message!.systemMesIsIcon {
-                restoreImageView.removeFromSuperview()
-                title.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - (getWidth + 10)
-                subTitle.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - (getWidth + 10)
-            } else {
-                title.preferredMaxLayoutWidth = bounds.width - (getWidth + iconView.bounds.width + 10 + 18)
-                subTitle.preferredMaxLayoutWidth = bounds.width - (getWidth + iconView.bounds.width + 10 + 18)
-            }
-        }
-    }
-    
-    class func messageWithHeight(mes: MessageList) -> CGFloat {
-        var w: CGFloat = 114
-        var h: CGFloat = 24
-        if mes.systemMesIsIcon {
-            w = UIScreen.mainScreen().bounds.width - CGFloat(114) - CGFloat(105)
-        } else {
-            w = UIScreen.mainScreen().bounds.width - CGFloat(114) - CGFloat(9)
-        }
-        h = h + mes.title.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(w, CGFloat.max)).height +
-                mes.content.sizeofStringWithFount1(UIFont.systemFontOfSize(12), maxSize: CGSizeMake(w, CGFloat.max)).height
-        return max(h, 72)
-    }
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        addSubview(title)
-        addSubview(subTitle)
-        addSubview(baseline)
-        addSubview(iconView)
-        addSubview(restoreTime)
-        addSubview(restorePerson)
-        addSubview(restoreImageView)
-        
-        title.numberOfLines = 0
-        subTitle.numberOfLines = 0
-        
-        iconView.clipsToBounds = true
-        iconView.layer.cornerRadius = iconView.bounds.width * 0.5
-        
-        iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(35, 35), offset: CGPointMake(10, 19))
-        restorePerson.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreTime.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))
-        restoreImageView.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(77, 58), offset: CGPointMake(-9, 0))
-        title.ff_AlignHorizontal(.TopRight, referView: restorePerson, size: nil, offset: CGPointMake(15, 0))
-        subTitle.ff_AlignVertical(.BottomLeft, referView: title, size: nil, offset: CGPointMake(0, 8))
-        baseline.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        iconView.layer.cornerRadius = max(iconView.bounds.width, iconView.bounds.height) * 0.5
-        iconView.clipsToBounds = true
-    }
-    
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
-        
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        
-    }
-}

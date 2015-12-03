@@ -150,15 +150,28 @@ class LoginViewController: MainViewController {
         welcomeLabel.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 42))
         retrievePwButton.ff_AlignVertical(.BottomLeft, referView: cancleButton, size: nil, offset: CGPointMake(0, screen.height * 0.02))
         registerButton.ff_AlignVertical(.BottomRight, referView: cancleButton, size: nil, offset: CGPointMake(0, screen.height * 0.02))
-        if (UIScreen.mainScreen().bounds.width == 320) {
-            qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.13)))
+        
+        if !Device.isWeixinInstalled() {
+            wechatButton.hidden = true
+            if (UIScreen.mainScreen().bounds.width == 320) {
+                qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(-45, -(screen.height * 0.13)))
+            } else {
+                qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(-45, -(screen.height * 0.167)))
+            }
+            weiboButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(45, 0))
+            baseLineView.ff_AlignVertical(.TopCenter, referView: qqButton, size: CGSizeMake(screen.width * 0.84, 0.5), offset: CGPointMake(49, -(screen.height * 0.033)))
+            elseLoginLabel.ff_AlignVertical(.TopCenter, referView: baseLineView, size: nil, offset: CGPointMake(0, -5))
         } else {
-            qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.167)))
+            if (UIScreen.mainScreen().bounds.width == 320) {
+                qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.13)))
+            } else {
+                qqButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(45, 45), offset: CGPointMake(0, -(screen.height * 0.167)))
+            }
+            wechatButton.ff_AlignHorizontal(.CenterLeft, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(-49, 0))
+            weiboButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(49, 0))
+            baseLineView.ff_AlignVertical(.TopCenter, referView: qqButton, size: CGSizeMake(screen.width * 0.84, 0.5), offset: CGPointMake(0, -(screen.height * 0.033)))
+            elseLoginLabel.ff_AlignVertical(.TopCenter, referView: baseLineView, size: nil, offset: CGPointMake(0, -5))
         }
-        wechatButton.ff_AlignHorizontal(.CenterLeft, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(-49, 0))
-        weiboButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(45, 45), offset: CGPointMake(49, 0))
-        baseLineView.ff_AlignVertical(.TopCenter, referView: qqButton, size: CGSizeMake(screen.width * 0.84, 0.5), offset: CGPointMake(0, -(screen.height * 0.033)))
-        elseLoginLabel.ff_AlignVertical(.TopCenter, referView: baseLineView, size: nil, offset: CGPointMake(0, -5))
         exitButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(34, 34), offset: CGPointMake(0, -(screen.height * 0.052)))
     }
     

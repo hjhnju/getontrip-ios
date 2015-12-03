@@ -33,7 +33,6 @@ struct SlideMenuOptions {
     static let DrawerHeight: CGFloat = UIScreen.mainScreen().bounds.height
     //超过该滑动阀值开始自动展开/关闭菜单
     static var AutoSlideXOffSet : CGFloat  = 60.0
-    
     //menu
     static let MenuTableViewCellID = "MenuTableViewCellID"
 }
@@ -41,16 +40,15 @@ struct SlideMenuOptions {
 protocol SlideMenuViewControllerDelegate {
     //打开或关闭
     func toggle() -> Void
-    
     //恢复
     func reset() -> Void
 }
 
 let UserInfoChangeNotification = "UserInfoChangeNotification"
-
-class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, SlideMenuViewControllerDelegate {
+// CLLocationManagerDelegate
+class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SlideMenuViewControllerDelegate, UIGestureRecognizerDelegate {
     
-    // MARK: Properties and Views    
+    // MARK: Properties and Views
     
     //当前选择的主窗体对象
     var curVCType: AnyClass! {
@@ -85,7 +83,13 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 vc.slideView.addGestureRecognizer(tapGestureRecognizer)
             }
             
+            if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.MessageViewController")!) {
+                let vc = mainViewController as! MessageViewController
+                panGestureRecognizer.delegate = vc
+            }
+            
             mainViewController.view.addGestureRecognizer(panGestureRecognizer)
+//            panGestureRecognizer.requireGestureRecognizerToFail((mainViewController.view.gestureRecognizers?.last)!)
             mainViewController.slideDelegate = self
             refreshMask()
         }
@@ -144,13 +148,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
     
-    //地理位置 TODO: - 需更改
-    var city: String? {
-        didSet {
-            
-        }
-    }
-    
     //登陆状态
     var logined: Bool = true
     
@@ -158,12 +155,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action:"panGestureHandler:")
+        pan.delegate = self
         return pan
     }()
     
     lazy var panGestureRecognizer2: UIPanGestureRecognizer = {
         let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action:"panGestureHandler:")
+        pan.delegate = self
         return pan
         }()
     
@@ -182,8 +181,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         refreshLoginStatus()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userInfoDidChangeNotification:", name: UserInfoChangeNotification, object: nil)
         // 应用程序使用期间允许定位
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
+//        locationManager.requestWhenInUseAuthorization()
+//        locationManager.delegate = self
         locationManager.startUpdatingLocation()
         isInstallLoginClientSide()
     }
@@ -240,6 +239,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         //添加手势
         menuView.addGestureRecognizer(panGestureRecognizer2)
+        
     }
     
     private func isInstallLoginClientSide() {
@@ -330,7 +330,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     // MARK: tableView数据源方法
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return tableViewDataSource.count
     }
     
@@ -338,15 +337,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let cell = tableView.dequeueReusableCellWithIdentifier(SlideMenuOptions.MenuTableViewCellID, forIndexPath: indexPath) as! MenuSettingTableViewCell
         //cell选中效果
         cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
         cell.titleLabel.text = tableViewDataSource[indexPath.row]
-        
-        // 添加tableview顶上的线
-        /*if indexPath.row == 0 {
-            let baselineView = UIView(color: UIColor(white: 0xFFFFFF, alpha: 1), alphaF: 0.3)
-            cell.addSubview(baselineView)
-            baselineView.ff_AlignInner(.TopLeft, referView: cell, size: CGSizeMake(cell.bounds.width, 0.5), offset: CGPointMake(0, 0))
-        }*/
         
         //最后一行无底部横线
         if indexPath.row == tableViewDataSource.count - 1 {
@@ -363,60 +354,19 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         curVCType = usingVCTypes[indexPath.row]
     }
     
-    //侧滑菜单动画效果
-    /*var cellx: CGFloat = 0
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-        cellx += 150
-        cell.transform = CGAffineTransformMakeTranslation(cellx, 0)
-        UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 3, initialSpringVelocity: 1, options: UIViewAnimationOptions.AllowAnimatedContent, animations: { () -> Void in
-            cell.transform = CGAffineTransformIdentity
-        }, completion: nil)
-    }*/
-    
-    // MARK: - 地理定位代理方法
-    
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        locationManager.stopUpdatingLocation()
+    // MARK: - 手势代理
+    /// 可以让手势共存
+//    var isGestureRecognizer: Bool = false
+//    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return false
+//    }
+//    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailByGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return true
+//    }
 
-        // 获取位置信息
-        let coordinate = locations.first?.coordinate
-        // 反地理编码
-        let geocoder = CLGeocoder()
-        let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
-
-        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
-            if let locality = placemarks?.first?.locality {
-                let firstPlacemark: NSString = NSString(string: " 当前城市\(locality)")
-                self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
-                
-                struct Static {
-                    static var onceToken: dispatch_once_t = 0
-                }
-                dispatch_once(&Static.onceToken, {
-                    LocateToCity.locate(locality, handler: { (result, status) -> Void in
-                        if status == RetCode.SUCCESS {
-                            currentCityId = result as? String ?? ""
-                        } else {
-                            let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
-                            hud.textLabel.text = "网络连接失败，请检查网络"
-                            hud.showInView(self?.view)
-                            hud.dismissAfterDelay(3.0)
-                        }
-                    })
-                })
-            }
-        }
-    }
     
     // MARK: 自定义方法
     
-    func tapGestureHandler(sender: UITapGestureRecognizer){
-        if sender.state == .Ended {
-            toggle()
-        }
-    }
     
     //用户touch的点位置
     var panGestureStartLocation : CGPoint!
@@ -427,126 +377,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    //左右滑动效果
-    func panGestureHandler(sender: UIPanGestureRecognizer){
-        //用户对视图操控的状态。
-        let state    = sender.state;
-        let location = sender.locationInView(self.mainNavViewController.view)
-        var frame    = self.mainNavViewController.view.frame
-        
-        var startX:CGFloat = 0.0
-        switch (state) {
-        case UIGestureRecognizerState.Began:
-            //记录用户开始点击的位置
-            self.panGestureStartLocation = location;
-            startX = frame.origin.x
-            break;
-        case UIGestureRecognizerState.Changed:
-            //相比起点Began的x轴距离(每次.Changed调用是累计的
-            let xOffSet = sender.translationInView(self.view).x
-            //右滑动
-            if (xOffSet > 0 && xOffSet < SlideMenuOptions.DrawerWidth){
-                if (self.slideMenuState == SlideMenuState.Closing){
-                    frame.origin.x = xOffSet + startX
-                }
-            //左滑动
-            }else if (xOffSet < 0 && xOffSet > -SlideMenuOptions.DrawerWidth){
-                if (self.slideMenuState == SlideMenuState.Opening){
-                    frame.origin.x = xOffSet + SlideMenuOptions.DrawerWidth
-                }
-            }
-            self.mainNavViewController.view.frame = frame;
-            //alpha=[0.5 ~ 1.0]
-            self.menuAlpha = min(0.5 + frame.origin.x / SlideMenuOptions.DrawerWidth, 1.0)
-            break;
-        case UIGestureRecognizerState.Ended:
-            let xOffSet = sender.translationInView(self.view).x
-            //超过阀值需要自动
-            if abs(xOffSet) > SlideMenuOptions.AutoSlideXOffSet {
-                if xOffSet < 0 && slideMenuState == SlideMenuState.Opening {
-                    self.didClose()
-                }else if xOffSet > 0 && slideMenuState == SlideMenuState.Closing {
-                    self.didOpen()
-                }
-            } else {
-                self.reset()
-            }
-            break;
-        default:
-            break;
-        }
-    }
-    
-    //打开侧边栏
-    func didOpen(){
-        //设置主窗体的结束位置
-        var mainSize = self.mainNavViewController.view.frame
-        mainSize.origin.x = SlideMenuOptions.DrawerWidth
-        menuAlpha = max(0.5, menuAlpha)
-        //动效
-        UIView.animateWithDuration(0.7,
-            delay: 0,
-            usingSpringWithDamping: 1,
-            initialSpringVelocity: 1.0,
-            options: UIViewAnimationOptions.AllowUserInteraction,
-            animations:{ self.mainNavViewController.view.frame = mainSize;
-                self.menuAlpha = 1.0 },
-            completion: { (finished: Bool) -> Void in
-                self.menuAlpha = 1.0
-            }
-        )
-        
-        //将侧边栏的装填标记为打开状态
-        self.slideMenuState = SlideMenuState.Opening
-        
-        refreshMask()
-    }
-    
-    //关闭侧边栏
-    func didClose(){
-        //点击关闭时要将当前状态标记为关闭
-        if slideMenuState == SlideMenuState.Opening {
-            slideMenuState = SlideMenuState.Closing
-        }
-        //将主窗体的起始位置恢复到原始状态
-        var mainSize = self.mainNavViewController.view.frame
-        mainSize.origin.x = 0
-        menuAlpha = min(1.0, menuAlpha)
-        UIView.animateWithDuration(0.7,
-            delay: 0,
-            usingSpringWithDamping: 1,
-            initialSpringVelocity: 1.0,
-            options: UIViewAnimationOptions.AllowUserInteraction,
-            animations: { self.mainNavViewController.view.frame = mainSize;
-                self.menuAlpha = 0.5 },
-            completion: { (finished: Bool) -> Void in
-                //偶尔右滑到底时被执行！why
-                //self.menuAlpha = 0.0
-            }
-        )
-        
-        refreshMask()
-    }
-    
-    // MARK: SlideMenuViewControllerDelegate
-    
-    func toggle() {
-        if self.slideMenuState == SlideMenuState.Opening {
-            self.didClose()
-        } else {
-            self.didOpen()
-        }
-    }
-    
-    func reset(){
-        if self.slideMenuState == SlideMenuState.Opening {
-            self.didOpen()
-        } else {
-            self.didClose()
-        }
-    }
-    
-    // MARK: 支持第三方登录
     
     /// 登陆后的操作
     var loginFinishedHandler: UserLogin.LoginFinishedHandler = { (result, error) -> Void in
@@ -557,27 +387,4 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             hud.dismissAfterDelay(3.0)
         }
     }
-    
-    //微信登陆
-    func wechatLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler){ (_) -> Void in
-        }
-
-    }
-    
-    //qq登陆
-    func qqLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler){ (_) -> Void in
-        }
-    }
-    
-    // 更多登陆方式
-    func moreLogin() {
-        definesPresentationContext = true
-        navigationController
-        let lovc = LoginViewController()
-        let nav = UINavigationController(rootViewController: lovc)
-        presentViewController(nav, animated: true, completion: nil)
-    }
 }
-

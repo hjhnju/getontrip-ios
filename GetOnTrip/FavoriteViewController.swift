@@ -120,7 +120,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        slideView.hidden = indexPath.row == 0 ? false : true
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FavoriteCollectionViewCell", forIndexPath: indexPath) as! FavoriteCollectionViewCell
         cell.viewController.view.removeFromSuperview()
         if indexPath.row == 0 {
@@ -136,8 +136,6 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         
         return cell
     }
-
-    
     
     /// MARK: - 切换收藏视图方法
     var selectedIndex: Int?
@@ -171,6 +169,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
             })
             break
         }
+        slideView.hidden = selectView.center.x < UIScreen.mainScreen().bounds.width * 0.5 ? false : true
     }
 }
 

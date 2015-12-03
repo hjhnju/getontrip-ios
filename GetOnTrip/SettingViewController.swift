@@ -44,7 +44,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     var removeCacheLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "0.0M", fontSize: 16, mutiLines: true)
     
     /// 请登陆按钮
-    var pleaseLoginButton: PleaseLoginButton = PleaseLoginButton(image: "icon_app", title: "请登陆", fontSize: 16, titleColor: SceneColor.frontBlack)
+    var pleaseLoginButton: PleaseLoginButton = PleaseLoginButton(image: "icon_app", title: "请登录", fontSize: 16, titleColor: SceneColor.frontBlack)
     
     /// 设置昵称控制器
     lazy var nicknameController: SettingNicknameController = SettingNicknameController()
@@ -84,6 +84,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         addChildViewController(switchPhotoVC)
         addChildViewController(nicknameController)
         
+        tableView.bounces    = false
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.separatorStyle = .None
@@ -263,7 +264,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 }
                 return
             }
-            ProgressHUD.showErrorHUD(self.view, text: "登陆失败")
+            ProgressHUD.showErrorHUD(self.view, text: "登录失败")
         }
     }
     
