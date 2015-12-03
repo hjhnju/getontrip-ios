@@ -107,6 +107,7 @@ class SightTopicViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let vc: TopicViewController = TopicViewController()
+        vc.isEntranceSight = true
         let topic = topics[indexPath.row]
         vc.topicDataSource = Topic.fromBrief(topic)
         navigationController?.pushViewController(vc, animated: true)

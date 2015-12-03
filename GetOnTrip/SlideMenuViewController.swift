@@ -301,7 +301,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         if let user = globalUser {
             loginAfter.hidden = false
             loginBefore.hidden = true
-            if user.icon != "" {
+            if user.icon == "" {
+                headerView.image = PlaceholderImage.defaultUser
+            } else {
                 headerView.sd_setImageWithURL(NSURL(string: user.icon))
             }
             nameLabel.text = user.nickname

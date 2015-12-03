@@ -137,7 +137,7 @@ extension TopicViewController {
     func sightAction(sender: UIButton) {
         
         // 如果只有一个景点,那这个景点肯定是由上一个景点跳进来了，所以跳回去，而不是重新创建
-        if topicDataSource?.arrsight.count == 1 {
+        if topicDataSource?.arrsight.count == 1 && isEntranceSight == true {
             navigationController?.popViewControllerAnimated(true)
             return
         }

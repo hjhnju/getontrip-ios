@@ -98,6 +98,9 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         return self.topicDataSource?.id ?? ""
     }
     
+    /// 进入的样式
+    var isEntranceSight: Bool = false
+    
     var topicDataSource: Topic? {
         didSet {
             if let topic = topicDataSource {
