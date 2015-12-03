@@ -1,4 +1,3 @@
-
 //
 //  CollectContentBookCell.swift
 //  GetOnTrip
@@ -43,7 +42,7 @@ class CollectContentBookCell: BaseTableViewCell {
         titleLabel.font = UIFont.systemFontOfSize(16)
         titleLabel.numberOfLines = 1
         titleLabel.textColor = UIColor.blackColor()
-        subtitleLabel.tintColor = SceneColor.grayWhite
+        subtitleLabel.textColor =  UIColor(hex: 0x939393, alpha: 0.8)
         subtitleLabel.font = UIFont.systemFontOfSize(13)
     }
 
@@ -54,7 +53,6 @@ class CollectContentBookCell: BaseTableViewCell {
     }
     
     private func initView() {
-        
         addSubview(iconBottomView)
     }
 }

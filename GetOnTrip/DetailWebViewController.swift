@@ -25,7 +25,17 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
     var url: String?
     
     /// 视频
-    var video: Video?
+    var video: Video? {
+        didSet {
+            VideoRequest.fetchModels(video?.id ?? "") { (video, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    self.navBar.rightButton.selected = video?.collected == "1" ? true  : false
+                } else {
+                    self.navBar.rightButton.selected = false
+                }
+            }
+        }
+    }
     
     /// 分享view
     lazy var shareView: ShareView = ShareView()
@@ -62,7 +72,6 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Normal)
         navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Selected)
         navBar.rightButton2.addTarget(self, action: "shareVideoAction:", forControlEvents: .TouchUpInside)
-        navBar.rightButton.selected  = video?.collected == "1" ? true  : false
         navBar.rightButton.hidden = video == nil ? true : false
         navBar.rightButton2.hidden = video == nil ? true : false
         let rightCon = navBar.rightButton.ff_Constraint(navBar.rightCons!, attribute: NSLayoutAttribute.Right)
