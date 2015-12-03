@@ -118,6 +118,8 @@ class CollectContent: NSObject {
     var author: String = ""
     /// 副标题
     var subtitle: String = ""
+    /// 点赞
+    var praise: String = ""
 
     var type: String = ""
     

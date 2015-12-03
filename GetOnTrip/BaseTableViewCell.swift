@@ -24,7 +24,7 @@ class BaseTableViewCell: UITableViewCell {
     lazy var baseline: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     
     //收藏
-    lazy var collect: UIButton = UIButton(image: "icon_star_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
+    lazy var praise: UIButton = UIButton(image: "praise_Topic", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
     
     //浏览
     lazy var visit: UIButton = UIButton(image: "icon_eye_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
@@ -49,7 +49,7 @@ class BaseTableViewCell: UITableViewCell {
         addSubview(iconView)
         addSubview(titleLabel)
         addSubview(subtitleLabel)
-        addSubview(collect)
+        addSubview(praise)
         addSubview(visit)
         addSubview(baseline)
         
@@ -67,9 +67,9 @@ class BaseTableViewCell: UITableViewCell {
         
         iconView  .ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(120, 73), offset: CGPointMake(9, 0))
         titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
-        collect   .ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
-        visit     .ff_AlignHorizontal(.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))
+        subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 1))
+        praise   .ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
+        visit     .ff_AlignHorizontal(.CenterRight, referView: praise, size: nil, offset: CGPointMake(8, 0))
         baseline  .ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     

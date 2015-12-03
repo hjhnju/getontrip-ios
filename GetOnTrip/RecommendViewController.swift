@@ -269,10 +269,11 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         let marginY:CGFloat   = 15
 
         for (var i = 0; i < recommendLabels.count; i++) {
-            let btn = UIButton(title: recommendLabels[i].toString(), fontSize: 14, radius: 0)
+            let btn: RecommendButton = RecommendButton(title: recommendLabels[i].name, fontSize: 14, radius: 0)
+            btn.numLabel.text = recommendLabels[i].num
             headerView.addSubview(btn)
             btn.titleLabel?.textAlignment = NSTextAlignment.Center
-            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: UIControlEvents.TouchUpInside)
             btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
             btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
@@ -294,8 +295,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             btnX += i % 2 == 0 ? 5 : -5
             if i == 0 || i == 1 {
                 btn.contentVerticalAlignment = UIControlContentVerticalAlignment.Bottom
+                btn.numLabel.ff_AlignInner(.BottomRight, referView: btn, size: nil)
             } else if i == 4 || i == 5 {
                 btn.contentVerticalAlignment = UIControlContentVerticalAlignment.Top
+                btn.numLabel.ff_AlignInner(.TopRight, referView: btn, size: nil)
+            } else if i == 2 || i == 3 {
+                btn.numLabel.ff_AlignInner(.CenterRight, referView: btn, size: nil)
             }
             
             btn.frame = CGRectMake(btnX, btnY, btnWidth, btnHeight)

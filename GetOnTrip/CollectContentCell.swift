@@ -18,7 +18,7 @@ class CollectContentCell: BaseTableViewCell {
                 iconView.sd_setImageWithURL(NSURL(string: collectContent.image))
                 titleLabel.text = collectContent.subtitle
                 subtitleLabel.text = collectContent.title
-                collect.setTitle(" " + collectContent.collect ?? "", forState: .Normal)
+                praise.setTitle(" " + collectContent.praise ?? "", forState: .Normal)
                 visit.setTitle(" " + collectContent.visit ?? "", forState: .Normal)
             }
         }

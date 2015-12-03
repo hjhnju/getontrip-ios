@@ -41,7 +41,7 @@ class CollectContentVideoCell: BaseTableViewCell {
             if let collectContent = data as? CollectContent {
                 iconView.sd_setImageWithURL(NSURL(string: collectContent.image))
                 titleLabel.text = collectContent.title
-                collect.setTitle(" " + collectContent.collect ?? "", forState: .Normal)
+                praise.setTitle(" " + collectContent.praise ?? "", forState: .Normal)
                 visit.setTitle(" " + collectContent.visit ?? "", forState: .Normal)
             }
         }

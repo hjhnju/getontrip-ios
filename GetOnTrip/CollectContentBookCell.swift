@@ -21,7 +21,7 @@ class CollectContentBookCell: BaseTableViewCell {
                 iconView.sd_setImageWithURL(NSURL(string: collectContent.image))
                 titleLabel.text = collectContent.title
                 subtitleLabel.text = collectContent.author
-                collect.setTitle(" " + collectContent.collect ?? "", forState: .Normal)
+                praise.setTitle(" " + collectContent.praise ?? "", forState: .Normal)
                 visit.setTitle(" " + collectContent.visit ?? "", forState: .Normal)
             }
         }
@@ -33,8 +33,8 @@ class CollectContentBookCell: BaseTableViewCell {
         iconView     .ff_AlignInner(.CenterCenter, referView: iconBottomView, size: CGSizeMake(62, 86.5))
         titleLabel   .ff_AlignHorizontal(.TopRight, referView: iconBottomView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 148, 17), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
-        collect      .ff_AlignHorizontal(.BottomRight, referView: iconBottomView, size: nil, offset: CGPointMake(6, 0))
-        visit        .ff_AlignHorizontal(.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))
+        praise      .ff_AlignHorizontal(.BottomRight, referView: iconBottomView, size: nil, offset: CGPointMake(6, 0))
+        visit        .ff_AlignHorizontal(.CenterRight, referView: praise, size: nil, offset: CGPointMake(8, 0))
         baseline     .ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     

@@ -157,6 +157,7 @@
 		AEAB951A1BC7C83300B6EE62 /* TopicRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB95191BC7C83300B6EE62 /* TopicRequest.swift */; };
 		AEAB95941BC8D82700B6EE62 /* BookDetail.css in Resources */ = {isa = PBXBuildFile; fileRef = AEAB95931BC8D82700B6EE62 /* BookDetail.css */; };
 		AEB720911C105C7700E0FBF3 /* VideoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB720901C105C7600E0FBF3 /* VideoRequest.swift */; };
+		AEB720931C1067AF00E0FBF3 /* RecommendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB720921C1067AF00E0FBF3 /* RecommendButton.swift */; };
 		AEB98F331BE1CAB500183261 /* SightTopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F321BE1CAB500183261 /* SightTopicViewController.swift */; };
 		AEB98F351BE1CAC400183261 /* SightVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */; };
 		AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F361BE1CAD700183261 /* SightBookViewController.swift */; };
@@ -380,6 +381,7 @@
 		AEAB95191BC7C83300B6EE62 /* TopicRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicRequest.swift; sourceTree = "<group>"; };
 		AEAB95931BC8D82700B6EE62 /* BookDetail.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = BookDetail.css; sourceTree = "<group>"; };
 		AEB720901C105C7600E0FBF3 /* VideoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoRequest.swift; sourceTree = "<group>"; };
+		AEB720921C1067AF00E0FBF3 /* RecommendButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendButton.swift; sourceTree = "<group>"; };
 		AEB98F321BE1CAB500183261 /* SightTopicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightTopicViewController.swift; sourceTree = "<group>"; };
 		AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightVideoViewController.swift; sourceTree = "<group>"; };
 		AEB98F361BE1CAD700183261 /* SightBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightBookViewController.swift; sourceTree = "<group>"; };
@@ -808,6 +810,7 @@
 				7240C45F1BF5D12F007C12C1 /* RecommendTopicViewCell.swift */,
 				7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */,
 				AEAB3A621C03077D00713C36 /* RecommendSlideButton.swift */,
+				AEB720921C1067AF00E0FBF3 /* RecommendButton.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1251,6 +1254,7 @@
 				728747211BF8581800EE36AA /* SearchResult.swift in Sources */,
 				AE488D6B1BCBDDAE0032B78B /* RecommendRequest.swift in Sources */,
 				AED4B86B1C0487F300DAC9D3 /* BaseCollectionCell.swift in Sources */,
+				AEB720931C1067AF00E0FBF3 /* RecommendButton.swift in Sources */,
 				AECBDF711B96BF9D00FAC682 /* SettingViewController.swift in Sources */,
 				AEEA552F1BC02363009AF772 /* LandscapeCell.swift in Sources */,
 				727561881BD4A92A0089CB27 /* DetailWebViewController.swift in Sources */,

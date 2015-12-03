@@ -112,9 +112,11 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
             break
         }
         
-//        if indexPath.row == collectContent.count - 1 {
-//            cell?.baseline.removeFromSuperview()
-//        }
+        if indexPath.row == collectContent.count - 1 {
+            cell?.baseline.hidden = true
+        } else {
+            cell?.baseline.hidden = false
+        }
 
         return cell!
     }
