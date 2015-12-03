@@ -23,7 +23,7 @@ class RecommendTopicViewCell: UITableViewCell {
     lazy var tagButton: UIButton = UIButton(title: "", fontSize: 10, radius: 3, titleColor: UIColor.whiteColor())
     
     //点赞数
-    lazy var favNumLabel: UIButton = UIButton(image: "praised_little", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
+    lazy var favNumLabel: UIButton = UIButton(image: "praise_home", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
 
     //浏览数
     lazy var visitNumLabel: UIButton = UIButton(image: "search_visit", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
