@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import CoreLocation
 
 struct SearchViewContant {
     static let hotwordCellId = "SearchHotwordTableViewCellID"
@@ -16,7 +17,7 @@ struct SearchViewContant {
     static let recordLimit = 4
 }
 
-class SearchViewController: UISearchController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+class SearchViewController: UISearchController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
     
     let searchResultViewController =  SearchResultsViewController()
     
@@ -45,6 +46,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 定位城市
     var locationButton: UIButton = UIButton(image: "location_yellow", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor(hex: 0xF3FD54, alpha: 1.0))
     
+    //位置管理器
+    lazy var locationManager: CLLocationManager = CLLocationManager()
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -61,7 +65,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // 应用程序使用期间允许定位
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
         let imageV = UIImageView(image: UIImage(named: "search-bg")!)
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)
@@ -70,18 +76,22 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         loadHotSearchLabel()
     }
     
-    
+    /// 切换当前城市
     func switchCurrentCity(btn: UIButton) {
+        // 开始定位
+        locationManager.startUpdatingLocation()
         
-        if currentCityId == nil {
-            ProgressHUD.showErrorHUD(self.view, text: "正在定位中")
-            return
-        } else if currentCityId == "" {
-            ProgressHUD.showSuccessHUD(self.view, text: "当前城市未开通")
-        } else {
+        if currentCityId != "-1" && currentCityId != "0" && currentCityId != "" {
             let vcity = CityViewController()
-            vcity.cityDataSource = City(id: currentCityId!)
-            searchResultViewController.showSearchResultController(vcity)
+            vcity.cityDataSource = City(id: currentCityId)
+            self.searchResultViewController.showSearchResultController(vcity)
+            return
+        }
+        
+        if currentCityId == "-1" {
+            ProgressHUD.showSuccessHUD(self.view, text: "正在定位中")
+        } else if currentCityId == "0" {
+            ProgressHUD.showSuccessHUD(self.view, text: "当前城市未开通")
         }
     }
     
@@ -283,7 +293,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     func searchHotwordButtonAction(btn: UIButton) {
         view.endEditing(true)
-        searchBar.text = btn.titleLabel?.text
+        searchBar.text = btn.titleLabel?.text ?? ""
         recordTableView.hidden = true
     }
     
@@ -316,6 +326,44 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         recordData.insert(filterString, atIndex: 0)
         if recordData.count > SearchViewContant.recordLimit {
             recordData.removeLast()
+        }
+    }
+    
+    // MARK: - 地理定位代理方法
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        /// 只定位一次
+        locationManager.stopUpdatingLocation()
+        if currentCityId == "" {
+            currentCityId = "-1"
+        }
+        
+        // 获取位置信息
+        let coordinate = locations.first?.coordinate
+        // 反地理编码
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
+        
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
+            if let locality = placemarks?.first?.locality {
+                struct Static {
+                    static var onceToken: dispatch_once_t = 0
+                }
+                dispatch_once(&Static.onceToken, {
+                    LocateToCity.locate(locality, handler: { (result, status) -> Void in
+                        if status == RetCode.SUCCESS {
+                            currentCityId = result as? String ?? "0"
+                            if result != nil {
+                                let vcity = CityViewController()
+                                vcity.cityDataSource = City(id: currentCityId)
+                                self?.searchResultViewController.showSearchResultController(vcity)
+                            }
+                        } else {
+                            ProgressHUD.showSuccessHUD(self?.view, text: "网络连接失败，请检查网络")
+                        }
+                    })
+                })
+            }
         }
     }
 }

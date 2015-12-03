@@ -9,7 +9,6 @@
 
 import UIKit
 import FFAutoLayout
-import CoreLocation
 import JGProgressHUD
 
 //定义侧边栏的两种状态（打开，关闭）枚举类型
@@ -45,7 +44,7 @@ protocol SlideMenuViewControllerDelegate {
 }
 
 let UserInfoChangeNotification = "UserInfoChangeNotification"
-// CLLocationManagerDelegate
+
 class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SlideMenuViewControllerDelegate, UIGestureRecognizerDelegate {
     
     // MARK: Properties and Views
@@ -166,9 +165,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         return pan
         }()
     
-    //位置管理器
-    lazy var locationManager: CLLocationManager = CLLocationManager()
-    
     // MARK: - 初始化方法
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,10 +176,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         setupAutoLayout()
         refreshLoginStatus()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userInfoDidChangeNotification:", name: UserInfoChangeNotification, object: nil)
-        // 应用程序使用期间允许定位
-//        locationManager.requestWhenInUseAuthorization()
-//        locationManager.delegate = self
-        locationManager.startUpdatingLocation()
+        
         isInstallLoginClientSide()
     }
     

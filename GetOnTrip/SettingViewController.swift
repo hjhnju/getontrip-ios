@@ -277,12 +277,17 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     /// 清除缓存
     func clearCacheAction() {
-        Cache.shareInstance.clear { () -> Void in }
-        SDImageCache.sharedImageCache().clearDiskOnCompletion { [weak self]() -> Void in
-            //更新显示缓存
-            let size = self?.getUsedCache()
-            print("CachSize2=\(size)")
-            self!.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 1)], withRowAnimation: .None)
+
+        ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在清理缓存中", style: nil) { (handler) -> Void in
+            Cache.shareInstance.clear { () -> Void in }
+            SDImageCache.sharedImageCache().clearDiskOnCompletion { [weak self]() -> Void in
+                handler()
+                //更新显示缓存
+                let size = self?.getUsedCache()
+                print("CachSize2=\(size)")
+                self!.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 1)], withRowAnimation: .None)
+                ProgressHUD.showSuccessHUD(nil, text: "清理完毕")
+            }
         }
     }
     

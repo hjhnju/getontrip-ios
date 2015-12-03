@@ -168,41 +168,5 @@ extension SlideMenuViewController {
     cell.transform = CGAffineTransformIdentity
     }, completion: nil)
     }*/
-    
-    // MARK: - 地理定位代理方法
-    
-//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        
-//        locationManager.stopUpdatingLocation()
-//        
-//        // 获取位置信息
-//        let coordinate = locations.first?.coordinate
-//        // 反地理编码
-////        let geocoder = CLGeocoder()
-////        let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
-//        
-//        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
-//            if let locality = placemarks?.first?.locality {
-//                let firstPlacemark: NSString = NSString(string: " 当前城市\(locality)")
-//                self?.city = firstPlacemark.substringToIndex(firstPlacemark.length - 1)
-//                
-//                struct Static {
-//                    static var onceToken: dispatch_once_t = 0
-//                }
-//                dispatch_once(&Static.onceToken, {
-//                    LocateToCity.locate(locality, handler: { (result, status) -> Void in
-//                        if status == RetCode.SUCCESS {
-//                            currentCityId = result as? String ?? ""
-//                        } else {
-//                            let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
-//                            hud.textLabel.text = "网络连接失败，请检查网络"
-//                            hud.showInView(self?.view)
-//                            hud.dismissAfterDelay(3.0)
-//                        }
-//                    })
-//                })
-//            }
-//        }
-//    }
 
 }

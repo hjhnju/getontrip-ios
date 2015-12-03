@@ -21,7 +21,7 @@ class TopicCell: UITableViewCell {
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "故宫内真有密道吗？如果有入口在哪里？", fontSize: 18, mutiLines: false)
     
     /// 点赞
-    lazy var praise: UIButton = UIButton(image: "praised_little", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
+    lazy var praise: UIButton = UIButton(image: "praise_Topic", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
     
     //浏览
     lazy var preview: UIButton = UIButton(image: "icon_eye_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))

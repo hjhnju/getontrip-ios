@@ -18,7 +18,7 @@ var globalUser:UserAccount?
 /// 全局缓存
 var globalKvStore: YTKKeyValueStore?
 /// 当前城市id
-var currentCityId: String?
+var currentCityId: String = ""
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
