@@ -12,6 +12,14 @@ struct CacheContant {
     static let table: String = "ApiCache"
 }
 
+/// 缓存的应用类型，可以跟进该类型清除相应缓存
+enum CacheType {
+    case Sight
+    case City
+    case SightTopics
+    case Topic
+}
+
 /// 全局缓存类
 class Cache: NSObject {
     
@@ -31,20 +39,20 @@ class Cache: NSObject {
         "/api/1.0/msg/list?pageSize=10&page=1"             : 1,
     ]
     
-    /// 正则缓存配置
-    var cacheRegexConfs: [CacheRegexConfig] = [
+    /// 正则缓存配置 name:config
+    var cacheRegexConfs: [String: CacheRegexConfig] = [
         //城市页缓存
-        CacheRegexConfig(expr: "^/api/1\\.0/city\\?city=([0-9]+)$", buffer: 10, expire: 600),
+        "city": CacheRegexConfig(expr: "^/api/1\\.0/city\\?city=([0-9]+)$", buffer: 10, expire: 1),
         //景点缓存（标签等信息）
-        CacheRegexConfig(expr: "^/api/1\\.0/sight\\?sightId=([0-9]+)$", buffer: 50, expire: 600),
+        "sight": CacheRegexConfig(expr: "^/api/1\\.0/sight\\?sightId=([0-9]+)$", buffer: 50, expire: 1),
         //景点话题列表缓存
-        CacheRegexConfig(expr: "^/api/1\\.0/sight/topic\\?tags=([0-9]+)&page=1&sightId=([0-9]+)&pageSize=10$", buffer: 100, expire: 600),
+        "sight_topics": CacheRegexConfig(expr: "^/api/1\\.0/sight/topic\\?tags=([0-9]+)&page=1&sightId=([0-9]+)&pageSize=10$", buffer: 100, expire: 1),
         //景观列表缓存
-        CacheRegexConfig(expr: "^/api/1\\.0/sight/landscape\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 600),
+        "sight_landscapes": CacheRegexConfig(expr: "^/api/1\\.0/sight/landscape\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //书籍列表缓存
-        CacheRegexConfig(expr: "^/api/1\\.0/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 600),
+        "sight_books": CacheRegexConfig(expr: "^/api/1\\.0/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //视频列表缓存
-        CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 600),
+        "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
     ]
     
     /**
@@ -100,7 +108,7 @@ class Cache: NSObject {
             return true
         } else {
             /// 缓存区溢出的key删除
-            for conf in cacheRegexConfs {
+            for (_,conf) in cacheRegexConfs {
                 if conf.isCacheKey(key) {
                     globalKvStore?.putString(value, withId: key, intoTable: CacheContant.table)
                     if let overflowKey = conf.appendBuffer(key) {
@@ -113,6 +121,20 @@ class Cache: NSObject {
         return false
     }
     
+    func clearCache(type: CacheType, id: String = ""){
+        var delkeys = [String]()
+        switch type {
+            case CacheType.City:
+                let delkey: String = "/api/1.0/city?city=" + id
+                delkeys.append(delkey)
+            case CacheType.Sight:
+                let delkey: String = "/api/1.0/sight?sightId=" + id
+                delkeys.append(delkey)
+            default:
+                break
+        }
+    }
+    
     /// 清除数据
     func clear(handler: ()->Void) {
         globalKvStore?.clearTable(CacheContant.table)
@@ -123,7 +145,7 @@ class Cache: NSObject {
         if let expire = cachekeys[key] {
             return expire
         } else {
-            for conf in cacheRegexConfs {
+            for (_, conf) in cacheRegexConfs {
                 if let expire = conf.getCacheExpire(key) {
                     return expire
                 }

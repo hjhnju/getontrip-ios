@@ -87,7 +87,7 @@ struct PlaceholderImage {
 }
 
 struct MessageInfo {
-    static let REQUEST_ERR_RETURN = "请求失败，请检查您的网络设置"
+    static let NetworkError = "您的网络无法连接"
 }
 
 /// 正则抓取包含字母和数字

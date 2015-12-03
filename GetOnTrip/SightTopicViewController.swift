@@ -81,7 +81,7 @@ class SightTopicViewController: UITableViewController {
         self.isLoading = true
         lastRequest?.fetchFirstPageModels({ [weak self] (topics, status) -> Void in
             if status != RetCode.SUCCESS {
-                ProgressHUD.showErrorHUD(self?.view, text: "您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
             }
             if let topics = topics {
                 self?.topics = topics

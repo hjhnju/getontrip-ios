@@ -368,7 +368,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
             if status == RetCode.SUCCESS {
                 self.bookDataSource = data
             } else {
-                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: MessageInfo.NetworkError)
             }
         }
     }
