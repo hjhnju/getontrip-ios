@@ -190,27 +190,49 @@ class ShareView: UIView {
             shareAlert = "qq"
         }
         
-        ShareSDK.share(type, parameters: shareParame)
-            { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
-            
-            switch state{
-            case SSDKResponseState.Success:
-                let alert = UIAlertView(title: "分享成功", message: "", delegate: self, cancelButtonTitle: "确定")
-                alert.show()
-            case SSDKResponseState.Fail:    print("分享失败,错误描述:\(error)")
-            if error.code == 208 {
-                let alert = UIAlertView(title: "分享失败", message: "您未安装\(shareAlert)无法进行分享", delegate: self, cancelButtonTitle: "确定")
-                alert.show()
-            } else {
-                let alert = UIAlertView(title: "分享失败", message: "您的网络不稳定，请稍候分享", delegate: self, cancelButtonTitle: "确定")
-                alert.show()
+        if type == SSDKPlatformType.TypeSinaWeibo {
+            ShareSDK.showShareEditor(SSDKPlatformType.TypeSinaWeibo, otherPlatformTypes: nil, shareParams: shareParame) { (state :SSDKResponseState, platformType : SSDKPlatformType, userData: [NSObject : AnyObject]!, contentEntity : SSDKContentEntity!, error : NSError!, Bool end) -> Void in
+                switch state{
+                case SSDKResponseState.Success:
+                    let alert = UIAlertView(title: "分享成功", message: "", delegate: self, cancelButtonTitle: "确定")
+                    alert.show()
+                case SSDKResponseState.Fail:    print("分享失败,错误描述:\(error)")
+                if error.code == 208 {
+                    let alert = UIAlertView(title: "分享失败", message: "您未安装\(shareAlert)无法进行分享", delegate: self, cancelButtonTitle: "确定")
+                    alert.show()
+                } else {
+                    let alert = UIAlertView(title: "分享失败", message: "您的网络不稳定，请稍候分享", delegate: self, cancelButtonTitle: "确定")
+                    alert.show()
+                    }
+                case SSDKResponseState.Cancel:  print("分享取消")
+                default:
+                    break
+                }
             }
-            
-            case SSDKResponseState.Cancel:  print("分享取消")
-                
-            default:
-                break
-            }
+        } else {
+            ShareSDK.share(type, parameters: shareParame)
+                { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in
+                    
+                    switch state{
+                    case SSDKResponseState.Success:
+                        let alert = UIAlertView(title: "分享成功", message: "", delegate: self, cancelButtonTitle: "确定")
+                        alert.show()
+                    case SSDKResponseState.Fail:    print("分享失败,错误描述:\(error)")
+                    if error.code == 208 {
+                        let alert = UIAlertView(title: "分享失败", message: "您未安装\(shareAlert)无法进行分享", delegate: self, cancelButtonTitle: "确定")
+                        alert.show()
+                    } else {
+                        let alert = UIAlertView(title: "分享失败", message: "您的网络不稳定，请稍候分享", delegate: self, cancelButtonTitle: "确定")
+                        alert.show()
+                        }
+                        
+                    case SSDKResponseState.Cancel:  print("分享取消")
+                        
+                    default:
+                        break
+                    }
+        }
+        
         }
     }
     

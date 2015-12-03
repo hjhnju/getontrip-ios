@@ -146,7 +146,6 @@ class SightTopicViewController: UITableViewController {
             self.isLoading = false
             
         })
-
     }
 
 }
