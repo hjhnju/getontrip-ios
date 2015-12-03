@@ -161,12 +161,10 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         view.bringSubviewToFront(navBar)
         
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)
         navBar.titleLabel.hidden = true
-        navBar.rightButton.removeFromSuperview()
         
         
         headerImageView.userInteractionEnabled = true

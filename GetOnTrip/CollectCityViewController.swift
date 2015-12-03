@@ -43,6 +43,8 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         initProperty()
         if globalUser != nil {
             initRefresh()
+        } else {
+            collectPrompt.hidden = false
         }
     }
     
@@ -66,8 +68,6 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         
         // Register cell classes
         collectionView?.registerClass(CollectCityCell.self, forCellWithReuseIdentifier: collectCityViewIdentifier)
-        
-        
     }
     
     private func initRefresh() {

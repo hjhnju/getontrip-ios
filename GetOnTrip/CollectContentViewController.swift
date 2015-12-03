@@ -51,7 +51,6 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         collectPrompt.textAlignment = .Center
         tableView.separatorStyle = .None
         
-        
         tableView.backgroundColor = UIColor.clearColor()
         tableView.registerClass(CollectContentVideoCell.self, forCellReuseIdentifier: CollectContentVideoCellIdentifier)
         tableView.registerClass(CollectContentBookCell.self, forCellReuseIdentifier: CollectContentBookCellIdentifier)

@@ -48,6 +48,8 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
         initProperty()
         if globalUser != nil {
             initRefresh()
+        } else {
+            collectPrompt.hidden = false
         }
     }
     
