@@ -173,6 +173,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
             let topic = Topic(id: data.topicId)
             vc.topicDataSource = topic
             navigationController?.pushViewController(vc, animated: true)
+            vc.doComment(UIButton())
         }
     }
     
