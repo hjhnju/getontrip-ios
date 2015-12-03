@@ -18,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="途知" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAb-k3-8qw">
-                                <rect key="frame" x="285" y="511.5" width="36" height="21.5"/>
+                                <rect key="frame" x="285" y="516.5" width="36" height="21.5"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="18"/>
                                 <color key="textColor" red="0.52941176470588236" green="0.52941176470588236" blue="0.52941176470588236" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_app" translatesAutoresizingMaskIntoConstraints="NO" id="CrR-gT-dF5">
-                                <rect key="frame" x="224" y="481" width="52" height="52"/>
+                                <rect key="frame" x="224" y="486" width="52" height="52"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="52" id="YJa-qt-Jv6"/>
@@ -33,9 +33,9 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="亦行 · 亦读" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slq-Rr-wtO">
-                                <rect key="frame" x="285" y="481" width="105.5" height="26.5"/>
+                                <rect key="frame" x="285" y="486" width="94" height="24"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -46,7 +46,7 @@
                             <constraint firstItem="Slq-Rr-wtO" firstAttribute="leading" secondItem="CrR-gT-dF5" secondAttribute="trailing" constant="9" id="326-hj-XZp"/>
                             <constraint firstItem="Slq-Rr-wtO" firstAttribute="top" secondItem="CrR-gT-dF5" secondAttribute="top" id="4gd-ZM-kHR"/>
                             <constraint firstItem="lAb-k3-8qw" firstAttribute="leading" secondItem="CrR-gT-dF5" secondAttribute="trailing" constant="9" id="5EH-i9-ZQg"/>
-                            <constraint firstItem="XkJ-kZ-Zhi" firstAttribute="top" secondItem="CrR-gT-dF5" secondAttribute="bottom" constant="67" id="Tcu-L8-00G"/>
+                            <constraint firstItem="XkJ-kZ-Zhi" firstAttribute="top" secondItem="CrR-gT-dF5" secondAttribute="bottom" constant="62" id="Tcu-L8-00G"/>
                             <constraint firstItem="lAb-k3-8qw" firstAttribute="bottom" secondItem="CrR-gT-dF5" secondAttribute="bottom" id="W9I-Oe-x7w"/>
                             <constraint firstItem="CrR-gT-dF5" firstAttribute="centerX" secondItem="7la-vP-Dh1" secondAttribute="centerX" constant="-50" id="sin-hG-M1g"/>
                         </constraints>

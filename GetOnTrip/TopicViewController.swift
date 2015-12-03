@@ -50,10 +50,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var toolbarView      = UIView()
     
     /// 点赞按钮
-    lazy var praisedButton    = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
+    lazy var praisedButton    = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x5C5C5C, alpha: 1.0))
     
     /// 底部评论按钮
-    lazy var commentButton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
+    lazy var commentButton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: UIColor.whiteColor())
 
     /// 底部分享按钮
     lazy var shareButton      = UIButton(image: "topic_share", title: "", fontSize: 0)

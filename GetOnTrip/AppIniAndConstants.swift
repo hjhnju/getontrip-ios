@@ -98,4 +98,6 @@ struct Regular {
 /// 字体
 struct Font {
     static let defaultFont = "PingFangTC-Light"
+    static let PingFangTCThin = "PingFangTC-Thin"
+    static let HelveticaNeueThin = "HelveticaNeue-Thin"
 }

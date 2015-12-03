@@ -51,6 +51,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
     }
     
     private func initNavBar() {
+        
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: "途知", target: self, action: "popViewAction:")
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.setBlurViewEffect(false)
@@ -64,6 +65,8 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         navBar.rightButton.selected  = video?.collected == "1" ? true  : false
         navBar.rightButton.hidden = video == nil ? true : false
         navBar.rightButton2.hidden = video == nil ? true : false
+        let rightCon = navBar.rightButton.ff_Constraint(navBar.rightCons!, attribute: NSLayoutAttribute.Right)
+        rightCon?.constant = -11
     }
     
     private func autolayout() {

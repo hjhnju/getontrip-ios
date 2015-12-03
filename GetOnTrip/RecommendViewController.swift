@@ -159,7 +159,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         headerView.addSubview(headerImageView)
         headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
         //为header添加黑色蒙板
-        let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.55)
+        let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.45)
         headerView.addSubview(maskView)
         maskView.ff_Fill(headerView)
         view.bringSubviewToFront(navContainerView)

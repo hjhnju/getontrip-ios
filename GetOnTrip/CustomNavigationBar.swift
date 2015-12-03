@@ -36,6 +36,8 @@ class CustomNavigationBar: UIView {
     
     var rightButton2: UIButton = UIButton(type: UIButtonType.Custom)
     
+    var rightCons: [NSLayoutConstraint]?
+    
     lazy var blurView: UIVisualEffectView = {
         return UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
         }()
@@ -120,7 +122,7 @@ class CustomNavigationBar: UIView {
         
         backButton.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(metric["backButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
         titleLabel.ff_AlignInner(.TopCenter, referView: self, size: CGSizeMake(width, metric["navbarHeight"]!), offset: CGPointMake(0, y))
-        rightButton.ff_AlignInner(.TopRight, referView: self, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
+        rightCons = rightButton.ff_AlignInner(.TopRight, referView: self, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
         rightButton2.ff_AlignHorizontal(.CenterLeft, referView: rightButton, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, 0))
         
 //        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[titleLabel]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: metric, views: viewsBindings))

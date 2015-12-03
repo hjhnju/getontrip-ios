@@ -120,7 +120,7 @@ class NewFeatureCell: UICollectionViewCell {
     lazy var startButton: UIButton = UIButton(title: "开启探索之旅", fontSize: 20, radius: 10, titleColor: UIColor.whiteColor())
     
     /// 蒙版
-    lazy var cover: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.40)
+    lazy var cover: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.5)
     
     /// 标题
     lazy var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "寻找路上的故事", fontSize: 32, mutiLines: true)
@@ -145,14 +145,17 @@ class NewFeatureCell: UICollectionViewCell {
         addSubview(subtitle)
         addSubview(subtitleEnglish)
         addSubview(startButton)
-//        subtitleEnglish.font = UIFont.systemFontOfSize(28)// (name: "PingFangSC-Regular", size: 28)
+        
+        startButton.titleLabel!.font = UIFont(name: Font.PingFangTCThin, size: 20)
         iconView.contentMode = UIViewContentMode.ScaleAspectFill
-        subtitle.font = UIFont(name: Font.defaultFont, size: 24)
-        subtitleEnglish.font = UIFont(name: Font.defaultFont, size: 28)
+        title.font = UIFont(name: Font.PingFangTCThin, size: 32)
+        subtitle.font = UIFont(name: Font.PingFangTCThin, size: 24)
+        subtitleEnglish.font = UIFont(name: Font.HelveticaNeueThin, size: 28)
         startButton.addTarget(self, action: "startButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
         startButton.layer.borderWidth = 1.0
         startButton.layer.borderColor = UIColor.whiteColor().CGColor
         startButton.layer.cornerRadius = 15
+        
         title.textAlignment = NSTextAlignment.Center
         subtitle.textAlignment = NSTextAlignment.Center
     }
@@ -163,7 +166,7 @@ class NewFeatureCell: UICollectionViewCell {
         title.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 136))
         subtitle.ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -79))
         subtitleEnglish.ff_AlignVertical(.TopCenter, referView: subtitle, size: nil, offset: CGPointMake(0, -6))
-        startButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.55, 64), offset: CGPointMake(0, 50))
+        startButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.55, 64), offset: CGPointMake(0, 0))
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -179,16 +182,16 @@ class NewFeatureCell: UICollectionViewCell {
     ///  动画显示开启探索之旅
     func showStartButton() {
         // 动画
-        startButton.transform = CGAffineTransformMakeScale(0, 0)
+//        startButton.transform = CGAffineTransformMakeScale(0, 0)
         startButton.hidden = false
-        startButton.userInteractionEnabled = false
+//        startButton.userInteractionEnabled = false
+//        self.startButton.transform = CGAffineTransformIdentity
+//        self.startButton.userInteractionEnabled = true
         
-        UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 10, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-            self.startButton.transform = CGAffineTransformIdentity
-            }, completion: { (_) -> Void in
-                
-                self.startButton.userInteractionEnabled = true
-        })
+//        UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 10, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+//            }, completion: { (_) -> Void in
+//                
+//        })
     }
 }
 
