@@ -26,7 +26,10 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
             let screen = UIScreen.mainScreen().bounds
             var h: CGFloat = 5 * 53 + 54 + 26.5
             if dataSource?.count < 5 {
-                h = CGFloat((4 - Int(dataSource?.count ?? 0)) * 53) + 54
+                h = CGFloat(Int(dataSource?.count ?? 0) + 1) * 53
+            }
+            if dataSource?.count == 5 {
+                h = 6 * 53
             }
             
             tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(screen.width * 0.63, h))
@@ -53,6 +56,7 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
         tableView.bounces    = false
         tableView.separatorStyle = .None
         tableView.backgroundColor = UIColor(hex: 0x838383, alpha: 0.8)
+        tableView.tableHeaderView = wantBrowseSight()
         tableView.registerClass(TopicSightListTableViewCell.self, forCellReuseIdentifier: "TopicSightListTableViewCell")
         
         exitButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(34, 34))
@@ -70,13 +74,13 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
         return cell
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return wantBrowseSight()
-    }
+//    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        return wantBrowseSight()
+//    }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 54
-    }
+//    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 54
+//    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let data = dataSource?[indexPath.row]

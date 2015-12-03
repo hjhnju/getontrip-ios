@@ -139,11 +139,6 @@ extension TopicViewController {
         // 如果只有一个景点,那这个景点肯定是由上一个景点跳进来了，所以跳回去，而不是重新创建
         if topicDataSource?.arrsight.count == 1 {
             navigationController?.popViewControllerAnimated(true)
-//            let sightViewController = SightViewController()
-//            let sight: Sight = Sight(id: topicDataSource?.sightid ?? "")
-//            sight.name = topicDataSource?.sight ?? ""
-//            sightViewController.sightDataSource = sight
-//            navigationController?.pushViewController(sightViewController, animated: true)
             return
         }
         
@@ -158,7 +153,7 @@ extension TopicViewController {
         let screen = UIScreen.mainScreen().bounds
         var h: CGFloat = 5 * 53 + 120 + 26.5
         if topicDataSource?.arrsight.count < 5 && topicDataSource?.arrsight.count >= 2 {
-            h -= CGFloat((5 - Int(topicDataSource?.arrsight.count ?? 0)) * 53) - 26.5
+            h = CGFloat(Int(topicDataSource?.arrsight.count ?? 0) + 1) * 53 + 46 + 34
         }
         
         let w: CGFloat = screen.width * 0.63

@@ -46,6 +46,7 @@ class MessageTableViewCell: UITableViewCell {
         iconView.layer.borderColor = SceneColor.shallowGrey.CGColor
         iconView.clipsToBounds = true
         iconView.layer.cornerRadius = 35 * 0.5
+        iconView.contentMode = UIViewContentMode.ScaleAspectFill
         
         iconView.ff_AlignInner(.CenterLeft, referView: contentView, size: CGSizeMake(35, 35), offset: CGPointMake(9, 0))
         restorePerson.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(7, 0))

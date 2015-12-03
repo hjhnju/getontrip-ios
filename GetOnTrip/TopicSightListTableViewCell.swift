@@ -11,7 +11,7 @@ import UIKit
 class TopicSightListTableViewCell: UITableViewCell {
 
     /// 景点名称
-    lazy var sightName = UILabel(color: SceneColor.darkYellows, title: "", fontSize: 20, mutiLines: false)
+    lazy var sightName = UILabel(color: SceneColor.darkYellows, title: "", fontSize: 18, mutiLines: false)
     
     var data: [String : String]? {
         didSet {
@@ -24,7 +24,9 @@ class TopicSightListTableViewCell: UITableViewCell {
         
         backgroundColor = .clearColor()
         addSubview(sightName)
-        sightName.ff_AlignInner(.CenterCenter, referView: self, size: nil)
+        sightName.adjustsFontSizeToFitWidth = true
+        sightName.textAlignment = NSTextAlignment.Center
+        sightName.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.63, 19))
     }
 
     required init?(coder aDecoder: NSCoder) {
