@@ -114,7 +114,7 @@ extension TopicViewController {
                     }
                 } else {
                     if status == RetCode.praised {
-                        ProgressHUD.showErrorHUD(nil, text: "您已点过赞")
+                        ProgressHUD.showErrorHUD(nil, text: "您已点赞")
                         sender.selected = true
                         self.refreshPraisedButton(self.praiseNum)
                     } else {
