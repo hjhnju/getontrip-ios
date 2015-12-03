@@ -101,9 +101,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         if isLoginStatus == false {
             notLoginCount = 1
+            exitLogin.hidden = true
         } else {
             notLoginCount = 3
-            
+            exitLogin.hidden = false
             switch globalUser?.gender.hashValue ?? 3 {
             case 0:
                 gender.text = "男"
