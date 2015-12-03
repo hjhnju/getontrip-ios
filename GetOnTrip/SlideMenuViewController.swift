@@ -203,8 +203,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         //菜单subviews
         bgImageView.contentMode = UIViewContentMode.ScaleToFill
-//        bgImageView.addSubview(blurView)
-//        bgImageView.bringSubviewToFront(blurView)
         
         loginAfter.addSubview(headerView)
         loginAfter.addSubview(nameLabel)
@@ -273,7 +271,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         //menu
         menuView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
         bgImageView.ff_Fill(menuView)
-//        blurView.ff_Fill(bgImageView)
         tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
         
         loginAfter.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))

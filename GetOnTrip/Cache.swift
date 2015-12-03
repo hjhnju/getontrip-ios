@@ -26,7 +26,7 @@ class Cache: NSObject {
     static let shareInstance: Cache = Cache()
     
     var cachekeys: [String: NSTimeInterval] = [
-        "/api/1.0/search/label?order=1&pageSize=15&page=1" : 600,
+        "/api/1.0/search/label?order=1&pageSize=15&page=1" : 60,
         "/api/1.0/search/label?order=2&pageSize=15&page=1" : 600,
         "/api/1.0/search/label?order=3&pageSize=15&page=1" : 600,
         "/api/1.0/search/label?order=4&pageSize=15&page=1" : 600,
