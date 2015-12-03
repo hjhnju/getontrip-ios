@@ -83,13 +83,15 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 vc.slideView.addGestureRecognizer(tapGestureRecognizer)
             }
             
-            if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.MessageViewController")!) {
-                let vc = mainViewController as! MessageViewController
-                panGestureRecognizer.delegate = vc
+            if globalUser != nil {                
+                if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.MessageViewController")!) {
+                    let vc = mainViewController as! MessageViewController
+                    panGestureRecognizer.delegate = vc
+                    panGestureRecognizer2.delegate = vc
+                }
             }
             
             mainViewController.view.addGestureRecognizer(panGestureRecognizer)
-//            panGestureRecognizer.requireGestureRecognizerToFail((mainViewController.view.gestureRecognizers?.last)!)
             mainViewController.slideDelegate = self
             refreshMask()
         }
@@ -155,14 +157,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action:"panGestureHandler:")
-        pan.delegate = self
         return pan
     }()
     
     lazy var panGestureRecognizer2: UIPanGestureRecognizer = {
         let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action:"panGestureHandler:")
-        pan.delegate = self
         return pan
         }()
     
@@ -234,7 +234,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.rowHeight = view.bounds.height * 0.5 * 0.2
         tableView.registerClass(MenuSettingTableViewCell.self, forCellReuseIdentifier: SlideMenuOptions.MenuTableViewCellID)
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.separatorStyle = .None
         tableView.scrollEnabled = false
         
         //添加手势

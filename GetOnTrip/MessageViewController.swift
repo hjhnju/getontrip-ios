@@ -110,13 +110,13 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        isGestureRecognizer = false
-        self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
-        
         let touch = UITouch()
         touch.setValue(slideView, forKey: "view")
         slideView.tag = 2
         self.gestureRecognizer(UIGestureRecognizer(), shouldReceiveTouch: touch)
+        
+        isGestureRecognizer = false
+        self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
     }
 
     // MARK: - Table view data source
@@ -251,12 +251,12 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-
+        
         if touch.view!.isKindOfClass(NSClassFromString("GetOnTrip.MessageTableView")!) {
             return false
         }
         if (touch.view!.isKindOfClass(NSClassFromString("UITableViewCellContentView")!) && slideView.tag == 1) {
-                return false
+            return false
         }
         return true
     }
