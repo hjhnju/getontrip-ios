@@ -84,22 +84,14 @@ class GuideViewController: UICollectionViewController {
         cell.subtitleEnglish.text = subtitleEnglish[indexPath.row]
         cell.imageIndex = indexPath.row
         pagecontrol.currentPage = indexPath.row
-        return cell
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    //  collectionView 停止滚动的动画方法 
-    override func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         
-        // 获取当前显示的 cell
-        let path: AnyObject = collectionView.indexPathsForVisibleItems().last!
-    
-        if path.item == imageCount - 1 {
-            (collectionView.cellForItemAtIndexPath(path as! NSIndexPath) as! NewFeatureCell).showStartButton()
+        if indexPath.row == 3 {
+            cell.startButton.hidden = false
+        } else {
+            cell.startButton.hidden = true
         }
+        
+        return cell
     }
 }
 
@@ -109,7 +101,6 @@ class NewFeatureCell: UICollectionViewCell {
     var imageIndex: Int = 0 {
         didSet {
             iconView.image = UIImage(named: "guide\(imageIndex + 1)")
-            startButton.hidden = true
         }
     }
     
@@ -145,11 +136,18 @@ class NewFeatureCell: UICollectionViewCell {
         addSubview(subtitle)
         addSubview(subtitleEnglish)
         addSubview(startButton)
+        if #available(iOS 9.0, *) {
+            title.font = UIFont(name: Font.PingFangTCThin, size: 32)
+            subtitle.font = UIFont(name: Font.PingFangTCThin, size: 24)
+            startButton.titleLabel!.font = UIFont(name: Font.PingFangTCThin, size: 20)
+        } else {
+            title.font = UIFont.systemFontOfSize(32)
+            subtitle.font = UIFont.systemFontOfSize(24)
+            startButton.titleLabel!.font = UIFont.systemFontOfSize(20)
+        }
         
-        startButton.titleLabel!.font = UIFont(name: Font.PingFangTCThin, size: 20)
+        
         iconView.contentMode = UIViewContentMode.ScaleAspectFill
-        title.font = UIFont(name: Font.PingFangTCThin, size: 32)
-        subtitle.font = UIFont(name: Font.PingFangTCThin, size: 24)
         subtitleEnglish.font = UIFont(name: Font.HelveticaNeueThin, size: 28)
         startButton.addTarget(self, action: "startButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
         startButton.layer.borderWidth = 1.0
@@ -177,21 +175,6 @@ class NewFeatureCell: UICollectionViewCell {
     func startButtonClicked() {
         let slideVC = SlideMenuViewController()
         UIApplication.sharedApplication().keyWindow?.rootViewController = slideVC
-    }
-    
-    ///  动画显示开启探索之旅
-    func showStartButton() {
-        // 动画
-//        startButton.transform = CGAffineTransformMakeScale(0, 0)
-        startButton.hidden = false
-//        startButton.userInteractionEnabled = false
-//        self.startButton.transform = CGAffineTransformIdentity
-//        self.startButton.userInteractionEnabled = true
-        
-//        UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 10, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-//            }, completion: { (_) -> Void in
-//                
-//        })
     }
 }
 
