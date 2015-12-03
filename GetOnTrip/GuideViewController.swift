@@ -16,11 +16,11 @@ class GuideViewController: UICollectionViewController {
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
     
-    let titles = ["寻找路上的故事", "发现未知的逸事", "感受悠远的历史", "亦行 · 亦读"]
+    let titles = ["这里是路和故事", "这里是阅读和领悟", "这里是诗和远方", "亦行 · 亦读"]
     
     let subtitles = ["旅行，不只有照片", "旅行，不只是看见", "旅行，不会是终点", ""]
     
-    let subtitleEnglish = ["MORE THAN PICTURES", "WANT SEE MORE", "ON THE WAY", ""]
+    let subtitleEnglish = ["MORE THAN PICTURES", "SOMETHING SPECIAL", "ON THE WAY", ""]
     
     // 分页
     lazy var pagecontrol: UIPageControl = {

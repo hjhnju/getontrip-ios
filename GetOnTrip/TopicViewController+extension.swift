@@ -142,6 +142,15 @@ extension TopicViewController {
             return
         }
         
+        if topicDataSource?.arrsight.count == 1 {
+            let sightViewController = SightViewController()
+            let sight: Sight = Sight(id: topicDataSource?.sightid ?? "")
+            sight.name = topicDataSource?.sight ?? ""
+            sightViewController.sightDataSource = sight
+            navigationController?.pushViewController(sightViewController, animated: true)
+            return
+        }
+        
         // 其他情况如果有多个景点可去的情况
         let vc = TopicEnterSightController()
         vc.upSightId = topicDataSource?.sightid ?? ""
