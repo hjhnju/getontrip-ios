@@ -76,7 +76,7 @@ class SightLandscapeController: UITableViewController {
         lastRequest.fetchFirstPageModels({ (dataSource, status) -> Void in
             //处理异常状态
             if status != RetCode.SUCCESS {
-                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: MessageInfo.NetworkError)
             }
             //处理数据
             if let data = dataSource {
@@ -148,7 +148,7 @@ class SightLandscapeController: UITableViewController {
                     self.isLoading = false
                 }
             } else {
-                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: MessageInfo.NetworkError)
                 return
             }
             

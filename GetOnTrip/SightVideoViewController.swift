@@ -80,7 +80,7 @@ class SightVideoViewController: UITableViewController {
             if status == RetCode.SUCCESS {
                 self!.tableView.mj_header.endRefreshing()
             } else {
-                ProgressHUD.showErrorHUD(self!.view, text: "您的网络不给力!")
+                ProgressHUD.showErrorHUD(self!.view, text: MessageInfo.NetworkError)
             }
             self!.isLoading = false
             if let data = dataSource {
@@ -130,7 +130,7 @@ class SightVideoViewController: UITableViewController {
     func loadMore(){
         lastVideoRequest.fetchNextPageModels({ (nextData, status) -> Void in
             if status != RetCode.SUCCESS {
-                ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力!")
+                ProgressHUD.showErrorHUD(self.view, text: MessageInfo.NetworkError)
                 self.tableView.mj_footer.endRefreshing()
                 return
             }

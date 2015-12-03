@@ -179,7 +179,7 @@ class CitySightsViewController: UICollectionViewController {
         lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                ProgressHUD.showErrorHUD(self?.view, text: "您的网络不给力!")
+                ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
                 self?.collectionView?.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
