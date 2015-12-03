@@ -39,6 +39,8 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         initProperty()
         if globalUser != nil {
             initRefresh()
+        } else {
+            collectPrompt.hidden = false
         }
     }
     
@@ -48,7 +50,7 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         collectPrompt.ff_AlignInner(.TopCenter, referView: tableView!, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = .Center
         tableView.separatorStyle = .None
-        collectPrompt.hidden = true
+        
         
         tableView.backgroundColor = UIColor.clearColor()
         tableView.registerClass(CollectContentVideoCell.self, forCellReuseIdentifier: CollectContentVideoCellIdentifier)
