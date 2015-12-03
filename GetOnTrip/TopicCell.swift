@@ -21,7 +21,7 @@ class TopicCell: UITableViewCell {
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "故宫内真有密道吗？如果有入口在哪里？", fontSize: 18, mutiLines: false)
     
     //收藏
-    lazy var collect: UIButton = UIButton(image: "icon_star_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
+    lazy var praise: UIButton = UIButton(image: "icon_star_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
     
     //浏览
     lazy var preview: UIButton = UIButton(image: "icon_eye_gray", title: " 1", fontSize: 12, titleColor: UIColor(hex: 0x2A2D2E, alpha: 0.6))
@@ -36,7 +36,7 @@ class TopicCell: UITableViewCell {
                 iconView.sd_setImageWithURL(NSURL(string: cellData.image), placeholderImage: PlaceholderImage.defaultSmall)
                 subtitleLabel.text = cellData.subtitle
                 titleLabel.text = cellData.title
-                collect.setTitle(" " + cellData.collect, forState: UIControlState.Normal)
+                praise.setTitle(" " + cellData.praise, forState: UIControlState.Normal)
                 preview.setTitle(" " + cellData.visit, forState: UIControlState.Normal)
             }
         }
@@ -51,7 +51,7 @@ class TopicCell: UITableViewCell {
         addSubview(iconView)
         addSubview(subtitleLabel)
         addSubview(titleLabel)
-        addSubview(collect)
+        addSubview(praise)
         addSubview(preview)
         addSubview(baseLine)
         
@@ -62,8 +62,8 @@ class TopicCell: UITableViewCell {
         iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(133, 84), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 19), offset: CGPointMake(6, 0))
         titleLabel.ff_AlignVertical(.BottomLeft, referView: subtitleLabel, size: nil, offset: CGPointMake(0, 0))
-        collect.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
-        preview.ff_AlignHorizontal(.CenterRight, referView: collect, size: nil, offset: CGPointMake(8, 0))
+        praise.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
+        preview.ff_AlignHorizontal(.CenterRight, referView: praise, size: nil, offset: CGPointMake(8, 0))
         baseLine.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
     }
     

@@ -34,6 +34,8 @@ class TopicBrief: NSObject {
     var sightid: String = ""
     /// 标签
     var tagname: String = ""
+    /// 点赞数量
+    var praise: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()
