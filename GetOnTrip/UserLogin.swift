@@ -131,8 +131,6 @@ class UserLogin: NSObject {
         
         let timestamp = String(format: "%.0f", NSDate().timeIntervalSince1970)
         post["token"] = "\(AppIni.SecretKey)\(timestamp)".sha256 + timestamp
-        print(str)
-        print(post)
         HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 handler(result: result.object, status: status)

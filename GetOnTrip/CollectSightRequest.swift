@@ -49,7 +49,6 @@ class CollectSightRequest: NSObject {
                     case 3:
                         collectSightMT.append(CollectCity(dict: it.dictionaryObject!))
                     default:
-                        print(result)
                         break
                     }
                 }

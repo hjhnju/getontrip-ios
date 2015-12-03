@@ -75,7 +75,6 @@ class UserRegisterRequest: NSObject {
         post["email"]  = email
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/user/sendPasswdEmail", post: post) { (result, status) -> () in
-            print(result)
             if status == RetCode.SUCCESS {
                 handler(result.object, status)
                 return

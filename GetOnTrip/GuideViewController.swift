@@ -94,7 +94,6 @@ class GuideViewController: UICollectionViewController {
     //  collectionView 停止滚动的动画方法 
     override func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         
-        print(indexPath.row + 1)
         // 获取当前显示的 cell
         let path: AnyObject = collectionView.indexPathsForVisibleItems().last!
     

@@ -79,8 +79,4 @@ class CommentPersonCell: UITableViewCell {
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         
     }
-    
-    deinit {
-        print("我能走吗")
-    }
 }

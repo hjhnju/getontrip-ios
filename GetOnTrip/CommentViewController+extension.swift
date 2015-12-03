@@ -65,7 +65,6 @@ extension CommentViewController {
             ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在删除中", style: nil, handler: { (handler) -> Void in
                 CommentAddAndDelRequest.fetchDelCommentModel(comment.id, handler: { (result, status) -> Void in
                     handler()
-                    print(result)
                     if status == RetCode.SUCCESS {
                         ProgressHUD.showSuccessHUD(nil, text: "删除成功")
                         self.loadData()

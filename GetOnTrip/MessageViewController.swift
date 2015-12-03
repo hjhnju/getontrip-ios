@@ -46,11 +46,13 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
     private func initProperty() {
         
         title = "消息"
+        automaticallyAdjustsScrollViewInsets = false
         navBar.setTitle(MessageViewController.name)
         
         view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
         view.addSubview(collectPrompt)
+        
     
         tableView.addSubview(collectPrompt)
         view.addSubview(slideView)
@@ -181,7 +183,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         let msg = messageLists[indexPath.row]
         MessageListRequest.deleteMessage(msg.mid) { (result, status) -> Void in
             if status == RetCode.SUCCESS {
-                print(result)
                 self.messageLists.removeAtIndex(indexPath.row)
                 tableView.reloadData()
                 ProgressHUD.showErrorHUD(self.view, text: "删除成功")
