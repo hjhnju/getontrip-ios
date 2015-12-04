@@ -9,7 +9,7 @@
 import UIKit
 import FFAutoLayout
 
-class LandscapeCell: UITableViewCell {
+class LandscapeCell1: UITableViewCell {
     
     lazy var iconView: UIImageView = UIImageView(image: UIImage())
     
@@ -74,14 +74,32 @@ class LandscapeCell: UITableViewCell {
     }
 }
 
-class LandscapeCell1: LandscapeCell {
+class LandscapeCell: LandscapeCell1 {
+    
+    /// 图片模糊
+    lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
     
     override func setupAutoLayout() {
         
-        let w: CGFloat = UIScreen.mainScreen().bounds.width - 119 - 15 - 9
-        iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(119, 84), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 21), offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignVertical(.BottomRight, referView: titleLabel, size: CGSizeMake(w, 57), offset: CGPointMake(0, 5))
-        baseLine.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        iconView.addSubview(blurView)
+        
+        titleLabel.textColor    = UIColor.whiteColor()
+        subtitleLabel.textColor = UIColor.whiteColor()
+        subtitleLabel.numberOfLines = 3
+        subtitleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 76
+        baseLine.hidden = true
+        if #available(iOS 9.0, *) {
+            titleLabel.font = UIFont(name: Font.PingFangSCRegular, size: 22)
+            subtitleLabel.font = UIFont(name: Font.PingFangSCRegular, size: 14)
+        } else {
+            titleLabel.font = UIFont.systemFontOfSize(22)
+            subtitleLabel.font = UIFont.systemFontOfSize(14)
+        }
+    
+        
+        iconView.ff_Fill(self)
+        blurView.ff_Fill(iconView)
+        titleLabel.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 17))
+        subtitleLabel.ff_AlignInner(.TopLeft, referView: self, size: nil, offset: CGPointMake(38, 53))
     }
 }

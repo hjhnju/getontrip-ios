@@ -18,7 +18,7 @@ class GuideViewController: UICollectionViewController {
     
     let titles = ["这里是路和故事", "这里是阅读和领悟", "这里是诗和远方", "亦行 · 亦读"]
     
-    let subtitles = ["旅行，不只有照片", "旅行，不只是看见", "旅行，不会是终点", ""]
+    let subtitles = ["旅行  不只有照片", "旅行  不只是看见", "旅行  不会是终点", ""]
     
     let subtitleEnglish = ["MORE THAN PICTURES", "SOMETHING SPECIAL", "ON THE WAY", ""]
     
@@ -146,7 +146,6 @@ class NewFeatureCell: UICollectionViewCell {
             startButton.titleLabel!.font = UIFont.systemFontOfSize(20)
         }
         
-        
         iconView.contentMode = UIViewContentMode.ScaleAspectFill
         subtitleEnglish.font = UIFont(name: Font.HelveticaNeueThin, size: 28)
         startButton.addTarget(self, action: "startButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
@@ -155,7 +154,7 @@ class NewFeatureCell: UICollectionViewCell {
         startButton.layer.cornerRadius = 15
         
         title.textAlignment = NSTextAlignment.Center
-        subtitle.textAlignment = NSTextAlignment.Center
+        subtitle.textAlignment = NSTextAlignment.Justified
     }
     
     private func setupAutoLayout() {

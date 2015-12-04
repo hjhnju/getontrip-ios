@@ -108,6 +108,11 @@ class SightLandscapeController: UITableViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1, forIndexPath: indexPath) as! LandscapeCell1
             cell.superNavigation = navigationController
             cell.landscape = dataSource[indexPath.row]
+            if indexPath.row == dataSource.count - 1 {
+                cell.baseLine.hidden = true
+            } else {
+                cell.baseLine.hidden = false
+            }
             return cell
         }
     }
@@ -121,6 +126,9 @@ class SightLandscapeController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 140
+        }
         return 115
     }
     
