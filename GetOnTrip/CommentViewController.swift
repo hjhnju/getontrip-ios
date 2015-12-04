@@ -42,7 +42,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     lazy var issueCommentView: UIView = UIView(color: UIColor.whiteColor())
     
     /// 评论底部小箭头图标
-    lazy var commentBottomImage: UIImageView = UIImageView(image: UIImage(named: "comment_Bottom"))
+    lazy var commentBottomImage: UIImageView = UIImageView(image: UIImage(named: "comment_bottom"))
     
     /// 发布textfield
     lazy var issueTextfield: UITextField = UITextField()
