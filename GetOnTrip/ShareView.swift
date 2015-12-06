@@ -26,6 +26,8 @@ class ShareView: UIView {
     lazy var shareBtn5: shareButton = shareButton(image: "share_qq", title: "qq好友", fontSize: 12, titleColor: SceneColor.fontGray)
     /// 取消按钮
     lazy var shareCancle: UIButton = UIButton(title: "取消", fontSize: 13, radius: 15)
+    /// 退出取消按钮
+    lazy var exitShareButton: UIButton = UIButton()
     /// 分享至标题
     lazy var shareLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "分享至", fontSize: 15, mutiLines: true)
     /// 分享view y
@@ -65,6 +67,7 @@ class ShareView: UIView {
         shareView.addSubview(shareBtn4)
         shareView.addSubview(shareBtn5)
         shareView.addSubview(shareCancle)
+        addSubview(exitShareButton)
         shareBtn1.tag = 1
         shareBtn2.tag = 2
         shareBtn3.tag = 3
@@ -80,6 +83,7 @@ class ShareView: UIView {
         shareBtn3.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
         shareBtn4.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
         shareBtn5.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
+        exitShareButton.addTarget(self, action: "exitShareAction:", forControlEvents: .TouchUpInside)
     }
     
     ///  初始化自动布局
@@ -87,7 +91,7 @@ class ShareView: UIView {
         let sbx: CGFloat = CGFloat((bounds.width - (50 * 5)) / 6)
         let size = CGSizeMake(50, 73)
         
-        
+        exitShareButton.ff_Fill(self)
         let shareVCons = shareView.ff_AlignVertical(.BottomLeft, referView: self, size: CGSize(width: bounds.width, height: 197), offset: CGPoint(x: 0, y: 0))
         
         let s1 = shareBtn1.ff_AlignInner(.CenterLeft, referView: shareView, size: size, offset: CGPoint(x: sbx, y: 150))
@@ -257,6 +261,11 @@ class ShareView: UIView {
                         self.removeFromSuperview()
                 })
         }
+    }
+    
+    func exitShareAction(btn: UIButton) {
+        shareCancleAction()
+        btn.removeFromSuperview()
     }
 }
 

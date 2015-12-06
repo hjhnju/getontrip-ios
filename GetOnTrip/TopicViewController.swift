@@ -97,7 +97,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     var topicId: String? {
         return self.topicDataSource?.id ?? ""
     }
-    
+        
     /// 进入的样式
     var isEntranceSight: Bool = false
     
