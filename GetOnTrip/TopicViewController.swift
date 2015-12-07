@@ -112,7 +112,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 let titleH = topic.title.sizeofStringWithFount(UIFont.systemFontOfSize(24), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 24, CGFloat.max), lineSpacing: 4).height
                 if titleH < 35 {
                     style.maximumLineHeight = 32
-                    headerTitleLabel.backgroundColor = UIColor.randomColor()
                 } else {
                     style.lineSpacing = 4
                 }
