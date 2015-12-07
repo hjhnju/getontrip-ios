@@ -49,12 +49,12 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
         manSwitch.addTarget(self, action: "sexSwitchAction:", forControlEvents: .ValueChanged)
         womanSwitch.addTarget(self, action: "sexSwitchAction:", forControlEvents: .ValueChanged)
         view.addSubview(tableView)
-        view.backgroundColor      = UIColor(hex: 0xF0F0F0, alpha: 1.0)
+        view.backgroundColor      = UIColor(hex: 0xF7F5F3, alpha: 1.0)
         tableView.delegate        = self
         tableView.dataSource      = self
         tableView.bounces         = false
         tableView.separatorStyle  = .None
-        tableView.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.registerClass(SettingTableViewCell.self, forCellReuseIdentifier: "SettingTableViewCell")
         tableView.ff_AlignInner(.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 79))
     }
@@ -86,6 +86,8 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
         } else {
             cell.addSubview(womanSwitch)
             womanSwitch.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+            cell.getShadowWithView()
+            cell.baseline.removeFromSuperview()
         }
         
         return cell

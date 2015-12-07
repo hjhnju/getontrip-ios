@@ -17,5 +17,15 @@ extension UIView {
         backgroundColor = color
         alpha = alphaF
     }
+    
+    /// 添加阴影
+    func getShadowWithView() {
+        
+        layer.shadowColor = UIColor(hex: 0x000000, alpha: 0.2).CGColor
+        layer.shadowOpacity = 1.0
+        layer.shadowRadius = 0
+        layer.shadowOffset = CGSizeMake(0, 1)
+//        cell.layer.shadowPath = UIBezierPath(rect: cell.layer.frame).CGPath        
+    }
 }
 

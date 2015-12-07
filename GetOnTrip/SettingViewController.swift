@@ -81,6 +81,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         pleaseLoginButton.adjustsImageWhenHighlighted = false
         pleaseLoginButton.addTarget(self, action: "pleaseLoginButtonAction", forControlEvents: .TouchUpInside)
         
+        view.backgroundColor = UIColor(hex: 0xF7F5F3, alpha: 1.0)
         addChildViewController(switchPhotoVC)
         addChildViewController(nicknameController)
         
@@ -88,7 +89,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.separatorStyle = .None
-        tableView.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
         
         exitLogin.backgroundColor = .whiteColor()
@@ -151,6 +152,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 let cel = UITableViewCell()
                 cel.addSubview(pleaseLoginButton)
                 pleaseLoginButton.ff_AlignInner(.CenterCenter, referView: cel, size: nil, offset: CGPointMake(0, -15))
+                cel.getShadowWithView()
                 return cel
             }
             switch indexPath.row {
@@ -168,6 +170,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 cell.left.text = "性别"
                 cell.addSubview(gender)
                 gender.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+                cell.getShadowWithView()
+                cell.baseline.removeFromSuperview()
             default:
                 break
             }
@@ -178,11 +182,13 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 cell.addSubview(removeCacheLabel)
                 removeCacheLabel.text = getUsedCache()
                 removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+                cell.getShadowWithView()
                 cell.baseline.removeFromSuperview()
             default:
                 break
             }
         }
+        
         return cell
     }
     
@@ -196,6 +202,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             return isLoginStatus == true ? 102 : 159
         }
         return 51
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView(color: UIColor.clearColor())
     }
     
     var switchPhoto: Bool = false
@@ -234,13 +244,20 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         let alerController = UIAlertController(title: "", message: "请选择图片来源", preferredStyle: .ActionSheet)
         let actionCancle     = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
         let phootPicture   = UIAlertAction(title: "拍照", style: .Default) { (_) -> Void in
+            if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+                ProgressHUD.showErrorHUD(self.view, text: "当前设备不支持拍照功能")
+                return
+            }
             self.imagePicker = UIImagePickerController()
             self.imagePicker.delegate = self
             self.imagePicker.sourceType = .Camera
             self.presentViewController(self.imagePicker, animated: true, completion: nil)
         }
         let existingPicture = UIAlertAction(title: "从手机相册选择", style: .Default) { (_) -> Void in
-            if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) { return }
+            if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+                ProgressHUD.showErrorHUD(self.view, text: "当前相册不可用")
+                return
+            }
             self.imagePicker = UIImagePickerController()
             self.imagePicker.delegate = self
             self.presentViewController(self.imagePicker, animated: true, completion: nil)

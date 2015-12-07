@@ -59,6 +59,7 @@ struct SceneColor {
     static let darkgray    = UIColor(hex: 0x5D5D5D, alpha: 0.5)
     static let lightGrayEM = UIColor(hex: 0x474747, alpha: 1.0)
     static let lightgrayCM = UIColor(hex: 0xA6A6A6, alpha: 0.2)
+    static let darkGrey    = UIColor(hex: 0xC8C7CC, alpha: 1.0)
     
     /**
     白色系列

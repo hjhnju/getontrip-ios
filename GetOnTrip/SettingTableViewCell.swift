@@ -16,7 +16,7 @@ class SettingTableViewCell: UITableViewCell {
     lazy var left: UILabel = UILabel(color: UIColor.blackColor(), title: "名字", fontSize: 16, mutiLines: false)
     
     /// 设置底线
-    lazy var baseline: UIView! = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
+    lazy var baseline: UIView! = UIView(color: SceneColor.darkGrey, alphaF: 1.0)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -25,13 +25,13 @@ class SettingNicknameController: MenuViewController, UITableViewDataSource, UITa
     
     private func initView() {
         view.addSubview(tableView)
-        view.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
+        view.backgroundColor = UIColor(hex: 0xF7F5F3, alpha: 1.0)
         
         tableView.bounces    = false
         tableView.delegate   = self
         tableView.dataSource = self
         tableView.separatorStyle = .None
-        tableView.backgroundColor = UIColor(hex: 0xF0F0F0, alpha: 1.0)
+        tableView.backgroundColor = UIColor.clearColor()
         tableView.ff_AlignInner(.TopLeft, referView: view, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 79))
     }
     
@@ -67,10 +67,10 @@ class SettingNicknameController: MenuViewController, UITableViewDataSource, UITa
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        var cell = UITableViewCell()
         cell.addSubview(userNameTextField)
         userNameTextField.ff_AlignInner(.CenterCenter, referView: cell, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 52))
-        
+        cell.getShadowWithView()
         return cell
     }
     
