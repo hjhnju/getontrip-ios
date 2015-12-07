@@ -205,10 +205,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
             if isLoginStatus == false { return }
             switch indexPath.row {
             case SettingCell.iconCell: // 选择照片
-                if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) { return }
-                let picker = UIImagePickerController()
-                picker.delegate = self
-                presentViewController(picker, animated: true, completion: nil)
+                switchPhotoAction(indexPath)
             case SettingCell.nickCell: // 选择昵称
                 let nvc = SettingNicknameController()
                 nvc.userNameTextField.text = globalUser?.nickname
@@ -230,6 +227,33 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         }
     }
     
+    /// 选择照片方法
+    var imagePicker: UIImagePickerController!
+    private func switchPhotoAction(indexPath: NSIndexPath) {
+        
+        let alerController = UIAlertController(title: "", message: "请选择图片来源", preferredStyle: .ActionSheet)
+        let actionCancle     = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+        let phootPicture   = UIAlertAction(title: "拍照", style: .Default) { (_) -> Void in
+            self.imagePicker = UIImagePickerController()
+            self.imagePicker.delegate = self
+            self.imagePicker.sourceType = .Camera
+            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+        }
+        let existingPicture = UIAlertAction(title: "从手机相册选择", style: .Default) { (_) -> Void in
+            if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) { return }
+            self.imagePicker = UIImagePickerController()
+            self.imagePicker.delegate = self
+            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+        }
+        alerController.addAction(actionCancle)
+        alerController.addAction(phootPicture)
+        alerController.addAction(existingPicture)
+        alerController.modalPresentationStyle = .Popover
+        alerController.popoverPresentationController?.sourceView = tableView.cellForRowAtIndexPath(indexPath)
+        alerController.popoverPresentationController?.sourceRect = tableView.cellForRowAtIndexPath(indexPath)?.frame ?? CGRectZero
+        presentViewController(alerController, animated: true, completion: nil)
+    }
+    
     /// 清除缓存设置
     private func clearCacheSetting(indexPath: NSIndexPath) {
         let alertController = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: .ActionSheet)
@@ -245,7 +269,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        
 
         navigationController?.pushViewController(switchPhotoVC, animated: true)
         switchPhotoVC.photoView.img = image
