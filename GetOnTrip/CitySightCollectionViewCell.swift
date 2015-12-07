@@ -14,10 +14,15 @@ import SDWebImage
 /// 首页景点cell
 class CitySightCollectionViewCell: BaseCollectionCell {
     
+    var size: CGSize = CGSizeZero
+    
     var data: AnyObject? {
         didSet {
             if let sight = data as? Sight {
-                icon.image = nil
+                iconWidth?.constant = size.width
+                iconHeight?.constant = size.height
+                shadeWidth?.constant = size.width
+                shadeHeight?.constant = size.height
                 icon.sd_setImageWithURL(NSURL(string: sight.image), placeholderImage:PlaceholderImage.defaultSmall)
                 
                 title.text = sight.name
@@ -27,6 +32,7 @@ class CitySightCollectionViewCell: BaseCollectionCell {
                 attr.appendAttributedString(NSAttributedString(string: " | "))
                 attr.appendAttributedString((sight.collect.getAttributedStringHeadCharacterBig()))
                 desc.attributedText = attr
+                self.clipsToBounds = true
             }
         }
     }    

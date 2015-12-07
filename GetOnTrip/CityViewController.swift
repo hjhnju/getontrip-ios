@@ -295,13 +295,20 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CityConstant.citySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
-        cell.icon.image = nil
+        
+        cell.size = getIndexPathItemSize(indexPath)
         cell.data = collectionDataSource[indexPath.row]
+        
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
+        return getIndexPathItemSize(indexPath)
+    }
+    
+    /// 获取对应行的size大小
+    private func getIndexPathItemSize(indexPath: NSIndexPath) -> CGSize {
         let width:CGFloat = collectionView.bounds.width
         let height:CGFloat = collectionView.bounds.height
         
@@ -336,7 +343,6 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         vc.sightDataSource = collectionDataSource[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
-    
     
     // MARK: - tableView代理及数据源
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

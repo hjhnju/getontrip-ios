@@ -18,8 +18,16 @@ class BaseCollectionCell: UICollectionViewCell {
     var title: UILabel = UILabel(color: SceneColor.white, title: "", fontSize: 16, mutiLines: false)
     /// 内容及收藏
     var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.9), title: "", fontSize: 8, mutiLines: false)
-    
+    /// 遮罩view
     lazy var shade: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.35)
+    /// 图片宽
+    var iconWidth: NSLayoutConstraint?
+    /// 图片高
+    var iconHeight: NSLayoutConstraint?
+    /// 图片宽
+    var shadeWidth: NSLayoutConstraint?
+    /// 图片高
+    var shadeHeight: NSLayoutConstraint?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,8 +41,12 @@ class BaseCollectionCell: UICollectionViewCell {
         icon .clipsToBounds = true
         title.adjustsFontSizeToFitWidth = true
         title.textAlignment = .Center
-        icon .ff_AlignInner(.CenterCenter, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
-        shade.ff_AlignInner(.CenterCenter, referView: self, size: bounds.size)
+        let cons = icon .ff_AlignInner(.CenterCenter, referView: self, size: bounds.size, offset: CGPointMake(0, 0))
+        iconWidth = icon.ff_Constraint(cons, attribute: .Width)
+        iconHeight = icon.ff_Constraint(cons, attribute: .Height)
+        let shadeCons = shade.ff_AlignInner(.CenterCenter, referView: self, size: bounds.size)
+        shadeWidth = shade.ff_Constraint(shadeCons, attribute: .Width)
+        shadeHeight = shade.ff_Constraint(shadeCons, attribute: .Height)
         desc .ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -5))
         title.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(bounds.width, 16), offset: CGPointMake(0, 0))
     }
