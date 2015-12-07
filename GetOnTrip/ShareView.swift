@@ -12,6 +12,8 @@ import FFAutoLayout
 
 class ShareView: UIView {
     
+    /// 创建单例对象
+    static let sharedShareView = ShareView()
     /// 分享底view
     lazy var shareView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
     /// 微信

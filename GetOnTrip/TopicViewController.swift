@@ -66,9 +66,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     /// 遮罩按钮
     lazy var coverButton: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
-  
-    lazy var shareView: ShareView = ShareView()
-    
+      
     /// 网络请求加载数据(添加)
     var lastRequest: TopicRequest?
     
@@ -311,11 +309,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     }
     
     // MARK: ScrollViewDelegate
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        shareView.shareCancleAction()
-    }
-    
     ///  改变背景及图片下拉变大
     func scrollViewDidScroll(scrollView: UIScrollView) {
         //headerView高度动态变化

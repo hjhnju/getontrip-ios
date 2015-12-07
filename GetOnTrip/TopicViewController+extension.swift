@@ -35,8 +35,7 @@ extension TopicViewController {
     
     func doSharing(sender: UIButton) {
         if let topicDetail = topicDataSource {
-            let url = topicDetail.shareurl
-            shareView.showShareAction(nil, url: url, images: headerImageView.image, title: topicDetail.title, subtitle: topicDetail.subtitle)
+            ShareView.sharedShareView.showShareAction(nil, url: topicDetail.shareurl, images: headerImageView.image, title: topicDetail.title, subtitle: topicDetail.subtitle)
         }
     }
     

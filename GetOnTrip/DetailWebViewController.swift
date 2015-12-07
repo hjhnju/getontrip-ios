@@ -36,9 +36,6 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
             }
         }
     }
-    
-    /// 分享view
-    lazy var shareView: ShareView = ShareView()
         
     // MARK: - 初始化控件
     override func viewDidLoad() {
@@ -143,13 +140,6 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         loadingView.stop()
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        shareView.shareCancleAction()
-    }
-    
-    func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView?) {
-    }
-    
     // MARK: - 自定义方法
     /// 分享视频方法
     func shareVideoAction(sender: UIButton) {
@@ -157,9 +147,9 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         if sender.selected {
             let videoImageView = UIImageView()
             videoImageView.sd_setImageWithURL(NSURL(string: video?.image ?? ""))
-            shareView.showShareAction(nil, url: video?.url, images: videoImageView.image, title: video?.title, subtitle: nil)
+            ShareView.sharedShareView.showShareAction(nil, url: video?.url, images: videoImageView.image, title: video?.title, subtitle: nil)
         } else {
-            shareView.shareCancleAction()
+            ShareView.sharedShareView.shareCancleAction()
         }
     }
     

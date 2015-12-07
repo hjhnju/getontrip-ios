@@ -70,8 +70,6 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     //webView初始时的yInset
     var yInset:CGFloat = 0.0
     
-    lazy var shareView: ShareView = ShareView()
-    
     /// 点赞按钮
     lazy var praisedBUtton   = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x9C9C9C, alpha: 0.9))
     
@@ -255,11 +253,6 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     }
     
     // MARK: UIScrollView Delegate 代理方法
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        shareView.shareCancleAction()
-    }
-    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let gap     = yInset + offsetY
@@ -437,7 +430,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     func clickShareButton(button: UIButton) {
         if let book = bookDataSource {
             let bookTitle = "《" + book.title + "》"
-            shareView.showShareAction(nil, url: book.shareurl, images: bookImageView.image, title: bookTitle, subtitle: book.content_desc)
+            ShareView.sharedShareView.showShareAction(nil, url: book.shareurl, images: bookImageView.image, title: bookTitle, subtitle: book.content_desc)
         }
 
     }
