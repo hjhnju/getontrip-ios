@@ -52,13 +52,14 @@ class ShareView: UIView {
         shareView.contentView.backgroundColor = UIColor.whiteColor()
         shareView.contentView.alpha = 0.5
         
-        self.frame = CGRectMake(0, UIScreen.mainScreen().bounds.height - 197, UIScreen.mainScreen().bounds.width, 197)
+        self.frame = UIScreen.mainScreen().bounds
         initView()
         initAutoLayout()
     }
     
     ///  初始化view
     private func initView() {
+        addSubview(exitShareButton)
         addSubview(shareView)
         shareView.addSubview(shareLabel)
         shareView.addSubview(shareBtn1)
@@ -67,7 +68,7 @@ class ShareView: UIView {
         shareView.addSubview(shareBtn4)
         shareView.addSubview(shareBtn5)
         shareView.addSubview(shareCancle)
-        addSubview(exitShareButton)
+        exitShareButton.hidden = true
         shareBtn1.tag = 1
         shareBtn2.tag = 2
         shareBtn3.tag = 3
@@ -90,8 +91,7 @@ class ShareView: UIView {
     private func initAutoLayout() {
         let sbx: CGFloat = CGFloat((bounds.width - (50 * 5)) / 6)
         let size = CGSizeMake(50, 73)
-        
-        exitShareButton.ff_Fill(self)
+        exitShareButton.frame = UIScreen.mainScreen().bounds
         let shareVCons = shareView.ff_AlignVertical(.BottomLeft, referView: self, size: CGSize(width: bounds.width, height: 197), offset: CGPoint(x: 0, y: 0))
         
         let s1 = shareBtn1.ff_AlignInner(.CenterLeft, referView: shareView, size: size, offset: CGPoint(x: sbx, y: 150))
@@ -122,10 +122,15 @@ class ShareView: UIView {
     ///  - parameter title:    分享标题
     ///  - parameter subtitle: 分享副标题
     ///  - parameter result:   结果回调，成功有提示，失败无提示
-    func showShareAction(subview: UIView, url: String?, images: UIImage?, title: String?, subtitle: String?) {
+    func showShareAction(subview: UIView?, url: String?, images: UIImage?, title: String?, subtitle: String?) {
         
         ///  显示控件
-        subview.addSubview(self)
+        if subview != nil {
+            subview?.addSubview(self)
+        } else {
+            UIApplication.sharedApplication().keyWindow?.addSubview(self)
+        }
+        
         self.shareView.layoutIfNeeded()
         let y =  197 * 0.5 - (shareCancle.frame.origin.y - CGRectGetMaxY(shareLabel.frame) - 3)
         UIView.animateWithDuration(0.4, animations: { () -> Void in
@@ -145,7 +150,11 @@ class ShareView: UIView {
                     self.shareBtn3.layoutIfNeeded()
                     self.shareBtn4.layoutIfNeeded()
                     self.shareBtn5.layoutIfNeeded()
-                    }, completion: nil)
+                    }, completion: { (_) -> Void in
+                        self.exitShareButton.hidden = false
+                })
+                
+                
         }
         
         ///  加载分享描述参数参数
@@ -264,8 +273,8 @@ class ShareView: UIView {
     }
     
     func exitShareAction(btn: UIButton) {
+        btn.hidden = true
         shareCancleAction()
-        btn.removeFromSuperview()
     }
 }
 

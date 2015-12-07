@@ -437,7 +437,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     func clickShareButton(button: UIButton) {
         if let book = bookDataSource {
             let bookTitle = "《" + book.title + "》"
-            shareView.showShareAction(view, url: book.shareurl, images: bookImageView.image, title: bookTitle, subtitle: book.content_desc)
+            shareView.showShareAction(nil, url: book.shareurl, images: bookImageView.image, title: bookTitle, subtitle: book.content_desc)
         }
 
     }

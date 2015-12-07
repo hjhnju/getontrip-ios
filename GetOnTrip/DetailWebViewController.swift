@@ -157,7 +157,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
         if sender.selected {
             let videoImageView = UIImageView()
             videoImageView.sd_setImageWithURL(NSURL(string: video?.image ?? ""))
-            shareView.showShareAction(self.view, url: video?.url, images: videoImageView.image, title: video?.title, subtitle: nil)
+            shareView.showShareAction(nil, url: video?.url, images: videoImageView.image, title: video?.title, subtitle: nil)
         } else {
             shareView.shareCancleAction()
         }
