@@ -38,6 +38,8 @@ class CustomNavigationBar: UIView {
     
     var rightCons: [NSLayoutConstraint]?
     
+    var backCons: [NSLayoutConstraint]?
+    
     lazy var blurView: UIVisualEffectView = {
         return UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
         }()
@@ -120,7 +122,7 @@ class CustomNavigationBar: UIView {
 //        rightButton.frame = CGRectMake(self.bounds.width - metric["rightButtonWidth"]!, y, metric["rightButtonWidth"]!, metric["navbarHeight"]!)
 //        rightButton2.frame = CGRectMake(self.bounds.width - 2*metric["rightButtonWidth"]!, metric["rightButtonWidth"]!, y, metric["navbarHeight"]!)
         
-        backButton.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(metric["backButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
+        backCons = backButton.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(metric["backButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
         titleLabel.ff_AlignInner(.TopCenter, referView: self, size: CGSizeMake(width, metric["navbarHeight"]!), offset: CGPointMake(0, y))
         rightCons = rightButton.ff_AlignInner(.TopRight, referView: self, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, y))
         rightButton2.ff_AlignHorizontal(.CenterLeft, referView: rightButton, size: CGSizeMake(metric["rightButtonWidth"]!, metric["navbarHeight"]!), offset: CGPointMake(0, 0))

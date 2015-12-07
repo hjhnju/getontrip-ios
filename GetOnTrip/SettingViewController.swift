@@ -32,16 +32,16 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     lazy var iconView  = UIImageView(image: UIImage(named: "icon_app"))
     
     /// 昵称
-    lazy var nickName  = UILabel(color: UIColor.blackColor(), title: "", fontSize: 16, mutiLines: true)
+    lazy var nickName  = UILabel(color: SceneColor.frontBlack, title: "", fontSize: 16, mutiLines: true)
     
     /// 性别
-    lazy var gender: UILabel = UILabel(color: UIColor.blackColor(), title: "男", fontSize: 16, mutiLines: false)
+    lazy var gender: UILabel = UILabel(color: SceneColor.frontBlack, title: "男", fontSize: 16, mutiLines: false)
     
     /// 退出登陆按钮
-    lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 14, radius: 0, titleColor: UIColor(hex: 0x707070, alpha: 0.7))
+    lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 16, radius: 0, titleColor: SceneColor.frontBlack)
     
     /// 清除缓存Label
-    var removeCacheLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "0.0M", fontSize: 16, mutiLines: true)
+    var removeCacheLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "0.0M", fontSize: 16, mutiLines: true)
     
     /// 请登陆按钮
     var pleaseLoginButton: PleaseLoginButton = PleaseLoginButton(image: "icon_app", title: "请登录", fontSize: 16, titleColor: SceneColor.frontBlack)
@@ -149,7 +149,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         if indexPath.section == 0 {
             if isLoginStatus == false {
-                let cel = UITableViewCell()
+                let cel = SettingTableViewCell()
+                cel.baseline.removeFromSuperview()
+                cel.left.removeFromSuperview()
                 cel.addSubview(pleaseLoginButton)
                 pleaseLoginButton.ff_AlignInner(.CenterCenter, referView: cel, size: nil, offset: CGPointMake(0, -15))
                 cel.getShadowWithView()

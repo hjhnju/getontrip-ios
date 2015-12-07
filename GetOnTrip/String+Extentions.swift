@@ -58,9 +58,9 @@ extension String {
     ///  - parameter maxSize: 文字最大的大小，建议宽度有值，高度为CGFLOAT_MAX
     ///
     ///  - returns: 文字size
-    func sizeofStringWithFount(font: UIFont, maxSize: CGSize) -> CGSize {
+    func sizeofStringWithFount(font: UIFont, maxSize: CGSize, lineSpacing: CGFloat=8) -> CGSize {
         let style = NSMutableParagraphStyle()
-        style.lineSpacing = 8
+        style.lineSpacing = CGFloat(lineSpacing)
         let affe = [NSFontAttributeName : font, NSParagraphStyleAttributeName : style]
         return self.boundingRectWithSize(maxSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: affe, context: nil).size
     }

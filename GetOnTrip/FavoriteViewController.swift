@@ -62,6 +62,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         view.backgroundColor = SceneColor.bgBlack
         titleBackground.backgroundColor = SceneColor.bgBlack
         navBar.setTitle(FavoriteViewController.name)
+        navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
         
         view.addSubview(titleBackground)
         view.addSubview(collectionView)

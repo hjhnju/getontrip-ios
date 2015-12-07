@@ -16,7 +16,7 @@ class SettingTableViewCell: UITableViewCell {
     lazy var left: UILabel = UILabel(color: UIColor.blackColor(), title: "名字", fontSize: 16, mutiLines: false)
     
     /// 设置底线
-    lazy var baseline: UIView! = UIView(color: SceneColor.darkGrey, alphaF: 1.0)
+    lazy var baseline: UIView! = UIView(color: SceneColor.darkGrey, alphaF: 0.6)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,5 +31,13 @@ class SettingTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        
     }
 }

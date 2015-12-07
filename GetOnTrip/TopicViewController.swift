@@ -21,7 +21,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     // MARK: 相关属性
     
     /// 自定义导航
-    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 14, hasStatusBar: false)
+    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 17, hasStatusBar: false)
     
     /// 头部视图
     lazy var headerView       = UIView()
@@ -50,7 +50,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var toolbarView      = UIView()
     
     /// 点赞按钮
-    lazy var praisedButton    = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x5C5C5C, alpha: 1.0))
+    lazy var praisedButton    = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x5C5C5C, alpha: 0.4))
     
     /// 底部评论按钮
     lazy var commentButton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: UIColor.whiteColor())
@@ -105,7 +105,20 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 //初始处用placeholder，以免跳转前设置的图片被覆盖
                 //print("[TopicView]headerimage=\(topic.image)")
                 headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage:headerImageView.image)
-                headerTitleLabel.text = topic.title
+                
+                let attr = NSMutableAttributedString(string: topic.title)
+                let style = NSMutableParagraphStyle()
+            
+                let titleH = topic.title.sizeofStringWithFount(UIFont.systemFontOfSize(24), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 24, CGFloat.max), lineSpacing: 4).height
+                if titleH < 35 {
+                    style.maximumLineHeight = 32
+                    headerTitleLabel.backgroundColor = UIColor.randomColor()
+                } else {
+                    style.lineSpacing = 4
+                }
+                attr.addAttribute(NSParagraphStyleAttributeName, value: style, range: NSMakeRange(0, attr.length))
+                headerTitleLabel.attributedText = attr
+                
                 
                 navBar.setTitle(topic.sight)
                 labelButton.setTitle("  " + topic.tagname + "  ", forState: .Normal)
@@ -126,7 +139,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 if topicDataSource?.arrsight.count == 0 {
                     navBar.rightButton.hidden = true
                 }
-
                 showTopicDetail()
             }
         }
@@ -171,6 +183,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         praisedButton.setImage(UIImage(named: "dotLike_no"), forState: .Normal)
         praisedButton.setImage(UIImage(named: "dotLike_yes"), forState: .Selected)
         
+        labelButton.alpha = 0.8
+        visitNumLabel.alpha = 0.8
+        favNumLabel.alpha = 0.8
+        
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
         labelButton.hidden          = true
@@ -191,17 +207,22 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerImageView.clipsToBounds = true
         labelButton.layer.borderWidth = 0.5
         labelButton.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
-        labelButton.backgroundColor   = SceneColor.fontGray
+        labelButton.backgroundColor   = UIColor(hex: 0x696969, alpha: 0.8)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
     private func initNavBar() {
-        navBar.titleLabel.font = UIFont.systemFontOfSize(18)
+        if #available(iOS 9.0, *) {
+            navBar.titleLabel.font = UIFont(name: Font.defaultFont, size: 17)
+        } else {
+            navBar.titleLabel.font = UIFont.systemFontOfSize(17)
+        }
+        navBar.titleLabel.textColor = UIColor(hex: 0x424242, alpha: 1.0)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "bar_sight"), title: nil, target: self, action: "sightAction:")
-        
         navBar.setButtonTintColor(SceneColor.frontBlack)
         navBar.setStatusBarHidden(true)
+        navBar.rightButton.alpha = 0.75
     }
     
 
@@ -234,11 +255,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         //header views
         headerImageView.ff_Fill(headerView)
         labelButton   .contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
-        labelButton   .ff_AlignVertical(.TopLeft, referView: headerTitleLabel, size: nil, offset: CGPointMake(0, -5))
-        favNumLabel   .ff_AlignInner(.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(20, -7))
-        visitNumLabel .ff_AlignHorizontal(.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(11, 0))
-        headerTitleLabel.ff_AlignVertical(.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, 1))
+        favNumLabel   .ff_AlignInner(.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(13, -10))
+        visitNumLabel .ff_AlignHorizontal(.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(10, 0))
+        headerTitleLabel.ff_AlignVertical(.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, -6))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
+        labelButton   .ff_AlignVertical(.TopLeft, referView: headerTitleLabel, size: nil, offset: CGPointMake(0, -10))
         
         //toolbar views
         praisedButton.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))

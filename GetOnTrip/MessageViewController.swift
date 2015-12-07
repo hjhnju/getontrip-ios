@@ -48,6 +48,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         title = "消息"
         automaticallyAdjustsScrollViewInsets = false
         navBar.setTitle(MessageViewController.name)
+        navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
         
         view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
