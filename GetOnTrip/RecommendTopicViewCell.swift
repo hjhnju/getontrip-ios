@@ -50,7 +50,7 @@ class RecommendTopicViewCell: UITableViewCell {
         
         tagButton.layer.borderWidth = 0.5
         tagButton.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
-        tagButton.backgroundColor   = UIColor(hex: 0x696969, alpha: 0.8)
+        tagButton.backgroundColor   = UIColor(hex: 0x696969, alpha: 0.65)
         tagButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
         tagButton.layer.cornerRadius = 3
         tagButton.clipsToBounds = true

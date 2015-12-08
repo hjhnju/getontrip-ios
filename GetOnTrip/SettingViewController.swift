@@ -245,24 +245,24 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         let alerController = UIAlertController(title: "", message: "请选择图片来源", preferredStyle: .ActionSheet)
         let actionCancle     = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
-        let phootPicture   = UIAlertAction(title: "拍照", style: .Default) { (_) -> Void in
+        let phootPicture   = UIAlertAction(title: "拍照", style: .Default) { [weak self] (_) -> Void in
             if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
-                ProgressHUD.showErrorHUD(self.view, text: "当前设备不支持拍照功能")
+                ProgressHUD.showErrorHUD(self?.view, text: "当前设备不支持拍照功能")
                 return
             }
-            self.imagePicker = UIImagePickerController()
-            self.imagePicker.delegate = self
-            self.imagePicker.sourceType = .Camera
-            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            self?.imagePicker = UIImagePickerController()
+            self?.imagePicker.delegate = self
+            self?.imagePicker.sourceType = .Camera
+            self?.presentViewController(self?.imagePicker ?? UIImagePickerController(), animated: true, completion: nil)
         }
-        let existingPicture = UIAlertAction(title: "从手机相册选择", style: .Default) { (_) -> Void in
+        let existingPicture = UIAlertAction(title: "从手机相册选择", style: .Default) { [weak self] (_) -> Void in
             if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
-                ProgressHUD.showErrorHUD(self.view, text: "当前相册不可用")
+                ProgressHUD.showErrorHUD(self?.view, text: "当前相册不可用")
                 return
             }
-            self.imagePicker = UIImagePickerController()
-            self.imagePicker.delegate = self
-            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            self?.imagePicker = UIImagePickerController()
+            self?.imagePicker.delegate = self
+            self?.presentViewController(self?.imagePicker ?? UIImagePickerController(), animated: true, completion: nil)
         }
         alerController.addAction(actionCancle)
         alerController.addAction(phootPicture)
@@ -277,7 +277,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     private func clearCacheSetting(indexPath: NSIndexPath) {
         let alertController = UIAlertController(title: "", message: "会清除所有缓存、离线的内容及图片", preferredStyle: .ActionSheet)
         let actionTrue      = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
-        let actionCanale    = UIAlertAction(title: "确定", style: .Default) { (_) -> Void in self.clearCacheAction()}
+        let actionCanale    = UIAlertAction(title: "确定", style: .Default) { [weak self] (_) -> Void in self?.clearCacheAction()}
         alertController.addAction(actionCanale)
         alertController.addAction(actionTrue)
         alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
@@ -291,7 +291,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
         navigationController?.pushViewController(switchPhotoVC, animated: true)
         switchPhotoVC.photoView.img = image
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true) { [weak self] () -> Void in
+            self?.imagePicker = nil
+        }
         // 重新设回导航栏样式
         UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
@@ -300,17 +302,17 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     // 让用户登陆的方法，弹出登陆浮尘
     func pleaseLoginButtonAction() {
         
-        LoginView.sharedLoginView.doAfterLogin { (result, error) -> () in
+        LoginView.sharedLoginView.doAfterLogin { [weak self] (result, error) -> () in
             if error == nil {
                 if result == true {
-                    self.isLoginStatus = true
+                    self?.isLoginStatus = true
                 } else {
-                    self.isLoginStatus = false
+                    self?.isLoginStatus = false
                 }
                 return
             }
-            self.isLoginStatus = false
-            ProgressHUD.showErrorHUD(self.view, text: "登录失败")
+            self?.isLoginStatus = false
+            ProgressHUD.showErrorHUD(self?.view, text: "登录失败")
         }
     }
     
@@ -323,7 +325,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     /// 清除缓存
     func clearCacheAction() {
 
-        ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在清理缓存中", style: nil) { (handler) -> Void in
+        ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在清理缓存中", style: nil) { [weak self] (handler) -> Void in
             Cache.shareInstance.clear { () -> Void in }
             SDImageCache.sharedImageCache().clearDiskOnCompletion { [weak self]() -> Void in
                 handler()

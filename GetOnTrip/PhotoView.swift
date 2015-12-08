@@ -13,9 +13,14 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
 
     var imgPhoto: UIImageView = UIImageView()
     
+    /// 初始frame
+    var initialImgPhotoFrame: CGRect = CGRectZero
+    
     var img : UIImage = UIImage() {
         didSet{
             imgPhoto.image = img
+            imgPhoto.bounds = CGRectMake(0, 0, img.size.width, img.size.height)
+            imgPhoto.center = CGPointMake(UIScreen.mainScreen().bounds.width * 0.5, UIScreen.mainScreen().bounds.height * 0.5)
         }
     }
     
@@ -27,8 +32,6 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         imgPhoto.contentMode = UIViewContentMode.ScaleAspectFill
         imgPhoto.userInteractionEnabled = true
         imgPhoto.multipleTouchEnabled   = true
-        imgPhoto.backgroundColor = UIColor.randomColor()
-        imgPhoto.ff_AlignInner(.TopLeft, referView: self, size: UIScreen.mainScreen().bounds.size, offset: CGPointMake(0, 0))
         /// 旋转
         let rotation = UIRotationGestureRecognizer(target: self, action: "rotationGesture:")
         rotation.delegate = self
@@ -110,35 +113,38 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     
     // 捏合手势
     func pinchGesture(recognizer: UIPinchGestureRecognizer) {
+
         
         recognizer.view?.transform = CGAffineTransformScale(recognizer.view!.transform, recognizer.scale, recognizer.scale)
         recognizer.scale = 1
         
-        let imgMin = min(imgPhoto.frame.width, imgPhoto.frame.height)
-        if imgMin < UIScreen.mainScreen().bounds.width {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                recognizer.view?.transform = CGAffineTransformIdentity
-            })
+        if recognizer.state == .Ended {
+            let imgMin = min(imgPhoto.frame.width, imgPhoto.frame.height)
+            if imgMin < UIScreen.mainScreen().bounds.width {
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    recognizer.view?.transform = CGAffineTransformIdentity
+                })
+            }
         }
     }
     
     // 拖拽
+    
+    var temp: CGAffineTransform?
     func panGesture(recognizer: UIPanGestureRecognizer) {
         
         let translation = recognizer.translationInView(recognizer.view)
+        recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
+        recognizer.setTranslation(CGPointZero, inView: recognizer.view)
         
-        let screen = UIScreen.mainScreen().bounds
-        let roundY = (screen.height - screen.width) * 0.5
-        if (CGRectGetMaxX(imgPhoto.frame) < screen.width || imgPhoto.frame.origin.x > 0 ||
-            CGRectGetMaxY(imgPhoto.frame) < screen.width + roundY || imgPhoto.frame.origin.y > roundY ) {
-                
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                recognizer.view?.transform = CGAffineTransformIdentity
-            })
-        } else {
-            recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
-            recognizer.setTranslation(CGPointZero, inView: recognizer.view)
-            
+        if recognizer.state == .Ended {
+            let screen = UIScreen.mainScreen().bounds
+            if imgPhoto.frame.origin.x > 0 || CGRectGetMaxX(imgPhoto.frame) < screen.width ||
+                imgPhoto.frame.origin.y > (screen.height - screen.width) * 0.5 || CGRectGetMaxY(imgPhoto.frame) > imgPhoto.frame.height{
+                    UIView.animateWithDuration(0.5, animations: { () -> Void in
+                        recognizer.view?.transform = CGAffineTransformIdentity
+                    })
+            }
         }
     }
     // 旋转

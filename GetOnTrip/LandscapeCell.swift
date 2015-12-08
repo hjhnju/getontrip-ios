@@ -76,12 +76,35 @@ class LandscapeCell1: UITableViewCell {
 
 class LandscapeCell: LandscapeCell1 {
     
+    override var landscape: Landscape? {
+        didSet {
+            if let landscape = landscape {
+                
+                iconView.sd_setImageWithURL(NSURL(string: landscape.image), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
+                    self.iconView.image = UIImageView.imageByApplyingImage(image)
+                })
+                titleLabel.text = landscape.name
+                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: NSLineBreakMode.ByTruncatingTail)
+            }
+        }
+    }
+    
     /// 图片模糊
-    lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Dark))
+    lazy var coverView = UIView(color: UIColor.blackColor())
     
     override func setupAutoLayout() {
-        
-        iconView.addSubview(blurView)
+        initProperty()
+        iconView.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width + 20, 140 + 20))
+        coverView.ff_AlignInner(.CenterCenter, referView: iconView, size: CGSizeMake(UIScreen.mainScreen().bounds.width + 20, 140 + 20))
+        titleLabel.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 17))
+        subtitleLabel.ff_AlignInner(.TopLeft, referView: self, size: nil, offset: CGPointMake(38, 53))
+    }
+    
+    /// 初始化相关属性
+    private func initProperty() {
+        iconView.addSubview(coverView)
+        coverView.alpha = 0.4
+        clipsToBounds = true
         
         titleLabel.textColor    = UIColor.whiteColor()
         subtitleLabel.textColor = UIColor.whiteColor()
@@ -95,11 +118,5 @@ class LandscapeCell: LandscapeCell1 {
             titleLabel.font = UIFont.systemFontOfSize(22)
             subtitleLabel.font = UIFont.systemFontOfSize(14)
         }
-    
-        
-        iconView.ff_Fill(self)
-        blurView.ff_Fill(iconView)
-        titleLabel.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 17))
-        subtitleLabel.ff_AlignInner(.TopLeft, referView: self, size: nil, offset: CGPointMake(38, 53))
     }
 }

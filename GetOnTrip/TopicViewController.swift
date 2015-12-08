@@ -206,7 +206,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerImageView.clipsToBounds = true
         labelButton.layer.borderWidth = 0.5
         labelButton.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
-        labelButton.backgroundColor   = UIColor(hex: 0x696969, alpha: 0.8)
+        labelButton.backgroundColor   = UIColor(hex: 0x696969, alpha: 0.65)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
@@ -258,7 +258,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         visitNumLabel .ff_AlignHorizontal(.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(10, 0))
         headerTitleLabel.ff_AlignVertical(.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, -6))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
-        labelButton   .ff_AlignVertical(.TopLeft, referView: headerTitleLabel, size: nil, offset: CGPointMake(0, -10))
+        labelButton   .ff_AlignVertical(.TopLeft, referView: headerTitleLabel, size: nil, offset: CGPointMake(0, -9))
         
         //toolbar views
         praisedButton.ff_AlignInner(.CenterLeft, referView: toolbarView, size: nil, offset: CGPointMake(14, 0))

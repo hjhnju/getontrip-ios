@@ -1,4 +1,3 @@
-
 //
 //  Regex.swift
 //  GetOnTrip

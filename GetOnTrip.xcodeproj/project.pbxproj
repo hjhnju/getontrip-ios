@@ -141,6 +141,7 @@
 		AE926FF91BF078EE00F316C0 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */; };
 		AE9385F51C05D9CA00B80D31 /* CityBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */; };
 		AE9385F71C05DD7C00B80D31 /* CityBrowseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */; };
+		AEA09BD91C1688C600E4F666 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA09BD81C1688C600E4F666 /* UIImageView+Extension.swift */; };
 		AEA241021C0C3BE400049882 /* TopicEnterSightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA241011C0C3BE400049882 /* TopicEnterSightController.swift */; };
 		AEA241041C0C6AA200049882 /* TopicSightListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA241031C0C6AA200049882 /* TopicSightListTableViewCell.swift */; };
 		AEA241081C0D526B00049882 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEA241071C0D526B00049882 /* LaunchScreen.storyboard */; };
@@ -363,6 +364,7 @@
 		AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseViewController.swift; sourceTree = "<group>"; };
 		AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseRequest.swift; sourceTree = "<group>"; };
+		AEA09BD81C1688C600E4F666 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		AEA241011C0C3BE400049882 /* TopicEnterSightController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicEnterSightController.swift; sourceTree = "<group>"; };
 		AEA241031C0C6AA200049882 /* TopicSightListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicSightListTableViewCell.swift; sourceTree = "<group>"; };
 		AEA241071C0D526B00049882 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 				7239FDEC1B7F25BB00238A25 /* UIColor+Extentions.swift */,
 				AE6079B61BB2677C00DB2955 /* UIButton+Extension.swift */,
 				AE62E2CB1BB3DED900B91D33 /* UITextField+Extension.swift */,
+				AEA09BD81C1688C600E4F666 /* UIImageView+Extension.swift */,
 				AEC9D2B71BD7387E00B28464 /* UIImage+Extension.swift */,
 				AE62E2CD1BB3EF6500B91D33 /* UIPickerView+Extension.swift */,
 				729573FF1BCF345600343F8F /* UIKitTools.swift */,
@@ -1186,6 +1189,7 @@
 				AE12FF7F1B9C0BE800C09F8A /* FeedBackViewController.swift in Sources */,
 				AEA241121C0EDBAB00049882 /* MessageTableView.swift in Sources */,
 				AE20EDEE1B9C4FC100F26074 /* MessageViewController.swift in Sources */,
+				AEA09BD91C1688C600E4F666 /* UIImageView+Extension.swift in Sources */,
 				AEA241021C0C3BE400049882 /* TopicEnterSightController.swift in Sources */,
 				72FE63201BFB1B940037C7D6 /* Cache.swift in Sources */,
 				72550EA21BEA0D87004D4611 /* Book.swift in Sources */,

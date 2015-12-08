@@ -11,19 +11,17 @@ import UIKit
 
 class CollectContentVideoCell: BaseTableViewCell {
     
-    /// 模糊类
-    lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
-    
+    /// 图片模糊
+    lazy var coverView = UIView(color: UIColor.blackColor())
     /// 播放图片
     lazy var playImageView = UIImageView(image: UIImage(named: "play_white"))
     
     override func overrideBeforeAction() {
 
-        iconView.addSubview(blurView)
+        iconView.addSubview(coverView)
         iconView.addSubview(playImageView)
-//        blurView.contentView.alpha = 0.1
-        blurView.alpha = 0.3
-        blurView.ff_Fill(iconView)
+        coverView.alpha = 0.3
+        coverView.ff_Fill(iconView)
         playImageView.ff_AlignInner(.CenterCenter, referView: iconView, size: nil)
     }
     
@@ -39,7 +37,10 @@ class CollectContentVideoCell: BaseTableViewCell {
     override var data: AnyObject? {
         didSet {
             if let collectContent = data as? CollectContent {
-                iconView.sd_setImageWithURL(NSURL(string: collectContent.image))
+                iconView.sd_setImageWithURL(NSURL(string: collectContent.image), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
+                    self.iconView.image = UIImageView.imageByApplyingImage(image)
+                })
+                
                 titleLabel.text = collectContent.title
                 praise.setTitle(" " + collectContent.praise ?? "", forState: .Normal)
                 visit.setTitle(" " + collectContent.visit ?? "", forState: .Normal)
