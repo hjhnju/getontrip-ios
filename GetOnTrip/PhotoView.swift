@@ -16,11 +16,14 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     /// 初始frame
     var initialImgPhotoFrame: CGRect = CGRectZero
     
+    
+    
     var img : UIImage = UIImage() {
         didSet{
             imgPhoto.image = img
             imgPhoto.bounds = CGRectMake(0, 0, img.size.width, img.size.height)
             imgPhoto.center = CGPointMake(UIScreen.mainScreen().bounds.width * 0.5, UIScreen.mainScreen().bounds.height * 0.5)
+//            imgPhoto.transform = cgaffinetransform CGAffineTransformTranslate(imgPhoto.transform, imgPhoto.transform.tx, imgPhoto.transform.tx)
         }
     }
     
@@ -114,7 +117,6 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     // 捏合手势
     func pinchGesture(recognizer: UIPinchGestureRecognizer) {
 
-        
         recognizer.view?.transform = CGAffineTransformScale(recognizer.view!.transform, recognizer.scale, recognizer.scale)
         recognizer.scale = 1
         
@@ -122,7 +124,8 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
             let imgMin = min(imgPhoto.frame.width, imgPhoto.frame.height)
             if imgMin < UIScreen.mainScreen().bounds.width {
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    recognizer.view?.transform = CGAffineTransformIdentity
+                    let scale = UIScreen.mainScreen().bounds.width / self.imgPhoto.image!.size.width
+                    recognizer.view?.transform = CGAffineTransformMakeScale(scale, scale)
                 })
             }
         }
@@ -133,17 +136,27 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     var temp: CGAffineTransform?
     func panGesture(recognizer: UIPanGestureRecognizer) {
         
+        
         let translation = recognizer.translationInView(recognizer.view)
         recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
+        print(imgPhoto.frame.origin.x)
         recognizer.setTranslation(CGPointZero, inView: recognizer.view)
         
         if recognizer.state == .Ended {
             let screen = UIScreen.mainScreen().bounds
+            
+            let screenWidthHalf = (screen.height - screen.width) * 0.5
+            
+//            if imgPhoto.frame.origin.x > 0 {
+//                recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, -imgPhoto.frame.origin.x, translation.y) //CGAffineTransformMakeTranslation(imgPhoto.frame.origin.x, <#T##ty: CGFloat##CGFloat#>)
+//            }
+            
             if imgPhoto.frame.origin.x > 0 || CGRectGetMaxX(imgPhoto.frame) < screen.width ||
-                imgPhoto.frame.origin.y > (screen.height - screen.width) * 0.5 || CGRectGetMaxY(imgPhoto.frame) > imgPhoto.frame.height{
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        recognizer.view?.transform = CGAffineTransformIdentity
-                    })
+            imgPhoto.frame.origin.y > screenWidthHalf || CGRectGetMaxY(imgPhoto.frame) < (screen.height - screenWidthHalf) {
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    let scale = UIScreen.mainScreen().bounds.width / self.imgPhoto.image!.size.width
+                    recognizer.view?.transform = CGAffineTransformMakeScale(scale, scale)
+                })
             }
         }
     }

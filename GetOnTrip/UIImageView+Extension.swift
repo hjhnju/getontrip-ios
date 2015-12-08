@@ -10,14 +10,14 @@ import UIKit
 
 extension UIImageView {
     
-    class func imageByApplyingImage(image: UIImage) -> UIImage {
+    class func imageByApplyingImage(image: UIImage, blurRadius: CGFloat) -> UIImage {
         
         let qrFilter = CIFilter(name: "CIGaussianBlur")!
     
         qrFilter.setValue(CIImage(CGImage: image.CGImage!), forKey: "inputImage")
-        qrFilter.setValue((0.014577 * 50), forKey: kCIInputRadiusKey)
-        let ciImage = qrFilter.outputImage
-        return UIImage(CIImage: ciImage ?? image.CIImage!)
+        qrFilter.setValue((blurRadius * 5), forKey: kCIInputRadiusKey)
+//        let ciImage = qrFilter.outputImage
+        return UIImage(CIImage: (qrFilter.valueForKey(kCIOutputImageKey) ?? CIImage()) as! CIImage)
     }
 }
 

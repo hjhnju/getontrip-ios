@@ -12,16 +12,16 @@ import UIKit
 class CollectContentVideoCell: BaseTableViewCell {
     
     /// 图片模糊
-    lazy var coverView = UIView(color: UIColor.blackColor())
+//    lazy var coverView = UIView(color: UIColor.blackColor())
     /// 播放图片
     lazy var playImageView = UIImageView(image: UIImage(named: "play_white"))
     
     override func overrideBeforeAction() {
 
-        iconView.addSubview(coverView)
+//        iconView.addSubview(coverView)
         iconView.addSubview(playImageView)
-        coverView.alpha = 0.3
-        coverView.ff_Fill(iconView)
+//        coverView.alpha = 0.3
+//        coverView.ff_AlignInner(.CenterCenter, referView: iconView, size: CGSizeMake(120, 73))
         playImageView.ff_AlignInner(.CenterCenter, referView: iconView, size: nil)
     }
     
@@ -31,14 +31,14 @@ class CollectContentVideoCell: BaseTableViewCell {
         titleLabel.preferredMaxLayoutWidth = 146
         titleLabel.numberOfLines = 2
         subtitleLabel.hidden = true
-        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
+        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))        
     }
     
     override var data: AnyObject? {
         didSet {
             if let collectContent = data as? CollectContent {
                 iconView.sd_setImageWithURL(NSURL(string: collectContent.image), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
-                    self.iconView.image = UIImageView.imageByApplyingImage(image)
+                    self.iconView.image = UIImageView.imageByApplyingImage(image, blurRadius: 0.2).scaleImage(140)
                 })
                 
                 titleLabel.text = collectContent.title

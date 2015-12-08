@@ -125,7 +125,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         return view
     }()
     /// 记录状态按钮
-    weak var currentSearchLabelButton: UIButton?
+    weak var currentSearchLabelButton: RecommendButton?
     
     // MARK: - 初始化
     
@@ -280,6 +280,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             btn.tag = Int(recommendLabels[i].order) ?? 1
             if i == 0 {
                 btn.selected = true
+                btn.numLabel.textColor = UIColor.whiteColor()
                 currentSearchLabelButton = btn
             }
             let row:Int = i / totalCol
@@ -421,12 +422,14 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     //MARK: 自定义方法
     
     //触发搜索列表的方法
-    func clkSearchLabelMethod(sender: UIButton) {
+    func clkSearchLabelMethod(sender: RecommendButton) {
         if sender.tag == currentSearchLabelButton?.tag { return }
-        sender.selected = true
-        currentSearchLabelButton?.selected = false
-        currentSearchLabelButton = sender
         
+        sender.selected = true
+        sender.numLabel.textColor = UIColor.whiteColor()
+        currentSearchLabelButton?.selected = false
+        currentSearchLabelButton?.numLabel.textColor = UIColor(hex: 0xFFFFFF, alpha: 0.6)
+        currentSearchLabelButton = sender
         
         lastRequest?.order = String(sender.tag)
         tableView.mj_header.beginRefreshing()
