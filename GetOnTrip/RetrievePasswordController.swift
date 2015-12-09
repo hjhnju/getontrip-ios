@@ -63,10 +63,10 @@ class RetrievePasswordController: UIViewController {
     private func initTextField() {
         emailTextField.placeholder         = "请输入邮箱"
         emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
-        emailTextField.autocorrectionType  = UITextAutocorrectionType.Default
+        emailTextField.autocorrectionType  = UITextAutocorrectionType.No
         emailTextField.returnKeyType       = UIReturnKeyType.Done
         emailTextField.clearButtonMode     = UITextFieldViewMode.WhileEditing
-        emailTextField.keyboardType        = UIKeyboardType.URL
+        emailTextField.keyboardType        = UIKeyboardType.EmailAddress
         emailTextField.autocapitalizationType = UITextAutocapitalizationType.None
     }
     

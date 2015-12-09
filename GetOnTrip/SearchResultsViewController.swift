@@ -14,7 +14,7 @@ struct SearchResultContant {
     static let BookCellHeight:CGFloat   = 70
 }
 
-class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate {
+class SearchResultsViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
     
@@ -260,20 +260,6 @@ class SearchResultsViewController: UIViewController, UISearchResultsUpdating, UI
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         let vc = parentViewController as? SearchViewController
         vc?.searchBar.endEditing(true)
-    }
-    
-    // MARK: UISearchResultsUpdating
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        let searvc = parentViewController as? SearchViewController
-        if searchController.searchBar.text != "" {
-            tableView.hidden = false
-            searvc?.locationButton.hidden = true
-        } else {
-            tableView.hidden = true
-            searvc?.locationButton.hidden = false
-        }
-        if !searchController.active { return }
-        filterString = searchController.searchBar.text ?? ""
     }
     
     // MARK: 自定义方法

@@ -151,6 +151,24 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
 //                recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, -imgPhoto.frame.origin.x, translation.y) //CGAffineTransformMakeTranslation(imgPhoto.frame.origin.x, <#T##ty: CGFloat##CGFloat#>)
 //            }
             
+//            if imgPhoto.frame.origin.x > 0 {
+//                UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                    self.imgPhoto.frame.origin.x = 0
+//                })
+//            } else if CGRectGetMaxX(imgPhoto.frame) < screen.width {
+//                UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                    self.imgPhoto.frame.origin.x = UIScreen.mainScreen().bounds.width - self.imgPhoto.frame.width
+//                })
+//            } else if imgPhoto.frame.origin.y > screenWidthHalf {
+//                UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                    self.imgPhoto.frame.origin.y = screenWidthHalf
+//                })
+//            } else if CGRectGetMaxY(imgPhoto.frame) < (screen.height - screenWidthHalf) {
+//                UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                    self.imgPhoto.frame.origin.y = (screen.height - screenWidthHalf) - self.imgPhoto.frame.height
+//                })
+//            }
+            
             if imgPhoto.frame.origin.x > 0 || CGRectGetMaxX(imgPhoto.frame) < screen.width ||
             imgPhoto.frame.origin.y > screenWidthHalf || CGRectGetMaxY(imgPhoto.frame) < (screen.height - screenWidthHalf) {
                 UIView.animateWithDuration(0.5, animations: { () -> Void in

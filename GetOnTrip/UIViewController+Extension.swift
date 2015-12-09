@@ -25,4 +25,15 @@ extension UIViewController {
 
         presentViewController(SearchViewController(), animated: true, completion: nil)
     }
+    
+//    func getTableViewCellRegisterClass(tableView: UITableView, indexPath: NSIndexPath, cls: AnyClass) -> UITableViewCell {
+//        var cell = tableView.dequeueReusableCellWithIdentifier("\(cls)")
+//        if cell == nil {
+//            tableView.registerClass(cls.self, forCellReuseIdentifier: "\(cls)")
+//            cell = tableView.dequeueReusableCellWithIdentifier("\(cls)", forIndexPath: indexPath) //as? UITableViewCell
+//        }
+//        return cell!
+//    }
+    
+
 }

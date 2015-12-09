@@ -91,7 +91,7 @@ class NewUserRegisterViewController: UIViewController {
         emailTextField.borderStyle         = UITextBorderStyle.RoundedRect
         emailTextField.autocorrectionType  = UITextAutocorrectionType.Default
         emailTextField.returnKeyType       = UIReturnKeyType.Done
-        emailTextField.keyboardType        = UIKeyboardType.URL
+        emailTextField.keyboardType        = UIKeyboardType.EmailAddress
         emailTextField.autocapitalizationType = UITextAutocapitalizationType.None
         emailTextField.clearButtonMode     = UITextFieldViewMode.WhileEditing
         emailTextField.leftView            = emailLabel

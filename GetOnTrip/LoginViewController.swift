@@ -123,7 +123,7 @@ class LoginViewController: MainViewController {
         emailTextField.leftView            = emailLabel
         emailTextField.leftViewMode        = .Always
         emailLabel.bounds                  = CGRectMake(0, 0, size!.width, size!.height)
-        emailTextField.keyboardType        = .URL
+        emailTextField.keyboardType        = .EmailAddress
 
         passwordTextField.borderStyle      = .RoundedRect
         passwordTextField.keyboardAppearance = .Alert
