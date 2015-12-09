@@ -19,7 +19,7 @@ class SearchRecordTableViewCell : UITableViewCell {
     let baseLine: UIView = UIView(color: UIColor(hex: 0xBDBDBD, alpha: 0.15))
     
     /// 删除按钮
-    lazy var deleteButton = UIButton(image: "delete_search", title: "", fontSize: 0)
+    lazy var deleteButton: SearchDeleteButton = SearchDeleteButton(image: "delete_search", title: "", fontSize: 0)
     
     /// 父控制器
     var superController: SearchViewController? 
@@ -38,7 +38,7 @@ class SearchRecordTableViewCell : UITableViewCell {
         
         selectBackgroundView.hidden = true
         selectBackgroundView.ff_AlignInner(.CenterCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 43))
-        deleteButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(10, 10), offset: CGPointMake(-9, 0))
+        deleteButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(40, 40), offset: CGPointMake(-9, 0))
         baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
         backgroundColor = UIColor.clearColor()
     }

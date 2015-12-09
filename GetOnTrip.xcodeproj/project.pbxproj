@@ -81,6 +81,7 @@
 		AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233B1C1BB0F7A2002E6502 /* SlideMenuViewController.swift */; };
 		AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233B421BB13D95002E6502 /* UILabel+Extension.swift */; };
 		AE23DD791C181B73009A1B57 /* GroupTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23DD781C181B73009A1B57 /* GroupTitleView.swift */; };
+		AE23DD7B1C1820E0009A1B57 /* SearchDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23DD7A1C1820E0009A1B57 /* SearchDeleteButton.swift */; };
 		AE2894521BDCCFF50099293F /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2894511BDCCFF50099293F /* SearchRequest.swift */; };
 		AE2894541BDCDDC20099293F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2894531BDCDDC20099293F /* SearchViewController.swift */; };
 		AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */; };
@@ -307,6 +308,7 @@
 		AE233B1C1BB0F7A2002E6502 /* SlideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideMenuViewController.swift; sourceTree = "<group>"; };
 		AE233B421BB13D95002E6502 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		AE23DD781C181B73009A1B57 /* GroupTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTitleView.swift; sourceTree = "<group>"; };
+		AE23DD7A1C1820E0009A1B57 /* SearchDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDeleteButton.swift; sourceTree = "<group>"; };
 		AE2894511BDCCFF50099293F /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
 		AE2894531BDCDDC20099293F /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsViewController.swift; sourceTree = "<group>"; };
@@ -584,6 +586,7 @@
 				AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */,
 				AE4772971C17F87500137E7A /* SearchHotwordLayout.swift */,
 				AE23DD781C181B73009A1B57 /* GroupTitleView.swift */,
+				AE23DD7A1C1820E0009A1B57 /* SearchDeleteButton.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1176,6 +1179,7 @@
 				72D25A8F1BEB25C50044AE04 /* RecommendLabel.swift in Sources */,
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
+				AE23DD7B1C1820E0009A1B57 /* SearchDeleteButton.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
 				AE3321E01C06BAE500B95FA4 /* CommentPersonCell.swift in Sources */,
 				725A62C61C033B1B00661555 /* CacheRegexConfig.swift in Sources */,
