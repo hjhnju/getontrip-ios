@@ -25,22 +25,17 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 搜索记录TableView
     let recordTableView = UITableView()
     
-    /// 搜索组标题
-    var recordTitleView: UIView = UIView()
+    /// 第一组标题
+    var oneGroupTitleView: GroupTitleView = GroupTitleView()
     
-    /// 搜索历史标签
-    let recordLabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "  搜索历史", fontSize: 12, mutiLines: true)
+    /// 第二组标题
+    var twoGroupTitleView: GroupTitleView = GroupTitleView()
     
     /// 搜索记录(不可重复，按最近搜索排序）
     var recordData = [String]()
     
-    /// 清除按钮
-    var recordDelButton: UIButton = UIButton(title: "清除", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.6))
-    
     /// 热门搜索词
     var hotwordData = [String]()
-    
-    var hotWordLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "  热门搜索", fontSize: 12, mutiLines: true)
     
     /// 搜索提示
     var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "当前搜索无内容", fontSize: 14, mutiLines: true)
@@ -111,6 +106,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("recordData") as? [String] {
             recordData = userDefault
         }
+        oneGroupTitleView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
+        twoGroupTitleView.recordLabel.text = "热门搜索"
+        twoGroupTitleView.recordDelButton.removeFromSuperview()
         
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)
@@ -150,8 +148,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     /// 初始化tableView
     private func initTableView() {
-        recordTitleView.addSubview(recordLabel)
-        recordTitleView.addSubview(recordDelButton)
         recordTableView.backgroundColor = UIColor.clearColor()
         recordTableView.delegate   = self
         recordTableView.dataSource = self
@@ -164,9 +160,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     private func initProperty() {
         locationButton.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 93))
         noSearchResultLabel.ff_AlignVertical(.BottomCenter, referView: locationButton, size: nil, offset: CGPointMake(0, 81))
-        recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
-        recordLabel.frame = CGRectMake(0, 50 - 25, 100, 12)
-        recordDelButton.frame = CGRectMake(view.bounds.width - 30, 50 - 25 , 20, 10)
         recordTableView.registerClass(SearchHotwordTableViewCell.self, forCellReuseIdentifier: SearchViewContant.hotwordCellId)
         locationButton.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
         noSearchResultLabel.hidden = true

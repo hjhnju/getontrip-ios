@@ -80,6 +80,7 @@
 		AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233ADC1BB0E8D5002E6502 /* CityViewController.swift */; };
 		AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233B1C1BB0F7A2002E6502 /* SlideMenuViewController.swift */; };
 		AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233B421BB13D95002E6502 /* UILabel+Extension.swift */; };
+		AE23DD791C181B73009A1B57 /* GroupTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23DD781C181B73009A1B57 /* GroupTitleView.swift */; };
 		AE2894521BDCCFF50099293F /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2894511BDCCFF50099293F /* SearchRequest.swift */; };
 		AE2894541BDCDDC20099293F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2894531BDCDDC20099293F /* SearchViewController.swift */; };
 		AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */; };
@@ -305,6 +306,7 @@
 		AE233ADC1BB0E8D5002E6502 /* CityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityViewController.swift; sourceTree = "<group>"; };
 		AE233B1C1BB0F7A2002E6502 /* SlideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideMenuViewController.swift; sourceTree = "<group>"; };
 		AE233B421BB13D95002E6502 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		AE23DD781C181B73009A1B57 /* GroupTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTitleView.swift; sourceTree = "<group>"; };
 		AE2894511BDCCFF50099293F /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
 		AE2894531BDCDDC20099293F /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsViewController.swift; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 				AEA09BDA1C16E2A100E4F666 /* SearchBar.swift */,
 				AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */,
 				AE4772971C17F87500137E7A /* SearchHotwordLayout.swift */,
+				AE23DD781C181B73009A1B57 /* GroupTitleView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1226,6 +1229,7 @@
 				AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */,
 				AE0B6F7D1BFEEBD7002B8806 /* LoginViewController.swift in Sources */,
 				AE488D6D1BCBDDDB0032B78B /* RecommendViewController.swift in Sources */,
+				AE23DD791C181B73009A1B57 /* GroupTitleView.swift in Sources */,
 				7269750B1BE6AB82000C0ABF /* CustomNavigationBar.swift in Sources */,
 				726974731BE39BA7000C0ABF /* SightTopicsRequest.swift in Sources */,
 				AE87C2141B85F285004C0998 /* BookCell.swift in Sources */,

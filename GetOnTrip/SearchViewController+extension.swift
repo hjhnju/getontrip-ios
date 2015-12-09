@@ -31,7 +31,6 @@ extension SearchViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier(SearchViewContant.hotwordCellId, forIndexPath: indexPath) as! SearchHotwordTableViewCell
             cell.superController = self
             cell.dataSource = hotwordData
-//            addSearchHotwordButtonAction(cell)
             return cell
         }
     }
@@ -41,11 +40,11 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return section == 0 ? recordTitleView : hotWordLabel
+        return section == 0 ? oneGroupTitleView : twoGroupTitleView
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.section == 0 ? 43 : 500
+        return indexPath.section == 0 ? 43 : 300
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -70,44 +69,6 @@ extension SearchViewController {
         NSUserDefaults.standardUserDefaults().removeObjectForKey("recordData")
         recordData.removeAll()
         recordTableView.reloadData()
-    }
-    
-    func addSearchHotwordButtonAction(cell: UITableViewCell) {
-        let btnWidth:CGFloat  = UIScreen.mainScreen().bounds.width / 5
-        let btnHeight:CGFloat = 20
-        let totalCol:Int      = 5
-        let totalRow:Int      = 5
-        let marginX:CGFloat   = (UIScreen.mainScreen().bounds.size.width - btnWidth * CGFloat(totalCol)) / CGFloat(totalCol + 1) + 9
-        let yOffset:CGFloat   = 14
-        let marginY:CGFloat   = 26
-        
-        for (var i = 0; i < hotwordData.count; i++) {
-            let btn = UIButton(title: hotwordData[i], fontSize: 16, radius: 0)
-            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-            cell.addSubview(btn)
-            
-            btn.addTarget(self, action: "searchHotwordButtonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-            btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            
-            let row:Int = i / totalCol
-            let col:Int = i % totalCol
-            
-            if row >= totalRow {
-                break
-            }
-            
-            let btnX:CGFloat = marginX + (marginX + btnWidth) * CGFloat(col)
-            let btnY:CGFloat = yOffset + (marginY + btnHeight) * CGFloat(row)
-            btn.frame = CGRectMake(btnX, btnY, btnWidth, btnHeight)
-        }
-        
-    }
-    
-    func searchHotwordButtonAction(btn: UIButton) {
-        view.endEditing(true)
-        searchBar.text = btn.titleLabel?.text ?? ""
-        searchBar(searchBar, textDidChange: searchBar.text ?? "")
-        recordTableView.hidden = true
     }
     
     func showSearchResultController(vc: UIViewController) {
