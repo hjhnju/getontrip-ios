@@ -82,6 +82,8 @@
 		AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE233B421BB13D95002E6502 /* UILabel+Extension.swift */; };
 		AE23DD791C181B73009A1B57 /* GroupTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23DD781C181B73009A1B57 /* GroupTitleView.swift */; };
 		AE23DD7B1C1820E0009A1B57 /* SearchDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23DD7A1C1820E0009A1B57 /* SearchDeleteButton.swift */; };
+		AE23DDF11C194592009A1B57 /* RecommendViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23DDF01C194592009A1B57 /* RecommendViewController+extension.swift */; };
+		AE23DDF31C1950EA009A1B57 /* SearchBarTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23DDF21C1950EA009A1B57 /* SearchBarTextFiled.swift */; };
 		AE2894521BDCCFF50099293F /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2894511BDCCFF50099293F /* SearchRequest.swift */; };
 		AE2894541BDCDDC20099293F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2894531BDCDDC20099293F /* SearchViewController.swift */; };
 		AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */; };
@@ -145,7 +147,6 @@
 		AE9385F51C05D9CA00B80D31 /* CityBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */; };
 		AE9385F71C05DD7C00B80D31 /* CityBrowseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */; };
 		AEA09BD91C1688C600E4F666 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA09BD81C1688C600E4F666 /* UIImageView+Extension.swift */; };
-		AEA09BDB1C16E2A100E4F666 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA09BDA1C16E2A100E4F666 /* SearchBar.swift */; };
 		AEA09BDD1C17010B00E4F666 /* SearchViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA09BDC1C17010B00E4F666 /* SearchViewController+extension.swift */; };
 		AEA241021C0C3BE400049882 /* TopicEnterSightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA241011C0C3BE400049882 /* TopicEnterSightController.swift */; };
 		AEA241041C0C6AA200049882 /* TopicSightListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA241031C0C6AA200049882 /* TopicSightListTableViewCell.swift */; };
@@ -309,6 +310,8 @@
 		AE233B421BB13D95002E6502 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		AE23DD781C181B73009A1B57 /* GroupTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTitleView.swift; sourceTree = "<group>"; };
 		AE23DD7A1C1820E0009A1B57 /* SearchDeleteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDeleteButton.swift; sourceTree = "<group>"; };
+		AE23DDF01C194592009A1B57 /* RecommendViewController+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RecommendViewController+extension.swift"; sourceTree = "<group>"; };
+		AE23DDF21C1950EA009A1B57 /* SearchBarTextFiled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarTextFiled.swift; sourceTree = "<group>"; };
 		AE2894511BDCCFF50099293F /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
 		AE2894531BDCDDC20099293F /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsViewController.swift; sourceTree = "<group>"; };
@@ -374,7 +377,6 @@
 		AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseViewController.swift; sourceTree = "<group>"; };
 		AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseRequest.swift; sourceTree = "<group>"; };
 		AEA09BD81C1688C600E4F666 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
-		AEA09BDA1C16E2A100E4F666 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		AEA09BDC1C17010B00E4F666 /* SearchViewController+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SearchViewController+extension.swift"; sourceTree = "<group>"; };
 		AEA241011C0C3BE400049882 /* TopicEnterSightController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicEnterSightController.swift; sourceTree = "<group>"; };
 		AEA241031C0C6AA200049882 /* TopicSightListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicSightListTableViewCell.swift; sourceTree = "<group>"; };
@@ -586,7 +588,7 @@
 				728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */,
 				AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */,
 				AE4772971C17F87500137E7A /* SearchHotwordLayout.swift */,
-				AEA09BDA1C16E2A100E4F666 /* SearchBar.swift */,
+				AE23DDF21C1950EA009A1B57 /* SearchBarTextFiled.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -817,6 +819,7 @@
 				AEA241131C0F0F7800049882 /* SlideMenuViewController+extension.swift */,
 				AE6079B41BB2612D00DB2955 /* MainViewController.swift */,
 				AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */,
+				AE23DDF01C194592009A1B57 /* RecommendViewController+extension.swift */,
 				72550E881BE7A956004D4611 /* BaseViewController.swift */,
 				AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */,
 			);
@@ -1240,6 +1243,7 @@
 				7269746B1BE3924F000C0ABF /* Tag.swift in Sources */,
 				AE6DCC6A1BDF3AB800D817E9 /* SearchAllRequest.swift in Sources */,
 				AEFC4E611BE62180001CCC8B /* FeedbackListRequest.swift in Sources */,
+				AE23DDF11C194592009A1B57 /* RecommendViewController+extension.swift in Sources */,
 				7293A0401BF470F90070C64A /* SettingTableViewCell.swift in Sources */,
 				AE43E16E1C07FEB70021964E /* ControllerTools.swift in Sources */,
 				AE7F0AC21BB954730011F307 /* SightRequest.swift in Sources */,
@@ -1263,7 +1267,6 @@
 				7293A0441BF4745E0070C64A /* LocateToCity.swift in Sources */,
 				AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */,
 				AE66012D1C055216007ED37A /* CommentButton.swift in Sources */,
-				AEA09BDB1C16E2A100E4F666 /* SearchBar.swift in Sources */,
 				AE9385F51C05D9CA00B80D31 /* CityBrowseViewController.swift in Sources */,
 				AE2894541BDCDDC20099293F /* SearchViewController.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* SightBooksRequest.swift in Sources */,
@@ -1276,6 +1279,7 @@
 				AE8BA8961C008B8600F17F2A /* SettingNicknameController.swift in Sources */,
 				AEA09BDD1C17010B00E4F666 /* SearchViewController+extension.swift in Sources */,
 				AE43E1711C082B980021964E /* ProgressHUD.swift in Sources */,
+				AE23DDF31C1950EA009A1B57 /* SearchBarTextFiled.swift in Sources */,
 				AE2EEE941BCF58ED00ED0937 /* CitySightsRequest.swift in Sources */,
 				AEEA552D1BBFD7F7009AF772 /* TopicCell.swift in Sources */,
 				AE4772981C17F87500137E7A /* SearchHotwordLayout.swift in Sources */,

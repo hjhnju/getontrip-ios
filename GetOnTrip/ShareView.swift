@@ -25,7 +25,7 @@ class ShareView: UIView {
     /// qq
     lazy var shareBtn4: shareButton = shareButton(image: "share_qq_zone", title: "QQ空间", fontSize: 12, titleColor: SceneColor.fontGray)
     /// 复制链接
-    lazy var shareBtn5: shareButton = shareButton(image: "share_qq", title: "qq好友", fontSize: 12, titleColor: SceneColor.fontGray)
+    lazy var shareBtn5: shareButton = shareButton(image: "share_qq", title: "QQ好友", fontSize: 12, titleColor: SceneColor.fontGray)
     /// 取消按钮
     lazy var shareCancle: UIButton = UIButton(title: "取消", fontSize: 13, radius: 15)
     /// 退出取消按钮

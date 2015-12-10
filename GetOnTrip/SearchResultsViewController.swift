@@ -17,7 +17,6 @@ struct SearchResultContant {
 class SearchResultsViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
-    
     /// 第一次搜索结果数据源
     var resultDataSource = [String : AnyObject]() {
         didSet {
@@ -274,7 +273,6 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UITabl
     }
     
     func showSearchResultController(vc: UIViewController) {
-        //采用push可手势返回
         parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
     }
     

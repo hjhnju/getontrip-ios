@@ -46,41 +46,15 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     //位置管理器
     lazy var locationManager: CLLocationManager = CLLocationManager()
     
-    let clearButton = UIButton(image: "delete_searchBar", title: "", fontSize: 0)
     
-    /// 搜索栏
-    var textfile: UITextField? {
-        didSet {
-            if #available(iOS 9.0, *) {
-                textfile?.font = UIFont(name: Font.defaultFont, size: 16)
-            } else {
-                textfile?.font = UIFont(name: ".HelveticaNeueInterface-Light", size: 16)
-            }
-            textfile?.textColor = UIColor.whiteColor()
-            let leftView = UIImageView(image: UIImage(named: "search_icon"))
-            textfile?.leftViewMode = .Always
-            textfile?.leftView = leftView
-            textfile?.setValue(clearButton, forKey: "_clearButton")
-
-            var font: UIFont?
-            if #available(iOS 9.0, *) {
-                font = UIFont(name: Font.defaultFont, size: 14)
-            } else {
-                font = UIFont(name: ".HelveticaNeueInterface-Light", size: 14)
-            }
-            textfile?.attributedPlaceholder = NSAttributedString(string: "搜索城市、景点等内容", attributes: [NSForegroundColorAttributeName: UIColor(hex: 0xFFFFFF, alpha: 0.3), NSFontAttributeName : font!])
-        }
-    }
     
-    /// 初始化完毕就替换掉系统的searchbar
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
     init() {
         super.init(searchResultsController: searchResultViewController)
-        let searchBar = SearchBar()
-        setValue(searchBar, forKey: "searchBar")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -91,15 +65,39 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         super.viewDidLoad()
         
         initView()
-        initSearchBar()
+//        initSearchBar()
+        searchBar.delegate = self
         initLocationManager()
         initProperty()
         initTableView()
         loadHotSearchLabel()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 35)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        searchBar.frame = CGRectMake(49, 18, UIScreen.mainScreen().bounds.width - 49, 35)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        for item in view.subviews {
+            if item.isKindOfClass(NSClassFromString("_UISearchBarContainerView")!) {
+                item.frame = CGRectMake(0, 20, UIScreen.mainScreen().bounds.width, 62)
+            }
+        }
+    }
+    
     /// 初始化view
     private func initView() {
+        searchBar.delegate = self
         let imageV = UIImageView(image: UIImage(named: "search-bg")!)
         addChildViewController(searchResultViewController)
         automaticallyAdjustsScrollViewInsets = false
@@ -111,35 +109,13 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         oneGroupTitleView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
         twoGroupTitleView.recordLabel.text = "热门搜索"
         twoGroupTitleView.recordDelButton.removeFromSuperview()
-        clearButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
-        clearButton.addTarget(self, action: "clearButtonAction", forControlEvents: .TouchUpInside)
+        
         
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)
         view.addSubview(recordTableView)
         view.addSubview(locationButton)
         view.addSubview(noSearchResultLabel)
-    }
-    
-    /// 初始化searchBar
-    private func initSearchBar() {
-        searchBar.keyboardAppearance = UIKeyboardAppearance.Default
-        searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
-        searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
-        searchBar.translucent = true
-        searchBar.delegate = self
-        
-        for item in searchBar.subviews {
-            for it in item.subviews {
-                if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
-                    it.frame = CGRectMake(0, 0, 100, 100)
-                    it.removeFromSuperview()
-                }
-                if it.isKindOfClass(NSClassFromString("UISearchBarTextField")!) {
-                    textfile = it as? UITextField
-                }
-            }
-        }
     }
     
     /// 初始化定位
