@@ -24,9 +24,6 @@ class SearchRecordTableViewCell : UITableViewCell {
     /// 父控制器
     var superController: SearchViewController? 
     
-    /// 需要删除的索引
-    var index: Int = 0
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(selectBackgroundView)
@@ -38,7 +35,7 @@ class SearchRecordTableViewCell : UITableViewCell {
         
         selectBackgroundView.hidden = true
         selectBackgroundView.ff_AlignInner(.CenterCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 43))
-        deleteButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(40, 40), offset: CGPointMake(-9, 0))
+        deleteButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(47, 47), offset: CGPointMake(0, 0))
         baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
         backgroundColor = UIColor.clearColor()
     }
@@ -58,16 +55,14 @@ class SearchRecordTableViewCell : UITableViewCell {
     }
     
     override func setHighlighted(highlighted: Bool, animated: Bool) {
-        
+        selectBackgroundView.hidden = highlighted == true ? false : true
     }
     
     func deleteButtonAction() {
-        UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
-            self?.contentView.frame.origin.x = -UIScreen.mainScreen().bounds.width
-            }) { [weak self] (_) -> Void in
-                self?.removeFromSuperview()
-                self?.superController?.recordData.removeAtIndex(self?.index ?? 0)
-                self?.superController?.recordTableView.reloadData()
-        }
+        
+        let index = superController?.recordData.indexOf(textLabel?.text ?? "") ?? 0
+        print(index)
+        self.superController?.recordData.removeAtIndex(index )
+        self.superController?.recordTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
     }
 }

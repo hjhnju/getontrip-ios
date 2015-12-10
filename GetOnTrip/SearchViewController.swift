@@ -46,6 +46,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     //位置管理器
     lazy var locationManager: CLLocationManager = CLLocationManager()
     
+    let clearButton = UIButton(image: "delete_searchBar", title: "", fontSize: 0)
+    
     /// 搜索栏
     var textfile: UITextField? {
         didSet {
@@ -58,13 +60,13 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             let leftView = UIImageView(image: UIImage(named: "search_icon"))
             textfile?.leftViewMode = .Always
             textfile?.leftView = leftView
-            textfile?.rightView?.backgroundColor = UIColor.whiteColor()
-            
+            textfile?.setValue(clearButton, forKey: "_clearButton")
+
             var font: UIFont?
             if #available(iOS 9.0, *) {
-                font = UIFont(name: Font.defaultFont, size: 16)
+                font = UIFont(name: Font.defaultFont, size: 14)
             } else {
-                font = UIFont(name: ".HelveticaNeueInterface-Light", size: 16)
+                font = UIFont(name: ".HelveticaNeueInterface-Light", size: 14)
             }
             textfile?.attributedPlaceholder = NSAttributedString(string: "搜索城市、景点等内容", attributes: [NSForegroundColorAttributeName: UIColor(hex: 0xFFFFFF, alpha: 0.3), NSFontAttributeName : font!])
         }
@@ -109,6 +111,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         oneGroupTitleView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
         twoGroupTitleView.recordLabel.text = "热门搜索"
         twoGroupTitleView.recordDelButton.removeFromSuperview()
+        clearButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
+        clearButton.addTarget(self, action: "clearButtonAction", forControlEvents: .TouchUpInside)
         
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)
@@ -119,7 +123,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     /// 初始化searchBar
     private func initSearchBar() {
-        searchBar.barStyle = UIBarStyle.Black
         searchBar.keyboardAppearance = UIKeyboardAppearance.Default
         searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
         searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
@@ -207,5 +210,11 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    /// 删除按钮方法
+    func clearButtonAction() {
+        searchBar.text = ""
+        searchBar(searchBar, textDidChange: "")
     }
 }

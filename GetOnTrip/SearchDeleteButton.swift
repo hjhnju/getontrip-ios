@@ -13,6 +13,6 @@ class SearchDeleteButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        imageView?.frame.origin.x = frame.width - (imageView?.frame.width ?? 0)
+        imageView?.frame.origin.x = frame.width - (imageView?.frame.width ?? 0) - 9
     }
 }

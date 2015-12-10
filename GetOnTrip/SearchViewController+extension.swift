@@ -24,8 +24,11 @@ extension SearchViewController {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier(SearchViewContant.recordCellId, forIndexPath: indexPath) as! SearchRecordTableViewCell
             cell.superController = self
-            cell.index = indexPath.row
             cell.textLabel?.text = recordData[indexPath.row]
+//            cell.deleteButton.tag = indexPath.row
+//            if indexPath.row == recordData.count - 1 {
+//                cell.baseLine.removeFromSuperview()
+//            }
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(SearchViewContant.hotwordCellId, forIndexPath: indexPath) as! SearchHotwordTableViewCell
@@ -44,7 +47,7 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.section == 0 ? 43 : 300
+        return indexPath.section == 0 ? 47 : 300
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -52,12 +55,12 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        view.endEditing(true)
-        if indexPath.section != 1 {
-            searchBar.text = recordData[indexPath.row]
-            searchBar(searchBar, textDidChange: searchBar.text!)
-            tableView.hidden = true
-        }
+//        view.endEditing(true)
+//        if indexPath.section != 1 {
+//            searchBar.text = recordData[indexPath.row]
+//            searchBar(searchBar, textDidChange: searchBar.text!)
+//            tableView.hidden = true
+//        }
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {

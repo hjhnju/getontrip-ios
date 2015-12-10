@@ -11,7 +11,7 @@ import UIKit
 class GroupTitleView: UIView {
     
     /// 搜索历史标签
-    lazy var recordLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "搜索历史", fontSize: 12, mutiLines: true)
+    lazy var recordLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "搜索历史", fontSize: 12, mutiLines: true)
     
     /// 清除按钮
     lazy var recordDelButton: UIButton = UIButton(title: "清除历史", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7))
@@ -26,8 +26,8 @@ class GroupTitleView: UIView {
         addSubview(recordLabel)
         addSubview(recordDelButton)
         addSubview(baseLine)
-        recordLabel.ff_AlignInner(.BottomLeft, referView: self, size: nil, offset: CGPointMake(9, -7))
-        recordDelButton.ff_AlignInner(.BottomRight, referView: self, size: nil, offset: CGPointMake(-9, -2))
+        recordLabel.ff_AlignInner(.BottomLeft, referView: self, size: nil, offset: CGPointMake(9, -9))
+        recordDelButton.ff_AlignInner(.BottomRight, referView: self, size: nil, offset: CGPointMake(-9, -5))
         baseLine.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
     }
 

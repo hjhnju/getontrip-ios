@@ -43,8 +43,6 @@ class SearchHotwordTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
         layout.sectionInset = UIEdgeInsets(top: 13, left: 9, bottom: 0, right: 9)
         layout.scrollDirection = UICollectionViewScrollDirection.Vertical
         
-        
-        
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.bounces    = false
@@ -84,8 +82,6 @@ extension SearchHotwordTableViewCell {
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print("会来到这儿吗")
-        superview
         endEditing(true)
         superController?.searchBar.text = dataSource?[indexPath.row] ?? ""
         superController?.searchBar(superController?.searchBar ?? UISearchBar(), textDidChange: dataSource?[indexPath.row] ?? "")

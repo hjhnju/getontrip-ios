@@ -12,7 +12,7 @@ class SearchRequest: NSObject {
     
     static let sharedInstance = SearchRequest()
     
-    var sectionTypes = ["city", "sight", "content"]
+    var sectionTypes = ["city", "sight", "content", "book", "video"]
     
     var page    : Int = 1
     var pageSize: Int = 4
@@ -58,8 +58,8 @@ class SearchRequest: NSObject {
                         }
                         let num = data["city_num"]?.intValue ?? 0
                         //if num > 0 {
-                            rows["searchCitys"]    = searchCitys
-                            rows["city_num"] = num
+                            rows["searchCitys"] = searchCitys
+                            rows["city_num"]    = num
                         //}
                     case "sight":
                         var searchSights = [SearchResult]()
@@ -83,6 +83,17 @@ class SearchRequest: NSObject {
                         }
                         rows["searchContent"] = searchContent
                         rows["content_num"]   = data["content_num"]?.stringValue
+//                    case "book":
+//                        var searchContent = [SearchContentResult]()
+//                        if let cons = data["content"]?.arrayValue {
+//                            for item in cons {
+//                                if let item = item.dictionaryObject {
+//                                    searchContent.append(SearchContentResult(dict: item))
+//                                }
+//                            }
+//                        }
+//                        rows["searchContent"] = searchContent
+//                        rows["content_num"]   = data["content_num"]?.stringValue
                     default:
                         break
                     }

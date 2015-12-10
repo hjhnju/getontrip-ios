@@ -578,15 +578,15 @@
 		7287472A1BF8617200EE36AA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AE23DD781C181B73009A1B57 /* GroupTitleView.swift */,
+				AE23DD7A1C1820E0009A1B57 /* SearchDeleteButton.swift */,
 				AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */,
 				728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */,
 				728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */,
 				728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */,
-				AEA09BDA1C16E2A100E4F666 /* SearchBar.swift */,
 				AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */,
 				AE4772971C17F87500137E7A /* SearchHotwordLayout.swift */,
-				AE23DD781C181B73009A1B57 /* GroupTitleView.swift */,
-				AE23DD7A1C1820E0009A1B57 /* SearchDeleteButton.swift */,
+				AEA09BDA1C16E2A100E4F666 /* SearchBar.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
