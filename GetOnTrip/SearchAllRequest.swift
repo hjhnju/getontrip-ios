@@ -10,9 +10,12 @@ import UIKit
 import SwiftyJSON
 
 struct SearchType {
-    static let Sight:Int = 1
-    static let City:Int  = 2
-    static let Content:Int = 3
+    static let Sight    :Int = 1
+    static let City     :Int = 2
+    static let Content  :Int = 3
+    static let Book     :Int = 5
+    static let Video    :Int = 6
+    static let Landscape:Int = 7
 }
 
 class SearchAllRequest: NSObject {
@@ -23,24 +26,24 @@ class SearchAllRequest: NSObject {
     
     var page    : Int = 0
     var pageSize: Int = 15
-    var searchType: Int = SearchType.Content
+//    var searchType: Int = SearchType.Content
     
     /// 纪录有无更多数据
     var hasMoreData: Bool = true
     
-    func fetchNextPageModels(filter: String, handler: (JSON?, Int) -> Void) {
+    func fetchNextPageModels(filter: String, searchType: Int, handler: (JSON?, Int) -> Void) {
         if !hasMoreData {
             return
         }
         page = page + 1
-        return fetchModels(self.searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
+        return fetchModels(searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
     }
     
-    func fetchFirstPageModels(filter: String, handler: (JSON?, Int) -> Void) {
-        page = 1
-        hasMoreData = true
-        return fetchModels(self.searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
-    }
+//    func fetchFirstPageModels(filter: String, handler: (JSON?, Int) -> Void) {
+//        page = 1
+//        hasMoreData = true
+//        return fetchModels(self.searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
+//    }
     
     ///  搜索更多
     ///

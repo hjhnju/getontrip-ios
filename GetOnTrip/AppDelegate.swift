@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        NSThread.sleepForTimeInterval(2)
+//        NSThread.sleepForTimeInterval(2)
         
         //加载缓存(最早，否则config无法获取
         globalKvStore = YTKKeyValueStore(DBWithName: "getontrip")

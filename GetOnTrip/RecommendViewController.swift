@@ -121,10 +121,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 textfile?.font = UIFont(name: ".HelveticaNeueInterface-Light", size: 16)
             }
             textfile?.textColor = UIColor.whiteColor()
-            let leftView = UIImageView(image: UIImage(named: "search_icon"))
+            let leftImage = UIImageView(image: UIImage(named: "search_icon"))
             textfile?.leftViewMode = .Always
-            textfile?.leftView = leftView
+            
+            textfile?.leftView = leftImage
             textfile?.setValue(clearButton, forKey: "_clearButton")
+            textfile?.leftView?.ff_AlignInner(.CenterLeft, referView: textfile!, size: nil)
             
             var font: UIFont?
             if #available(iOS 9.0, *) {
@@ -134,9 +136,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             }
             let style = NSMutableParagraphStyle()
             style.lineHeightMultiple = 1.1
+            textfile?.contentHorizontalAlignment = .Left
+            textfile?.contentMode = .Left
             textfile?.attributedPlaceholder = NSAttributedString(string: "搜索城市、景点等内容", attributes: [NSForegroundColorAttributeName: UIColor(hex: 0xFFFFFF, alpha: 0.3), NSFontAttributeName : font!, NSParagraphStyleAttributeName : style])
-            textfile?.contentVerticalAlignment = .Center
-            
         }
     }
     
@@ -172,12 +174,11 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         searchController?.searchBar.frame = CGRectMake(49, 16, UIScreen.mainScreen().bounds.width - 49, 35)
         clearButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
         clearButton.addTarget(searchController, action: "clearButtonAction", forControlEvents: .TouchUpInside)
-        
         searchController?.searchBar.keyboardAppearance = .Default
         searchController?.searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
         searchController?.searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
         searchController?.searchBar.translucent = true
-        
+
         for item in (searchController?.searchBar.subviews)! {
             for it in item.subviews {
                 if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
@@ -276,7 +277,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         navContainerView.frame = CGRectMake(0, 0, view.bounds.width, MainViewContant.StatusBarHeight + navBarHeight)
         custNavView.frame      = CGRectMake(0, MainViewContant.StatusBarHeight, view.bounds.width, navBarHeight)
         slideNavButton.frame   = CGRectMake(0, 0, 50, navBarHeight)
-        searchController?.searchBar.frame = CGRectMake(49, 0, UIScreen.mainScreen().bounds.width - 49, navBarHeight)
+        searchController?.searchBar.frame = CGRectMake(searchController!.searchBar.frame.origin.x, 0, (searchController?.searchBar.frame.width)!, navBarHeight)
+//        searchController?.searchBarY = (searchController?.searchBar.frame.origin.y)!
     }
     
     override func viewWillDisappear(animated: Bool) {

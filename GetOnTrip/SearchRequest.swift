@@ -12,17 +12,17 @@ class SearchRequest: NSObject {
     
     static let sharedInstance = SearchRequest()
     
-    var sectionTypes = ["city", "sight", "content", "book", "video"]
+    var sectionTypes = ["city", "sight", "content","landscape", "book", "video"]
     
     var page    : Int = 1
     var pageSize: Int = 4
     
-    func fetchNextPageModels(filter: String, handler: ([String : AnyObject], Int) -> Void) {
+    func fetchNextPageModels(filter: String, handler: (SearchInitData, Int) -> Void) {
         page = page + 1
         return fetchModels(String(page), pageSize: String(pageSize), filterString: filter, handler: handler)
     }
     
-    func fetchFirstPageModels(filter: String, handler: ([String : AnyObject], Int) -> Void) {
+    func fetchFirstPageModels(filter: String, handler: (SearchInitData, Int) -> Void) {
         page = 1
         return fetchModels(String(page), pageSize: String(pageSize), filterString: filter, handler: handler)
     }
@@ -33,7 +33,7 @@ class SearchRequest: NSObject {
     ///  - parameter pageSize:     页面大小
     ///  - parameter filterString: 搜索内容
     ///  - parameter handler:      回调
-    func fetchModels(page: String, pageSize: String, filterString: String, handler: ([String : AnyObject], Int) -> Void) {
+    func fetchModels(page: String, pageSize: String, filterString: String, handler: (SearchInitData, Int) -> Void) {
         if filterString == "" {
             return
         }
@@ -43,35 +43,47 @@ class SearchRequest: NSObject {
         post["pageSize"] = String(pageSize)
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
+
                 let data = result.dictionaryValue
-                var rows = [String : AnyObject]()
+                let rows = SearchInitData()
+                var sectionRowsCount = [Int]()
+                var groupNum = 0
                 for section in self.sectionTypes {
                     switch section {
                     case "city":
-                        var searchCitys = [SearchResult]()
+                        var searchCitys = [SearchContentResult]()
                         if let citys = data["city"]?.arrayValue {
                             for item in citys {
                                 if let item = item.dictionaryObject {
-                                    searchCitys.append(SearchResult(dict: item))
+                                    searchCitys.append(SearchContentResult(dict: item))
                                 }
                             }
                         }
-                        let num = data["city_num"]?.intValue ?? 0
-                        //if num > 0 {
-                            rows["searchCitys"] = searchCitys
-                            rows["city_num"]    = num
-                        //}
+                        sectionRowsCount.append(searchCitys.count)
+                        rows.searchCitys = searchCitys
+                        rows.city_num    = data["city_num"]?.intValue ?? 0
+                        if data["city_num"]?.intValue > 0 {
+                            rows.groupTitleName.append("城市")
+                            rows.sectionRows.append(data["city_num"]?.intValue ?? 0)
+                            groupNum++
+                        }
                     case "sight":
-                        var searchSights = [SearchResult]()
+                        var searchSights = [SearchContentResult]()
                         if let sights = data["sight"]?.arrayValue {
                             for item in sights {
                                 if let item = item.dictionaryObject {
-                                    searchSights.append(SearchResult(dict: item))
+                                    searchSights.append(SearchContentResult(dict: item))
                                 }
                             }
                         }
-                        rows["searchSights"] = searchSights
-                        rows["sight_num"]    = data["sight_num"]?.stringValue
+                        sectionRowsCount.append(searchSights.count)
+                        rows.searchSights = searchSights
+                        rows.sight_num    = data["sight_num"]?.intValue ?? 0
+                        if data["sight_num"]?.intValue > 0 {
+                            rows.groupTitleName.append("景点")
+                            rows.sectionRows.append(data["sight_num"]?.intValue ?? 0)
+                            groupNum++
+                        }
                     case "content":
                         var searchContent = [SearchContentResult]()
                         if let cons = data["content"]?.arrayValue {
@@ -81,25 +93,73 @@ class SearchRequest: NSObject {
                                 }
                             }
                         }
-                        rows["searchContent"] = searchContent
-                        rows["content_num"]   = data["content_num"]?.stringValue
-//                    case "book":
-//                        var searchContent = [SearchContentResult]()
-//                        if let cons = data["content"]?.arrayValue {
-//                            for item in cons {
-//                                if let item = item.dictionaryObject {
-//                                    searchContent.append(SearchContentResult(dict: item))
-//                                }
-//                            }
-//                        }
-//                        rows["searchContent"] = searchContent
-//                        rows["content_num"]   = data["content_num"]?.stringValue
+                        sectionRowsCount.append(searchContent.count)
+                        rows.searchContent = searchContent
+                        rows.content_num   = data["content_num"]?.intValue ?? 0
+                        if data["content_num"]?.intValue > 0 {
+                            rows.groupTitleName.append("内容")
+                            rows.sectionRows.append(data["content_num"]?.intValue ?? 0)
+                            groupNum++
+                        }
+                    case "landscape":
+                        var searchLandscape = [SearchContentResult]()
+                        if let cons = data["landscape"]?.arrayValue {
+                            for item in cons {
+                                if let item = item.dictionaryObject {
+                                    searchLandscape.append(SearchContentResult(dict: item))
+                                }
+                            }
+                        }
+                        sectionRowsCount.append(searchLandscape.count)
+                        rows.searchLandscape = searchLandscape
+                        rows.landscape_num   = data["landscape_num"]?.intValue ?? 0
+                        if data["landscape_num"]?.intValue > 0 {
+                            rows.groupTitleName.append("景观")
+                            rows.sectionRows.append(data["landscape_num"]?.intValue ?? 0)
+                            groupNum++
+                        }
+                    case "book":
+                        var searchBook = [SearchContentResult]()
+                        if let cons = data["book"]?.arrayValue {
+                            for item in cons {
+                                if let item = item.dictionaryObject {
+                                    searchBook.append(SearchContentResult(dict: item))
+                                }
+                            }
+                        }
+                        sectionRowsCount.append(searchBook.count)
+                        rows.searchBook = searchBook
+                        rows.book_num   = data["book_num"]?.intValue ?? 0
+                        if data["book_num"]?.intValue > 0 {
+                            rows.groupTitleName.append("书籍")
+                            rows.sectionRows.append(data["book_num"]?.intValue ?? 0)
+                            groupNum++
+                        }
+                    case "video":
+                        var searchVideo = [SearchContentResult]()
+                        if let cons = data["video"]?.arrayValue {
+                            for item in cons {
+                                if let item = item.dictionaryObject {
+                                    searchVideo.append(SearchContentResult(dict: item))
+                                }
+                            }
+                        }
+                        sectionRowsCount.append(searchVideo.count)
+                        rows.searchVideo = searchVideo
+                        rows.video_num   = data["video_num"]?.intValue ?? 0
+                        if data["video_num"]?.intValue > 0 {
+                            rows.groupTitleName.append("视频")
+                            rows.sectionRows.append(data["video_num"]?.intValue ?? 0)
+                            groupNum++
+                        }
                     default:
                         break
                     }
                 }
+                print(rows.sectionRows)
+                rows.sectionRowsCount = sectionRowsCount
+                rows.groupNum = groupNum
                 handler(rows, status)
-            
             }
         }
     }
@@ -122,4 +182,78 @@ class SearchRequest: NSObject {
             handler(nil, status)
         }
     }
+}
+
+/// 搜索初始数据模型
+class SearchInitData: NSObject {
+    
+    /// 标题名
+    var groupTitleName = [String]()
+    
+    /// 每行组个数
+    var sectionRows = [Int]()
+    
+    /// 一开始需要显示的组数量
+    var sectionNum = [Int]()
+    
+    /// 需要改变行数的组
+    var sectionTag: Int = -1 {
+        didSet {
+            if sectionRowsCount[sectionTag] > 3 {
+                if sectionNum[sectionTag] == 3 {
+                    sectionNum[sectionTag] = sectionRowsCount[sectionTag]
+                } else {
+                    sectionNum[sectionTag] = 3
+                }
+            }
+        }
+    }
+    
+    /// 每行组个数
+    var sectionRowsCount = [Int]() {
+        didSet {
+            for item in sectionRowsCount {
+                sectionNum.append(item > 3 ? 3 : item)
+            }
+        }
+    }
+    
+    /// 组个数
+    var groupNum = 0
+    
+    /// 搜索城市
+    var searchCitys = [SearchContentResult]()
+    
+    /// 搜索城市数量
+    var city_num = 0
+    
+    /// 搜索景点
+    var searchSights = [SearchContentResult]()
+    
+    /// 景点数量
+    var sight_num = 0
+    
+    /// 内容
+    var searchContent = [SearchContentResult]()
+    
+    /// 内容数量
+    var content_num = 0
+    
+    /// 景观
+    var searchLandscape = [SearchContentResult]()
+    
+    /// 景观数量
+    var landscape_num = 0
+    
+    /// 书籍
+    var searchBook = [SearchContentResult]()
+    
+    /// 书籍数量
+    var book_num = 0
+    
+    /// 视频
+    var searchVideo = [SearchContentResult]()
+    
+    /// 视频数量
+    var video_num = 0
 }

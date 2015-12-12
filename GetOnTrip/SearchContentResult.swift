@@ -18,7 +18,7 @@ struct ContentType {
 /// 搜索结果的内容数据
 class SearchContentResult: NSObject {
     
-    var search_type: String = ContentType.Topic
+    var search_type: String = ""//ContentType.Topic
     
     var id: String = ""
     
@@ -44,32 +44,32 @@ class SearchContentResult: NSObject {
         
     }
     
-    func isLandscape() -> Bool {
-        if self.search_type == ContentType.Landscape {
-            return true
-        }
-        return false
-    }
-    
-    func isVideo() -> Bool {
-        if self.search_type == ContentType.Video {
-            return true
-        }
-        return false
-    }
-    
-    func isBook() -> Bool {
-        if self.search_type == ContentType.Book {
-            return true
-        }
-        return false
-    }
-    
-    func isTopic() -> Bool {
-        if self.search_type == ContentType.Topic {
-            return true
-        }
-        return false
-    }
+//    func isLandscape() -> Bool {
+//        if self.search_type == ContentType.Landscape {
+//            return true
+//        }
+//        return false
+//    }
+//    
+//    func isVideo() -> Bool {
+//        if self.search_type == ContentType.Video {
+//            return true
+//        }
+//        return false
+//    }
+//    
+//    func isBook() -> Bool {
+//        if self.search_type == ContentType.Book {
+//            return true
+//        }
+//        return false
+//    }
+//    
+//    func isTopic() -> Bool {
+//        if self.search_type == ContentType.Topic {
+//            return true
+//        }
+//        return false
+//    }
 
 }

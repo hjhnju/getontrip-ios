@@ -50,42 +50,52 @@ class SearchResultsCell: UITableViewCell {
         return attr
     }
     
-    var searchResult: SearchResult? {
+    var dataSource: SearchContentResult? {
         didSet {
-            if let result = searchResult {
+            if let result = dataSource {
                 resultImageView.sd_setImageWithURL(NSURL(string: result.image), placeholderImage: PlaceholderImage.defaultSmall)
-                resultTitleLabel.attributedText = searchCruxCharacterAction(result.name, titleColor: SceneColor.lightYellow)
-                resultDescLabel.attributedText  = searchCruxCharacterAction(result.desc, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+                resultTitleLabel.attributedText = searchCruxCharacterAction(result.title, titleColor: SceneColor.lightYellow)
+                resultDescLabel.attributedText  = searchCruxCharacterAction(result.content, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
             }
         }
     }
     
-    var searchContent: SearchContentResult? {
-        didSet {
-            if let content = searchContent {
-                resultTitleLabel.attributedText = searchCruxCharacterAction(content.title, titleColor: SceneColor.lightYellow)
-                resultDescLabel.attributedText = searchCruxCharacterAction(content.content, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
-                
-                if content.isVideo() {
-                    playImage.hidden = false
-                } else {
-                    playImage.hidden = true
-                }
-                
-                if content.isBook() {
-                    resultImageViewHeight?.constant = SearchResultCellContant.bookImageHeight
-                    resultImageView.image           = UIImage()
-                    resultImageView.backgroundColor = SceneColor.lightGray
-                    groundView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
-                    groundView.hidden = false
-                } else {
-                    resultImageViewHeight?.constant = SearchResultCellContant.normalImageHeight
-                    groundView.hidden = true
-                    resultImageView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
-                }
-            }
-        }
-    }
+//    var searchResult: SearchResult? {
+//        didSet {
+//            if let result = searchResult {
+//                resultImageView.sd_setImageWithURL(NSURL(string: result.image), placeholderImage: PlaceholderImage.defaultSmall)
+//                resultTitleLabel.attributedText = searchCruxCharacterAction(result.name, titleColor: SceneColor.lightYellow)
+//                resultDescLabel.attributedText  = searchCruxCharacterAction(result.desc, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+//            }
+//        }
+//    }
+//    
+//    var searchContent: SearchContentResult? {
+//        didSet {
+//            if let content = searchContent {
+//                resultTitleLabel.attributedText = searchCruxCharacterAction(content.title, titleColor: SceneColor.lightYellow)
+//                resultDescLabel.attributedText = searchCruxCharacterAction(content.content, titleColor: UIColor(hex: 0xF3FD54, alpha: 0.6))
+//                
+//                if content.isVideo() {
+//                    playImage.hidden = false
+//                } else {
+//                    playImage.hidden = true
+//                }
+//                
+//                if content.isBook() {
+//                    resultImageViewHeight?.constant = SearchResultCellContant.bookImageHeight
+//                    resultImageView.image           = UIImage()
+//                    resultImageView.backgroundColor = SceneColor.lightGray
+//                    groundView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
+//                    groundView.hidden = false
+//                } else {
+//                    resultImageViewHeight?.constant = SearchResultCellContant.normalImageHeight
+//                    groundView.hidden = true
+//                    resultImageView.sd_setImageWithURL(NSURL(string: content.image), placeholderImage: PlaceholderImage.defaultSmall)
+//                }
+//            }
+//        }
+//    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -94,7 +104,7 @@ class SearchResultsCell: UITableViewCell {
         addSubview(resultDescLabel)
         addSubview(baseLine)
         playImage.hidden = true
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor(hex: 0xB1B1B1, alpha: 0.25)
         rewriteProperty()
         addSubview(playImage)
         addSubview(groundView)

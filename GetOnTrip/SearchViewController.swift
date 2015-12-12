@@ -46,11 +46,15 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     //位置管理器
     lazy var locationManager: CLLocationManager = CLLocationManager()
     
+    /// 是否重设搜索框
+    var isSearchFrame:Bool = false
     
-    
+    var searchBarY: CGFloat?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        searchResultsUpdater = searchResultViewController
     }
     
     init() {
@@ -65,7 +69,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         super.viewDidLoad()
         
         initView()
-//        initSearchBar()
         searchBar.delegate = self
         initLocationManager()
         initProperty()
@@ -82,7 +85,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        searchBar.frame = CGRectMake(49, 18, UIScreen.mainScreen().bounds.width - 49, 35)
+        if isSearchFrame == true {
+            searchBar.frame = CGRectMake(49, searchBarY ?? 18, UIScreen.mainScreen().bounds.width - 49, 35)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -179,12 +184,14 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             searchResultViewController.tableView.hidden = true
         } else {
             locationButton.hidden = true
-            searchResultViewController.tableView.hidden = false
-            searchResultViewController.filterString = searchBar.text ?? ""
+//            searchResultViewController.tableView.hidden = false
+//            searchResultViewController.filterString = searchBar.text ?? ""
         }
     }
     
+    /// 点击取消调用的方法
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        isSearchFrame = true
         dismissViewControllerAnimated(true, completion: nil)
     }
     

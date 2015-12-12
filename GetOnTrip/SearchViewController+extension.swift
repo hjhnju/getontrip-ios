@@ -55,12 +55,12 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        view.endEditing(true)
-//        if indexPath.section != 1 {
-//            searchBar.text = recordData[indexPath.row]
-//            searchBar(searchBar, textDidChange: searchBar.text!)
-//            tableView.hidden = true
-//        }
+        view.endEditing(true)
+        if indexPath.section != 1 {
+            searchBar.text = recordData[indexPath.row]
+            searchBar(searchBar, textDidChange: searchBar.text!)
+            tableView.hidden = true
+        }
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
