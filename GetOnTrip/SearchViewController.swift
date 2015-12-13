@@ -38,7 +38,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     var hotwordData = [String]()
     
     /// 搜索提示
-    var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "当前搜索无内容", fontSize: 14, mutiLines: true)
+    var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "暂无搜索结果", fontSize: 14, mutiLines: true)
     
     /// 定位城市
     var locationButton: UIButton = UIButton(image: "location_search", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor.whiteColor())
@@ -115,7 +115,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         twoGroupTitleView.recordLabel.text = "热门搜索"
         twoGroupTitleView.recordDelButton.removeFromSuperview()
         
-        
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)
         view.addSubview(recordTableView)
@@ -143,7 +142,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 初始化相关属性
     private func initProperty() {
         locationButton.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 93))
-        noSearchResultLabel.ff_AlignVertical(.BottomCenter, referView: locationButton, size: nil, offset: CGPointMake(0, 81))
+        noSearchResultLabel.ff_AlignVertical(.BottomCenter, referView: locationButton, size: nil, offset: CGPointMake(0, 141))
         recordTableView.registerClass(SearchHotwordTableViewCell.self, forCellReuseIdentifier: SearchViewContant.hotwordCellId)
         locationButton.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
         noSearchResultLabel.hidden = true
@@ -176,22 +175,31 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     ///  搜索栏文字改变时调用的方法
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        // if !active { return }
+
         recordTableView.hidden = true
+        let vc = presentingViewController as? RecommendViewController
         if searchBar.text == "" { // 48 × 51
+            vc?.defaultPrompt.titleLabel?.hidden = false
             recordTableView.hidden = false
+            locationButton.hidden = false
             recordTableView.reloadData()
-            searchResultViewController.tableView.hidden = true
+            searchResultViewController.view.hidden = true
         } else {
+            vc?.defaultPrompt.titleLabel?.hidden = true
             locationButton.hidden = true
-//            searchResultViewController.tableView.hidden = false
-//            searchResultViewController.filterString = searchBar.text ?? ""
+            recordTableView.hidden = true
+            searchResultViewController.view.hidden = false
         }
     }
     
     /// 点击取消调用的方法
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         isSearchFrame = true
+        (presentingViewController as? RecommendViewController)?.defaultPrompt.titleLabel?.hidden = false
+        searchResultViewController.filterString = ""
+        searchResultViewController.view.hidden = true
+        recordTableView.hidden = false
+        locationButton.hidden = false
         dismissViewControllerAnimated(true, completion: nil)
     }
     

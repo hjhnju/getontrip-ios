@@ -226,5 +226,12 @@ extension RecommendViewController {
         }
     }
 
+    func defaultPromptTextHidden(textFiled: UITextField) {
+        if textFiled.text == "" || textFiled.text == nil {
+            defaultPrompt.titleLabel?.hidden = false
+        } else {
+            defaultPrompt.titleLabel?.hidden = true
+        }
+    }
     
 }

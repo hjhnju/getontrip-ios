@@ -28,29 +28,11 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     var sectionFileds    = ["searchCitys", "searchSights", "searchContent", "searchLandscape", "searchBook", "searchVideo"]
     var sectionNumFileds = ["city_num", "sight_num", "content_num", "landscape_num", "book_num", "video_num"]
     var sectionTitles = ["城市", "景点", "内容","景观", "书籍", "视频"]
-//    var sectionTypes  = [SearchType.City, SearchType.Sight, SearchType.Content]
-    
-    /// 是否在“显示全部内容”界面
-    var isSearchingAll: Bool = false
     
     /// 显示全部内容的搜索类型
-    var searchType: Int = SearchType.Content
+    var searchType = ContentType.city
     
     var dataSource: SearchInitData = SearchInitData()
-    
-    /// 搜索更多内容数据
-//    var contentData = [SearchContentResult]() {
-//        didSet {
-//            updateNoResultHint()
-//        }
-//    }
-//    
-//    /// 搜索更多城市或者景点数据
-//    var normalData  = [SearchResult]() {
-//        didSet {
-//            updateNoResultHint()
-//        }
-//    }
     
     var cityId = ""
     
@@ -59,7 +41,6 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     var filterString: String = "" {
         didSet {
             if filterString == "" {
-                isSearchingAll = false
                 resultDataSource.removeAll()
 //                contentData.removeAll()
 //                normalData.removeAll()
@@ -72,7 +53,6 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
             }
             /// 当搜索之后，发送第一次网络请求数据
             requestFisterSearchData()
-//            requestSearching()
         }
     }
     
@@ -110,14 +90,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     // MARK: UITableViewDataSource
     var refreshRows = -1
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        print(refreshRows)
-//        if refreshRows != -1 { return refreshRows }
-        
-//        if refreshRows != -1 {
-            return dataSource.groupNum
-//        } else {
-//            return 1
-//        }
+        return dataSource.groupNum
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -126,36 +99,27 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
             svc.saveRecord(filterString)
         }
         
-//        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-//        
-//        if isSearchingAll {
-//            if self.searchType == SearchType.City || self.searchType == SearchType.Sight {
-//                let rowData = normalData[indexPath.row]
-//                selectNormalCellAction(rowData)
-//                return
-//            } else if self.searchType == SearchType.Content {
-//                let content = contentData[indexPath.row]
-//                selectContentCellAction(content)
-//                return
-//            }
-//        } else {
-//            if let data = resultDataSource[sectionFileds[indexPath.section]] as? [SearchResult] {
-//                //点击查看更多
-//                if data.count == indexPath.row {
-//                    return
-//                }
-//                searchType = sectionTypes[indexPath.section]
-//                let rowData = data[indexPath.row]
-//                selectNormalCellAction(rowData)
-//            }
-//            if let data = resultDataSource[sectionFileds[indexPath.section]] as? [SearchContentResult] {
-//                if data.count == indexPath.row {
-//                    return
-//                }
-//                let rowData = data[indexPath.row]
-//                selectContentCellAction(rowData)
-//            }
-//        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        let data = getTableViewCellData(indexPath)
+        
+        switch data.search_type{
+        case ContentType.city:
+            searchType = ContentType.city
+        case ContentType.sight:
+            searchType = ContentType.sight
+        case ContentType.Topic:
+            searchType = ContentType.Topic
+        case ContentType.Landscape:
+            searchType = ContentType.Landscape
+        case ContentType.Book:
+            searchType = ContentType.Book
+        case ContentType.Video:
+            searchType = ContentType.Video
+        default:
+            return
+        }
+        selectNormalCellAction(data)
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -174,17 +138,16 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         cell.dataSource = getTableViewCellData(indexPath)
         
         if dataSource.sectionTag != -1 {
-            if indexPath.section == dataSource.sectionTag {
-                if indexPath.row == dataSource.sectionNum[indexPath.section] - 1 {
-                    requestMoreSearchingAll()
+            if dataSource.iSunfold[dataSource.sectionTag] {
+                if indexPath.section == dataSource.sectionTag {
+                    if indexPath.row == dataSource.sectionNum[indexPath.section] - 1 {
+                        requestMoreSearchingAll()
+                    }
                 }
             }
         }
-        
         return cell
     }
-    
-
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         //Apperance of cell
@@ -221,59 +184,54 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         }
     }
     
-    func showSearchResultController(vc: UIViewController) {
-        parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    /**
-    响应“显示全部内容”
-    - parameter btn: sender
-    */
-    func searchingAllAction(btn: UIButton) {
-        //进入“显示全部内容”
-        isSearchingAll = true
-        requestSearching()
-    }
-    
-    func selectContentCellAction(content: SearchContentResult) {
-//        if content.isLandscape() || content.isVideo() {
-//            let vc = DetailWebViewController()
-//            vc.url = content.url
-//            showSearchResultController(vc)
-//        } else if content.isTopic() {
-//            let vc = TopicViewController()
-//            let topic = Topic()
-//            topic.id       = content.id
-//            topic.image    = content.image
-//            topic.title    = content.title
-//            vc.topicDataSource = topic
-//            showSearchResultController(vc)
-//        } else if content.isBook() {
-//            let vc = BookViewController()
-//            let book = Book(id: content.id)
-//            book.image = content.image
-//            book.title = content.title
-//            vc.bookDataSource = book
-//            showSearchResultController(vc)
-//        }
-    }
-    
-    func selectNormalCellAction(rowData: SearchResult) {
-        if searchType == SearchType.City {
+    func selectNormalCellAction(rowData: SearchContentResult) {
+        
+        
+        switch searchType {
+        case ContentType.city:
             let vc = CityViewController()
             let city = City(id: rowData.id)
             vc.cityDataSource = city
             showSearchResultController(vc)
-        } else if searchType == SearchType.Sight {
+        case ContentType.sight:
             let vc = SightViewController()
             let sight = Sight(id: rowData.id)
-            sight.name = rowData.name
+            sight.name = rowData.title
             vc.sightDataSource = sight
             showSearchResultController(vc)
-//        } else if searchType == SearchType.Landscape {
-//            let vc = DetailWebViewController()
-//            vc.url = rowData
+        case ContentType.Topic:
+            let vc = TopicViewController()
+            let topic = Topic()
+            topic.id       = rowData.id
+            topic.image    = rowData.image
+            topic.title    = rowData.title
+            vc.topicDataSource = topic
+            showSearchResultController(vc)
+        case ContentType.Landscape:
+            let vc = DetailWebViewController()
+            vc.url = rowData.url
+            showSearchResultController(vc)
+        case ContentType.Book:
+            let vc = BookViewController()
+            let book = Book(id: rowData.id)
+            book.image = rowData.image
+            book.title = rowData.title
+            vc.bookDataSource = book
+            showSearchResultController(vc)
+        case ContentType.Video:
+            let vc = DetailWebViewController()
+            vc.url = rowData.url
+            let video = Video()
+            video.id = rowData.id
+            vc.video = video
+            showSearchResultController(vc)
+        default:
+            break
         }
+    }
+    
+    func showSearchResultController(vc: UIViewController) {
+        parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
     }
     
     /**
@@ -289,121 +247,73 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
             }
         }
     }
-    
-    
-    func requestSearching() {
-//        if isSearchingAll {
-//            SearchAllRequest.sharedInstance.vc = self
-//            SearchAllRequest.sharedInstance.searchType = searchType
-//            SearchAllRequest.sharedInstance.fetchFirstPageModels(filterString) { (result, status: Int) -> Void in
-////                if status == RetCode.SUCCESS {
-////                    //更新DataSource
-////                    if self.searchType == SearchType.City || self.searchType == SearchType.Sight {
-////                        var newNormalData = [SearchResult]()
-////                        for item in result?.arrayValue ?? [] {
-////                            if let item = item.dictionaryObject {
-////                                newNormalData.append(SearchResult(dict: item))
-////                            }
-////                        }
-//////                        self.normalData = newNormalData
-////                    } else {
-////                        var newContentData = [SearchContentResult]()
-////                        for item in result?.arrayValue ?? [] {
-////                            if let item = item.dictionaryObject {
-////                                newContentData.append(SearchContentResult(dict: item))
-////                            }
-////                        }
-//////                        self.contentData = newContentData
-////                    }
-////                    
-////                    //设置无内容
-////                    if self.normalData.count == 0 && self.contentData.count == 0 {
-////                        if let searvc = self.parentViewController as? SearchViewController {
-////                            searvc.showNoResult()
-////                        }
-////                    }
-////                    self.tableView.reloadData()
-////                } else {
-////                    ProgressHUD.showErrorHUD(self.view, text: "网络连接失败")
-////                }
-//            }
-//        } else {
-//            SearchRequest.sharedInstance.fetchFirstPageModels(filterString) { (rows, status) -> Void in
-//                if status == RetCode.SUCCESS {
-//                    
-//                    self.dataSource = rows
-//                    self.tableView.reloadData()
-//                    
-////                    if (rows["content_num"]?.intValue == 0) && (rows["city_num"]?.intValue == 0) && (rows["sight_num"]?.intValue == 0) {
-////                        if let searvc = self.parentViewController as? SearchViewController {
-////                            searvc.showNoResult()
-////                        }
-////                    }
-//                } else {
-//                    ProgressHUD.showErrorHUD(self.view, text: "网络连接失败")
-//                }
-//            }
-//        }
-    }
+
     
     /**
     搜索全部内容的下一页数据
     */
     func requestMoreSearchingAll() {
-//        if !isSearchingAll {
-//            return
-//        }
         
-        SearchAllRequest.sharedInstance.fetchNextPageModels(filterString, searchType: dataSource.sectionTag) { [weak self] (result, status) -> Void in
+        var searchTypeTemp: Int = -1
+        switch dataSource.sectionTag {
+        case 0:
+            searchTypeTemp = 2
+        case 1:
+            searchTypeTemp = 1
+        case 2:
+            searchTypeTemp = 3
+        case 3:
+            searchTypeTemp = 7
+        case 4:
+            searchTypeTemp = 5
+        case 5:
+            searchTypeTemp = 6
+        default:
+            break
+        }
+        if searchTypeTemp == -1 { return }
+        
+        SearchAllRequest.sharedInstance.fetchNextPageModels(filterString, searchType: searchTypeTemp) { [weak self] (result, status) -> Void in
             if status == RetCode.SUCCESS {
-//                for item in result?.arrayValue ?? [] {
-                
-                    var i = self?.getDataSourceSectionObject().count ?? 0
-                    var indexPath = [NSIndexPath]()
-                    for _ in i...(result?.arrayValue.count ?? i) {
+                print(result)
+                var i = self?.getDataSourceSectionObject().count ?? 0
+                var indexPath = [NSIndexPath]()
+                var count: Int = 0
+                if result?.arrayValue.count == 0 { return }
+                for item in result?.arrayValue ?? [] {
+                    
+                    if let dict = item.dictionaryObject {
                         indexPath.append(NSIndexPath(forRow: i, inSection: self?.dataSource.sectionTag ?? 0))
-                        if let dict = result?.dictionaryObject {
-                            switch self?.dataSource.sectionTag ?? 0 {
-                            case 0 :
-                                self?.dataSource.searchCitys.append(SearchContentResult(dict: dict))
-                            case 1:
-                                self?.dataSource.searchSights.append(SearchContentResult(dict: dict))
-                            case 2:
-                                self?.dataSource.searchContent.append(SearchContentResult(dict: dict))
-                            case 3:
-                                self?.dataSource.searchLandscape.append(SearchContentResult(dict: dict))
-                            case 4:
-                                self?.dataSource.searchBook.append(SearchContentResult(dict: dict))
-                            case 5:
-                                self?.dataSource.searchVideo.append(SearchContentResult(dict: dict))
-                            default:
-                                break
-                            }
+                        switch self!.dataSource.sectionTag {
+                        case 0 :
+                            self?.dataSource.searchCitys.append(SearchContentResult(dict: dict))
+                            count = self?.dataSource.searchCitys.count ?? 0
+                        case 1:
+                            self?.dataSource.searchSights.append(SearchContentResult(dict: dict))
+                            count = self?.dataSource.searchSights.count ?? 0
+                        case 2:
+                            self?.dataSource.searchContent.append(SearchContentResult(dict: dict))
+                            count = self?.dataSource.searchContent.count ?? 0
+                        case 3:
+                            self?.dataSource.searchLandscape.append(SearchContentResult(dict: dict))
+                            count = self?.dataSource.searchLandscape.count ?? 0
+                        case 4:
+                            self?.dataSource.searchBook.append(SearchContentResult(dict: dict))
+                            count = self?.dataSource.searchBook.count ?? 0
+                        case 5:
+                            self?.dataSource.searchVideo.append(SearchContentResult(dict: dict))
+                            count = self?.dataSource.searchVideo.count ?? 0
+                        default:
+                            break
                         }
-                        i++
                     }
-                    self?.tableView.insertRowsAtIndexPaths(indexPath, withRowAnimation: .Fade)
-//                }
+                    i++
+                }
+                self?.dataSource.sectionNum[self!.dataSource.sectionTag] = count
+                self?.dataSource.sectionRowsCount[self!.dataSource.sectionTag] = count
+                self?.tableView.insertRowsAtIndexPaths(indexPath, withRowAnimation: .Fade)
             }
         }
-//        SearchAllRequest.sharedInstance.fetchNextPageModels(filterString) { (result, status: Int) -> Void in
-//            if status == RetCode.SUCCESS {
-//                if self.searchType == SearchType.City || self.searchType == SearchType.Sight {
-//                    for item in result?.arrayValue ?? [] {
-//                        if let item = item.dictionaryObject {
-//                            self.normalData.append(SearchResult(dict: item))
-//                        }
-//                    }
-//                } else {
-//                    for item in result?.arrayValue ?? [] {
-//                        if let item = item.dictionaryObject {
-//                            self.contentData.append(SearchContentResult(dict: item))
-//                        }
-//                    }
-//                }
-//                self.tableView.reloadData()
-//            }
-//        }
     }
     
     /// 获取数据源组对象
@@ -440,7 +350,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     func groupTitleWithText(text: String, allHidden: Bool, group: Int) -> UIView {
         let groupTitle = GroupTitleView()
         groupTitle.recordLabel.text = text
-        groupTitle.recordDelButton.setTitle("展开全部", forState: UIControlState.Normal)
+        groupTitle.recordDelButton.setTitle(dataSource.iSunfold[group] ? "收起" : "是否展开" , forState: UIControlState.Normal)
         groupTitle.recordDelButton.addTarget(self, action: "refreshGroupContentAction:", forControlEvents: .TouchUpInside)
         groupTitle.recordDelButton.tag = group
         groupTitle.recordDelButton.hidden = allHidden
@@ -492,52 +402,8 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     /// 刷新对应组方法
     func refreshGroupContentAction(btn: UIButton) {
-        
         dataSource.sectionTag = btn.tag
-        
-        
-        
-//        var indexPath = [NSIndexPath]()
-//        let indexPath1 = NSIndexPath(forRow: 1, inSection: 3)
-//        indexPath.append(indexPath1)
-//        let indexPath2 = NSIndexPath(forRow: 1, inSection: 3)
-//        indexPath.append(indexPath2)
-//        self.tableView.beginUpdates()
-//        print(indexPath)
-//        self.tableView.reloadRowsAtIndexPaths(indexPath, withRowAnimation: UITableViewRowAnimation.Automatic)
-//        self.tableView.endUpdates()
-        
-//        if insertData == nil { return }
-        
-//        NSMutableArray *arrayM = [NSMutableArray arrayWithCapacity:currentTask.taskList.count];
-//        NSInteger currentItem = self.taskList.count;
-//        for (NSInteger i = currentItem; i < currentTask.taskList.count + currentItem ; ++i) {
-//            NSIndexPath *path = [NSIndexPath indexPathForItem:i inSection:0];
-//            [arrayM addObject:path];
-//        }
-//        [self.taskList addObjectsFromArray:currentTask.taskList];
-//        [self.tableView insertRowsAtIndexPaths:arrayM withRowAnimation:UITableViewRowAnimationFade];
-        
-//        var indexPath = [NSIndexPath]()
+        dataSource.iSunfold[btn.tag] = !dataSource.iSunfold[btn.tag]
         tableView.reloadSections(NSIndexSet(index: btn.tag), withRowAnimation: UITableViewRowAnimation.Fade)
-        
-//        tableView.reloadSections(NSIndexSet(index: btn.tag), withRowAnimation: UITableViewRowAnimation.Fade)
-//        print(indexPath)
-//        tableView.beginUpdates()
-        
-//        tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None)
-        
-//        let indexPathForRemoval = NSIndexPath(forRow: 3, inSection: 0)
-//        tableView.deleteRowsAtIndexPaths([indexPathForRemoval], withRowAnimation: .Fade)
-//        
-//        let insertedIndexPathRange = 0..<1
-//        
-//        let insertedIndexPaths = insertedIndexPathRange.map { NSIndexPath(forRow: $0, inSection: 0) }
-//        
-//        tableView.insertRowsAtIndexPaths(insertedIndexPaths, withRowAnimation: .Fade)
-        
-//        tableView.endUpdates()
     }
-    
-    
 }

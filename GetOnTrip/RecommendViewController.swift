@@ -112,6 +112,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         return view
     }()
     
+    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: " 搜索城市、景点等内容", fontSize: 14)
+    
     /// 搜索栏
     var textfile: UITextField? {
         didSet {
@@ -121,24 +123,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
                 textfile?.font = UIFont(name: ".HelveticaNeueInterface-Light", size: 16)
             }
             textfile?.textColor = UIColor.whiteColor()
-            let leftImage = UIImageView(image: UIImage(named: "search_icon"))
-            textfile?.leftViewMode = .Always
-            
-            textfile?.leftView = leftImage
+            textfile?.leftView = UIView(frame: CGRectMake(0, 0, 19, 35))
+            textfile?.placeholder = " "
             textfile?.setValue(clearButton, forKey: "_clearButton")
-            textfile?.leftView?.ff_AlignInner(.CenterLeft, referView: textfile!, size: nil)
-            
-            var font: UIFont?
-            if #available(iOS 9.0, *) {
-                font = UIFont(name: Font.defaultFont, size: 14)
-            } else {
-                font = UIFont(name: ".HelveticaNeueInterface-Light", size: 14)
-            }
-            let style = NSMutableParagraphStyle()
-            style.lineHeightMultiple = 1.1
-            textfile?.contentHorizontalAlignment = .Left
-            textfile?.contentMode = .Left
-            textfile?.attributedPlaceholder = NSAttributedString(string: "搜索城市、景点等内容", attributes: [NSForegroundColorAttributeName: UIColor(hex: 0xFFFFFF, alpha: 0.3), NSFontAttributeName : font!, NSParagraphStyleAttributeName : style])
+            textfile?.addTarget(self, action: "defaultPromptTextHidden:", forControlEvents: UIControlEvents.EditingChanged)
+            textfile?.addSubview(defaultPrompt)
+            defaultPrompt.ff_AlignInner(.CenterLeft, referView: textfile ?? defaultPrompt, size: nil, offset: CGPointMake(11, 0))
         }
     }
     
@@ -178,6 +168,16 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         searchController?.searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
         searchController?.searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
         searchController?.searchBar.translucent = true
+        
+        var font: UIFont?
+        if #available(iOS 9.0, *) {
+            font = UIFont(name: Font.defaultFont, size: 14)
+        } else {
+            font = UIFont(name: ".HelveticaNeueInterface-Light", size: 14)
+        }
+        defaultPrompt.enabled = false
+        defaultPrompt.setImage(UIImage(named: "search_icon"), forState: UIControlState.Disabled)
+        defaultPrompt.setAttributedTitle(NSAttributedString(string: " 搜索城市、景点等内容", attributes: [NSForegroundColorAttributeName: UIColor(hex: 0xFFFFFF, alpha: 0.3), NSFontAttributeName : font!]), forState: .Normal)
 
         for item in (searchController?.searchBar.subviews)! {
             for it in item.subviews {

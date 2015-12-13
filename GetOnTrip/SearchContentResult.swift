@@ -9,7 +9,9 @@
 import Foundation
 
 struct ContentType {
-    static let Landscape: String = "keyword"
+    static let city: String      = "city"
+    static let sight: String     = "sight"
+    static let Landscape: String = "landscape"
     static let Topic: String     = "topic"
     static let Book: String      = "book"
     static let Video: String     = "video"
@@ -36,40 +38,11 @@ class SearchContentResult: NSObject {
     
     init(dict: [String : AnyObject]) {
         super.init()
-        // book video keyword
+
         setValuesForKeysWithDictionary(dict)
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         
     }
-    
-//    func isLandscape() -> Bool {
-//        if self.search_type == ContentType.Landscape {
-//            return true
-//        }
-//        return false
-//    }
-//    
-//    func isVideo() -> Bool {
-//        if self.search_type == ContentType.Video {
-//            return true
-//        }
-//        return false
-//    }
-//    
-//    func isBook() -> Bool {
-//        if self.search_type == ContentType.Book {
-//            return true
-//        }
-//        return false
-//    }
-//    
-//    func isTopic() -> Bool {
-//        if self.search_type == ContentType.Topic {
-//            return true
-//        }
-//        return false
-//    }
-
 }

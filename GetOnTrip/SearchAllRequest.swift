@@ -24,26 +24,56 @@ class SearchAllRequest: NSObject {
     
     var vc: SearchResultsViewController?
     
-    var page    : Int = 0
     var pageSize: Int = 15
 //    var searchType: Int = SearchType.Content
+    /// 城市页数
+    var cityPage: Int = 0
+    /// 景点页数
+    var sightPage:Int = 0
+    /// 内容页数
+    var contentPage:Int = 0
+    /// 景观页数
+    var landscapePage:Int = 0
+    /// 书籍页数
+    var bookPage:Int = 0
+    /// 视频页数
+    var videoPage:Int = 0
     
     /// 纪录有无更多数据
-    var hasMoreData: Bool = true
+    var hasMoreData: Bool = true // 未使用
+    
+    var isLoadData: Bool = false
     
     func fetchNextPageModels(filter: String, searchType: Int, handler: (JSON?, Int) -> Void) {
-        if !hasMoreData {
-            return
+        
+        var page: Int = 0
+        switch searchType {
+        case 2:
+            cityPage = cityPage + 1
+            page = cityPage
+        case 1:
+            sightPage = sightPage + 1
+            page = sightPage
+        case 3:
+            contentPage = contentPage + 1
+            page = contentPage
+        case 7:
+            landscapePage = landscapePage + 1
+            page = landscapePage
+        case 5:
+            bookPage = bookPage + 1
+            page = bookPage
+        case 6:
+            videoPage = videoPage + 1
+            page = videoPage
+        default:
+            break
         }
-        page = page + 1
+        
+        if isLoadData == true { return }
+        isLoadData = true
         return fetchModels(searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
     }
-    
-//    func fetchFirstPageModels(filter: String, handler: (JSON?, Int) -> Void) {
-//        page = 1
-//        hasMoreData = true
-//        return fetchModels(self.searchType, page: page, pageSize: pageSize, query: filter, handler: handler)
-//    }
     
     ///  搜索更多
     ///
@@ -61,6 +91,7 @@ class SearchAllRequest: NSObject {
         post["pageSize"] = String(pageSize)
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search", post: post) { (data, status) -> () in
+            self.isLoadData = false
             if status == RetCode.SUCCESS {
                 if data.arrayValue.count == 0 {
                     self.hasMoreData = false
@@ -71,6 +102,5 @@ class SearchAllRequest: NSObject {
                 handler(result: nil, status: status)
             }
         }
-        
     }
 }
