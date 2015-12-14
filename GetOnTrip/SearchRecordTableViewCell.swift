@@ -26,11 +26,19 @@ class SearchRecordTableViewCell : UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        
         contentView.addSubview(selectBackgroundView)
         contentView.addSubview(deleteButton)
         contentView.addSubview(baseLine)
         textLabel?.textColor = UIColor.whiteColor()
-        textLabel?.font = UIFont.systemFontOfSize(16)
+        
+        if #available(iOS 9.0, *) {
+            textLabel?.font = UIFont(name: Font.PingFangSCLight, size: 16)
+        } else {
+            textLabel?.font = UIFont(name: Font.ios8Font, size: 16)
+        }
+        
         deleteButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
         
         selectBackgroundView.hidden = true

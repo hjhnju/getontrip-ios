@@ -25,7 +25,7 @@ extension UIButton {
     }
     
     /// 快速设置文字
-    convenience init(title: String, fontSize: CGFloat, radius: CGFloat, titleColor: UIColor = UIColor.whiteColor()) {
+    convenience init(title: String, fontSize: CGFloat, radius: CGFloat, titleColor: UIColor = UIColor.whiteColor(), fontName: String? = Font.ios8Font) {
         
         self.init()
         setTitle(title, forState: .Normal)
@@ -33,6 +33,14 @@ extension UIButton {
         setTitleColor(titleColor, forState: .Normal)
         layer.cornerRadius = radius
         layer.masksToBounds = true
+        
+        if fontName != nil {
+            if #available(iOS 9.0, *) {
+                titleLabel?.font = UIFont(name: fontName!, size: fontSize)!
+            } else {
+                titleLabel?.font = UIFont(name: Font.ios8Font, size: fontSize)!
+            }
+        }
     }
     
     /// 快速设置文字

@@ -89,7 +89,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     lazy var tableView = UITableView()
     
     /// 搜索控制器
-    var searchController: SearchViewController?
+    var searchController: SearchViewController!
     
     lazy var errorView: UIView = {
         let view = UIView()
@@ -120,10 +120,10 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             if #available(iOS 9.0, *) {
                 textfile?.font = UIFont(name: Font.defaultFont, size: 16)
             } else {
-                textfile?.font = UIFont(name: ".HelveticaNeueInterface-Light", size: 16)
+                textfile?.font = UIFont(name: Font.ios8Font, size: 16)
             }
             textfile?.textColor = UIColor.whiteColor()
-            textfile?.leftView = UIView(frame: CGRectMake(0, 0, 19, 35))
+            textfile?.leftView = UIView(frame: CGRectMake(0, 0, 23, 35))
             textfile?.placeholder = " "
             textfile?.setValue(clearButton, forKey: "_clearButton")
             textfile?.addTarget(self, action: "defaultPromptTextHidden:", forControlEvents: UIControlEvents.EditingChanged)
@@ -173,7 +173,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         if #available(iOS 9.0, *) {
             font = UIFont(name: Font.defaultFont, size: 14)
         } else {
-            font = UIFont(name: ".HelveticaNeueInterface-Light", size: 14)
+            font = UIFont(name: Font.ios8Font, size: 14)
         }
         defaultPrompt.enabled = false
         defaultPrompt.setImage(UIImage(named: "search_icon"), forState: UIControlState.Disabled)
@@ -182,7 +182,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         for item in (searchController?.searchBar.subviews)! {
             for it in item.subviews {
                 if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
-                    it.frame = CGRectMake(0, 0, 100, 100)
                     it.removeFromSuperview()
                 }
                 if it.isKindOfClass(NSClassFromString("UISearchBarTextField")!) {
@@ -271,7 +270,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-//        if searchController.searchbar
     }
     
     func refreshBar(){

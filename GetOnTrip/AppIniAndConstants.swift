@@ -102,4 +102,6 @@ struct Font {
     static let PingFangTCThin = "PingFangTC-Thin"
     static let HelveticaNeueThin = "HelveticaNeue-Thin"
     static let PingFangSCRegular = "PingFangSC-Regular"
+    static let PingFangSCLight = "PingFangSC-Light"
+    static let ios8Font = ".HelveticaNeueInterface-Light"
 }

@@ -43,7 +43,15 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return section == 0 ? oneGroupTitleView : twoGroupTitleView
+        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchHeaderView") as! SearchHeaderView
+        if section == 0 {
+            headerView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
+        } else {
+            headerView.backgroundView?.alpha = 0.0
+            headerView.recordLabel.text = "热门搜索"
+            headerView.recordDelButton.hidden = true
+        }
+        return headerView
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -55,6 +63,8 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // TODO: 晓羽说让用户等一下看下效果
+        NSThread.sleepForTimeInterval(0.3)
         view.endEditing(true)
         if indexPath.section != 1 {
             searchBar.text = recordData[indexPath.row]

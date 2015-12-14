@@ -10,7 +10,8 @@ import UIKit
 
 class SearchHotwordCollectionCell: UICollectionViewCell {
     
-    var hotwordButton = UIButton(title: "", fontSize: 16, radius: 12, titleColor: UIColor.whiteColor())
+    
+    var hotwordButton = UIButton(title: "", fontSize: 16, radius: 12, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,6 +21,13 @@ class SearchHotwordCollectionCell: UICollectionViewCell {
         contentView.addSubview(hotwordButton)
         hotwordButton.ff_Fill(contentView)
         hotwordButton.enabled = false
+        
+        if #available(iOS 9.0, *) {
+            hotwordButton.titleLabel?.font = UIFont(name: Font.PingFangSCLight, size: 16)
+        } else {
+            hotwordButton.titleLabel?.font = UIFont(name: Font.ios8Font, size: 16)
+        }
+        
     }
 
     required init?(coder aDecoder: NSCoder) {

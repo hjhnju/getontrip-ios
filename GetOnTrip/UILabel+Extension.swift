@@ -29,7 +29,7 @@ extension UILabel {
     ///  - parameter mutiLines: true 行数为0，false没设
     ///
     ///  - returns: label
-    convenience init(color: UIColor, title: String, fontSize: CGFloat, mutiLines: Bool = false) {
+    convenience init(color: UIColor, title: String, fontSize: CGFloat, mutiLines: Bool = false, fontName: String? = Font.ios8Font) {
         self.init()
         
         text = title
@@ -38,6 +38,14 @@ extension UILabel {
         
         if mutiLines {
             numberOfLines = 0
+        }
+        
+        if fontName != nil {
+            if #available(iOS 9.0, *) {
+                font = UIFont(name: fontName!, size: fontSize)!
+            } else {
+                font = UIFont(name: Font.ios8Font, size: fontSize)!
+            }
         }
     }
     

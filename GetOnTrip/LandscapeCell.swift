@@ -111,6 +111,7 @@ class LandscapeCell: LandscapeCell1 {
         subtitleLabel.numberOfLines = 3
         subtitleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 76
         baseLine.hidden = true
+        iconView.contentMode = .ScaleAspectFit
         if #available(iOS 9.0, *) {
             titleLabel.font = UIFont(name: Font.PingFangSCRegular, size: 22)
             subtitleLabel.font = UIFont(name: Font.PingFangSCRegular, size: 14)

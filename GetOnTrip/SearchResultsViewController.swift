@@ -37,6 +37,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
             if filterString == lastSearchContent { return }
 
             dataSource = SearchInitData()
+            tableView.reloadData()
             if let searvc = parentViewController as? SearchViewController {
                 searvc.showNoResult(false)
             }
@@ -68,6 +69,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         tableView.rowHeight       = SearchResultContant.NormalCellHeight
         tableView.sectionHeaderHeight = SearchResultContant.SectionHeaderHeight
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResultsCell")
+        tableView.registerClass(SearchHeaderView.self, forHeaderFooterViewReuseIdentifier: "SearchResultsViewController")
     }
     
     private func setupAutoLayout() {
@@ -111,6 +113,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         selectNormalCellAction(data)
     }
     
+    
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return getTableViewHeaderViewWith(section)
     }
@@ -136,7 +139,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchResultsCell", forIndexPath: indexPath) as! SearchResultsCell
         cell.searchCruxCharacter = filterString
         cell.dataSource = getTableViewCellData(indexPath)
-        
+        cell.section = indexPath.section
         if dataSource.sectionTag != -1 {
             if dataSource.iSunfold[dataSource.sectionTag] {
                 if indexPath.section == dataSource.sectionTag {
@@ -313,7 +316,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
                     i++
                 }
                 
-                self?.tableView.insertRowsAtIndexPaths(indexPath, withRowAnimation: .Fade)
+                self?.tableView.insertRowsAtIndexPaths(indexPath, withRowAnimation: .None)
             }
         }
     }
@@ -350,9 +353,10 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     /// 组标题方法
     func groupTitleWithText(text: String, allHidden: Bool, group: Int) -> UIView {
-        let groupTitle = GroupTitleView()
-        groupTitle.recordLabel.text = text
-        groupTitle.recordDelButton.setTitle(dataSource.iSunfold[group] ? "收起" : "是否展开" , forState: UIControlState.Normal)
+        
+        let groupTitle = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchResultsViewController") as! SearchHeaderView
+        groupTitle.recordLabel.text = text 
+        groupTitle.recordDelButton.setTitle(dataSource.iSunfold[group] ? "    收起" : "展开全部" , forState: UIControlState.Normal)
         groupTitle.recordDelButton.addTarget(self, action: "refreshGroupContentAction:", forControlEvents: .TouchUpInside)
         groupTitle.recordDelButton.tag = group
         groupTitle.recordDelButton.hidden = allHidden
@@ -408,6 +412,24 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     func refreshGroupContentAction(btn: UIButton) {
         dataSource.sectionTag = btn.tag
         dataSource.iSunfold[btn.tag] = !dataSource.iSunfold[btn.tag]
-        tableView.reloadSections(NSIndexSet(index: btn.tag), withRowAnimation: UITableViewRowAnimation.Fade)
+        tableView.reloadSections(NSIndexSet(index: btn.tag), withRowAnimation: .None)
+    }
+    
+    // var lastHeaderView = UITableViewHeaderFooterView()
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        /*
+        let cell = tableView.visibleCells.last as? SearchResultsCell
+        let headerView =  (tableView.headerViewForSection(cell?.section ?? 0) ?? UITableViewHeaderFooterView()) as UITableViewHeaderFooterView
+        
+        print(headerView.frame.origin.y)
+        
+        if headerView != lastHeaderView {
+            headerView.backgroundView?.alpha = 1.0
+        } else {
+            headerView.backgroundView?.alpha = 0.0
+            
+        }
+        lastHeaderView = headerView
+        */
     }
 }

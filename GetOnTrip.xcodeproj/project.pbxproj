@@ -40,7 +40,6 @@
 		727561841BD0F64A0089CB27 /* Sight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561831BD0F64A0089CB27 /* Sight.swift */; };
 		727561881BD4A92A0089CB27 /* DetailWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727561871BD4A92A0089CB27 /* DetailWebViewController.swift */; };
 		728747231BF8583000EE36AA /* SearchContentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747221BF8583000EE36AA /* SearchContentResult.swift */; };
-		728747251BF858D800EE36AA /* ShowMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */; };
 		728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */; };
 		728747291BF860A800EE36AA /* SearchHotwordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */; };
 		728747301BF9AAE200EE36AA /* UserLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7287472F1BF9AAE200EE36AA /* UserLogin.swift */; };
@@ -68,6 +67,7 @@
 		72FE63201BFB1B940037C7D6 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE631F1BFB1B940037C7D6 /* Cache.swift */; };
 		AE012D9C1BFB5E6E00D84C9C /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE012D9B1BFB5E6E00D84C9C /* CommentTableViewCell.swift */; };
 		AE0219711C087522003B8565 /* SettingSexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0219701C087522003B8565 /* SettingSexViewController.swift */; };
+		AE0261C81C1E8D8000A37FB1 /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0261C71C1E8D8000A37FB1 /* SearchHeaderView.swift */; };
 		AE0B6F7D1BFEEBD7002B8806 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */; };
 		AE0B6F7F1BFF1A52002B8806 /* NewUserRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */; };
 		AE0B6F811BFF1EE5002B8806 /* RetrievePasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */; };
@@ -262,7 +262,6 @@
 		727561831BD0F64A0089CB27 /* Sight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sight.swift; sourceTree = "<group>"; };
 		727561871BD4A92A0089CB27 /* DetailWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailWebViewController.swift; sourceTree = "<group>"; };
 		728747221BF8583000EE36AA /* SearchContentResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContentResult.swift; sourceTree = "<group>"; };
-		728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowMoreTableViewCell.swift; sourceTree = "<group>"; };
 		728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecordTableViewCell.swift; sourceTree = "<group>"; };
 		728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHotwordTableViewCell.swift; sourceTree = "<group>"; };
 		7287472F1BF9AAE200EE36AA /* UserLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLogin.swift; sourceTree = "<group>"; };
@@ -295,6 +294,7 @@
 		97726D23B8E630D4838357FE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		AE012D9B1BFB5E6E00D84C9C /* CommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		AE0219701C087522003B8565 /* SettingSexViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingSexViewController.swift; sourceTree = "<group>"; };
+		AE0261C71C1E8D8000A37FB1 /* SearchHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
 		AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserRegisterViewController.swift; sourceTree = "<group>"; };
 		AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievePasswordController.swift; sourceTree = "<group>"; };
@@ -581,12 +581,12 @@
 				AE23DD781C181B73009A1B57 /* GroupTitleView.swift */,
 				AE23DD7A1C1820E0009A1B57 /* SearchDeleteButton.swift */,
 				AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */,
-				728747241BF858D800EE36AA /* ShowMoreTableViewCell.swift */,
 				728747261BF8606C00EE36AA /* SearchRecordTableViewCell.swift */,
 				728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */,
 				AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */,
 				AE4772971C17F87500137E7A /* SearchHotwordLayout.swift */,
 				AEBD856A1C1A6D5100C9A4B9 /* UISearchBar+extension.swift */,
+				AE0261C71C1E8D8000A37FB1 /* SearchHeaderView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1162,7 +1162,6 @@
 				AE0219711C087522003B8565 /* SettingSexViewController.swift in Sources */,
 				AECD226F1B9F045D007F1D71 /* CollectCityViewController.swift in Sources */,
 				AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */,
-				728747251BF858D800EE36AA /* ShowMoreTableViewCell.swift in Sources */,
 				728747291BF860A800EE36AA /* SearchHotwordTableViewCell.swift in Sources */,
 				7293A0421BF4713A0070C64A /* Province.swift in Sources */,
 				AE0B6F7F1BFF1A52002B8806 /* NewUserRegisterViewController.swift in Sources */,
@@ -1248,6 +1247,7 @@
 				7293A03E1BF4594D0070C64A /* UserLoginRequest.swift in Sources */,
 				72550E8B1BE7A9AA004D4611 /* UIViewController+Extension.swift in Sources */,
 				AE012D9C1BFB5E6E00D84C9C /* CommentTableViewCell.swift in Sources */,
+				AE0261C81C1E8D8000A37FB1 /* SearchHeaderView.swift in Sources */,
 				7269747B1BE47245000C0ABF /* UIChannelLabel.swift in Sources */,
 				72D25A931BEB2B9F0044AE04 /* CitySightBrief.swift in Sources */,
 				728747341BFAD25200EE36AA /* Cookie.swift in Sources */,

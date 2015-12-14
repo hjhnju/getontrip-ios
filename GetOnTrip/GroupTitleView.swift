@@ -22,7 +22,6 @@ class GroupTitleView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
         addSubview(recordLabel)
         addSubview(recordDelButton)
         addSubview(baseLine)

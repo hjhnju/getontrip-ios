@@ -25,12 +25,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 搜索记录TableView
     let recordTableView = UITableView()
     
-    /// 第一组标题
-    var oneGroupTitleView: GroupTitleView = GroupTitleView()
-    
-    /// 第二组标题
-    var twoGroupTitleView: GroupTitleView = GroupTitleView()
-    
     /// 搜索记录(不可重复，按最近搜索排序）
     var recordData = [String]()
     
@@ -88,7 +82,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         super.viewDidDisappear(animated)
         
         if isSearchFrame == true {
-            self.searchBar.frame = self.searchBarFrame ?? CGRectZero
+            searchBar.frame = CGRectMake(49, searchBarFrame?.origin.y ?? 0, UIScreen.mainScreen().bounds.width - 49, searchBarFrame?.height ?? 49)
         }
     }
     
@@ -113,9 +107,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("recordData") as? [String] {
             recordData = userDefault
         }
-        oneGroupTitleView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
-        twoGroupTitleView.recordLabel.text = "热门搜索"
-        twoGroupTitleView.recordDelButton.removeFromSuperview()
         
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)
@@ -137,6 +128,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         recordTableView.delegate   = self
         recordTableView.dataSource = self
         recordTableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        recordTableView.registerClass(SearchHeaderView.self, forHeaderFooterViewReuseIdentifier: "SearchHeaderView")
         recordTableView.registerClass(SearchRecordTableViewCell.self, forCellReuseIdentifier: SearchViewContant.recordCellId)
         recordTableView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, UIScreen.mainScreen().bounds.height - 110), offset: CGPointMake(0, 0))
     }
