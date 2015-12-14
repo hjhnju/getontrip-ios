@@ -88,7 +88,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         super.viewDidDisappear(animated)
         
         if isSearchFrame == true {
-            searchBar.frame = searchBarFrame ?? CGRectZero
+            self.searchBar.frame = self.searchBarFrame ?? CGRectZero
         }
     }
     
@@ -96,11 +96,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         super.viewDidLayoutSubviews()
         for item in view.subviews {
             if item.isKindOfClass(NSClassFromString("_UISearchBarContainerView")!) {
-                item.frame = CGRectMake(0, 10, UIScreen.mainScreen().bounds.width, searchBarH!)
-                print(item)
+                let y: CGFloat = searchBarH == 74 ? 10 : 24
+                item.frame = CGRectMake(0, y, UIScreen.mainScreen().bounds.width, searchBarH!)
             }
         }
-        print(searchBar.frame)
     }
     
     /// 初始化view
@@ -213,6 +212,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 删除按钮方法
     func clearButtonAction() {
         searchBar.text = ""
+        searchResultViewController.filterString = ""
         searchBar(searchBar, textDidChange: "")
     }
 }

@@ -51,7 +51,7 @@ class SearchRecordTableViewCell : UITableViewCell {
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
-        selectBackgroundView.hidden = selected == true ? false : true
+
     }
     
     override func setHighlighted(highlighted: Bool, animated: Bool) {

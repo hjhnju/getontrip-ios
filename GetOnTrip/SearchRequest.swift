@@ -15,7 +15,7 @@ class SearchRequest: NSObject {
     var sectionTypes = ["city", "sight", "content","landscape", "book", "video"]
     
     var page    : Int = 1
-    var pageSize: Int = 4
+    var pageSize: Int = 6
     
     func fetchFirstPageModels(filter: String, handler: (SearchInitData, Int) -> Void) {
         return fetchModels(String(page), pageSize: String(pageSize), filterString: filter, handler: handler)
@@ -37,7 +37,7 @@ class SearchRequest: NSObject {
         post["pageSize"] = String(pageSize)
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                print(result)
+                
                 let data = result.dictionaryValue
                 let rows = SearchInitData()
                 var typeCount = [[String : Int]]()

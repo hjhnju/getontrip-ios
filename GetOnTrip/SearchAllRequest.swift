@@ -24,20 +24,20 @@ class SearchAllRequest: NSObject {
     
     var vc: SearchResultsViewController?
     
-    var pageSize: Int = 15
+    var pageSize: Int = 6
 //    var searchType: Int = SearchType.Content
     /// 城市页数
-    var cityPage: Int = 0
+    var cityPage: Int = 1
     /// 景点页数
-    var sightPage:Int = 0
+    var sightPage:Int = 1
     /// 内容页数
-    var contentPage:Int = 0
+    var contentPage:Int = 1
     /// 景观页数
-    var landscapePage:Int = 0
+    var landscapePage:Int = 1
     /// 书籍页数
-    var bookPage:Int = 0
+    var bookPage:Int = 1
     /// 视频页数
-    var videoPage:Int = 0
+    var videoPage:Int = 1
     
     /// 纪录有无更多数据
     var hasMoreData: Bool = true // 未使用

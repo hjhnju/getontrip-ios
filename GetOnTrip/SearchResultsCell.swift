@@ -44,6 +44,7 @@ class SearchResultsCell: UITableViewCell {
             attr.addAttribute(NSForegroundColorAttributeName, value: titleColor, range: NSMakeRange(location + range.location, range.length))
             location += range.location + range.length
             let temp = NSString(string: tempString).substringWithRange((NSMakeRange(range.location + range.length, (title as NSString).length - location)))
+//            let temp1 = tempString.substringWithRange(Range(start: startIndex, end: endIndex))
             tempString = temp
             range = NSString(string: temp).rangeOfString(searchCruxCharacter)
         }

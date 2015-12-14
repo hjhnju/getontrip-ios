@@ -268,6 +268,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         refreshBar()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+//        if searchController.searchbar
+    }
+    
     func refreshBar(){
         //更新导航背景
         navContainerView.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)
@@ -282,12 +288,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         searchController?.searchBarH = navBarHeight
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
     
     //布局
     private func setupAutoLayout() {

@@ -24,7 +24,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     /// 显示全部内容的搜索类型
     var searchType = ContentType.city
     
-    var dataSource: SearchInitData = SearchInitData()
+    var dataSource = SearchInitData()
     
     var cityId = ""
     
@@ -35,7 +35,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     var filterString: String = "" {
         didSet {
             if filterString == lastSearchContent { return }
-            
+
             dataSource = SearchInitData()
             if let searvc = parentViewController as? SearchViewController {
                 searvc.showNoResult(false)
@@ -236,6 +236,8 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
                     self?.dataSource = rows
                     self?.tableView.reloadData()
                 } else {
+                    self?.dataSource = SearchInitData()
+                    self?.tableView.reloadData()
                     if let searvc = self?.parentViewController as? SearchViewController {
                         searvc.showNoResult(true)
                     }
@@ -360,19 +362,20 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     private func getTableViewHeaderViewWith(section: Int) -> UIView {
         
         let text = dataSource.groupTitleName[section]
+        let count = dataSource.typeCount[section].values.first ?? 0
         switch section {
         case 0 :
-            return groupTitleWithText(text, allHidden: dataSource.city_num > 3 ? false : true, group: section)
+            return groupTitleWithText(text, allHidden: count > 3 ? false : true, group: section)
         case 1:
-            return groupTitleWithText(text, allHidden: dataSource.sight_num > 3 ? false : true, group: section)
+            return groupTitleWithText(text, allHidden: count > 3 ? false : true, group: section)
         case 2:
-            return groupTitleWithText(text, allHidden: dataSource.content_num > 3 ? false : true, group: section)
+            return groupTitleWithText(text, allHidden: count > 3 ? false : true, group: section)
         case 3:
-            return groupTitleWithText(text, allHidden: dataSource.landscape_num > 3 ? false : true, group: section)
+            return groupTitleWithText(text, allHidden: count > 3 ? false : true, group: section)
         case 4:
-            return groupTitleWithText(text, allHidden: dataSource.book_num > 3 ? false : true, group: section)
+            return groupTitleWithText(text, allHidden: count > 3 ? false : true, group: section)
         case 5:
-            return groupTitleWithText(text, allHidden: dataSource.video_num > 3 ? false : true, group: section)
+            return groupTitleWithText(text, allHidden: count > 3 ? false : true, group: section)
         default:
             break
         }

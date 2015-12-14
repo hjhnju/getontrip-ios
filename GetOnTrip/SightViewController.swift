@@ -305,7 +305,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 }
             } else {
                 //不再浮层提示  TODO://空白页面提示"无法连接网络"，想法：往后只有用户手动更新才会浮层显示，其他都在页面提示
-                //ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
+                // ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
             }
         })
     }
