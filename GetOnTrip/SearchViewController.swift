@@ -49,7 +49,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 是否重设搜索框
     var isSearchFrame:Bool = false
     
-    var searchBarY: CGFloat?
+    var searchBarFrame: CGRect?
+    
+    var searchBarH: CGFloat?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -86,18 +88,19 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         super.viewDidDisappear(animated)
         
         if isSearchFrame == true {
-            searchBar.frame = CGRectMake(49, searchBarY ?? 18, UIScreen.mainScreen().bounds.width - 49, 35)
+            searchBar.frame = searchBarFrame ?? CGRectZero
         }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         for item in view.subviews {
             if item.isKindOfClass(NSClassFromString("_UISearchBarContainerView")!) {
-                item.frame = CGRectMake(0, 20, UIScreen.mainScreen().bounds.width, 62)
+                item.frame = CGRectMake(0, 10, UIScreen.mainScreen().bounds.width, searchBarH!)
+                print(item)
             }
         }
+        print(searchBar.frame)
     }
     
     /// 初始化view
@@ -200,7 +203,11 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         searchResultViewController.view.hidden = true
         recordTableView.hidden = false
         locationButton.hidden = false
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true) { () -> Void in
+            self.searchResultViewController.dataSource = SearchInitData()
+            self.searchResultViewController.filterString = ""
+            self.searchResultViewController.lastSearchContent = ""
+        }
     }
     
     /// 删除按钮方法

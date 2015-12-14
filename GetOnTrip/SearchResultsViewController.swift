@@ -17,18 +17,10 @@ struct SearchResultContant {
 class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
-    /// 第一次搜索结果数据源
-    var resultDataSource = [String : AnyObject]() {
-        didSet {
-            updateNoResultHint()
-        }
-    }
     
     /// 结果字段名
     var sectionFileds    = ["searchCitys", "searchSights", "searchContent", "searchLandscape", "searchBook", "searchVideo"]
-    var sectionNumFileds = ["city_num", "sight_num", "content_num", "landscape_num", "book_num", "video_num"]
-    var sectionTitles = ["城市", "景点", "内容","景观", "书籍", "视频"]
-    
+
     /// 显示全部内容的搜索类型
     var searchType = ContentType.city
     
@@ -38,21 +30,20 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     var tableView = UITableView()
     
+    var lastSearchContent: String = ""
+    
     var filterString: String = "" {
         didSet {
-            if filterString == "" {
-                resultDataSource.removeAll()
-//                contentData.removeAll()
-//                normalData.removeAll()
-                tableView.reloadData()
-                //不显示无内容
-                if let searvc = parentViewController as? SearchViewController {
-                    searvc.showNoResult(false)
-                }
-                return
+            if filterString == lastSearchContent { return }
+            
+            dataSource = SearchInitData()
+            if let searvc = parentViewController as? SearchViewController {
+                searvc.showNoResult(false)
             }
+            
             /// 当搜索之后，发送第一次网络请求数据
             requestFisterSearchData()
+            lastSearchContent = filterString
         }
     }
     
@@ -89,9 +80,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     // MARK: UITableViewDataSource
     var refreshRows = -1
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return dataSource.groupNum
-    }
+
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         /// 保存搜索记录
@@ -126,11 +115,22 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         return getTableViewHeaderViewWith(section)
     }
     
+    /// 共有几组
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return dataSource.typeCount.count
+    }
 
+    /// 每组有多少个
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.sectionNum[section]
+        let count = dataSource.typeCount[section].values.first ?? 0
+        if count > 3 {
+            return dataSource.iSunfold[section] ? count : 3
+        } else {
+            return count ?? 0
+        }
     }
     
+    /// 每个是什么
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchResultsCell", forIndexPath: indexPath) as! SearchResultsCell
@@ -140,7 +140,9 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         if dataSource.sectionTag != -1 {
             if dataSource.iSunfold[dataSource.sectionTag] {
                 if indexPath.section == dataSource.sectionTag {
-                    if indexPath.row == dataSource.sectionNum[indexPath.section] - 1 {
+                    
+                    let index = dataSource.typeCount[indexPath.section].values.first ?? 0
+                    if indexPath.row == index - 1 {
                         requestMoreSearchingAll()
                     }
                 }
@@ -175,17 +177,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     // MARK: 自定义方法
     
-    func updateNoResultHint() {
-        let searvc = parentViewController as? SearchViewController
-        if resultDataSource.count == 0 {
-            searvc?.showNoResult()
-        } else {
-            searvc?.showNoResult(false)
-        }
-    }
-    
     func selectNormalCellAction(rowData: SearchContentResult) {
-        
         
         switch searchType {
         case ContentType.city:
@@ -238,12 +230,18 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     发送首次搜索请求
     */
     func requestFisterSearchData() {
-        SearchRequest.sharedInstance.fetchFirstPageModels(filterString) { (rows, status) -> Void in
+        SearchRequest.sharedInstance.fetchFirstPageModels(filterString) { [weak self] (rows, status) -> Void in
             if status == RetCode.SUCCESS {
-                self.dataSource = rows
-                self.tableView.reloadData()
+                if rows.typeCount.count > 0 {
+                    self?.dataSource = rows
+                    self?.tableView.reloadData()
+                } else {
+                    if let searvc = self?.parentViewController as? SearchViewController {
+                        searvc.showNoResult(true)
+                    }
+                }
             } else {
-                ProgressHUD.showErrorHUD(self.view, text: "网络连接失败")
+                ProgressHUD.showErrorHUD(self?.view, text: "网络连接失败")
             }
         }
     }
@@ -275,42 +273,44 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         
         SearchAllRequest.sharedInstance.fetchNextPageModels(filterString, searchType: searchTypeTemp) { [weak self] (result, status) -> Void in
             if status == RetCode.SUCCESS {
-                print(result)
-                var i = self?.getDataSourceSectionObject().count ?? 0
+                
+                var i = self?.dataSource.typeCount[self!.dataSource.sectionTag].values.first ?? 0
                 var indexPath = [NSIndexPath]()
-                var count: Int = 0
+                
                 if result?.arrayValue.count == 0 { return }
                 for item in result?.arrayValue ?? [] {
                     
                     if let dict = item.dictionaryObject {
                         indexPath.append(NSIndexPath(forRow: i, inSection: self?.dataSource.sectionTag ?? 0))
-                        switch self!.dataSource.sectionTag {
-                        case 0 :
+                        
+                        let index = self!.dataSource.typeCount[self!.dataSource.sectionTag].keys.first ?? ""
+                        
+                        switch index {
+                        case ContentType.city :
                             self?.dataSource.searchCitys.append(SearchContentResult(dict: dict))
-                            count = self?.dataSource.searchCitys.count ?? 0
-                        case 1:
+                            self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.city : self!.dataSource.searchCitys.count]
+                        case ContentType.sight:
                             self?.dataSource.searchSights.append(SearchContentResult(dict: dict))
-                            count = self?.dataSource.searchSights.count ?? 0
-                        case 2:
+                            self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.sight : self!.dataSource.searchSights.count]
+                        case ContentType.Topic:
                             self?.dataSource.searchContent.append(SearchContentResult(dict: dict))
-                            count = self?.dataSource.searchContent.count ?? 0
-                        case 3:
+                            self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.Topic : self!.dataSource.searchContent.count]
+                        case ContentType.Landscape:
                             self?.dataSource.searchLandscape.append(SearchContentResult(dict: dict))
-                            count = self?.dataSource.searchLandscape.count ?? 0
-                        case 4:
+                            self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.Landscape : self!.dataSource.searchLandscape.count]
+                        case ContentType.Book:
                             self?.dataSource.searchBook.append(SearchContentResult(dict: dict))
-                            count = self?.dataSource.searchBook.count ?? 0
-                        case 5:
+                            self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.Book : self!.dataSource.searchBook.count]
+                        case ContentType.Video:
                             self?.dataSource.searchVideo.append(SearchContentResult(dict: dict))
-                            count = self?.dataSource.searchVideo.count ?? 0
+                            self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.Video : self!.dataSource.searchVideo.count]
                         default:
                             break
                         }
                     }
                     i++
                 }
-                self?.dataSource.sectionNum[self!.dataSource.sectionTag] = count
-                self?.dataSource.sectionRowsCount[self!.dataSource.sectionTag] = count
+                
                 self?.tableView.insertRowsAtIndexPaths(indexPath, withRowAnimation: .Fade)
             }
         }
@@ -381,18 +381,19 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     private func getTableViewCellData(indexPath: NSIndexPath) -> SearchContentResult {
         
-        switch indexPath.section {
-        case 0 :
+        let index = dataSource.typeCount[indexPath.section].keys.first ?? ""
+        switch index {
+        case ContentType.city :
             return dataSource.searchCitys[indexPath.row]
-        case 1:
+        case ContentType.sight:
             return dataSource.searchSights[indexPath.row]
-        case 2:
+        case ContentType.Topic:
             return dataSource.searchContent[indexPath.row]
-        case 3:
+        case ContentType.Landscape:
             return dataSource.searchLandscape[indexPath.row]
-        case 4:
+        case ContentType.Book:
             return dataSource.searchBook[indexPath.row]
-        case 5:
+        case ContentType.Video:
             return dataSource.searchVideo[indexPath.row]
         default:
             break

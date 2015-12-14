@@ -278,7 +278,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         custNavView.frame      = CGRectMake(0, MainViewContant.StatusBarHeight, view.bounds.width, navBarHeight)
         slideNavButton.frame   = CGRectMake(0, 0, 50, navBarHeight)
         searchController?.searchBar.frame = CGRectMake(searchController!.searchBar.frame.origin.x, 0, (searchController?.searchBar.frame.width)!, navBarHeight)
-//        searchController?.searchBarY = (searchController?.searchBar.frame.origin.y)!
+        searchController?.searchBarFrame = searchController?.searchBar.frame
+        searchController?.searchBarH = navBarHeight
     }
     
     override func viewWillDisappear(animated: Bool) {

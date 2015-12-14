@@ -40,7 +40,7 @@ class SearchRequest: NSObject {
                 print(result)
                 let data = result.dictionaryValue
                 let rows = SearchInitData()
-                var sectionRowsCount = [Int]()
+                var typeCount = [[String : Int]]()
                 var groupNum = 0
                 for section in self.sectionTypes {
                     switch section {
@@ -56,7 +56,7 @@ class SearchRequest: NSObject {
                             }
                         }
                         if searchCitys.count > 0 {
-                            sectionRowsCount.append(searchCitys.count)
+                            typeCount.append([ContentType.city : searchCitys.count])
                             rows.searchCitys = searchCitys
                             rows.city_num    = data["city_num"]?.intValue ?? 0
                             if data["city_num"]?.intValue > 0 {
@@ -77,7 +77,7 @@ class SearchRequest: NSObject {
                             }
                         }
                         if searchSights.count > 0 {
-                            sectionRowsCount.append(searchSights.count)
+                            typeCount.append([ContentType.sight : searchSights.count])
                             rows.searchSights = searchSights
                             rows.sight_num    = data["sight_num"]?.intValue ?? 0
                             if data["sight_num"]?.intValue > 0 {
@@ -96,7 +96,7 @@ class SearchRequest: NSObject {
                             }
                         }
                         if searchContent.count > 0 {
-                            sectionRowsCount.append(searchContent.count)
+                            typeCount.append([ContentType.Topic : searchContent.count])
                             rows.searchContent = searchContent
                             rows.content_num   = data["content_num"]?.intValue ?? 0
                             if data["content_num"]?.intValue > 0 {
@@ -117,7 +117,7 @@ class SearchRequest: NSObject {
                             }
                         }
                         if searchLandscape.count > 0 {
-                            sectionRowsCount.append(searchLandscape.count)
+                            typeCount.append([ContentType.Landscape : searchLandscape.count])
                             rows.searchLandscape = searchLandscape
                             rows.landscape_num   = data["landscape_num"]?.intValue ?? 0
                             if data["landscape_num"]?.intValue > 0 {
@@ -136,7 +136,7 @@ class SearchRequest: NSObject {
                             }
                         }
                         if searchBook.count > 0 {
-                            sectionRowsCount.append(searchBook.count)
+                            typeCount.append([ContentType.Book : searchBook.count])
                             rows.searchBook = searchBook
                             rows.book_num   = data["book_num"]?.intValue ?? 0
                             if data["book_num"]?.intValue > 0 {
@@ -155,7 +155,7 @@ class SearchRequest: NSObject {
                             }
                         }
                         if searchVideo.count > 0 {
-                            sectionRowsCount.append(searchVideo.count)
+                            typeCount.append([ContentType.Video : searchVideo.count])
                             rows.searchVideo = searchVideo
                             rows.video_num   = data["video_num"]?.intValue ?? 0
                             if data["video_num"]?.intValue > 0 {
@@ -168,8 +168,7 @@ class SearchRequest: NSObject {
                         break
                     }
                 }
-                print(rows.sectionRows)
-                rows.sectionRowsCount = sectionRowsCount
+                rows.typeCount = typeCount
                 rows.groupNum = groupNum
                 handler(rows, status)
             }
@@ -208,9 +207,6 @@ class SearchInitData: NSObject {
     /// 记录临时多的个数
     var tempCount = [Int]()
     
-    /// 一开始需要显示的组数量
-    var sectionNum = [Int]()
-    
     /// 标明是哪个
     var typeCount = [[String : Int]]()
     
@@ -218,26 +214,7 @@ class SearchInitData: NSObject {
     var iSunfold = [false, false, false, false, false, false]
     
     /// 需要改变行数的组
-    var sectionTag: Int = -1 {
-        didSet {
-            if sectionRowsCount[sectionTag] > 3 {
-                if sectionNum[sectionTag] == 3 {
-                    sectionNum[sectionTag] = sectionRowsCount[sectionTag] // 需要给它真实的个数
-                } else {
-                    sectionNum[sectionTag] = 3
-                }
-            }
-        }
-    }
-    
-    /// 每行组个数
-    var sectionRowsCount = [Int]() {
-        didSet {
-            for item in sectionRowsCount {
-                sectionNum.append(item > 3 ? 3 : item)
-            }
-        }
-    }
+    var sectionTag: Int = -1
     
     /// 组个数
     var groupNum = 0
