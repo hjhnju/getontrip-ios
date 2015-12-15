@@ -24,6 +24,9 @@ class SearchHotwordTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
     /// 流水布局
     lazy var layout: SearchHotwordLayout = SearchHotwordLayout()
     
+    /// 基线
+    let baseLine: UIView = UIView(color: UIColor(hex: 0xBDBDBD, alpha: 0.15))
+    
     /// 底部容器view
     lazy var collectionView: UICollectionView = { [weak self] in
         let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
@@ -34,7 +37,9 @@ class SearchHotwordTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        contentView.addSubview(baseLine)
         contentView.addSubview(collectionView)
+        baseLine.ff_AlignInner(.TopCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 20, 0.5))
         collectionView.ff_Fill(contentView)
         backgroundColor = UIColor.clearColor()
         

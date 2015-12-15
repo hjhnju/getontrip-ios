@@ -47,7 +47,10 @@ extension SearchViewController {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchHeaderView") as! SearchHeaderView
         if section == 0 {
+            headerView.backgroundView?.alpha = 1
             headerView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
+            headerView.recordLabel.text = "搜索历史"
+            headerView.recordDelButton.hidden = false
         } else {
             headerView.backgroundView?.alpha = 0.0
             headerView.recordLabel.text = "热门搜索"

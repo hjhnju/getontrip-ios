@@ -31,6 +31,13 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     var lastSearchContent: String = ""
     
+    var headerView0: SearchHeaderView?
+    var headerView1: SearchHeaderView?
+    var headerView2: SearchHeaderView?
+    var headerView3: SearchHeaderView?
+    var headerView4: SearchHeaderView?
+    var headerView5: SearchHeaderView?
+    
     var filterString: String = "" {
         didSet {
             if filterString == lastSearchContent { return }
@@ -106,7 +113,21 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return getTableViewHeaderViewWith(section)
+        let headerView = getTableViewHeaderViewWith(section)
+        if section == 0 {
+            headerView0 = headerView
+        } else if section == 1 {
+            headerView1 = headerView
+        } else if section == 2 {
+            headerView2 = headerView
+        } else if section == 3 {
+            headerView3 = headerView
+        } else if section == 4 {
+            headerView4 = headerView
+        } else if section == 5 {
+            headerView5 = headerView
+        }
+        return headerView
     }
     
     /// 共有几组
@@ -137,7 +158,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
                     
                     let index = dataSource.typeCount[indexPath.section].values.first ?? 0
                     if indexPath.row == index - 1 {
-                        requestMoreSearchingAll()
+                        requestMoreSearchingAll(indexPath.section)
                     }
                 }
             }
@@ -246,31 +267,33 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     /**
     搜索全部内容的下一页数据
     */
-    func requestMoreSearchingAll() {
+    func requestMoreSearchingAll(section: Int) {
         
+        let index = dataSource.typeCount[section].keys.first ?? ""
         var searchTypeTemp: Int = -1
-        switch dataSource.sectionTag {
-        case 0:
+        switch index {
+        case ContentType.city :
             searchTypeTemp = 2
-        case 1:
+        case ContentType.sight:
             searchTypeTemp = 1
-        case 2:
+        case ContentType.Topic:
             searchTypeTemp = 3
-        case 3:
+        case ContentType.Landscape:
             searchTypeTemp = 7
-        case 4:
+        case ContentType.Book:
             searchTypeTemp = 5
-        case 5:
+        case ContentType.Video:
             searchTypeTemp = 6
         default:
             break
         }
-        if searchTypeTemp == -1 { return }
         
+        
+        if searchTypeTemp == -1 { return }
         SearchAllRequest.sharedInstance.fetchNextPageModels(filterString, searchType: searchTypeTemp) { [weak self] (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 
-                var i = self?.dataSource.typeCount[self!.dataSource.sectionTag].values.first ?? 0
+                var i = self?.dataSource.typeCount[section].values.first ?? 0
                 var indexPath = [NSIndexPath]()
                 
                 if result?.arrayValue.count == 0 { return }
@@ -342,7 +365,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     }
     
     /// 组标题方法
-    func groupTitleWithText(text: String, allHidden: Bool, group: Int) -> UIView {
+    func groupTitleWithText(text: String, allHidden: Bool, group: Int) -> SearchHeaderView {
         
         let groupTitle = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchResultsViewController") as! SearchHeaderView
         groupTitle.recordLabel.text = text 
@@ -353,7 +376,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         return groupTitle
     }
     
-    private func getTableViewHeaderViewWith(section: Int) -> UIView {
+    private func getTableViewHeaderViewWith(section: Int) -> SearchHeaderView {
         
         let text = dataSource.groupTitleName[section]
         let count = dataSource.typeCount[section].values.first ?? 0
@@ -373,7 +396,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         default:
             break
         }
-        return UIView()
+        return SearchHeaderView()
     }
     
     private func getTableViewCellData(indexPath: NSIndexPath) -> SearchContentResult {
@@ -403,35 +426,33 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         dataSource.sectionTag = btn.tag
         dataSource.iSunfold[btn.tag] = !dataSource.iSunfold[btn.tag]
         tableView.reloadSections(NSIndexSet(index: btn.tag), withRowAnimation: .None)
+        scrollViewDidScroll(self.tableView)
     }
     
-    // var lastHeaderView = UITableViewHeaderFooterView()
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-//        tableView.sectionIndexTrackingBackgroundColor
-        
-        /*
-        let cell = tableView.visibleCells.last as? SearchResultsCell
-        let headerView =  (tableView.headerViewForSection(cell?.section ?? 0) ?? UITableViewHeaderFooterView()) as UITableViewHeaderFooterView
-        
-        print(headerView.frame.origin.y)
-        
-        if headerView != lastHeaderView {
-            headerView.backgroundView?.alpha = 1.0
-        } else {
-            headerView.backgroundView?.alpha = 0.0
-            
+        if headerView0 != nil {
+            let v0 = headerView0?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
+            headerView0?.backgroundView?.alpha = v0?.y < -100 ? 0 : 1
         }
-        lastHeaderView = headerView
-        */
+        if headerView1 != nil {
+            let v1 = headerView1?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
+            headerView1?.backgroundView?.alpha = v1?.y < -100 ? 0 : 1
+        }
+        if headerView2 != nil {
+            let v2 = headerView2?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
+            headerView2?.backgroundView?.alpha = v2?.y < -100 ? 0 : 1
+        }
+        if headerView3 != nil {
+            let v3 = headerView3?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
+            headerView3?.backgroundView?.alpha = v3?.y < -100 ? 0 : 1
+        }
+        if headerView4 != nil {
+            let v4 = headerView4?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
+            headerView4?.backgroundView?.alpha = v4?.y < -100 ? 0 : 1
+        }
+        if headerView5 != nil {
+            let v5 = headerView5?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
+            headerView5?.backgroundView?.alpha = v5?.y < -100 ? 0 : 1
+        }
     }
-    
-    
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        
-        print(view)
-    }
-//    func tableView(tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
-//        print(view)
-//    }
 }
