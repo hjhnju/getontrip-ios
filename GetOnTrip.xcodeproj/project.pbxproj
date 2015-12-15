@@ -68,6 +68,7 @@
 		AE012D9C1BFB5E6E00D84C9C /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE012D9B1BFB5E6E00D84C9C /* CommentTableViewCell.swift */; };
 		AE0219711C087522003B8565 /* SettingSexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0219701C087522003B8565 /* SettingSexViewController.swift */; };
 		AE0261C81C1E8D8000A37FB1 /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0261C71C1E8D8000A37FB1 /* SearchHeaderView.swift */; };
+		AE0261CA1C1FA62600A37FB1 /* SearchPromptButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0261C91C1FA62500A37FB1 /* SearchPromptButton.swift */; };
 		AE0B6F7D1BFEEBD7002B8806 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */; };
 		AE0B6F7F1BFF1A52002B8806 /* NewUserRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */; };
 		AE0B6F811BFF1EE5002B8806 /* RetrievePasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */; };
@@ -295,6 +296,7 @@
 		AE012D9B1BFB5E6E00D84C9C /* CommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		AE0219701C087522003B8565 /* SettingSexViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingSexViewController.swift; sourceTree = "<group>"; };
 		AE0261C71C1E8D8000A37FB1 /* SearchHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
+		AE0261C91C1FA62500A37FB1 /* SearchPromptButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPromptButton.swift; sourceTree = "<group>"; };
 		AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserRegisterViewController.swift; sourceTree = "<group>"; };
 		AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievePasswordController.swift; sourceTree = "<group>"; };
@@ -832,6 +834,7 @@
 				7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */,
 				AEAB3A621C03077D00713C36 /* RecommendSlideButton.swift */,
 				AEB720921C1067AF00E0FBF3 /* RecommendButton.swift */,
+				AE0261C91C1FA62500A37FB1 /* SearchPromptButton.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1148,6 +1151,7 @@
 				725A84751C009552007623C9 /* ReportRequest.swift in Sources */,
 				7206B7CB1BF3759B002E3C9A /* LoadingView.swift in Sources */,
 				726974BE1BE6536B000C0ABF /* Topic.swift in Sources */,
+				AE0261CA1C1FA62600A37FB1 /* SearchPromptButton.swift in Sources */,
 				AEB98F351BE1CAC400183261 /* SightVideoViewController.swift in Sources */,
 				AEA2410C1C0D7FD100049882 /* Praised.swift in Sources */,
 				AEC2318D1BCE5519008C58C9 /* BookRequest.swift in Sources */,

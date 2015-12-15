@@ -173,13 +173,13 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         recordTableView.hidden = true
         let vc = presentingViewController as? RecommendViewController
         if searchBar.text == "" { // 48 × 51
-//            vc?.defaultPrompt.titleLabel?.hidden = false
+            vc?.defaultPrompt.titleLabel?.hidden = false
             recordTableView.hidden = false
             locationButton.hidden = false
             recordTableView.reloadData()
             searchResultViewController.view.hidden = true
         } else {
-//            vc?.defaultPrompt.titleLabel?.hidden = true
+            vc?.defaultPrompt.titleLabel?.hidden = true
             locationButton.hidden = true
             recordTableView.hidden = true
             searchResultViewController.view.hidden = false
@@ -189,7 +189,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 点击取消调用的方法
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         isSearchFrame = true
-//        (presentingViewController as? RecommendViewController)?.defaultPrompt.titleLabel?.hidden = false
+        (presentingViewController as? RecommendViewController)?.defaultPrompt.titleLabel?.hidden = false
         searchResultViewController.filterString = ""
         searchResultViewController.view.hidden = true
         recordTableView.hidden = false

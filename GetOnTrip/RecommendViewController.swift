@@ -112,7 +112,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         return view
     }()
     
-    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: " 搜索城市、景点等内容为什么不隐藏呀", fontSize: 14)
+    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: " 搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
     
     /// 搜索栏
     var textfile: UITextField? {
@@ -170,15 +170,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         searchController?.searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
         searchController?.searchBar.translucent = true
         
-        var font: UIFont?
-        if #available(iOS 9.0, *) {
-            font = UIFont(name: Font.defaultFont, size: 14)
-        } else {
-            font = UIFont(name: Font.ios8Font, size: 14)
-        }
         defaultPrompt.enabled = false
         defaultPrompt.setImage(UIImage(named: "search_icon"), forState: UIControlState.Disabled)
-        defaultPrompt.setAttributedTitle(NSAttributedString(string: " 搜索城市、景点等内容", attributes: [NSForegroundColorAttributeName: UIColor(hex: 0xFFFFFF, alpha: 0.3), NSFontAttributeName : font!]), forState: .Normal)
 
         for item in (searchController?.searchBar.subviews)! {
             for it in item.subviews {
@@ -269,7 +262,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         if textfile?.text != "" {
             defaultPrompt.titleLabel?.hidden = true
         } else {
-//            defaultPrompt.titleLabel?.hidden = false
+            defaultPrompt.titleLabel?.hidden = false
         }
         
         refreshBar()
