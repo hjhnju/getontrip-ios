@@ -220,9 +220,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         }
 
         descLabel.text   = "登录/注册"
-        wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: UIControlEvents.TouchUpInside)
-        moreButton.addTarget(self, action: "moreLogin", forControlEvents: UIControlEvents.TouchUpInside)
-        qqButton.addTarget(self, action: "qqLogin", forControlEvents: UIControlEvents.TouchUpInside)
+        wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: .TouchUpInside)
+        moreButton.addTarget(self, action: "moreLogin", forControlEvents: .TouchUpInside)
+        qqButton.addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
         
         tableView.dataSource = self
         tableView.delegate   = self
@@ -278,9 +278,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         nameLabel.ff_AlignVertical(.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
         
         if UIScreen.mainScreen().bounds.width == 320 {
-            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.4, view.bounds.height * 0.2), offset: CGPointMake(0, 34))
+            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.2 + 10), offset: CGPointMake(0, 34))
         } else {
-            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
+            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
         }
         
         welcomeLabel.ff_AlignInner(.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))

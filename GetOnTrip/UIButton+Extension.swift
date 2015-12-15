@@ -44,7 +44,7 @@ extension UIButton {
     }
     
     /// 快速设置文字
-    convenience init(image: String, title: String, fontSize: CGFloat, titleColor: UIColor = UIColor.whiteColor()) {
+    convenience init(image: String, title: String, fontSize: CGFloat, titleColor: UIColor = UIColor.whiteColor(), fontName: String? = Font.ios8Font) {
         
         self.init()
         self.imageView?.contentMode = .ScaleAspectFit
@@ -52,6 +52,13 @@ extension UIButton {
         setTitle(title, forState: .Normal)
         titleLabel?.font = UIFont.systemFontOfSize(fontSize)
         setTitleColor(titleColor, forState: .Normal)
+        if fontName != nil {
+            if #available(iOS 9.0, *) {
+                titleLabel?.font = UIFont(name: fontName!, size: fontSize)!
+            } else {
+                titleLabel?.font = UIFont(name: Font.ios8Font, size: fontSize)!
+            }
+        }
     }
 }
 

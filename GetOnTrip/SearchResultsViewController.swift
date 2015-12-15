@@ -17,7 +17,6 @@ struct SearchResultContant {
 class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
-    
     /// 结果字段名
     var sectionFileds    = ["searchCitys", "searchSights", "searchContent", "searchLandscape", "searchBook", "searchVideo"]
 
@@ -54,7 +53,6 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         super.viewDidLoad()
         
         initView()
-        setupAutoLayout()
     }
 
     private func initView() {
@@ -70,14 +68,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         tableView.sectionHeaderHeight = SearchResultContant.SectionHeaderHeight
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResultsCell")
         tableView.registerClass(SearchHeaderView.self, forHeaderFooterViewReuseIdentifier: "SearchResultsViewController")
-    }
-    
-    private func setupAutoLayout() {
-        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 64 + 28))
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 90))
     }
     
     // MARK: UITableViewDataSource
@@ -315,7 +306,6 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
                     }
                     i++
                 }
-                
                 self?.tableView.insertRowsAtIndexPaths(indexPath, withRowAnimation: .None)
             }
         }
@@ -417,6 +407,9 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     // var lastHeaderView = UITableViewHeaderFooterView()
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+//        tableView.sectionIndexTrackingBackgroundColor
+        
         /*
         let cell = tableView.visibleCells.last as? SearchResultsCell
         let headerView =  (tableView.headerViewForSection(cell?.section ?? 0) ?? UITableViewHeaderFooterView()) as UITableViewHeaderFooterView
@@ -432,4 +425,13 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         lastHeaderView = headerView
         */
     }
+    
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        print(view)
+    }
+//    func tableView(tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
+//        print(view)
+//    }
 }

@@ -112,7 +112,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         return view
     }()
     
-    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: " 搜索城市、景点等内容", fontSize: 14)
+    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: " 搜索城市、景点等内容为什么不隐藏呀", fontSize: 14)
     
     /// 搜索栏
     var textfile: UITextField? {
@@ -127,6 +127,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             textfile?.placeholder = " "
             textfile?.setValue(clearButton, forKey: "_clearButton")
             textfile?.addTarget(self, action: "defaultPromptTextHidden:", forControlEvents: UIControlEvents.EditingChanged)
+            defaultPrompt.titleLabel?.hidden = true
             textfile?.addSubview(defaultPrompt)
             defaultPrompt.ff_AlignInner(.CenterLeft, referView: textfile ?? defaultPrompt, size: nil, offset: CGPointMake(11, 0))
         }
@@ -264,6 +265,13 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if textfile?.text != "" {
+            defaultPrompt.titleLabel?.hidden = true
+        } else {
+//            defaultPrompt.titleLabel?.hidden = false
+        }
+        
         refreshBar()
     }
     

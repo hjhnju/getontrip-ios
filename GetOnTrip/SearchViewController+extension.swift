@@ -25,10 +25,12 @@ extension SearchViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier(SearchViewContant.recordCellId, forIndexPath: indexPath) as! SearchRecordTableViewCell
             cell.superController = self
             cell.textLabel?.text = recordData[indexPath.row]
-//            cell.deleteButton.tag = indexPath.row
-//            if indexPath.row == recordData.count - 1 {
-//                cell.baseLine.removeFromSuperview()
-//            }
+            cell.deleteButton.tag = indexPath.row
+            if indexPath.row == recordData.count - 1 {
+                cell.baseLine.hidden = true
+            } else {
+                cell.baseLine.hidden = false
+            }
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(SearchViewContant.hotwordCellId, forIndexPath: indexPath) as! SearchHotwordTableViewCell

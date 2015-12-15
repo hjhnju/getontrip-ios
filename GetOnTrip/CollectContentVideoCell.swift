@@ -38,7 +38,9 @@ class CollectContentVideoCell: BaseTableViewCell {
         didSet {
             if let collectContent = data as? CollectContent {
                 iconView.sd_setImageWithURL(NSURL(string: collectContent.image), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
-                    self.iconView.image = UIImageView.imageByApplyingImage(image, blurRadius: 0.2).scaleImage(140)
+                    if image != nil {
+                        self.iconView.image = UIImageView.imageByApplyingImage(image, blurRadius: 0.2).scaleImage(140)
+                    }
                 })
                 
                 titleLabel.text = collectContent.title

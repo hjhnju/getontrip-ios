@@ -32,10 +32,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     var hotwordData = [String]()
     
     /// 搜索提示
-    var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "暂无搜索结果", fontSize: 14, mutiLines: true)
+    var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "暂无搜索结果", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCLight)
     
     /// 定位城市
-    var locationButton: UIButton = UIButton(image: "location_search", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor.whiteColor())
+    var locationButton: UIButton = UIButton(image: "location_search", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor.whiteColor(), fontName: Font.PingFangSCLight)
     
     //位置管理器
     lazy var locationManager: CLLocationManager = CLLocationManager()
@@ -173,13 +173,13 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         recordTableView.hidden = true
         let vc = presentingViewController as? RecommendViewController
         if searchBar.text == "" { // 48 × 51
-            vc?.defaultPrompt.titleLabel?.hidden = false
+//            vc?.defaultPrompt.titleLabel?.hidden = false
             recordTableView.hidden = false
             locationButton.hidden = false
             recordTableView.reloadData()
             searchResultViewController.view.hidden = true
         } else {
-            vc?.defaultPrompt.titleLabel?.hidden = true
+//            vc?.defaultPrompt.titleLabel?.hidden = true
             locationButton.hidden = true
             recordTableView.hidden = true
             searchResultViewController.view.hidden = false
@@ -189,7 +189,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 点击取消调用的方法
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         isSearchFrame = true
-        (presentingViewController as? RecommendViewController)?.defaultPrompt.titleLabel?.hidden = false
+//        (presentingViewController as? RecommendViewController)?.defaultPrompt.titleLabel?.hidden = false
         searchResultViewController.filterString = ""
         searchResultViewController.view.hidden = true
         recordTableView.hidden = false
