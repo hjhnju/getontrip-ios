@@ -21,7 +21,7 @@ class SearchResultsCell: UITableViewCell {
     
     lazy var resultDescLabel: UILabel = UILabel(color: .whiteColor(), title: "5景点，210个话题", fontSize: 13, mutiLines: false, fontName: Font.PingFangSCLight)
     
-    lazy var baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.15)
+    lazy var baseLine: UIView = UIView(color: UIColor(hex: 0xBDBDBD, alpha: 0.15))
     
     var playImage: UIImageView = UIImageView(image: UIImage(named: "search_play"))
     
@@ -94,7 +94,7 @@ class SearchResultsCell: UITableViewCell {
         contentView.addSubview(baseLine)
         playImage.hidden = true
         backgroundColor = UIColor.clearColor()
-        contentView.backgroundColor = UIColor(hex: 0xB1B1B1, alpha: 0.25)
+        contentView.backgroundColor = UIColor(hex: 0xB1B1B1, alpha: 0.15)
         contentView.addSubview(playImage)
         contentView.addSubview(groundView)
     }

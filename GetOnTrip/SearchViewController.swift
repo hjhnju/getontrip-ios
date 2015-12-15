@@ -43,7 +43,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 是否重设搜索框
     var isSearchFrame:Bool = false
     
-    var searchBarFrame: CGRect?
+    var searchBarFrame: CGRect = CGRectZero
     
     var searchBarH: CGFloat?
     
@@ -61,6 +61,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         fatalError("init(coder:) has not been implemented")
     }
     
+    var searchBarContainerView: UIView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,30 +72,51 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         initProperty()
         initTableView()
         loadHotSearchLabel()
+        
+//        for item in view.subviews {
+//            if item.isKindOfClass(NSClassFromString("_UISearchBarContainerView")!) {
+//                searchBarContainerView = item
+//                item.clipsToBounds = false
+//            }
+//        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 35)
+        
+//        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 35)
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
         if isSearchFrame == true {
-            searchBar.frame = CGRectMake(49, searchBarFrame?.origin.y ?? 0, UIScreen.mainScreen().bounds.width - 49, searchBarFrame?.height ?? 49)
+            searchBar.frame = CGRectMake(49, searchBarFrame.origin.y ?? 0, UIScreen.mainScreen().bounds.width - 49, searchBarFrame.height)
         }
+    }
+    
+    
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        for item in view.subviews {
-            if item.isKindOfClass(NSClassFromString("_UISearchBarContainerView")!) {
-                let y: CGFloat = searchBarH == 74 ? 10 : 24
-                item.frame = CGRectMake(0, y, UIScreen.mainScreen().bounds.width, searchBarH!)
-            }
-        }
+        
+        refreshSearchBarContaineView()
+    }
+    
+    private func refreshSearchBarContaineView() {
+        searchBar.superview?.frame = CGRectMake(0, 20, searchBarFrame.width, searchBarFrame.height)
+        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, searchBarH!)
     }
     
     /// 初始化view
@@ -130,7 +153,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         recordTableView.separatorStyle = UITableViewCellSeparatorStyle.None
         recordTableView.registerClass(SearchHeaderView.self, forHeaderFooterViewReuseIdentifier: "SearchHeaderView")
         recordTableView.registerClass(SearchRecordTableViewCell.self, forCellReuseIdentifier: SearchViewContant.recordCellId)
-        recordTableView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, UIScreen.mainScreen().bounds.height - 110), offset: CGPointMake(0, 0))
+        recordTableView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, UIScreen.mainScreen().bounds.height - 110), offset: CGPointMake(0, 2))
     }
     
     /// 初始化相关属性

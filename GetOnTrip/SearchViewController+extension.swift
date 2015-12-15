@@ -45,8 +45,9 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchHeaderView") as! SearchHeaderView
+        var headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchHeaderView") as! SearchHeaderView
         if section == 0 {
+            headerView.backgroundView = UIImageView(image: UIImage(named: "search_group_history"))
             headerView.backgroundView?.alpha = 1
             headerView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
             headerView.recordLabel.text = "搜索历史"
@@ -69,7 +70,7 @@ extension SearchViewController {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // TODO: 晓羽说让用户等一下看下效果
-        NSThread.sleepForTimeInterval(0.3)
+        NSThread.sleepForTimeInterval(0.2)
         view.endEditing(true)
         if indexPath.section != 1 {
             searchBar.text = recordData[indexPath.row]

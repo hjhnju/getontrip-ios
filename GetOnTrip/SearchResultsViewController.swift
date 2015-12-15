@@ -368,6 +368,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     func groupTitleWithText(text: String, allHidden: Bool, group: Int) -> SearchHeaderView {
         
         let groupTitle = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchResultsViewController") as! SearchHeaderView
+        groupTitle.backgroundView?.alpha = 0.0
         groupTitle.recordLabel.text = text 
         groupTitle.recordDelButton.setTitle(dataSource.iSunfold[group] ? "    收起" : "展开全部" , forState: UIControlState.Normal)
         groupTitle.recordDelButton.addTarget(self, action: "refreshGroupContentAction:", forControlEvents: .TouchUpInside)
@@ -436,7 +437,8 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         }
         if headerView1 != nil {
             let v1 = headerView1?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
-            headerView1?.backgroundView?.alpha = v1?.y < -100 ? 0 : 1
+            headerView1?.backgroundView?.alpha =
+                v1?.y < -100 ? 0 : 1
         }
         if headerView2 != nil {
             let v2 = headerView2?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
