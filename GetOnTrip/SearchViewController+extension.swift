@@ -45,7 +45,7 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchHeaderView") as! SearchHeaderView
+        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchHeaderView") as! SearchHeaderView
         if section == 0 {
             headerView.backgroundView = UIImageView(image: UIImage(named: "search_group_history"))
             headerView.backgroundView?.alpha = 1

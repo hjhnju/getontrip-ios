@@ -72,20 +72,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         initProperty()
         initTableView()
         loadHotSearchLabel()
-        
-//        for item in view.subviews {
-//            if item.isKindOfClass(NSClassFromString("_UISearchBarContainerView")!) {
-//                searchBarContainerView = item
-//                item.clipsToBounds = false
-//            }
-//        }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        
-//        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 35)
     }
     
     override func viewDidDisappear(animated: Bool) {

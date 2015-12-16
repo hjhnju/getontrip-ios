@@ -372,8 +372,9 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         
         let groupTitle = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchResultsViewController") as! SearchHeaderView
         groupTitle.backgroundView?.alpha = 0.0
-        groupTitle.recordLabel.text = text 
-        groupTitle.recordDelButton.setTitle(dataSource.iSunfold[group] ? "    收起" : "展开全部" , forState: UIControlState.Normal)
+        groupTitle.recordLabel.text = text
+        groupTitle.recordDelButton.setTitle(dataSource.iSunfold[group] ? "    收起" : "展开全部" , forState: .Normal)
+        groupTitle.recordDelButton.setTitle("展开全部", forState: UIControlState.Normal)
         groupTitle.recordDelButton.addTarget(self, action: "refreshGroupContentAction:", forControlEvents: .TouchUpInside)
         groupTitle.recordDelButton.tag = group
         groupTitle.recordDelButton.hidden = allHidden
