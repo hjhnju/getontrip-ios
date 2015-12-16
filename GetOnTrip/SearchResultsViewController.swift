@@ -75,7 +75,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         tableView.sectionHeaderHeight = SearchResultContant.SectionHeaderHeight
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResultsCell")
         tableView.registerClass(SearchHeaderView.self, forHeaderFooterViewReuseIdentifier: "SearchResultsViewController")
-        tableView.contentSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 300)
+//        tableView.contentSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 300)
 //        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0)
         tableView.clipsToBounds = true
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 90))
@@ -434,29 +434,28 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        
         if headerView0 != nil {
-            let v0 = headerView0?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
-            headerView0?.backgroundView?.alpha = v0?.y < -100 ? 0 : 1
+            headerView0?.backgroundView?.alpha = 0
         }
         if headerView1 != nil {
-            let v1 = headerView1?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
-            headerView1?.backgroundView?.alpha = v1?.y < -100 ? 0 : 1
+            headerView1?.backgroundView?.alpha = 0
         }
         if headerView2 != nil {
-            let v2 = headerView2?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
-            headerView2?.backgroundView?.alpha = v2?.y < -100 ? 0 : 1
+            headerView2?.backgroundView?.alpha = 0
         }
         if headerView3 != nil {
-            let v3 = headerView3?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
-            headerView3?.backgroundView?.alpha = v3?.y < -100 ? 0 : 1
+            headerView3?.backgroundView?.alpha = 0
         }
         if headerView4 != nil {
-            let v4 = headerView4?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
-            headerView4?.backgroundView?.alpha = v4?.y < -100 ? 0 : 1
+            headerView4?.backgroundView?.alpha = 0
         }
         if headerView5 != nil {
-            let v5 = headerView5?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
-            headerView5?.backgroundView?.alpha = v5?.y < -100 ? 0 : 1
+            headerView5?.backgroundView?.alpha = 0
         }
+        
+        let cell = tableView.visibleCells.first as? SearchResultsCell
+        let headerView = tableView.headerViewForSection(cell?.section ?? 0) as? SearchHeaderView
+        headerView?.backgroundView?.alpha = 1
     }
 }
