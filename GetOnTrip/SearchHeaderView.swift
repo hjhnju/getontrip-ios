@@ -18,6 +18,7 @@ class SearchHeaderView: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        
         let imageView = UIImageView(image: UIImage(named: "search_group"))
         backgroundView = imageView
         backgroundView?.alpha = 1.0

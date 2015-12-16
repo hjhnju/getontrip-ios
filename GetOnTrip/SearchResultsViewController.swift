@@ -75,6 +75,9 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         tableView.sectionHeaderHeight = SearchResultContant.SectionHeaderHeight
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResultsCell")
         tableView.registerClass(SearchHeaderView.self, forHeaderFooterViewReuseIdentifier: "SearchResultsViewController")
+        tableView.contentSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 300)
+//        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0)
+        tableView.clipsToBounds = true
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 90))
     }
     
@@ -437,8 +440,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         }
         if headerView1 != nil {
             let v1 = headerView1?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
-            headerView1?.backgroundView?.alpha =
-                v1?.y < -100 ? 0 : 1
+            headerView1?.backgroundView?.alpha = v1?.y < -100 ? 0 : 1
         }
         if headerView2 != nil {
             let v2 = headerView2?.convertPoint(headerView0!.layer.position, fromView: UIApplication.sharedApplication().keyWindow)
