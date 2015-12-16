@@ -31,13 +31,6 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     var lastSearchContent: String = ""
     
-    var headerView0: SearchHeaderView?
-    var headerView1: SearchHeaderView?
-    var headerView2: SearchHeaderView?
-    var headerView3: SearchHeaderView?
-    var headerView4: SearchHeaderView?
-    var headerView5: SearchHeaderView?
-    
     var filterString: String = "" {
         didSet {
             if filterString == lastSearchContent { return }
@@ -75,8 +68,6 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         tableView.sectionHeaderHeight = SearchResultContant.SectionHeaderHeight
         tableView.registerClass(SearchResultsCell.self, forCellReuseIdentifier: "SearchResultsCell")
         tableView.registerClass(SearchHeaderView.self, forHeaderFooterViewReuseIdentifier: "SearchResultsViewController")
-//        tableView.contentSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 300)
-//        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0)
         tableView.clipsToBounds = true
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 64 - 28), offset: CGPointMake(0, 90))
     }
@@ -116,21 +107,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = getTableViewHeaderViewWith(section)
-        if section == 0 {
-            headerView0 = headerView
-        } else if section == 1 {
-            headerView1 = headerView
-        } else if section == 2 {
-            headerView2 = headerView
-        } else if section == 3 {
-            headerView3 = headerView
-        } else if section == 4 {
-            headerView4 = headerView
-        } else if section == 5 {
-            headerView5 = headerView
-        }
-        return headerView
+        return getTableViewHeaderViewWith(section)
     }
     
     /// 共有几组
@@ -374,7 +351,6 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         groupTitle.backgroundView?.alpha = 0.0
         groupTitle.recordLabel.text = text
         groupTitle.recordDelButton.setTitle(dataSource.iSunfold[group] ? "    收起" : "展开全部" , forState: .Normal)
-        groupTitle.recordDelButton.setTitle("展开全部", forState: UIControlState.Normal)
         groupTitle.recordDelButton.addTarget(self, action: "refreshGroupContentAction:", forControlEvents: .TouchUpInside)
         groupTitle.recordDelButton.tag = group
         groupTitle.recordDelButton.hidden = allHidden
@@ -430,30 +406,14 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     func refreshGroupContentAction(btn: UIButton) {
         dataSource.sectionTag = btn.tag
         dataSource.iSunfold[btn.tag] = !dataSource.iSunfold[btn.tag]
-        tableView.reloadSections(NSIndexSet(index: btn.tag), withRowAnimation: .None)
+        tableView.reloadSections(NSIndexSet(index: btn.tag), withRowAnimation: .Fade)
         scrollViewDidScroll(self.tableView)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        if headerView0 != nil {
-            headerView0?.backgroundView?.alpha = 0
-        }
-        if headerView1 != nil {
-            headerView1?.backgroundView?.alpha = 0
-        }
-        if headerView2 != nil {
-            headerView2?.backgroundView?.alpha = 0
-        }
-        if headerView3 != nil {
-            headerView3?.backgroundView?.alpha = 0
-        }
-        if headerView4 != nil {
-            headerView4?.backgroundView?.alpha = 0
-        }
-        if headerView5 != nil {
-            headerView5?.backgroundView?.alpha = 0
-        }
+        let cell1 = tableView.visibleCells.last as? SearchResultsCell
+        let headerView1 = tableView.headerViewForSection(cell1?.section ?? 0) as? SearchHeaderView
+        headerView1?.backgroundView?.alpha = 0
         
         let cell = tableView.visibleCells.first as? SearchResultsCell
         let headerView = tableView.headerViewForSection(cell?.section ?? 0) as? SearchHeaderView
