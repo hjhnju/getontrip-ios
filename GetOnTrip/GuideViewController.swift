@@ -87,8 +87,10 @@ class GuideViewController: UICollectionViewController {
         
         if indexPath.row == 3 {
             cell.startButton.hidden = false
+            cell.introduceLabel.hidden = false
         } else {
             cell.startButton.hidden = true
+            cell.introduceLabel.hidden = true
         }
         
         return cell
@@ -108,16 +110,19 @@ class NewFeatureCell: UICollectionViewCell {
     lazy var iconView: UIImageView = UIImageView()
     
     // 开始按钮
-    lazy var startButton: UIButton = UIButton(title: "开启探索之旅", fontSize: 20, radius: 10, titleColor: UIColor.whiteColor())
+    lazy var startButton: UIButton = UIButton(title: "开启探索之旅", fontSize: 20, radius: 10, titleColor: UIColor.whiteColor(), fontName: Font.PingFangTCThin)
     
     /// 蒙版
     lazy var cover: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.5)
     
     /// 标题
-    lazy var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "寻找路上的故事", fontSize: 32, mutiLines: true)
+    lazy var title: UILabel = UILabel(color: UIColor.whiteColor(), title: "寻找路上的故事", fontSize: 32, mutiLines: true, fontName: Font.PingFangTCThin)
     
     /// 副标题
-    lazy var subtitle: UILabel = UILabel(color: UIColor.whiteColor(), title: "旅行，不只有照片", fontSize: 28, mutiLines: true)
+    lazy var subtitle: UILabel = UILabel(color: UIColor.whiteColor(), title: "旅行，不只有照片", fontSize: 24, mutiLines: true, fontName: Font.PingFangTCThin)
+    
+    /// 介绍
+    lazy var introduceLabel = UILabel(color: .whiteColor(), title: "了解旅行中的历史、人文、科学地理等知识", fontSize: 13, mutiLines: true, fontName: Font.PingFangSCLight)
     
     /// 副标题英文
     lazy var subtitleEnglish: UILabel = UILabel(color: UIColor.whiteColor(), title: "MORE THEN PICTURES", fontSize: 28, mutiLines: true)
@@ -136,15 +141,7 @@ class NewFeatureCell: UICollectionViewCell {
         addSubview(subtitle)
         addSubview(subtitleEnglish)
         addSubview(startButton)
-        if #available(iOS 9.0, *) {
-            title.font = UIFont(name: Font.PingFangTCThin, size: 32)
-            subtitle.font = UIFont(name: Font.PingFangTCThin, size: 24)
-            startButton.titleLabel!.font = UIFont(name: Font.PingFangTCThin, size: 20)
-        } else {
-            title.font = UIFont.systemFontOfSize(32)
-            subtitle.font = UIFont.systemFontOfSize(24)
-            startButton.titleLabel!.font = UIFont.systemFontOfSize(20)
-        }
+        addSubview(introduceLabel)
         
         iconView.contentMode = UIViewContentMode.ScaleAspectFill
         subtitleEnglish.font = UIFont(name: Font.HelveticaNeueThin, size: 28)
@@ -163,6 +160,7 @@ class NewFeatureCell: UICollectionViewCell {
         title.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 136))
         subtitle.ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -79))
         subtitleEnglish.ff_AlignVertical(.TopCenter, referView: subtitle, size: nil, offset: CGPointMake(0, -6))
+        introduceLabel.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, UIScreen.mainScreen().bounds.height * 0.21))
         startButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.55, 64), offset: CGPointMake(0, 0))
     }
     

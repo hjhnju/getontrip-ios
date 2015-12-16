@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Launch Screen Controller-->
@@ -33,27 +34,33 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="亦行 · 亦读" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slq-Rr-wtO">
                                 <rect key="frame" x="285" y="486" width="94" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenText" translatesAutoresizingMaskIntoConstraints="NO" id="f7k-dm-ObH">
+                                <rect key="frame" x="160" y="105" width="281" height="13"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Slq-Rr-wtO" firstAttribute="leading" secondItem="CrR-gT-dF5" secondAttribute="trailing" constant="9" id="326-hj-XZp"/>
                             <constraint firstItem="Slq-Rr-wtO" firstAttribute="top" secondItem="CrR-gT-dF5" secondAttribute="top" id="4gd-ZM-kHR"/>
                             <constraint firstItem="lAb-k3-8qw" firstAttribute="leading" secondItem="CrR-gT-dF5" secondAttribute="trailing" constant="9" id="5EH-i9-ZQg"/>
+                            <constraint firstItem="f7k-dm-ObH" firstAttribute="centerX" secondItem="7la-vP-Dh1" secondAttribute="centerX" id="9UL-rf-mXu"/>
                             <constraint firstItem="XkJ-kZ-Zhi" firstAttribute="top" secondItem="CrR-gT-dF5" secondAttribute="bottom" constant="62" id="Tcu-L8-00G"/>
                             <constraint firstItem="lAb-k3-8qw" firstAttribute="bottom" secondItem="CrR-gT-dF5" secondAttribute="bottom" id="W9I-Oe-x7w"/>
                             <constraint firstItem="CrR-gT-dF5" firstAttribute="centerX" secondItem="7la-vP-Dh1" secondAttribute="centerX" constant="-50" id="sin-hG-M1g"/>
+                            <constraint firstItem="f7k-dm-ObH" firstAttribute="top" secondItem="a7P-G0-2Cv" secondAttribute="bottom" multiplier="1.1:5" constant="101" id="yqs-Wr-nS7"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c6g-g7-Upd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="312" y="277"/>
+            <point key="canvasLocation" x="301" y="318"/>
         </scene>
     </scenes>
     <resources>
         <image name="icon_app" width="73" height="73"/>
+        <image name="launchScreenText" width="281" height="13"/>
     </resources>
 </document>

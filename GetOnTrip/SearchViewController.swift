@@ -116,6 +116,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("recordData") as? [String] {
             recordData = userDefault
         }
+        dimsBackgroundDuringPresentation = false
         
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)

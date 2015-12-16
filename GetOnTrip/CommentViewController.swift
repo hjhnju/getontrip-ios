@@ -78,6 +78,7 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     private func initView() {
+        view.backgroundColor = .whiteColor()
         view.addSubview(tableView)
         view.addSubview(commentBottomImage)
         view.addSubview(issueCommentView)

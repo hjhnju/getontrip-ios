@@ -11,7 +11,7 @@ import UIKit
 class SearchHeaderView: UITableViewHeaderFooterView {
     
     /// 搜索历史标签
-    lazy var recordLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "搜索历史", fontSize: 12, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var recordLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "", fontSize: 12, mutiLines: true, fontName: Font.PingFangSCLight)
     
     /// 清除按钮
     lazy var recordDelButton: DeleteButton = DeleteButton(title: "", fontSize: 10, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.6), fontName: Font.PingFangSCLight)
