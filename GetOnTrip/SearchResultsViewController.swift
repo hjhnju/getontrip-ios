@@ -411,9 +411,16 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        let cell1 = tableView.visibleCells.last as? SearchResultsCell
-        let headerView1 = tableView.headerViewForSection(cell1?.section ?? 0) as? SearchHeaderView
-        headerView1?.backgroundView?.alpha = 0
+        let hv1 = tableView.headerViewForSection(1) as? SearchHeaderView
+        hv1?.backgroundView?.alpha = 0
+        let hv2 = tableView.headerViewForSection(2) as? SearchHeaderView
+        hv2?.backgroundView?.alpha = 0
+        let hv3 = tableView.headerViewForSection(3) as? SearchHeaderView
+        hv3?.backgroundView?.alpha = 0
+        let hv4 = tableView.headerViewForSection(4) as? SearchHeaderView
+        hv4?.backgroundView?.alpha = 0
+        let hv5 = tableView.headerViewForSection(5) as? SearchHeaderView
+        hv5?.backgroundView?.alpha = 0
         
         let cell = tableView.visibleCells.first as? SearchResultsCell
         let headerView = tableView.headerViewForSection(cell?.section ?? 0) as? SearchHeaderView
