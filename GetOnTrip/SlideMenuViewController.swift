@@ -251,12 +251,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             wechatButton.hidden = true
             qqButton.hidden = true
         } else if !wechaInstall {
-            qqButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(10, 0))
-            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-10, 0))
+            qqButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-50, 0))
+            moreButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(50, 0))
             wechatButton.hidden = true
         } else if !qqInstall {
-            wechatButton.ff_AlignInner(.BottomLeft, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(10, 0))
-            moreButton.ff_AlignInner(.BottomRight, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-10, 0))
+            wechatButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-50, 0))
+            moreButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(50, 0))
             qqButton.hidden = true
         }
     }
