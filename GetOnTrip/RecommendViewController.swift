@@ -85,7 +85,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     lazy var tableView = UITableView()
     
     /// 搜索控制器
-    lazy var searchController: SearchViewController? = SearchViewController()
+    lazy var searchController: SearchViewController = SearchViewController()
     
     lazy var errorView: UIView = { [weak self] in
         let view = UIView()
@@ -130,7 +130,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     }
     
     /// 记录状态按钮
-    weak var currentSearchLabelButton: RecommendButton?
+    var currentSearchLabelButton: UIButton?
     
     // MARK: - 初始化
     //电池栏状态
@@ -156,22 +156,21 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     func initSearchBar() {
         
         navContainerView.addSubview(custNavView)
-//        searchController = SearchViewController()
-        addChildViewController(searchController!)
         definesPresentationContext = true
-        custNavView.addSubview(searchController?.searchBar ?? UIView())
-        searchController?.searchBar.frame = CGRectMake(49, 16, UIScreen.mainScreen().bounds.width - 49, 35)
+        
+        custNavView.addSubview(searchController.searchBar ?? UIView())
+        searchController.searchBar.frame = CGRectMake(49, 16, UIScreen.mainScreen().bounds.width - 49, 35)
         clearButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
         clearButton.addTarget(searchController, action: "clearButtonAction", forControlEvents: .TouchUpInside)
-        searchController?.searchBar.keyboardAppearance = .Default
-        searchController?.searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
-        searchController?.searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
-        searchController?.searchBar.translucent = true
+        searchController.searchBar.keyboardAppearance = .Default
+        searchController.searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
+        searchController.searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
+        searchController.searchBar.translucent = true
         
         defaultPrompt.enabled = false
         defaultPrompt.setImage(UIImage(named: "search_icon"), forState: UIControlState.Disabled)
 
-        for item in (searchController?.searchBar.subviews) ?? [] {
+        for item in (searchController.searchBar.subviews) ?? [] {
             for it in item.subviews {
                 if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
                     it.removeFromSuperview()
@@ -280,9 +279,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         navContainerView.frame = CGRectMake(0, 0, view.bounds.width, MainViewContant.StatusBarHeight + navBarHeight)
         custNavView.frame      = CGRectMake(0, MainViewContant.StatusBarHeight, view.bounds.width, navBarHeight)
         slideNavButton.frame   = CGRectMake(0, 0, 50, navBarHeight)
-        searchController?.searchBar.frame = CGRectMake(searchController?.searchBar.frame.origin.x ?? 0, 0, searchController?.searchBar.frame.width ?? 0, navBarHeight)
-        searchController?.searchBarFrame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, navBarHeight)
-        searchController?.searchBarH = navBarHeight
+        searchController.searchBar.frame = CGRectMake(searchController.searchBar.frame.origin.x ?? 0, 0, searchController.searchBar.frame.width ?? 0, navBarHeight)
+        searchController.searchBarFrame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, navBarHeight)
+        searchController.searchBarH = navBarHeight
     }
     
     
@@ -311,18 +310,15 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         let marginY:CGFloat   = 15
 
         for (var i = 0; i < recommendLabels.count; i++) {
-            let btn: RecommendButton = RecommendButton(title: recommendLabels[i].name, fontSize: 14, radius: 0)
-            btn.numLabel.text = recommendLabels[i].num
+            let btn: UIButton = UIButton(title: recommendLabels[i].name, fontSize: 14, radius: 0)
             headerView.addSubview(btn)
-            btn.titleLabel?.textAlignment = NSTextAlignment.Center
-            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-            btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: UIControlEvents.TouchUpInside)
-            btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
-            btn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
+            btn.contentHorizontalAlignment = .Center
+            btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: .TouchUpInside)
+            btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: .Normal)
+            btn.setTitleColor(UIColor.whiteColor(), forState: .Selected)
             btn.tag = Int(recommendLabels[i].order) ?? 1
             if i == 0 {
                 btn.selected = true
-                btn.numLabel.textColor = UIColor.whiteColor()
                 currentSearchLabelButton = btn
             }
             let row:Int = i / totalCol
@@ -337,13 +333,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             
             btnX += i % 2 == 0 ? 5 : -5
             if i == 0 || i == 1 {
-                btn.contentVerticalAlignment = UIControlContentVerticalAlignment.Bottom
-                btn.numLabel.ff_AlignInner(.BottomRight, referView: btn, size: nil)
+                btn.contentVerticalAlignment = .Bottom
             } else if i == 4 || i == 5 {
-                btn.contentVerticalAlignment = UIControlContentVerticalAlignment.Top
-                btn.numLabel.ff_AlignInner(.TopRight, referView: btn, size: nil)
-            } else if i == 2 || i == 3 {
-                btn.numLabel.ff_AlignInner(.CenterRight, referView: btn, size: nil)
+                btn.contentVerticalAlignment = .Top
             }
             btn.frame = CGRectMake(btnX, btnY, btnWidth, btnHeight)
         }

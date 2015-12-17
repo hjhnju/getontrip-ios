@@ -17,7 +17,7 @@ class RecommendTopicViewCell: UITableViewCell {
     var cellImageView = ScrolledImageView()
     
     //中部标题
-    lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false)
+    lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false, fontName: Font.PingFangTCMedium)
 
     //标签按钮
     lazy var tagButton: UIButton = UIButton(title: "", fontSize: 10, radius: 3, titleColor: UIColor.whiteColor())
@@ -28,14 +28,18 @@ class RecommendTopicViewCell: UITableViewCell {
     //浏览数
     lazy var visitNumLabel: UIButton = UIButton(image: "search_visit", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
     
+    /// 遮罩
+    lazy var coverView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.7), alphaF: 0.6) //(color: UIColor(hex: 0xCECECE, alpha: 0.7))
+    
+    
     var data: RecommendCellData? {
         didSet {
             if let cellData = data {
                 cellImageView.loadImage(NSURL(string: cellData.image))
                 titleLabel.text = cellData.name
-                tagButton.setTitle("  " + cellData.param1 + "  ", forState: UIControlState.Normal)
-                favNumLabel.setTitle(" " + cellData.param2, forState: UIControlState.Normal)
-                visitNumLabel.setTitle(" " + cellData.param3, forState: UIControlState.Normal)
+                tagButton.setTitle("  " + cellData.param1 + "  ", forState: .Normal)
+                favNumLabel.setTitle(" " + cellData.param2, forState: .Normal)
+                visitNumLabel.setTitle(" " + cellData.param3, forState: .Normal)
             }
         }
     }
@@ -56,6 +60,7 @@ class RecommendTopicViewCell: UITableViewCell {
         tagButton.clipsToBounds = true
         
         addSubview(cellImageView)
+        addSubview(coverView)
         addSubview(titleLabel)
         addSubview(tagButton)
         addSubview(favNumLabel)
@@ -71,12 +76,12 @@ class RecommendTopicViewCell: UITableViewCell {
     
     private func setupAutoLayout() {
         cellImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight-2), offset: CGPointMake(0, 2))
+        coverView.ff_Fill(self)
         titleLabel.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         tagButton.ff_AlignVertical(.TopCenter, referView: titleLabel, size: nil, offset: CGPointMake(0, -9))
         
         favNumLabel.ff_AlignInner(.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(-20, -10))
         visitNumLabel.ff_AlignInner(.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(20, -10))
-        
         titleLabel.preferredMaxLayoutWidth = self.bounds.width - 20
     }
     

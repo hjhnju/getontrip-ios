@@ -132,10 +132,10 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         cell.searchCruxCharacter = filterString
         cell.dataSource = getTableViewCellData(indexPath)
         cell.section = indexPath.section
+        
         if dataSource.sectionTag != -1 {
             if dataSource.iSunfold[dataSource.sectionTag] {
                 if indexPath.section == dataSource.sectionTag {
-                    
                     let index = dataSource.typeCount[indexPath.section].values.first ?? 0
                     if indexPath.row == index - 1 {
                         requestMoreSearchingAll(indexPath.section)

@@ -19,7 +19,7 @@ class SearchHotwordTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
     }
     
     /// 父控制器
-    var superController: SearchViewController?
+    weak var superController: SearchViewController?
     
     /// 流水布局
     lazy var layout: SearchHotwordLayout = SearchHotwordLayout()

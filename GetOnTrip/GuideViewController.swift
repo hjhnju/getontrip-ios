@@ -16,7 +16,7 @@ class GuideViewController: UICollectionViewController {
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
     
-    let titles = ["这里是路和故事", "这里是阅读和领悟", "这里是诗和远方", "亦行 · 亦读"]
+    let titles = ["这里是路和故事", "这里是阅读和领悟", "这里是诗和远方", ""]
     
     let subtitles = ["旅行  不只有照片", "旅行  不只是看见", "旅行  不会是终点", ""]
     
@@ -122,7 +122,7 @@ class NewFeatureCell: UICollectionViewCell {
     lazy var subtitle: UILabel = UILabel(color: UIColor.whiteColor(), title: "旅行，不只有照片", fontSize: 24, mutiLines: true, fontName: Font.PingFangTCThin)
     
     /// 介绍
-    lazy var introduceLabel = UILabel(color: .whiteColor(), title: "了解旅行中的历史、人文、科学地理等知识", fontSize: 13, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var introduceLabel = UILabel(color: .whiteColor(), title: "了解景点背后的故事", fontSize: 24, mutiLines: true, fontName: Font.PingFangTCThin)
     
     /// 副标题英文
     lazy var subtitleEnglish: UILabel = UILabel(color: UIColor.whiteColor(), title: "MORE THEN PICTURES", fontSize: 28, mutiLines: true)

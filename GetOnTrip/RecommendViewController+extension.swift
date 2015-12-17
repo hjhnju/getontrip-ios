@@ -119,13 +119,13 @@ extension RecommendViewController {
     //MARK: 自定义方法
     
     //触发搜索列表的方法
-    func clkSearchLabelMethod(sender: RecommendButton) {
+    func clkSearchLabelMethod(sender: UIButton) {
         if sender.tag == currentSearchLabelButton?.tag { return }
         
         sender.selected = true
-        sender.numLabel.textColor = UIColor.whiteColor()
+//        sender.numLabel.textColor = UIColor.whiteColor()
         currentSearchLabelButton?.selected = false
-        currentSearchLabelButton?.numLabel.textColor = UIColor(hex: 0xFFFFFF, alpha: 0.6)
+//        currentSearchLabelButton?.numLabel.textColor = UIColor(hex: 0xFFFFFF, alpha: 0.6)
         currentSearchLabelButton = sender
         
         lastRequest?.order = String(sender.tag)
@@ -222,7 +222,7 @@ extension RecommendViewController {
     func loadHeaderImage(url: String?) {
         if let url = url {
             //从网络获取
-            headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: PlaceholderImage.defaultLarge)
+            headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: UIImage(named: "default_picture"))
         }
     }
 
@@ -233,5 +233,4 @@ extension RecommendViewController {
             defaultPrompt.titleLabel?.hidden = true
         }
     }
-    
 }
