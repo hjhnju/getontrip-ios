@@ -22,7 +22,7 @@ class SearchRecordTableViewCell : UITableViewCell {
     lazy var deleteButton: SearchDeleteButton = SearchDeleteButton(image: "delete_search", title: "", fontSize: 0)
     
     /// 父控制器
-    var superController: SearchViewController? 
+    weak var superController: SearchViewController?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

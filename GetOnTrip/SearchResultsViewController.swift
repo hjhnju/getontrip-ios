@@ -273,7 +273,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         
         if searchTypeTemp == -1 { return }
         SearchAllRequest.sharedInstance.fetchNextPageModels(filterString, searchType: searchTypeTemp) { [weak self] (result, status) -> Void in
-            print(result)
+
             if status == RetCode.SUCCESS {
                 
                 var i = self?.dataSource.typeCount[section].values.first ?? 0

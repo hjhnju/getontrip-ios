@@ -85,7 +85,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     lazy var tableView = UITableView()
     
     /// 搜索控制器
-    lazy var searchController: SearchViewController = SearchViewController()
+    lazy var searchController: SearchViewController! = SearchViewController()
     
     lazy var errorView: UIView = { [weak self] in
         let view = UIView()
@@ -146,7 +146,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         initRefresh()
         initTableView()
         setupAutoLayout()
-        initData()
+        loadData()
     }
     
     
@@ -207,7 +207,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     private func initRefresh() {
         
         //下拉刷新
-        let tbHeaderView = MJRefreshNormalHeader(refreshingBlock: loadData)
+        let tbHeaderView = MJRefreshNormalHeader { [weak self] () -> Void in
+            self?.loadData()
+        }
         tbHeaderView.automaticallyChangeAlpha = true
         tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
         tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
@@ -219,7 +221,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tbHeaderView.arrowView?.image = UIImage()
         
         //上拉刷新
-        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: loadMore)
+        let tbFooterView = MJRefreshAutoNormalFooter { [weak self] () -> Void in
+            self?.loadMore()
+        } //
         tbFooterView.automaticallyRefresh = true
         tbFooterView.automaticallyChangeAlpha = true
         tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
@@ -246,12 +250,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
         view.sendSubviewToBack(tableView)
     }
-    
-    func initData() {
-        if !tableView.mj_header.isRefreshing() {
-            tableView.mj_header.beginRefreshing()
-        }
-    }
+
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -348,6 +347,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     var yOffset: CGFloat = 0.0
     
     deinit {
+        autoreleasepool { () -> () in
+            searchControllergit 
+        }
         print("首页可以走不")
     }
 }

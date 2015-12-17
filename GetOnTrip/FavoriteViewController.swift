@@ -172,5 +172,9 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         }
         slideView.hidden = selectView.center.x < UIScreen.mainScreen().bounds.width * 0.5 ? false : true
     }
+    
+    deinit {
+        print("收藏页面消失了")
+    }
 }
 

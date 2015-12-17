@@ -357,5 +357,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         alertController.popoverPresentationController?.sourceRect = CGRectMake(0, view.bounds.height - 180, view.bounds.width, 180)
         presentViewController(alertController, animated: true, completion: nil)
     }
+    
+    deinit {
+        print("设置页面消失了")
+    }
 }
 

@@ -123,9 +123,7 @@ extension RecommendViewController {
         if sender.tag == currentSearchLabelButton?.tag { return }
         
         sender.selected = true
-//        sender.numLabel.textColor = UIColor.whiteColor()
         currentSearchLabelButton?.selected = false
-//        currentSearchLabelButton?.numLabel.textColor = UIColor(hex: 0xFFFFFF, alpha: 0.6)
         currentSearchLabelButton = sender
         
         lastRequest?.order = String(sender.tag)
