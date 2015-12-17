@@ -50,18 +50,14 @@ extension SearchViewController {
     
     func getSearchHeaderView(section: Int) -> SearchHeaderView {
         let headerView = recordTableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchHeaderView") as! SearchHeaderView
-        /// 基线
-        let baseLine: UIView = UIView(color: UIColor(hex: 0xBDBDBD, alpha: 0.15))
-        headerView.addSubview(baseLine)
-        baseLine.ff_AlignInner(.BottomCenter, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
+        headerView.baseLine.hidden = false
+        headerView.backgroundView?.alpha = 0
         if section == 0 {
-            headerView.backgroundView?.alpha = 0
             headerView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
             headerView.recordLabel.text = "搜索历史"
             headerView.recordDelButton.setTitle("清除历史", forState: .Normal)
             headerView.recordDelButton.hidden = false
         } else {
-            headerView.backgroundView?.alpha = 0.0
             headerView.recordLabel.text = "热门搜索"
             headerView.recordDelButton.hidden = true
         }

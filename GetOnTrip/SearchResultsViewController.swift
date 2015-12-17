@@ -36,6 +36,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
             if filterString == lastSearchContent { return }
 
             dataSource = SearchInitData()
+            SearchAllRequest.sharedInstance.restoreDefaultData()
             tableView.reloadData()
             if let searvc = parentViewController as? SearchViewController {
                 searvc.showNoResult(false)
@@ -232,6 +233,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
                     self?.tableView.reloadData()
                 } else {
                     self?.dataSource = SearchInitData()
+                    SearchAllRequest.sharedInstance.restoreDefaultData()
                     self?.tableView.reloadData()
                     if let searvc = self?.parentViewController as? SearchViewController {
                         searvc.showNoResult(true)
@@ -271,6 +273,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         
         if searchTypeTemp == -1 { return }
         SearchAllRequest.sharedInstance.fetchNextPageModels(filterString, searchType: searchTypeTemp) { [weak self] (result, status) -> Void in
+            print(result)
             if status == RetCode.SUCCESS {
                 
                 var i = self?.dataSource.typeCount[section].values.first ?? 0

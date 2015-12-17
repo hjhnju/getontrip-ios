@@ -198,6 +198,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         locationButton.hidden = false
         dismissViewControllerAnimated(true) { [weak self] () -> Void in
             self?.searchResultViewController.dataSource = SearchInitData()
+            SearchAllRequest.sharedInstance.restoreDefaultData()
             self?.searchResultViewController.filterString = ""
             self?.searchResultViewController.lastSearchContent = ""
         }

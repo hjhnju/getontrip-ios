@@ -44,6 +44,16 @@ class SearchAllRequest: NSObject {
     
     var isLoadData: Bool = false
     
+    /// 还原默认数据
+    func restoreDefaultData() {
+        cityPage = 1
+        sightPage = 1
+        contentPage = 1
+        landscapePage = 1
+        bookPage = 1
+        videoPage = 1
+    }
+    
     func fetchNextPageModels(filter: String, searchType: Int, handler: (JSON?, Int) -> Void) {
         
         var page: Int = 0
