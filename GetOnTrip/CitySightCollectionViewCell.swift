@@ -32,7 +32,7 @@ class CitySightCollectionViewCell: BaseCollectionCell {
                 attr.appendAttributedString(NSAttributedString(string: " | "))
                 attr.appendAttributedString((sight.collect.getAttributedStringHeadCharacterBig()))
                 desc.attributedText = attr
-                self.clipsToBounds = true
+                clipsToBounds = true
             }
         }
     }    

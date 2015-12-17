@@ -45,7 +45,15 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchHeaderView") as! SearchHeaderView
+        return getSearchHeaderView(section)
+    }
+    
+    func getSearchHeaderView(section: Int) -> SearchHeaderView {
+        let headerView = recordTableView.dequeueReusableHeaderFooterViewWithIdentifier("SearchHeaderView") as! SearchHeaderView
+        /// 基线
+        let baseLine: UIView = UIView(color: UIColor(hex: 0xBDBDBD, alpha: 0.15))
+        headerView.addSubview(baseLine)
+        baseLine.ff_AlignInner(.BottomCenter, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
         if section == 0 {
             headerView.backgroundView?.alpha = 0
             headerView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
@@ -166,18 +174,18 @@ extension SearchViewController {
         }
         
         if currentCityId == "0" {
-            ProgressHUD.showSuccessHUD(self.view, text: "正在定位中")
+            ProgressHUD.showSuccessHUD(view, text: "正在定位中")
             return
         }
         
         if currentCityId == "-2" {
-            ProgressHUD.showSuccessHUD(self.view, text: "当前城市未开通")
+            ProgressHUD.showSuccessHUD(view, text: "当前城市未开通")
         }
         
         if currentCityId != "-1" {
             let vcity = CityViewController()
             vcity.cityDataSource = City(id: currentCityId)
-            self.searchResultViewController.showSearchResultController(vcity)
+            searchResultViewController.showSearchResultController(vcity)
             return
         }
     }
@@ -194,10 +202,10 @@ extension SearchViewController {
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == 1 {
-            ProgressHUD.showSuccessHUD(self.view, text: "您已拒绝定位，请到设置中打开定位")
+            ProgressHUD.showSuccessHUD(view, text: "您已拒绝定位，请到设置中打开定位")
             currentCityId = ""
         } else {
-            ProgressHUD.showSuccessHUD(self.view, text: "开始定位")
+            ProgressHUD.showSuccessHUD(view, text: "开始定位")
             currentCityId = "0"
         }
     }

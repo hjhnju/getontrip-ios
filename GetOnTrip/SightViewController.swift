@@ -338,4 +338,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         cityViewController.cityDataSource = city
         navigationController?.pushViewController(cityViewController, animated: true)
     }
+    
+    deinit {
+        print("景观列表面可以走不")
+    }
 }

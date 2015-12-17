@@ -50,6 +50,7 @@ class SightLandscapesRequest: NSObject {
                         land.append(Landscape(dict: item))
                     }
                 }
+                
                 handler(land, status)
                 return
             }

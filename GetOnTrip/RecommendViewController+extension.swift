@@ -12,15 +12,15 @@ extension RecommendViewController {
     
     // MASKS: - tableView 数据源及代理方法
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.recommendCells.count
+        return recommendCells.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let data = self.recommendCells[indexPath.row]
+        let data = recommendCells[indexPath.row]
         if data.isTypeTopic() {
             let cell = tableView.dequeueReusableCellWithIdentifier(RecommendContant.recommendTopicViewCellID, forIndexPath: indexPath) as! RecommendTopicViewCell
             cell.backgroundColor = UIColor.clearColor()
-            cell.data = self.recommendCells[indexPath.row]
+            cell.data = recommendCells[indexPath.row]
             
             let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: 0)
             cell.cellImageView.updateFactor(factor)
@@ -30,7 +30,7 @@ extension RecommendViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(RecommendContant.recommendTableViewCellID, forIndexPath: indexPath) as! RecommendTableViewCell
         cell.backgroundColor = UIColor.clearColor()
-        cell.data = self.recommendCells[indexPath.row]
+        cell.data = recommendCells[indexPath.row]
         
         let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: 0)
         cell.cellImageView.updateFactor(factor)
@@ -39,7 +39,7 @@ extension RecommendViewController {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let data = self.recommendCells[indexPath.row]
+        let data = recommendCells[indexPath.row]
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if ( data.isTypeSight()) {
@@ -90,7 +90,7 @@ extension RecommendViewController {
         let newTop = min(-gap, initTop)
         headerViewTopConstraint?.constant = newTop
         
-        for vcell in self.tableView.visibleCells {
+        for vcell in tableView.visibleCells {
             if let cell = vcell as? RecommendTableViewCell {
                 let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: gap)
                 cell.cellImageView.updateFactor(factor)
@@ -135,15 +135,15 @@ extension RecommendViewController {
     /// 发送搜索信息
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     func loadData() {
-        if self.isLoading {
+        if isLoading {
             return
         }
         
-        self.isLoading = true
-        self.errorView.hidden = true
+        isLoading = true
+        errorView.hidden = true
         
         //清空footer的“加载完成”
-        self.tableView.mj_footer.resetNoMoreData()
+        tableView.mj_footer.resetNoMoreData()
         if lastRequest == nil {
             lastRequest = RecommendRequest()
             lastRequest?.order = "1" //默认返回带所有搜索标签
@@ -186,12 +186,12 @@ extension RecommendViewController {
     
     /// 底部加载更多
     func loadMore(){
-        if self.isLoading {
+        if isLoading {
             return
         }
-        self.isLoading = true
+        isLoading = true
         //请求下一页
-        self.lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
+        lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
             
             if let dataSource = data {
                 let newCells  = dataSource.objectForKey("cells") as! [RecommendCellData]
@@ -211,18 +211,18 @@ extension RecommendViewController {
     
     /// 网络异常重现加载
     func refreshFromErrorView(sender: UIButton){
-        self.errorView.hidden = true
-        self.tableView.hidden = false
+        errorView.hidden = true
+        tableView.hidden = false
         //重新加载
-        if !self.tableView.mj_header.isRefreshing() {
-            self.tableView.mj_header.beginRefreshing()
+        if !tableView.mj_header.isRefreshing() {
+            tableView.mj_header.beginRefreshing()
         }
     }
     
     func loadHeaderImage(url: String?) {
         if let url = url {
             //从网络获取
-            self.headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: PlaceholderImage.defaultLarge)
+            headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: PlaceholderImage.defaultLarge)
         }
     }
 

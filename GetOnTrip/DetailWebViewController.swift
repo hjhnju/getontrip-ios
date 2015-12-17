@@ -172,4 +172,8 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
             }
         }
     }
+    
+    deinit {
+        print("webView页面，真的走了")
+    }
 }

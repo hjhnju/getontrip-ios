@@ -91,8 +91,8 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        self.collectionView!.mj_header = tbHeaderView
-        self.collectionView!.mj_footer = tbFooterView
+        collectionView!.mj_header = tbHeaderView
+        collectionView!.mj_footer = tbFooterView
         
         if !collectionView!.mj_header.isRefreshing() {
             collectionView?.mj_header.beginRefreshing()
@@ -125,14 +125,14 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
     
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     private func loadData() {
-        if self.isLoading {
+        if isLoading {
             return
         }
         
-        self.isLoading = true
+        isLoading = true
         
         //清空footer的“加载完成”
-        self.collectionView!.mj_footer.resetNoMoreData()
+        collectionView!.mj_footer.resetNoMoreData()
         if lastRequest == nil {
             lastRequest = CollectSightRequest()
             lastRequest?.type = 3
@@ -159,12 +159,12 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
     
     /// 底部加载更多
     func loadMore(){
-        if self.isLoading {
+        if isLoading {
             return
         }
-        self.isLoading = true
+        isLoading = true
         //请求下一页
-        self.lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
+        lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
             
             if let dataSource = data as? [CollectCity] {
                 if dataSource.count > 0 {

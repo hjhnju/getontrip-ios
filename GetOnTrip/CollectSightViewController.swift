@@ -133,14 +133,14 @@ class CollectSightViewController: UICollectionViewController, UIAlertViewDelegat
     
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     private func loadData() {
-        if self.isLoading {
+        if isLoading {
             return
         }
         
-        self.isLoading = true
+        isLoading = true
         
         //清空footer的“加载完成”
-        self.collectionView!.mj_footer.resetNoMoreData()
+        collectionView!.mj_footer.resetNoMoreData()
         if lastRequest == nil {
             lastRequest = CollectSightRequest()
             lastRequest?.type = 2

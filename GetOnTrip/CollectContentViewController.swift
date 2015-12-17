@@ -78,8 +78,8 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        self.tableView.mj_header = tbHeaderView
-        self.tableView.mj_footer = tbFooterView
+        tableView.mj_header = tbHeaderView
+        tableView.mj_footer = tbFooterView
         
         if !tableView.mj_header.isRefreshing() {
             tableView.mj_header.beginRefreshing()

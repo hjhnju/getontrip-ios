@@ -59,14 +59,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             }
             //关闭侧边栏
-            self.didClose()
+            didClose()
         }
     }
     
     //主窗体Controller
     var mainViewController: MainViewController! {
         didSet{
-            self.mainNavViewController.setViewControllers([mainViewController], animated: false)
+            mainNavViewController.setViewControllers([mainViewController], animated: false)
             
             //初始化蒙板
             maskView = UIView(color: UIColor.blackColor(), alphaF: 0.1)
@@ -381,45 +381,45 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     func panGestureHandler(sender: UIPanGestureRecognizer) {
         //用户对视图操控的状态。
         let state    = sender.state;
-        let location = sender.locationInView(self.mainNavViewController.view)
-        var frame    = self.mainNavViewController.view.frame
+        let location = sender.locationInView(mainNavViewController.view)
+        var frame    = mainNavViewController.view.frame
         
         var startX:CGFloat = 0.0
         switch (state) {
         case UIGestureRecognizerState.Began:
             //记录用户开始点击的位置
-            self.panGestureStartLocation = location;
+            panGestureStartLocation = location;
             startX = frame.origin.x
             break;
         case UIGestureRecognizerState.Changed:
             //相比起点Began的x轴距离(每次.Changed调用是累计的
-            let xOffSet = sender.translationInView(self.view).x
+            let xOffSet = sender.translationInView(view).x
             //右滑动
             if (xOffSet > 0 && xOffSet < SlideMenuOptions.DrawerWidth){
-                if (self.slideMenuState == SlideMenuState.Closing){
+                if (slideMenuState == SlideMenuState.Closing){
                     frame.origin.x = xOffSet + startX
                 }
                 //左滑动
             }else if (xOffSet < 0 && xOffSet > -SlideMenuOptions.DrawerWidth){
-                if (self.slideMenuState == SlideMenuState.Opening){
+                if (slideMenuState == SlideMenuState.Opening){
                     frame.origin.x = xOffSet + SlideMenuOptions.DrawerWidth
                 }
             }
-            self.mainNavViewController.view.frame = frame;
+            mainNavViewController.view.frame = frame;
             //alpha=[0.5 ~ 1.0]
-            self.menuAlpha = min(0.5 + frame.origin.x / SlideMenuOptions.DrawerWidth, 1.0)
+            menuAlpha = min(0.5 + frame.origin.x / SlideMenuOptions.DrawerWidth, 1.0)
             break;
         case UIGestureRecognizerState.Ended:
-            let xOffSet = sender.translationInView(self.view).x
+            let xOffSet = sender.translationInView(view).x
             //超过阀值需要自动
             if abs(xOffSet) > SlideMenuOptions.AutoSlideXOffSet {
                 if xOffSet < 0 && slideMenuState == SlideMenuState.Opening {
-                    self.didClose()
+                    didClose()
                 }else if xOffSet > 0 && slideMenuState == SlideMenuState.Closing {
-                    self.didOpen()
+                    didOpen()
                 }
             } else {
-                self.reset()
+                reset()
             }
             break;
         default:
@@ -430,7 +430,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //打开侧边栏
     func didOpen(){
         //设置主窗体的结束位置
-        var mainSize = self.mainNavViewController.view.frame
+        var mainSize = mainNavViewController.view.frame
         mainSize.origin.x = SlideMenuOptions.DrawerWidth
         menuAlpha = max(0.5, menuAlpha)
         //动效
@@ -439,15 +439,16 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
-            animations:{ self.mainNavViewController.view.frame = mainSize;
-                self.menuAlpha = 1.0 },
-            completion: { (finished: Bool) -> Void in
-                self.menuAlpha = 1.0
+            animations:{ [weak self] in
+                self?.mainNavViewController.view.frame = mainSize;
+                self?.menuAlpha = 1.0 },
+            completion: { [weak self] (finished: Bool) -> Void in
+                self?.menuAlpha = 1.0
             }
         )
         
         //将侧边栏的装填标记为打开状态
-        self.slideMenuState = SlideMenuState.Opening
+        slideMenuState = SlideMenuState.Opening
         
         refreshMask()
     }
@@ -459,7 +460,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             slideMenuState = SlideMenuState.Closing
         }
         //将主窗体的起始位置恢复到原始状态
-        var mainSize = self.mainNavViewController.view.frame
+        var mainSize = mainNavViewController.view.frame
         mainSize.origin.x = 0
         menuAlpha = min(1.0, menuAlpha)
         UIView.animateWithDuration(0.7,
@@ -467,9 +468,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             usingSpringWithDamping: 1,
             initialSpringVelocity: 1.0,
             options: UIViewAnimationOptions.AllowUserInteraction,
-            animations: { self.mainNavViewController.view.frame = mainSize;
-                self.menuAlpha = 0.5 },
-            completion: { (finished: Bool) -> Void in
+            animations: { [weak self] in
+                self?.mainNavViewController.view.frame = mainSize;
+                self?.menuAlpha = 0.5 },
+            completion: { [weak self] (finished: Bool) -> Void in
                 //偶尔右滑到底时被执行！why
                 //self.menuAlpha = 0.0
             }
@@ -481,32 +483,32 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     // MARK: SlideMenuViewControllerDelegate
     
     func toggle() {
-        if self.slideMenuState == SlideMenuState.Opening {
-            self.didClose()
+        if slideMenuState == SlideMenuState.Opening {
+            didClose()
         } else {
-            self.didOpen()
+            didOpen()
         }
     }
     
     func reset(){
-        if self.slideMenuState == SlideMenuState.Opening {
-            self.didOpen()
+        if slideMenuState == SlideMenuState.Opening {
+            didOpen()
         } else {
-            self.didClose()
+            didClose()
         }
     }
     
     // MARK: 支持第三方登录
     //微信登陆
     func wechatLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler){ (_) -> Void in
+        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: loginFinishedHandler){ (_) -> Void in
         }
         
     }
     
     //qq登陆
     func qqLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler){ (_) -> Void in
+        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: loginFinishedHandler){ (_) -> Void in
         }
     }
     

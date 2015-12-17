@@ -357,11 +357,11 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
             lastRequest?.book = bookId
         }
         
-        lastRequest?.fetchTopicDetailModels {(data: Book?, status: Int) -> Void in
+        lastRequest?.fetchTopicDetailModels { [weak self] (data: Book?, status: Int) -> Void in
             if status == RetCode.SUCCESS {
-                self.bookDataSource = data
+                self?.bookDataSource = data
             } else {
-                ProgressHUD.showErrorHUD(self.view, text: MessageInfo.NetworkError)
+                ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
             }
         }
     }
@@ -370,17 +370,17 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     func favoriteAction(sender: UIButton) {
         sender.selected = !sender.selected
         let type  = FavoriteContant.TypeBook
-        let objid = self.bookId
-        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) {
+        let objid = bookId
+        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) { [weak self]
             (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self?.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
-                ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
+                ProgressHUD.showErrorHUD(self?.view, text: "操作未成功，请稍候再试!")
                 sender.selected = !sender.selected
             }
         }
@@ -396,23 +396,23 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         if let topic = bookDataSource {
             let type  = PraisedContant.TypeBook
             let objid = topic.id
-            Praised.praised(type, objid: objid, isFavorite: sender.selected, handler: { (result, status) -> Void in
+            Praised.praised(type, objid: objid, isFavorite: sender.selected, handler: { [weak self] (result, status) -> Void in
                 if status == RetCode.SUCCESS {
                     if result == "-1" {
                         sender.selected = !sender.selected
-                        self.refreshPraisedButton(self.praiseNum)
+                        self?.refreshPraisedButton(self?.praiseNum ?? "")
                     } else {
-                        ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已点赞" : "已取消")
+                        ProgressHUD.showSuccessHUD(self?.view, text: sender.selected ? "已点赞" : "已取消")
                     }
                 } else {
                     if status == RetCode.praised {
                         ProgressHUD.showErrorHUD(nil, text: "您已点过赞")
                         sender.selected = true
-                        self.refreshPraisedButton(self.praiseNum)
+                        self?.refreshPraisedButton(self?.praiseNum ?? "")
                     } else {
                         sender.selected = !sender.selected
-                        ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍候再试!")
-                        self.refreshPraisedButton(self.praiseNum)
+                        ProgressHUD.showErrorHUD(self?.view, text: "操作未成功，请稍候再试!")
+                        self?.refreshPraisedButton(self?.praiseNum ?? "")
                     }
                 }
             })
@@ -421,9 +421,9 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     }
     
     private func refreshPraisedButton(praiseNum: String) {
-        self.bookDataSource?.praiseNum = praiseNum
-        self.praisedBUtton.setTitle(" " + "\(self.bookDataSource?.praiseNum ?? "0")", forState: .Normal)
-        self.praisedBUtton.setTitle(" " + "\(self.bookDataSource?.praiseNum ?? "0")", forState: .Selected)
+        bookDataSource?.praiseNum = praiseNum
+        praisedBUtton.setTitle(" " + "\(bookDataSource?.praiseNum ?? "0")", forState: .Normal)
+        praisedBUtton.setTitle(" " + "\(bookDataSource?.praiseNum ?? "0")", forState: .Selected)
     }
     
     /// 分享

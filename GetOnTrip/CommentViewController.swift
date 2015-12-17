@@ -234,30 +234,30 @@ class CommentViewController: UIViewController, UITableViewDataSource, UITableVie
     
     //发布评论
     func publishAction(btn: UIButton) {
-        let content = self.issueTextfield.text ?? ""
+        let content = issueTextfield.text ?? ""
         if content == "" {
-            ProgressHUD.showSuccessHUD(self.view, text: "无评论内容")
+            ProgressHUD.showSuccessHUD(view, text: "无评论内容")
             return
         }
         
-        LoginView.sharedLoginView.doAfterLogin() { (success, error) -> () in
-            self.issueTextfield.resignFirstResponder()
+        LoginView.sharedLoginView.doAfterLogin() { [weak self] (success, error) -> () in
+            self?.issueTextfield.resignFirstResponder()
             //1.登录成功
             if success {
                 //设置为发布中
                 btn.selected = true
                 //请求发送
-                self.sendcommentRequest.fetchAddCommentModels(self.topicId, upId: self.upId, toUserId: self.toUser, content: content, handler: { (result, status) -> Void in
+                self?.sendcommentRequest.fetchAddCommentModels(self?.topicId ?? "", upId: self?.upId ?? "", toUserId: self?.toUser ?? "", content: content, handler: { (result, status) -> Void in
                     if status == RetCode.SUCCESS {
-                        ProgressHUD.showSuccessHUD(self.view, text: "发布成功")
-                        self.issueTextfield.text = ""
-                        self.loadData()
-                        let parentVC = self.parentViewController as? TopicViewController
+                        ProgressHUD.showSuccessHUD(self?.view, text: "发布成功")
+                        self?.issueTextfield.text = ""
+                        self?.loadData()
+                        let parentVC = self?.parentViewController as? TopicViewController
                         let topic: Topic = parentVC?.topicDataSource ?? Topic()
                         topic.commentNum = String((Int(parentVC?.topicDataSource?.commentNum ?? "0") ?? 0) + 1)
                         parentVC?.topicDataSource = topic
                     } else {
-                        ProgressHUD.showErrorHUD(self.view, text: "评论发布失败")
+                        ProgressHUD.showErrorHUD(self?.view, text: "评论发布失败")
                     }
                     //发布结束
                     btn.selected = false

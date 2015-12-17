@@ -48,7 +48,7 @@ class LandscapeCell1: UITableViewCell {
         addSubview(baseLine)
         
         subtitleLabel.numberOfLines  = 3
-        iconView.contentMode         = UIViewContentMode.ScaleAspectFill
+        iconView.contentMode         = .ScaleAspectFill
         iconView.clipsToBounds       = true
     }
     
@@ -79,14 +79,14 @@ class LandscapeCell: LandscapeCell1 {
     override var landscape: Landscape? {
         didSet {
             if let landscape = landscape {
-                
-                iconView.sd_setImageWithURL(NSURL(string: landscape.image), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
+                iconView.contentMode = .ScaleAspectFill
+                iconView.sd_setImageWithURL(NSURL(string: landscape.imageHeader), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
                     if image != nil {
-                        self.iconView.image = UIImageView.imageByApplyingImage(image, blurRadius: 0.14577)
+                        self.iconView.image = UIImageView.imageByApplyingImage(image, blurRadius: 0.2)
                     }
                 })
                 titleLabel.text = landscape.name
-                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: NSLineBreakMode.ByTruncatingTail)
+                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: .ByTruncatingTail, fontName: Font.defaultFont, fontSize: 14)
             }
         }
     }
@@ -107,7 +107,6 @@ class LandscapeCell: LandscapeCell1 {
         iconView.addSubview(coverView)
         coverView.alpha = 0.4
         clipsToBounds = true
-        
         titleLabel.textColor    = UIColor.whiteColor()
         subtitleLabel.textColor = UIColor.whiteColor()
         subtitleLabel.numberOfLines = 3
@@ -116,10 +115,8 @@ class LandscapeCell: LandscapeCell1 {
         iconView.contentMode = .ScaleAspectFit
         if #available(iOS 9.0, *) {
             titleLabel.font = UIFont(name: Font.PingFangSCRegular, size: 22)
-            subtitleLabel.font = UIFont(name: Font.PingFangSCRegular, size: 14)
         } else {
             titleLabel.font = UIFont.systemFontOfSize(22)
-            subtitleLabel.font = UIFont.systemFontOfSize(14)
         }
     }
 }

@@ -143,16 +143,16 @@ class CitySightsViewController: UICollectionViewController {
         let sight = sightCityList[sender.tag] as CitySightBrief
         let type  = FavoriteContant.TypeSight
         let objid = sight.id
-        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) {
+        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) { [weak self]
             (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self?.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
-                ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍后再试")
+                ProgressHUD.showErrorHUD(self?.view, text: "操作未成功，请稍后再试")
                 sender.selected = !sender.selected
             }
         }
@@ -161,7 +161,7 @@ class CitySightsViewController: UICollectionViewController {
     var isLoading:Bool = false
 
     private func loadData() {
-        if self.isLoading {
+        if isLoading {
             return
         }
         
@@ -170,7 +170,7 @@ class CitySightsViewController: UICollectionViewController {
             lastRequest?.cityId = cityId
         }
         
-        self.isLoading = true
+        isLoading = true
         
         //清空footer的“加载完成”
         collectionView!.mj_footer.resetNoMoreData()
@@ -204,9 +204,7 @@ class CitySightsViewController: UICollectionViewController {
             if let dataSource = data {
 
                 if dataSource.count > 0 {
-//                    if let cells = self?.recommendCells {
-                        self?.sightCityList = self!.sightCityList + dataSource
-//                    }
+                    self?.sightCityList = self!.sightCityList + dataSource
                     self?.collectionView?.mj_footer.endRefreshing()
                 } else {
                     self?.collectionView?.mj_footer.endRefreshingWithNoMoreData()

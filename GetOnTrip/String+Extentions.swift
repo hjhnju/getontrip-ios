@@ -12,16 +12,25 @@ import UIKit
 extension String {
     
     // 获取带行间距的字符格式
-    func getAttributedString(lineHeightMultiple:CGFloat = 0, lineSpacing: CGFloat = 0, breakMode:NSLineBreakMode = NSLineBreakMode.ByTruncatingTail) -> NSAttributedString {
+    func getAttributedString(lineHeightMultiple:CGFloat = 0, lineSpacing: CGFloat = 0, breakMode:NSLineBreakMode = NSLineBreakMode.ByTruncatingTail, fontName: String? = Font.ios8Font, fontSize: CGFloat? = 12) -> NSAttributedString {
         
         let style = NSMutableParagraphStyle()
 //        style.firstLineHeadIndent = 24
         style.lineSpacing = lineSpacing
         style.lineHeightMultiple = lineHeightMultiple
         style.lineBreakMode = breakMode
-        
         let attributedString = NSMutableAttributedString(string: self)
         attributedString.addAttribute(NSParagraphStyleAttributeName, value: style, range: NSMakeRange(0, attributedString.length))
+        
+        if fontName != nil && fontName != Font.ios8Font{
+            let font1: UIFont?
+            if #available(iOS 9.0, *) {
+                font1 = UIFont(name: fontName!, size: fontSize!)
+            } else {
+                font1 = UIFont(name: Font.ios8Font, size: fontSize!)
+            }
+            attributedString.addAttribute(NSFontAttributeName, value: font1!, range: NSMakeRange(0, attributedString.length))
+        }
         
         return attributedString
     }

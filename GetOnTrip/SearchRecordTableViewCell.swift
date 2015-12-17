@@ -42,7 +42,7 @@ class SearchRecordTableViewCell : UITableViewCell {
         deleteButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
         
         selectBackgroundView.hidden = true
-        selectBackgroundView.ff_AlignInner(.CenterCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 50))
+        selectBackgroundView.ff_AlignInner(.CenterCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 47), offset: CGPointMake(0, 0))
         deleteButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(47, 47), offset: CGPointMake(0, 0))
         baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
         backgroundColor = UIColor.clearColor()

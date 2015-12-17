@@ -38,10 +38,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var labelButton      = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
     
     /// 收藏数量标签
-    lazy var favNumLabel      = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
+    lazy var favNumButton      = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
 
     /// 浏览标签
-    lazy var visitNumLabel    = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
+    lazy var visitNumButton    = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
     
     //webView
     var webView               = WKWebView(color: UIColor.grayColor())
@@ -121,8 +121,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 
                 navBar.setTitle(topic.sight)
                 labelButton.setTitle("  " + topic.tagname + "  ", forState: .Normal)
-                favNumLabel.setTitle(" " + topic.collect, forState: .Normal)
-                visitNumLabel.setTitle(" " + topic.visit, forState: .Normal)
+                favNumButton.setTitle(" " + topic.collect, forState: .Normal)
+                visitNumButton.setTitle(" " + topic.visit, forState: .Normal)
                 if topic.commentNum != "0" {
                     commentButton.setTitle(topic.commentNum, forState: .Normal)
                 }
@@ -132,8 +132,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 praisedButton.selected = topic.praised == "" ? false : true
                 commentVC.topicId      = topic.id
                 labelButton.hidden     = false
-                favNumLabel.hidden     = false
-                visitNumLabel.hidden   = false
+                favNumButton.hidden     = false
+                visitNumButton.hidden   = false
                 
                 if topicDataSource?.arrsight.count == 0 {
                     navBar.rightButton.hidden = true
@@ -166,8 +166,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         headerView.addSubview(headerImageView)
         headerView.addSubview(headerTitleLabel)
         headerView.addSubview(labelButton)
-        headerView.addSubview(favNumLabel)
-        headerView.addSubview(visitNumLabel)
+        headerView.addSubview(favNumButton)
+        headerView.addSubview(visitNumButton)
         toolbarView.addSubview(praisedButton)
         toolbarView.addSubview(commentButton)
         toolbarView.addSubview(shareButton)
@@ -183,14 +183,14 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         praisedButton.setImage(UIImage(named: "dotLike_yes"), forState: .Selected)
         
         labelButton.alpha = 0.8
-        visitNumLabel.alpha = 0.8
-        favNumLabel.alpha = 0.8
+        visitNumButton.alpha = 0.8
+        favNumButton.alpha = 0.8
         
         headerView.userInteractionEnabled = true
         headerImageView.userInteractionEnabled = true
         labelButton.hidden          = true
-        favNumLabel.hidden          = true
-        visitNumLabel.hidden        = true
+        favNumButton.hidden          = true
+        visitNumButton.hidden        = true
         coverButton.backgroundColor = UIColor.blackColor()
         
         collectButton.setImage(UIImage(named: "topic_star_select"), forState: .Selected)
@@ -239,8 +239,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     func refreshHeader(){
         headerTitleLabel.alpha = headerAlpha
-        favNumLabel.alpha   = headerAlpha
-        visitNumLabel.alpha = headerAlpha
+        favNumButton.alpha   = headerAlpha
+        visitNumButton.alpha = headerAlpha
         labelButton.alpha   = headerAlpha
     }
     
@@ -254,9 +254,9 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         //header views
         headerImageView.ff_Fill(headerView)
         labelButton   .contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
-        favNumLabel   .ff_AlignInner(.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(15, -10))
-        visitNumLabel .ff_AlignHorizontal(.CenterRight, referView: favNumLabel, size: nil, offset: CGPointMake(10, 0))
-        headerTitleLabel.ff_AlignVertical(.TopLeft, referView: favNumLabel, size: nil, offset: CGPointMake(0, -6))
+        favNumButton   .ff_AlignInner(.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(15, -10))
+        visitNumButton .ff_AlignHorizontal(.CenterRight, referView: favNumButton, size: nil, offset: CGPointMake(10, 0))
+        headerTitleLabel.ff_AlignVertical(.TopLeft, referView: favNumButton, size: nil, offset: CGPointMake(-2, -6))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
         labelButton   .ff_AlignVertical(.TopLeft, referView: headerTitleLabel, size: nil, offset: CGPointMake(0, -8))
         
@@ -294,6 +294,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        print("详情页面给不给走")
     }
     
     // MARK: UIWebView
@@ -370,4 +371,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
             })
         loadingView.start()
     }
+    
+    
 }

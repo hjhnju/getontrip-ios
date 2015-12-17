@@ -34,20 +34,16 @@ struct RecommendContant {
 class RecommendViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
     
     //导航栏容器，包含状态栏的高度
-    lazy var navContainerView:UIView = {
-        let view = UIView()
-        view.addSubview(self.custNavView)
-        return view
-        }()
+    lazy var navContainerView:UIView = UIView()
     
-    let slideNavButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: UIColor.whiteColor())
+    let slideNavButton: RecommendSlideButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: UIColor.whiteColor())
     
     //自定义导航栏
-    lazy var custNavView:UIView = {
+    lazy var custNavView:UIView = { [weak self] in
         let view = UIView()
-        self.slideButton.removeFromSuperview()
-        self.slideNavButton.addTarget(self, action: "toggleMenu", forControlEvents: .TouchUpInside)
-        view.addSubview(self.slideNavButton)
+        self?.slideButton.removeFromSuperview()
+        self?.slideNavButton.addTarget(self, action: "toggleMenu", forControlEvents: .TouchUpInside)
+        view.addSubview(self?.slideNavButton ?? UIView())
         return view
     }()
     
@@ -68,7 +64,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     var recommendLabels = [RecommendLabel]() {
         didSet{
             if currentSearchLabelButton == nil {
-                self.addSearchLabelButton()
+                addSearchLabelButton()
             }
         }
     }
@@ -89,9 +85,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     lazy var tableView = UITableView()
     
     /// 搜索控制器
-    var searchController: SearchViewController!
+    lazy var searchController: SearchViewController? = SearchViewController()
     
-    lazy var errorView: UIView = {
+    lazy var errorView: UIView = { [weak self] in
         let view = UIView()
         let refreshButton = UIButton(icon: "icon_refresh", masksToBounds: true)
         let refreshHint1   = UILabel(color: SceneColor.white.colorWithAlphaComponent(0.5), title: "网速好像不给力", fontSize: 13)
@@ -106,8 +102,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         //add target
         refreshButton.addTarget(self, action: "refreshFromErrorView:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.view.addSubview(view)
-        self.view.sendSubviewToBack(view)
+        self?.view.addSubview(view)
+        self?.view.sendSubviewToBack(view)
         view.hidden = true
         return view
     }()
@@ -159,9 +155,11 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     let clearButton = UIButton(image: "delete_searchBar", title: "", fontSize: 0)
     func initSearchBar() {
         
-        self.definesPresentationContext = true
-        searchController = SearchViewController()
-        custNavView.addSubview(searchController!.searchBar)
+        navContainerView.addSubview(custNavView)
+//        searchController = SearchViewController()
+        addChildViewController(searchController!)
+        definesPresentationContext = true
+        custNavView.addSubview(searchController?.searchBar ?? UIView())
         searchController?.searchBar.frame = CGRectMake(49, 16, UIScreen.mainScreen().bounds.width - 49, 35)
         clearButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
         clearButton.addTarget(searchController, action: "clearButtonAction", forControlEvents: .TouchUpInside)
@@ -173,7 +171,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         defaultPrompt.enabled = false
         defaultPrompt.setImage(UIImage(named: "search_icon"), forState: UIControlState.Disabled)
 
-        for item in (searchController?.searchBar.subviews)! {
+        for item in (searchController?.searchBar.subviews) ?? [] {
             for it in item.subviews {
                 if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
                     it.removeFromSuperview()
@@ -190,7 +188,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         view.backgroundColor = SceneColor.bgBlack
         
         //nav bar
-        self.automaticallyAdjustsScrollViewInsets = false
+        automaticallyAdjustsScrollViewInsets = false
         view.addSubview(navContainerView)
         navContainerView.addSubview(custNavView)
         
@@ -229,8 +227,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        self.tableView.mj_header = tbHeaderView
-        self.tableView.mj_footer = tbFooterView
+        tableView.mj_header = tbHeaderView
+        tableView.mj_footer = tbFooterView
     }
     
     /// 初始化tableView
@@ -282,7 +280,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         navContainerView.frame = CGRectMake(0, 0, view.bounds.width, MainViewContant.StatusBarHeight + navBarHeight)
         custNavView.frame      = CGRectMake(0, MainViewContant.StatusBarHeight, view.bounds.width, navBarHeight)
         slideNavButton.frame   = CGRectMake(0, 0, 50, navBarHeight)
-        searchController?.searchBar.frame = CGRectMake(searchController!.searchBar.frame.origin.x, 0, (searchController?.searchBar.frame.width)!, navBarHeight)
+        searchController?.searchBar.frame = CGRectMake(searchController?.searchBar.frame.origin.x ?? 0, 0, searchController?.searchBar.frame.width ?? 0, navBarHeight)
         searchController?.searchBarFrame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, navBarHeight)
         searchController?.searchBarH = navBarHeight
     }
@@ -356,5 +354,9 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     //MARK: ScrollViewDelegate
     var yOffset: CGFloat = 0.0
+    
+    deinit {
+        print("首页可以走不")
+    }
 }
 

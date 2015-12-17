@@ -83,9 +83,9 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             if let city = cityDataSource {
                 //用已有image占位，这样转场传递小图不会被默认图覆盖
                 headerImageView.sd_setImageWithURL(NSURL(string: city.image), placeholderImage:headerImageView.image)
-                self.cityNameLabel.text = city.name
-                self.navBar.titleLabel.text = city.name
-                self.favIconBtn.selected = city.collected == "" ? false : true
+                cityNameLabel.text = city.name
+                navBar.titleLabel.text = city.name
+                favIconBtn.selected = city.collected == "" ? false : true
             }
         }
     }
@@ -435,5 +435,9 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 sender.selected = !sender.selected
             }
         }
+    }
+    
+    deinit {
+        print("城市中间页可以走不")
     }
 }

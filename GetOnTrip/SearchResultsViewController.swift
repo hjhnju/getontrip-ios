@@ -426,4 +426,8 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         let headerView = tableView.headerViewForSection(cell?.section ?? 0) as? SearchHeaderView
         headerView?.backgroundView?.alpha = 1
     }
+    
+    deinit {
+        print("搜索结果控制器让走不")
+    }
 }

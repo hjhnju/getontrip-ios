@@ -22,8 +22,11 @@ class Landscape: NSObject {
     var image: String = "" {
         didSet {
             image = UIKitTools.sliceImageUrl(image, width: 119, height: 84)
+            imageHeader = UIKitTools.sliceImageUrl(image, width: Int(UIScreen.mainScreen().bounds.width), height: 140)
         }
     }
+    
+    var imageHeader: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()

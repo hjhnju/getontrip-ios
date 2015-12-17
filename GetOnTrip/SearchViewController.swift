@@ -101,7 +101,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     private func refreshSearchBarContaineView() {
         searchBar.superview?.frame = CGRectMake(0, 20, searchBarFrame.width, searchBarFrame.height)
-        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, searchBarH!)
+        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, searchBarH ?? 0)
     }
     
     /// 初始化view
@@ -146,11 +146,11 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     // MARK: - 加载热门搜索
     private func loadHotSearchLabel() {
-        SearchRequest.sharedInstance.fetchHotWords { (result, status) -> Void in
+        SearchRequest.sharedInstance.fetchHotWords { [weak self] (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if let data = result {
-                    self.hotwordData = data
-                    self.recordTableView.reloadData()
+                    self?.hotwordData = data
+                    self?.recordTableView.reloadData()
                 }
             }
         }
@@ -160,7 +160,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     // 点击搜索之后调用保存方法
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         if searchBar.text != "" {
-            saveRecord(searchBar.text!)
+            saveRecord(searchBar.text ?? "")
         }
     }
     
@@ -196,10 +196,10 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         searchResultViewController.view.hidden = true
         recordTableView.hidden = false
         locationButton.hidden = false
-        dismissViewControllerAnimated(true) { () -> Void in
-            self.searchResultViewController.dataSource = SearchInitData()
-            self.searchResultViewController.filterString = ""
-            self.searchResultViewController.lastSearchContent = ""
+        dismissViewControllerAnimated(true) { [weak self] () -> Void in
+            self?.searchResultViewController.dataSource = SearchInitData()
+            self?.searchResultViewController.filterString = ""
+            self?.searchResultViewController.lastSearchContent = ""
         }
     }
     
@@ -208,5 +208,9 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         searchBar.text = ""
         searchResultViewController.filterString = ""
         searchBar(searchBar, textDidChange: "")
+    }
+    
+    deinit {
+        print("搜索控制器走不")
     }
 }
