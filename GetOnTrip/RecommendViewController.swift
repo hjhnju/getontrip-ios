@@ -348,7 +348,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     deinit {
         autoreleasepool { () -> () in
-            searchControllergit 
+            searchController
         }
         print("首页可以走不")
     }
