@@ -289,22 +289,34 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
                         
                         switch index {
                         case ContentType.city :
-                            self?.dataSource.searchCitys.append(SearchContentResult(dict: dict))
+                            let data = SearchContentResult(dict: dict)
+                            data.search_type = ContentType.city
+                            self?.dataSource.searchCitys.append(data)
                             self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.city : self!.dataSource.searchCitys.count]
                         case ContentType.sight:
-                            self?.dataSource.searchSights.append(SearchContentResult(dict: dict))
+                            let data = SearchContentResult(dict: dict)
+                            data.search_type = ContentType.sight
+                            self?.dataSource.searchSights.append(data)
                             self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.sight : self!.dataSource.searchSights.count]
                         case ContentType.Topic:
-                            self?.dataSource.searchContent.append(SearchContentResult(dict: dict))
+                            let data = SearchContentResult(dict: dict)
+                            data.search_type = ContentType.Topic
+                            self?.dataSource.searchContent.append(data)
                             self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.Topic : self!.dataSource.searchContent.count]
                         case ContentType.Landscape:
-                            self?.dataSource.searchLandscape.append(SearchContentResult(dict: dict))
+                            let data = SearchContentResult(dict: dict)
+                            data.search_type = ContentType.Landscape
+                            self?.dataSource.searchLandscape.append(data)
                             self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.Landscape : self!.dataSource.searchLandscape.count]
                         case ContentType.Book:
-                            self?.dataSource.searchBook.append(SearchContentResult(dict: dict))
+                            let data = SearchContentResult(dict: dict)
+                            data.search_type = ContentType.Book
+                            self?.dataSource.searchBook.append(data)
                             self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.Book : self!.dataSource.searchBook.count]
                         case ContentType.Video:
-                            self?.dataSource.searchVideo.append(SearchContentResult(dict: dict))
+                            let data = SearchContentResult(dict: dict)
+                            data.search_type = ContentType.Video
+                            self?.dataSource.searchVideo.append(data)
                             self?.dataSource.typeCount[self!.dataSource.sectionTag] = [ContentType.Video : self!.dataSource.searchVideo.count]
                         default:
                             break

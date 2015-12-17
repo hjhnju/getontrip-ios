@@ -242,10 +242,10 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tableView.delegate        = self
         tableView.tableHeaderView = nil
         tableView.rowHeight       = RecommendContant.rowHeight
-        tableView.backgroundColor = UIColor.clearColor()
-        tableView.separatorStyle  = UITableViewCellSeparatorStyle.None
+        tableView.backgroundColor = .clearColor()
+        tableView.separatorStyle  = .None
         tableView.contentInset    = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 64, right: 0)
-        
+        tableView.contentOffset = CGPointMake(0, -RecommendContant.headerViewHeight)
         tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTableViewCellID)
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
         view.sendSubviewToBack(tableView)
