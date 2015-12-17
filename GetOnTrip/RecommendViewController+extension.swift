@@ -176,7 +176,7 @@ extension RecommendViewController {
                 }
                 self?.loadHeaderImage(dataSource.objectForKey("image") as? String)
                 self?.tableView.reloadData()
-                self?.tableView.setContentOffset(CGPointMake(0, -RecommendContant.headerViewHeight), animated: false)
+                self?.tableView.setContentOffset(CGPointMake(0, -RecommendContant.headerViewHeight), animated: true)
 //                self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .None, animated: true)
             }
             self?.tableView.mj_header.endRefreshing()
