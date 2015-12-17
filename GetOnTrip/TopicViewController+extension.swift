@@ -152,6 +152,7 @@ extension TopicViewController {
         
         // 其他情况如果有多个景点可去的情况
         let vc = TopicEnterSightController()
+        vc.isEntranceSight = isEntranceSight
         vc.upSightId = topicDataSource?.sightid ?? ""
         vc.nav = navigationController
         vc.dataSource = topicDataSource?.arrsight

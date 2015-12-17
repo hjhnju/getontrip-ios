@@ -26,7 +26,11 @@ class CollectContentVideoCell: BaseTableViewCell {
     }
     
     override func overrideAfterAction() {
-        titleLabel.font = UIFont.systemFontOfSize(16)
+        if #available(iOS 9.0, *) {
+            titleLabel.font = UIFont(name: Font.defaultFont, size: 16)
+        } else {
+            titleLabel.font = UIFont(name: Font.ios8Font, size: 16)
+        }
         titleLabel.textColor = SceneColor.frontBlack
         titleLabel.preferredMaxLayoutWidth = 146
         titleLabel.numberOfLines = 2

@@ -126,9 +126,6 @@ extension SearchViewController {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         /// 只定位一次
         locationManager.stopUpdatingLocation()
-        if currentCityId == "" {
-            currentCityId = "-1"
-        }
         
         // 获取位置信息
         let coordinate = locations.first?.coordinate
@@ -144,11 +141,12 @@ extension SearchViewController {
                 dispatch_once(&Static.onceToken, {
                     LocateToCity.locate(locality, handler: { (result, status) -> Void in
                         if status == RetCode.SUCCESS {
-                            currentCityId = result as? String ?? "0"
+                            currentCityId = result as? String ?? "-2"
                             if result != nil {
                                 let vcity = CityViewController()
                                 vcity.cityDataSource = City(id: currentCityId)
                                 self?.searchResultViewController.showSearchResultController(vcity)
+                                return
                             }
                         } else {
                             ProgressHUD.showSuccessHUD(self?.view, text: "网络连接失败，请检查网络")
@@ -161,20 +159,46 @@ extension SearchViewController {
     
     /// 切换当前城市
     func switchCurrentCity(btn: UIButton) {
-        // 开始定位
-        locationManager.startUpdatingLocation()
         
-        if currentCityId != "-1" && currentCityId != "0" && currentCityId != "" {
+        if currentCityId == "" {
+            /// 开始获取定位权限
+            initLocationManager()
+        }
+        
+        if currentCityId == "0" {
+            ProgressHUD.showSuccessHUD(self.view, text: "正在定位中")
+            return
+        }
+        
+        if currentCityId == "-2" {
+            ProgressHUD.showSuccessHUD(self.view, text: "当前城市未开通")
+        }
+        
+        if currentCityId != "-1" {
             let vcity = CityViewController()
             vcity.cityDataSource = City(id: currentCityId)
             self.searchResultViewController.showSearchResultController(vcity)
             return
         }
-        
-        if currentCityId == "-1" {
-            ProgressHUD.showSuccessHUD(self.view, text: "正在定位中")
-        } else if currentCityId == "0" {
-            ProgressHUD.showSuccessHUD(self.view, text: "当前城市未开通")
+    }
+    
+    /// 初始化定位
+    private func initLocationManager() {
+        // 应用程序使用期间允许定位
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        // 开始定位
+        locationManager.startUpdatingLocation()
+        currentCityId = "-1"
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        if error.code == 1 {
+            ProgressHUD.showSuccessHUD(self.view, text: "您已拒绝定位，请到设置中打开定位")
+            currentCityId = ""
+        } else {
+            ProgressHUD.showSuccessHUD(self.view, text: "开始定位")
+            currentCityId = "0"
         }
     }
 

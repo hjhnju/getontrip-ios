@@ -68,7 +68,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         
         initView()
         searchBar.delegate = self
-        initLocationManager()
         initProperty()
         initTableView()
         loadHotSearchLabel()
@@ -123,13 +122,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         view.addSubview(recordTableView)
         view.addSubview(locationButton)
         view.addSubview(noSearchResultLabel)
-    }
-    
-    /// 初始化定位
-    private func initLocationManager() {
-        // 应用程序使用期间允许定位
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
     }
     
     /// 初始化tableView

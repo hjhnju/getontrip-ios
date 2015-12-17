@@ -39,7 +39,13 @@ class CollectContentBookCell: BaseTableViewCell {
     }
     
     override func overrideAfterAction() {
-        titleLabel.font = UIFont.systemFontOfSize(16)
+        
+        if #available(iOS 9.0, *) {
+            titleLabel.font = UIFont(name: Font.defaultFont, size: 16)
+        } else {
+            titleLabel.font = UIFont(name: Font.ios8Font, size: 16)
+        }
+        
         titleLabel.numberOfLines = 1
         titleLabel.textColor = UIColor.blackColor()
         subtitleLabel.textColor =  UIColor(hex: 0x939393, alpha: 0.8)

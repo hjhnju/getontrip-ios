@@ -17,6 +17,8 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
     /// 退出按钮
     let exitButton      = UIButton(image: "topicSight_x", title: "", fontSize: 0)
     
+    var isEntranceSight: Bool = false
+    
     /// 上一个景点的id
     var upSightId: String = ""
     
@@ -84,8 +86,7 @@ class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let data = dataSource?[indexPath.row]
-        
-        if data?["id"] == upSightId {
+        if isEntranceSight == true && data?["id"] == upSightId {
             dismissViewControllerAnimated(true, completion: nil)
             self.nav?.popViewControllerAnimated(true)
         } else {
