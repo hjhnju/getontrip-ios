@@ -160,7 +160,7 @@ class NewFeatureCell: UICollectionViewCell {
         title.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 136))
         subtitle.ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -79))
         subtitleEnglish.ff_AlignVertical(.TopCenter, referView: subtitle, size: nil, offset: CGPointMake(0, -6))
-        introduceLabel.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, UIScreen.mainScreen().bounds.height * 0.21))
+        introduceLabel.ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -146))
         startButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.55, 64), offset: CGPointMake(0, 0))
     }
     

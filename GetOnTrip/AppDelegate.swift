@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        NSThread.sleepForTimeInterval(3)
+        NSThread.sleepForTimeInterval(2)
         
         //加载缓存(最早，否则config无法获取
         globalKvStore = YTKKeyValueStore(DBWithName: "getontrip")
@@ -81,8 +81,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - 设置是否是第一次进入最新版本
     private func defaultViewController() -> UIViewController {
-//        return GuideViewController()
-        return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
+        return GuideViewController()
+//        return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
     }
 
     // 是否新版本

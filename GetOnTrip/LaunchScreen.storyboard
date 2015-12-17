@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Launch Screen Controller-->
@@ -38,7 +37,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenText" translatesAutoresizingMaskIntoConstraints="NO" id="f7k-dm-ObH">
-                                <rect key="frame" x="160" y="105" width="281" height="13"/>
+                                <rect key="frame" x="160" y="156" width="281" height="13"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -50,7 +49,7 @@
                             <constraint firstItem="XkJ-kZ-Zhi" firstAttribute="top" secondItem="CrR-gT-dF5" secondAttribute="bottom" constant="62" id="Tcu-L8-00G"/>
                             <constraint firstItem="lAb-k3-8qw" firstAttribute="bottom" secondItem="CrR-gT-dF5" secondAttribute="bottom" id="W9I-Oe-x7w"/>
                             <constraint firstItem="CrR-gT-dF5" firstAttribute="centerX" secondItem="7la-vP-Dh1" secondAttribute="centerX" constant="-50" id="sin-hG-M1g"/>
-                            <constraint firstItem="f7k-dm-ObH" firstAttribute="top" secondItem="a7P-G0-2Cv" secondAttribute="bottom" multiplier="1.1:5" constant="101" id="yqs-Wr-nS7"/>
+                            <constraint firstItem="f7k-dm-ObH" firstAttribute="top" secondItem="a7P-G0-2Cv" secondAttribute="bottom" constant="136" id="yqs-Wr-nS7"/>
                         </constraints>
                     </view>
                 </viewController>

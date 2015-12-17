@@ -18,10 +18,7 @@ class CollectContentVideoCell: BaseTableViewCell {
     
     override func overrideBeforeAction() {
 
-//        iconView.addSubview(coverView)
         iconView.addSubview(playImageView)
-//        coverView.alpha = 0.3
-//        coverView.ff_AlignInner(.CenterCenter, referView: iconView, size: CGSizeMake(120, 73))
         playImageView.ff_AlignInner(.CenterCenter, referView: iconView, size: nil)
     }
     
@@ -32,7 +29,7 @@ class CollectContentVideoCell: BaseTableViewCell {
             titleLabel.font = UIFont(name: Font.ios8Font, size: 16)
         }
         titleLabel.textColor = SceneColor.frontBlack
-        titleLabel.preferredMaxLayoutWidth = 146
+        titleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 147
         titleLabel.numberOfLines = 2
         subtitleLabel.hidden = true
         titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))        
