@@ -299,7 +299,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        print("详情页面给不给走")
     }
     
     // MARK: UIWebView
@@ -376,6 +375,4 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
             })
         loadingView.start()
     }
-    
-    
 }

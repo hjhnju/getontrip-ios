@@ -248,7 +248,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTableViewCellID)
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
-        view.sendSubviewToBack(tableView)
+//        view.sendSubviewToBack(tableView)
     }
 
 
@@ -263,11 +263,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         refreshBar()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-    }
+
     
     func refreshBar(){
         //更新导航背景
@@ -290,7 +286,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         slideButton.ff_AlignInner(.CenterLeft, referView: custNavView, size: CGSize(width: 21, height: 14), offset: CGPointMake(9, 0))        
         let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, RecommendContant.headerViewHeight), offset: CGPointMake(0, 0))
         headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Top)
-        
         
         //表格
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))

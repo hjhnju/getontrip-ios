@@ -436,8 +436,4 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-    
-    deinit {
-        print("城市中间页可以走不")
-    }
 }

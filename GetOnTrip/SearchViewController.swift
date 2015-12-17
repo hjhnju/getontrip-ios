@@ -210,8 +210,4 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         searchResultViewController.filterString = ""
         searchBar(searchBar, textDidChange: "")
     }
-    
-    deinit {
-        print("搜索控制器走不")
-    }
 }

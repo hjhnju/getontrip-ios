@@ -327,7 +327,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     // MARK:  WKScriptMessageHandler 协议
     
     func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
-        print("userContentController")
+
         if let webView = message.webView {
             var frame:CGRect = webView.frame
             if let height = message.body.valueForKey("height")?.floatValue {
