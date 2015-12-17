@@ -95,6 +95,9 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     var topicId: String? {
         return self.topicDataSource?.id ?? ""
     }
+    
+    /// 遮罩
+    lazy var coverView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.7), alphaF: 0.6)
         
     /// 进入的样式
     var isEntranceSight: Bool = false
@@ -164,6 +167,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         view.addSubview(toolbarView)
         view.backgroundColor = UIColor.whiteColor()
         headerView.addSubview(headerImageView)
+        headerView.addSubview(coverView)
         headerView.addSubview(headerTitleLabel)
         headerView.addSubview(labelButton)
         headerView.addSubview(favNumButton)
@@ -253,6 +257,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         
         //header views
         headerImageView.ff_Fill(headerView)
+        coverView.ff_Fill(headerView)
         labelButton   .contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
         favNumButton   .ff_AlignInner(.BottomLeft, referView: headerView, size: nil, offset: CGPointMake(15, -10))
         visitNumButton .ff_AlignHorizontal(.CenterRight, referView: favNumButton, size: nil, offset: CGPointMake(10, 0))

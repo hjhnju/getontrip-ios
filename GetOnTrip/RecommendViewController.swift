@@ -350,7 +350,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         autoreleasepool { () -> () in
             searchController
         }
-        print("首页可以走不")
     }
 }
 
