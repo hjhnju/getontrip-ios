@@ -248,7 +248,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         
         tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTableViewCellID)
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
-//        view.sendSubviewToBack(tableView)
+        view.sendSubviewToBack(tableView)
     }
 
 
