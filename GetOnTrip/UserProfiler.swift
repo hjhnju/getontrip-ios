@@ -34,9 +34,7 @@ class UserProfiler: NSObject {
     /// 根据当前用户设置判断是否显示图片
     func isShowImage() -> Bool {
         //非wifi 且开启 时返回 true
-        print("isViaWiFi=\(isViaWiFi)")
         let isShow: Bool = isViaWiFi ? true : (savingTrafficMode ? false : true)
-        print("isShow=\(isShow)")
         return isShow
     }
     

@@ -84,11 +84,16 @@ class LandscapeCell: LandscapeCell1 {
         didSet {
             if let landscape = landscape {
                 iconView.contentMode = .ScaleAspectFill
-                iconView.sd_setImageWithURL(NSURL(string: landscape.imageHeader), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
-                    if image != nil {
-                        self.iconView.image = UIImageView.imageByApplyingImage(image, blurRadius: 0.2)
-                    }
-                })
+                iconView.backgroundColor = landscape.bgColor
+                //是否加载网络图片
+                if UserProfiler.instance.isShowImage() {
+                    iconView.sd_setImageWithURL(NSURL(string: landscape.imageHeader), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
+                        if image != nil {
+                            self.iconView.image = UIImageView.imageByApplyingImage(image, blurRadius: 0.2)
+                        }
+                    })
+                }
+                
                 titleLabel.text = landscape.name
                 subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: .ByTruncatingTail, fontName: Font.defaultFont, fontSize: 14)
             }

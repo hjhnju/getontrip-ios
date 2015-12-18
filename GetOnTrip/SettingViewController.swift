@@ -187,8 +187,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 cell.addSubview(removeCacheLabel)
                 removeCacheLabel.text = getUsedCache()
                 removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
-                cell.getShadowWithView()
-                cell.baseline.removeFromSuperview()
             case 1:
                 return trafficModeCell()
             default:
@@ -209,6 +207,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         titleLabel.ff_AlignInner(.CenterLeft, referView: cell, size: nil, offset: CGPointMake(9, -5))
         subtitle.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 0))
         trafficSwitch.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+        cell.getShadowWithView()
         return cell
     }
     

@@ -38,7 +38,7 @@ class RecommendTopicViewCell: UITableViewCell {
                 cellImageView.imageView.backgroundColor = cellData.bgColor
                 
                 //是否加载网络图片
-                if !UserProfiler.instance.isShowImage() {
+                if UserProfiler.instance.isShowImage() {
                     cellImageView.loadImage(NSURL(string: cellData.image))
                 }
                 
