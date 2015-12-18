@@ -27,8 +27,8 @@ class BookCell: UITableViewCell {
         didSet {
             if let book = book {
                 iconView.backgroundColor = book.bgColor
-                //非wifi情况不加载网络图片
-                if !UserProfiler.instance.savingTrafficMode {
+                //是否加载网络图片
+                if UserProfiler.instance.isShowImage() {
                     iconView.sd_setImageWithURL(NSURL(string: book.image))
                 }
                 titleLabel.text = book.title

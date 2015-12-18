@@ -25,8 +25,8 @@ class LandscapeCell1: UITableViewCell {
         didSet {
             if let landscape = landscape {
                 iconView.backgroundColor = landscape.bgColor
-                //非wifi情况不加载网络图片
-                if !UserProfiler.instance.savingTrafficMode {
+                //是否加载网络图片
+                if UserProfiler.instance.isShowImage() {
                     iconView.sd_setImageWithURL(NSURL(string: landscape.image))
                 }
                 

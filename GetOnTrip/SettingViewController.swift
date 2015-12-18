@@ -55,9 +55,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     /// 夜间模式
     lazy var trafficSwitch = UISwitch()
     
-    /// 是否是夜间模式
-    var isTrafficModel: Bool = false
-    
     /// 登陆状态
     var isLoginStatus: Bool = false {
         didSet {
@@ -87,9 +84,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         pleaseLoginButton.adjustsImageWhenHighlighted = false
         pleaseLoginButton.addTarget(self, action: "pleaseLoginButtonAction", forControlEvents: .TouchUpInside)
         trafficSwitch.addTarget(self, action: "trafficSwitchAction:", forControlEvents: .ValueChanged)
-        if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("isTraffic") as? Bool {
-            isTrafficModel = userDefault
-        }
         
         view.backgroundColor = UIColor(hex: 0xF7F5F3, alpha: 1.0)
         addChildViewController(switchPhotoVC)
@@ -196,15 +190,25 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 cell.getShadowWithView()
                 cell.baseline.removeFromSuperview()
             case 1:
-                cell.left.text = "省流量模式"
-                cell.addSubview(trafficSwitch)
-                trafficSwitch.on = isTrafficModel
-                trafficSwitch.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+                return trafficModeCell()
             default:
                 break
             }
         }
-        
+        return cell
+    }
+    
+    private func trafficModeCell() -> UITableViewCell {
+        let cell = UITableViewCell()
+        let titleLabel = UILabel(color: SceneColor.frontBlack, title: "开启省流量模式", fontSize: 16, mutiLines: true, fontName: Font.PingFangSCRegular)
+        let subtitle = UILabel(color: SceneColor.frontBlackFour, title: "非WIFI模式下不显示图片", fontSize: 9, mutiLines: true, fontName: Font.PingFangSCRegular)
+        cell.addSubview(titleLabel)
+        cell.addSubview(subtitle)
+        cell.addSubview(trafficSwitch)
+        trafficSwitch.on = UserProfiler.instance.savingTrafficMode
+        titleLabel.ff_AlignInner(.CenterLeft, referView: cell, size: nil, offset: CGPointMake(9, -5))
+        subtitle.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 0))
+        trafficSwitch.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
         return cell
     }
     
@@ -374,7 +378,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
     /// 切换夜间模式
     func trafficSwitchAction(traffic: UISwitch) {
-        NSUserDefaults.standardUserDefaults().setBool(traffic.on, forKey: "isNights")
         UserProfiler.instance.savingTrafficMode = traffic.on
     }
 }
