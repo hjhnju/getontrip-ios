@@ -52,6 +52,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     /// 未登陆第一组显示几条
     var notLoginCount = 1
     
+    /// 夜间模式
+    lazy var nightsSwitch = UISwitch()
+    
+    /// 是否是夜间模式
+    var isNightsModel: Bool = false
+    
     /// 登陆状态
     var isLoginStatus: Bool = false {
         didSet {
@@ -80,6 +86,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         view.addSubview(exitLogin)
         pleaseLoginButton.adjustsImageWhenHighlighted = false
         pleaseLoginButton.addTarget(self, action: "pleaseLoginButtonAction", forControlEvents: .TouchUpInside)
+        nightsSwitch.addTarget(self, action: "nightsSwitchAction:", forControlEvents: .ValueChanged)
+        if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("isNights") as? Bool {
+            isNightsModel = userDefault
+        }
         
         view.backgroundColor = UIColor(hex: 0xF7F5F3, alpha: 1.0)
         addChildViewController(switchPhotoVC)
@@ -140,7 +150,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? notLoginCount : 1
+        return section == 0 ? notLoginCount : 2
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -185,6 +195,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
                 cell.getShadowWithView()
                 cell.baseline.removeFromSuperview()
+            case 1:
+                cell.left.text = "夜间模式"
+                cell.addSubview(nightsSwitch)
+                nightsSwitch.on = isNightsModel
+                nightsSwitch.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
             default:
                 break
             }
@@ -355,6 +370,11 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         alertController.popoverPresentationController?.sourceView = view
         alertController.popoverPresentationController?.sourceRect = CGRectMake(0, view.bounds.height - 180, view.bounds.width, 180)
         presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    /// 切换夜间模式
+    func nightsSwitchAction(nights: UISwitch) {
+        NSUserDefaults.standardUserDefaults().setBool(nights.on, forKey: "isNights")
     }
 }
 
