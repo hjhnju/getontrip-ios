@@ -97,7 +97,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     }
     
     /// 遮罩
-    lazy var coverView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.7), alphaF: 0.6)
+    lazy var coverView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.3), alphaF: 0.6)
         
     /// 进入的样式
     var isEntranceSight: Bool = false

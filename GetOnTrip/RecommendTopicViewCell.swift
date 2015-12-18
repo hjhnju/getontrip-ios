@@ -29,8 +29,7 @@ class RecommendTopicViewCell: UITableViewCell {
     lazy var visitNumLabel: UIButton = UIButton(image: "search_visit", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
     
     /// 遮罩
-    lazy var coverView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.7), alphaF: 0.6) //(color: UIColor(hex: 0xCECECE, alpha: 0.7))
-    
+    lazy var coverView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.3), alphaF: 0.6)
     
     var data: RecommendCellData? {
         didSet {
