@@ -27,13 +27,15 @@ class CityBrowseRequest: NSObject {
                 // 回调
                 let cityList = CityList()
                     for (k, v) in result.dictionaryValue {
+                        
                         var city = [CityContent]()
                         for item in v.arrayValue {
                             if let item = item.dictionaryObject {
                                 city.append(CityContent(dict: item))
                             }
                         }
-                        cityList.cityArray[k] = city
+                        cityList.keys.append(k)
+                        cityList.values.append(city)
                     }
                 handler(cityList, status)
                 return
@@ -49,6 +51,10 @@ class CityList {
     static let letterArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "M", "L", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     /// 城市列表
     var cityArray = [String : [CityContent]]()
+    
+    var keys = [String]()
+    
+    var values = [[CityContent]]()
 }
 
 class CityContent: NSObject {

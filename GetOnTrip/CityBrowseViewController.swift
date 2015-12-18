@@ -18,15 +18,8 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 网络请求加载数据(添加)
     var lastRequest: CityBrowseRequest = CityBrowseRequest()
     
-    /// 总数据源
-    var data: CityList = CityList() {
-        didSet {
-            dataSource = data.cityArray
-        }
-    }
-    
-    /// 底部各个城市
-    var dataSource: [String : [CityContent]] = [String : [CityContent]]() {
+    /// 数据源
+    var dataSource: CityList = CityList() {
         didSet {
             tableView.reloadData()
         }
@@ -47,9 +40,6 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         
         view.backgroundColor = SceneColor.bgBlack
         view.addSubview(tableView)
-        
-
-        
     }
     
     private func initTableView() {
@@ -61,20 +51,18 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         tableView.backgroundColor = .randomColor()
         tableView.registerClass(CityBrowseTableViewCell.self, forCellReuseIdentifier: "CityBrowseTableViewCell")
         tableView.ff_AlignInner(.TopCenter, referView: view, size: CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64), offset: CGPointMake(0, 64))
-        lastRequest.fetchNextPageModels { (_, _) -> Void in
-            
-        }
+        
     }
 
     // MARK: - tableview delegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+        return dataSource.keys.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("CityBrowseTableViewCell", forIndexPath: indexPath) as! CityBrowseTableViewCell
-        let data = dataSource["h"]
-        cell.dataSource = data![indexPath.row]
+        let data = dataSource.values[indexPath.section]
+        cell.dataSource = data[indexPath.row]
         return cell
     }
     
@@ -91,9 +79,15 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     }
     
     // MARK: - 自定义方法
-//    private func loadData() {
-//        lastRequest.fetchNextPageModels { (result, <#Int#>) -> Void in
-//            <#code#>
-//        }
-//    }
+    private func loadData() {
+        lastRequest.fetchNextPageModels { [weak self] (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                if let data = result {
+                    self?.dataSource = data
+                }
+            } else {
+                ProgressHUD.showErrorHUD(nil, text: "您的网络无法连接")
+            }
+        }
+    }
 }
