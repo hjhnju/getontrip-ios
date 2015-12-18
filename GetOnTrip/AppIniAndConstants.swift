@@ -45,6 +45,7 @@ struct SceneColor {
     static let bgBlack      = UIColor(hex: 0x2A2D2E, alpha:1)
     /// 前景深黑
     static let frontBlack   = UIColor(hex: 0x1C1C1C, alpha: 1)
+    static let frontBlackFour = UIColor(hex: 0x1C1C1C, alpha: 0.4)
     /// 透明度为0.6
     static let frontBlackSix   = UIColor(hex: 0x1C1C1C, alpha: 0.6)
     /**

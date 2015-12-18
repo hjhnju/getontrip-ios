@@ -31,6 +31,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         view.backgroundColor = UIColor.randomColor()
         initProperty()
         initTableView()
+        loadData()
     }
     
     private func initProperty() {
@@ -50,13 +51,17 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         tableView.separatorStyle = .None
         tableView.backgroundColor = .randomColor()
         tableView.registerClass(CityBrowseTableViewCell.self, forCellReuseIdentifier: "CityBrowseTableViewCell")
-        tableView.ff_AlignInner(.TopCenter, referView: view, size: CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64), offset: CGPointMake(0, 64))
-        
+        tableView.rowHeight = 43
+//        tableView.ff_AlignInner(.TopCenter, referView: view, size: CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64), offset: CGPointMake(0, 64))
     }
 
     // MARK: - tableview delegate
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return dataSource.values.count
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.keys.count
+        return dataSource.values[section].count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -68,14 +73,6 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 30
-    }
-    
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 30
     }
     
     // MARK: - 自定义方法

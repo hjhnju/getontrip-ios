@@ -16,11 +16,14 @@ class UserProfiler: NSObject {
     var savingTrafficMode: Bool  {
         get {
             // 默认返回
+            if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("isTraffic") as? Bool {
+                return userDefault
+            }
             return false
         }
         set {
             // 保存至用户配置
-            
+            NSUserDefaults.standardUserDefaults().setBool(savingTrafficMode, forKey: "isTraffic")
         }
     }
     
