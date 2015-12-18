@@ -14,9 +14,7 @@ public let HistoryTableViewControllerElseCell : String = "History_Cell"
 class SightTopicViewController: BaseTableViewController {
 
     var lastRequest:SightTopicsRequest?
-    
-//    var cellId: Int = 0
-    
+        
     /// 是否正在加载中
     var isLoading:Bool = false
     
@@ -60,10 +58,6 @@ class SightTopicViewController: BaseTableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-    }
-    
-    deinit {
-        //tableView.dg_removePullToRefresh()
     }
     
     // MARK: - 刷新方法
@@ -145,8 +139,6 @@ class SightTopicViewController: BaseTableViewController {
                 }
             }
             self.isLoading = false
-            
         })
     }
-
 }

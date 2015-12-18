@@ -207,12 +207,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sightDataSource.tags.count
     }
-    
-    var sightData = [Int: AnyObject]()
-    
-    
-    
-    
+        
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         isPopGesture = indexPath.row == 0 ? true : false
 
