@@ -96,9 +96,7 @@ class SightBookViewController: BaseTableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerBookCell, forIndexPath: indexPath) as! BookCell
-        
         cell.book = dataSource[indexPath.row]
-        
         return cell
     }
     

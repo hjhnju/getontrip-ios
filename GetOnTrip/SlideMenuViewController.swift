@@ -108,9 +108,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //菜单底图图片
     lazy var bgImageView: UIImageView = UIImageView(image: UIImage(named: "menu_bg")!)
     
-    //菜单底图模糊
-//    lazy var blurView: UIVisualEffectView =  UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
-    
     //菜单侧边列表项
     lazy var tableView: UITableView = {
         let tab = UITableView()
@@ -202,7 +199,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         view.addSubview(mainNavViewController.view)
         
         //菜单subviews
-        bgImageView.contentMode = UIViewContentMode.ScaleToFill
+        bgImageView.contentMode = .ScaleToFill
         
         loginAfter.addSubview(headerView)
         loginAfter.addSubview(nameLabel)

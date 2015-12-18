@@ -340,18 +340,5 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     //MARK: ScrollViewDelegate
     var yOffset: CGFloat = 0.0
-    
-    deinit {
-        autoreleasepool { () -> () in
-            searchController
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-        
-    }
-    
 }
 

@@ -36,7 +36,7 @@ class SightVideoViewController: BaseTableViewController {
         
         tableView.registerClass(VideoCell.self, forCellReuseIdentifier : HistoryTableViewControllerVideoCell)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        let tbHeaderView = MJRefreshNormalHeader { () -> Void in self.refresh() }
+        let tbHeaderView = MJRefreshNormalHeader { [weak self] () -> Void in self?.refresh() }
     
         let vc = parentViewController as? SightViewController
         vc?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
