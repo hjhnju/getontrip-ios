@@ -58,9 +58,7 @@ class SightBookViewController: BaseTableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        if dataSource.count == 0 {
-            refresh()
-        }
+        refresh()
     }
     
     // MARK: - 刷新方法

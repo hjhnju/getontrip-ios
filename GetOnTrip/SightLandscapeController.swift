@@ -61,9 +61,7 @@ class SightLandscapeController: BaseTableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        if dataSource.count == 0 {
-            refresh()
-        }
+        refresh()
     }
     
     // MARK: - 刷新方法
@@ -97,7 +95,6 @@ class SightLandscapeController: BaseTableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
-            
             let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell, forIndexPath: indexPath) as! LandscapeCell
             cell.superNavigation = navigationController
             cell.landscape = dataSource[indexPath.row]
@@ -158,8 +155,6 @@ class SightLandscapeController: BaseTableViewController {
                 ProgressHUD.showErrorHUD(self.view, text: MessageInfo.NetworkError)
                 return
             }
-            
         })
     }
-
 }

@@ -210,10 +210,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         isPopGesture = indexPath.row == 0 ? true : false
-
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
-        
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath) 
+        navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath)
         cell.addSubview(dataControllers[indexPath.row].tableView)
         dataControllers[indexPath.row].tableView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 90)
         return cell

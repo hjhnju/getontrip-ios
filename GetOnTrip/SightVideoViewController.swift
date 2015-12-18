@@ -37,13 +37,8 @@ class SightVideoViewController: BaseTableViewController {
         tableView.registerClass(VideoCell.self, forCellReuseIdentifier : HistoryTableViewControllerVideoCell)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         let tbHeaderView = MJRefreshNormalHeader { () -> Void in self.refresh() }
-        
-        print(presentationController)
-        print(parentViewController)
-        print(presentedViewController)
-        print(presentingViewController)
+    
         let vc = parentViewController as? SightViewController
-        
         vc?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
         let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { [weak self] () -> Void in self?.loadMore() })
 
@@ -66,9 +61,7 @@ class SightVideoViewController: BaseTableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        if dataSource.count == 0 {
-            refresh()
-        }
+        refresh()
     }
 
     // MARK: - 刷新方法
