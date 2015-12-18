@@ -13,25 +13,8 @@ class UserProfiler: NSObject {
     
     static let instance: UserProfiler = UserProfiler()
     
-    override init() {
-        super.init()
-        
-        let reachability: Reachability
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-            if reachability.isReachableViaWiFi() {
-                self.isViaWiFi = true
-            } else {
-                self.isViaWiFi = false
-            }
-        } catch {
-            print("Unable to create Reachability")
-        }
-        
-    }
-    
     /// 当前是否在wifi环境下
-    private var isViaWiFi: Bool = true
+    var isViaWiFi: Bool = true
     
     /// 是否省流量模式（开启则非wifi下不显示图片）
     var savingTrafficMode: Bool  {
