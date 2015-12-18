@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Sight: NSObject {
+class Sight: ModelObject {
     /// id
     var id: String = ""
     /// 景点名

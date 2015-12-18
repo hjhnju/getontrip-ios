@@ -47,6 +47,7 @@ extension RecommendViewController {
             let sight = Sight(id: data.id)
             sight.name = data.name
             sight.image = data.image
+            sight.bgColor = data.bgColor
             vc.sightDataSource = sight
             navigationController?.pushViewController(vc, animated: true)
         } else if( data.isTypeCity()) {
@@ -54,6 +55,7 @@ extension RecommendViewController {
             let city = City(id: data.id)
             city.name = data.name
             city.image = data.image
+            city.bgColor = data.bgColor
             vc.cityDataSource = city
             navigationController?.pushViewController(vc, animated: true)
         } else if( data.isTypeTopic()) {
@@ -62,6 +64,7 @@ extension RecommendViewController {
             topic.title = data.name
             topic.image = data.image
             topic.sightid = data.param4
+            topic.bgColor = data.bgColor
             vc.topicDataSource = topic
             navigationController?.pushViewController(vc, animated: true)
         }

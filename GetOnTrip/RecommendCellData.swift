@@ -15,7 +15,7 @@ struct RecommendCellType  {
 }
 
 /// 搜索数据
-class RecommendCellData: NSObject {
+class RecommendCellData: ModelObject {
     
     //id
     var id: String = ""

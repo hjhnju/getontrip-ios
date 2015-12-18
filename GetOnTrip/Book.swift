@@ -9,7 +9,7 @@
 import Foundation
 
 /// 书籍详情
-class Book: NSObject {
+class Book: ModelObject {
     /// id
     var id: String = ""
     /// 标题

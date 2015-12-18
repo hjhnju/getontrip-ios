@@ -14,7 +14,7 @@ struct VideoContant {
 }
 
 /// 视频模型
-class Video: NSObject {
+class Video: ModelObject {
     /// id
     var id: String = ""
     /// 标题

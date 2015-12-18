@@ -74,6 +74,16 @@ struct SceneColor {
     彩色系列
     */
     static let lightblue   = UIColor(hex: 0x2BB3E0, alpha: 1.0)
+    
+    static func randomColor() -> UIColor {
+        /*
+        let color1:CGFloat = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+        let color2:CGFloat = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+        let color3:CGFloat = CGFloat(CGFloat(random())/CGFloat(RAND_MAX))
+        return UIColor(red: color1, green: color2, blue: color3, alpha: 0.5)
+        */
+        return UIColor.randomColor().colorWithAlphaComponent(0.5)
+    }
 }
 
 struct SceneFont {

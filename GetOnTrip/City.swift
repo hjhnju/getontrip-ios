@@ -8,7 +8,7 @@
 
 import Foundation
 
-class City: NSObject {
+class City: ModelObject {
     /// id
     var id: String = ""
     /// 城市名

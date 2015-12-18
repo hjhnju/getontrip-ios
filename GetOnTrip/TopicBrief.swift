@@ -9,7 +9,8 @@
 import Foundation
 
 /// 景点列表数据
-class TopicBrief: NSObject {
+class TopicBrief: ModelObject {
+    
     ///  默认数据的id
     var id: String = ""
     /// 标题

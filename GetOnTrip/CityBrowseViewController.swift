@@ -26,7 +26,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     }
     
     /// 底部各个城市
-    var dataSource: [[String : [CityContent]]] = [[String : [CityContent]]]() {
+    var dataSource: [String : [CityContent]] = [String : [CityContent]]() {
         didSet {
             tableView.reloadData()
         }

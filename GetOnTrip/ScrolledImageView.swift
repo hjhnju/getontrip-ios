@@ -17,7 +17,7 @@ class ScrolledImageView: UIView {
     var extra:CGFloat = 30
     
     //图片View
-    private var imageView:UIImageView = UIImageView()
+    var imageView:UIImageView = UIImageView()
     
     //ImageView的y轴偏移因子 [-1.0, 1.0]， 注意y以UIView为基准
     //默认yOffset=0, 上拉最大幅度时yOffset=extra, 下拉最大幅度yOffset=-extra
@@ -41,12 +41,9 @@ class ScrolledImageView: UIView {
     
     private func updateUI(){
         self.clipsToBounds   = true
-        //self.backgroundColor = UIColor.orangeColor()
-        //self.layer.cornerRadius = 3
         
         self.imageView.contentMode   = UIViewContentMode.ScaleAspectFill
         self.imageView.clipsToBounds = true
-        //imageView.backgroundColor = UIColor.blueColor()
         
         self.addSubview(imageView)
         self.bringSubviewToFront(imageView)
@@ -54,14 +51,14 @@ class ScrolledImageView: UIView {
     }
     
     func loadImage(url:NSURL?){
-        self.imageView.sd_setImageWithURL(url, placeholderImage: PlaceholderImage.defaultLarge)
+        //默认随机纯色背景
+        self.imageView.sd_setImageWithURL(url)
     }
     
     func updateFactor(factor: CGFloat) {
         self.factor   = factor
         let yOffset   = extra * self.factor
         let y         = -extra + yOffset
-        //print("factor=\(factor), frame = \(self.frame)")
         self.imageView.frame = CGRectMake(0, y, self.frame.width, self.frame.height + 2*extra)
     }
     
