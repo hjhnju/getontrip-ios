@@ -41,12 +41,10 @@ class ScrolledImageView: UIView {
     
     private func updateUI(){
         self.clipsToBounds   = true
-        //self.backgroundColor = UIColor.orangeColor()
-        //self.layer.cornerRadius = 3
+        self.backgroundColor = UIColor.randomColor()
         
         self.imageView.contentMode   = UIViewContentMode.ScaleAspectFill
         self.imageView.clipsToBounds = true
-        //imageView.backgroundColor = UIColor.blueColor()
         
         self.addSubview(imageView)
         self.bringSubviewToFront(imageView)
@@ -54,14 +52,14 @@ class ScrolledImageView: UIView {
     }
     
     func loadImage(url:NSURL?){
-        self.imageView.sd_setImageWithURL(url, placeholderImage: PlaceholderImage.defaultLarge)
+        //默认随机纯色背景
+        self.imageView.sd_setImageWithURL(url)
     }
     
     func updateFactor(factor: CGFloat) {
         self.factor   = factor
         let yOffset   = extra * self.factor
         let y         = -extra + yOffset
-        //print("factor=\(factor), frame = \(self.frame)")
         self.imageView.frame = CGRectMake(0, y, self.frame.width, self.frame.height + 2*extra)
     }
     
