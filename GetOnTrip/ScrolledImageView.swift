@@ -17,7 +17,7 @@ class ScrolledImageView: UIView {
     var extra:CGFloat = 30
     
     //图片View
-    private var imageView:UIImageView = UIImageView()
+    var imageView:UIImageView = UIImageView()
     
     //ImageView的y轴偏移因子 [-1.0, 1.0]， 注意y以UIView为基准
     //默认yOffset=0, 上拉最大幅度时yOffset=extra, 下拉最大幅度yOffset=-extra
@@ -41,7 +41,6 @@ class ScrolledImageView: UIView {
     
     private func updateUI(){
         self.clipsToBounds   = true
-        self.backgroundColor = UIColor.randomColor()
         
         self.imageView.contentMode   = UIViewContentMode.ScaleAspectFill
         self.imageView.clipsToBounds = true

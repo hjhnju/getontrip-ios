@@ -9,7 +9,7 @@
 import Foundation
 
 /// 景点景观Cell数据
-class Landscape: NSObject {
+class Landscape: ModelObject {
     /// id
     var id: String = ""
     ///  标题名称

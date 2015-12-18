@@ -41,10 +41,10 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     //var headerView: UIView = UIView(color: UIColor.brownColor())
     
     /// 顶部底图
-    lazy var headerImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultSmall)
+    lazy var headerImageView: UIImageView = UIImageView()
     
     /// 书籍图片
-    lazy var bookImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultSmall)
+    lazy var bookImageView: UIImageView = UIImageView()
     
     /// 图片模糊
     lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
@@ -79,13 +79,22 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     var bookDataSource: Book? {
         didSet {
             if let data = bookDataSource {
+                //仅无图无背景时填充一次背景（以保证传递的随机背景颜色不变)
+                if headerImageView.image == nil && headerImageView.backgroundColor == nil {
+                    headerImageView.backgroundColor = data.bgColor
+                }
+                if bookImageView.image == nil && bookImageView.backgroundColor == nil {
+                    bookImageView.backgroundColor = data.bgColor
+                }
+                //TODO: 2g/3g情况不加载网络图片
+                //用传递的小图占位
+                headerImageView.sd_setImageWithURL(NSURL(string: data.image), placeholderImage: headerImageView.image)
+                bookImageView.sd_setImageWithURL(NSURL(string: data.image), placeholderImage: bookImageView.image)
+                
                 praisedBUtton.setTitle(" " + data.praiseNum, forState: .Normal)
                 praisedBUtton.selected = data.praised == "" ? false : true
 
                 collectBtn.selected = data.collected == "" ? false : true
-                //不用placeimage以免覆盖传入的小图
-                headerImageView.sd_setImageWithURL(NSURL(string: data.image))
-                bookImageView.sd_setImageWithURL(NSURL(string: data.image))
                 titleLabel.text = data.title
                 authorLabel.text = data.info
                 

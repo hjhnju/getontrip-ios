@@ -15,7 +15,7 @@ struct VideoCellContant {
 
 class VideoCell: UITableViewCell {
 
-    lazy var iconView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
+    lazy var iconView: UIImageView = UIImageView()
     
     //故宫至宝
     lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 18, mutiLines: true)
@@ -30,8 +30,9 @@ class VideoCell: UITableViewCell {
     var video: Video? {
         didSet {
             if let video = video {
-                iconView.image = PlaceholderImage.defaultLarge
-                iconView.sd_setImageWithURL(NSURL(string: video.image), placeholderImage: iconView.image)
+                //TODO: 2g/3g情况不加载网络图片
+                iconView.backgroundColor = video.bgColor
+                iconView.sd_setImageWithURL(NSURL(string: video.image))
                 if video.isAlbum() {
                     iconView.contentMode = UIViewContentMode.ScaleAspectFit
                 } else {

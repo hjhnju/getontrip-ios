@@ -11,7 +11,7 @@ import FFAutoLayout
 
 class LandscapeCell1: UITableViewCell {
     
-    lazy var iconView: UIImageView = UIImageView(image: UIImage())
+    lazy var iconView: UIImageView = UIImageView()
     
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 20, mutiLines: true)
     
@@ -24,8 +24,10 @@ class LandscapeCell1: UITableViewCell {
     var landscape: Landscape? {
         didSet {
             if let landscape = landscape {
-                iconView.image = nil
-                iconView.sd_setImageWithURL(NSURL(string: landscape.image), placeholderImage: PlaceholderImage.defaultSmall)
+                //TODO: 2g/3g情况不加载网络图片
+                iconView.backgroundColor = landscape.bgColor
+                iconView.sd_setImageWithURL(NSURL(string: landscape.image))
+                
                 titleLabel.text = landscape.name
                 subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: NSLineBreakMode.ByTruncatingTail)
             }

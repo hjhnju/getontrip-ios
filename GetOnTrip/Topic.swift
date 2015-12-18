@@ -9,10 +9,11 @@
 import Foundation
 
 /// 话题详情
-class Topic: NSObject {
+class Topic: ModelObject {
     
     static func fromBrief(brief:TopicBrief) -> Topic {
         let topic:Topic = Topic()
+        topic.bgColor = brief.bgColor
         topic.id    = brief.id
         topic.image = brief.image
         topic.subtitle = brief.subtitle

@@ -34,7 +34,11 @@ class RecommendTopicViewCell: UITableViewCell {
     var data: RecommendCellData? {
         didSet {
             if let cellData = data {
+                //TODO: 2g/3g情况不加载网络图片
+                cellImageView.backgroundColor = UIColor.whiteColor()
+                cellImageView.imageView.backgroundColor = cellData.bgColor
                 cellImageView.loadImage(NSURL(string: cellData.image))
+                
                 titleLabel.text = cellData.name
                 tagButton.setTitle("  " + cellData.param1 + "  ", forState: .Normal)
                 favNumLabel.setTitle(" " + cellData.param2, forState: .Normal)

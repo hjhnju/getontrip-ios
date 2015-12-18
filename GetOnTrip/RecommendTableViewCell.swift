@@ -12,8 +12,8 @@ import FFAutoLayout
 class RecommendTableViewCell: UITableViewCell {
 
     // MARK: - 属性
+    
     //底图
-    //lazy var iconView: UIImageView = UIImageView()
     var cellImageView = ScrolledImageView()
     
     //中部标题
@@ -39,8 +39,11 @@ class RecommendTableViewCell: UITableViewCell {
     var data: RecommendCellData? {
         didSet {
             if let cellData = data {
-                //iconView.sd_setImageWithURL(NSURL(string: cellData.image), placeholderImage: PlaceholderImage.defaultLarge)
+                //TODO: 2g/3g情况不加载网络图片
+                cellImageView.backgroundColor = UIColor.whiteColor()
+                cellImageView.imageView.backgroundColor = cellData.bgColor
                 cellImageView.loadImage(NSURL(string: cellData.image))
+                
                 title.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
                 btn1.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
                 btn2.setAttributedTitle(cellData.param1.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)

@@ -29,7 +29,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     /// 头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
     
-    lazy var headerImageView  = UIImageView(image: PlaceholderImage.defaultLarge)
+    lazy var headerImageView  = UIImageView()
     
     /// 文章标题
     lazy var headerTitleLabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false)
@@ -105,9 +105,13 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     var topicDataSource: Topic? {
         didSet {
             if let topic = topicDataSource {
-                //初始处用placeholder，以免跳转前设置的图片被覆盖
-                //print("[TopicView]headerimage=\(topic.image)")
-                headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage:headerImageView.image)
+                //仅无图无背景时填充一次背景（以保证传递的随机背景颜色不变)
+                if headerImageView.image == nil && headerImageView.backgroundColor == nil {
+                    headerImageView.backgroundColor = topic.bgColor
+                }
+                //TODO: 2g/3g情况不加载网络图片
+                //用传递的小图占位
+                headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage: headerImageView.image)
                 
                 let attr = NSMutableAttributedString(string: topic.title)
                 let style = NSMutableParagraphStyle()
