@@ -99,7 +99,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.separatorStyle = .None
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.backgroundColor = .clearColor()
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
         
         exitLogin.backgroundColor = .whiteColor()
