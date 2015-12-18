@@ -70,9 +70,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     var dataControllers = [BaseTableViewController]()
     
-    /// 缓存cell
-    lazy var collectionViewCellCache = [Int : AnyObject]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -138,7 +135,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         collectionView.delegate   = self
         collectionView.bounces    = false
         collectionView.backgroundColor = .whiteColor()
-        collectionView.registerClass(SightCollectionViewCell.self, forCellWithReuseIdentifier: "SightCollectionView_Cell")
+        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
     }
     
     func setupAutlLayout() {
@@ -221,23 +218,9 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
 
         self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
-        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath) 
         cell.addSubview(dataControllers[indexPath.row].tableView)
         dataControllers[indexPath.row].tableView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 90)
-//        let tag = sightDataSource.tags[indexPath.row]
-//        tag.sightId = sightId
-//        cell.tagObject = tag
-//        
-//        cell.cellId = indexPath.row
-//        
-//        cell.data = collectionViewCellCache[indexPath.row]
-        
-//        if let v = cell.vc {
-//            if !childViewControllers.contains(v) {
-//                addChildViewController(v)
-//            }
-//        }
         return cell
     }
     
@@ -310,13 +293,11 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             case SightLabelType.Topic:
                 let v = SightTopicViewController()
                 v.tagData = obj
-//                v.data = data
                 addChildViewController(v)
                 dataControllers.append(v)
             case SightLabelType.Landscape:
                 let v = SightLandscapeController()
                 v.sightId = obj.sightId
-//                v.data = data
                 addChildViewController(v)
                 dataControllers.append(v)
             case SightLabelType.Book:
@@ -362,9 +343,5 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         let city = City(id: self.sightDataSource.cityid)
         cityViewController.cityDataSource = city
         navigationController?.pushViewController(cityViewController, animated: true)
-    }
-    
-    deinit {
-        print("景观列表面可以走不")
     }
 }

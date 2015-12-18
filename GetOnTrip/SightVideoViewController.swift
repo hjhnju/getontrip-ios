@@ -24,18 +24,8 @@ class SightVideoViewController: BaseTableViewController {
         }
     }
     
-    override var data: AnyObject? {
-        didSet {
-            if let d = data as? [Video] {
-                dataSource = d
-            }
-        }
-    }
-    
     var dataSource = [Video]() {
         didSet {
-            let vc = parentViewController as? SightViewController
-            vc?.collectionViewCellCache[cellId] = dataSource
             tableView.mj_header.endRefreshing()
             tableView.reloadData()
         }
@@ -47,7 +37,6 @@ class SightVideoViewController: BaseTableViewController {
         tableView.registerClass(VideoCell.self, forCellReuseIdentifier : HistoryTableViewControllerVideoCell)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         let tbHeaderView = MJRefreshNormalHeader { () -> Void in self.refresh() }
-//        tableView.mj_header = tbHeaderView
         
         print(presentationController)
         print(parentViewController)

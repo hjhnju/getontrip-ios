@@ -22,20 +22,7 @@ class SightTopicViewController: BaseTableViewController {
     
     var tagData:Tag = Tag(id: "")
     
-    override var data: AnyObject? {
-        didSet {
-            if let d = data as? [TopicBrief] {
-                topics = d
-            }
-        }
-    }
-    
-    var topics = [TopicBrief]() {
-        didSet {
-            let vc = parentViewController as? SightViewController
-            vc?.collectionViewCellCache[cellId] = topics
-        }
-    }
+    var topics = [TopicBrief]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

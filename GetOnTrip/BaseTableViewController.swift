@@ -10,7 +10,5 @@ import UIKit
 
 class BaseTableViewController: UITableViewController {
     
-    var cellId: Int = 0
-    
-    var data: AnyObject?
+
 }

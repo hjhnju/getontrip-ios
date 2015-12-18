@@ -25,18 +25,8 @@ class SightBookViewController: BaseTableViewController {
         }
     }
     
-    override var data: AnyObject? {
-        didSet {
-            if let d = data as? [Book] {
-                dataSource = d
-            }
-        }
-    }
-    
     var dataSource = [Book]() {
         didSet {
-            let vc = parentViewController as? SightViewController
-            vc?.collectionViewCellCache[cellId] = dataSource
             tableView.mj_header.endRefreshing()
             tableView.reloadData()
         }

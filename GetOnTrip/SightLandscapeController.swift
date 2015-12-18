@@ -25,18 +25,8 @@ class SightLandscapeController: BaseTableViewController {
         }
     }
     
-    override var data: AnyObject? {
-        didSet {
-            if let d = data as? [Landscape] {
-                dataSource = d
-            }
-        }
-    }
-    
     var dataSource = [Landscape]() {
         didSet {
-            let vc = parentViewController as? SightViewController
-            vc?.collectionViewCellCache[cellId] = dataSource
             tableView.mj_header.endRefreshing()
             tableView.reloadData()
         }

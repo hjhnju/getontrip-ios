@@ -345,7 +345,6 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         autoreleasepool { () -> () in
             searchController
         }
-        print("首页走了没")
     }
     
     override func didReceiveMemoryWarning() {
