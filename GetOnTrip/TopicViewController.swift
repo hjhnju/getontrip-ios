@@ -109,10 +109,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 if headerImageView.image == nil && headerImageView.backgroundColor == nil {
                     headerImageView.backgroundColor = topic.bgColor
                 }
-                //TODO: 2g/3g情况不加载网络图片
-                //用传递的小图占位
-                headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage: headerImageView.image)
-                
+                //非wifi情况不加载网络图片
+                if !UserProfiler.instance.savingTrafficMode {
+                    //用传递的小图占位
+                    headerImageView.sd_setImageWithURL(NSURL(string: topic.image), placeholderImage: headerImageView.image)
+                }
                 let attr = NSMutableAttributedString(string: topic.title)
                 let style = NSMutableParagraphStyle()
             

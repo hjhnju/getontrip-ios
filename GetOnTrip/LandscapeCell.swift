@@ -24,9 +24,11 @@ class LandscapeCell1: UITableViewCell {
     var landscape: Landscape? {
         didSet {
             if let landscape = landscape {
-                //TODO: 2g/3g情况不加载网络图片
                 iconView.backgroundColor = landscape.bgColor
-                iconView.sd_setImageWithURL(NSURL(string: landscape.image))
+                //非wifi情况不加载网络图片
+                if !UserProfiler.instance.savingTrafficMode {
+                    iconView.sd_setImageWithURL(NSURL(string: landscape.image))
+                }
                 
                 titleLabel.text = landscape.name
                 subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: NSLineBreakMode.ByTruncatingTail)

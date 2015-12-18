@@ -39,10 +39,12 @@ class RecommendTableViewCell: UITableViewCell {
     var data: RecommendCellData? {
         didSet {
             if let cellData = data {
-                //TODO: 2g/3g情况不加载网络图片
                 cellImageView.backgroundColor = UIColor.whiteColor()
                 cellImageView.imageView.backgroundColor = cellData.bgColor
-                cellImageView.loadImage(NSURL(string: cellData.image))
+                //非wifi情况不加载网络图片
+                if !UserProfiler.instance.savingTrafficMode {
+                    cellImageView.loadImage(NSURL(string: cellData.image))
+                }
                 
                 title.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
                 btn1.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)

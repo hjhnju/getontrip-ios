@@ -31,9 +31,11 @@ class TopicCell: UITableViewCell {
     var data: TopicBrief? {
         didSet {
             if let cellData = data {
-                //TODO: 2g/3g情况不加载网络图片
                 iconView.backgroundColor = cellData.bgColor
-                iconView.sd_setImageWithURL(NSURL(string: cellData.image))
+                //非wifi情况不加载网络图片
+                if !UserProfiler.instance.savingTrafficMode {
+                    iconView.sd_setImageWithURL(NSURL(string: cellData.image))
+                }
                 
                 subtitleLabel.text = cellData.subtitle
                 titleLabel.text = cellData.title
