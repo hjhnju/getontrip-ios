@@ -62,7 +62,6 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         view.backgroundColor = SceneColor.bgBlack
         titleBackground.backgroundColor = SceneColor.bgBlack
         navBar.setTitle(FavoriteViewController.name)
-        navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
         
         view.addSubview(titleBackground)
         view.addSubview(collectionView)
@@ -98,7 +97,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         layout.itemSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 36)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing      = 0
-        layout.scrollDirection         = UICollectionViewScrollDirection.Horizontal
+        layout.scrollDirection         = .Horizontal
         collectionView.pagingEnabled   = true
         collectionView.showsHorizontalScrollIndicator = false
     }

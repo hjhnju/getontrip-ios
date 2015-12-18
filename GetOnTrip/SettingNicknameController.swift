@@ -48,7 +48,6 @@ class SettingNicknameController: MenuViewController, UITableViewDataSource, UITa
     ///  初始化导航
     private func setupBarButtonItem() {
         
-        navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
         navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserName:")
         navBar.rightButton.selected = false
         navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: .Normal)

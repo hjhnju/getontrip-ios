@@ -21,9 +21,8 @@ extension UIViewController {
     
     func searchAction(button: UIButton) {
         //fix 搜索pushviewController问题
-        self.definesPresentationContext = true
-
-        presentViewController(SearchViewController(), animated: true, completion: nil)
+//        self.definesPresentationContext = true
+//        presentViewController(SearchViewController(), animated: true, completion: nil)
     }
     
 //    func getTableViewCellRegisterClass(tableView: UITableView, indexPath: NSIndexPath, cls: AnyClass) -> UITableViewCell {

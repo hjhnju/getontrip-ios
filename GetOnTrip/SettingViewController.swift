@@ -126,7 +126,6 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         
         navBar.rightButton.selected = false
         navBar.setTitle(SettingViewController.name)
-        navBar.rightButton.removeTarget(self, action: "searchAction:", forControlEvents: .TouchUpInside)
     }
     
     override func viewWillAppear(animated: Bool) {
