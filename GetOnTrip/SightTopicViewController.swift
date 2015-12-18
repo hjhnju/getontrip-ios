@@ -15,7 +15,7 @@ class SightTopicViewController: UITableViewController {
 
     var lastRequest:SightTopicsRequest?
     
-    var cellId: Int = 0
+    var cellId: String = "0"
     
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -25,7 +25,7 @@ class SightTopicViewController: UITableViewController {
     var topics = [TopicBrief]() {
         didSet {
             let vc = parentViewController as? SightViewController
-            vc?.collectionViewCellCache[cellId] = topics
+//            vc?.collectionViewCellCache[cellId] = topics
         }
     }
     
@@ -33,9 +33,9 @@ class SightTopicViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.registerClass(TopicCell.self, forCellReuseIdentifier : HistoryTableViewControllerElseCell)
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.separatorStyle = .None
         
-        let tbHeaderView = MJRefreshNormalHeader { () -> Void in self.refresh() }
+        let tbHeaderView = MJRefreshNormalHeader { [weak self]  () -> Void in self?.refresh() }
         tableView.mj_header = tbHeaderView
         
         tbHeaderView.automaticallyChangeAlpha = true
@@ -48,7 +48,7 @@ class SightTopicViewController: UITableViewController {
         tbHeaderView.stateLabel?.hidden = true
         tbHeaderView.arrowView?.image = UIImage()
         
-        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { [weak self] () -> Void in self?.loadMore() })
         tableView.mj_footer = tbFooterView
         tbFooterView.automaticallyHidden = false
         tbFooterView.automaticallyRefresh = true
@@ -57,9 +57,12 @@ class SightTopicViewController: UITableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        if !tableView.mj_header.isRefreshing() {
-            tableView.mj_header.beginRefreshing()
-        }
+        refresh()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
     }
     
     deinit {

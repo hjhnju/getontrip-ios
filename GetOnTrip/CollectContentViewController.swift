@@ -81,10 +81,7 @@ class CollectContentViewController: UITableViewController, UIAlertViewDelegate {
         tableView.mj_header = tbHeaderView
         tableView.mj_footer = tbFooterView
         
-        if !tableView.mj_header.isRefreshing() {
-            tableView.mj_header.beginRefreshing()
-        }
-
+        loadData()
     }
 
     // MARK: - Table view data source

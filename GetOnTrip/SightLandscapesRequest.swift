@@ -43,6 +43,7 @@ class SightLandscapesRequest: NSObject {
         
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/landscape", post: post) { (result, status) -> () in
+
             if status == RetCode.SUCCESS {
                 var land = [Landscape]()
                 for item in result.arrayValue {

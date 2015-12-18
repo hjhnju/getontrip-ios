@@ -39,9 +39,14 @@ class SightVideoViewController: UITableViewController {
         let tbHeaderView = MJRefreshNormalHeader { () -> Void in self.refresh() }
 //        tableView.mj_header = tbHeaderView
         
-        let vc = parentViewController as! SightViewController
-        vc.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
-        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { () -> Void in self.loadMore() })
+        print(presentationController)
+        print(parentViewController)
+        print(presentedViewController)
+        print(presentingViewController)
+        let vc = parentViewController as? SightViewController
+        
+        vc?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { [weak self] () -> Void in self?.loadMore() })
 
         tableView.mj_header = tbHeaderView
         tbHeaderView.automaticallyChangeAlpha = true
@@ -62,10 +67,7 @@ class SightVideoViewController: UITableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        if !tableView.mj_header.isRefreshing() {
-            tableView.mj_header.beginRefreshing()
-        }
-        
+        refresh()
     }
 
     // MARK: - 刷新方法
@@ -163,7 +165,6 @@ class SightVideoViewController: UITableViewController {
         sc.url = dataI.url
         navigationController?.pushViewController(sc, animated: true)
     }
-
 }
 
 

@@ -11,13 +11,13 @@ import FFAutoLayout
 
 struct SightLabelType {
     /// 话题
-    static let Topic = 1
+    static let Topic = "1"
     /// 景观
-    static let Landscape = 2
+    static let Landscape = "2"
     /// 书籍
-    static let Book  = 3
+    static let Book  = "3"
     /// 视频
-    static let Video = 4
+    static let Video = "4"
 }
 
 class SightViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
@@ -215,37 +215,15 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
         
+        let tag = sightDataSource.tags[indexPath.row]
+        tag.sightId = sightId
+        cell.tagObject = tag
         
-        if (!childViewControllers.contains(cell.landscapeVC)) {
-            addChildViewController(cell.landscapeVC)
-        }
-        if (!childViewControllers.contains(cell.bookVC)) {
-            addChildViewController(cell.bookVC)
-        }
-        if (!childViewControllers.contains(cell.videoVC)) {
-            addChildViewController(cell.videoVC)
-        }
-        if (!childViewControllers.contains(cell.topicVC)) {
-            addChildViewController(cell.topicVC)
-        }
-        
-        cell.cellId = indexPath.row
-        let tagObject = sightDataSource.tags[indexPath.row]
-        tagObject.sightId = sightId
-        cell.tagData      = tagObject
-        
-        let type = Int(tagObject.type)
-        if type == SightLabelType.Topic {
-            if let data = collectionViewCellCache[indexPath.row] {
-                cell.topicVC.topics = data
-                cell.topicVC.tableView.reloadData()
-            } else {
-                cell.topicVC.topics.removeAll()
-                cell.topicVC.tableView.reloadData()
-                cell.topicVC.tableView.mj_header.beginRefreshing()
+        if let v = cell.vc {
+            if !childViewControllers.contains(v) {
+                addChildViewController(v)
             }
         }
-        
         return cell
     }
     

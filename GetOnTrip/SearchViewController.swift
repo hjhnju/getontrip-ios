@@ -81,18 +81,6 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         }
     }
     
-    
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -167,6 +155,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     ///  搜索栏结束编辑
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         NSUserDefaults.standardUserDefaults().setObject(recordData, forKey: "recordData")
+//        searchBar.text = ""
+//        (presentingViewController as? RecommendViewController)?.defaultPrompt.titleLabel?.hidden = false
     }
     
     ///  搜索栏文字改变时调用的方法
@@ -191,11 +181,12 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     /// 点击取消调用的方法
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         isSearchFrame = true
-        (presentingViewController as? RecommendViewController)?.defaultPrompt.titleLabel?.hidden = false
         searchResultViewController.filterString = ""
         searchResultViewController.view.hidden = true
         recordTableView.hidden = false
         locationButton.hidden = false
+        searchBar.text = ""
+        (presentingViewController as? RecommendViewController)?.defaultPrompt.titleLabel?.hidden = false
         dismissViewControllerAnimated(true) { [weak self] () -> Void in
             self?.searchResultViewController.dataSource = SearchInitData()
             SearchAllRequest.sharedInstance.restoreDefaultData()
@@ -203,6 +194,8 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
             self?.searchResultViewController.lastSearchContent = ""
         }
     }
+    
+    
     
     /// 删除按钮方法
     func clearButtonAction() {

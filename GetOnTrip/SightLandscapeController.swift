@@ -60,10 +60,14 @@ class SightLandscapeController: UITableViewController {
         tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
-
-        if !tableView.mj_header.isRefreshing() {
-            tableView.mj_header.beginRefreshing()
-        }
+        
+        refresh()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
     }
     
     // MARK: - 刷新方法
@@ -88,8 +92,6 @@ class SightLandscapeController: UITableViewController {
             self.isLoading = false
         })
     }
-    
-    
     
     // MARK: - tableview 数据源及代理方法
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -140,6 +142,7 @@ class SightLandscapeController: UITableViewController {
     func loadMore(){
         lastRequest.fetchNextPageModels({ (nextData, status) -> Void in
             if status == RetCode.SUCCESS {
+                
                 if let data = nextData {
                     if data.count > 0 {
                         self.dataSource = self.dataSource + data

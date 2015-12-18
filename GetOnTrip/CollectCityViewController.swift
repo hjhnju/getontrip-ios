@@ -94,9 +94,7 @@ class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate
         collectionView!.mj_header = tbHeaderView
         collectionView!.mj_footer = tbFooterView
         
-        if !collectionView!.mj_header.isRefreshing() {
-            collectionView?.mj_header.beginRefreshing()
-        }
+        loadData()
     }
     
     // MARK: UICollectionViewDataSource
