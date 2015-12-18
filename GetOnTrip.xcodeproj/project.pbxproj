@@ -157,6 +157,7 @@
 		AEA241161C0F121E00049882 /* SystemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA241151C0F121E00049882 /* SystemTableViewCell.swift */; };
 		AEA241181C0F124A00049882 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA241171C0F124A00049882 /* MessageTableViewCell.swift */; };
 		AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA24B771B8644D200031FB8 /* VideoCell.swift */; };
+		AEA6108B1C241E1600307929 /* CityBrowseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA6108A1C241E1600307929 /* CityBrowseTableViewCell.swift */; };
 		AEA94F901B9AED30006D6998 /* UserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA94F8F1B9AED30006D6998 /* UserAccount.swift */; };
 		AEAB3A631C03077D00713C36 /* RecommendSlideButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB3A621C03077D00713C36 /* RecommendSlideButton.swift */; };
 		AEAB95181BC7C79A00B6EE62 /* TopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB95171BC7C79A00B6EE62 /* TopicViewController.swift */; };
@@ -387,6 +388,7 @@
 		AEA241151C0F121E00049882 /* SystemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemTableViewCell.swift; sourceTree = "<group>"; };
 		AEA241171C0F124A00049882 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		AEA24B771B8644D200031FB8 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
+		AEA6108A1C241E1600307929 /* CityBrowseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseTableViewCell.swift; sourceTree = "<group>"; };
 		AEA94F8F1B9AED30006D6998 /* UserAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAccount.swift; sourceTree = "<group>"; };
 		AEA94FC91B9B150E006D6998 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		AEA94FCB1B9B153A006D6998 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -835,6 +837,7 @@
 				AEAB3A621C03077D00713C36 /* RecommendSlideButton.swift */,
 				AEB720921C1067AF00E0FBF3 /* RecommendButton.swift */,
 				AE0261C91C1FA62500A37FB1 /* SearchPromptButton.swift */,
+				AEA6108A1C241E1600307929 /* CityBrowseTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1163,6 +1166,7 @@
 				7269746D1BE39434000C0ABF /* Video.swift in Sources */,
 				AEA241161C0F121E00049882 /* SystemTableViewCell.swift in Sources */,
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
+				AEA6108B1C241E1600307929 /* CityBrowseTableViewCell.swift in Sources */,
 				AE0219711C087522003B8565 /* SettingSexViewController.swift in Sources */,
 				AECD226F1B9F045D007F1D71 /* CollectCityViewController.swift in Sources */,
 				AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */,
