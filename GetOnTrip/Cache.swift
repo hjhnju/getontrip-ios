@@ -27,11 +27,11 @@ class Cache: NSObject {
     
     var cachekeys: [String: NSTimeInterval] = [
         "/api/1.0/search/label?order=1&pageSize=15&page=1" : 60,
-        "/api/1.0/search/label?order=2&pageSize=15&page=1" : 600,
-        "/api/1.0/search/label?order=3&pageSize=15&page=1" : 600,
-        "/api/1.0/search/label?order=4&pageSize=15&page=1" : 600,
-        "/api/1.0/search/label?order=5&pageSize=15&page=1" : 600,
-        "/api/1.0/search/label?order=6&pageSize=15&page=1" : 600,
+        "/api/1.0/search/label?order=2&pageSize=15&page=1" : 60,
+        "/api/1.0/search/label?order=3&pageSize=15&page=1" : 60,
+        "/api/1.0/search/label?order=4&pageSize=15&page=1" : 60,
+        "/api/1.0/search/label?order=5&pageSize=15&page=1" : 60,
+        "/api/1.0/search/label?order=6&pageSize=15&page=1" : 60,
         //一秒的有效缓存，主要用于显示
         "/api/1.0/collect/list?page=1&pageSize=6&type=1"   : 1,
         "/api/1.0/collect/list?page=1&pageSize=6&type=2"   : 1,
