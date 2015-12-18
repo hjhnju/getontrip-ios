@@ -23,7 +23,7 @@ class UserProfiler: NSObject {
         }
         set {
             // 保存至用户配置
-            NSUserDefaults.standardUserDefaults().setBool(savingTrafficMode, forKey: "isTraffic")
+            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: "isTraffic")
         }
     }
     
