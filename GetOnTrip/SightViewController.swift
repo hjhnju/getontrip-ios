@@ -33,6 +33,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     /// 数据
     var sightDataSource = Sight(id: "") {
         didSet {
+            initBaseTableViewController(sightDataSource.tags)
             collectionView.reloadData()
         }
     }
@@ -67,8 +68,10 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     /// 更在加载中提示
     var loadingView: LoadingView = LoadingView()
     
+    var dataControllers = [BaseTableViewController]()
+    
     /// 缓存cell
-    lazy var collectionViewCellCache = [Int : [TopicBrief]]()
+    lazy var collectionViewCellCache = [Int : AnyObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -208,6 +211,11 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         return sightDataSource.tags.count
     }
     
+    var sightData = [Int: AnyObject]()
+    
+    
+    
+    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         isPopGesture = indexPath.row == 0 ? true : false
 
@@ -215,15 +223,21 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SightCollectionView_Cell", forIndexPath: indexPath) as! SightCollectionViewCell
         
-        let tag = sightDataSource.tags[indexPath.row]
-        tag.sightId = sightId
-        cell.tagObject = tag
+        cell.addSubview(dataControllers[indexPath.row].tableView)
+        dataControllers[indexPath.row].tableView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 90)
+//        let tag = sightDataSource.tags[indexPath.row]
+//        tag.sightId = sightId
+//        cell.tagObject = tag
+//        
+//        cell.cellId = indexPath.row
+//        
+//        cell.data = collectionViewCellCache[indexPath.row]
         
-        if let v = cell.vc {
-            if !childViewControllers.contains(v) {
-                addChildViewController(v)
-            }
-        }
+//        if let v = cell.vc {
+//            if !childViewControllers.contains(v) {
+//                addChildViewController(v)
+//            }
+//        }
         return cell
     }
     
@@ -286,6 +300,39 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 // ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
             }
         })
+    }
+    
+    /// 初始化所需控制器
+    private func initBaseTableViewController(tags: [Tag]) {
+        for obj in tags {
+            obj.sightId = sightId
+            switch obj.type {
+            case SightLabelType.Topic:
+                let v = SightTopicViewController()
+                v.tagData = obj
+//                v.data = data
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.Landscape:
+                let v = SightLandscapeController()
+                v.sightId = obj.sightId
+//                v.data = data
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.Book:
+                let v = SightBookViewController()
+                v.sightId = obj.sightId
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.Video:
+                let v = SightVideoViewController()
+                v.sightId = obj.sightId
+                addChildViewController(v)
+                dataControllers.append(v)
+            default:
+                break
+            }
+        }
     }
     
     /// 收藏操作

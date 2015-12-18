@@ -12,7 +12,7 @@ import MJRefresh
 public let HistoryTableViewControllerSightCell: String = "Landscape_Cell"
 public let HistoryTableViewControllerSightCell1:String = "History_Cell1"
 
-class SightLandscapeController: UITableViewController {
+class SightLandscapeController: BaseTableViewController {
 
     var lastRequest = SightLandscapesRequest()
     
@@ -25,8 +25,18 @@ class SightLandscapeController: UITableViewController {
         }
     }
     
+    override var data: AnyObject? {
+        didSet {
+            if let d = data as? [Landscape] {
+                dataSource = d
+            }
+        }
+    }
+    
     var dataSource = [Landscape]() {
         didSet {
+            let vc = parentViewController as? SightViewController
+            vc?.collectionViewCellCache[cellId] = dataSource
             tableView.mj_header.endRefreshing()
             tableView.reloadData()
         }
@@ -61,13 +71,9 @@ class SightLandscapeController: UITableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        refresh()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
+        if dataSource.count == 0 {
+            refresh()
+        }
     }
     
     // MARK: - 刷新方法

@@ -11,21 +11,29 @@ import MJRefresh
 
 public let HistoryTableViewControllerElseCell : String = "History_Cell"
 
-class SightTopicViewController: UITableViewController {
+class SightTopicViewController: BaseTableViewController {
 
     var lastRequest:SightTopicsRequest?
     
-    var cellId: String = "0"
+//    var cellId: Int = 0
     
     /// 是否正在加载中
     var isLoading:Bool = false
     
     var tagData:Tag = Tag(id: "")
     
+    override var data: AnyObject? {
+        didSet {
+            if let d = data as? [TopicBrief] {
+                topics = d
+            }
+        }
+    }
+    
     var topics = [TopicBrief]() {
         didSet {
             let vc = parentViewController as? SightViewController
-//            vc?.collectionViewCellCache[cellId] = topics
+            vc?.collectionViewCellCache[cellId] = topics
         }
     }
     
@@ -57,7 +65,9 @@ class SightTopicViewController: UITableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        refresh()
+        if topics.count == 0 {
+            refresh()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {

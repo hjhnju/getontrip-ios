@@ -12,6 +12,7 @@ import UIKit
 import Alamofire
 import CoreData
 import YTKKeyValueStore
+//import SDWebImage
 
 /// 全局变量记录用户账号  $(inherited)
 var globalUser:UserAccount?
@@ -52,6 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urlCache = NSURLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: "httpcache")
         NSURLCache.setSharedURLCache(urlCache)
 
+        
+        
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()
         

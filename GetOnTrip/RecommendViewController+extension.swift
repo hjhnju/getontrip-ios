@@ -171,13 +171,11 @@ extension RecommendViewController {
                     self?.recommendCells = cells
                 }
                 let labels = dataSource.objectForKey("labels") as! [RecommendLabel]
-                if labels.count > 0 {
+                if labels.count > 0 && self?.recommendLabels.count == 0 {
                     self?.recommendLabels = labels
                 }
                 self?.loadHeaderImage(dataSource.objectForKey("image") as? String)
                 self?.tableView.reloadData()
-//                self?.tableView.setContentOffset(CGPointMake(0, -(RecommendContant.headerViewHeight + 20)), animated: true)
-//                self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .None, animated: true)
             }
             self?.tableView.mj_header.endRefreshing()
             self?.isLoading = false

@@ -10,49 +10,71 @@ import UIKit
 
 class SightCollectionViewCell: UICollectionViewCell {
     
-    var tagObject : Tag? {
-        didSet {
-            if let obj = tagObject {
-                switch obj.type {
-                case SightLabelType.Topic:
-                    let v = SightTopicViewController()
-                    v.cellId = obj.id
-                    v.tagData = obj
-                    vc = v
-                case SightLabelType.Landscape:
-                    let v = SightLandscapeController()
-                    v.sightId = obj.sightId
-                    vc = v
-                case SightLabelType.Book:
-                    let v = SightBookViewController()
-                    v.sightId = obj.sightId
-                    vc = v
-                case SightLabelType.Video:
-                    let v = SightVideoViewController()
-                    v.sightId = obj.sightId
-                    vc = v
-                default:
-                    break
-                }
-            }
-        }
-    }
+//    var data: AnyObject?
+//    
+//    var cellId: Int = 0
     
-    var vc: UITableViewController? {
-        didSet {
-            if let v = vc {
-                addSubview(v.tableView)
-                v.tableView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 90)
-            }
-        }
-    }
+//    var tagObject : Tag? {
+//        didSet {
+//            if let obj = tagObject {
+//                autoreleasepool({ () -> () in                    
+//                    switch obj.type {
+//                    case SightLabelType.Topic:
+//                        let v = SightTopicViewController()
+//                        v.tagData = obj
+//                        v.data = data
+//                        addSubview(v.tableView)
+//                        vc = v
+//                    case SightLabelType.Landscape:
+//                        let v = SightLandscapeController()
+//                        v.sightId = obj.sightId
+//                        v.data = data
+//                        addSubview(v.tableView)
+//                        vc = v
+//                    case SightLabelType.Book:
+//                        let v = SightBookViewController()
+//                        v.sightId = obj.sightId
+//                        v.data = data
+//                        addSubview(v.tableView)
+//                        vc = v
+//                    case SightLabelType.Video:
+//                        let v = SightVideoViewController()
+//                        v.sightId = obj.sightId
+//                        v.data = data
+//                        addSubview(v.tableView)
+//                        vc = v
+//                    default:
+//                        break
+//                    }
+//                })
+//            }
+//        }
+//    }
+    
+//    var vc: BaseTableViewController? {
+//        didSet {
+//            if let v = vc {
+//                v.tableView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 90)
+//                v.cellId = cellId
+//            }
+//        }
+//    }
+    
+//    lazy var view: UIView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+//        addSubview(view)
+//        view.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 90)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        
+        print("释放了没")
     }
 }

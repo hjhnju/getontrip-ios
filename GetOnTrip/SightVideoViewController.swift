@@ -11,7 +11,7 @@ import MJRefresh
 
 public let HistoryTableViewControllerVideoCell: String = "Video_Cell"
 
-class SightVideoViewController: UITableViewController {
+class SightVideoViewController: BaseTableViewController {
 
     var lastVideoRequest = SightVideosRequest()
     
@@ -24,8 +24,18 @@ class SightVideoViewController: UITableViewController {
         }
     }
     
+    override var data: AnyObject? {
+        didSet {
+            if let d = data as? [Video] {
+                dataSource = d
+            }
+        }
+    }
+    
     var dataSource = [Video]() {
         didSet {
+            let vc = parentViewController as? SightViewController
+            vc?.collectionViewCellCache[cellId] = dataSource
             tableView.mj_header.endRefreshing()
             tableView.reloadData()
         }
@@ -67,7 +77,9 @@ class SightVideoViewController: UITableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        refresh()
+        if dataSource.count == 0 {
+            refresh()
+        }
     }
 
     // MARK: - 刷新方法

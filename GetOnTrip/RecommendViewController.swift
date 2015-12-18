@@ -32,7 +32,7 @@ struct RecommendContant {
 }
 
 class RecommendViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
-    
+        
     //导航栏容器，包含状态栏的高度
     lazy var navContainerView:UIView = UIView()
     
@@ -223,7 +223,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         //上拉刷新
         let tbFooterView = MJRefreshAutoNormalFooter { [weak self] () -> Void in
             self?.loadMore()
-        } //
+        } 
         tbFooterView.automaticallyRefresh = true
         tbFooterView.automaticallyChangeAlpha = true
         tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
@@ -347,5 +347,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         }
         print("首页走了没")
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        
+    }
+    
 }
 

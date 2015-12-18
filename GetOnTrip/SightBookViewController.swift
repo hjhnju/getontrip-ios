@@ -12,7 +12,7 @@ import MJRefresh
 public let HistoryTableViewControllerBookCell : String = "Book_Cell"
 
 
-class SightBookViewController: UITableViewController {
+class SightBookViewController: BaseTableViewController {
 
     var lastRequest = SightBooksRequest()
     
@@ -25,8 +25,18 @@ class SightBookViewController: UITableViewController {
         }
     }
     
+    override var data: AnyObject? {
+        didSet {
+            if let d = data as? [Book] {
+                dataSource = d
+            }
+        }
+    }
+    
     var dataSource = [Book]() {
         didSet {
+            let vc = parentViewController as? SightViewController
+            vc?.collectionViewCellCache[cellId] = dataSource
             tableView.mj_header.endRefreshing()
             tableView.reloadData()
         }
@@ -58,7 +68,9 @@ class SightBookViewController: UITableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        refresh()
+        if dataSource.count == 0 {
+            refresh()
+        }
     }
     
     // MARK: - 刷新方法
@@ -96,6 +108,7 @@ class SightBookViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerBookCell, forIndexPath: indexPath) as! BookCell
+        
         cell.book = dataSource[indexPath.row]
         
         return cell
