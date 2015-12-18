@@ -53,10 +53,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     var notLoginCount = 1
     
     /// 夜间模式
-    lazy var nightsSwitch = UISwitch()
+    lazy var trafficSwitch = UISwitch()
     
     /// 是否是夜间模式
-    var isNightsModel: Bool = false
+    var isTrafficModel: Bool = false
     
     /// 登陆状态
     var isLoginStatus: Bool = false {
@@ -86,9 +86,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         view.addSubview(exitLogin)
         pleaseLoginButton.adjustsImageWhenHighlighted = false
         pleaseLoginButton.addTarget(self, action: "pleaseLoginButtonAction", forControlEvents: .TouchUpInside)
-        nightsSwitch.addTarget(self, action: "nightsSwitchAction:", forControlEvents: .ValueChanged)
-        if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("isNights") as? Bool {
-            isNightsModel = userDefault
+        trafficSwitch.addTarget(self, action: "trafficSwitchAction:", forControlEvents: .ValueChanged)
+        if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("isTraffic") as? Bool {
+            isTrafficModel = userDefault
         }
         
         view.backgroundColor = UIColor(hex: 0xF7F5F3, alpha: 1.0)
@@ -99,7 +99,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.separatorStyle = .None
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.backgroundColor = .clearColor()
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height - 44), offset: CGPointMake(0, 44))
         
         exitLogin.backgroundColor = .whiteColor()
@@ -196,10 +196,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
                 cell.getShadowWithView()
                 cell.baseline.removeFromSuperview()
             case 1:
-                cell.left.text = "夜间模式"
-                cell.addSubview(nightsSwitch)
-                nightsSwitch.on = isNightsModel
-                nightsSwitch.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+                cell.left.text = "省流量模式"
+                cell.addSubview(trafficSwitch)
+                trafficSwitch.on = isTrafficModel
+                trafficSwitch.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
             default:
                 break
             }
@@ -373,8 +373,9 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     }
     
     /// 切换夜间模式
-    func nightsSwitchAction(nights: UISwitch) {
-        NSUserDefaults.standardUserDefaults().setBool(nights.on, forKey: "isNights")
+    func trafficSwitchAction(traffic: UISwitch) {
+        NSUserDefaults.standardUserDefaults().setBool(traffic.on, forKey: "isNights")
+        UserProfiler.instance.savingTrafficMode = traffic.on
     }
 }
 
