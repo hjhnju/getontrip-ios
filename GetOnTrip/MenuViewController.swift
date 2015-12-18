@@ -21,7 +21,7 @@ class MenuViewController: MainViewController {
         navBar.setBackBarButton(UIImage(named: "icon_hamburger"), title: nil, target: self, action: "toggleMenuAction:")
         navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
         navBar.setBlurViewEffect(false)
-        navBar.setButtonTintColor(UIColor.whiteColor())
+        navBar.setButtonTintColor(SceneColor.lightYellow)
         navBar.backgroundColor = SceneColor.frontBlack
     }
 

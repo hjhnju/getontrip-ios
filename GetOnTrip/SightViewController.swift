@@ -221,7 +221,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
         currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
-        let labCenter: UILabel = labelScrollView.subviews[currentIndex] as! UILabel
+        let labCenter: UILabel = (labelScrollView.subviews[currentIndex] as? UILabel) ?? UILabel()
         
         // 计算当前选中标签的中心点
         var offset: CGFloat    = labCenter.center.x - labelScrollView.bounds.width * 0.5

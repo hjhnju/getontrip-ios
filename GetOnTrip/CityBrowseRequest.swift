@@ -22,8 +22,9 @@ class CityBrowseRequest: NSObject {
         var post         = [String: String]()
 //        post["order"]    = String(order)
         
-        // 发送网络请求加载数据
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/1.0/city/list", post: post) { (result, status) -> () in
+        // 发送网络请求加载数据                      /api/city/list
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/list", post: post) { (result, status) -> () in
+            print(result)
             if status == RetCode.SUCCESS {
                 // 回调
 //                handler(self.dataWithModel(data), status)

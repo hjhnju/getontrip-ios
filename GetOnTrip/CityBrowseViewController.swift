@@ -8,7 +8,7 @@
 
 import UIKit
 /// 城市一览控制器
-class CityBrowseViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
+class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate {
 
     static let name = "城市一览"
     
@@ -28,6 +28,28 @@ class CityBrowseViewController: MainViewController, UITableViewDataSource, UITab
 
         
         view.backgroundColor = UIColor.randomColor()
+        initProperty()
+    }
+    
+    private func initProperty() {
+        title = "消息"
+        automaticallyAdjustsScrollViewInsets = false
+        navBar.setTitle(CityBrowseViewController.name)
+        
+        view.backgroundColor = SceneColor.bgBlack
+        view.addSubview(tableView)
+        
+
+        
+        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .None
+        tableView.backgroundColor = .randomColor()
+        lastRequest.fetchNextPageModels { (_, _) -> Void in
+            
+        }
     }
 
     // MARK: - tableview delegate
