@@ -41,6 +41,9 @@ class CityBrowseRequest: NSObject {
                         cityList.keys.append(k)
                         cityList.values.append(city)
                     }
+                cityList.keys.sortInPlace({ (a, b) -> Bool in
+                    a < b
+                })
                 handler(cityList, status)
                 return
             }

@@ -35,7 +35,7 @@ class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColle
         
         contentView.addSubview(collectionView)
         collectionView.ff_Fill(contentView)
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.whiteColor()
         
         layout.minimumLineSpacing = 9
         layout.minimumInteritemSpacing = 0
@@ -81,12 +81,6 @@ extension HotCityTableViewCell {
         cell.data = dataSource[indexPath.row]
         return cell
     }
-    
-//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-//        
-//        let w = (dataSource?[indexPath.row].sizeofStringWithFount1(UIFont.systemFontOfSize(16), maxSize: CGSizeMake(CGFloat.max, CGFloat.max)).width)! + 30
-//        return CGSizeMake(w, 32)
-//    }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
