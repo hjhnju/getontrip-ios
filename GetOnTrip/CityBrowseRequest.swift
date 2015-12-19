@@ -17,6 +17,10 @@ class CityBrowseRequest: NSObject {
         return fetchModels(handler)
     }
     
+    func fetchHotCityModels(handler: (HotCityAndCurrentCity?, Int) -> Void) {
+        fetchHotCityModel(handler)
+    }
+    
     // 异步加载获取数据
     private func fetchModels(handler: (CityList?, Int) -> Void) {
         
@@ -43,6 +47,33 @@ class CityBrowseRequest: NSObject {
             handler(nil, status)
         }
     }
+        
+    private func fetchHotCityModel(handler: (HotCityAndCurrentCity?, Int) -> Void) {
+        
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/hot", post: [String : String]()) { (result, status) -> () in
+
+            if RetCode.SUCCESS == status {
+                let hotCity = HotCityAndCurrentCity()
+                let data = result.dictionaryValue
+                
+                if let item = data["cityInfo"]?.dictionaryObject {
+                    hotCity.currentCity = CityContent(dict: item)
+                }
+                
+                var hotCitys = [HotCity]()
+                for item in data["hot"]?.arrayValue ?? [] {
+                    if let item = item.dictionaryObject {
+                        hotCitys.append(HotCity(dict: item))
+                    }
+                }
+                hotCity.hotCity = hotCitys
+                handler(hotCity, status)
+                return
+            }
+            handler(nil, status)
+        }
+    }
+    
 }
 
 
@@ -76,4 +107,12 @@ class CityContent: NSObject {
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         
     }
+}
+
+class HotCityAndCurrentCity {
+    
+    /// 当前城市信息
+    var currentCity: CityContent?
+    /// 热门城市
+    var hotCity = [HotCity]()
 }

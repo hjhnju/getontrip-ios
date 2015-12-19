@@ -29,8 +29,7 @@ class CityBrowseTableViewCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         titleLabel.ff_AlignInner(.CenterLeft, referView: contentView, size: nil, offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignHorizontal(.BottomRight, referView: textLabel!, size: nil, offset: CGPointMake(22, 0))
-        
+        subtitleLabel.ff_AlignHorizontal(.CenterRight, referView: titleLabel, size: nil, offset: CGPointMake(22, 0))
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -37,8 +37,8 @@ class RecommendTopicViewCell: UITableViewCell {
                 cellImageView.backgroundColor = UIColor.whiteColor()
                 cellImageView.imageView.backgroundColor = cellData.bgColor
                 
-                //非wifi情况不加载网络图片
-                if !UserProfiler.instance.savingTrafficMode {
+                //是否加载网络图片
+                if UserProfiler.instance.isShowImage() {
                     cellImageView.loadImage(NSURL(string: cellData.image))
                 }
                 
@@ -88,14 +88,10 @@ class RecommendTopicViewCell: UITableViewCell {
         
         favNumLabel.ff_AlignInner(.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(-20, -10))
         visitNumLabel.ff_AlignInner(.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(20, -10))
-        titleLabel.preferredMaxLayoutWidth = self.bounds.width - 20
+        titleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - (45 * 2)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
     }
 }

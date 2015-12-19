@@ -86,8 +86,8 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
                 if bookImageView.image == nil && bookImageView.backgroundColor == nil {
                     bookImageView.backgroundColor = data.bgColor
                 }
-                //非wifi情况不加载网络图片
-                if !UserProfiler.instance.savingTrafficMode {
+                //是否加载网络图片
+                if UserProfiler.instance.isShowImage() {
                     //用传递的小图占位
                     headerImageView.sd_setImageWithURL(NSURL(string: data.image), placeholderImage: headerImageView.image)
                     bookImageView.sd_setImageWithURL(NSURL(string: data.image), placeholderImage: bookImageView.image)

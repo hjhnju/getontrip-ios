@@ -10,6 +10,7 @@ import UIKit
 import FFAutoLayout
 import Alamofire
 import MJRefresh
+import ReachabilitySwift
 
 struct MainViewContant {
     //状态栏高度
@@ -141,12 +142,35 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        refreshReachable()
+        
         initSearchBar()
         initViewSetting()
         initRefresh()
         initTableView()
         setupAutoLayout()
         loadData()
+    }
+    
+    func refreshReachable() {
+        let reachability: Reachability
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            NSLog("Unable to create Reachability")
+            return
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "reachabilityChanged:",
+            name: ReachabilityChangedNotification,
+            object: reachability)
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            NSLog("Unable to start Reachability Notifier")
+        }
     }
     
     
@@ -340,5 +364,18 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     //MARK: ScrollViewDelegate
     var yOffset: CGFloat = 0.0
+    
+    func reachabilityChanged(note: NSNotification) {
+        
+        let reachability = note.object as! Reachability
+        
+        if reachability.isReachable() {
+            if reachability.isReachableViaWiFi() {
+                UserProfiler.instance.isViaWiFi = true
+            } else {
+                UserProfiler.instance.isViaWiFi = false
+            }
+        }
+    }
 }
 

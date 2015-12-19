@@ -13,11 +13,11 @@ import FFAutoLayout
 class BaseCollectionCell: UICollectionViewCell {
     
     /// 图片
-    var icon: UIImageView = UIImageView()
+    lazy var icon: UIImageView = UIImageView()
     /// 标题
-    var title: UILabel = UILabel(color: SceneColor.white, title: "", fontSize: 16, mutiLines: false)
+    lazy var title: UILabel = UILabel(color: SceneColor.white, title: "", fontSize: 16, mutiLines: false)
     /// 内容及收藏
-    var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.9), title: "", fontSize: 8, mutiLines: false)
+    lazy var desc: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.9), title: "", fontSize: 8, mutiLines: false)
     /// 遮罩view
     lazy var shade: UIView = UIView(color: SceneColor.bgBlack, alphaF: 0.35)
     /// 图片宽
