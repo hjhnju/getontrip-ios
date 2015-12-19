@@ -8,18 +8,33 @@
 
 import UIKit
 
+
 class HotCity: NSObject {
+    
+    static let HotCityImageWidth = (UIScreen.mainScreen().bounds.width - 50) / 3 // 48
     
     /// 城市id
     lazy var id    = ""
     /// 城市景点
-    lazy var sight = ""
+    var sight = "" {
+        didSet {
+            sight = "\(sight)个景点"
+        }
+    }
     /// 城市话题数量
-    lazy var topic = ""
+    var topic = "" {
+        didSet {
+            topic = "\(topic)篇内容"
+        }
+    }
     /// 城市名
     lazy var name  = ""
     /// 城市图片
-    lazy var image = ""
+    var image = "" {
+        didSet {
+            image = UIKitTools.sliceImageUrl(image, width: Int(HotCity.HotCityImageWidth), height: Int(HotCity.HotCityImageWidth))
+        }
+    }
     
     init(dict: [String : AnyObject]) {
         super.init()

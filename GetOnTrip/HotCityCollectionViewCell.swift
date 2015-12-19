@@ -12,14 +12,14 @@ class HotCityCollectionViewCell: BaseCollectionCell {
 
     var data: AnyObject? {
         didSet { // CollectCity
-            if let sight = data as? CollectCity {
+            if let data = data as? HotCity {
                 
-                icon.sd_setImageWithURL(NSURL(string: sight.image), placeholderImage:PlaceholderImage.defaultSmall)
-                title.text = sight.name
+                icon.sd_setImageWithURL(NSURL(string: data.image), placeholderImage:PlaceholderImage.defaultSmall)
+                title.text = data.name
                 let attr = NSMutableAttributedString()
-                attr.appendAttributedString((sight.content.getAttributedStringHeadCharacterBig()))
+                attr.appendAttributedString((data.sight.getAttributedStringHeadCharacterBig()))
                 attr.appendAttributedString(NSAttributedString(string: " | "))
-                attr.appendAttributedString((sight.collect.getAttributedStringHeadCharacterBig()))
+                attr.appendAttributedString((data.topic.getAttributedStringHeadCharacterBig()))
                 desc.attributedText = attr
             }
         }

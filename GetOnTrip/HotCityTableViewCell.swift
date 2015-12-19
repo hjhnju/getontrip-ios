@@ -11,11 +11,14 @@ import UIKit
 class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
     /// 数据源对象
-    var dataSource: [String]? {
+    var dataSource = [HotCity]() {
         didSet {
+            initCollectionView()
             collectionView.reloadData()
         }
     }
+    
+    weak var superController: CityBrowseViewController?
     
     /// 流水布局
     lazy var layout: SearchHotwordLayout = SearchHotwordLayout()
@@ -23,7 +26,7 @@ class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColle
     /// 底部容器view
     lazy var collectionView: UICollectionView = { [weak self] in
         let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
-        cv.registerClass(SearchHotwordCollectionCell.self, forCellWithReuseIdentifier: "HotCityTableViewCell")
+        cv.registerClass(HotCityCollectionViewCell.self, forCellWithReuseIdentifier: "HotCityCollectionViewCell")
         return cv
     }()
 
@@ -34,16 +37,24 @@ class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColle
         collectionView.ff_Fill(contentView)
         backgroundColor = UIColor.clearColor()
         
-        layout.minimumLineSpacing = 17
-        layout.minimumInteritemSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 13, left: 9, bottom: 0, right: 9)
+        layout.minimumLineSpacing = 9
+        layout.minimumInteritemSpacing = 0
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         layout.scrollDirection = UICollectionViewScrollDirection.Vertical
         
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.bounces    = false
         collectionView.backgroundColor = UIColor.clearColor()
-        
+    }
+    
+    class func hotCityTableViewCellHeightWith(hotcityNum: Int) -> CGFloat {
+        let row: Int = hotcityNum / 3 + ((hotcityNum % 3) > 0 ? 1 : 0)
+        return HotCity.HotCityImageWidth * CGFloat(row) + 20 + CGFloat((row - 1) * 9)
+    }
+    
+    private func initCollectionView() {
+        layout.itemSize = CGSizeMake(HotCity.HotCityImageWidth, HotCity.HotCityImageWidth)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -62,25 +73,27 @@ class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColle
 extension HotCityTableViewCell {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource?.count ?? 0
+        return dataSource.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("HotCityTableViewCell", forIndexPath: indexPath) as! BaseCollectionCell
-//        cell.hotwordButton.setTitle(dataSource?[indexPath.row], forState: .Normal)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("HotCityCollectionViewCell", forIndexPath: indexPath) as! HotCityCollectionViewCell
+        cell.data = dataSource[indexPath.row]
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
-        let w = (dataSource?[indexPath.row].sizeofStringWithFount1(UIFont.systemFontOfSize(16), maxSize: CGSizeMake(CGFloat.max, CGFloat.max)).width)! + 30
-        return CGSizeMake(w, 32)
-    }
+//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+//        
+//        let w = (dataSource?[indexPath.row].sizeofStringWithFount1(UIFont.systemFontOfSize(16), maxSize: CGSizeMake(CGFloat.max, CGFloat.max)).width)! + 30
+//        return CGSizeMake(w, 32)
+//    }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-//        endEditing(true)
-//        superController?.searchBar.text = dataSource?[indexPath.row] ?? ""
-//        superController?.searchBar(superController?.searchBar ?? UISearchBar(), textDidChange: dataSource?[indexPath.row] ?? "")
-//        superController?.recordTableView.hidden = true
+        
+        let data = dataSource[indexPath.row]
+        let vc = CityViewController()
+        let city = City(id: data.id)
+        vc.cityDataSource = city
+        superController?.navigationController?.pushViewController(vc, animated: true)
     }
 }

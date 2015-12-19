@@ -21,6 +21,9 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 定位城市
     lazy var locationButton: UIButton = UIButton(image: "location_city", title: " 即刻定位当前城市", fontSize: 12, titleColor: SceneColor.frontBlack, fontName: Font.PingFangSCLight)
     
+    /// 热门城市高度
+    var hotCityHeight: CGFloat = 0
+    
     /// 数据源
     var dataSource: CityList = CityList() {
         didSet {
@@ -30,6 +33,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     
     var hotCityDataSource: HotCityAndCurrentCity = HotCityAndCurrentCity() {
         didSet {
+            hotCityHeight = HotCityTableViewCell.hotCityTableViewCellHeightWith(hotCityDataSource.hotCity.count)
             tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: .None)
         }
     }
@@ -56,8 +60,9 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .None
-        tableView.backgroundColor = .randomColor()
+        tableView.backgroundColor = SceneColor.greyWhite
         tableView.registerClass(CityBrowseTableViewCell.self, forCellReuseIdentifier: "CityBrowseTableViewCell")
+        tableView.registerClass(HotCityTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: "HotCityTableViewHeaderView")
         tableView.registerClass(HotCityTableViewCell.self, forCellReuseIdentifier: "HotCityTableViewCell")
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
     }
@@ -76,11 +81,30 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     }
     
     /// 组标题
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 { return "当前城市" }
-        else if section == 1 { return "热门城市" }
-        else if section == 2 { return "开通城市" }
-        return dataSource.keys[section - 3] ?? ""
+//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if section == 0 { return "当前城市" }
+//        else if section == 1 { return "热门城市" }
+//        else if section == 2 { return "开通城市" }
+//        return dataSource.keys[section - 3] ?? ""
+//    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let v = tableView.dequeueReusableHeaderFooterViewWithIdentifier("HotCityTableViewHeaderView") as! HotCityTableViewHeaderView
+        switch section {
+        case 0:
+            v.titleLabel.text = "当前城市"
+            return v
+        case 1:
+            v.titleLabel.text = "热门城市"
+            return v
+        case 2:
+            v.titleLabel.text = "开通城市"
+            return v
+        default:
+            break
+        }
+        v.titleLabel.text = dataSource.keys[section - 3] ?? ""
+        return v
     }
     
     /// 每个cell内容
@@ -92,11 +116,18 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
             }
         }
         let cell = tableView.dequeueReusableCellWithIdentifier("CityBrowseTableViewCell", forIndexPath: indexPath) as! CityBrowseTableViewCell
-        cell.backgroundColor = UIColor.randomColor()
+        cell.backgroundColor = UIColor.whiteColor()
         if indexPath.section > 2 {
             let data = dataSource.values[indexPath.section - 3]
             cell.dataSource = data[indexPath.row]
+            if dataSource.values[indexPath.section - 3].count - 1 == indexPath.row {
+                cell.getShadowWithView()
+            }
+            
         }
+//        if indexPath.section == dataSource.values[indexPath.section - 2].count {
+//            cell.getShadowWithView()
+//        }
         return cell
     }
     
@@ -112,31 +143,42 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 第一组cell内容
     private func getHotCityGroupCell(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("HotCityTableViewCell") as! HotCityTableViewCell
-        cell.dataSource
-        return UITableViewCell()
+        cell.superController = self
+        cell.dataSource = hotCityDataSource.hotCity
+        cell.getShadowWithView()
+        return cell
     }
     
     /// 行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 1 && indexPath.row == 0 { return 247 }
+        if indexPath.section == 1 && indexPath.row == 0 { return hotCityHeight + 1 }
+        if indexPath.section > 2 {
+            
+        }
         return 43
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 43
     }
-//    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if section == 2 { return 200 }
-//        return 43
-//    }
-//    
-//    /// 预估行高
-//    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-//        return 43
-//    }
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 43
+    }
+    
+    /// 预估行高
+    func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return 43
+    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        if indexPath.section > 2 {
+            let data = dataSource.values[indexPath.section - 3]
+            let vc = CityViewController()
+            let city = City(id: data[indexPath.row].id)
+            vc.cityDataSource = city
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     
