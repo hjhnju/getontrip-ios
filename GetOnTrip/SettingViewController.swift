@@ -344,8 +344,10 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
 
         ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在清理缓存中", style: nil) { [weak self] (handler) -> Void in
             Cache.shareInstance.clear { () -> Void in }
+            SDImageCache.sharedImageCache().clearMemory()
             SDImageCache.sharedImageCache().clearDiskOnCompletion { [weak self]() -> Void in
                 handler()
+                
                 //更新显示缓存
                 let size = self?.getUsedCache()
                 print("CachSize2=\(size)")

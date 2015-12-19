@@ -12,7 +12,7 @@ import UIKit
 import Alamofire
 import CoreData
 import YTKKeyValueStore
-//import SDWebImage
+import SDWebImage
 
 /// 全局变量记录用户账号  $(inherited)
 var globalUser:UserAccount?
@@ -52,9 +52,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //cache
         let urlCache = NSURLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: "httpcache")
         NSURLCache.setSharedURLCache(urlCache)
-
+        SDImageCache.sharedImageCache().maxCacheSize = 50 * 1024 * 1024
         
-        
+        print(NSHomeDirectory())
         // 注册第三方登陆分享应用相关信息
         registerAppInfo()
         
@@ -121,6 +121,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+//        applicationDidReceiveMemoryWarning
+    }
+    
+    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+        SDImageCache.sharedImageCache().clearMemory()
+        SDWebImageManager.sharedManager().cancelAll()
     }
 
     
