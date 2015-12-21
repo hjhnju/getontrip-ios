@@ -30,7 +30,11 @@ class CityBrowseRequest: NSObject {
             if status == RetCode.SUCCESS {
                 // 回调
                 let cityList = CityList()
-                    for (k, v) in result.dictionaryValue {
+                let data = result.dictionaryValue.sort({ (obj1, obj2) -> Bool in
+                    obj1.0 < obj2.0
+                })
+                
+                    for (k, v) in data {
                         
                         var city = [CityContent]()
                         for item in v.arrayValue {
@@ -41,9 +45,6 @@ class CityBrowseRequest: NSObject {
                         cityList.keys.append(k)
                         cityList.values.append(city)
                     }
-                cityList.keys.sortInPlace({ (a, b) -> Bool in
-                    a < b
-                })
                 handler(cityList, status)
                 return
             }
@@ -52,6 +53,9 @@ class CityBrowseRequest: NSObject {
     }
         
     private func fetchHotCityModel(handler: (HotCityAndCurrentCity?, Int) -> Void) {
+        
+        var post = [String : String]()
+        post["cityid"] = currentCityId
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/hot", post: [String : String]()) { (result, status) -> () in
 
@@ -100,6 +104,8 @@ class CityContent: NSObject {
     var sight: String = ""
     /// 城市话题数量
     var topic: String = ""
+    /// 所在的key
+    var key: String = ""
     
     init(dict: [String : AnyObject]) {
         super.init()

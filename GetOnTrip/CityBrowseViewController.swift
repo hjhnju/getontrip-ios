@@ -152,9 +152,6 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 1 && indexPath.row == 0 { return hotCityHeight + 1 }
-        if indexPath.section > 2 {
-            
-        }
         return 43
     }
     
@@ -183,7 +180,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     
     
     func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
-        var keys = ["", "", ""]
+        var keys = ["零", "壹", "贰"]
         keys.appendContentsOf(dataSource.keys)
         return keys
     }
