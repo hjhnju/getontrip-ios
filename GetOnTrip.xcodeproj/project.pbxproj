@@ -840,6 +840,7 @@
 				AEA6108A1C241E1600307929 /* CityBrowseTableViewCell.swift */,
 				AE29B35B1C25196800FFA406 /* HotCityTableViewCell.swift */,
 				AE29B35D1C25217800FFA406 /* HotCityCollectionViewCell.swift */,
+				AE29B3611C255DA600FFA406 /* HotCityTableViewHeaderView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -854,7 +855,6 @@
 				AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */,
 				AEA2410B1C0D7FD100049882 /* Praised.swift */,
 				AE29B35F1C25235F00FFA406 /* HotCity.swift */,
-				AE29B3611C255DA600FFA406 /* HotCityTableViewHeaderView.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";

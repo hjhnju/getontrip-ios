@@ -61,6 +61,8 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         tableView.delegate = self
         tableView.separatorStyle = .None
         tableView.backgroundColor = SceneColor.greyWhite
+        tableView.sectionIndexBackgroundColor = UIColor.clearColor()
+        tableView.sectionIndexColor = SceneColor.shallowGrey
         tableView.registerClass(CityBrowseTableViewCell.self, forCellReuseIdentifier: "CityBrowseTableViewCell")
         tableView.registerClass(HotCityTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: "HotCityTableViewHeaderView")
         tableView.registerClass(HotCityTableViewCell.self, forCellReuseIdentifier: "HotCityTableViewCell")
@@ -76,17 +78,11 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 每组cell数量
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 || section == 1 { return 1 }
-        else if section == 2 { return 0 }
+        if section == 2 { return 0 }
         return dataSource.values[section - 3].count
     }
     
     /// 组标题
-//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        if section == 0 { return "当前城市" }
-//        else if section == 1 { return "热门城市" }
-//        else if section == 2 { return "开通城市" }
-//        return dataSource.keys[section - 3] ?? ""
-//    }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let v = tableView.dequeueReusableHeaderFooterViewWithIdentifier("HotCityTableViewHeaderView") as! HotCityTableViewHeaderView
@@ -125,9 +121,6 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
             }
             
         }
-//        if indexPath.section == dataSource.values[indexPath.section - 2].count {
-//            cell.getShadowWithView()
-//        }
         return cell
     }
     
@@ -159,11 +152,13 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         return 43
     }
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if section == 2 { return 76 }
         return 43
     }
     
     /// 预估行高
     func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+//        if section == 2 { return 76 }
         return 43
     }
     
@@ -179,10 +174,13 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     }
     
     
+    
     func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
-        var keys = ["零", "壹", "贰"]
-        keys.appendContentsOf(dataSource.keys)
-        return keys
+        return dataSource.keys
+    }
+    
+    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+        return index + 3
     }
     
     // MARK: - 自定义方法
