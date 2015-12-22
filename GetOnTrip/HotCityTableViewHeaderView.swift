@@ -21,6 +21,7 @@ class HotCityTableViewHeaderView: UITableViewHeaderFooterView {
         contentView.addSubview(titleLabel)
         contentView.addSubview(baseline)
         baseline.hidden = true
+        baseline.alpha = 0.5
         titleLabel.ff_AlignInner(.CenterLeft, referView: contentView, size: nil, offset: CGPointMake(9, 0))
         baseline.ff_AlignInner(.BottomLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(9, 0))
     }

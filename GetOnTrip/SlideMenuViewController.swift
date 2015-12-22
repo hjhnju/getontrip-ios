@@ -149,6 +149,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //登陆状态
     var logined: Bool = true
     
+    lazy var settingButton = UIButton(image: "setting_slideMenu", title: "", fontSize: 0)
+    
     //滑动手势
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let pan = UIPanGestureRecognizer()
@@ -190,7 +192,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         menuView.addSubview(tableView)
         menuView.addSubview(loginAfter)
         menuView.addSubview(loginBefore)
-        
+        menuView.addSubview(settingButton)
         //初始菜单
         view.addSubview(menuView)
         
@@ -220,6 +222,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: .TouchUpInside)
         moreButton.addTarget(self, action: "moreLogin", forControlEvents: .TouchUpInside)
         qqButton.addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
+        settingButton.addTarget(self, action: "settingAction:", forControlEvents: .TouchUpInside)
         
         tableView.dataSource = self
         tableView.delegate   = self
@@ -269,6 +272,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         menuView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
         bgImageView.ff_Fill(menuView)
         tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
+        settingButton.ff_AlignInner(.BottomLeft, referView: menuView, size: CGSizeMake(22, 22), offset: CGPointMake(12, -17))
         
         loginAfter.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
         headerView.ff_AlignInner(.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
@@ -282,7 +286,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         welcomeLabel.ff_AlignInner(.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
         descLabel.ff_AlignInner(.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
-        
         //main
         maskView.ff_Fill(mainViewController.view)
     }
@@ -468,7 +471,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             animations: { [weak self] in
                 self?.mainNavViewController.view.frame = mainSize;
                 self?.menuAlpha = 0.5 },
-            completion: { [weak self] (finished: Bool) -> Void in
+            completion: { (finished: Bool) -> Void in
                 //偶尔右滑到底时被执行！why
                 //self.menuAlpha = 0.0
             }

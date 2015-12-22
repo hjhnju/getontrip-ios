@@ -24,7 +24,7 @@ enum CacheType {
 class Cache: NSObject {
     
     static let shareInstance: Cache = Cache()
-    
+    static let cacheCityListTime: NSTimeInterval = 60 * 60
     var cachekeys: [String: NSTimeInterval] = [
         "/api/1.0/search/label?order=1&pageSize=15&page=1" : 60,
         "/api/1.0/search/label?order=2&pageSize=15&page=1" : 60,
@@ -32,10 +32,10 @@ class Cache: NSObject {
         "/api/1.0/search/label?order=4&pageSize=15&page=1" : 60,
         "/api/1.0/search/label?order=5&pageSize=15&page=1" : 60,
         "/api/1.0/search/label?order=6&pageSize=15&page=1" : 60,
-        "/api/1.0/city/list?type=0" : 60 * 60,
-        "/api/1.0/city/list?type=1" : 60 * 60,
-        "/api/1.0/city/hot?type=0"  : 60 * 60,
-        "/api/1.0/city/hot?type=1"  : 60 * 60,
+        "/api/1.0/city/list?type=0" : Cache.cacheCityListTime,
+        "/api/1.0/city/list?type=1" : Cache.cacheCityListTime,
+        "/api/1.0/city/hot?type=0"  : Cache.cacheCityListTime,
+        "/api/1.0/city/hot?type=1"  : Cache.cacheCityListTime,
         //一秒的有效缓存，主要用于显示
         "/api/1.0/collect/list?page=1&pageSize=6&type=1"   : 1,
         "/api/1.0/collect/list?page=1&pageSize=6&type=2"   : 1,

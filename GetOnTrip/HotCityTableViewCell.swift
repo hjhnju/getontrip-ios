@@ -18,7 +18,11 @@ class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColle
         }
     }
     
-    weak var superController: CityBrowseViewController?
+    weak var superController: CityBrowseViewController? {
+        didSet {
+            collectionView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, superController?.hotCityHeight ?? 0)
+        }
+    }
     
     /// 流水布局
     lazy var layout: SearchHotwordLayout = SearchHotwordLayout()
@@ -43,17 +47,17 @@ class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColle
     }
     
     class func hotCityTableViewCellHeightWith(hotcityNum: Int) -> CGFloat {
+        if hotcityNum == 0 { return 0 }
         let row: Int = hotcityNum / 3 + ((hotcityNum % 3) > 0 ? 1 : 0)
         return HotCity.HotCityImageWidth * CGFloat(row) + 20 + CGFloat((row - 1) * 9)
     }
     
     private func initCollectionView() {
         collectionView.bounces = false
-        collectionView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, HotCityTableViewCell.hotCityTableViewCellHeightWith(dataSource.count)))
         layout.minimumLineSpacing = 9
         layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 10, left: 9, bottom: 10, right: 23)
-        layout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        layout.scrollDirection = .Vertical
         layout.itemSize = CGSizeMake(HotCity.HotCityImageWidth, HotCity.HotCityImageWidth)
     }
 
@@ -62,9 +66,13 @@ class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColle
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+//        super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        
     }
 
 }

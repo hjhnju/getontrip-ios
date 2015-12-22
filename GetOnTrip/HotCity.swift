@@ -38,13 +38,13 @@ class HotCity: NSObject {
     
     init(dict: [String : AnyObject]) {
         super.init()
-        print(dict)
-//        setValuesForKeysWithDictionary(dict)
-        id = (dict["id"] ?? "") as! String
-        sight = (dict["sight"] ?? "") as! String
-        topic = (dict["topic"] ?? "") as! String
-        image = (dict["image"] ?? "") as! String
-        name = (dict["name"] ?? "") as! String
+
+        setValuesForKeysWithDictionary(dict)
+//        id = String(dict["id"] ?? "")// as! String
+//        sight = String(dict["sight"] ?? "")// as! String
+//        topic = String(dict["topic"] ?? "")// as! String
+//        image = String(dict["image"] ?? "")// as! String
+//        name = String(dict["name"] ?? "")// as! String
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

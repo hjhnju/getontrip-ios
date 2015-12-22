@@ -22,7 +22,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     lazy var locationButton: UIButton = UIButton(image: "location_city", title: " 即刻定位当前城市", fontSize: 12, titleColor: SceneColor.frontBlack, fontName: Font.PingFangSCLight)
     
     /// 热门城市高度
-    lazy var hotCityHeight: CGFloat = 0
+    lazy var hotCityHeight: CGFloat = HotCityTableViewCell.hotCityTableViewCellHeightWith(self.hotCityDataSource.count)
     
     /// 国内按钮
     lazy var domesticButton: UIButton = UIButton(title: "国内", fontSize: 14, radius: 3, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
@@ -36,17 +36,14 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 数据源
     var dataSource: CityList = CityList() {
         didSet {
-            UIView.transitionWithView(tableView, duration: 0.000001, options: .TransitionCrossDissolve, animations: { () -> Void in
-                self.tableView.reloadData()
-                }) { (_) -> Void in
-            }
+            tableView.reloadData()
         }
     }
     
     var hotCityDataSource: [HotCity] = [HotCity]() {
         didSet {
-            hotCityHeight = HotCityTableViewCell.hotCityTableViewCellHeightWith(hotCityDataSource.count)
-            tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: .None)
+//            tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: .None)
+            tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.None)
         }
     }
     
@@ -215,13 +212,17 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         return 43
     }
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 { return 63 - 15 }
+        if section == 0 {
+            return 63 - 15
+        }
         return 43
     }
     
     /// 预估行高
     func tableView(tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-//        if section == 2 { return 76 }
+        if section == 0 {
+            return 63 - 15
+        }
         return 43
     }
     
@@ -249,6 +250,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     // MARK: - 自定义方法
     private func loadData() {
         lastRequest.fetchNextPageModels { [weak self] (result, status) -> Void in
+            self?.refreshHotCityData()
             if status == RetCode.SUCCESS {
                 if let data = result {
                     self?.dataSource = data
@@ -257,13 +259,13 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
                 ProgressHUD.showErrorHUD(nil, text: "您的网络无法连接")
             }
         }
-        
+    }
+    
+    func refreshHotCityData() {
         lastRequest.fetchHotCityModels { [weak self] (result, status) -> Void in
             if RetCode.SUCCESS == status {
                 if let data = result {
-//                    if data.count > 0 {
-                        self?.hotCityDataSource = data
-//                    }
+                    self?.hotCityDataSource = data
                 }
             } else {
                 ProgressHUD.showErrorHUD(nil, text: "您的网络无法连接")
@@ -286,6 +288,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         }
         abroadButton.backgroundColor = abroadButton.selected == false ? SceneColor.bgBlack : .clearColor()
         domesticButton.backgroundColor = abroadButton.selected == true ?  SceneColor.bgBlack : .clearColor()
+        hotCityDataSource.removeAll()
         loadData()
     }
 }
