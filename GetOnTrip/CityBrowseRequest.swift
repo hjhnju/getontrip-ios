@@ -10,23 +10,26 @@ import UIKit
 
 class CityBrowseRequest: NSObject {
     
-    // 请求参数
-    var order   : String = "1"
+    // 请求参数 1是国内， 0是海外
+    var type  : String = "1"
     
     func fetchNextPageModels(handler: (CityList?, Int) -> Void) {
         return fetchModels(handler)
     }
     
-    func fetchHotCityModels(handler: (HotCityAndCurrentCity?, Int) -> Void) {
+    func fetchHotCityModels(handler: ([HotCity]?, Int) -> Void) {
         fetchHotCityModel(handler)
     }
     
     // 异步加载获取数据
     private func fetchModels(handler: (CityList?, Int) -> Void) {
         
-        // 发送网络请求加载数据                      /api/city/list
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/list", post: [String: String]()) { (result, status) -> () in
-
+        // 发送网络请求加载数据   
+        
+        var post = [String : String]()
+        post["type"] = type
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/list", post: post) { (result, status) -> () in
+            
             if status == RetCode.SUCCESS {
                 // 回调
                 let cityList = CityList()
@@ -52,29 +55,23 @@ class CityBrowseRequest: NSObject {
         }
     }
         
-    private func fetchHotCityModel(handler: (HotCityAndCurrentCity?, Int) -> Void) {
+    private func fetchHotCityModel(handler: ([HotCity]?, Int) -> Void) {
         
         var post = [String : String]()
-        post["cityid"] = currentCityId
+        post["type"] = type
         
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/hot", post: [String : String]()) { (result, status) -> () in
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city/hot", post: post) { (result, status) -> () in
 
             if RetCode.SUCCESS == status {
-                let hotCity = HotCityAndCurrentCity()
                 let data = result.dictionaryValue
-                
-                if let item = data["cityInfo"]?.dictionaryObject {
-                    hotCity.currentCity = CityContent(dict: item)
-                }
                 
                 var hotCitys = [HotCity]()
                 for item in data["hot"]?.arrayValue ?? [] {
-                    if let item = item.dictionaryObject {
-                        hotCitys.append(HotCity(dict: item))
+                    if let ite = item.dictionaryObject {
+                        hotCitys.append(HotCity(dict: ite))
                     }
                 }
-                hotCity.hotCity = hotCitys
-                handler(hotCity, status)
+                handler(hotCitys, status)
                 return
             }
             handler(nil, status)
@@ -85,10 +82,6 @@ class CityBrowseRequest: NSObject {
 
 
 class CityList {
-    
-    static let letterArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "M", "L", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-    /// 城市列表
-    var cityArray = [String : [CityContent]]()
     
     var keys = [String]()
     
@@ -116,12 +109,4 @@ class CityContent: NSObject {
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
         
     }
-}
-
-class HotCityAndCurrentCity {
-    
-    /// 当前城市信息
-    var currentCity: CityContent?
-    /// 热门城市
-    var hotCity = [HotCity]()
 }

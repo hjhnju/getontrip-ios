@@ -34,13 +34,7 @@ class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColle
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(collectionView)
-        collectionView.ff_Fill(contentView)
-        backgroundColor = UIColor.whiteColor()
-        
-        layout.minimumLineSpacing = 9
-        layout.minimumInteritemSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-        layout.scrollDirection = UICollectionViewScrollDirection.Vertical
+        backgroundColor = .whiteColor()
         
         collectionView.dataSource = self
         collectionView.delegate   = self
@@ -54,6 +48,12 @@ class HotCityTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColle
     }
     
     private func initCollectionView() {
+        collectionView.bounces = false
+        collectionView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, HotCityTableViewCell.hotCityTableViewCellHeightWith(dataSource.count)))
+        layout.minimumLineSpacing = 9
+        layout.minimumInteritemSpacing = 0
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 9, bottom: 10, right: 23)
+        layout.scrollDirection = UICollectionViewScrollDirection.Vertical
         layout.itemSize = CGSizeMake(HotCity.HotCityImageWidth, HotCity.HotCityImageWidth)
     }
 

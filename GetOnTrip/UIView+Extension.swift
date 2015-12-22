@@ -27,5 +27,10 @@ extension UIView {
         layer.shadowOffset = CGSizeMake(0, 1)
 //        cell.layer.shadowPath = UIBezierPath(rect: cell.layer.frame).CGPath        
     }
+    
+    func cancelShadowEffect() {
+        layer.shadowColor = UIColor.whiteColor().CGColor
+        layer.shadowOffset = CGSizeMake(0, 0)
+    }
 }
 

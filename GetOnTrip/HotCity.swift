@@ -11,10 +11,10 @@ import UIKit
 
 class HotCity: NSObject {
     
-    static let HotCityImageWidth = (UIScreen.mainScreen().bounds.width - 50) / 3 // 48
+    static let HotCityImageWidth = (UIScreen.mainScreen().bounds.width - 50) / 3 - 3// 48
     
     /// 城市id
-    lazy var id    = ""
+    var id    = ""
     /// 城市景点
     var sight = "" {
         didSet {
@@ -28,7 +28,7 @@ class HotCity: NSObject {
         }
     }
     /// 城市名
-    lazy var name  = ""
+    var name  = ""
     /// 城市图片
     var image = "" {
         didSet {
@@ -38,8 +38,13 @@ class HotCity: NSObject {
     
     init(dict: [String : AnyObject]) {
         super.init()
-        
-        setValuesForKeysWithDictionary(dict)
+        print(dict)
+//        setValuesForKeysWithDictionary(dict)
+        id = (dict["id"] ?? "") as! String
+        sight = (dict["sight"] ?? "") as! String
+        topic = (dict["topic"] ?? "") as! String
+        image = (dict["image"] ?? "") as! String
+        name = (dict["name"] ?? "") as! String
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

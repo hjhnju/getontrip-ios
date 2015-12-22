@@ -32,6 +32,10 @@ class Cache: NSObject {
         "/api/1.0/search/label?order=4&pageSize=15&page=1" : 60,
         "/api/1.0/search/label?order=5&pageSize=15&page=1" : 60,
         "/api/1.0/search/label?order=6&pageSize=15&page=1" : 60,
+        "/api/1.0/city/list?type=0" : 60 * 60,
+        "/api/1.0/city/list?type=1" : 60 * 60,
+        "/api/1.0/city/hot?type=0"  : 60 * 60,
+        "/api/1.0/city/hot?type=1"  : 60 * 60,
         //一秒的有效缓存，主要用于显示
         "/api/1.0/collect/list?page=1&pageSize=6&type=1"   : 1,
         "/api/1.0/collect/list?page=1&pageSize=6&type=2"   : 1,
@@ -53,6 +57,9 @@ class Cache: NSObject {
         "sight_books": CacheRegexConfig(expr: "^/api/1\\.0/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //视频列表缓存
         "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        // 城市一览页缓存
+        "city_list": CacheRegexConfig(expr: "^/api/1\\.0/city/list\\?type=([0-1]+)", buffer: 2, expire: 1),
+        "city_hot": CacheRegexConfig(expr: "^/api/1\\.0/city/hot\\?type=([0-1]+)", buffer: 2, expire: 1),
     ]
     
     /**

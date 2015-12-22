@@ -22,18 +22,30 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     lazy var locationButton: UIButton = UIButton(image: "location_city", title: " 即刻定位当前城市", fontSize: 12, titleColor: SceneColor.frontBlack, fontName: Font.PingFangSCLight)
     
     /// 热门城市高度
-    var hotCityHeight: CGFloat = 0
+    lazy var hotCityHeight: CGFloat = 0
+    
+    /// 国内按钮
+    lazy var domesticButton: UIButton = UIButton(title: "国内", fontSize: 14, radius: 3, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
+    
+    /// 海外按钮
+    lazy var abroadButton: UIButton = UIButton(title: "海外", fontSize: 14, radius: 3, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
+    
+    /// 选择国内外背景按钮
+    lazy var domesticBackgroundView = UIView(color: UIColor.whiteColor())
     
     /// 数据源
     var dataSource: CityList = CityList() {
         didSet {
-            tableView.reloadData()
+            UIView.transitionWithView(tableView, duration: 0.000001, options: .TransitionCrossDissolve, animations: { () -> Void in
+                self.tableView.reloadData()
+                }) { (_) -> Void in
+            }
         }
     }
     
-    var hotCityDataSource: HotCityAndCurrentCity = HotCityAndCurrentCity() {
+    var hotCityDataSource: [HotCity] = [HotCity]() {
         didSet {
-            hotCityHeight = HotCityTableViewCell.hotCityTableViewCellHeightWith(hotCityDataSource.hotCity.count)
+            hotCityHeight = HotCityTableViewCell.hotCityTableViewCellHeightWith(hotCityDataSource.count)
             tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: .None)
         }
     }
@@ -43,6 +55,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         
         initProperty()
         initTableView()
+        initDomesticBackgroundView()
         loadData()
     }
     
@@ -60,7 +73,6 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .None
-        tableView.backgroundColor = SceneColor.greyWhite
         tableView.sectionIndexBackgroundColor = UIColor.clearColor()
         tableView.sectionIndexColor = SceneColor.shallowGrey
         tableView.registerClass(CityBrowseTableViewCell.self, forCellReuseIdentifier: "CityBrowseTableViewCell")
@@ -68,59 +80,109 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         tableView.registerClass(HotCityTableViewCell.self, forCellReuseIdentifier: "HotCityTableViewCell")
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
     }
+    
+    /// 初始化切换国外海外按钮
+    private func initDomesticBackgroundView() {
+        domesticBackgroundView.addSubview(domesticButton)
+        domesticBackgroundView.addSubview(abroadButton)
+        domesticBackgroundView.layer.cornerRadius = 5
+        domesticBackgroundView.layer.borderWidth = 0.5
+        domesticBackgroundView.layer.borderColor = SceneColor.shallowGrey.CGColor
+        
+        domesticButton.setTitleColor(.whiteColor(), forState: .Normal)
+        abroadButton.setTitleColor(.whiteColor(), forState: .Normal)
+        domesticButton.setTitleColor(SceneColor.shallowGrey, forState: .Selected)
+        abroadButton.setTitleColor(SceneColor.shallowGrey, forState: .Selected)
+        abroadButton.selected = true
+        domesticButton.enabled = false
+        domesticButton.layer.cornerRadius = 5
+        abroadButton.layer.cornerRadius = 5
+        
+        domesticButton.ff_AlignInner(.CenterLeft, referView: domesticBackgroundView, size: CGSizeMake(86, 33))
+        abroadButton.ff_AlignInner(.CenterRight, referView: domesticBackgroundView, size: CGSizeMake(86, 33))
+        domesticButton.backgroundColor = SceneColor.bgBlack
+        abroadButton.backgroundColor = UIColor.clearColor()
+        
+        domesticButton.addTarget(self, action: "domesticButtonAction:", forControlEvents: .TouchUpInside)
+        abroadButton.addTarget(self, action: "domesticButtonAction:", forControlEvents: .TouchUpInside)
+        domesticButton.tag = 1
+        abroadButton.tag = 0
+        
+        domesticBackgroundView.bounds = CGRectMake(0, 0, 170, 33)
+        domesticBackgroundView.center = CGPointMake(UIScreen.mainScreen().bounds.width * 0.5, 31.5)
+    }
 
     // MARK: - tableview delegate
     /// 组数量
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        if dataSource.values.count == 0 { return 2 }
         return dataSource.values.count + 3
     }
     
     /// 每组cell数量
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 || section == 1 { return 1 }
-        if section == 2 { return 0 }
+        if section == 1 {
+            return 1
+        }
+        if section == 0 || section == 2 { return 0 }
         return dataSource.values[section - 3].count
     }
     
     /// 组标题
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        if section == 0 {
+            let v = UIView(color: SceneColor.greyWhite)
+            v.addSubview(domesticBackgroundView)
+            return v
+        }
+        
         let v = tableView.dequeueReusableHeaderFooterViewWithIdentifier("HotCityTableViewHeaderView") as! HotCityTableViewHeaderView
         switch section {
-        case 0:
-            v.titleLabel.text = "当前城市"
-            return v
         case 1:
             v.titleLabel.text = "热门城市"
+            v.baseline.hidden = true
             return v
         case 2:
             v.titleLabel.text = "开通城市"
+            v.baseline.hidden = false
             return v
         default:
             break
         }
+        v.baseline.hidden = true
         v.titleLabel.text = dataSource.keys[section - 3] ?? ""
         return v
     }
+    
+    
     
     /// 每个cell内容
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 { return getCurrentCityGroupCell(indexPath) }
         if indexPath.section == 1 {
-            if hotCityDataSource.hotCity.count != 0 {
+            if hotCityDataSource.count != 0 {
                return getHotCityGroupCell(indexPath)
+            } else {
+                return tableView.dequeueReusableCellWithIdentifier("UITableViewCell", forIndexPath: indexPath)
             }
         }
         let cell = tableView.dequeueReusableCellWithIdentifier("CityBrowseTableViewCell", forIndexPath: indexPath) as! CityBrowseTableViewCell
         cell.backgroundColor = UIColor.whiteColor()
+        
         if indexPath.section > 2 {
             let data = dataSource.values[indexPath.section - 3]
             cell.dataSource = data[indexPath.row]
+            
             if dataSource.values[indexPath.section - 3].count - 1 == indexPath.row {
-                cell.getShadowWithView()
+                cell.baseLine.hidden = true
+            } else {
+                cell.baseLine.hidden = false
             }
             
         }
+        cell.clipsToBounds = false
         return cell
     }
     
@@ -137,14 +199,15 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     private func getHotCityGroupCell(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("HotCityTableViewCell") as! HotCityTableViewCell
         cell.superController = self
-        cell.dataSource = hotCityDataSource.hotCity
-        cell.getShadowWithView()
+        cell.dataSource = hotCityDataSource
         return cell
     }
     
     /// 行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 1 && indexPath.row == 0 { return hotCityHeight + 1 }
+        if indexPath.section == 1 {
+            return hotCityDataSource.count != 0 ? hotCityHeight : 0
+        }
         return 43
     }
     
@@ -152,7 +215,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         return 43
     }
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if section == 2 { return 76 }
+        if section == 0 { return 63 - 15 }
         return 43
     }
     
@@ -198,11 +261,31 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         lastRequest.fetchHotCityModels { [weak self] (result, status) -> Void in
             if RetCode.SUCCESS == status {
                 if let data = result {
-                    self?.hotCityDataSource = data
+//                    if data.count > 0 {
+                        self?.hotCityDataSource = data
+//                    }
                 }
             } else {
                 ProgressHUD.showErrorHUD(nil, text: "您的网络无法连接")
             }
         }
+    }
+    
+    func domesticButtonAction(sender: UIButton) {
+        lastRequest.type = "\(sender.tag)"
+        if sender == abroadButton {
+            abroadButton.selected = false
+            abroadButton.enabled = false
+            domesticButton.selected = true
+            domesticButton.enabled = true
+        } else {
+            domesticButton.selected = false
+            domesticButton.enabled = false
+            abroadButton.selected = true
+            abroadButton.enabled = true
+        }
+        abroadButton.backgroundColor = abroadButton.selected == false ? SceneColor.bgBlack : .clearColor()
+        domesticButton.backgroundColor = abroadButton.selected == true ?  SceneColor.bgBlack : .clearColor()
+        loadData()
     }
 }
