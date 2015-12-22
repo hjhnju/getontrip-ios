@@ -66,7 +66,7 @@ class SettingNicknameController: MenuViewController, UITableViewDataSource, UITa
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
+        let cell = UITableViewCell()
         cell.addSubview(userNameTextField)
         userNameTextField.ff_AlignInner(.CenterCenter, referView: cell, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 52))
         cell.getShadowWithView()

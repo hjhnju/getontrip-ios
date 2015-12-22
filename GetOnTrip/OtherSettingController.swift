@@ -34,7 +34,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         navBar.titleLabel.text = "设置"
         view.backgroundColor = .whiteColor()
         removeCacheLabel.text = getUsedCache()
-        
+        automaticallyAdjustsScrollViewInsets = false
         trafficSwitch.addTarget(self, action: "trafficSwitchAction:", forControlEvents: .ValueChanged)
     }
     

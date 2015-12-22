@@ -127,44 +127,10 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         }
     }
     
-    /// 选择照片方法
-    var imagePicker: UIImagePickerController!
-    private func switchPhotoAction(indexPath: NSIndexPath) {
-        
-//        let alerController = UIAlertController(title: "", message: "请选择图片来源", preferredStyle: .ActionSheet)
-//        let actionCancle     = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
-//        let phootPicture   = UIAlertAction(title: "拍照", style: .Default) { [weak self] (_) -> Void in
-//            if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
-//                ProgressHUD.showErrorHUD(self?.view, text: "当前设备不支持拍照功能")
-//                return
-//            }
-//            self?.imagePicker = UIImagePickerController()
-//            self?.imagePicker.delegate = self
-//            self?.imagePicker.sourceType = .Camera
-//            self?.presentViewController(self?.imagePicker ?? UIImagePickerController(), animated: true, completion: nil)
-//        }
-//        let existingPicture = UIAlertAction(title: "从手机相册选择", style: .Default) { [weak self] (_) -> Void in
-//            if !UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
-//                ProgressHUD.showErrorHUD(self?.view, text: "当前相册不可用")
-//                return
-//            }
-//            self?.imagePicker = UIImagePickerController()
-//            self?.imagePicker.delegate = self
-//            self?.presentViewController(self?.imagePicker ?? UIImagePickerController(), animated: true, completion: nil)
-//        }
-//        alerController.addAction(actionCancle)
-//        alerController.addAction(phootPicture)
-//        alerController.addAction(existingPicture)
-//        alerController.modalPresentationStyle = .Popover
-//        alerController.popoverPresentationController?.sourceView = tableView.cellForRowAtIndexPath(indexPath)
-//        alerController.popoverPresentationController?.sourceRect = tableView.cellForRowAtIndexPath(indexPath)?.frame ?? CGRectZero
-//        presentViewController(alerController, animated: true, completion: nil)
-    }
-    
+    lazy var photoVC: PhotographViewController = PhotographViewController()
     func pleaseLoginButtonAction() {
-        
         if globalUser != nil {
-            
+            photoVC.switchPhotoAction(self, sourceview: pleaseLoginButton.imageView!, setPhoto: pleaseLoginButton.imageView!)
         } else {
             LoginView.sharedLoginView.doAfterLogin { [weak self] (result, error) -> () in
                 if error == nil {

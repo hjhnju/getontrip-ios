@@ -46,12 +46,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     
         setupAddProperty()
         setupBarButtonItem()
-        setupIsLoginSetting()
     }
     
     ///  初始化属性
     private func setupAddProperty() {
         
+        automaticallyAdjustsScrollViewInsets = false
         view.addSubview(tableView)
         view.backgroundColor = .whiteColor()
         navBar.titleLabel.text = SettingViewController.name
@@ -86,6 +86,12 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     private func setupBarButtonItem() {
         navBar.rightButton.selected = false
         navBar.setTitle(SettingViewController.name)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupIsLoginSetting()
     }
     
     // MARK: - tableview delegate
