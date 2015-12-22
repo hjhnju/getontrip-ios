@@ -24,7 +24,7 @@ enum CacheType {
 class Cache: NSObject {
     
     static let shareInstance: Cache = Cache()
-    static let cacheCityListTime: NSTimeInterval = 1 //60 * 60
+    static let cacheCityListTime: NSTimeInterval = 60 * 60
     var cachekeys: [String: NSTimeInterval] = [
         "/api/1.0/search/label?order=1&pageSize=15&page=1" : 60,
         "/api/1.0/search/label?order=2&pageSize=15&page=1" : 60,

@@ -38,7 +38,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     ///  初始化属性
     private func initView() {
         
-        title = SettingViewController.name
+        navBar.titleLabel.text = SettingDatumViewController.name
         view.addSubview(tableView)
         view.backgroundColor = .whiteColor()
         
@@ -115,32 +115,16 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("能来到吗")
-//        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-//        if indexPath.section == 0 {
-//            if isLoginStatus == false { return }
-//            switch indexPath.row {
-//            case SettingCell.iconCell: // 选择照片
-//                switchPhotoAction(indexPath)
-//            case SettingCell.nickCell: // 选择昵称
-//                let nvc = SettingNicknameController()
-//                nvc.userNameTextField.text = globalUser?.nickname
-//                navigationController?.pushViewController(nvc, animated: true)
-//            case SettingCell.sexCell:  // 选择性别
-//                let vc = SettingSexViewController()
-//                vc.sex = globalUser?.gender.hashValue ?? 3
-//                navigationController?.pushViewController(vc, animated: true)
-//            default:
-//                break
-//            }
-//        } else {
-//            switch indexPath.row {
-//            case 0: // 清除缓存
-//                clearCacheSetting(indexPath)
-//            default:
-//                break
-//            }
-//        }
+        
+        if indexPath.section == 0 {
+            let vc = SettingViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                let vc = FavoriteViewController()
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
     
     /// 选择照片方法
@@ -178,17 +162,18 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     }
     
     func pleaseLoginButtonAction() {
-        LoginView.sharedLoginView.doAfterLogin { [weak self] (result, error) -> () in
-            if error == nil {
-                if result == true {
-                    self?.isLoginStatus = true
-                } else {
-                    self?.isLoginStatus = false
+        
+        if globalUser != nil {
+            
+        } else {
+            LoginView.sharedLoginView.doAfterLogin { [weak self] (result, error) -> () in
+                if error == nil {
+                    self?.isLoginStatus = result
+                    return
                 }
-                return
+                self?.isLoginStatus = false
+                ProgressHUD.showErrorHUD(self?.view, text: "登录失败")
             }
-            self?.isLoginStatus = false
-            ProgressHUD.showErrorHUD(self?.view, text: "登录失败")
         }
     }
     

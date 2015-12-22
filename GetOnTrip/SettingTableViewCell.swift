@@ -13,7 +13,7 @@ import FFAutoLayout
 class SettingTableViewCell: UITableViewCell {
     
     /// 左标签
-    lazy var left: UILabel = UILabel(color: UIColor.blackColor(), title: "名字", fontSize: 16, mutiLines: false)
+    lazy var left: UILabel = UILabel(color: SceneColor.frontBlack, title: "名字", fontSize: 16, mutiLines: false)
     
     /// 设置底线
     lazy var baseline: UIView! = UIView(color: SceneColor.darkGrey, alphaF: 0.6)
@@ -21,12 +21,12 @@ class SettingTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addSubview(baseline)
-        addSubview(left)
+        contentView.addSubview(baseline)
+        contentView.addSubview(left)
         backgroundColor = .whiteColor()
         selectionStyle = .None
-        baseline.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
-        left.ff_AlignInner(.CenterLeft, referView: self, size: nil, offset: CGPointMake(9, 0))
+        baseline.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
+        left.ff_AlignInner(.CenterLeft, referView: contentView, size: nil, offset: CGPointMake(9, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {

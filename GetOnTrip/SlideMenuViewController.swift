@@ -138,10 +138,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var moreButton: UIButton = UIButton(icon: "more_white", masksToBounds: true)
     
     //设置菜单的数据源
-    let tableViewDataSource = ["首页", CityBrowseViewController.name, FavoriteViewController.name, SettingDatumViewController.name, MessageViewController.name] // FeedBackViewController.name
+    let tableViewDataSource = ["首页", CityBrowseViewController.name, SettingDatumViewController.name, MessageViewController.name] // FeedBackViewController.name
     
     //菜单对应元类
-    let usingVCTypes: [AnyClass] = [RecommendViewController.self, CityBrowseViewController.self, FavoriteViewController.self, SettingDatumViewController.self, MessageViewController.self]
+    let usingVCTypes: [AnyClass] = [RecommendViewController.self, CityBrowseViewController.self, SettingDatumViewController.self, MessageViewController.self]
     
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
@@ -379,6 +379,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     
     /// 设置方法
     func settingAction(sender: UIButton) {
-        curVCType = SettingViewController.self
+        curVCType = OtherSettingController.self
     }
 }

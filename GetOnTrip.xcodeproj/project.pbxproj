@@ -95,6 +95,8 @@
 		AE2EEE961BCF833E00ED0937 /* TopicRefreshRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */; };
 		AE3321DE1C06B92D00B95FA4 /* CommentViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3321DD1C06B92D00B95FA4 /* CommentViewController+extension.swift */; };
 		AE3321E01C06BAE500B95FA4 /* CommentPersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */; };
+		AE3B48FE1C29541800D0E59B /* OtherSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B48FD1C29541800D0E59B /* OtherSettingController.swift */; };
+		AE3B49001C297EDC00D0E59B /* PhotographViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */; };
 		AE3CA1191C05638600669BA0 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA10B1C05638600669BA0 /* TencentOpenAPI.framework */; };
 		AE3CA11A1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AE3CA10C1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		AE3CA11B1C05638600669BA0 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA10E1C05638600669BA0 /* libWeChatSDK.a */; };
@@ -330,6 +332,8 @@
 		AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicRefreshRequest.swift; sourceTree = "<group>"; };
 		AE3321DD1C06B92D00B95FA4 /* CommentViewController+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CommentViewController+extension.swift"; sourceTree = "<group>"; };
 		AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentPersonCell.swift; sourceTree = "<group>"; };
+		AE3B48FD1C29541800D0E59B /* OtherSettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherSettingController.swift; sourceTree = "<group>"; };
+		AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotographViewController.swift; sourceTree = "<group>"; };
 		AE3CA10B1C05638600669BA0 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		AE3CA10C1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		AE3CA10E1C05638600669BA0 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
@@ -729,6 +733,7 @@
 				AED4B8661C041B0200DAC9D3 /* Regex.swift */,
 				AE43E16D1C07FEB70021964E /* ControllerTools.swift */,
 				AE43E1701C082B980021964E /* ProgressHUD.swift */,
+				AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -750,6 +755,7 @@
 				AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */,
 				AE8BA8951C008B8600F17F2A /* SettingNicknameController.swift */,
 				AE0219701C087522003B8565 /* SettingSexViewController.swift */,
+				AE3B48FD1C29541800D0E59B /* OtherSettingController.swift */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -1185,6 +1191,7 @@
 				7293A0421BF4713A0070C64A /* Province.swift in Sources */,
 				AE0B6F7F1BFF1A52002B8806 /* NewUserRegisterViewController.swift in Sources */,
 				AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */,
+				AE3B48FE1C29541800D0E59B /* OtherSettingController.swift in Sources */,
 				725A84771C00A0AD007623C9 /* ReplayButton.swift in Sources */,
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,
 				AE7F0AC91BB95D3E0011F307 /* SightViewController.swift in Sources */,
@@ -1288,6 +1295,7 @@
 				7239FDED1B7F25BB00238A25 /* UIColor+Extentions.swift in Sources */,
 				AEAB951A1BC7C83300B6EE62 /* TopicRequest.swift in Sources */,
 				7293A0441BF4745E0070C64A /* LocateToCity.swift in Sources */,
+				AE3B49001C297EDC00D0E59B /* PhotographViewController.swift in Sources */,
 				AECD22641B9EC5E2007F1D71 /* CollectSightRequest.swift in Sources */,
 				AE66012D1C055216007ED37A /* CommentButton.swift in Sources */,
 				AE9385F51C05D9CA00B80D31 /* CityBrowseViewController.swift in Sources */,
