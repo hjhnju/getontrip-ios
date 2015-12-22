@@ -106,6 +106,8 @@
 		AE3CA1211C05638600669BA0 /* ShareSDKExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA1161C05638600669BA0 /* ShareSDKExtension.framework */; };
 		AE3CA1221C05638600669BA0 /* ShareSDKUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AE3CA1171C05638600669BA0 /* ShareSDKUI.bundle */; };
 		AE3CA1231C05638600669BA0 /* ShareSDKUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA1181C05638600669BA0 /* ShareSDKUI.framework */; };
+		AE3E96E71C29059200A9CEAD /* SettingDatumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3E96E61C29059200A9CEAD /* SettingDatumViewController.swift */; };
+		AE3E96E91C29148100A9CEAD /* SettingDatumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3E96E81C29148100A9CEAD /* SettingDatumTableViewCell.swift */; };
 		AE43E16E1C07FEB70021964E /* ControllerTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE43E16D1C07FEB70021964E /* ControllerTools.swift */; };
 		AE43E1711C082B980021964E /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE43E1701C082B980021964E /* ProgressHUD.swift */; };
 		AE4772981C17F87500137E7A /* SearchHotwordLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4772971C17F87500137E7A /* SearchHotwordLayout.swift */; };
@@ -341,6 +343,8 @@
 		AE3CA1161C05638600669BA0 /* ShareSDKExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKExtension.framework; sourceTree = "<group>"; };
 		AE3CA1171C05638600669BA0 /* ShareSDKUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKUI.bundle; sourceTree = "<group>"; };
 		AE3CA1181C05638600669BA0 /* ShareSDKUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKUI.framework; sourceTree = "<group>"; };
+		AE3E96E61C29059200A9CEAD /* SettingDatumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingDatumViewController.swift; sourceTree = "<group>"; };
+		AE3E96E81C29148100A9CEAD /* SettingDatumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingDatumTableViewCell.swift; sourceTree = "<group>"; };
 		AE43E16D1C07FEB70021964E /* ControllerTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerTools.swift; sourceTree = "<group>"; };
 		AE43E1701C082B980021964E /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		AE4772971C17F87500137E7A /* SearchHotwordLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHotwordLayout.swift; sourceTree = "<group>"; };
@@ -538,6 +542,7 @@
 		722BA3051C00205B007C1E6C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AE3E96E81C29148100A9CEAD /* SettingDatumTableViewCell.swift */,
 				7206B7C41BF35D9F002E3C9A /* CollectionSightViewCell.swift */,
 				7206B7C61BF35E62002E3C9A /* CollectionCityViewCell.swift */,
 				AE8C0C161BE8A090003C7942 /* LoginView.swift */,
@@ -741,6 +746,7 @@
 		AE02196F1C0874DB003B8565 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				AE3E96E61C29059200A9CEAD /* SettingDatumViewController.swift */,
 				AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */,
 				AE8BA8951C008B8600F17F2A /* SettingNicknameController.swift */,
 				AE0219701C087522003B8565 /* SettingSexViewController.swift */,
@@ -1190,6 +1196,7 @@
 				727561821BD0F6240089CB27 /* City.swift in Sources */,
 				72D25A8F1BEB25C50044AE04 /* RecommendLabel.swift in Sources */,
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
+				AE3E96E71C29059200A9CEAD /* SettingDatumViewController.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE23DD7B1C1820E0009A1B57 /* SearchDeleteButton.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
@@ -1309,6 +1316,7 @@
 				AEC2318B1BCE48BD008C58C9 /* BookViewController.swift in Sources */,
 				72FE631E1BFB08070037C7D6 /* MessageList.swift in Sources */,
 				AE0B6F831BFF42D4002B8806 /* UserRegisterRequest.swift in Sources */,
+				AE3E96E91C29148100A9CEAD /* SettingDatumTableViewCell.swift in Sources */,
 				AEEDE1371BDB93E800843C2C /* Favorite.swift in Sources */,
 				AEBB29BC1BEDAA3D000D31B4 /* SwitchPhotoViewController.swift in Sources */,
 				AE2894521BDCCFF50099293F /* SearchRequest.swift in Sources */,

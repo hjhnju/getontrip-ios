@@ -14,6 +14,7 @@ class PleaseLoginButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        imageView?.bounds = CGRectMake(0, 0, 90, 90)
         imageView?.layer.cornerRadius = min(imageView!.frame.width, imageView!.frame.height) * 0.5
         imageView?.clipsToBounds = true
         

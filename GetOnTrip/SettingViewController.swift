@@ -78,6 +78,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     ///  初始化属性
     private func setupAddProperty() {
         
+        isLoginStatus = globalUser != nil ? true : false
         title = SettingViewController.name
         view.addSubview(tableView)
         view.addSubview(exitLogin)
@@ -85,7 +86,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         pleaseLoginButton.addTarget(self, action: "pleaseLoginButtonAction", forControlEvents: .TouchUpInside)
         trafficSwitch.addTarget(self, action: "trafficSwitchAction:", forControlEvents: .ValueChanged)
         
-        view.backgroundColor = UIColor(hex: 0xF7F5F3, alpha: 1.0)
+        view.backgroundColor = SceneColor.greyWhite
         addChildViewController(switchPhotoVC)
         addChildViewController(nicknameController)
         
@@ -104,9 +105,8 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
     ///  初始化是否登陆设置
     private func setupIsLoginSetting() {
         
-        if isLoginStatus == false {
-            notLoginCount = 1
-            exitLogin.hidden = true
+        if isLoginStatus == true {
+            pleaseLoginButton.imageView?.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""), placeholderImage: PlaceholderImage.defaultUser)
         } else {
             notLoginCount = 3
             exitLogin.hidden = false

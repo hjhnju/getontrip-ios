@@ -22,7 +22,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     lazy var locationButton: UIButton = UIButton(image: "location_city", title: " 即刻定位当前城市", fontSize: 12, titleColor: SceneColor.frontBlack, fontName: Font.PingFangSCLight)
     
     /// 热门城市高度
-    lazy var hotCityHeight: CGFloat = HotCityTableViewCell.hotCityTableViewCellHeightWith(self.hotCityDataSource.count)
+    lazy var hotCityHeight: CGFloat = 0
     
     /// 国内按钮
     lazy var domesticButton: UIButton = UIButton(title: "国内", fontSize: 14, radius: 3, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
@@ -43,6 +43,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     var hotCityDataSource: [HotCity] = [HotCity]() {
         didSet {
 //            tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: .None)
+            hotCityHeight = HotCityTableViewCell.hotCityTableViewCellHeightWith(self.hotCityDataSource.count)
             tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.None)
         }
     }
@@ -203,12 +204,18 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 1 {
+            print(hotCityHeight)
             return hotCityDataSource.count != 0 ? hotCityHeight : 0
         }
         return 43
     }
     
+    
+    
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.section == 1 {
+            return hotCityDataSource.count != 0 ? hotCityHeight : 0
+        }
         return 43
     }
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

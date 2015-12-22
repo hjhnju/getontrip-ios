@@ -88,7 +88,7 @@ class RecommendTopicViewCell: UITableViewCell {
         
         favNumLabel.ff_AlignInner(.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(-20, -10))
         visitNumLabel.ff_AlignInner(.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(20, -10))
-        titleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - (45 * 2)
+        titleLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - (34 * 2)
     }
     
     required init?(coder aDecoder: NSCoder) {
