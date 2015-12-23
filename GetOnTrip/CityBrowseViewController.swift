@@ -36,7 +36,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 数据源
     var dataSource: CityList = CityList() {
         didSet {
-            UIView.transitionWithView(tableView, duration: 1, options: .TransitionCrossDissolve, animations: { () -> Void in
+            UIView.transitionWithView(tableView, duration: 0.8, options: .TransitionCrossDissolve, animations: { () -> Void in
                 self.tableView.reloadData()
                 }, completion: nil)
         }

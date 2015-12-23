@@ -124,6 +124,8 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
             if indexPath.row == 0 {
                 let vc = FavoriteViewController()
                 navigationController?.pushViewController(vc, animated: true)
+            } else {
+                navigationController?.pushViewController(MyCommentViewController(), animated: true)
             }
         }
     }

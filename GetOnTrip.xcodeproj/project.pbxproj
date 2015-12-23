@@ -48,7 +48,6 @@
 		728E3DEC1C2427CA00605FF0 /* UserProfiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728E3DEB1C2427CA00605FF0 /* UserProfiler.swift */; };
 		7293A03E1BF4594D0070C64A /* UserLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */; };
 		7293A0401BF470F90070C64A /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */; };
-		7293A0421BF4713A0070C64A /* Province.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A0411BF4713A0070C64A /* Province.swift */; };
 		7293A0441BF4745E0070C64A /* LocateToCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7293A0431BF4745E0070C64A /* LocateToCity.swift */; };
 		729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */; };
 		729574001BCF345600343F8F /* UIKitTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729573FF1BCF345600343F8F /* UIKitTools.swift */; };
@@ -98,6 +97,8 @@
 		AE3B48FE1C29541800D0E59B /* OtherSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B48FD1C29541800D0E59B /* OtherSettingController.swift */; };
 		AE3B49001C297EDC00D0E59B /* PhotographViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */; };
 		AE3B49021C2A3BA700D0E59B /* MyCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B49011C2A3BA700D0E59B /* MyCommentViewController.swift */; };
+		AE3B49061C2A497700D0E59B /* MyCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B49051C2A497700D0E59B /* MyCommentRequest.swift */; };
+		AE3B49081C2A561800D0E59B /* MyCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B49071C2A561800D0E59B /* MyCommentTableViewCell.swift */; };
 		AE3CA1191C05638600669BA0 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA10B1C05638600669BA0 /* TencentOpenAPI.framework */; };
 		AE3CA11A1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AE3CA10C1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		AE3CA11B1C05638600669BA0 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA10E1C05638600669BA0 /* libWeChatSDK.a */; };
@@ -281,7 +282,6 @@
 		728E3DEB1C2427CA00605FF0 /* UserProfiler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfiler.swift; sourceTree = "<group>"; };
 		7293A03D1BF4594D0070C64A /* UserLoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLoginRequest.swift; sourceTree = "<group>"; };
 		7293A03F1BF470F90070C64A /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
-		7293A0411BF4713A0070C64A /* Province.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Province.swift; sourceTree = "<group>"; };
 		7293A0431BF4745E0070C64A /* LocateToCity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocateToCity.swift; sourceTree = "<group>"; };
 		729573FB1BCE126100343F8F /* CitySightCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightCollectionViewCell.swift; sourceTree = "<group>"; };
 		729573FF1BCF345600343F8F /* UIKitTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitTools.swift; sourceTree = "<group>"; };
@@ -336,6 +336,8 @@
 		AE3B48FD1C29541800D0E59B /* OtherSettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherSettingController.swift; sourceTree = "<group>"; };
 		AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotographViewController.swift; sourceTree = "<group>"; };
 		AE3B49011C2A3BA700D0E59B /* MyCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCommentViewController.swift; sourceTree = "<group>"; };
+		AE3B49051C2A497700D0E59B /* MyCommentRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCommentRequest.swift; sourceTree = "<group>"; };
+		AE3B49071C2A561800D0E59B /* MyCommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCommentTableViewCell.swift; sourceTree = "<group>"; };
 		AE3CA10B1C05638600669BA0 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		AE3CA10C1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		AE3CA10E1C05638600669BA0 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
@@ -533,7 +535,7 @@
 				AE20EDEF1B9C53B900F26074 /* MessageListRequest.swift */,
 				AECD22631B9EC5E2007F1D71 /* CollectSightRequest.swift */,
 				AEFC4E601BE62180001CCC8B /* FeedbackListRequest.swift */,
-				7293A0411BF4713A0070C64A /* Province.swift */,
+				AE3B49051C2A497700D0E59B /* MyCommentRequest.swift */,
 				72FE631D1BFB08070037C7D6 /* MessageList.swift */,
 				AE0B6F821BFF42D4002B8806 /* UserRegisterRequest.swift */,
 				728E3DEB1C2427CA00605FF0 /* UserProfiler.swift */,
@@ -544,8 +546,8 @@
 		722BA3051C00205B007C1E6C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				AE3E96E81C29148100A9CEAD /* SettingDatumTableViewCell.swift */,
 				AED4B8681C043A7B00DAC9D3 /* FavoriteCollectionViewCell.swift */,
+				AE3E96E81C29148100A9CEAD /* SettingDatumTableViewCell.swift */,
 				7206B7C41BF35D9F002E3C9A /* CollectionSightViewCell.swift */,
 				7206B7C61BF35E62002E3C9A /* CollectionCityViewCell.swift */,
 				AED4B8701C048B8A00DAC9D3 /* CollectContentCell.swift */,
@@ -556,6 +558,7 @@
 				AEA241111C0EDBAB00049882 /* MessageTableView.swift */,
 				AEA241151C0F121E00049882 /* SystemTableViewCell.swift */,
 				AEA241171C0F124A00049882 /* MessageTableViewCell.swift */,
+				AE3B49071C2A561800D0E59B /* MyCommentTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1207,9 +1210,9 @@
 				AECD226F1B9F045D007F1D71 /* CollectCityViewController.swift in Sources */,
 				AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */,
 				728747291BF860A800EE36AA /* SearchHotwordTableViewCell.swift in Sources */,
-				7293A0421BF4713A0070C64A /* Province.swift in Sources */,
 				AE0B6F7F1BFF1A52002B8806 /* NewUserRegisterViewController.swift in Sources */,
 				AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */,
+				AE3B49061C2A497700D0E59B /* MyCommentRequest.swift in Sources */,
 				AE3B48FE1C29541800D0E59B /* OtherSettingController.swift in Sources */,
 				725A84771C00A0AD007623C9 /* ReplayButton.swift in Sources */,
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,
@@ -1250,6 +1253,7 @@
 				726974771BE39F8A000C0ABF /* CommentAddRequest.swift in Sources */,
 				AEA94F901B9AED30006D6998 /* UserAccount.swift in Sources */,
 				AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */,
+				AE3B49081C2A561800D0E59B /* MyCommentTableViewCell.swift in Sources */,
 				AEA241041C0C6AA200049882 /* TopicSightListTableViewCell.swift in Sources */,
 				AE12FF7F1B9C0BE800C09F8A /* FeedBackViewController.swift in Sources */,
 				AEA241121C0EDBAB00049882 /* MessageTableView.swift in Sources */,

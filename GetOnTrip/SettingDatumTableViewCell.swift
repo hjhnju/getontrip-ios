@@ -33,8 +33,6 @@ class SettingDatumTableViewCell: UITableViewCell {
 
     private lazy var leftButton = UIButton(image: "collect_my", title: "  我的收藏", fontSize: 16, titleColor: SceneColor.frontBlack, fontName: Font.PingFangSCLight)
     
-    internal lazy var rightImageView = UIImageView(image: UIImage(named: "arrowhead_my")!)
-    
     lazy var baseLine = UIView(color: SceneColor.darkGrey)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -43,11 +41,9 @@ class SettingDatumTableViewCell: UITableViewCell {
         baseLine.hidden = true
         contentView.addSubview(leftButton)
         contentView.addSubview(baseLine)
-        contentView.addSubview(rightImageView)
         leftButton.enabled = false
         leftButton.ff_AlignInner(.CenterLeft, referView: contentView, size: nil, offset: CGPointMake(9, 0))
         baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
-        rightImageView.ff_AlignInner(.CenterRight, referView: contentView, size: nil, offset: CGPointMake(-10, 0))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -61,5 +57,4 @@ class SettingDatumTableViewCell: UITableViewCell {
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         
     }
-
 }
