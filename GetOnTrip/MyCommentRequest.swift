@@ -12,9 +12,7 @@ class MyCommentRequest: NSObject {
     // 请求参数
     var page    : Int = 1
     var pageSize: Int = 6
-    
-    static let sharedCollectType = CollectSightRequest()
-    
+        
     func fetchNextPageModels(handler: ([MyComment]?, Int) -> Void) {
         page = page + 1
         return fetchModels(handler)

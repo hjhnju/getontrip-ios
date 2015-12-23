@@ -105,7 +105,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         
         if indexPath.section == 2 && indexPath.row == 0 {
             if indexPath.row == 0 {
-                
+                navigationController?.pushViewController(FeedBackViewController(), animated: true)
             } else {
                 UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://appsto.re/cn/vpNk_.i")!)
             }
@@ -159,7 +159,6 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         alertController.modalPresentationStyle = UIModalPresentationStyle.Popover
         alertController.popoverPresentationController?.sourceView = tableView.cellForRowAtIndexPath(indexPath)
         alertController.popoverPresentationController?.sourceRect = tableView.cellForRowAtIndexPath(indexPath)?.frame ?? CGRectZero
-        
         presentViewController(alertController, animated: true, completion: nil)
     }
     
@@ -180,7 +179,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
                 //更新显示缓存
                 let size = self?.getUsedCache()
                 print("CachSize2=\(size)")
-                self!.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 1)], withRowAnimation: .None)
+                self?.removeCacheLabel.text = size
                 ProgressHUD.showSuccessHUD(nil, text: "清理完毕")
             }
         }

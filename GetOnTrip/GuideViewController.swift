@@ -13,7 +13,7 @@ let reuseIdentifier = "Cell"
 
 class GuideViewController: UICollectionViewController {
 
-    var numberPage: Int = 4
+    lazy var numberPage: Int = 4
     
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
@@ -24,12 +24,14 @@ class GuideViewController: UICollectionViewController {
     
     let subtitleEnglish = ["MORE THAN PICTURES", "SOMETHING SPECIAL", "ON THE WAY", ""]
     
+    lazy var exitButton = UIButton(image: "topicSight_x", title: "", fontSize: 0)
+    
     // 分页
     lazy var pagecontrol: UIPageControl = { [weak self] in
         var pageC = UIPageControl()
         pageC.numberOfPages = self?.numberPage ?? 0
         pageC.currentPage = 0
-        pageC.addTarget(self, action: "pageChanged", forControlEvents: UIControlEvents.ValueChanged)
+        pageC.addTarget(self, action: "pageChanged", forControlEvents: .ValueChanged)
         pageC.userInteractionEnabled = false
         return pageC
     }()
@@ -46,7 +48,11 @@ class GuideViewController: UICollectionViewController {
         super.viewDidLoad()
         
         view.addSubview(pagecontrol)
+        view.addSubview(exitButton)
+        exitButton.hidden = numberPage != 4 ? false : true
+        exitButton.addTarget(self, action: "exitButtonAction", forControlEvents: .TouchUpInside)
         automaticallyAdjustsScrollViewInsets = false
+        exitButton.ff_AlignInner(.TopRight, referView: view, size: nil, offset: CGPointMake(-20, 40))
         pagecontrol.ff_AlignInner(.BottomCenter, referView: view, size: nil, offset: CGPointMake(0, -20))
         
         // 注册可重用 cell
@@ -92,6 +98,10 @@ class GuideViewController: UICollectionViewController {
         }
         
         return cell
+    }
+    
+    func exitButtonAction() {
+        navigationController?.popViewControllerAnimated(true)
     }
 }
 

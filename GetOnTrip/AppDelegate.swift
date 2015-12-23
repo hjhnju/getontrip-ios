@@ -52,8 +52,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //cache
         let urlCache = NSURLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: "httpcache")
         NSURLCache.setSharedURLCache(urlCache)
-        SDImageCache.sharedImageCache().maxCacheSize = 50 * 1024 * 1024
+        SDImageCache.sharedImageCache().maxCacheSize  = 50 * 1024 * 1024
         SDImageCache.sharedImageCache().maxMemoryCost = 50 * 1024 * 1024
+        SDImageCache.sharedImageCache().maxCacheAge   = 60 * 60 * 24 * 7
         
         print(NSHomeDirectory())
         // 注册第三方登陆分享应用相关信息

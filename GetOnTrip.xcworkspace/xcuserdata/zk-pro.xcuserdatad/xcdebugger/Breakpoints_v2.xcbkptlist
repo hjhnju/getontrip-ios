@@ -283,5 +283,69 @@
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GetOnTrip/FeedbackListRequest.swift"
+            timestampString = "472565581.089084"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "fetchSendModels(_:handler:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GetOnTrip.FeedbackRequest.fetchSendModels (GetOnTrip.FeedbackRequest)(Swift.String, handler : () -&gt; ()) -&gt; ()"
+                  moduleName = "GetOnTrip"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zk-pro/Desktop/getontrip-ios/GetOnTrip/FeedbackListRequest.swift"
+                  timestampString = "472562525.531354"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GetOnTrip.FeedbackRequest.(fetchSendModels (GetOnTrip.FeedbackRequest) -&gt; (Swift.String, handler : () -&gt; ()) -&gt; ()).(closure #1)"
+                  moduleName = "GetOnTrip"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zk-pro/Desktop/getontrip-ios/GetOnTrip/FeedbackListRequest.swift"
+                  timestampString = "472562525.531541"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "85">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GetOnTrip/FeedbackListRequest.swift"
+            timestampString = "472565581.089084"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "fetchSendModels(_:handler:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
