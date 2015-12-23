@@ -101,6 +101,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 { return 0 }
         return 15
     }
     

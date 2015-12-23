@@ -36,7 +36,9 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 数据源
     var dataSource: CityList = CityList() {
         didSet {
-            tableView.reloadData()
+            UIView.transitionWithView(tableView, duration: 1, options: .TransitionCrossDissolve, animations: { () -> Void in
+                self.tableView.reloadData()
+                }, completion: nil)
         }
     }
     
@@ -204,7 +206,6 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 1 {
-            print(hotCityHeight)
             return hotCityDataSource.count != 0 ? hotCityHeight : 0
         }
         return 43

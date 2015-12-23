@@ -65,9 +65,4 @@ class PhotographViewController: UIViewController, UIImagePickerControllerDelegat
         // 重新设回导航栏样式
         UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
-    
-    deinit {
-        print("会消失吗")
-    }
-    
 }

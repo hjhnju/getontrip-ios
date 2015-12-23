@@ -97,6 +97,7 @@
 		AE3321E01C06BAE500B95FA4 /* CommentPersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */; };
 		AE3B48FE1C29541800D0E59B /* OtherSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B48FD1C29541800D0E59B /* OtherSettingController.swift */; };
 		AE3B49001C297EDC00D0E59B /* PhotographViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */; };
+		AE3B49021C2A3BA700D0E59B /* MyCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B49011C2A3BA700D0E59B /* MyCommentViewController.swift */; };
 		AE3CA1191C05638600669BA0 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA10B1C05638600669BA0 /* TencentOpenAPI.framework */; };
 		AE3CA11A1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AE3CA10C1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		AE3CA11B1C05638600669BA0 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3CA10E1C05638600669BA0 /* libWeChatSDK.a */; };
@@ -334,6 +335,7 @@
 		AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentPersonCell.swift; sourceTree = "<group>"; };
 		AE3B48FD1C29541800D0E59B /* OtherSettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherSettingController.swift; sourceTree = "<group>"; };
 		AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotographViewController.swift; sourceTree = "<group>"; };
+		AE3B49011C2A3BA700D0E59B /* MyCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCommentViewController.swift; sourceTree = "<group>"; };
 		AE3CA10B1C05638600669BA0 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		AE3CA10C1C05638600669BA0 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		AE3CA10E1C05638600669BA0 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
@@ -509,15 +511,11 @@
 			isa = PBXGroup;
 			children = (
 				AE02196F1C0874DB003B8565 /* Setting */,
+				AE3B49031C2A446700D0E59B /* My */,
 				AE0B6F7C1BFEEBD7002B8806 /* LoginViewController.swift */,
 				AE0B6F7E1BFF1A52002B8806 /* NewUserRegisterViewController.swift */,
 				AE0B6F801BFF1EE5002B8806 /* RetrievePasswordController.swift */,
-				72D721341B6C4500005BDE55 /* FavoriteViewController.swift */,
 				AE20EDED1B9C4FC100F26074 /* MessageViewController.swift */,
-				AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */,
-				AECD226C1B9EEC9B007F1D71 /* CollectContentViewController.swift */,
-				AECD22651B9ECDD5007F1D71 /* CollectSightViewController.swift */,
-				AECD226E1B9F045D007F1D71 /* CollectCityViewController.swift */,
 				7269750E1BE79BD4000C0ABF /* MenuViewController.swift */,
 				AEBB29BB1BEDAA3D000D31B4 /* SwitchPhotoViewController.swift */,
 			);
@@ -547,15 +545,14 @@
 			isa = PBXGroup;
 			children = (
 				AE3E96E81C29148100A9CEAD /* SettingDatumTableViewCell.swift */,
+				AED4B8681C043A7B00DAC9D3 /* FavoriteCollectionViewCell.swift */,
 				7206B7C41BF35D9F002E3C9A /* CollectionSightViewCell.swift */,
 				7206B7C61BF35E62002E3C9A /* CollectionCityViewCell.swift */,
-				AE8C0C161BE8A090003C7942 /* LoginView.swift */,
-				AED4B8681C043A7B00DAC9D3 /* FavoriteCollectionViewCell.swift */,
 				AED4B8701C048B8A00DAC9D3 /* CollectContentCell.swift */,
 				AED4B86E1C048B4B00DAC9D3 /* CollectContentBookCell.swift */,
 				AED4B8731C04933800DAC9D3 /* CollectContentVideoCell.swift */,
+				AE8C0C161BE8A090003C7942 /* LoginView.swift */,
 				AE13CE681C0A12B20091CAE3 /* PleaseLoginButton.swift */,
-				AE78983E1BECDAF40073599E /* PhotoView.swift */,
 				AEA241111C0EDBAB00049882 /* MessageTableView.swift */,
 				AEA241151C0F121E00049882 /* SystemTableViewCell.swift */,
 				AEA241171C0F124A00049882 /* MessageTableViewCell.swift */,
@@ -704,6 +701,7 @@
 		72D86E081B65E82B004B72D0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				AE3B49041C2A452800D0E59B /* Photo */,
 				725A62C41C033B0500661555 /* Cache */,
 				AED4B8721C0492DC00DAC9D3 /* Base */,
 				72A5BF311B73351400F3AB26 /* HttpRequest.swift */,
@@ -733,7 +731,6 @@
 				AED4B8661C041B0200DAC9D3 /* Regex.swift */,
 				AE43E16D1C07FEB70021964E /* ControllerTools.swift */,
 				AE43E1701C082B980021964E /* ProgressHUD.swift */,
-				AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -751,13 +748,35 @@
 		AE02196F1C0874DB003B8565 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				AE3B48FD1C29541800D0E59B /* OtherSettingController.swift */,
+				AE12FF7E1B9C0BE800C09F8A /* FeedBackViewController.swift */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		AE3B49031C2A446700D0E59B /* My */ = {
+			isa = PBXGroup;
+			children = (
 				AE3E96E61C29059200A9CEAD /* SettingDatumViewController.swift */,
 				AECBDF701B96BF9D00FAC682 /* SettingViewController.swift */,
 				AE8BA8951C008B8600F17F2A /* SettingNicknameController.swift */,
 				AE0219701C087522003B8565 /* SettingSexViewController.swift */,
-				AE3B48FD1C29541800D0E59B /* OtherSettingController.swift */,
+				AE3B49011C2A3BA700D0E59B /* MyCommentViewController.swift */,
+				72D721341B6C4500005BDE55 /* FavoriteViewController.swift */,
+				AECD226C1B9EEC9B007F1D71 /* CollectContentViewController.swift */,
+				AECD22651B9ECDD5007F1D71 /* CollectSightViewController.swift */,
+				AECD226E1B9F045D007F1D71 /* CollectCityViewController.swift */,
 			);
-			name = Setting;
+			name = My;
+			sourceTree = "<group>";
+		};
+		AE3B49041C2A452800D0E59B /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */,
+				AE78983E1BECDAF40073599E /* PhotoView.swift */,
+			);
+			name = Photo;
 			sourceTree = "<group>";
 		};
 		AE3CA1081C05638600669BA0 /* libraries */ = {
@@ -1259,6 +1278,7 @@
 				AE8C0C191BE8AB2D003C7942 /* UserInfo.swift in Sources */,
 				AED4B8691C043A7B00DAC9D3 /* FavoriteCollectionViewCell.swift in Sources */,
 				726974711BE394E3000C0ABF /* Landscape.swift in Sources */,
+				AE3B49021C2A3BA700D0E59B /* MyCommentViewController.swift in Sources */,
 				AE8C0C171BE8A090003C7942 /* LoginView.swift in Sources */,
 				AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */,
 				AE29B35C1C25196800FFA406 /* HotCityTableViewCell.swift in Sources */,

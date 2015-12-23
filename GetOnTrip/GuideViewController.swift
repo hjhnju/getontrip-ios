@@ -13,6 +13,8 @@ let reuseIdentifier = "Cell"
 
 class GuideViewController: UICollectionViewController {
 
+    var numberPage: Int = 4
+    
     /// 界面布局
     let layout = UICollectionViewFlowLayout()
     
@@ -23,9 +25,9 @@ class GuideViewController: UICollectionViewController {
     let subtitleEnglish = ["MORE THAN PICTURES", "SOMETHING SPECIAL", "ON THE WAY", ""]
     
     // 分页
-    lazy var pagecontrol: UIPageControl = {
+    lazy var pagecontrol: UIPageControl = { [weak self] in
         var pageC = UIPageControl()
-        pageC.numberOfPages = 4
+        pageC.numberOfPages = self?.numberPage ?? 0
         pageC.currentPage = 0
         pageC.addTarget(self, action: "pageChanged", forControlEvents: UIControlEvents.ValueChanged)
         pageC.userInteractionEnabled = false
@@ -40,14 +42,11 @@ class GuideViewController: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.addSubview(pagecontrol)
+        automaticallyAdjustsScrollViewInsets = false
         pagecontrol.ff_AlignInner(.BottomCenter, referView: view, size: nil, offset: CGPointMake(0, -20))
         
         // 注册可重用 cell
@@ -71,9 +70,8 @@ class GuideViewController: UICollectionViewController {
     
     // MARK: UICollectionViewDataSource
     /// 图片总数
-    let imageCount = 4
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageCount
+        return numberPage
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -135,33 +133,33 @@ class NewFeatureCell: UICollectionViewCell {
     }
     
     private func initView() {
-        addSubview(iconView)
-        addSubview(cover)
-        addSubview(title)
-        addSubview(subtitle)
-        addSubview(subtitleEnglish)
-        addSubview(startButton)
-        addSubview(introduceLabel)
+        contentView.addSubview(iconView)
+        contentView.addSubview(cover)
+        contentView.addSubview(title)
+        contentView.addSubview(subtitle)
+        contentView.addSubview(subtitleEnglish)
+        contentView.addSubview(startButton)
+        contentView.addSubview(introduceLabel)
         
-        iconView.contentMode = UIViewContentMode.ScaleAspectFill
+        iconView.contentMode = .ScaleAspectFill
         subtitleEnglish.font = UIFont(name: Font.HelveticaNeueThin, size: 28)
-        startButton.addTarget(self, action: "startButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
+        startButton.addTarget(self, action: "startButtonClicked", forControlEvents: .TouchUpInside)
         startButton.layer.borderWidth = 1.0
         startButton.layer.borderColor = UIColor.whiteColor().CGColor
         startButton.layer.cornerRadius = 15
         
-        title.textAlignment = NSTextAlignment.Center
-        subtitle.textAlignment = NSTextAlignment.Justified
+        title.textAlignment = .Center
+        subtitle.textAlignment = .Justified
     }
     
     private func setupAutoLayout() {
-        iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(bounds.width, bounds.height))
-        cover.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(bounds.width, bounds.height))
-        title.ff_AlignInner(.TopCenter, referView: self, size: nil, offset: CGPointMake(0, 136))
-        subtitle.ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -79))
+        iconView.frame = UIScreen.mainScreen().bounds
+        cover.frame = UIScreen.mainScreen().bounds
+        title.ff_AlignInner(.TopCenter, referView: contentView, size: nil, offset: CGPointMake(0, 136))
+        subtitle.ff_AlignInner(.BottomCenter, referView: contentView, size: nil, offset: CGPointMake(0, -79))
         subtitleEnglish.ff_AlignVertical(.TopCenter, referView: subtitle, size: nil, offset: CGPointMake(0, -6))
-        introduceLabel.ff_AlignInner(.BottomCenter, referView: self, size: nil, offset: CGPointMake(0, -146))
-        startButton.ff_AlignInner(.CenterCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.55, 64), offset: CGPointMake(0, 0))
+        introduceLabel.ff_AlignInner(.BottomCenter, referView: contentView, size: nil, offset: CGPointMake(0, -146))
+        startButton.ff_AlignInner(.CenterCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width * 0.55, 64), offset: CGPointMake(0, 0))
     }
     
     required init(coder aDecoder: NSCoder) {

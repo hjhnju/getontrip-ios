@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class SettingDatumTableViewCell: UITableViewCell {
     
     var currentRow: Int = 0 {

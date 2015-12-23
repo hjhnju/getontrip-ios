@@ -102,6 +102,18 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         if indexPath.section == 0 && indexPath.row == 0 {
             clearCacheSetting(indexPath)
         }
+        
+        if indexPath.section == 2 && indexPath.row == 0 {
+            if indexPath.row == 0 {
+                
+            } else {
+                UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://appsto.re/cn/vpNk_.i")!)
+            }
+        } else if indexPath.section == 3 && indexPath.row == 0 {
+            let vc = GuideViewController()
+            vc.numberPage = 3
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
