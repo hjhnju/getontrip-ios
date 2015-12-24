@@ -22,6 +22,8 @@ class MyCommentTableViewCell: UITableViewCell {
     /// 评论时间
     lazy var timeLabel = UILabel(color: SceneColor.whiteGrey, title: "", fontSize: 9, mutiLines: true, fontName: Font.PingFangSCLight)
     
+    lazy var baseLine = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
+    
     var dataSource: MyComment? {
         didSet {
             if let data = dataSource {
@@ -47,6 +49,7 @@ class MyCommentTableViewCell: UITableViewCell {
         contentView.addSubview(contentLabel)
         contentView.addSubview(fromLabel)
         contentView.addSubview(timeLabel)
+        contentView.addSubview(baseLine)
         contentLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 119
         fromLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 119
         
@@ -54,6 +57,7 @@ class MyCommentTableViewCell: UITableViewCell {
         contentLabel.ff_AlignHorizontal(.TopRight, referView: iconImageView, size: nil, offset: CGPointMake(14, 0))
         fromLabel.ff_AlignVertical(.BottomLeft, referView: contentLabel, size: nil, offset: CGPointMake(0, 2))
         timeLabel.ff_AlignInner(.TopRight, referView: contentView, size: nil, offset: CGPointMake(-9, 28))
+        baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
     }
 
     required init?(coder aDecoder: NSCoder) {

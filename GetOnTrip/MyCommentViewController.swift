@@ -45,6 +45,7 @@ class MyCommentViewController: MenuViewController, UITableViewDataSource, UITabl
         tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
         tableView.delegate   = self
         tableView.dataSource = self
+        tableView.separatorStyle = .None
         tableView.registerClass(MyCommentTableViewCell.self, forCellReuseIdentifier: "MyCommentTableViewCell")
     }
     
@@ -80,9 +81,7 @@ class MyCommentViewController: MenuViewController, UITableViewDataSource, UITabl
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MyCommentTableViewCell", forIndexPath: indexPath) as! MyCommentTableViewCell
-        
-        cell.dataSource = dataSource[indexPath.row]
-        
+        cell.dataSource = dataSource[indexPath.row]        
         return cell
     }
     

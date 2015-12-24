@@ -30,13 +30,15 @@ class FeedbackRequest: NSObject {
         post["pageSize"] = String(pageSize)
         
         // 发送网络请求加载数据
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/advise/list", post: [String: String]()) { (result, status) -> () in
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/advise/list", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-               print(result)
+                print(result)
                 var feedbacks = [Feedback]()
                 for item in result.arrayValue {
                     if let item = item.dictionaryObject {
-                        feedbacks.append(Feedback(dict: item))
+                        let fb = Feedback(dict: item)
+                        fb.isShowTime = feedbacks.last?.create_time == fb.create_time ? true : false
+                        feedbacks.append(fb)
                     }
                 }
                 handler(feedbacks, status)
@@ -77,6 +79,8 @@ class Feedback: NSObject {
     }
     /// 创建时间
     lazy var create_time = ""
+    /// 是否显示
+    var isShowTime: Bool = false
     
     init(dict: [String : AnyObject]) {
         super.init()

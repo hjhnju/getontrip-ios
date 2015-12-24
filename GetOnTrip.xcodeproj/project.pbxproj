@@ -137,6 +137,7 @@
 		AE6D9FB31B84AE46009A8A9D /* SightVideosRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* SightVideosRequest.swift */; };
 		AE6DCC6A1BDF3AB800D817E9 /* SearchAllRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6DCC691BDF3AB800D817E9 /* SearchAllRequest.swift */; };
 		AE6FC7AC1C23B415004ACA03 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6FC7AB1C23B415004ACA03 /* BaseTableViewController.swift */; };
+		AE703BBF1C2BC33700AAD69F /* FeedBackMyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE703BBE1C2BC33700AAD69F /* FeedBackMyTableViewCell.swift */; };
 		AE70C1991BCCB7EF00834130 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE70C1981BCCB7EF00834130 /* CommentViewController.swift */; };
 		AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE78983E1BECDAF40073599E /* PhotoView.swift */; };
 		AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */; };
@@ -378,6 +379,7 @@
 		AE6D9FB21B84AE46009A8A9D /* SightVideosRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightVideosRequest.swift; sourceTree = "<group>"; };
 		AE6DCC691BDF3AB800D817E9 /* SearchAllRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchAllRequest.swift; sourceTree = "<group>"; };
 		AE6FC7AB1C23B415004ACA03 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
+		AE703BBE1C2BC33700AAD69F /* FeedBackMyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedBackMyTableViewCell.swift; sourceTree = "<group>"; };
 		AE70C1981BCCB7EF00834130 /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		AE78983E1BECDAF40073599E /* PhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuSettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -559,6 +561,7 @@
 				AEA241151C0F121E00049882 /* SystemTableViewCell.swift */,
 				AEA241171C0F124A00049882 /* MessageTableViewCell.swift */,
 				AE3B49071C2A561800D0E59B /* MyCommentTableViewCell.swift */,
+				AE703BBE1C2BC33700AAD69F /* FeedBackMyTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1254,6 +1257,7 @@
 				AEA94F901B9AED30006D6998 /* UserAccount.swift in Sources */,
 				AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */,
 				AE3B49081C2A561800D0E59B /* MyCommentTableViewCell.swift in Sources */,
+				AE703BBF1C2BC33700AAD69F /* FeedBackMyTableViewCell.swift in Sources */,
 				AEA241041C0C6AA200049882 /* TopicSightListTableViewCell.swift in Sources */,
 				AE12FF7F1B9C0BE800C09F8A /* FeedBackViewController.swift in Sources */,
 				AEA241121C0EDBAB00049882 /* MessageTableView.swift in Sources */,

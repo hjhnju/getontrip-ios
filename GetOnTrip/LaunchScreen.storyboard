@@ -55,10 +55,10 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="yqs-Wr-nS7"/>
                                 <exclude reference="3nA-J5-h4T"/>
                                 <exclude reference="Cqh-Iz-fKY"/>
                                 <exclude reference="j80-NK-kj8"/>
-                                <exclude reference="yqs-Wr-nS7"/>
                                 <exclude reference="AO2-D9-TU1"/>
                                 <exclude reference="DgT-ZX-Qaj"/>
                                 <exclude reference="W9I-Oe-x7w"/>

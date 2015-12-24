@@ -49,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = defaultViewController()
         window?.makeKeyAndVisible()
         
+        
         //cache
         let urlCache = NSURLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: "httpcache")
         NSURLCache.setSharedURLCache(urlCache)

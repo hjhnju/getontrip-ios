@@ -9,7 +9,7 @@
 import UIKit
 import MJRefresh
 
-class FeedBackViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate { // UITextFieldDelegate
+class FeedBackViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate {
     
     lazy var tableView: UITableView = UITableView()
     
@@ -25,31 +25,28 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     /// 底view
     lazy var commentBottomView: UIView = UIView()
     
-    var dataSource: [Feedback] = [Feedback]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var dataSource: [Feedback] = [Feedback]()
+    
+    lazy var collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "还木有登录...\n请先登录吧(∩_∩)", fontSize: 13, mutiLines: true)
     
     // MARK: - 初始化相关
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        
         initView()
         initTableView()
         initCommentBottomView()
         initRefresh()
-        loadData()
+        initPrompt()
     }
     
     private func initView() {
         navBar.titleLabel.text = "反馈"
         view.backgroundColor = .whiteColor()
-        tableView.backgroundColor = UIColor.randomColor()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
+    /// 初始化底部
     private func initCommentBottomView() {
         
         view.addSubview(commentBottomView)
@@ -72,6 +69,7 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         sendContentText.leftViewMode = .Always
     }
     
+    /// 实始化tableview
     private func initTableView() {
         
         view.addSubview(tableView)
@@ -83,9 +81,10 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         tableView.registerClass(FeedBackSytemTableViewCell.self, forCellReuseIdentifier: "FeedBackSytemTableViewCell")
     }
     
+    /// 初始化刷新方法
     private func initRefresh() {
         //上拉刷新
-        let tbHeaderView = MJRefreshNormalHeader { [weak self] () -> Void in self?.loadData() }
+        let tbHeaderView = MJRefreshNormalHeader { [weak self] () -> Void in self?.loadMore() }
         tbHeaderView.automaticallyChangeAlpha = true
         tbHeaderView.activityIndicatorViewStyle = .Gray
         tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
@@ -95,20 +94,21 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         tbHeaderView.lastUpdatedTimeLabel?.hidden = true
         tbHeaderView.stateLabel?.hidden = true
         tbHeaderView.arrowView?.image = UIImage()
-        
-        //下拉刷新
-        let tbFooterView = MJRefreshAutoNormalFooter { [weak self] () -> Void in self?.loadMore() }
-        tbFooterView.automaticallyRefresh = true
-        tbFooterView.automaticallyChangeAlpha = true
-        tbFooterView.activityIndicatorViewStyle = .White
-        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
-        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
-        
         tableView.mj_header = tbHeaderView
-        tableView.mj_footer = tbFooterView
     }
     
-
+    /// 初始化提示
+    private func initPrompt() {
+        view.addSubview(collectPrompt)
+        collectPrompt.ff_AlignInner(.CenterCenter, referView: view, size: nil, offset: CGPointMake(0, -50))
+        collectPrompt.textAlignment = .Center
+        collectPrompt.hidden = false
+        if globalUser != nil {
+            collectPrompt.hidden = true
+            loadData()
+        }
+    }
+    
 //    
 //    /*
 //    - (void)scrollToBottom {
@@ -142,35 +142,8 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 120
+        return FeedBackMyTableViewCell.heightWithFeedBack(dataSource[indexPath.row])
     }
-//
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        if rowHeightCache.objectForKey(indexPath) != nil {
-//            return CGFloat(rowHeightCache.objectForKey(indexPath)!.floatValue)
-//        }
-//        
-//        let cell = self.reuseableCellWithIndexPath(indexPath)
-////        let h = cell.rowHeight(feedBackList![indexPath.row] as! FeedBack)
-//        rowHeightCache.setObject(h, forKey: indexPath)
-//        
-//        return h
-//    }
-//    
-//    func reuseableCellWithIndexPath(indexPath: NSIndexPath) -> FeedBackViewCell {
-//        let msg: FeedBack = feedBackList![indexPath.row] as! FeedBack
-//       
-//        return tableView.dequeueReusableCellWithIdentifier(msg.type == 1 ? "SendCell" : "RecvCell") as! FeedBackViewCell
-//    }
-//    
-//    func sendMessageClick(btn: UIButton) {
-//        
-//        if sendContentText.text != "" {
-//            sendFeedBackMessage()
-//        }
-//        
-//        loadFeedBackHistory()
-//    }
     
     /// 当键盘弹出的时候，执行相关操作
     func keyboardChanged(not: NSNotification) {
@@ -180,15 +153,9 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         let keyBoardY = keyBoardFrame?.origin.y
         let transFromValue = keyBoardY! - view.bounds.height
         
-        print(transFromValue)
-        if transFromValue == 0 { // 落下
-            UIView.animateWithDuration(time, animations: { [weak self] () -> Void in
-                self?.commentBottomView.frame.origin.y = UIScreen.mainScreen().bounds.height - 50
-            })
-        } else { // 弹出
-            UIView.animateWithDuration(time, animations: { [weak self] () -> Void in
-                self?.commentBottomView.frame.origin.y = keyBoardY! - 50
-            })
+        UIView.animateWithDuration(time) { [weak self] () -> Void in
+            self?.commentBottomView.frame.origin.y = transFromValue == 0 ? UIScreen.mainScreen().bounds.height - 50 : keyBoardY! - 50
+            self?.tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - transFromValue)
         }
     }
     
@@ -197,15 +164,11 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     private func loadData() {
-        if self.isLoading {
-            return
-        }
+        if self.isLoading { return }
         self.isLoading = true
         
-        //清空footer的“加载完成”
-        self.tableView.mj_footer.resetNoMoreData()
-        
         lastRequest.fetchListFirstPageModels {[weak self] (data, status) -> Void in
+            print(data)
             //处理异常状态
             if RetCode.SUCCESS != status {
                 ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
@@ -217,6 +180,7 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
             if let dataSource = data {
                 self?.tableView.mj_header.endRefreshing()
                 self?.dataSource = dataSource
+                self?.tableView.reloadData()
             }
             self?.isLoading = false
         }
@@ -224,21 +188,36 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     
     /// 底部加载更多
     func loadMore(){
-        if self.isLoading {
-            return
-        }
+        if self.isLoading { return }
         self.isLoading = true
         //请求下一页
-        self.lastRequest.fetchListNextPageModels { [weak self] (data, status) -> Void in
+        self.lastRequest.fetchListNextPageModels { [weak self] (result, status) -> Void in
             
-            if let dataSource = data {
-                if dataSource.count > 0 {
-                    if let cells = self?.dataSource {
-//                        self?.dataSource = cells + dataSource
-                    }
-                    self?.tableView.mj_footer.endRefreshing()
+            if let data = result {
+                if data.count > 0 {
+                    // 总数量 - 最后一页
+//                    let count1 = ((self?.lastRequest.page)! * (self?.lastRequest.pageSize)!) - (self?.dataSource.count)!
+//                    let count = (self?.dataSource.count ?? 0) - (self?.dataSource.count ?? 0) % (self?.lastRequest.pageSize ?? 0)
+//                    // 找出最后一页多的
+//                    for _  in 0...count {
+//                        self?.dataSource.removeLast()
+//                    }
+                    
+                    self?.dataSource.appendContentsOf(data)
+//                    self?.dataSource.insertContentsOf(data, at: 0)
+//                    self?.dataSource.insert(Feedback(dict: [String : AnyObject]()), atIndex: 0)
+                    //                        self?.dataSource.appendContentsOf(cells)
+//                    var indexPaths = [NSIndexPath]()
+//                    for _ in data {
+//                    indexPaths.append(NSIndexPath(forItem: 0, inSection: 0))
+////                        indexPaths.append(NSIndexPath(forItem: 1, inSection: 0))
+//                    }
+//                    self?.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+                    self?.tableView.reloadData()
+                    //                        self?.dataSource = cells + dataSource
+                    self?.tableView.mj_header.endRefreshing()
                 } else {
-                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+                    self?.tableView.mj_header.endRefreshing()
                 }
             }
             self?.isLoading = false
@@ -247,75 +226,63 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     
     /// 发送反馈消息
     func sendFeedBackMessage() {
-        if sendContentText.text == "" {
+        
+        let content = sendContentText.text ?? ""
+        if content == "" {
             ProgressHUD.showErrorHUD(nil, text: "请先输入需要反馈的消息")
             return
         }
-        lastRequest.fetchSendModels(sendContentText.text ?? "") { (result, status) -> Void in
-            if status == RetCode.SUCCESS {
-//                if result
+        if globalUser != nil {
+            self.isLoginAction(content)
+        } else { /// 未登陆时
+            LoginView.sharedLoginView.doAfterLogin() { [weak self] (success, error) -> () in
+                self?.sendContentText.resignFirstResponder()
+                if success {
+                    self?.isLoginAction(content)
+                } else { /// 登陆失败
+                    ProgressHUD.showErrorHUD(nil, text: "登陆失败，请检查网络设置")
+                }
             }
+        }
+    }
+    
+    private func isLoginAction(content: String) {
+        lastRequest.fetchSendModels(content) { [weak self] (result, status) -> Void in
+            if status == RetCode.SUCCESS {
+                ProgressHUD.showSuccessHUD(nil, text: "发送成功")
+                
+                let fb = Feedback(dict: [String : AnyObject]())
+                
+                
+                
+                let format = NSDateFormatter()
+                format.locale = NSLocale(localeIdentifier: "en")
+                format.dateFormat = "yyyy-MM-dd HH:mm"
+                let dest = format.stringFromDate(NSDate())
+                
+                self?.sendContentText.text = ""
+                return
+            }
+            ProgressHUD.showErrorHUD(nil, text: "发送失败，请重新发送")
+        }
+    }
+    
+    /// 添加回复信息
+    private func addReceivedInfo() {
+        
+        NSDate()
+        
+    }
+    
+    // scrollerview delegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if sendContentText.isFirstResponder() {
+            sendContentText.resignFirstResponder()
         }
     }
     
     /// 注销通知
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-}
-
-class FeedBackMyTableViewCell: UITableViewCell {
-    
-    /// 时间
-    lazy var timeLabel = UILabel(color: SceneColor.frontBlack, title: "1970-1-1", fontSize: 10, mutiLines: true, fontName: Font.PingFangSCLight)
-    
-    /// 头像
-    lazy var iconImageView = UIImageView(image: UIImage(named: "icon_app")!)
-    
-    /// 内容
-    lazy var contentLabel = UILabel(color: .randomColor(), title: "在吗？", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCLight)
-    
-    /// 内容底部图
-    lazy var contentImageView = UIImageView(image: UIImage(named: "content_feedback"))
-    
-    var data: Feedback? {
-        didSet {
-            if let data = data {
-                timeLabel.text = data.create_time
-//                iconImageView.sd_setImageWithURL(NSURL(string: data.image), placeholderImage: PlaceholderImage.defaultSmall)
-                contentLabel.text = data.content
-            }
-        }
-    }
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        contentView.addSubview(timeLabel)
-        contentView.addSubview(iconImageView)
-        contentView.addSubview(contentLabel)
-        contentView.addSubview(contentImageView)
-        initAutoLayout()
-    }
-    
-    private func initAutoLayout() {
-        timeLabel.ff_AlignInner(.TopCenter, referView: contentView, size: nil, offset: CGPointMake(0, 18))
-        iconImageView.ff_AlignInner(.TopRight, referView: contentView, size: CGSizeMake(35, 35), offset: CGPointMake(-9, 53))
-        contentLabel.ff_AlignHorizontal(.TopLeft, referView: iconImageView, size: nil, offset: CGPointMake(-12, 0))
-        contentImageView.ff_AlignHorizontal(.CenterCenter, referView: contentLabel, size: nil, offset: CGPointMake(-12, 0))
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-class FeedBackSytemTableViewCell: FeedBackMyTableViewCell {
-    
-    private override func initAutoLayout() {
-        timeLabel.ff_AlignInner(.TopCenter, referView: contentView, size: nil, offset: CGPointMake(0, 18))
-        iconImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(35, 35), offset: CGPointMake(9, 53))
-        contentLabel.ff_AlignHorizontal(.TopRight, referView: iconImageView, size: nil, offset: CGPointMake(12, 0))
-        contentImageView.ff_AlignHorizontal(.TopRight, referView: iconImageView, size: nil, offset: CGPointMake(12, 0))
     }
 }
