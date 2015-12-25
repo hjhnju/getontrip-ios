@@ -1,25 +1,21 @@
 //
-//  CollectTopicViewController.swift
+//  MyPraiseViewController.swift
 //  GetOnTrip
 //
-//  Created by 王振坤 on 15/9/8.
-//  Copyright (c) 2015年 Joshua. All rights reserved.
+//  Created by 王振坤 on 15/12/25.
+//  Copyright © 2015年 Joshua. All rights reserved.
 //
 
 import UIKit
-import FFAutoLayout
 import MJRefresh
 
-let CollectContentVideoCellIdentifier = "CollectContentVideoCell"
-let CollectContentBookCellIdentifier  = "CollectContentBookCell"
-let CollectContentCellIdentifier      = "CollectContentCell"
-
-class CollectContentViewController: UITableViewController {
-
+class MyPraiseViewController: MenuViewController, UITableViewDelegate, UITableViewDataSource {
     /// 网络请求加载数据
-    var lastRequest: CollectSightRequest?
+    lazy var lastRequest: MyPraiseRequest = MyPraiseRequest()
     
-    let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "还木有内容...\n收藏点喜欢的吧(∩_∩)", fontSize: 13, mutiLines: true)
+    lazy var tableView: UITableView = UITableView()
+    
+    let collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "还木有点赞过...\n为你喜欢的内容点个赞吧(∩_∩)", fontSize: 13, mutiLines: true)
     
     var collectContent = [CollectContent]() {
         didSet {
@@ -35,7 +31,7 @@ class CollectContentViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         initProperty()
         if globalUser != nil {
             initRefresh()
@@ -46,12 +42,18 @@ class CollectContentViewController: UITableViewController {
     
     private func initProperty() {
         
-        tableView?.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(.TopCenter, referView: tableView!, size: nil, offset: CGPointMake(0, 135))
+        view.backgroundColor = .whiteColor()
+        navBar.titleLabel.text = "我赞过的"
+        view.addSubview(tableView)
+        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
+        tableView.addSubview(collectPrompt)
+        collectPrompt.ff_AlignInner(.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = .Center
-        tableView.separatorStyle = .None
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.separatorStyle = .None
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.registerClass(CollectContentVideoCell.self, forCellReuseIdentifier: CollectContentVideoCellIdentifier)
         tableView.registerClass(CollectContentBookCell.self, forCellReuseIdentifier: CollectContentBookCellIdentifier)
         tableView.registerClass(CollectContentCell.self, forCellReuseIdentifier: CollectContentCellIdentifier)
@@ -83,31 +85,25 @@ class CollectContentViewController: UITableViewController {
         
         loadData()
     }
-
+    
     // MARK: - Table view data source
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if collectContent.count == 0 { collectPrompt.hidden = false } else { collectPrompt.hidden = true }
         return collectContent.count
     }
-
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: BaseTableViewCell?
         let data = collectContent[indexPath.row] as CollectContent
         
-        switch Int(data.type ?? "0") {
-        case FavoriteContant.TypeTopic?:
+        
+        if data.type == "1" {
             cell = tableView.dequeueReusableCellWithIdentifier(CollectContentCellIdentifier, forIndexPath: indexPath) as! CollectContentCell
             cell?.data = data
-        case FavoriteContant.TypeBook?:
+        } else {
             cell = tableView.dequeueReusableCellWithIdentifier(CollectContentBookCellIdentifier, forIndexPath: indexPath) as! CollectContentBookCell
             cell?.data = data
-        case FavoriteContant.TypeVideo?:
-            cell = tableView.dequeueReusableCellWithIdentifier(CollectContentVideoCellIdentifier, forIndexPath: indexPath) as! CollectContentVideoCell
-            cell?.data = data
-        default:
-            cell = tableView.dequeueReusableCellWithIdentifier(CollectContentCellIdentifier, forIndexPath: indexPath) as? CollectContentCell
-            break
         }
         
         if indexPath.row == collectContent.count - 1 {
@@ -115,11 +111,11 @@ class CollectContentViewController: UITableViewController {
         } else {
             cell?.baseline.hidden = false
         }
-
+        
         return cell!
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let col = collectContent[indexPath.row] as CollectContent
         switch Int(col.type ?? "0") {
@@ -153,8 +149,8 @@ class CollectContentViewController: UITableViewController {
         }
     }
     
-
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let collect = collectContent[indexPath.row] as CollectContent
         return collect.type == "4" ? 107 : 125
@@ -173,12 +169,8 @@ class CollectContentViewController: UITableViewController {
         
         //清空footer的“加载完成”
         self.tableView.mj_footer.resetNoMoreData()
-        if lastRequest == nil {
-            lastRequest = CollectSightRequest()
-            lastRequest?.type = 1
-        }
         
-        lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
+        lastRequest.fetchFirstPageModels {[weak self] (result, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
                 ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
@@ -187,9 +179,9 @@ class CollectContentViewController: UITableViewController {
                 return
             }
             
-            if let dataSource = data as? [CollectContent] {
+            if let data = result {
                 self?.tableView.mj_header.endRefreshing()
-                self?.collectContent = dataSource
+                self?.collectContent = data
             }
             self?.isLoading = false
         }
@@ -202,12 +194,12 @@ class CollectContentViewController: UITableViewController {
         }
         self.isLoading = true
         //请求下一页
-        self.lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
+        self.lastRequest.fetchNextPageModels { [weak self] (result, status) -> Void in
             
-            if let dataSource = data as? [CollectContent] {
-                if dataSource.count > 0 {
+            if let data = result {
+                if data.count > 0 {
                     if let cells = self?.collectContent {
-                        self?.collectContent = cells + dataSource
+                        self?.collectContent = cells + data
                     }
                     self?.tableView.mj_footer.endRefreshing()
                 } else {

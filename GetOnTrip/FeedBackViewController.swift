@@ -27,8 +27,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     
     var dataSource: [Feedback] = [Feedback]()
     
-    lazy var collectPrompt = UILabel(color: UIColor(hex: 0x2A2D2E, alpha: 0.3), title: "还木有登录...\n请先登录吧(∩_∩)", fontSize: 13, mutiLines: true)
-    
     // MARK: - 初始化相关
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,12 +35,13 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         initTableView()
         initCommentBottomView()
         initRefresh()
-        initPrompt()
+        if globalUser != nil { loadData() }
     }
     
     private func initView() {
         navBar.titleLabel.text = "反馈"
         view.backgroundColor = .whiteColor()
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
@@ -97,18 +96,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         tableView.mj_header = tbHeaderView
     }
     
-    /// 初始化提示
-    private func initPrompt() {
-        view.addSubview(collectPrompt)
-        collectPrompt.ff_AlignInner(.CenterCenter, referView: view, size: nil, offset: CGPointMake(0, -50))
-        collectPrompt.textAlignment = .Center
-        collectPrompt.hidden = false
-        if globalUser != nil {
-            collectPrompt.hidden = true
-            loadData()
-        }
-    }
-    
 //    
 //    /*
 //    - (void)scrollToBottom {
@@ -149,14 +136,14 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     func keyboardChanged(not: NSNotification) {
         
         let keyBoardFrame = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
-        let time = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]?.doubleValue ?? 0.0
+//        let time = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]?.doubleValue ?? 0.0
         let keyBoardY = keyBoardFrame?.origin.y
         let transFromValue = keyBoardY! - view.bounds.height
         
-        UIView.animateWithDuration(time) { [weak self] () -> Void in
-            self?.commentBottomView.frame.origin.y = transFromValue == 0 ? UIScreen.mainScreen().bounds.height - 50 : keyBoardY! - 50
-            self?.tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - transFromValue)
-        }
+        commentBottomView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
+        tableView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
+        let index = NSIndexPath(forRow: dataSource.count - 1, inSection: 0)
+        tableView.scrollToRowAtIndexPath(index, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
     }
     
     /// 是否正在加载中
@@ -202,8 +189,8 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
 //                    for _  in 0...count {
 //                        self?.dataSource.removeLast()
 //                    }
-                    
-                    self?.dataSource.appendContentsOf(data)
+                    self?.dataSource.insertContentsOf(data, at: 0)
+//                    self?.dataSource.appendContentsOf(data)
 //                    self?.dataSource.insertContentsOf(data, at: 0)
 //                    self?.dataSource.insert(Feedback(dict: [String : AnyObject]()), atIndex: 0)
                     //                        self?.dataSource.appendContentsOf(cells)
@@ -235,8 +222,8 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         if globalUser != nil {
             self.isLoginAction(content)
         } else { /// 未登陆时
+            sendContentText.resignFirstResponder()
             LoginView.sharedLoginView.doAfterLogin() { [weak self] (success, error) -> () in
-                self?.sendContentText.resignFirstResponder()
                 if success {
                     self?.isLoginAction(content)
                 } else { /// 登陆失败
@@ -250,17 +237,8 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         lastRequest.fetchSendModels(content) { [weak self] (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 ProgressHUD.showSuccessHUD(nil, text: "发送成功")
-                
-                let fb = Feedback(dict: [String : AnyObject]())
-                
-                
-                
-                let format = NSDateFormatter()
-                format.locale = NSLocale(localeIdentifier: "en")
-                format.dateFormat = "yyyy-MM-dd HH:mm"
-                let dest = format.stringFromDate(NSDate())
-                
                 self?.sendContentText.text = ""
+                self?.addReceivedInfo(content)
                 return
             }
             ProgressHUD.showErrorHUD(nil, text: "发送失败，请重新发送")
@@ -268,10 +246,21 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     }
     
     /// 添加回复信息
-    private func addReceivedInfo() {
+    private func addReceivedInfo(content: String) {
         
-        NSDate()
+        let format = NSDateFormatter()
+        format.locale = NSLocale(localeIdentifier: "en")
+        format.dateFormat = "yyyy-MM-dd HH:mm"
+        let dest = format.stringFromDate(NSDate())
         
+        let fb = Feedback()
+        fb.content = content
+        fb.type = "1"
+        fb.create_time = dest
+        fb.isShowTime = dataSource.last?.create_time == fb.create_time ? true : false
+        dataSource.append(fb)
+        tableView.reloadData()
+//        tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: dataSource.count ?? 0, inSection: 0)], withRowAnimation: .Fade)
     }
     
     // scrollerview delegate

@@ -32,7 +32,7 @@ class FeedbackRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/advise/list", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                print(result)
+
                 var feedbacks = [Feedback]()
                 for item in result.arrayValue {
                     if let item = item.dictionaryObject {
@@ -72,11 +72,11 @@ class Feedback: NSObject {
     /// 类型
     lazy var type = ""
     /// 图片
-    var image = "" {
-        didSet {
-            image = UIKitTools.sliceImageUrl(image, width: 35, height: 35)
-        }
-    }
+//    var image = "" {
+//        didSet {
+//            image = UIKitTools.sliceImageUrl(image, width: 35, height: 35)
+//        }
+//    }
     /// 创建时间
     lazy var create_time = ""
     /// 是否显示
@@ -86,6 +86,10 @@ class Feedback: NSObject {
         super.init()
         
         setValuesForKeysWithDictionary(dict)
+    }
+    
+    override init() {
+        super.init()
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

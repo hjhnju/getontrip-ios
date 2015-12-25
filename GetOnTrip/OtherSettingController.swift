@@ -188,8 +188,6 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     /// 切换省流量模式
     func trafficSwitchAction(traffic: UISwitch) {
         UserProfiler.instance.savingTrafficMode = traffic.on
-        let mode = traffic.on ? "已切省流量模式\nWIFI环境下仍显示图片" : "省流量模式已关闭"
-        ProgressHUD.showSuccessHUD(nil, text: mode)
     }
     
     

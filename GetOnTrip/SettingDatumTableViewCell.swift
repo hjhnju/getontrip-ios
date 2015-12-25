@@ -25,7 +25,7 @@ class SettingDatumTableViewCell: UITableViewCell {
             } else if currentRow == 2 {
                 leftButton.setImage(UIImage(named: "photo_my"), forState: .Normal)
                 leftButton.setImage(UIImage(named: "photo_my"), forState: .Disabled)
-                leftButton.setTitle("  我的图册", forState: .Normal)
+                leftButton.setTitle("  我赞过的", forState: .Normal)
                 baseLine.hidden = true
             }
         }

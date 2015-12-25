@@ -35,7 +35,7 @@ class FeedBackMyTableViewCell: UITableViewCell {
                 contentLabel.textColor = data.type == "1" ? .whiteColor() : SceneColor.frontBlack
                 timeLabel.hidden = data.isShowTime
                 timeLabel.text = data.create_time
-                iconImageView.sd_setImageWithURL(NSURL(string: data.image), placeholderImage: PlaceholderImage.defaultSmall)
+                iconImageView.sd_setImageWithURL(NSURL(string: globalUser?.icon ?? ""), placeholderImage: PlaceholderImage.defaultSmall)
                 if data.type != "1" { iconImageView.image = UIImage(named: "icon_app") }
                 contentLabel.text = data.content
                 

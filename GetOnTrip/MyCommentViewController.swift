@@ -38,6 +38,7 @@ class MyCommentViewController: MenuViewController, UITableViewDataSource, UITabl
         navBar.titleLabel.text = "我的评论"
         view.backgroundColor = .whiteColor()
         automaticallyAdjustsScrollViewInsets = false
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
     }
     
     private func initTableView() {

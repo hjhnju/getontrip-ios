@@ -12,7 +12,7 @@ import Foundation
 /// 用户信息类
 class UserInfo : NSObject {
     
-    var nick_name: String = ""
+    lazy var nick_name: String = ""
     
     var image: String = "" {
         didSet {
@@ -22,9 +22,11 @@ class UserInfo : NSObject {
         }
     }
     
-    var sex: String = "0"
+    lazy var sex: String = "0"
     
-    var city: String = ""
+    lazy var city: String = ""
+    
+    lazy var backimg: String = ""
     
     convenience init(dict: [String : AnyObject]) {
         self.init()

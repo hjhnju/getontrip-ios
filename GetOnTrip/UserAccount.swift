@@ -22,6 +22,9 @@ class UserAccount: NSObject, NSCoding {
     /// 头像
     var icon: String = ""
     
+    /// 背景
+    var backimg: String = ""
+    
     /// 性别
     var gender: Int = 0
     
@@ -77,6 +80,7 @@ class UserAccount: NSObject, NSCoding {
         gender       = aDecoder.decodeObjectForKey("gender")       as? Int    ?? 0
         city         = aDecoder.decodeObjectForKey("city")         as? String ?? ""
         type         = aDecoder.decodeIntegerForKey("type")        as  Int
+        backimg      = aDecoder.decodeObjectForKey("backimg")      as? String ?? ""
     }
     
     ///  归档，aCoder 编码器，将对象转换成二进制数据保存到磁盘
@@ -91,5 +95,6 @@ class UserAccount: NSObject, NSCoding {
         aCoder.encodeObject(gender, forKey: "gender")
         aCoder.encodeObject(city, forKey: "city")
         aCoder.encodeInteger(type, forKey: "type")
+        aCoder.encodeObject(backimg, forKey:  "backimg")
     }
 }
