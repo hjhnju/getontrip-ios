@@ -24,7 +24,7 @@ class GuideViewController: UICollectionViewController {
     
     let subtitleEnglish = ["MORE THAN PICTURES", "SOMETHING SPECIAL", "ON THE WAY", ""]
     
-    lazy var exitButton = UIButton(image: "topicSight_x", title: "", fontSize: 0)
+    lazy var exitButton = UIButton(image: "close_setting", title: "", fontSize: 0)
     
     // 分页
     lazy var pagecontrol: UIPageControl = { [weak self] in

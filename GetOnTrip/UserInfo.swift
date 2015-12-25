@@ -26,7 +26,13 @@ class UserInfo : NSObject {
     
     lazy var city: String = ""
     
-    lazy var backimg: String = ""
+    var bakimg: String = "" {
+        didSet {
+            if bakimg != "" {
+                bakimg = UIKitTools.sliceImageUrl(bakimg, width: Int(UIScreen.mainScreen().bounds.width), height: 212)
+            }
+        }
+    }
     
     convenience init(dict: [String : AnyObject]) {
         self.init()

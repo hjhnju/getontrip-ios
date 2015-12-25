@@ -142,8 +142,8 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         
         commentBottomView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
         tableView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
-        let index = NSIndexPath(forRow: dataSource.count - 1, inSection: 0)
-        tableView.scrollToRowAtIndexPath(index, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+//        let index = NSIndexPath(forRow: dataSource.count - 1, inSection: 0)
+//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
     }
     
     /// 是否正在加载中

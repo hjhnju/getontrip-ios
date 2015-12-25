@@ -134,15 +134,15 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
         cell.dataSource = getTableViewCellData(indexPath)
         cell.section = indexPath.section
         
-        if dataSource.sectionTag != -1 {
-            if dataSource.iSunfold[dataSource.sectionTag] {
-                if indexPath.section == dataSource.sectionTag {
-                    let index = dataSource.typeCount[indexPath.section].values.first ?? 0
-                    if indexPath.row == index - 1 {
-                        requestMoreSearchingAll(indexPath.section)
+            if dataSource.sectionTag != -1 {
+                if dataSource.iSunfold[dataSource.sectionTag] {
+                    if indexPath.section == dataSource.sectionTag {
+                        let index = dataSource.typeCount[indexPath.section].values.first ?? 0
+                        if indexPath.row == index - 1 {
+                            requestMoreSearchingAll(indexPath.section)
+                        }
                     }
                 }
-            }
         }
         return cell
     }
@@ -250,7 +250,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     搜索全部内容的下一页数据
     */
     func requestMoreSearchingAll(section: Int) {
-        
+
         let index = dataSource.typeCount[section].keys.first ?? ""
         var searchTypeTemp: Int = -1
         switch index {
@@ -324,7 +324,9 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
                     }
                     i++
                 }
-                self?.tableView.insertRowsAtIndexPaths(indexPath, withRowAnimation: .None)
+                if self!.dataSource.iSunfold[self!.dataSource.sectionTag] {
+                    self?.tableView.insertRowsAtIndexPaths(indexPath, withRowAnimation: .None)
+                }
             }
         }
     }

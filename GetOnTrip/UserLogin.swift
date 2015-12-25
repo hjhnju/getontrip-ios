@@ -95,6 +95,7 @@ class UserLogin: NSObject {
                     globalUser?.gender   = Int(userinfo.sex) ?? 0
                     globalUser?.icon     = userinfo.image
                     globalUser?.city     = userinfo.city
+                    globalUser?.bakimg  = userinfo.bakimg
                 }
                 self.saveAccount()
                 handler?(userinfo, status)
@@ -121,16 +122,16 @@ class UserLogin: NSObject {
     }
     
     /// 上传用户个人信息
-    func uploadUserInfo(imageData: NSData?, sex: Int?, nick_name: String?, handler:(result: AnyObject?, status: Int?) -> Void) {
+    func uploadUserInfo(imageData: [String : NSData?]?, sex: Int?, nick_name: String?, handler:(result: AnyObject?, status: Int?) -> Void) {
         
         let str = "/api/\(AppIni.ApiVersion)/user/editinfo"
         var post      = [String: String]()
-        
         if sex       != nil { post["sex"]   = String(sex ?? 2) }
         if nick_name != nil { post["nick_name"] = nick_name ?? "" }
         
         let timestamp = String(format: "%.0f", NSDate().timeIntervalSince1970)
         post["token"] = "\(AppIni.SecretKey)\(timestamp)".sha256 + timestamp
+        
         HttpRequest.sharedHttpRequest.upload(str, data: imageData, parameters: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 handler(result: result.object, status: status)

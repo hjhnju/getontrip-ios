@@ -36,6 +36,9 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         removeCacheLabel.text = getUsedCache()
         automaticallyAdjustsScrollViewInsets = false
         trafficSwitch.addTarget(self, action: "trafficSwitchAction:", forControlEvents: .ValueChanged)
+        if globalUser == nil {
+            exitLogin.hidden = true
+        }
     }
     
     private func initExitLogin() {
@@ -62,8 +65,8 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 || section == 3 { return 1 }
-        return 2
+        if section == 2 { return 1 }
+        return 1
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -80,9 +83,9 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
             cell.contentView.addSubview(removeCacheLabel)
             removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell.contentView, size: nil, offset: CGPointMake(-9, 0))
         } else if indexPath.section == 1 && indexPath.row == 1 {
-            cell.left.text = "切换夜间模式"
-            cell.contentView.addSubview(switchNightsSwitch)
-            switchNightsSwitch.ff_AlignInner(.CenterRight, referView: cell.contentView, size: nil, offset: CGPointMake(-9, 0))
+//            cell.left.text = "切换夜间模式"
+//            cell.contentView.addSubview(switchNightsSwitch)
+//            switchNightsSwitch.ff_AlignInner(.CenterRight, referView: cell.contentView, size: nil, offset: CGPointMake(-9, 0))
         } else if indexPath.section == 2 {
             cell.left.text = indexPath.row == 0 ? "意见反馈" : "给我们评分"
         } else if indexPath.section == 3 && indexPath.row == 0 {

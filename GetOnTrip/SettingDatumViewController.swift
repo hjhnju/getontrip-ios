@@ -20,7 +20,8 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     /// 头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
     
-    lazy var headerButton: UIButton  = UIButton(image: "my_background", title: "", fontSize: 0)
+    lazy var headerButton: UIButton  = UIButton()
+    lazy var myBjImageView: UIImageView = UIImageView()
     
     /// 退出登陆按钮
     lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 16, radius: 0, titleColor: SceneColor.frontBlack)
@@ -67,20 +68,20 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     private func initHeaderView() {
         view.addSubview(headerView)
         headerView.backgroundColor = SceneColor.whiteGray
+        headerView.addSubview(myBjImageView)
         headerView.addSubview(headerButton)
         headerView.addSubview(loginIconButton)
         headerView.addSubview(loginTitleButton)
         headerView.clipsToBounds = true
-        headerButton.contentMode = .ScaleAspectFill
-        headerButton.imageView?.contentMode = .ScaleAspectFill
-        headerButton.setImage(UIImage(named: "my_background"), forState: .Highlighted)
+        myBjImageView.contentMode = .ScaleAspectFill
+
         headerButton.addTarget(self, action: "switchUserBackgroundPhotoAction", forControlEvents: .TouchUpInside)
         loginIconButton.layer.cornerRadius = 45
         loginIconButton.layer.borderWidth = 1.0
         loginIconButton.layer.borderColor = UIColor.whiteColor().CGColor
         
+        myBjImageView.ff_Fill(headerView)
         headerButton.ff_Fill(headerView)
-        headerButton.imageView?.ff_Fill(headerButton)
         let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 212), offset: CGPointMake(0, 44))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
         loginIconButton.ff_AlignInner(.CenterCenter, referView: headerView, size: CGSizeMake(90, 90), offset: CGPointMake(0, 15))
@@ -95,6 +96,17 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         tableView.registerClass(SettingDatumTableViewCell.self, forCellReuseIdentifier: "SettingDatumTableViewCell")
         tableView.frame = CGRectMake(0, 44, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 44)
         tableView.contentInset = UIEdgeInsets(top: 212, left: 0, bottom: 0, right: 0)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if globalUser != nil && globalUser?.bakimg != "" {
+            print(globalUser?.bakimg)
+            myBjImageView.sd_setImageWithURL(NSURL(string: globalUser?.bakimg ?? ""))
+        } else {
+            myBjImageView.sd_setImageWithURL(NSURL(string: "http://www.getontrip.cn/pic/my_background.jpg"))
+        }
     }
     
     // MARK: - tableview delegate
@@ -182,7 +194,8 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     }
     
     /// 切换用户自己的背景图片
+    lazy var photoVC: PhotographViewController = PhotographViewController()
     func switchUserBackgroundPhotoAction() {
-        
+        photoVC.switchPhotoAction(self, sourceview: headerView, isBackground: true)
     }
 }

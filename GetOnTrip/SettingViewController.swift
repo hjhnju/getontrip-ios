@@ -162,7 +162,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         if indexPath.section == 0 {
             switch indexPath.row {
             case SettingCell.iconCell: // 选择照片
-                photoVC.switchPhotoAction(self, sourceview: tableView.cellForRowAtIndexPath(indexPath) ?? UIView(), setPhoto: iconViewImageView)
+                photoVC.switchPhotoAction(self, sourceview: tableView.cellForRowAtIndexPath(indexPath) ?? UIView(), isBackground: false)
             case SettingCell.nickCell: // 选择昵称
                 let nvc = SettingNicknameController()
                 nvc.userNameTextField.text = globalUser?.nickname

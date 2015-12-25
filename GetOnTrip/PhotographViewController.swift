@@ -16,14 +16,12 @@ class PhotographViewController: UIViewController, UIImagePickerControllerDelegat
     /// 所在的控制器
     weak var superViewController: UIViewController?
     
-    /// 需要设置的图片
-    weak var setPhotoImageView: UIImageView?
-    
+    var isBackgroundBool: Bool = false
     /// 选择照片方法
     var imagePicker: UIImagePickerController!
-    func switchPhotoAction(viewController: UIViewController, sourceview: UIView, setPhoto: UIImageView) {
+    func switchPhotoAction(viewController: UIViewController, sourceview: UIView, isBackground: Bool) {
         superViewController = viewController
-        setPhotoImageView  = setPhoto
+        isBackgroundBool = isBackground
         let alerController = UIAlertController(title: "", message: "请选择图片来源", preferredStyle: .ActionSheet)
         let actionCancle   = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
         let phootPicture   = UIAlertAction(title: "拍照", style: .Default) { [weak self] (_) -> Void in
@@ -56,9 +54,9 @@ class PhotographViewController: UIViewController, UIImagePickerControllerDelegat
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         
+        switchPhotoVC.isSaveBackImageBool = isBackgroundBool
         superViewController?.navigationController?.pushViewController(switchPhotoVC, animated: true)
         switchPhotoVC.photoView.img = image
-        setPhotoImageView?.image = image
         superViewController?.dismissViewControllerAnimated(true) { [weak self] () -> Void in
             self?.imagePicker = nil
         }

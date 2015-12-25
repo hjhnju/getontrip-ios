@@ -23,6 +23,13 @@ class SwitchPhotoViewController: MenuViewController {
     
     lazy var shade: PhotoShadeView = PhotoShadeView(color: UIColor.clearColor(), alphaF: 1.0)
     
+    /// 是否保存的是用户的背景图片
+    var isSaveBackImageBool: Bool = false {
+        didSet {
+            shade.isRound = !isSaveBackImageBool
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,21 +70,24 @@ class SwitchPhotoViewController: MenuViewController {
     
     ///  确定按钮方法
     func trueAction() {
-        let imageData = UIImagePNGRepresentation(photoView.savePhotoAction().scaleImage(200))
-        ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在保存中", style: nil) { (handler) -> Void in
-            UserLogin.sharedInstance.uploadUserInfo(imageData, sex: nil, nick_name: nil) { (result, status) -> Void in
+        
+        let imageData = UIImagePNGRepresentation(photoView.savePhotoAction().scaleImage(isSaveBackImageBool ? UIScreen.mainScreen().bounds.width : 200))
+        
+        ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在保存中", style: nil) { [weak self] (handler) -> Void in
+            let fileName = self?.isSaveBackImageBool ?? true ? "backimg" : "file"
+            UserLogin.sharedInstance.uploadUserInfo([fileName : imageData], sex: nil, nick_name: nil) { (result, status) -> Void in
                 handler()
                 if status == RetCode.SUCCESS {
                     UserLogin.sharedInstance.loadAccount({ (result, status) -> Void in
                         if status == RetCode.SUCCESS {
                             ProgressHUD.showSuccessHUD(nil, text: "保存成功")
-                            self.navigationController?.popViewControllerAnimated(true)
+                            self?.navigationController?.popViewControllerAnimated(true)
                         } else {
                             ProgressHUD.showErrorHUD(nil, text: "保存失败")
                         }
                     })
                 } else {
-                    ProgressHUD.showErrorHUD(self.view, text: RetCode.getShowUNE(status ?? 0))
+                    ProgressHUD.showErrorHUD(self?.view, text: RetCode.getShowUNE(status ?? 0))
                 }
             }
         }
@@ -86,6 +96,9 @@ class SwitchPhotoViewController: MenuViewController {
 
 /// 照片遮罩
 class PhotoShadeView: UIView {
+    
+    /// 是否是圆
+    var isRound:Bool = false
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         for item in super.superview!.subviews {
@@ -100,22 +113,21 @@ class PhotoShadeView: UIView {
     
     override func drawRect(rect: CGRect) {
         
-        let ctx = UIGraphicsGetCurrentContext()
-        
+        let ctx = UIGraphicsGetCurrentContext()        
         CGContextAddRect(ctx, rect)
-        
         UIColor(hex: 0x939393, alpha: 0.7).setFill()
         CGContextFillPath(ctx)
-        
         let ctx1 = UIGraphicsGetCurrentContext()
-//        CGContextAddArc(ctx1, 100, 100, 50, 0, CGFloat(M_PI * 2), 1)
         let w: CGRect = UIScreen.mainScreen().bounds
-        CGContextAddEllipseInRect(ctx1, CGRectMake(0, w.height * 0.5 - w.width * 0.5, w.width, w.width))
+        if isRound {
+            CGContextAddEllipseInRect(ctx1, CGRectMake(0, w.height * 0.5 - w.width * 0.5, w.width, w.width))
+        } else {
+            CGContextAddRect(ctx1, CGRectMake(0, w.height * 0.5 - w.width * 0.5, w.width, w.width))
+        }
         CGContextSetLineCap(ctx1, CGLineCap.Round)
         CGContextSetLineJoin(ctx1, CGLineJoin.Round)
         CGContextSetBlendMode(ctx1, CGBlendMode.Copy)
         UIColor.clearColor().setFill()
-        
         CGContextFillPath(ctx1)
         
     }
