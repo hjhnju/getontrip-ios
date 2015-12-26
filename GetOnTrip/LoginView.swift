@@ -26,7 +26,7 @@ class LoginView: UIView {
     
     lazy var emailButton: UIButton     = UIButton(title: "或使用邮箱密码 登录", fontSize: 16, radius: 0, titleColor: UIColor.whiteColor())
     
-    /// 登陆后需要执行的操作
+    /// 登录后需要执行的操作
     var loginFinishedHandler: UserLogin.LoginFinishedHandler?
     
     override init(frame: CGRect) {
@@ -82,7 +82,7 @@ class LoginView: UIView {
     
     // MARK: 自定义方法
     func doAfterLogin(handler: UserLogin.LoginFinishedHandler) {
-        //未登录记录操作，待登录后执行；已登陆则直接执行制定操作
+        //未登录记录操作，待登录后执行；已登录则直接执行制定操作
         if globalUser == nil {
             showFloating()
             self.loginFinishedHandler = handler
@@ -120,7 +120,7 @@ class LoginView: UIView {
         }
     }
     
-    //微信登陆
+    //微信登录
     func wechatLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: self.loginFinishedHandler){ (_) -> Void in
         }
@@ -128,7 +128,7 @@ class LoginView: UIView {
         self.dismissFloating()
     }
     
-    //qq登陆
+    //qq登录
     func qqLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: self.loginFinishedHandler){ (_) -> Void in
         }
@@ -136,7 +136,7 @@ class LoginView: UIView {
         self.dismissFloating()
     }
     
-    //新浪微博登陆
+    //新浪微博登录
     func moreLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: self.loginFinishedHandler){ (_) -> Void in
         }
@@ -144,7 +144,7 @@ class LoginView: UIView {
         self.dismissFloating()
     }
     
-    // 邮箱登陆
+    // 邮箱登录
     func emailButtonAction() {
         let log = LoginViewController()
         let nav = UINavigationController(rootViewController: log)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// 请登陆按钮
+/// 请登录按钮
 class PleaseLoginButton: UIButton {
 
     override func layoutSubviews() {

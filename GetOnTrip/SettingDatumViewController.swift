@@ -23,15 +23,15 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     lazy var headerButton: UIButton  = UIButton()
     lazy var myBjImageView: UIImageView = UIImageView()
     
-    /// 退出登陆按钮
+    /// 退出登录按钮
     lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 16, radius: 0, titleColor: SceneColor.frontBlack)
-    /// 请登陆图片
+    /// 请登录图片
     lazy var loginIconButton: PleaseLoginButton = PleaseLoginButton(image: "icon_app", title: "", fontSize: 0)
     
-    /// 登陆文字
-    lazy var loginTitleButton = UIButton(title: "请登陆", fontSize: 16, radius: 0, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
+    /// 登录文字
+    lazy var loginTitleButton = UIButton(title: "请登录", fontSize: 16, radius: 0, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
     
-    /// 登陆状态
+    /// 登录状态
     var isLoginStatus: Bool = false {
         didSet {
             setupIsLoginSetting()
@@ -173,7 +173,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         }
     }
     
-    ///  初始化是否登陆设置
+    ///  初始化是否登录设置
     private func setupIsLoginSetting() {
         
         if isLoginStatus == true {
@@ -185,7 +185,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         } else {
             loginIconButton.imageView?.image = UIImage(named: "icon_app")
             loginIconButton.setImage(UIImage(named: "icon_app"), forState: .Normal)
-            loginTitleButton.setTitle("请登陆", forState: .Normal)
+            loginTitleButton.setTitle("请登录", forState: .Normal)
         }
     }
     

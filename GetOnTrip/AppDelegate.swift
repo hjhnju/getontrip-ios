@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SDImageCache.sharedImageCache().maxCacheAge   = 60 * 60 * 24 * 7
         
         print(NSHomeDirectory())
-        // 注册第三方登陆分享应用相关信息
+        // 注册第三方登录分享应用相关信息
         registerAppInfo()
         
         return true
@@ -144,7 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 // 第三方写在此方法中
 extension AppDelegate {
-    // MARK: - 注册第三方登陆分享应用相关信息
+    // MARK: - 注册第三方登录分享应用相关信息
     private func registerAppInfo() {
         
         /**

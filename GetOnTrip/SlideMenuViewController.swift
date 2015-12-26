@@ -115,26 +115,26 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         return tab
         }()
     
-    //登陆后，底view
+    //登录后，底view
     lazy var loginAfter: UIView = UIView()
     
-    //登陆前，底view
+    //登录前，底view
     lazy var loginBefore: UIView = UIView()
     
     //欢迎
     lazy var welcomeLabel = UILabel(color: UIColor.whiteColor(), fontSize: 36, mutiLines: true)
     //说明
     lazy var descLabel    = UILabel(color: UIColor.whiteColor(), fontSize: 12, mutiLines: true)
-    //登陆后，头像
+    //登录后，头像
     lazy var headerView: UIImageView = UIImageView(image: PlaceholderImage.defaultUser)
-    //登陆后，名称
+    //登录后，名称
     lazy var nameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
     
     /// 微信
     lazy var wechatButton: UIButton = UIButton(icon: "icon_weixin", masksToBounds: true)
     /// QQ
     lazy var qqButton: UIButton = UIButton(icon: "icon_qq", masksToBounds: true)
-    /// 更多登陆方式按钮
+    /// 更多登录方式按钮
     lazy var moreButton: UIButton = UIButton(icon: "more_white", masksToBounds: true)
     
     //设置菜单的数据源
@@ -146,7 +146,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
     
-    //登陆状态
+    //登录状态
     var logined: Bool = true
     
     lazy var settingButton = UIButton(image: "setting_slideMenu", title: "", fontSize: 0)
@@ -297,7 +297,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         headerView.clipsToBounds = true
     }
     
-    //MARK: - 刷新登陆状态
+    //MARK: - 刷新登录状态
     func refreshLoginStatus() {
         if let user = globalUser {
             loginAfter.hidden = false
@@ -338,11 +338,11 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     
-    /// 登陆后的操作
+    /// 登录后的操作
     var loginFinishedHandler: UserLogin.LoginFinishedHandler = { (result, error) -> Void in
         if error != nil {
             let hud = JGProgressHUD(style: JGProgressHUDStyle.Dark)
-            hud.textLabel.text = "登陆失败啦，再试试手气"
+            hud.textLabel.text = "登录失败啦，再试试手气"
             hud.showInView(UIApplication.sharedApplication().keyWindow)
             hud.dismissAfterDelay(3.0)
         }
@@ -355,20 +355,20 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     // MARK: 支持第三方登录
-    //微信登陆
+    //微信登录
     func wechatLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: loginFinishedHandler){ (_) -> Void in
         }
         
     }
     
-    //qq登陆
+    //qq登录
     func qqLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: loginFinishedHandler){ (_) -> Void in
         }
     }
     
-    // 更多登陆方式
+    // 更多登录方式
     func moreLogin() {
         definesPresentationContext = true
         navigationController

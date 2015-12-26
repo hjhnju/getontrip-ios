@@ -97,7 +97,7 @@ class RetrievePasswordController: UIViewController {
         if RegexString.validateEmail(emailStr) {
             UserRegisterRequest.userSendPasswdEmail(emailStr, handler: { (result, status) -> Void in
                 if status == RetCode.SUCCESS {
-                    ProgressHUD.showSuccessHUD(self.view, text: "发送成功，请重新登陆")
+                    ProgressHUD.showSuccessHUD(self.view, text: "发送成功，请重新登录")
                     dispatch_after(2, dispatch_get_main_queue(), { () -> Void in
 //                        NSThread.sleepForTimeInterval(2) // TODO: 加上它才能延迟
                         self.backAction()

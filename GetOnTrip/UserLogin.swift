@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Alamofire
 
-///  登陆类型 1:qq,2:weixin,3:weibo
+///  登录类型 1:qq,2:weixin,3:weibo
 struct LoginType {
     /// 1
     static let QQ     = 1
@@ -32,14 +32,14 @@ class UserLogin: NSObject {
     /// 获取用户信息请求
     var infoRequest: UserInfoRequest = UserInfoRequest()
     
-    /// 登陆类型 1:qq,2:weixin,3:weibo
+    /// 登录类型 1:qq,2:weixin,3:weibo
     var type: Int = LoginType.QQ
     
     /// 回调用于做完之后不影响之前的操作
     typealias LoginFinishedHandler = (result: Bool, error: NSError?) -> ()
     
-    ///  用户登陆
-    ///  - parameter loginType: 登陆平台类型
+    ///  用户登录
+    ///  - parameter loginType: 登录平台类型
     ///  - parameter openId:    openId
     func login(loginType: Int, user: SSDKUser, handler: (Void -> Void)? = nil) {
         //当前无用户，先使用第三方用户信息

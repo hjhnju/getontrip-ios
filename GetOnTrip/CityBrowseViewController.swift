@@ -33,18 +33,24 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 选择国内外背景按钮
     lazy var domesticBackgroundView = UIView(color: UIColor.whiteColor())
     
+    /// 是否是第一次刷新
+    var isFirstRefreshBool: Bool = false
+    
     /// 数据源
     var dataSource: CityList = CityList() {
         didSet {
-            UIView.transitionWithView(tableView, duration: 0.8, options: .TransitionCrossDissolve, animations: { () -> Void in
-                self.tableView.reloadData()
-                }, completion: nil)
+            if isFirstRefreshBool {
+                UIView.transitionWithView(tableView, duration: 0.6, options: .TransitionCrossDissolve, animations: { () -> Void in
+                    self.tableView.reloadData()
+                    }, completion: nil)
+            } else {
+                tableView.reloadData()
+            }
         }
     }
     
     var hotCityDataSource: [HotCity] = [HotCity]() {
         didSet {
-//            tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: .None)
             hotCityHeight = HotCityTableViewCell.hotCityTableViewCellHeightWith(self.hotCityDataSource.count)
             tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.None)
         }
@@ -282,6 +288,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     }
     
     func domesticButtonAction(sender: UIButton) {
+        isFirstRefreshBool = true
         lastRequest.type = "\(sender.tag)"
         if sender == abroadButton {
             abroadButton.selected = false

@@ -34,7 +34,7 @@ class LoginViewController: MainViewController {
     /// 注册
     lazy var registerButton   = UIButton(title: "新用户注册", fontSize: 13, radius: 0, titleColor: UIColor.whiteColor())
     
-    /// 其他登陆方式
+    /// 其他登录方式
     lazy var elseLoginLabel   = UILabel(color: UIColor.whiteColor(), title: "或使用第三方账号登录", fontSize: 13, mutiLines: true)
     
     /// 基线
@@ -185,28 +185,28 @@ class LoginViewController: MainViewController {
         view.endEditing(true)
     }
     
-    //微信登陆
+    //微信登录
     func wechatLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: { (result, error) -> () in
             self.loginResultDispose(result, error: error)
             }, handler: nil)
     }
     
-    //qq登陆
+    //qq登录
     func qqLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: { (result, error) -> () in
             self.loginResultDispose(result, error: error)
             }, handler: nil)
     }
     
-    //新浪微博登陆
+    //新浪微博登录
     func weiboLogin() {
         UserLogin.sharedInstance.thirdLogin(LoginType.Weibo, finishHandler: { (result, error) -> () in
             self.loginResultDispose(result, error: error)
             }, handler: nil)
     }
     
-    /// 登陆后的处理
+    /// 登录后的处理
     private func loginResultDispose(result: Bool, error: NSError?) {
         if error != nil {
             ProgressHUD.showErrorHUD(self.view, text: "您的网络链接不稳定，请稍候登录")
@@ -243,7 +243,7 @@ class LoginViewController: MainViewController {
         cancleAction()
     }
     
-    /// 登陆方法
+    /// 登录方法
     func loginButtonAction() {
         
         let emailStr = emailTextField.text ?? ""
@@ -266,7 +266,7 @@ class LoginViewController: MainViewController {
                                 }
                             }  else {
                                 if RetCode.getShowMsg(status) == "" {
-                                    ProgressHUD.showErrorHUD(self.view, text: "登陆失败，请重新登陆")
+                                    ProgressHUD.showErrorHUD(self.view, text: "登录失败，请重新登录")
                                 } else {
                                     ProgressHUD.showErrorHUD(self.view, text: (RetCode.getShowMsg(status)))
                                 }
@@ -275,7 +275,7 @@ class LoginViewController: MainViewController {
                         })
                     } else {
                         if RetCode.getShowMsg(status) == "" {
-                            ProgressHUD.showErrorHUD(self.view, text: "登陆失败，请重新登陆")
+                            ProgressHUD.showErrorHUD(self.view, text: "登录失败，请重新登录")
                         } else {
                             ProgressHUD.showErrorHUD(self.view, text: (RetCode.getShowMsg(status)))
                         }

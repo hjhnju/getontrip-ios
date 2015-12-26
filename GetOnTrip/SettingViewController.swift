@@ -65,7 +65,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
     }
     
-    ///  初始化是否登陆设置
+    ///  初始化是否登录设置
     private func setupIsLoginSetting() {
         
         switch globalUser?.gender.hashValue ?? 3 {

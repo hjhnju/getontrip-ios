@@ -221,13 +221,13 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         }
         if globalUser != nil {
             self.isLoginAction(content)
-        } else { /// 未登陆时
+        } else { /// 未登录时
             sendContentText.resignFirstResponder()
             LoginView.sharedLoginView.doAfterLogin() { [weak self] (success, error) -> () in
                 if success {
                     self?.isLoginAction(content)
-                } else { /// 登陆失败
-                    ProgressHUD.showErrorHUD(nil, text: "登陆失败，请检查网络设置")
+                } else { /// 登录失败
+                    ProgressHUD.showErrorHUD(nil, text: "登录失败，请检查网络设置")
                 }
             }
         }

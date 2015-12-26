@@ -46,7 +46,7 @@ class UserAccount: NSObject, NSCoding {
     /// 过期日期
     var expiresDate: NSDate = NSDate()
     
-    /// 登陆类型 1:qq,2:weixin,3:weibo
+    /// 登录类型 1:qq,2:weixin,3:weibo
     var type: Int = 0
     
     /// 保存和加载文件

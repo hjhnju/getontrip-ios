@@ -19,7 +19,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     lazy var trafficSwitch = UISwitch()
     /// 夜间模式
     lazy var switchNightsSwitch = UISwitch()
-    /// 退出登陆按钮
+    /// 退出登录按钮
     lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 16, radius: 0, titleColor: SceneColor.frontBlack)
     
     override func viewDidLoad() {
@@ -65,7 +65,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 2 { return 1 }
+        if section == 2 { return 2 }
         return 1
     }
     
@@ -82,10 +82,6 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
             cell.left.text = "清除缓存"
             cell.contentView.addSubview(removeCacheLabel)
             removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell.contentView, size: nil, offset: CGPointMake(-9, 0))
-        } else if indexPath.section == 1 && indexPath.row == 1 {
-//            cell.left.text = "切换夜间模式"
-//            cell.contentView.addSubview(switchNightsSwitch)
-//            switchNightsSwitch.ff_AlignInner(.CenterRight, referView: cell.contentView, size: nil, offset: CGPointMake(-9, 0))
         } else if indexPath.section == 2 {
             cell.left.text = indexPath.row == 0 ? "意见反馈" : "给我们评分"
         } else if indexPath.section == 3 && indexPath.row == 0 {
@@ -106,7 +102,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
             clearCacheSetting(indexPath)
         }
         
-        if indexPath.section == 2 && indexPath.row == 0 {
+        if indexPath.section == 2{
             if indexPath.row == 0 {
                 navigationController?.pushViewController(FeedBackViewController(), animated: true)
             } else {
@@ -138,6 +134,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     // MARK: - 自定义方法
     private func trafficModeCell(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SettingTableViewCell", forIndexPath: indexPath) as! SettingTableViewCell
+        cell.baseline.hidden = true
         cell.left.hidden = true
         cell.selectionStyle = .None
         let titleLabel = UILabel(color: SceneColor.frontBlack, title: "开启省流量模式", fontSize: 16, mutiLines: true, fontName: Font.PingFangSCLight)
@@ -149,6 +146,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         titleLabel.ff_AlignInner(.CenterLeft, referView: cell, size: nil, offset: CGPointMake(9, -5))
         subtitle.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 0))
         trafficSwitch.ff_AlignInner(.CenterRight, referView: cell, size: nil, offset: CGPointMake(-9, 0))
+        cell.getShadowWithView()
         return cell
     }
     
@@ -194,7 +192,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     }
     
     
-    ///  退出登陆
+    ///  退出登录
     func exitLoginAction() {
         
         let alertController = UIAlertController(title: "", message: "确认退出登录", preferredStyle: .ActionSheet)
