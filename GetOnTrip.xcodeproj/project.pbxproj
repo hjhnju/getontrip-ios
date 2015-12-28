@@ -140,6 +140,7 @@
 		AE488D691BCBDD8E0032B78B /* RecommendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */; };
 		AE488D6B1BCBDDAE0032B78B /* RecommendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6A1BCBDDAE0032B78B /* RecommendRequest.swift */; };
 		AE488D6D1BCBDDDB0032B78B /* RecommendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */; };
+		AE4DC3EB1C30E32900C43B03 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4DC3EA1C30E32900C43B03 /* RoundImageView.swift */; };
 		AE4E77A31BCB4346006480B1 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A21BCB4346006480B1 /* libicucore.tbd */; };
 		AE4E77A51BCB4350006480B1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A41BCB4350006480B1 /* libz.tbd */; };
 		AE4E77A71BCB435B006480B1 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A61BCB435B006480B1 /* libstdc++.tbd */; };
@@ -386,6 +387,7 @@
 		AE488D681BCBDD8E0032B78B /* RecommendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendTableViewCell.swift; sourceTree = "<group>"; };
 		AE488D6A1BCBDDAE0032B78B /* RecommendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendRequest.swift; sourceTree = "<group>"; };
 		AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
+		AE4DC3EA1C30E32900C43B03 /* RoundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundImageView.swift; sourceTree = "<group>"; };
 		AE4E77A21BCB4346006480B1 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		AE4E77A41BCB4350006480B1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		AE4E77A61BCB435B006480B1 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
@@ -890,6 +892,7 @@
 				AE29B3611C255DA600FFA406 /* HotCityTableViewHeaderView.swift */,
 				AE72F7621C2F853B003457DE /* SettingButton.swift */,
 				AE72F79E1C3020C6003457DE /* RecommendHotView.swift */,
+				AE4DC3EA1C30E32900C43B03 /* RoundImageView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1306,6 +1309,7 @@
 				AE23DD791C181B73009A1B57 /* GroupTitleView.swift in Sources */,
 				7269750B1BE6AB82000C0ABF /* CustomNavigationBar.swift in Sources */,
 				AE40702B1C2CF707007A1916 /* FeedbackListRequest.swift in Sources */,
+				AE4DC3EB1C30E32900C43B03 /* RoundImageView.swift in Sources */,
 				726974731BE39BA7000C0ABF /* SightTopicsRequest.swift in Sources */,
 				AE4070141C2CF6EB007A1916 /* MessageTableViewCell.swift in Sources */,
 				AE87C2141B85F285004C0998 /* BookCell.swift in Sources */,

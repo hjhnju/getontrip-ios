@@ -85,6 +85,15 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     /// 底部的tableView
     lazy var tableView = UITableView()
     
+    /// 底部容器view
+    lazy var collectionView: UICollectionView = { [weak self] in
+        let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
+        return cv
+    }()
+    
+    /// 流水布局
+    lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    
     lazy var titleSelectView: RecommendHotView = { [weak self] in
         let v = RecommendHotView()
         self?.view.addSubview(v)
