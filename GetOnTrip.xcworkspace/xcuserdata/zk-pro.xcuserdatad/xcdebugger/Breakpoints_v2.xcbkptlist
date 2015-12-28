@@ -375,7 +375,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "393"
             endingLineNumber = "393"
-            landmarkName = "hotContentAndSightButtonAction(_:)"
+            landmarkName = "reachabilityChanged(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -391,7 +391,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "397"
             endingLineNumber = "397"
-            landmarkName = "hotContentAndSightButtonAction(_:)"
+            landmarkName = "reachabilityChanged(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -407,7 +407,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "394"
             endingLineNumber = "394"
-            landmarkName = "hotContentAndSightButtonAction(_:)"
+            landmarkName = "reachabilityChanged(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

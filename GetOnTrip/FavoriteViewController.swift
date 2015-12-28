@@ -25,7 +25,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
     /// 城市按钮
     lazy var cityBtn: UIButton = UIButton(title: "城市", fontSize: 14, radius: 0, titleColor: UIColor.whiteColor())
     
-    lazy var selectView: UIView = UIView(color: UIColor.yellowColor(), alphaF: 1.0)
+    lazy var selectView: UIView = UIView(color: .yellowColor(), alphaF: 1.0)
     
     // 景点控制器
     lazy var sightViewController: CollectSightViewController = CollectSightViewController()
@@ -78,9 +78,9 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         addChildViewController(contentController)
         addChildViewController(sightViewController)
         
-        cityBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        sightBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        contentBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        cityBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: .TouchUpInside)
+        sightBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: .TouchUpInside)
+        contentBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: .TouchUpInside)
         
         contentBtn.tag = 0
         sightBtn.tag   = 1

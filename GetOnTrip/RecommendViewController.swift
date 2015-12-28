@@ -32,7 +32,7 @@ struct RecommendContant {
     static let recommendTopicViewCellID = "RecommendTopicViewCellID"
 }
 
-class RecommendViewController: MainViewController, UITableViewDataSource, UITableViewDelegate {
+class RecommendViewController: MainViewController, UICollectionViewDataSource, UICollectionViewDelegate {
         
     //导航栏容器，包含状态栏的高度
     lazy var navContainerView:UIView = UIView()
@@ -82,14 +82,17 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     /// headerView的顶部约束
     var headerViewTopConstraint: NSLayoutConstraint?
     
-    /// 底部的tableView
-    lazy var tableView = UITableView()
+//    /// 底部的tableView
+//    lazy var tableView = UITableView()
     
     /// 底部容器view
     lazy var collectionView: UICollectionView = { [weak self] in
         let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
         return cv
     }()
+    
+    /// 热门控制器
+//    lazy var hotViewController: RecommendHotController = RecommendHotController()
     
     /// 流水布局
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -162,11 +165,31 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         refreshReachable()
         
         initSearchBar()
+        initCollectionLayout()
+        initCollectionView()
         initViewSetting()
         initRefresh()
-        initTableView()
+//        initTableView()
         setupAutoLayout()
         loadData()
+    }
+    
+    private func initCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate   = self
+        collectionView.bounces    = false
+        collectionView.backgroundColor = UIColor.randomColor()
+        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
+    }
+    
+    // 初始化collection布局
+    private func initCollectionLayout() {
+        layout.itemSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 36)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing      = 0
+        layout.scrollDirection         = .Horizontal
+        collectionView.pagingEnabled   = true
+        collectionView.showsHorizontalScrollIndicator = false
     }
     
     func refreshReachable() {
@@ -249,49 +272,49 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     private func initRefresh() {
         
         //下拉刷新
-        let tbHeaderView = MJRefreshNormalHeader { [weak self] () -> Void in
-            self?.loadData()
-        }
-        tbHeaderView.automaticallyChangeAlpha = true
-        tbHeaderView.activityIndicatorViewStyle = .White
-        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
-        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
-        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
-        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
-        tbHeaderView.lastUpdatedTimeLabel?.hidden = true
-        tbHeaderView.stateLabel?.hidden = true
-        tbHeaderView.arrowView?.image = UIImage()
-        
-        //上拉刷新
-        let tbFooterView = MJRefreshAutoNormalFooter { [weak self] () -> Void in
-            self?.loadMore()
-        } 
-        tbFooterView.automaticallyRefresh = true
-        tbFooterView.automaticallyChangeAlpha = true
-        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
-        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
-        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
-        
-        tableView.mj_header = tbHeaderView
-        tableView.mj_footer = tbFooterView
+//        let tbHeaderView = MJRefreshNormalHeader { [weak self] () -> Void in
+//            self?.loadData()
+//        }
+//        tbHeaderView.automaticallyChangeAlpha = true
+//        tbHeaderView.activityIndicatorViewStyle = .White
+//        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
+//        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
+//        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
+//        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
+//        tbHeaderView.lastUpdatedTimeLabel?.hidden = true
+//        tbHeaderView.stateLabel?.hidden = true
+//        tbHeaderView.arrowView?.image = UIImage()
+//        
+//        //上拉刷新
+//        let tbFooterView = MJRefreshAutoNormalFooter { [weak self] () -> Void in
+//            self?.loadMore()
+//        } 
+//        tbFooterView.automaticallyRefresh = true
+//        tbFooterView.automaticallyChangeAlpha = true
+//        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+//        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
+//        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
+//        
+//        tableView.mj_header = tbHeaderView
+//        tableView.mj_footer = tbFooterView
     }
     
     /// 初始化tableView
-    private func initTableView() {
-        //添加tableview相关属性
-        view.addSubview(tableView)
-        tableView.dataSource      = self
-        tableView.delegate        = self
-        tableView.tableHeaderView = nil
-        tableView.rowHeight       = RecommendContant.rowHeight
-        tableView.backgroundColor = .clearColor()
-        tableView.separatorStyle  = .None
-        tableView.contentInset    = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 64, right: 0)
-        tableView.contentOffset = CGPointMake(0, -(RecommendContant.headerViewHeight + 45))
-        tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTableViewCellID)
-        tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
-        view.sendSubviewToBack(tableView)
-    }
+//    private func initTableView() {
+//        //添加tableview相关属性
+//        view.addSubview(tableView)
+//        tableView.dataSource      = self
+//        tableView.delegate        = self
+//        tableView.tableHeaderView = nil
+//        tableView.rowHeight       = RecommendContant.rowHeight
+//        tableView.backgroundColor = .clearColor()
+//        tableView.separatorStyle  = .None
+//        tableView.contentInset    = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 64, right: 0)
+//        tableView.contentOffset = CGPointMake(0, -(RecommendContant.headerViewHeight + 45))
+//        tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTableViewCellID)
+//        tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
+//        view.sendSubviewToBack(tableView)
+//    }
 
 
     override func viewWillAppear(animated: Bool) {
@@ -331,7 +354,8 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: .Top)
         
         //表格
-        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
+//        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
+        collectionView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64))
         headerImageView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight - 45))
     }
     
@@ -411,5 +435,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             self?.titleSelectView.selectView.frame.origin.x = sender.tag == 4 ? UIScreen.mainScreen().bounds.width * 0.5 : 0
         }
     }
+    
+    var selectedIndex: Int?
 }
 

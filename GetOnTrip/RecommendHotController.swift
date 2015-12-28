@@ -1,50 +1,114 @@
 //
-//  RecommendViewController+extension.swift
+//  RecommendHotController.swift
 //  GetOnTrip
 //
-//  Created by 王振坤 on 15/12/10.
+//  Created by 王振坤 on 15/12/28.
 //  Copyright © 2015年 Joshua. All rights reserved.
 //
 
 import UIKit
 
-extension RecommendViewController {
+class RecommendHotController: UITableViewController {
     
-    // MARK: - collectionView 数据源方法
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+    /// 网络请求加载数据(添加)
+    var lastRequest: RecommendRequest?
+    
+    /// 数据源 - 推荐列表数据
+    var recommendCells  = [RecommendCellData]()
+    
+    /// 网络超时加载的错误提示view
+    lazy var errorView: UIView = { [weak self] in
+        let view = UIView()
+        let refreshButton = UIButton(icon: "icon_refresh", masksToBounds: true)
+        let refreshHint1   = UILabel(color: SceneColor.white.colorWithAlphaComponent(0.5), title: "网速好像不给力", fontSize: 13)
+        let refreshHint2   = UILabel(color: SceneColor.white.colorWithAlphaComponent(0.5), title: "点击此处重新加载", fontSize: 13)
+        view.frame = CGRectMake(0, RecommendContant.headerViewHeight, UIScreen.mainScreen().bounds.width, 123)
+        view.addSubview(refreshButton)
+        view.addSubview(refreshHint1)
+        view.addSubview(refreshHint2)
+        refreshButton.ff_AlignInner(.TopCenter, referView: view, size: CGSize(width: 26, height: 26), offset: CGPointMake(0, 30))
+        refreshHint1.ff_AlignVertical(.BottomCenter, referView: refreshButton, size: nil, offset: CGPointMake(0, 12))
+        refreshHint2.ff_AlignVertical(.BottomCenter, referView: refreshHint1, size: nil, offset: CGPointMake(0, 0))
+        
+        //add target
+        refreshButton.addTarget(self, action: "refreshFromErrorView:", forControlEvents: UIControlEvents.TouchUpInside)
+        self?.view.addSubview(view)
+        self?.view.sendSubviewToBack(view)
+        view.hidden = true
+        return view
+        }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        refreshControl = UIRefreshControl()
+    }
+
+    // MASKS: - tableView 数据源及代理方法
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return recommendCells.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let data = recommendCells[indexPath.row]
+        if data.isTypeTopic() {
+            let cell = tableView.dequeueReusableCellWithIdentifier(RecommendContant.recommendTopicViewCellID, forIndexPath: indexPath) as! RecommendTopicViewCell
+            cell.backgroundColor = UIColor.clearColor()
+            cell.data = recommendCells[indexPath.row]
+            
+            let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: 0)
+            cell.cellImageView.updateFactor(factor)
+            
+            return cell
+        }
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath) 
-//        cell.viewController.view.removeFromSuperview()
-//        if indexPath.row == 0 {
-//            slideView.hidden = false
-//            cell.viewController = contentController
-//        } else if indexPath.row == 1 {
-//            slideView.hidden = true
-//            cell.viewController = sightViewController
-//            slideView.hidden = true
-//        } else if indexPath.row == 2 {
-//            cell.viewController = cityController
-//        }
+        let cell = tableView.dequeueReusableCellWithIdentifier(RecommendContant.recommendTableViewCellID, forIndexPath: indexPath) as! RecommendTableViewCell
+        cell.backgroundColor = UIColor.clearColor()
+        cell.data = recommendCells[indexPath.row]
+        
+        let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: 0)
+        cell.cellImageView.updateFactor(factor)
         
         return cell
     }
     
-    /// MARK: - 切换收藏视图方法
-    func switchCollectButtonClick(sender: UIButton) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let data = recommendCells[indexPath.row]
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        let indexPath = NSIndexPath(forItem: sender.tag, inSection: 0)
-        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+        if ( data.isTypeSight()) {
+            let vc = SightViewController()
+            let sight = Sight(id: data.id)
+            sight.name = data.name
+            sight.image = data.image
+            sight.bgColor = data.bgColor
+            vc.sightDataSource = sight
+            navigationController?.pushViewController(vc, animated: true)
+        } else if( data.isTypeCity()) {
+            let vc = CityViewController()
+            let city = City(id: data.id)
+            city.name = data.name
+            city.image = data.image
+            city.bgColor = data.bgColor
+            vc.cityDataSource = city
+            navigationController?.pushViewController(vc, animated: true)
+        } else if( data.isTypeTopic()) {
+            let vc = TopicViewController()
+            let topic = Topic(id: data.id)
+            topic.title = data.name
+            topic.image = data.image
+            topic.sightid = data.param4
+            topic.bgColor = data.bgColor
+            vc.topicDataSource = topic
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         yOffset = scrollView.contentOffset.y
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
         //导航渐变
         let threshold:CGFloat = 198 - 64
         let offsetY = scrollView.contentOffset.y
@@ -114,7 +178,7 @@ extension RecommendViewController {
         errorView.hidden = true
         
         //清空footer的“加载完成”
-//        tableView.mj_footer.resetNoMoreData()
+        tableView.mj_footer.resetNoMoreData()
         if lastRequest == nil {
             lastRequest = RecommendRequest()
             lastRequest?.order = "1" //默认返回带所有搜索标签
@@ -196,7 +260,7 @@ extension RecommendViewController {
             headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: UIImage(named: "default_picture"))
         }
     }
-
+    
     func defaultPromptTextHidden(textFiled: UITextField) {
         if textFiled.text == "" || textFiled.text == nil {
             defaultPrompt.titleLabel?.hidden = false
@@ -204,4 +268,5 @@ extension RecommendViewController {
             defaultPrompt.titleLabel?.hidden = true
         }
     }
+
 }
