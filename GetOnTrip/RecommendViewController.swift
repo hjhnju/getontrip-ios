@@ -78,6 +78,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     
     /// 搜索顶部图片
     var headerImageView = UIImageView()
+    lazy var headerImagesData = [String]()
     
     /// headerView的顶部约束
     var headerViewTopConstraint: NSLayoutConstraint?

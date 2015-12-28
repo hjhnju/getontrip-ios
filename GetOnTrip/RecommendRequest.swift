@@ -17,18 +17,18 @@ class RecommendRequest: NSObject {
     var page    : Int = 1
     var pageSize: Int = 15
     
-    func fetchNextPageModels(handler: (NSDictionary?, Int) -> Void) {
+    func fetchNextPageModels(handler: (RecommendModel?, Int) -> Void) {
         page = page + 1
         return fetchModels(handler)
     }
     
-    func fetchFirstPageModels(handler: (NSDictionary?, Int) -> Void) {
+    func fetchFirstPageModels(handler: (RecommendModel?, Int) -> Void) {
         page = 1
         return fetchModels(handler)
     }
 
     // 异步加载获取数据
-    func fetchModels(handler: (NSDictionary?, Int) -> Void) {
+    func fetchModels(handler: (RecommendModel?, Int) -> Void) {
         var post         = [String: String]()
         post["order"]    = String(order)
         post["page"]     = String(page)
@@ -46,25 +46,32 @@ class RecommendRequest: NSObject {
     }
     
     ///  数据转换模型
-    func dataWithModel(data: JSON) -> NSMutableDictionary {
-        let searchModel = NSMutableDictionary()
-        var searchLabels = [RecommendLabel]()
-        var searchDatas  = [RecommendCellData]()
+    func dataWithModel(data: JSON) -> RecommendModel {
+        let searchModel = RecommendModel()
+
         for item in data["label"].arrayValue {
             if let item = item.dictionaryObject {
-                searchLabels.append(RecommendLabel(dict: item))
+                searchModel.labels.append(RecommendLabel(dict: item))
             }
         }
         for item in data["content"].arrayValue {
             if let item = item.dictionaryObject {
-                searchDatas.append(RecommendCellData(dict: item))
+                searchModel.contents.append(RecommendCellData(dict: item))
             }
         }
-        
-        searchModel.setValue(searchLabels, forKey: "labels")
-        searchModel.setValue(searchDatas, forKey: "cells")
-        let url = UIKitTools.sliceImageUrl(data["image"].stringValue, width: Int(UIScreen.mainScreen().bounds.width), height: 244)
-        searchModel.setValue(url, forKey: "image")
+        for item in data["images"].arrayValue {
+            let url = UIKitTools.sliceImageUrl(item["url"].stringValue, width: Int(UIScreen.mainScreen().bounds.width), height: 244)
+            searchModel.images.append(url)
+        }
         return searchModel
     }
+}
+
+class RecommendModel {
+    
+    lazy var labels = [RecommendLabel]()
+    
+    lazy var contents = [RecommendCellData]()
+    
+    lazy var images = [String]()
 }

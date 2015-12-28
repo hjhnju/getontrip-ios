@@ -100,7 +100,7 @@ extension RecommendViewController {
         currentSearchLabelButton = sender
         
         lastRequest?.order = String(sender.tag)
-        tableView.mj_header.beginRefreshing()
+//        tableView.mj_header.beginRefreshing()
     }
     
     /// 发送搜索信息
@@ -120,37 +120,42 @@ extension RecommendViewController {
             lastRequest?.order = "1" //默认返回带所有搜索标签
         }
         
-        lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
+        lastRequest?.fetchFirstPageModels {[weak self] (result, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
                 if self?.recommendCells.count == 0 {
                     //当前无内容时显示出错页
-                    self?.tableView.hidden = true
+                    self?.collectionView.hidden = true
                     self?.errorView.hidden = false
                 } else {
                     //当前有内容显示出错浮层
                     ProgressHUD.showErrorHUD(self?.view, text: "您的网络无法连接")
                 }
-                self?.tableView.mj_header.endRefreshing()
+//                self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
             }
             
             //处理返回数据
-            if let dataSource = data {
-                let cells  = dataSource.objectForKey("cells") as! [RecommendCellData]
-                //有数据才更新
-                if cells.count > 0 {
-                    self?.recommendCells = cells
-                }
-                let labels = dataSource.objectForKey("labels") as! [RecommendLabel]
-                if labels.count > 0 && self?.recommendLabels.count == 0 {
-                    self?.recommendLabels = labels
-                }
-                self?.loadHeaderImage(dataSource.objectForKey("image") as? String)
-                self?.tableView.reloadData()
+            if let data = result {
+                self?.recommendLabels = data.labels
+                self?.headerImagesData = data.images
             }
-            self?.tableView.mj_header.endRefreshing()
+            
+//            if let dataSource = data {
+//                let cells  = dataSource.objectForKey("cells") as! [RecommendCellData]
+//                //有数据才更新
+//                if cells.count > 0 {
+//                    self?.recommendCells = cells
+//                }
+//                let labels = dataSource.objectForKey("labels") as! [RecommendLabel]
+//                if labels.count > 0 && self?.recommendLabels.count == 0 {
+//                    self?.recommendLabels = labels
+//                }
+//                self?.loadHeaderImage(dataSource.objectForKey("image") as? String)
+//                self?.tableView.reloadData()
+//            }
+//            self?.tableView.mj_header.endRefreshing()
             self?.isLoading = false
         }
     }
