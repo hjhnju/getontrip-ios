@@ -84,7 +84,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         headerButton.ff_Fill(headerView)
         let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 212), offset: CGPointMake(0, 44))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
-        loginIconButton.ff_AlignInner(.CenterCenter, referView: headerView, size: CGSizeMake(90, 90), offset: CGPointMake(0, 15))
+        loginIconButton.ff_AlignInner(.CenterCenter, referView: headerView, size: CGSizeMake(90, 90), offset: CGPointMake(0, -10))
         loginTitleButton.ff_AlignVertical(.BottomCenter, referView: loginIconButton, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 20), offset: CGPointMake(0, 12))
     }
     

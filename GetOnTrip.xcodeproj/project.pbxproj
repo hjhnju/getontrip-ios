@@ -160,6 +160,8 @@
 		AE6DCC6A1BDF3AB800D817E9 /* SearchAllRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6DCC691BDF3AB800D817E9 /* SearchAllRequest.swift */; };
 		AE6FC7AC1C23B415004ACA03 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6FC7AB1C23B415004ACA03 /* BaseTableViewController.swift */; };
 		AE70C1991BCCB7EF00834130 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE70C1981BCCB7EF00834130 /* CommentViewController.swift */; };
+		AE72F7631C2F853B003457DE /* SettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE72F7621C2F853B003457DE /* SettingButton.swift */; };
+		AE72F79F1C3020C6003457DE /* RecommendHotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE72F79E1C3020C6003457DE /* RecommendHotView.swift */; };
 		AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE78983E1BECDAF40073599E /* PhotoView.swift */; };
 		AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */; };
 		AE79EED21BBA8A30005A7709 /* CityTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE79EED11BBA8A30005A7709 /* CityTopicTableViewCell.swift */; };
@@ -404,6 +406,8 @@
 		AE6DCC691BDF3AB800D817E9 /* SearchAllRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchAllRequest.swift; sourceTree = "<group>"; };
 		AE6FC7AB1C23B415004ACA03 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		AE70C1981BCCB7EF00834130 /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
+		AE72F7621C2F853B003457DE /* SettingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingButton.swift; sourceTree = "<group>"; };
+		AE72F79E1C3020C6003457DE /* RecommendHotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendHotView.swift; sourceTree = "<group>"; };
 		AE78983E1BECDAF40073599E /* PhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		AE79EECF1BBA89B4005A7709 /* MenuSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuSettingTableViewCell.swift; sourceTree = "<group>"; };
 		AE79EED11BBA8A30005A7709 /* CityTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityTopicTableViewCell.swift; sourceTree = "<group>"; };
@@ -884,6 +888,8 @@
 				AE29B35B1C25196800FFA406 /* HotCityTableViewCell.swift */,
 				AE29B35D1C25217800FFA406 /* HotCityCollectionViewCell.swift */,
 				AE29B3611C255DA600FFA406 /* HotCityTableViewHeaderView.swift */,
+				AE72F7621C2F853B003457DE /* SettingButton.swift */,
+				AE72F79E1C3020C6003457DE /* RecommendHotView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1256,6 +1262,7 @@
 				AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */,
 				72D86DE51B65D94D004B72D0 /* AppDelegate.swift in Sources */,
 				AEAB3A631C03077D00713C36 /* RecommendSlideButton.swift in Sources */,
+				AE72F79F1C3020C6003457DE /* RecommendHotView.swift in Sources */,
 				726974771BE39F8A000C0ABF /* CommentAddRequest.swift in Sources */,
 				AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */,
 				AE406FEE1C2CF6BF007A1916 /* SettingSexViewController.swift in Sources */,
@@ -1347,6 +1354,7 @@
 				AEAB95181BC7C79A00B6EE62 /* TopicViewController.swift in Sources */,
 				AEC9D2BC1BD7ADE700B28464 /* SendPopoverAnimator.swift in Sources */,
 				726974281BDF168A000C0ABF /* RetCode.swift in Sources */,
+				AE72F7631C2F853B003457DE /* SettingButton.swift in Sources */,
 				AEA09BDD1C17010B00E4F666 /* SearchViewController+extension.swift in Sources */,
 				AE43E1711C082B980021964E /* ProgressHUD.swift in Sources */,
 				AE40700A1C2CF6EB007A1916 /* SettingDatumTableViewCell.swift in Sources */,

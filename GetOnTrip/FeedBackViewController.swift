@@ -110,8 +110,9 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         return dataSource.count
     }
 
+    var lastIndexPath: NSIndexPath?
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+        lastIndexPath = indexPath
         let data = dataSource[indexPath.row]
         if data.type == "1" {
             let cell = tableView.dequeueReusableCellWithIdentifier("FeedBackMyTableViewCell", forIndexPath: indexPath) as! FeedBackMyTableViewCell
@@ -141,9 +142,9 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         let transFromValue = keyBoardY! - view.bounds.height
         
         commentBottomView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
-        tableView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
+//        tableView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
 //        let index = NSIndexPath(forRow: dataSource.count - 1, inSection: 0)
-//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+        tableView.scrollToRowAtIndexPath(lastIndexPath ?? NSIndexPath(), atScrollPosition: .Top, animated: true)
     }
     
     /// 是否正在加载中
@@ -264,10 +265,13 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     }
     
     // scrollerview delegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         if sendContentText.isFirstResponder() {
             sendContentText.resignFirstResponder()
         }
+        
+    }
+    func scrollViewDidScroll(scrollView: UIScrollView) {
     }
     
     /// 注销通知

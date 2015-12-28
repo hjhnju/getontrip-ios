@@ -16,10 +16,10 @@ class ProgressHUD: NSObject {
     static let sharedProgressHUD = ProgressHUD()
     
     /// 显示错误提示
-    class func showErrorHUD(view: UIView?, text: String, var style: JGProgressHUDStyle? = .ExtraLight) {
+    class func showErrorHUD(view: UIView?, text: String, var style: JGProgressHUDStyle? = .Dark) {
         
         if style == nil {
-            style = .ExtraLight
+            style = .Dark
         }
         
         let hud = JGProgressHUD(style: style!)
@@ -39,10 +39,10 @@ class ProgressHUD: NSObject {
     }
     
     // 显示成功提示
-    class func showSuccessHUD(view: UIView?, text: String, var style: JGProgressHUDStyle? = .ExtraLight) {
+    class func showSuccessHUD(view: UIView?, text: String, var style: JGProgressHUDStyle? = .Dark) {
         
         if style == nil {
-            style = .ExtraLight
+            style = .Dark
         }
         
         let hud = JGProgressHUD(style: style!)
@@ -67,7 +67,7 @@ class ProgressHUD: NSObject {
     func showOperationPrompt(view: UIView?, text: String, var style: JGProgressHUDStyle?, handler: ((handler:(Void) -> Void) -> Void)? = nil) {
         
         if style == nil {
-            style = .ExtraLight
+            style = .Dark
         }
         
         let hud = JGProgressHUD(style: style!)

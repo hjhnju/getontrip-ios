@@ -31,7 +31,26 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     lazy var abroadButton: UIButton = UIButton(title: "海外", fontSize: 14, radius: 3, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
     
     /// 选择国内外背景按钮
-    lazy var domesticBackgroundView = UIView(color: UIColor.whiteColor())
+    lazy var domesticBackgroundView: UIView = {
+        let v = UIView(color: UIColor.whiteColor())
+//        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
+//        swipeLeft.direction = .Left
+//        v.addGestureRecognizer(swipeLeft)
+//        let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
+//        swipeRight.direction = .Right
+//        v.addGestureRecognizer(swipeRight)
+        return v
+    }()
+    
+//    func swipeGesture(recognizer: UISwipeGestureRecognizer) {
+//
+//        if recognizer.direction == UISwipeGestureRecognizerDirection.Left {
+////            domesticButton
+//            domesticButtonAction(domesticButton)
+//        } else {
+//            domesticButtonAction(abroadButton)
+//        }
+//    }
     
     /// 是否是第一次刷新
     var isFirstRefreshBool: Bool = false
@@ -39,6 +58,11 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 数据源
     var dataSource: CityList = CityList() {
         didSet {
+            
+            let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
+            swipeLeft.direction = .Left
+            
+            
             if isFirstRefreshBool {
                 UIView.transitionWithView(tableView, duration: 0.6, options: .TransitionCrossDissolve, animations: { () -> Void in
                     self.tableView.reloadData()

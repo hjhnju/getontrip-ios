@@ -149,7 +149,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //登录状态
     var logined: Bool = true
     
-    lazy var settingButton = UIButton(image: "setting_slideMenu", title: "", fontSize: 0)
+    lazy var settingButton: SettingButton = SettingButton(image: "setting_slideMenu", title: "", fontSize: 0)
     
     //滑动手势
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
@@ -272,7 +272,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         menuView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
         bgImageView.ff_Fill(menuView)
         tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
-        settingButton.ff_AlignInner(.BottomLeft, referView: menuView, size: CGSizeMake(22, 22), offset: CGPointMake(12, -17))
+        settingButton.ff_AlignInner(.BottomLeft, referView: menuView, size: CGSizeMake(34, 39), offset: CGPointMake(0, 0))
         
         loginAfter.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
         headerView.ff_AlignInner(.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
@@ -311,6 +311,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
             if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.SettingDatumViewController")!) {
                 let vc = mainViewController as! SettingDatumViewController
                 vc.isLoginStatus = true
+            }
+            
+            if let vc = mainViewController as? OtherSettingController {
+                vc.refreshLoginStatus()
             }
         } else {
             loginBefore.hidden = false

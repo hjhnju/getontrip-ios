@@ -45,7 +45,7 @@ class MyPraiseViewController: MenuViewController, UITableViewDelegate, UITableVi
         view.backgroundColor = .whiteColor()
         navBar.titleLabel.text = "我赞过的"
         view.addSubview(tableView)
-        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
+        automaticallyAdjustsScrollViewInsets = false
         tableView.addSubview(collectPrompt)
         collectPrompt.ff_AlignInner(.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = .Center
@@ -86,6 +86,12 @@ class MyPraiseViewController: MenuViewController, UITableViewDelegate, UITableVi
         loadData()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
+    }
+    
     // MARK: - Table view data source
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if collectContent.count == 0 { collectPrompt.hidden = false } else { collectPrompt.hidden = true }
@@ -105,7 +111,7 @@ class MyPraiseViewController: MenuViewController, UITableViewDelegate, UITableVi
             cell = tableView.dequeueReusableCellWithIdentifier(CollectContentBookCellIdentifier, forIndexPath: indexPath) as! CollectContentBookCell
             cell?.data = data
         }
-        
+        cell?.titleLabel.numberOfLines = 2
         if indexPath.row == collectContent.count - 1 {
             cell?.baseline.hidden = true
         } else {
@@ -118,8 +124,7 @@ class MyPraiseViewController: MenuViewController, UITableViewDelegate, UITableVi
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let col = collectContent[indexPath.row] as CollectContent
-        switch Int(col.type ?? "0") {
-        case FavoriteContant.TypeTopic?:
+        if col.type == "1" {
             let vc = TopicViewController()
             let topic = Topic()
             topic.id       = col.id
@@ -128,24 +133,13 @@ class MyPraiseViewController: MenuViewController, UITableViewDelegate, UITableVi
             topic.subtitle = col.subtitle
             vc.topicDataSource = topic
             navigationController?.pushViewController(vc, animated: true)
-        case FavoriteContant.TypeBook?:
+        } else {
             let vc = BookViewController()
             let book = Book(id: col.id)
             book.image = col.image
             book.title = col.title
             vc.bookDataSource = book
             navigationController?.pushViewController(vc, animated: true)
-        case FavoriteContant.TypeVideo?:
-            let vc = DetailWebViewController()
-            let video = Video()
-            video.url = col.url
-            video.id  = col.id
-            video.collected = "1"
-            vc.video  = video
-            vc.url    = col.url
-            navigationController?.pushViewController(vc, animated: true)
-        default:
-            break
         }
     }
     

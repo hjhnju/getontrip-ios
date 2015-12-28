@@ -24,7 +24,7 @@ struct MainViewContant {
 }
 
 struct RecommendContant {
-    static let headerViewHeight:CGFloat = 244
+    static let headerViewHeight:CGFloat = 244 + 45
     static let rowHeight:CGFloat = 192
 
     //search
@@ -84,6 +84,14 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
     
     /// 底部的tableView
     lazy var tableView = UITableView()
+    
+    lazy var titleSelectView: RecommendHotView = { [weak self] in
+        let v = RecommendHotView()
+        self?.view.addSubview(v)
+        v.hotContentButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
+        v.hotSightButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
+        return v
+    }()
     
     /// 搜索控制器
     lazy var searchController: SearchViewController! = SearchViewController()
@@ -219,10 +227,11 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         headerView.clipsToBounds = true
         view.addSubview(headerView)
         headerView.addSubview(headerImageView)
-        headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        headerImageView.contentMode = .ScaleAspectFill
         //为header添加黑色蒙板
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.45)
         headerView.addSubview(maskView)
+        headerView.addSubview(titleSelectView)
         maskView.ff_Fill(headerView)
         view.bringSubviewToFront(navContainerView)
     }
@@ -235,7 +244,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             self?.loadData()
         }
         tbHeaderView.automaticallyChangeAlpha = true
-        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbHeaderView.activityIndicatorViewStyle = .White
         tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
         tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
@@ -269,7 +278,7 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         tableView.backgroundColor = .clearColor()
         tableView.separatorStyle  = .None
         tableView.contentInset    = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 64, right: 0)
-        tableView.contentOffset = CGPointMake(0, -RecommendContant.headerViewHeight)
+        tableView.contentOffset = CGPointMake(0, -(RecommendContant.headerViewHeight + 45))
         tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTableViewCellID)
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
         view.sendSubviewToBack(tableView)
@@ -309,11 +318,12 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
         //导航布局
         slideButton.ff_AlignInner(.CenterLeft, referView: custNavView, size: CGSize(width: 21, height: 14), offset: CGPointMake(9, 0))        
         let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, RecommendContant.headerViewHeight), offset: CGPointMake(0, 0))
-        headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Top)
+        titleSelectView.ff_AlignInner(.BottomLeft, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 45))
+        headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: .Top)
         
         //表格
         tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
-        headerImageView.ff_Fill(headerView)
+        headerImageView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight - 45))
     }
     
     ///  添加搜索标签按钮
@@ -375,6 +385,21 @@ class RecommendViewController: MainViewController, UITableViewDataSource, UITabl
             } else {
                 UserProfiler.instance.isViaWiFi = false
             }
+        }
+    }
+    
+    func hotContentAndSightButtonAction(sender: UIButton) {
+
+        if sender.tag == 3 { // 点击了热门内容
+            titleSelectView.hotSightButton.selected = false
+            titleSelectView.hotContentButton.selected = true
+        } else if sender.tag == 4 { // 点击了推荐景点
+            titleSelectView.hotContentButton.selected = false
+            titleSelectView.hotSightButton.selected = true
+        }
+        
+        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
+            self?.titleSelectView.selectView.frame.origin.x = sender.tag == 4 ? UIScreen.mainScreen().bounds.width * 0.5 : 0
         }
     }
 }

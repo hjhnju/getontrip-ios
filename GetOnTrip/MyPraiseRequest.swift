@@ -33,7 +33,7 @@ class MyPraiseRequest: NSObject {
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/praise/list", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                print(result)
+
                 var praises = [CollectContent]()
                 for it in result.arrayValue {
                     if let item = it.dictionaryObject {

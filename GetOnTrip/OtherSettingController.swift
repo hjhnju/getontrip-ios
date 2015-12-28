@@ -36,9 +36,12 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         removeCacheLabel.text = getUsedCache()
         automaticallyAdjustsScrollViewInsets = false
         trafficSwitch.addTarget(self, action: "trafficSwitchAction:", forControlEvents: .ValueChanged)
-        if globalUser == nil {
-            exitLogin.hidden = true
-        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        refreshLoginStatus()
     }
     
     private func initExitLogin() {
@@ -105,8 +108,8 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         if indexPath.section == 2{
             if indexPath.row == 0 {
                 navigationController?.pushViewController(FeedBackViewController(), animated: true)
-            } else {
-                UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://appsto.re/cn/vpNk_.i")!)
+            } else {//itunes.apple.com/app/id1059746773
+                UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1059746773")!)
             }
         } else if indexPath.section == 3 && indexPath.row == 0 {
             let vc = GuideViewController()
@@ -210,5 +213,10 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         alertController.popoverPresentationController?.sourceView = view
         alertController.popoverPresentationController?.sourceRect = CGRectMake(0, view.bounds.height - 180, view.bounds.width, 180)
         presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    /// 刷新登陆状态
+    func refreshLoginStatus() {
+        exitLogin.hidden = globalUser != nil ? false : true
     }
 }
