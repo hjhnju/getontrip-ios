@@ -10,38 +10,27 @@ import UIKit
 
 class RecommendHotController: UITableViewController {
     
+    var order = "1" {
+        didSet {
+            lastRequest.order = order
+        }
+    }
+    
     /// 网络请求加载数据(添加)
-    var lastRequest: RecommendRequest?
+    var lastRequest: RecommendRequest = RecommendRequest()
+    
+    /// 是否正在加载中
+    var isLoading:Bool = false
     
     /// 数据源 - 推荐列表数据
     var recommendCells  = [RecommendCellData]()
-    
-    /// 网络超时加载的错误提示view
-    lazy var errorView: UIView = { [weak self] in
-        let view = UIView()
-        let refreshButton = UIButton(icon: "icon_refresh", masksToBounds: true)
-        let refreshHint1   = UILabel(color: SceneColor.white.colorWithAlphaComponent(0.5), title: "网速好像不给力", fontSize: 13)
-        let refreshHint2   = UILabel(color: SceneColor.white.colorWithAlphaComponent(0.5), title: "点击此处重新加载", fontSize: 13)
-        view.frame = CGRectMake(0, RecommendContant.headerViewHeight, UIScreen.mainScreen().bounds.width, 123)
-        view.addSubview(refreshButton)
-        view.addSubview(refreshHint1)
-        view.addSubview(refreshHint2)
-        refreshButton.ff_AlignInner(.TopCenter, referView: view, size: CGSize(width: 26, height: 26), offset: CGPointMake(0, 30))
-        refreshHint1.ff_AlignVertical(.BottomCenter, referView: refreshButton, size: nil, offset: CGPointMake(0, 12))
-        refreshHint2.ff_AlignVertical(.BottomCenter, referView: refreshHint1, size: nil, offset: CGPointMake(0, 0))
-        
-        //add target
-        refreshButton.addTarget(self, action: "refreshFromErrorView:", forControlEvents: UIControlEvents.TouchUpInside)
-        self?.view.addSubview(view)
-        self?.view.sendSubviewToBack(view)
-        view.hidden = true
-        return view
-        }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         refreshControl = UIRefreshControl()
+        lastRequest.isLoadType = RecommendLoadType.TypeContent
+        loadData()
     }
 
     // MASKS: - tableView 数据源及代理方法
@@ -105,7 +94,9 @@ class RecommendHotController: UITableViewController {
     }
     
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        yOffset = scrollView.contentOffset.y
+        parentViewController
+        print(parentViewController)
+        (parentViewController as? RecommendViewController)?.yOffset = scrollView.contentOffset.y
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -113,19 +104,20 @@ class RecommendHotController: UITableViewController {
         let threshold:CGFloat = 198 - 64
         let offsetY = scrollView.contentOffset.y
         let gap = RecommendContant.headerViewHeight + offsetY
+        let vc = parentViewController as? RecommendViewController
         if gap > 0 {
-            navBarAlpha = gap / threshold;
-            if navBarAlpha > 1 {
-                navBarAlpha = 1
-            } else if navBarAlpha < 0.1 {
-                navBarAlpha = 0
+            vc?.navBarAlpha = gap / threshold;
+            if vc?.navBarAlpha > 1 {
+                vc?.navBarAlpha = 1
+            } else if vc?.navBarAlpha < 0.1 {
+                vc?.navBarAlpha = 0
             }
         }
         
         //headerView高度动态变化
         let initTop: CGFloat = 0.0
         let newTop = min(-gap, initTop)
-        headerViewTopConstraint?.constant = newTop
+        vc?.headerViewTopConstraint?.constant = newTop
         
         for vcell in tableView.visibleCells {
             if let cell = vcell as? RecommendTableViewCell {
@@ -154,66 +146,30 @@ class RecommendHotController: UITableViewController {
     }
     
     //MARK: 自定义方法
-    
-    //触发搜索列表的方法
-    func clkSearchLabelMethod(sender: UIButton) {
-        if sender.tag == currentSearchLabelButton?.tag { return }
-        
-        sender.selected = true
-        currentSearchLabelButton?.selected = false
-        currentSearchLabelButton = sender
-        
-        lastRequest?.order = String(sender.tag)
-        tableView.mj_header.beginRefreshing()
-    }
-    
-    /// 发送搜索信息
-    /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     func loadData() {
         if isLoading {
             return
         }
         
         isLoading = true
-        errorView.hidden = true
         
         //清空footer的“加载完成”
         tableView.mj_footer.resetNoMoreData()
-        if lastRequest == nil {
-            lastRequest = RecommendRequest()
-            lastRequest?.order = "1" //默认返回带所有搜索标签
-        }
         
-        lastRequest?.fetchFirstPageModels {[weak self] (data, status) -> Void in
+        lastRequest.fetchFirstPageModels {[weak self] (result, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                if self?.recommendCells.count == 0 {
-                    //当前无内容时显示出错页
-                    self?.tableView.hidden = true
-                    self?.errorView.hidden = false
-                } else {
-                    //当前有内容显示出错浮层
                     ProgressHUD.showErrorHUD(self?.view, text: "您的网络无法连接")
                 }
                 self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
-            }
             
             //处理返回数据
-            if let dataSource = data {
-                let cells  = dataSource.objectForKey("cells") as! [RecommendCellData]
-                //有数据才更新
-                if cells.count > 0 {
-                    self?.recommendCells = cells
-                }
-                let labels = dataSource.objectForKey("labels") as! [RecommendLabel]
-                if labels.count > 0 && self?.recommendLabels.count == 0 {
-                    self?.recommendLabels = labels
-                }
-                self?.loadHeaderImage(dataSource.objectForKey("image") as? String)
-                self?.tableView.reloadData()
+            if let dataSource = result {
+                self?.recommendCells = dataSource.contents
             }
+            
             self?.tableView.mj_header.endRefreshing()
             self?.isLoading = false
         }
@@ -226,10 +182,10 @@ class RecommendHotController: UITableViewController {
         }
         isLoading = true
         //请求下一页
-        lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
+        lastRequest.fetchNextPageModels { [weak self] (result, status) -> Void in
             
-            if let dataSource = data {
-                let newCells  = dataSource.objectForKey("cells") as! [RecommendCellData]
+            if let dataSource = result {
+                let newCells  = dataSource.contents
                 if newCells.count > 0 {
                     if let cells = self?.recommendCells {
                         self?.recommendCells = cells + newCells
@@ -246,7 +202,6 @@ class RecommendHotController: UITableViewController {
     
     /// 网络异常重现加载
     func refreshFromErrorView(sender: UIButton){
-        errorView.hidden = true
         tableView.hidden = false
         //重新加载
         if !tableView.mj_header.isRefreshing() {
@@ -254,19 +209,11 @@ class RecommendHotController: UITableViewController {
         }
     }
     
-    func loadHeaderImage(url: String?) {
-        if let url = url {
-            //从网络获取
-            headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: UIImage(named: "default_picture"))
-        }
-    }
-    
-    func defaultPromptTextHidden(textFiled: UITextField) {
-        if textFiled.text == "" || textFiled.text == nil {
-            defaultPrompt.titleLabel?.hidden = false
-        } else {
-            defaultPrompt.titleLabel?.hidden = true
-        }
-    }
+//    func loadHeaderImage(url: String?) {
+//        if let url = url {
+//            //从网络获取
+//            headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: UIImage(named: "default_picture"))
+//        }
+//    }
 
 }

@@ -37,7 +37,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     //导航栏容器，包含状态栏的高度
     lazy var navContainerView:UIView = UIView()
     
-    let slideNavButton: RecommendSlideButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: UIColor.whiteColor())
+    /// 侧滑导航按钮
+    let slideNavButton: RecommendSlideButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: .whiteColor())
     
     //自定义导航栏
     lazy var custNavView:UIView = { [weak self] in
@@ -59,45 +60,46 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     }
     
     /// 网络请求加载数据(添加)
-    var lastRequest: RecommendRequest?
+    var lastRequest: RecommendRequest = RecommendRequest()
+    
+    /// 热门内容推荐
+    var hotContentVC = RecommendHotController()
+    
+    /// 热门景点推荐
+    var hotSightVC = RecommendHotController()
     
     /// 数据源 - 推荐标签
-    var recommendLabels = [RecommendLabel]() {
+    var recommendLabels: [RecommendLabel] = [RecommendLabel]() {
         didSet{
-            if currentSearchLabelButton == nil {
-                addSearchLabelButton()
+            if let order = recommendLabels.first?.order {
+                hotContentVC.order = order
+            } else if recommendLabels[1].order != "1" {
+                hotSightVC.order = recommendLabels[1].order
             }
         }
     }
-    
-    /// 数据源 - 推荐列表数据
-    var recommendCells  = [RecommendCellData]()
     
     /// 搜索顶部
     var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight))
     
     /// 搜索顶部图片
     var headerImageView = UIImageView()
+    /// 搜索顶部图片数据源
     lazy var headerImagesData = [String]()
     
     /// headerView的顶部约束
     var headerViewTopConstraint: NSLayoutConstraint?
-    
-//    /// 底部的tableView
-//    lazy var tableView = UITableView()
     
     /// 底部容器view
     lazy var collectionView: UICollectionView = { [weak self] in
         let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
         return cv
     }()
-    
-    /// 热门控制器
-//    lazy var hotViewController: RecommendHotController = RecommendHotController()
-    
+        
     /// 流水布局
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     
+    /// 热门景点和热门内容view
     lazy var titleSelectView: RecommendHotView = { [weak self] in
         let v = RecommendHotView()
         self?.view.addSubview(v)
@@ -109,6 +111,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     /// 搜索控制器
     lazy var searchController: SearchViewController! = SearchViewController()
     
+    /// 无网络提示view
     lazy var errorView: UIView = { [weak self] in
         let view = UIView()
         let refreshButton = UIButton(icon: "icon_refresh", masksToBounds: true)
@@ -130,6 +133,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         return view
     }()
     
+    /// 顶部搜索框提示
     var defaultPrompt: UIButton = UIButton(image: "search_icon", title: " 搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
     
     /// 搜索栏
@@ -157,29 +161,37 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     // MARK: - 初始化
     //电池栏状态
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+        return .LightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         refreshReachable()
-        
         initSearchBar()
         initCollectionLayout()
         initCollectionView()
         initViewSetting()
-        initRefresh()
-//        initTableView()
         setupAutoLayout()
         loadData()
+        initController()
     }
     
+    private func initController() {
+        addChildViewController(hotContentVC)
+        addChildViewController(hotSightVC)
+//        hotContentVC.tableView.frame = CGRectMake(0, 0, Frame.screen.width, Frame.screen.height - 255)
+//        hotSightVC.tableView.frame = CGRectMake(0, 0, Frame.screen.width, Frame.screen.height - 255)
+    }
+    
+    /// 初始化 collectionview
     private func initCollectionView() {
+        view.addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.bounces    = false
-        collectionView.backgroundColor = UIColor.randomColor()
+        collectionView.backgroundColor = .randomColor()
+        collectionView.contentInset = UIEdgeInsets(top: 255, left: 0, bottom: 0, right: 0)
         collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
     }
     
@@ -268,55 +280,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         maskView.ff_Fill(headerView)
         view.bringSubviewToFront(navContainerView)
     }
-    
-    /// 初始化刷新控件
-    private func initRefresh() {
-        
-        //下拉刷新
-//        let tbHeaderView = MJRefreshNormalHeader { [weak self] () -> Void in
-//            self?.loadData()
-//        }
-//        tbHeaderView.automaticallyChangeAlpha = true
-//        tbHeaderView.activityIndicatorViewStyle = .White
-//        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
-//        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
-//        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
-//        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
-//        tbHeaderView.lastUpdatedTimeLabel?.hidden = true
-//        tbHeaderView.stateLabel?.hidden = true
-//        tbHeaderView.arrowView?.image = UIImage()
-//        
-//        //上拉刷新
-//        let tbFooterView = MJRefreshAutoNormalFooter { [weak self] () -> Void in
-//            self?.loadMore()
-//        } 
-//        tbFooterView.automaticallyRefresh = true
-//        tbFooterView.automaticallyChangeAlpha = true
-//        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
-//        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
-//        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
-//        
-//        tableView.mj_header = tbHeaderView
-//        tableView.mj_footer = tbFooterView
-    }
-    
-    /// 初始化tableView
-//    private func initTableView() {
-//        //添加tableview相关属性
-//        view.addSubview(tableView)
-//        tableView.dataSource      = self
-//        tableView.delegate        = self
-//        tableView.tableHeaderView = nil
-//        tableView.rowHeight       = RecommendContant.rowHeight
-//        tableView.backgroundColor = .clearColor()
-//        tableView.separatorStyle  = .None
-//        tableView.contentInset    = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 64, right: 0)
-//        tableView.contentOffset = CGPointMake(0, -(RecommendContant.headerViewHeight + 45))
-//        tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTableViewCellID)
-//        tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: RecommendContant.recommendTopicViewCellID)
-//        view.sendSubviewToBack(tableView)
-//    }
-
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -356,51 +319,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         
         //表格
 //        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
-        collectionView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64))
+        collectionView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(Frame.screen.width, Frame.screen.height))
         headerImageView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight - 45))
-    }
-    
-    ///  添加搜索标签按钮
-    private func addSearchLabelButton() {
-        //参数
-        let btnWidth:CGFloat  = 95
-        let btnHeight:CGFloat = (244 - 75) / 3 - 15
-        let totalCol:Int      = 2
-        let totalRow:Int      = 3
-        let yOffset:CGFloat   = 75
-        let marginX:CGFloat   = (headerView.bounds.size.width - btnWidth * CGFloat(totalCol)) / CGFloat(totalCol + 1)
-        let marginY:CGFloat   = 15
-
-        for (var i = 0; i < recommendLabels.count; i++) {
-            let btn: UIButton = UIButton(title: recommendLabels[i].name, fontSize: 14, radius: 0)
-            headerView.addSubview(btn)
-            btn.contentHorizontalAlignment = .Center
-            btn.addTarget(self, action: "clkSearchLabelMethod:", forControlEvents: .TouchUpInside)
-            btn.setTitleColor(UIColor(hex: 0xFFFFFF, alpha: 0.6), forState: .Normal)
-            btn.setTitleColor(UIColor.whiteColor(), forState: .Selected)
-            btn.tag = Int(recommendLabels[i].order) ?? 1
-            if i == 0 {
-                btn.selected = true
-                currentSearchLabelButton = btn
-            }
-            let row:Int = i / totalCol
-            let col:Int = i % totalCol
-            
-            if row >= totalRow {
-                break
-            }
-            
-            var btnX:CGFloat = marginX + (marginX + btnWidth) * CGFloat(col)
-            let btnY:CGFloat = yOffset + (marginY + btnHeight) * CGFloat(row)
-            
-            btnX += i % 2 == 0 ? 5 : -5
-            if i == 0 || i == 1 {
-                btn.contentVerticalAlignment = .Bottom
-            } else if i == 4 || i == 5 {
-                btn.contentVerticalAlignment = .Top
-            }
-            btn.frame = CGRectMake(btnX, btnY, btnWidth, btnHeight)
-        }
     }
     
     /// 是否正在加载中

@@ -10,12 +10,19 @@ import UIKit
 import SwiftyJSON
 import CoreData
 
+struct RecommendLoadType  {
+    static let TypeLabelAndImages = 1
+    static let TypeContent        = 2
+}
+
 class RecommendRequest: NSObject {
     
     // 请求参数
     var order   : String = "1"
     var page    : Int = 1
     var pageSize: Int = 15
+    var isLoadType: Int = RecommendLoadType.TypeLabelAndImages
+    
     
     func fetchNextPageModels(handler: (RecommendModel?, Int) -> Void) {
         page = page + 1
@@ -48,25 +55,29 @@ class RecommendRequest: NSObject {
     ///  数据转换模型
     func dataWithModel(data: JSON) -> RecommendModel {
         let searchModel = RecommendModel()
-
-        for item in data["label"].arrayValue {
-            if let item = item.dictionaryObject {
-                searchModel.labels.append(RecommendLabel(dict: item))
+        
+        if isLoadType == RecommendLoadType.TypeLabelAndImages {
+            for item in data["label"].arrayValue {
+                if let item = item.dictionaryObject {
+                    searchModel.labels.append(RecommendLabel(dict: item))
+                }
             }
-        }
-        for item in data["content"].arrayValue {
-            if let item = item.dictionaryObject {
-                searchModel.contents.append(RecommendCellData(dict: item))
+            for item in data["images"].arrayValue {
+                let url = UIKitTools.sliceImageUrl(item["url"].stringValue, width: Int(UIScreen.mainScreen().bounds.width), height: 244)
+                searchModel.images.append(url)
             }
-        }
-        for item in data["images"].arrayValue {
-            let url = UIKitTools.sliceImageUrl(item["url"].stringValue, width: Int(UIScreen.mainScreen().bounds.width), height: 244)
-            searchModel.images.append(url)
+        } else if isLoadType == RecommendLoadType.TypeContent {
+            for item in data["content"].arrayValue {
+                if let item = item.dictionaryObject {
+                    searchModel.contents.append(RecommendCellData(dict: item))
+                }
+            }
         }
         return searchModel
     }
 }
 
+//TODO: - 模型数据不是同时都有值，labels和images有值时，contents就无值，否则相反
 class RecommendModel {
     
     lazy var labels = [RecommendLabel]()

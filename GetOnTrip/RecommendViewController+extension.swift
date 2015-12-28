@@ -17,18 +17,13 @@ extension RecommendViewController {
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath) 
-//        cell.viewController.view.removeFromSuperview()
-//        if indexPath.row == 0 {
-//            slideView.hidden = false
-//            cell.viewController = contentController
-//        } else if indexPath.row == 1 {
-//            slideView.hidden = true
-//            cell.viewController = sightViewController
-//            slideView.hidden = true
-//        } else if indexPath.row == 2 {
-//            cell.viewController = cityController
-//        }
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath)
+        if indexPath.row == 0 {
+            cell.addSubview(hotContentVC.tableView)
+            
+        } else if indexPath.row == 1 {
+            cell.addSubview(hotSightVC.tableView)
+        }
         
         return cell
     }
@@ -63,15 +58,15 @@ extension RecommendViewController {
         let newTop = min(-gap, initTop)
         headerViewTopConstraint?.constant = newTop
         
-        for vcell in tableView.visibleCells {
-            if let cell = vcell as? RecommendTableViewCell {
-                let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: gap)
-                cell.cellImageView.updateFactor(factor)
-            } else if let cell = vcell as? RecommendTopicViewCell {
-                let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: gap)
-                cell.cellImageView.updateFactor(factor)
-            }
-        }
+//        for vcell in tableView.visibleCells {
+//            if let cell = vcell as? RecommendTableViewCell {
+//                let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: gap)
+//                cell.cellImageView.updateFactor(factor)
+//            } else if let cell = vcell as? RecommendTopicViewCell {
+//                let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: gap)
+//                cell.cellImageView.updateFactor(factor)
+//            }
+//        }
     }
     
     private func calcFactor(frameY:CGFloat, yOffset: CGFloat) -> CGFloat {
@@ -99,31 +94,20 @@ extension RecommendViewController {
         currentSearchLabelButton?.selected = false
         currentSearchLabelButton = sender
         
-        lastRequest?.order = String(sender.tag)
+        lastRequest.order = String(sender.tag)
 //        tableView.mj_header.beginRefreshing()
     }
     
     /// 发送搜索信息
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     func loadData() {
-        if isLoading {
-            return
-        }
         
-        isLoading = true
         errorView.hidden = true
         
-        //清空footer的“加载完成”
-//        tableView.mj_footer.resetNoMoreData()
-        if lastRequest == nil {
-            lastRequest = RecommendRequest()
-            lastRequest?.order = "1" //默认返回带所有搜索标签
-        }
-        
-        lastRequest?.fetchFirstPageModels {[weak self] (result, status) -> Void in
+        lastRequest.fetchFirstPageModels {[weak self] (result, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
-                if self?.recommendCells.count == 0 {
+                if self?.recommendLabels.count == 0 {
                     //当前无内容时显示出错页
                     self?.collectionView.hidden = true
                     self?.errorView.hidden = false
@@ -131,8 +115,6 @@ extension RecommendViewController {
                     //当前有内容显示出错浮层
                     ProgressHUD.showErrorHUD(self?.view, text: "您的网络无法连接")
                 }
-//                self?.tableView.mj_header.endRefreshing()
-                self?.isLoading = false
                 return
             }
             
@@ -141,58 +123,13 @@ extension RecommendViewController {
                 self?.recommendLabels = data.labels
                 self?.headerImagesData = data.images
             }
-            
-//            if let dataSource = data {
-//                let cells  = dataSource.objectForKey("cells") as! [RecommendCellData]
-//                //有数据才更新
-//                if cells.count > 0 {
-//                    self?.recommendCells = cells
-//                }
-//                let labels = dataSource.objectForKey("labels") as! [RecommendLabel]
-//                if labels.count > 0 && self?.recommendLabels.count == 0 {
-//                    self?.recommendLabels = labels
-//                }
-//                self?.loadHeaderImage(dataSource.objectForKey("image") as? String)
-//                self?.tableView.reloadData()
-//            }
-//            self?.tableView.mj_header.endRefreshing()
-            self?.isLoading = false
-        }
-    }
-    
-    /// 底部加载更多
-    func loadMore(){
-        if isLoading {
-            return
-        }
-        isLoading = true
-        //请求下一页
-        lastRequest?.fetchNextPageModels { [weak self] (data, status) -> Void in
-            
-            if let dataSource = data {
-                let newCells  = dataSource.objectForKey("cells") as! [RecommendCellData]
-                if newCells.count > 0 {
-                    if let cells = self?.recommendCells {
-                        self?.recommendCells = cells + newCells
-                        self?.tableView.reloadData()
-                    }
-                    self?.tableView.mj_footer.endRefreshing()
-                } else {
-                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
-                }
-            }
-            self?.isLoading = false
         }
     }
     
     /// 网络异常重现加载
     func refreshFromErrorView(sender: UIButton){
         errorView.hidden = true
-        tableView.hidden = false
-        //重新加载
-        if !tableView.mj_header.isRefreshing() {
-            tableView.mj_header.beginRefreshing()
-        }
+        loadData()
     }
     
     func loadHeaderImage(url: String?) {

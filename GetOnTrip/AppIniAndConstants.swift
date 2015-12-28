@@ -96,6 +96,10 @@ struct SceneFont {
     static let heiti = "STHeitiSC-Light"
 }
 
+struct Frame {
+    static let screen = UIScreen.mainScreen().bounds
+}
+
 /// 占位图像
 struct PlaceholderImage {
     static let userIcon = "user_icon"
