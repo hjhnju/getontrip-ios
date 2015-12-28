@@ -18,11 +18,13 @@ extension RecommendViewController {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath)
+        cell.frame = Frame.screen
         if indexPath.row == 0 {
             cell.addSubview(hotContentVC.tableView)
-            
+            hotContentVC.view.ff_Fill(cell)
         } else if indexPath.row == 1 {
             cell.addSubview(hotSightVC.tableView)
+            hotSightVC.view.ff_Fill(cell)
         }
         
         return cell
@@ -57,16 +59,6 @@ extension RecommendViewController {
         let initTop: CGFloat = 0.0
         let newTop = min(-gap, initTop)
         headerViewTopConstraint?.constant = newTop
-        
-//        for vcell in tableView.visibleCells {
-//            if let cell = vcell as? RecommendTableViewCell {
-//                let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: gap)
-//                cell.cellImageView.updateFactor(factor)
-//            } else if let cell = vcell as? RecommendTopicViewCell {
-//                let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: gap)
-//                cell.cellImageView.updateFactor(factor)
-//            }
-//        }
     }
     
     private func calcFactor(frameY:CGFloat, yOffset: CGFloat) -> CGFloat {

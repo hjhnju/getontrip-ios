@@ -24,7 +24,7 @@ struct MainViewContant {
 }
 
 struct RecommendContant {
-    static let headerViewHeight:CGFloat = 244 + 45
+    static let headerViewHeight:CGFloat = 255
     static let rowHeight:CGFloat = 192
 
     //search
@@ -71,10 +71,13 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     /// 数据源 - 推荐标签
     var recommendLabels: [RecommendLabel] = [RecommendLabel]() {
         didSet{
+            collectionView.reloadData()
             if let order = recommendLabels.first?.order {
                 hotContentVC.order = order
+                hotContentVC.loadData()
             } else if recommendLabels[1].order != "1" {
                 hotSightVC.order = recommendLabels[1].order
+                hotSightVC.loadData()
             }
         }
     }
@@ -197,7 +200,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     
     // 初始化collection布局
     private func initCollectionLayout() {
-        layout.itemSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 36)
+        layout.itemSize = Frame.screen.size
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing      = 0
         layout.scrollDirection         = .Horizontal
@@ -313,7 +316,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     private func setupAutoLayout() {
         //导航布局
         slideButton.ff_AlignInner(.CenterLeft, referView: custNavView, size: CGSize(width: 21, height: 14), offset: CGPointMake(9, 0))        
-        let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, RecommendContant.headerViewHeight), offset: CGPointMake(0, 0))
+        let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, RecommendContant.headerViewHeight))
         titleSelectView.ff_AlignInner(.BottomLeft, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 45))
         headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: .Top)
         
