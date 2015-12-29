@@ -77,7 +77,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     /// 热门景点和热门内容view
     lazy var titleSelectView: RecommendHotView = { [weak self] in
         let v = RecommendHotView()
-//        self?.view.addSubview(v)
         v.hotContentButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
         v.hotSightButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
         return v
@@ -151,6 +150,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
     }
     
+    var timer: NSTimer?
+    
     /// 底部容器view
     lazy var collectionView: UICollectionView = { [weak self] in
         let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
@@ -163,6 +164,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         
     /// 流水布局
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    
+    var contentOffSet: CGPoint = CGPointMake(0, -RecommendContant.headerViewHeight)
     
     // MARK: - 初始化
     //电池栏状态
@@ -281,11 +284,10 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         headerView.addSubview(headerImageView)
         headerView.addSubview(titleSelectView)
         headerImageView.contentMode = .ScaleAspectFill
-        //为header添加黑色蒙板
-//        let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.45)
-//        headerView.addSubview(maskView)
-//        headerView.addSubview(titleSelectView)
-//        maskView.ff_Fill(headerView)
+        // TODO: - 不一定要 为header添加黑色蒙板
+        let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.45)
+        headerView.addSubview(maskView)
+        maskView.ff_Fill(headerView)
         view.bringSubviewToFront(navContainerView)
         
         headerImageView.userInteractionEnabled = true
@@ -313,6 +315,9 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         isGestureRecognizer = true
         slideView.tag = 1
         self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
+        
+        timer = NSTimer(timeInterval: 2.0, target: self, selector: "updatePhotoAction", userInfo: nil, repeats: true)
+        NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -325,6 +330,11 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         
         isGestureRecognizer = false
         self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        timer!.invalidate()
     }
     
     func refreshBar(){
@@ -402,6 +412,10 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
             return true
         }
         return false
+    }
+    
+    func updatePhotoAction() {
+        headerImageView.swipeLeftAction()
     }
 }
 

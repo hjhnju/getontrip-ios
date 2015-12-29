@@ -18,13 +18,14 @@ extension RecommendViewController {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath)
-
         if indexPath.row == 0 {
             cell.addSubview(hotContentVC.tableView)
             hotContentVC.view.ff_Fill(cell)
+            hotContentVC.tableView.contentOffset = contentOffSet
         } else if indexPath.row == 1 {
             cell.addSubview(hotSightVC.tableView)
             hotSightVC.view.ff_Fill(cell)
+            hotSightVC.tableView.contentOffset = contentOffSet
         }
         
         return cell
@@ -43,10 +44,13 @@ extension RecommendViewController {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        titleSelectView.selectView.frame.origin.x = scrollView.contentOffset.x * 0.5
-        let isSelected = titleSelectView.selectView.center.x < Frame.screen.width * 0.5 ? true : false
-        titleSelectView.hotContentButton.selected = isSelected
-        titleSelectView.hotSightButton.selected   = !isSelected
+        
+        if scrollView.contentOffset.x != 0 { // 防止上下滑动
+            titleSelectView.selectView.frame.origin.x = scrollView.contentOffset.x * 0.5
+            let isSelected = titleSelectView.selectView.center.x < Frame.screen.width * 0.5 ? true : false
+            titleSelectView.hotContentButton.selected = isSelected
+            titleSelectView.hotSightButton.selected   = !isSelected
+        }
         
         if scrollView.contentOffset.y == 0 { return }
         

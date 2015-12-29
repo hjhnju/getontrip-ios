@@ -14,7 +14,7 @@ class RoundImageView: UIView {
     lazy var moving: Bool = false
     
     var index: Int = 0
-    
+        
     var arrayImage: [String] = [String]() {
         didSet {
             orderImageViews()

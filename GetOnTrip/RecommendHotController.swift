@@ -34,7 +34,7 @@ class RecommendHotController: UITableViewController {
         lastRequest.isLoadType = RecommendLoadType.TypeContent
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: "RecommendTopicViewCell")
         tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: "RecommendTableViewCell")
-        tableView.rowHeight = 190
+        tableView.rowHeight = 192
         tableView.contentInset = UIEdgeInsets(top: 255, left: 0, bottom: 0, right: 0)
         tableView.backgroundColor = .clearColor()
         tableView.separatorStyle = .None
@@ -58,14 +58,12 @@ class RecommendHotController: UITableViewController {
             (cell as! RecommendTableViewCell).data = recommendCells[indexPath.row]
         }
         
-        cell!.backgroundColor = UIColor.randomColor()
+        cell!.backgroundColor = UIColor.clearColor()
         let factor = calcFactor(cell!.frame.origin.y + RecommendContant.rowHeight, yOffset: 0)
         (cell as? RecommendTopicViewCell)?.cellImageView.updateFactor(factor)
         (cell as? RecommendTableViewCell)?.cellImageView.updateFactor(factor)
-        print("indexPath.row == \(indexPath.row) ==========  cound \(recommendCells.count)")
         if indexPath.row == recommendCells.count - 2 { loadMore() }
         return cell!
-        
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -101,14 +99,20 @@ class RecommendHotController: UITableViewController {
     }
     
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        parentViewController
-
         (parentViewController as? RecommendViewController)?.yOffset = scrollView.contentOffset.y
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
+
+        let vc = parentViewController as? RecommendViewController
+        if scrollView.contentOffset.y > -64 { // 禁止滚动
+            vc?.collectionView.scrollEnabled = false
+        } else { // 开始滚动
+            vc?.collectionView.scrollEnabled = true
+        }
+        vc?.contentOffSet = scrollView.contentOffset
+        vc?.scrollViewDidScroll(scrollView)
         
-        (parentViewController as? RecommendViewController)?.scrollViewDidScroll(scrollView)
         let gap = RecommendContant.headerViewHeight + scrollView.contentOffset.y
         for vcell in tableView.visibleCells {
             if let cell = vcell as? RecommendTableViewCell {
@@ -120,6 +124,7 @@ class RecommendHotController: UITableViewController {
             }
         }
     }
+    
     
     private func calcFactor(frameY:CGFloat, yOffset: CGFloat) -> CGFloat {
         //以屏幕左上为原点的坐标

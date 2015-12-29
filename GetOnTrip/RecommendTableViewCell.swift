@@ -16,7 +16,7 @@ class RecommendTableViewCell: UITableViewCell {
     var cellImageView = ScrolledImageView()
     
     //中部标题
-    lazy var titleButton: UIButton = UIButton(title: "北京", fontSize: 16, radius: 5, titleColor: SceneColor.bgBlack)
+    lazy var titleButton: UIButton = UIButton(title: "北京", fontSize: 16, radius: 0, titleColor: .whiteColor(), fontName: Font.PingFangTCMedium)
     
     //底部遮罩
     lazy var shadeView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.5), alphaF: 0.7)
@@ -28,7 +28,7 @@ class RecommendTableViewCell: UITableViewCell {
     lazy var contentButton: UIButton = UIButton()
     
     /// 当前位置 
-    lazy var locationButton = UIButton(image: "location_search", title: "0.0km", fontSize: 13, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
+    lazy var locationButton = UIButton(image: "location_search", title: "  0.0km", fontSize: 13, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
     
     var data: RecommendCellData? {
         didSet {
@@ -40,7 +40,7 @@ class RecommendTableViewCell: UITableViewCell {
                     cellImageView.loadImage(NSURL(string: cellData.image))
                 }
                 
-                titleButton.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
+                titleButton.setTitle(cellData.name, forState: UIControlState.Normal)
                 collectButton.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
                 contentButton.setAttributedTitle(cellData.param1.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
 
@@ -88,12 +88,12 @@ class RecommendTableViewCell: UITableViewCell {
     
     private func setupAutoLayout() {
         //iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
-        cellImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight - 2), offset: CGPointMake(0, -2))
+        cellImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight - 2), offset: CGPointMake(0, 2))
         shadeView.frame = CGRectMake(0, 0, Frame.screen.width, RecommendContant.rowHeight)
         locationButton.ff_AlignInner(.BottomLeft, referView: contentView, size: nil, offset: CGPointMake(9, -19))
         contentButton.ff_AlignInner(.BottomRight, referView: contentView, size: nil, offset: CGPointMake(-9, -19))
         collectButton.ff_AlignHorizontal(.CenterLeft, referView: contentButton, size: nil, offset: CGPointMake(-12, 0))
-        titleButton.ff_AlignHorizontal(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, 7))
+        titleButton.ff_AlignVertical(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, -7))
     }
 
     required init?(coder aDecoder: NSCoder) {
