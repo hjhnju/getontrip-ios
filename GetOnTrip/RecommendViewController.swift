@@ -26,10 +26,6 @@ struct MainViewContant {
 struct RecommendContant {
     static let headerViewHeight:CGFloat = 255
     static let rowHeight:CGFloat = 192
-
-    //search
-    static let recommendTableViewCellID = "SearchRecommendTableViewCellID"
-    static let recommendTopicViewCellID = "RecommendTopicViewCellID"
 }
 
 class RecommendViewController: MainViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
@@ -88,6 +84,17 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         return v
     }()
     
+    lazy var navBarTitleSelectView: RecommendHotView = { [weak self] in
+        let v = RecommendHotView()
+        v.backgroundColor = .clearColor()
+        v.alpha = 0.0
+        v.topLine.removeFromSuperview()
+        v.selectView.removeFromSuperview()
+        v.hotContentButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
+        v.hotSightButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
+        return v
+    }()
+    
     /// 无网络提示view
     lazy var errorView: UIView = { [weak self] in
         let view = UIView()
@@ -113,10 +120,12 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     /// 搜索控制器
     lazy var searchController: SearchViewController! = SearchViewController()
     
-    lazy var searchButton: UIButton = UIButton(image: "search_Recommend", title: "", fontSize: 0)
+    var searchBarW: NSLayoutConstraint?
+    var searchBarMaxX: NSLayoutConstraint?
+    var searchBarTopY: NSLayoutConstraint?
     
     /// 顶部搜索框提示
-    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: " 搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
+    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: "  搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
     
     /// 搜索栏
     var textfile: UITextField? {
@@ -133,7 +142,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
             textfile?.addTarget(self, action: "defaultPromptTextHidden:", forControlEvents: UIControlEvents.EditingChanged)
             defaultPrompt.titleLabel?.hidden = true
             textfile?.addSubview(defaultPrompt)
-            defaultPrompt.ff_AlignInner(.CenterLeft, referView: textfile ?? defaultPrompt, size: nil, offset: CGPointMake(11, 0))
+            defaultPrompt.ff_AlignInner(.CenterLeft, referView: textfile ?? defaultPrompt, size: nil, offset: CGPointMake(9, 0))
         }
     }
     
@@ -161,11 +170,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var timer: NSTimer?
     
     /// 底部容器view
-    lazy var collectionView: UICollectionView = { [weak self] in
-        let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
-        cv.tag = 2
-        return cv
-    }()
+    lazy var collectionView: UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.layout)
     
     /// 左侧滑动view
     lazy var slideView: UIView = UIView()
@@ -260,15 +265,17 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         
         view.addSubview(searchController.searchBar)
         definesPresentationContext = true
-
-        searchController.searchBar.frame = CGRectMake(64, 156, Frame.screen.width - 128, 35)//CGRectMake(49, 16, UIScreen.mainScreen().bounds.width, 35)
+        
+        let cons = searchController.searchBar.ff_AlignInner(.TopCenter, referView: view, size: CGSizeMake(Frame.screen.width - 128, 35), offset: CGPointMake(0, 155))
+        searchBarMaxX = searchController.searchBar.ff_Constraint(cons, attribute: .CenterX)
+        searchBarTopY = searchController.searchBar.ff_Constraint(cons, attribute: .Top)
+        searchBarW    = searchController.searchBar.ff_Constraint(cons, attribute: .Width)
         clearButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
         clearButton.addTarget(searchController, action: "clearButtonAction", forControlEvents: .TouchUpInside)
         searchController.searchBar.keyboardAppearance = .Default
         searchController.searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
         searchController.searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
         searchController.searchBar.translucent = true
-        
         defaultPrompt.enabled = false
         defaultPrompt.setImage(UIImage(named: "search_icon"), forState: UIControlState.Disabled)
 
@@ -307,10 +314,11 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         slideView.frame = CGRectMake(0, 0, 7, UIScreen.mainScreen().bounds.height)
         
         headerView.addSubview(titleImageView)
-        headerView.addSubview(searchButton)
         titleImageView.alpha = 0.9
         titleImageView.ff_AlignInner(.CenterCenter, referView: headerView, size: nil, offset: CGPointMake(0, -20))
-        searchButton.ff_AlignVertical(.BottomCenter, referView: titleImageView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 49, 35), offset: CGPointMake(0, 42))
+        
+        navContainerView.addSubview(navBarTitleSelectView)
+        navBarTitleSelectView.frame = CGRectMake(45, 20, Frame.screen.width - 45 * 2, 44)
     }
     
     /// 初始化左右轮播按钮
@@ -327,26 +335,15 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         rightRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
     }
 
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         defaultPrompt.titleLabel?.hidden = textfile?.text != "" ? true : false
-        
         refreshBar()
-        
         timer = NSTimer(timeInterval: 2.0, target: self, selector: "updatePhotoAction", userInfo: nil, repeats: true)
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        
-    }
-    
-    /// 初始化手势共存时打开
-    var isGestureRecognizer: Bool = true
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         timer!.invalidate()
@@ -360,11 +357,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         navContainerView.frame = CGRectMake(0, 0, view.bounds.width, MainViewContant.StatusBarHeight + navBarHeight)
         custNavView.frame      = CGRectMake(0, MainViewContant.StatusBarHeight, view.bounds.width, navBarHeight)
         slideNavButton.frame   = CGRectMake(0, 0, 50, navBarHeight)
-        searchButton.hidden = true
-        searchController.searchBarFrame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, navBarHeight)
-        searchController.searchBarH = navBarHeight
     }
-    
     
     //布局
     private func setupAutoLayout() {
@@ -381,5 +374,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     
     //MARK: ScrollViewDelegate
     var yOffset: CGFloat = 0.0
+    /// 是否应该更新searchBar的frame
+    var isUpdataSearchBarFrame: Bool = false
 }
 

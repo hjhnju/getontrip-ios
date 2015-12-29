@@ -67,13 +67,35 @@ extension RecommendViewController {
         let initTop: CGFloat = 0.0
         let newTop = min(-gap, initTop)
         headerViewTopConstraint?.constant = newTop
-        print(offsetY)
         if offsetY > -120 { // 变圆
+            searchBarW?.constant = 50
+            searchBarMaxX?.constant = Frame.screen.width * 0.5 - 30
+            searchBarTopY?.constant = 64 * 0.5 - 10
             UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.searchController.searchBar.frame = CGRectMake(Frame.screen.width - 50, 30, 50, 50)
+                self.searchController.searchBar.layoutIfNeeded()
+                }, completion: { (_) -> Void in
+                    self.isUpdataSearchBarFrame = true
+                    UIView.animateWithDuration(0.5, animations: { () -> Void in
+                        self.navBarTitleSelectView.alpha = 1
+                    })
             })
         } else { // 变回去
-            searchController.searchBar.frame.origin.y = newTop + 156
+            if isUpdataSearchBarFrame {
+                searchBarMaxX?.constant = 0
+                searchBarW?.constant = Frame.screen.width - 128
+                searchBarTopY?.constant = newTop + 155
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    self.searchController.searchBar.layoutIfNeeded()
+                    }, completion: { (_) -> Void in
+                        self.isUpdataSearchBarFrame = false
+                        UIView.animateWithDuration(0.3, animations: { () -> Void in
+                            self.navBarTitleSelectView.alpha = 0
+                        })
+                })
+            } else {
+                searchBarTopY?.constant = newTop + 155
+                searchController.searchBar.layoutIfNeeded()
+            }
         }
     }
     
