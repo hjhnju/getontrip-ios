@@ -33,9 +33,7 @@ extension RecommendViewController {
     
     /// MARK: - 切换收藏视图方法
     func switchCollectButtonClick(sender: UIButton) {
-        
-        let indexPath = NSIndexPath(forItem: sender.tag, inSection: 0)
-        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+        collectionView.scrollToItemAtIndexPath( NSIndexPath(forItem: sender.tag, inSection: 0), atScrollPosition: .CenteredHorizontally, animated: true)
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -43,8 +41,6 @@ extension RecommendViewController {
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        
         if scrollView.contentOffset.x != 0 { // 防止上下滑动
             titleSelectView.selectView.frame.origin.x = scrollView.contentOffset.x * 0.5
             let isSelected = titleSelectView.selectView.center.x < Frame.screen.width * 0.5 ? true : false
@@ -71,8 +67,14 @@ extension RecommendViewController {
         let initTop: CGFloat = 0.0
         let newTop = min(-gap, initTop)
         headerViewTopConstraint?.constant = newTop
-        
-        
+        print(offsetY)
+        if offsetY > -120 { // 变圆
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.searchController.searchBar.frame = CGRectMake(Frame.screen.width - 50, 30, 50, 50)
+            })
+        } else { // 变回去
+            searchController.searchBar.frame.origin.y = newTop + 156
+        }
     }
     
     private func calcFactor(frameY:CGFloat, yOffset: CGFloat) -> CGFloat {
@@ -90,7 +92,7 @@ extension RecommendViewController {
         return factor
     }
     
-    //MARK: 自定义方法
+    //MARK: 加载数据方法
     /// 发送搜索信息
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     func loadData() {
@@ -132,4 +134,21 @@ extension RecommendViewController {
             defaultPrompt.titleLabel?.hidden = true
         }
     }
+    
+    // MARK: - 自定义方法
+    /// 点击热门推荐和推荐景点使collectionview转到相对应的位置
+    func hotContentAndSightButtonAction(sender: UIButton) {
+        collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: sender.tag == 3 ? 0 : 1, inSection: 0), atScrollPosition: .CenteredHorizontally, animated: true)
+    }
+    
+    /// 启动定时器，开始让图片转起来
+    func updatePhotoAction() {
+        headerImageView.swipeLeftAction()
+    }
+    
+    /// 图片轮播调用右转还是左转
+    func swipeAction(sender: UIButton) {
+        sender.tag == 1 ? headerImageView.swipeLeftAction() : headerImageView.swipeRightActiona()
+    }
+    
 }

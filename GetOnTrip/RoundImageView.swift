@@ -26,15 +26,7 @@ class RoundImageView: UIView {
         }
     }
     
-    lazy var arrayM: NSMutableArray = { [weak self] in
-        let arrayM = NSMutableArray()
-        for _ in 0...2 {
-            let imageView = UIImageView()
-            self?.addSubview(imageView)
-            arrayM.addObject(imageView)
-        }
-        return arrayM
-        }()
+    lazy var arrayM: NSMutableArray = NSMutableArray()
     
     private func orderImageViews() {
         let w: CGFloat = bounds.size.width
@@ -54,15 +46,27 @@ class RoundImageView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeLeftAction")
-        swipeLeft.direction = .Left
-        addGestureRecognizer(swipeLeft)
-        
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeRightActiona")
-        swipeRight.direction = .Right
-        addGestureRecognizer(swipeRight)
+        initView()
+        initGesture()
+    }
+    
+    private func initView() {
+        for _ in 0...2 {
+            let imageView = UIImageView()
+            addSubview(imageView)
+            arrayM.addObject(imageView)
+        }
         
         clipsToBounds = true
+    }
+    
+    private func initGesture() {
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeLeftAction")
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeRightActiona")
+        swipeLeft.direction = .Left
+        swipeRight.direction = .Right
+        addGestureRecognizer(swipeLeft)
+        addGestureRecognizer(swipeRight)
     }
     
     required init?(coder aDecoder: NSCoder) {

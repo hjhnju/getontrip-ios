@@ -55,8 +55,8 @@ class RecommendTopicViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         //防止选择时白底
-        self.backgroundColor = UIColor.clearColor()
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        backgroundColor = .clearColor()
+        selectionStyle = .None
         
         tagButton.layer.borderWidth = 0.5
         tagButton.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
@@ -65,25 +65,29 @@ class RecommendTopicViewCell: UITableViewCell {
         tagButton.layer.cornerRadius = 3
         tagButton.clipsToBounds = true
         
-        addSubview(cellImageView)
-        addSubview(coverView)
-        addSubview(titleLabel)
-        addSubview(tagButton)
-        addSubview(favNumLabel)
-        addSubview(visitNumLabel)
+        contentView.addSubview(cellImageView)
+        contentView.addSubview(coverView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(tagButton)
+        contentView.addSubview(favNumLabel)
+        contentView.addSubview(visitNumLabel)
+        
+        cellImageView.userInteractionEnabled = false
+        coverView.userInteractionEnabled     = false
+        titleLabel.userInteractionEnabled    = false
+        tagButton.userInteractionEnabled     = false
+        favNumLabel.userInteractionEnabled   = false
+        visitNumLabel.userInteractionEnabled = false
         
         titleLabel.numberOfLines = 2
-        titleLabel.userInteractionEnabled = false
-        titleLabel.textAlignment = NSTextAlignment.Center
-        cellImageView.userInteractionEnabled = false
-        
+        titleLabel.textAlignment = .Center
         setupAutoLayout()
     }
     
     private func setupAutoLayout() {
-        cellImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight - 2), offset: CGPointMake(0, 2))
-        coverView.ff_Fill(self)
-        titleLabel.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
+        cellImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(Frame.screen.width, RecommendContant.rowHeight - 2), offset: CGPointMake(0, 2))
+        coverView.ff_Fill(contentView)
+        titleLabel.ff_AlignInner(.CenterCenter, referView: contentView, size: nil, offset: CGPointMake(0, 0))
         tagButton.ff_AlignVertical(.TopCenter, referView: titleLabel, size: nil, offset: CGPointMake(0, -9))
         
         favNumLabel.ff_AlignInner(.BottomCenter, referView: cellImageView, size: nil, offset: CGPointMake(-20, -10))

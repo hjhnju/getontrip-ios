@@ -256,8 +256,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         
         if touch.view!.isKindOfClass(NSClassFromString("GetOnTrip.MessageTableView")!) {
             return false
-        }
-        if (touch.view!.isKindOfClass(NSClassFromString("UITableViewCellContentView")!) && slideView.tag == 1) {
+        } else if (touch.view!.isKindOfClass(NSClassFromString("UITableViewCellContentView")!) && slideView.tag == 1) {
             return false
         }
         return true

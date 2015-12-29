@@ -174,6 +174,7 @@
 		AE8586CD1BC7822000406BEF /* SearchResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */; };
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
 		AE8C0C151BE8A04F003C7942 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8C0C141BE8A04F003C7942 /* ShareView.swift */; };
+		AE8C15711C327C0A00EB8942 /* SwitchRoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8C15701C327C0A00EB8942 /* SwitchRoundButton.swift */; };
 		AE926FF71BF078E000F316C0 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77AC1BCB43B0006480B1 /* libsqlite3.tbd */; };
 		AE926FF91BF078EE00F316C0 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */; };
 		AE9385F51C05D9CA00B80D31 /* CityBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */; };
@@ -422,6 +423,7 @@
 		AE8586CC1BC7822000406BEF /* SearchResultsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsCell.swift; sourceTree = "<group>"; };
 		AE87C2131B85F285004C0998 /* BookCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 		AE8C0C141BE8A04F003C7942 /* ShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		AE8C15701C327C0A00EB8942 /* SwitchRoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchRoundButton.swift; sourceTree = "<group>"; };
 		AE8D54A41B9A9EFA009F26DE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseViewController.swift; sourceTree = "<group>"; };
@@ -896,6 +898,7 @@
 				AE72F7621C2F853B003457DE /* SettingButton.swift */,
 				AE72F79E1C3020C6003457DE /* RecommendHotView.swift */,
 				AE4DC3EA1C30E32900C43B03 /* RoundImageView.swift */,
+				AE8C15701C327C0A00EB8942 /* SwitchRoundButton.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1223,6 +1226,7 @@
 				AE40702A1C2CF707007A1916 /* CollectSightRequest.swift in Sources */,
 				AEC2318D1BCE5519008C58C9 /* BookRequest.swift in Sources */,
 				AE6079B91BB26DCA00DB2955 /* UIView+Extension.swift in Sources */,
+				AE8C15711C327C0A00EB8942 /* SwitchRoundButton.swift in Sources */,
 				AEEA553B1BC0F92C009AF772 /* SightLandscapesRequest.swift in Sources */,
 				AED4B8671C041B0200DAC9D3 /* Regex.swift in Sources */,
 				AE406FDA1C2CF69B007A1916 /* FeedBackViewController.swift in Sources */,

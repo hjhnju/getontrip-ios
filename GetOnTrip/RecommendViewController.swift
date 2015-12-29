@@ -16,7 +16,7 @@ struct MainViewContant {
     //状态栏高度
     static let StatusBarHeight:CGFloat = 20
     //初始化导航栏高度
-    static let MaxNavbarHeight:CGFloat = 74
+    static let MaxNavbarHeight:CGFloat = 70
     //导航栏最小高度
     static let MinNavbarHeight:CGFloat = 44
     //搜索栏高度
@@ -36,7 +36,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         
     //导航栏容器，包含状态栏的高度
     lazy var navContainerView:UIView = UIView()
-    
+
     /// 侧滑导航按钮
     let slideNavButton: RecommendSlideButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: .whiteColor())
     
@@ -71,6 +71,12 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
     }
     
+    /// 左边侧滑按钮
+    lazy var leftRoundButton: SwitchRoundButton = SwitchRoundButton(image: "left_round", title: "", fontSize: 0)
+    /// 右边侧滑按钮
+    lazy var rightRoundButton: SwitchRoundButton = SwitchRoundButton(image: "right_round", title: "", fontSize: 0)
+    /// 标题了解景点背后的故事（无该字体，目前用图片代替）
+    lazy var titleImageView = UIImageView(image: UIImage(named: "launch_title"))
     /// headerView的顶部约束
     var headerViewTopConstraint: NSLayoutConstraint?
     
@@ -106,6 +112,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     
     /// 搜索控制器
     lazy var searchController: SearchViewController! = SearchViewController()
+    
+    lazy var searchButton: UIButton = UIButton(image: "search_Recommend", title: "", fontSize: 0)
     
     /// 顶部搜索框提示
     var defaultPrompt: UIButton = UIButton(image: "search_icon", title: " 搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
@@ -177,13 +185,14 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         super.viewDidLoad()
         
         refreshReachable()
-        initSearchBar()
         initCollectionLayout()
         initCollectionView()
         initViewSetting()
+        initRoundButton()
         setupAutoLayout()
         loadData()
         initController()
+        initSearchBar()
     }
     
     private func initController() {
@@ -236,17 +245,23 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
     }
     
+    func reachabilityChanged(note: NSNotification) {
+        let reachability = note.object as! Reachability
+        if reachability.isReachable() {
+            UserProfiler.instance.isViaWiFi = reachability.isReachableViaWiFi() ? true : false
+        }
+    }
+    
     
     /// 初始化searchBar
     /// 清除按钮
     let clearButton = UIButton(image: "delete_searchBar", title: "", fontSize: 0)
     func initSearchBar() {
         
-        navContainerView.addSubview(custNavView)
+        view.addSubview(searchController.searchBar)
         definesPresentationContext = true
-        
-        custNavView.addSubview(searchController.searchBar ?? UIView())
-        searchController.searchBar.frame = CGRectMake(49, 16, UIScreen.mainScreen().bounds.width - 49, 35)
+
+        searchController.searchBar.frame = CGRectMake(64, 156, Frame.screen.width - 128, 35)//CGRectMake(49, 16, UIScreen.mainScreen().bounds.width, 35)
         clearButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
         clearButton.addTarget(searchController, action: "clearButtonAction", forControlEvents: .TouchUpInside)
         searchController.searchBar.keyboardAppearance = .Default
@@ -261,8 +276,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
             for it in item.subviews {
                 if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
                     it.removeFromSuperview()
-                }
-                if it.isKindOfClass(NSClassFromString("UISearchBarTextField")!) {
+                } else if it.isKindOfClass(NSClassFromString("UISearchBarTextField")!) {
                     textfile = it as? UITextField
                 }
             }
@@ -283,38 +297,43 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         view.addSubview(headerView)
         headerView.addSubview(headerImageView)
         headerView.addSubview(titleSelectView)
-        headerImageView.contentMode = .ScaleAspectFill
-        // TODO: - 不一定要 为header添加黑色蒙板
+        
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.45)
         headerView.addSubview(maskView)
-        maskView.ff_Fill(headerView)
+        maskView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(Frame.screen.width, 211))
         view.bringSubviewToFront(navContainerView)
-        
-        headerImageView.userInteractionEnabled = true
-        headerView.userInteractionEnabled = true
-        navContainerView.userInteractionEnabled = true
-        custNavView.userInteractionEnabled = true
         
         view.addSubview(slideView)
         slideView.frame = CGRectMake(0, 0, 7, UIScreen.mainScreen().bounds.height)
         
+        headerView.addSubview(titleImageView)
+        headerView.addSubview(searchButton)
+        titleImageView.alpha = 0.9
+        titleImageView.ff_AlignInner(.CenterCenter, referView: headerView, size: nil, offset: CGPointMake(0, -20))
+        searchButton.ff_AlignVertical(.BottomCenter, referView: titleImageView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 49, 35), offset: CGPointMake(0, 42))
+    }
+    
+    /// 初始化左右轮播按钮
+    private func initRoundButton() {
+        headerView.addSubview(leftRoundButton)
+        headerView.addSubview(rightRoundButton)
+        leftRoundButton.ff_AlignInner(.CenterLeft, referView: headerView, size: CGSizeMake(18, 24), offset: CGPointMake(0, -20))
+        rightRoundButton.ff_AlignInner(.CenterRight, referView: headerView, size:  CGSizeMake(18, 24), offset: CGPointMake(0, -20))
+        leftRoundButton.imageViewFrame = CGRectMake(9, 0, 9, 14)
+        rightRoundButton.imageViewFrame = CGRectMake(0, 0, 9, 14)
+        leftRoundButton.tag = 1
+        rightRoundButton.tag = 2
+        leftRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
+        rightRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
     }
 
     
-    var isGestureRecognizer: Bool = true
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if textfile?.text != "" {
-            defaultPrompt.titleLabel?.hidden = true
-        } else {
-            defaultPrompt.titleLabel?.hidden = false
-        }
+        defaultPrompt.titleLabel?.hidden = textfile?.text != "" ? true : false
         
         refreshBar()
-        isGestureRecognizer = true
-        slideView.tag = 1
-        self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
         
         timer = NSTimer(timeInterval: 2.0, target: self, selector: "updatePhotoAction", userInfo: nil, repeats: true)
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
@@ -323,15 +342,11 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        let touch = UITouch()
-        touch.setValue(slideView, forKey: "view")
-        slideView.tag = 2
-        self.gestureRecognizer(UIGestureRecognizer(), shouldReceiveTouch: touch)
         
-        isGestureRecognizer = false
-        self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
     }
     
+    /// 初始化手势共存时打开
+    var isGestureRecognizer: Bool = true
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         timer!.invalidate()
@@ -340,15 +355,12 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     func refreshBar(){
         //更新导航背景
         navContainerView.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)
-        
         //更新导航高度
         navBarHeight = (MainViewContant.MaxNavbarHeight - MainViewContant.MinNavbarHeight) * (1-navBarAlpha) + MainViewContant.MinNavbarHeight
         navContainerView.frame = CGRectMake(0, 0, view.bounds.width, MainViewContant.StatusBarHeight + navBarHeight)
-//        navContainerView.frame = CGRectMake(0, 0, view.bounds.width, 100)
-//        custNavView.frame = CGRectMake(0, 0, view.bounds.width, 100)
         custNavView.frame      = CGRectMake(0, MainViewContant.StatusBarHeight, view.bounds.width, navBarHeight)
         slideNavButton.frame   = CGRectMake(0, 0, 50, navBarHeight)
-        searchController.searchBar.frame = CGRectMake(searchController.searchBar.frame.origin.x ?? 0, 0, searchController.searchBar.frame.width ?? 0, navBarHeight)
+        searchButton.hidden = true
         searchController.searchBarFrame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, navBarHeight)
         searchController.searchBarH = navBarHeight
     }
@@ -367,55 +379,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         headerImageView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight - 45))
     }
     
-    /// 是否正在加载中
-    var isLoading:Bool = false
-    
     //MARK: ScrollViewDelegate
     var yOffset: CGFloat = 0.0
-    
-    func reachabilityChanged(note: NSNotification) {
-        
-        let reachability = note.object as! Reachability
-        
-        if reachability.isReachable() {
-            if reachability.isReachableViaWiFi() {
-                UserProfiler.instance.isViaWiFi = true
-            } else {
-                UserProfiler.instance.isViaWiFi = false
-            }
-        }
-    }
-    
-    func hotContentAndSightButtonAction(sender: UIButton) {
-        
-        let isSelected = sender.tag == 3 ? true : false
-        titleSelectView.hotContentButton.selected = isSelected
-        titleSelectView.hotSightButton.selected   = !isSelected
-        
-        collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: sender.tag == 3 ? 0 : 1, inSection: 0), atScrollPosition: .CenteredHorizontally, animated: true)
-        
-        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
-            self?.titleSelectView.selectView.frame.origin.x = sender.tag == 4 ? UIScreen.mainScreen().bounds.width * 0.5 : 0
-        }
-    }
-    
-    var selectedIndex: Int?
-    
-    // MARK: - 手势
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        
-        if touch.view!.isEqual(slideView) {
-            return true
-        }
-        return false
-    }
-    
-    func updatePhotoAction() {
-        headerImageView.swipeLeftAction()
-    }
 }
 
