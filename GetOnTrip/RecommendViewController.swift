@@ -32,7 +32,7 @@ struct RecommendContant {
     static let recommendTopicViewCellID = "RecommendTopicViewCellID"
 }
 
-class RecommendViewController: MainViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class RecommendViewController: MainViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
         
     //导航栏容器，包含状态栏的高度
     lazy var navContainerView:UIView = UIView()
@@ -59,60 +59,29 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
     }
     
-    /// 网络请求加载数据(添加)
-    var lastRequest: RecommendRequest = RecommendRequest()
-    
-    /// 热门内容推荐
-    var hotContentVC = RecommendHotController()
-    
-    /// 热门景点推荐
-    var hotSightVC = RecommendHotController()
-    
-    /// 数据源 - 推荐标签
-    var recommendLabels: [RecommendLabel] = [RecommendLabel]() {
-        didSet{
-            collectionView.reloadData()
-            if let order = recommendLabels.first?.order {
-                hotContentVC.order = order
-                hotContentVC.loadData()
-            } else if recommendLabels[1].order != "1" {
-                hotSightVC.order = recommendLabels[1].order
-                hotSightVC.loadData()
-            }
-        }
-    }
-    
     /// 搜索顶部
     var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight))
     
     /// 搜索顶部图片
-    var headerImageView = UIImageView()
+    var headerImageView: RoundImageView = RoundImageView(frame: CGRectMake(0, 0, Frame.screen.width, 211))
     /// 搜索顶部图片数据源
-    lazy var headerImagesData = [String]()
+    var headerImagesData = [String]() {
+        didSet {
+            headerImageView.arrayImage = headerImagesData
+        }
+    }
     
     /// headerView的顶部约束
     var headerViewTopConstraint: NSLayoutConstraint?
     
-    /// 底部容器view
-    lazy var collectionView: UICollectionView = { [weak self] in
-        let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
-        return cv
-    }()
-        
-    /// 流水布局
-    lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    
     /// 热门景点和热门内容view
     lazy var titleSelectView: RecommendHotView = { [weak self] in
         let v = RecommendHotView()
-        self?.view.addSubview(v)
+//        self?.view.addSubview(v)
         v.hotContentButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
         v.hotSightButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
         return v
     }()
-    
-    /// 搜索控制器
-    lazy var searchController: SearchViewController! = SearchViewController()
     
     /// 无网络提示view
     lazy var errorView: UIView = { [weak self] in
@@ -134,7 +103,10 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         self?.view.sendSubviewToBack(view)
         view.hidden = true
         return view
-    }()
+        }()
+    
+    /// 搜索控制器
+    lazy var searchController: SearchViewController! = SearchViewController()
     
     /// 顶部搜索框提示
     var defaultPrompt: UIButton = UIButton(image: "search_icon", title: " 搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
@@ -158,8 +130,39 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
     }
     
-    /// 记录状态按钮
-    var currentSearchLabelButton: UIButton?
+    /// 网络请求加载数据(添加)
+    var lastRequest: RecommendRequest = RecommendRequest()
+    
+    /// 热门内容推荐
+    var hotContentVC = RecommendHotController()
+    
+    /// 热门景点推荐
+    var hotSightVC = RecommendHotController()
+    
+    /// 数据源 - 推荐标签
+    var recommendLabels: [RecommendLabel] = [RecommendLabel]() {
+        didSet{
+            hotContentVC.order = recommendLabels[0].order ?? "0"
+            hotSightVC.order = recommendLabels[1].order ?? "1"
+            
+            collectionView.reloadData()
+            hotContentVC.loadData()
+            hotSightVC.loadData()
+        }
+    }
+    
+    /// 底部容器view
+    lazy var collectionView: UICollectionView = { [weak self] in
+        let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
+        cv.tag = 2
+        return cv
+    }()
+    
+    /// 左侧滑动view
+    lazy var slideView: UIView = UIView()
+        
+    /// 流水布局
+    lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     
     // MARK: - 初始化
     //电池栏状态
@@ -183,8 +186,10 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     private func initController() {
         addChildViewController(hotContentVC)
         addChildViewController(hotSightVC)
-//        hotContentVC.tableView.frame = CGRectMake(0, 0, Frame.screen.width, Frame.screen.height - 255)
-//        hotSightVC.tableView.frame = CGRectMake(0, 0, Frame.screen.width, Frame.screen.height - 255)
+        hotContentVC.tableView.tag = 2
+        hotSightVC.tableView.tag = 2
+        hotContentVC.tableView.frame = Frame.screen
+        hotSightVC.tableView.frame = Frame.screen
     }
     
     /// 初始化 collectionview
@@ -193,8 +198,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.bounces    = false
-        collectionView.backgroundColor = .randomColor()
-        collectionView.contentInset = UIEdgeInsets(top: 255, left: 0, bottom: 0, right: 0)
+        collectionView.backgroundColor = .clearColor()
         collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
     }
     
@@ -275,15 +279,27 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         headerView.clipsToBounds = true
         view.addSubview(headerView)
         headerView.addSubview(headerImageView)
+        headerView.addSubview(titleSelectView)
         headerImageView.contentMode = .ScaleAspectFill
         //为header添加黑色蒙板
-        let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.45)
-        headerView.addSubview(maskView)
-        headerView.addSubview(titleSelectView)
-        maskView.ff_Fill(headerView)
+//        let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.45)
+//        headerView.addSubview(maskView)
+//        headerView.addSubview(titleSelectView)
+//        maskView.ff_Fill(headerView)
         view.bringSubviewToFront(navContainerView)
+        
+        headerImageView.userInteractionEnabled = true
+        headerView.userInteractionEnabled = true
+        navContainerView.userInteractionEnabled = true
+        custNavView.userInteractionEnabled = true
+        
+        view.addSubview(slideView)
+        slideView.frame = CGRectMake(0, 0, 7, UIScreen.mainScreen().bounds.height)
+        
     }
 
+    
+    var isGestureRecognizer: Bool = true
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -294,8 +310,22 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
         
         refreshBar()
+        isGestureRecognizer = true
+        slideView.tag = 1
+        self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
     }
-
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let touch = UITouch()
+        touch.setValue(slideView, forKey: "view")
+        slideView.tag = 2
+        self.gestureRecognizer(UIGestureRecognizer(), shouldReceiveTouch: touch)
+        
+        isGestureRecognizer = false
+        self.gestureRecognizer(UIGestureRecognizer(), shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer())
+    }
     
     func refreshBar(){
         //更新导航背景
@@ -304,6 +334,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         //更新导航高度
         navBarHeight = (MainViewContant.MaxNavbarHeight - MainViewContant.MinNavbarHeight) * (1-navBarAlpha) + MainViewContant.MinNavbarHeight
         navContainerView.frame = CGRectMake(0, 0, view.bounds.width, MainViewContant.StatusBarHeight + navBarHeight)
+//        navContainerView.frame = CGRectMake(0, 0, view.bounds.width, 100)
+//        custNavView.frame = CGRectMake(0, 0, view.bounds.width, 100)
         custNavView.frame      = CGRectMake(0, MainViewContant.StatusBarHeight, view.bounds.width, navBarHeight)
         slideNavButton.frame   = CGRectMake(0, 0, 50, navBarHeight)
         searchController.searchBar.frame = CGRectMake(searchController.searchBar.frame.origin.x ?? 0, 0, searchController.searchBar.frame.width ?? 0, navBarHeight)
@@ -321,7 +353,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: .Top)
         
         //表格
-//        tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, view.bounds.height + 64), offset: CGPointMake(0, 0))
         collectionView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(Frame.screen.width, Frame.screen.height))
         headerImageView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight - 45))
     }
@@ -346,14 +377,12 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     }
     
     func hotContentAndSightButtonAction(sender: UIButton) {
-
-        if sender.tag == 3 { // 点击了热门内容
-            titleSelectView.hotSightButton.selected = false
-            titleSelectView.hotContentButton.selected = true
-        } else if sender.tag == 4 { // 点击了推荐景点
-            titleSelectView.hotContentButton.selected = false
-            titleSelectView.hotSightButton.selected = true
-        }
+        
+        let isSelected = sender.tag == 3 ? true : false
+        titleSelectView.hotContentButton.selected = isSelected
+        titleSelectView.hotSightButton.selected   = !isSelected
+        
+        collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: sender.tag == 3 ? 0 : 1, inSection: 0), atScrollPosition: .CenteredHorizontally, animated: true)
         
         UIView.animateWithDuration(0.5) { [weak self] () -> Void in
             self?.titleSelectView.selectView.frame.origin.x = sender.tag == 4 ? UIScreen.mainScreen().bounds.width * 0.5 : 0
@@ -361,5 +390,18 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     }
     
     var selectedIndex: Int?
+    
+    // MARK: - 手势
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        
+        if touch.view!.isEqual(slideView) {
+            return true
+        }
+        return false
+    }
 }
 

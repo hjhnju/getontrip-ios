@@ -90,6 +90,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             }
             
+            if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.RecommendViewController")!) {
+                let vc = mainViewController as! RecommendViewController
+                panGestureRecognizer.delegate = vc
+                panGestureRecognizer2.delegate = vc
+            }
+            
             mainViewController.view.addGestureRecognizer(panGestureRecognizer)
             mainViewController.slideDelegate = self
             refreshMask()

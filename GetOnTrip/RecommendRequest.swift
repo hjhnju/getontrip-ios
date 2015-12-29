@@ -64,6 +64,7 @@ class RecommendRequest: NSObject {
             }
             for item in data["images"].arrayValue {
                 let url = UIKitTools.sliceImageUrl(item["url"].stringValue, width: Int(UIScreen.mainScreen().bounds.width), height: 244)
+                print(url)
                 searchModel.images.append(url)
             }
         } else if isLoadType == RecommendLoadType.TypeContent {

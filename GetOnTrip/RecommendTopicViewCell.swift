@@ -81,7 +81,7 @@ class RecommendTopicViewCell: UITableViewCell {
     }
     
     private func setupAutoLayout() {
-        cellImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight-2), offset: CGPointMake(0, 2))
+        cellImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight), offset: CGPointMake(0, 0))
         coverView.ff_Fill(self)
         titleLabel.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         tagButton.ff_AlignVertical(.TopCenter, referView: titleLabel, size: nil, offset: CGPointMake(0, -9))

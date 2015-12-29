@@ -12,29 +12,23 @@ import FFAutoLayout
 class RecommendTableViewCell: UITableViewCell {
 
     // MARK: - 属性
-    
     //底图
     var cellImageView = ScrolledImageView()
     
     //中部标题
-    lazy var title: UIButton = UIButton(title: "北京", fontSize: 16, radius: 5, titleColor: SceneColor.bgBlack)
-    
-    //标题底
-    lazy var titleBackgroud: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.5)
+    lazy var titleButton: UIButton = UIButton(title: "北京", fontSize: 16, radius: 5, titleColor: SceneColor.bgBlack)
     
     //底部遮罩
-    lazy var shade: UIView = UIView(color: UIColor.blackColor(), alphaF: 0.5)
+    lazy var shadeView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.5), alphaF: 0.7)
     
-    //按钮1
-    lazy var btn1: UIButton = UIButton()
+    /// 收藏按钮
+    lazy var collectButton: UIButton = UIButton()
     
-    //按钮2
-    lazy var btn2: UIButton = UIButton()
+    /// 内容按钮
+    lazy var contentButton: UIButton = UIButton()
     
-    //按钮3
-    lazy var btn3: UIButton = UIButton()
-    
-    lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+    /// 当前位置 
+    lazy var locationButton = UIButton(image: "location_search", title: "0.0km", fontSize: 13, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
     
     var data: RecommendCellData? {
         didSet {
@@ -46,19 +40,16 @@ class RecommendTableViewCell: UITableViewCell {
                     cellImageView.loadImage(NSURL(string: cellData.image))
                 }
                 
-                title.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
-                btn1.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
-                btn2.setAttributedTitle(cellData.param1.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
-                btn3.setAttributedTitle(cellData.param2.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                titleButton.setTitle("   " + cellData.name + "   ", forState: UIControlState.Normal)
+                collectButton.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
+                contentButton.setAttributedTitle(cellData.param1.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
 
                 if cellData.isTypeCity() {
-                    btn1.setImage(UIImage(named: "search_star"), forState: UIControlState.Normal)
-                    btn2.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
-                    btn3.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
+                    collectButton.setImage(UIImage(named: "search_star"), forState: UIControlState.Normal)
+                    contentButton.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
                 } else {//
-                    btn1.setImage(UIImage(named: "search_star"), forState: UIControlState.Normal)
-                    btn2.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
-                    btn3.setImage(UIImage(named: "search_comment"), forState: UIControlState.Normal)
+                    collectButton.setImage(UIImage(named: "search_star"), forState: UIControlState.Normal)
+                    contentButton.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
                 }
             }
         }
@@ -73,56 +64,39 @@ class RecommendTableViewCell: UITableViewCell {
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
         let titleFont = UIFont(name: SceneFont.heiti, size: 8)
-        btn1.titleLabel?.font = titleFont
-        btn2.titleLabel?.font = titleFont
-        btn3.titleLabel?.font = titleFont
-        btn1.titleLabel?.textColor = UIColor.whiteColor()
-        btn2.titleLabel?.textColor = UIColor.whiteColor()
-        btn3.titleLabel?.textColor = UIColor.whiteColor()
+        collectButton.titleLabel?.font = titleFont
+        contentButton.titleLabel?.font = titleFont
+        collectButton.titleLabel?.textColor = UIColor.whiteColor()
+        contentButton.titleLabel?.textColor = UIColor.whiteColor()
         
         //addSubview(iconView)
-        addSubview(cellImageView)
-        addSubview(titleBackgroud)
-        addSubview(blurView)
-        addSubview(title)
-        addSubview(shade)
-        addSubview(btn1)
-        addSubview(btn2)
-        addSubview(btn3)
+        contentView.addSubview(cellImageView)
+        contentView.addSubview(shadeView)
+        contentView.addSubview(titleButton)
+        contentView.addSubview(collectButton)
+        contentView.addSubview(contentButton)
+        contentView.addSubview(locationButton)
         
         cellImageView.userInteractionEnabled = false
         //iconView.userInteractionEnabled = false
-        blurView.userInteractionEnabled = false
-        shade.userInteractionEnabled = false
-        titleBackgroud.userInteractionEnabled = false
-        title.userInteractionEnabled = false
+        shadeView.userInteractionEnabled = false
+        titleButton.userInteractionEnabled = false
+        cellImageView.clipsToBounds = true
         
         setupAutoLayout()
     }
     
     private func setupAutoLayout() {
         //iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
-        cellImageView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight-2), offset: CGPointMake(0, 2))
-        title.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
-        shade.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 26), offset: CGPointMake(0, 0))
-        btn1.ff_AlignInner(.CenterCenter, referView: shade, size: nil, offset: CGPointMake(-80, 0))
-        btn2.ff_AlignInner(.CenterCenter, referView: shade, size: nil, offset: CGPointMake(0, 0))
-        btn3.ff_AlignInner(.CenterCenter, referView: shade, size: nil, offset: CGPointMake(80, 0))
-        titleBackgroud.ff_AlignInner(.CenterCenter, referView: title, size: CGSizeMake(title.bounds.width, title.bounds.height), offset: CGPointMake(0, 0))
+        cellImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight - 2), offset: CGPointMake(0, -2))
+        shadeView.frame = CGRectMake(0, 0, Frame.screen.width, RecommendContant.rowHeight)
+        locationButton.ff_AlignInner(.BottomLeft, referView: contentView, size: nil, offset: CGPointMake(9, -19))
+        contentButton.ff_AlignInner(.BottomRight, referView: contentView, size: nil, offset: CGPointMake(-9, -19))
+        collectButton.ff_AlignHorizontal(.CenterLeft, referView: contentButton, size: nil, offset: CGPointMake(-12, 0))
+        titleButton.ff_AlignHorizontal(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, 7))
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        titleBackgroud.frame = title.frame
-        blurView.frame = title.frame
-        blurView.layer.cornerRadius = 10
-        blurView.clipsToBounds = true
-        titleBackgroud.layer.cornerRadius = 10
-        titleBackgroud.clipsToBounds = true
     }
 }

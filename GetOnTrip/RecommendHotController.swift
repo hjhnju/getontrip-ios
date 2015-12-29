@@ -14,6 +14,7 @@ class RecommendHotController: UITableViewController {
     var order = "1" {
         didSet {
             lastRequest.order = order
+            loadData()
         }
     }
     
@@ -29,45 +30,15 @@ class RecommendHotController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        refreshControl = UIRefreshControl()
+        refreshControl = UIRefreshControl()
         lastRequest.isLoadType = RecommendLoadType.TypeContent
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: "RecommendTopicViewCell")
         tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: "RecommendTableViewCell")
         tableView.rowHeight = 190
-//        tableView.contentInset = UIEdgeInsets(top: 255, left: 0, bottom: 0, right: 0)
-        
-        initRefresh()
-    }
-    
-    /// 初始化刷新控件
-    private func initRefresh() {
-        
-        //下拉刷新
-        let tbHeaderView = MJRefreshNormalHeader { [weak self] () -> Void in
-            self?.loadData()
-        }
-        tbHeaderView.automaticallyChangeAlpha = true
-        tbHeaderView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
-        tbHeaderView.stateLabel?.font = UIFont.systemFontOfSize(12)
-        tbHeaderView.lastUpdatedTimeLabel?.font = UIFont.systemFontOfSize(11)
-        tbHeaderView.stateLabel?.textColor = SceneColor.lightGray
-        tbHeaderView.lastUpdatedTimeLabel?.textColor = SceneColor.lightGray
-        tbHeaderView.lastUpdatedTimeLabel?.hidden = true
-        tbHeaderView.stateLabel?.hidden = true
-        tbHeaderView.arrowView?.image = UIImage()
-        
-        //上拉刷新
-        let tbFooterView = MJRefreshAutoNormalFooter { [weak self] () -> Void in
-            self?.loadMore()
-        }
-        tbFooterView.automaticallyRefresh = true
-        tbFooterView.automaticallyChangeAlpha = true
-        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
-        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
-        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
-        
-        tableView.mj_header = tbHeaderView
-        tableView.mj_footer = tbFooterView
+        tableView.contentInset = UIEdgeInsets(top: 255, left: 0, bottom: 0, right: 0)
+        tableView.backgroundColor = .clearColor()
+        tableView.separatorStyle = .None
+        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
     }
 
     // MASKS: - tableView 数据源及代理方法
@@ -77,26 +48,24 @@ class RecommendHotController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let data = recommendCells[indexPath.row]
+        
+        var cell: UITableViewCell?
         if data.isTypeTopic() {
-            let cell = tableView.dequeueReusableCellWithIdentifier("RecommendTopicViewCell", forIndexPath: indexPath) as! RecommendTopicViewCell
-            cell.backgroundColor = UIColor.clearColor()
-            cell.data = recommendCells[indexPath.row]
-            
-            let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: 0)
-            cell.cellImageView.updateFactor(factor)
-            
-            return cell
+            cell = tableView.dequeueReusableCellWithIdentifier("RecommendTopicViewCell", forIndexPath: indexPath) as! RecommendTopicViewCell
+            (cell as! RecommendTopicViewCell).data = recommendCells[indexPath.row]
+        } else {
+            cell = tableView.dequeueReusableCellWithIdentifier("RecommendTableViewCell", forIndexPath: indexPath) as! RecommendTableViewCell
+            (cell as! RecommendTableViewCell).data = recommendCells[indexPath.row]
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("RecommendTableViewCell", forIndexPath: indexPath) as! RecommendTableViewCell
-        cell.backgroundColor = UIColor.randomColor()
-        cell.data = recommendCells[indexPath.row]
+        cell!.backgroundColor = UIColor.randomColor()
+        let factor = calcFactor(cell!.frame.origin.y + RecommendContant.rowHeight, yOffset: 0)
+        (cell as? RecommendTopicViewCell)?.cellImageView.updateFactor(factor)
+        (cell as? RecommendTableViewCell)?.cellImageView.updateFactor(factor)
+        print("indexPath.row == \(indexPath.row) ==========  cound \(recommendCells.count)")
+        if indexPath.row == recommendCells.count - 2 { loadMore() }
+        return cell!
         
-        let factor = calcFactor(cell.frame.origin.y + RecommendContant.rowHeight, yOffset: 0)
-        cell.cellImageView.updateFactor(factor)
-        
-        
-        return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -133,14 +102,13 @@ class RecommendHotController: UITableViewController {
     
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         parentViewController
-        print(parentViewController)
+
         (parentViewController as? RecommendViewController)?.yOffset = scrollView.contentOffset.y
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         
         (parentViewController as? RecommendViewController)?.scrollViewDidScroll(scrollView)
-        
         let gap = RecommendContant.headerViewHeight + scrollView.contentOffset.y
         for vcell in tableView.visibleCells {
             if let cell = vcell as? RecommendTableViewCell {
@@ -177,14 +145,14 @@ class RecommendHotController: UITableViewController {
         isLoading = true
         
         //清空footer的“加载完成”
-        tableView.mj_footer.resetNoMoreData()
+//        tableView.mj_footer.resetNoMoreData()
         
         lastRequest.fetchFirstPageModels {[weak self] (result, status) -> Void in
+            self?.refreshControl?.endRefreshing()
             //处理异常状态
-            print(result?.contents.count)
             if RetCode.SUCCESS != status {
                     ProgressHUD.showErrorHUD(self?.view, text: "您的网络无法连接")
-                self?.tableView.mj_header.endRefreshing()
+//                self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
             }
@@ -195,7 +163,7 @@ class RecommendHotController: UITableViewController {
                 self?.tableView.reloadData()
             }
             
-            self?.tableView.mj_header.endRefreshing()
+//            self?.tableView.mj_header.endRefreshing()
             self?.isLoading = false
         }
     }
@@ -216,9 +184,9 @@ class RecommendHotController: UITableViewController {
                         self?.recommendCells = cells + newCells
                         self?.tableView.reloadData()
                     }
-                    self?.tableView.mj_footer.endRefreshing()
+//                    self?.tableView.mj_footer.endRefreshing()
                 } else {
-                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+//                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
             }
             self?.isLoading = false

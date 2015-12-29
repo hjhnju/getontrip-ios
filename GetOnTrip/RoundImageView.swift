@@ -7,86 +7,85 @@
 //
 
 import UIKit
+import SDWebImage
 
-class RoundImageView: UIImageView {
+class RoundImageView: UIView {
 
-    var arrayImage: [UIImage] = [UIImage]() {
+    lazy var moving: Bool = false
+    
+    var index: Int = 0
+    
+    var arrayImage: [String] = [String]() {
         didSet {
             orderImageViews()
-            arrayM.enumerateObjectsUsingBlock {[weak self] (obj, index, stop) -> Void in
-                let i = ((self?.arrayImage.count ?? 0) + index - 1) % (self?.arrayImage.count ?? 0)
-                (obj as! UIImageView).image = self?.arrayImage[i]
+            arrayM.enumerateObjectsUsingBlock { (obj, idx, stop) -> Void in
+                
+                let i = (self.arrayImage.count + idx - 1) % self.arrayImage.count
+                (obj as! UIImageView).sd_setImageWithURL(NSURL(string: self.arrayImage[i]), placeholderImage: PlaceholderImage.defaultSmall)
             }
         }
     }
     
-    lazy var index: Int = 0
-    
     lazy var arrayM: NSMutableArray = { [weak self] in
-        var array = NSMutableArray()
-        for _ in 0...3 {
-            let iv = UIImageView()
-            self?.addSubview(iv)
-            array.addObject(iv)
+        let arrayM = NSMutableArray()
+        for _ in 0...2 {
+            let imageView = UIImageView()
+            self?.addSubview(imageView)
+            arrayM.addObject(imageView)
         }
-        return array
-    }()
-    
-    lazy var moving: Bool = false
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "leftRoundAction")
-        swipeLeft.direction = .Left
-        addGestureRecognizer(swipeLeft)
-        
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: "rightRoundAction")
-        swipeRight.direction = .Right
-        addGestureRecognizer(swipeRight)
-        
-        clipsToBounds = true
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+        return arrayM
+        }()
     
     private func orderImageViews() {
         let w: CGFloat = bounds.size.width
         let h: CGFloat = bounds.size.height
         
-        let i1 = arrayM[0] as! UIImageView
-        let i2 = arrayM[1] as! UIImageView
-        let i3 = arrayM[3] as! UIImageView
+        let i0 = arrayM[0] as! UIImageView
+        let i1 = arrayM[1] as! UIImageView
+        let i2 = arrayM[2] as! UIImageView
         
-        i1.frame = CGRectMake(-w, 0, w, h)
-        i2.frame = CGRectMake(0, 0, w, h)
-        i3.frame = CGRectMake(2, 0, w, h)
+        i0.frame = CGRectMake(-w, 0, w, h)
+        i1.frame = CGRectMake(0, 0, w, h)
+        i2.frame = CGRectMake(w, 0, w, h)
         
         bringSubviewToFront(i1)
     }
     
-    /// 左滑
-    func leftRoundAction() {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeLeftAction")
+        swipeLeft.direction = .Left
+        addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeRightActiona")
+        swipeRight.direction = .Right
+        addGestureRecognizer(swipeRight)
+        
+        clipsToBounds = true
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func swipeLeftAction() {
         if moving { return }
-        moving = true
-        index--
+        index++
         arrayM.exchangeObjectAtIndex(0, withObjectAtIndex: 1)
         arrayM.exchangeObjectAtIndex(1, withObjectAtIndex: 2)
         index = (index + arrayImage.count) % arrayImage.count
-        let image1 = arrayM[1] as! UIImageView
-        
-        image1.image = arrayImage[index]
-        UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
-            self?.orderImageViews()
-            }) { [weak self] (_) -> Void in
-                self?.moving = false
+        let i1 = arrayM[1] as! UIImageView
+        i1.sd_setImageWithURL(NSURL(string: arrayImage[index]), placeholderImage: PlaceholderImage.defaultSmall)
+
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.orderImageViews()
+            }) { (_) -> Void in
+                self.moving = false
         }
     }
     
-    /// 右滑
-    func rightRoundAction() {
+    func swipeRightActiona() {
         if moving { return }
         moving = true
         index--
@@ -94,12 +93,12 @@ class RoundImageView: UIImageView {
         arrayM.exchangeObjectAtIndex(0, withObjectAtIndex: 1)
         index = (index + arrayImage.count) % arrayImage.count
         let i1 = arrayM[1] as! UIImageView
-        i1.image = arrayImage[index]
-        UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
-            self?.orderImageViews()
-            }) { [weak self] (_) -> Void in
-                self?.moving = false
+
+        i1.sd_setImageWithURL(NSURL(string: arrayImage[index]), placeholderImage: PlaceholderImage.defaultSmall)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.orderImageViews()
+            }) { (_) -> Void in
+                self.moving = false
         }
     }
-
 }

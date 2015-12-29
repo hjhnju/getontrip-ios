@@ -23,6 +23,7 @@ class RecommendHotView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        backgroundColor = SceneColor.bgBlack
         addSubview(topLine)
         addSubview(selectView)
         addSubview(hotContentButton)

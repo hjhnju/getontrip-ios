@@ -18,7 +18,7 @@ extension RecommendViewController {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath)
-        cell.frame = Frame.screen
+
         if indexPath.row == 0 {
             cell.addSubview(hotContentVC.tableView)
             hotContentVC.view.ff_Fill(cell)
@@ -42,6 +42,14 @@ extension RecommendViewController {
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        titleSelectView.selectView.frame.origin.x = scrollView.contentOffset.x * 0.5
+        let isSelected = titleSelectView.selectView.center.x < Frame.screen.width * 0.5 ? true : false
+        titleSelectView.hotContentButton.selected = isSelected
+        titleSelectView.hotSightButton.selected   = !isSelected
+        
+        if scrollView.contentOffset.y == 0 { return }
+        
         //导航渐变
         let threshold:CGFloat = 198 - 64
         let offsetY = scrollView.contentOffset.y
@@ -59,6 +67,8 @@ extension RecommendViewController {
         let initTop: CGFloat = 0.0
         let newTop = min(-gap, initTop)
         headerViewTopConstraint?.constant = newTop
+        
+        
     }
     
     private func calcFactor(frameY:CGFloat, yOffset: CGFloat) -> CGFloat {
@@ -77,25 +87,12 @@ extension RecommendViewController {
     }
     
     //MARK: 自定义方法
-    
-    //触发搜索列表的方法
-    func clkSearchLabelMethod(sender: UIButton) {
-        if sender.tag == currentSearchLabelButton?.tag { return }
-        
-        sender.selected = true
-        currentSearchLabelButton?.selected = false
-        currentSearchLabelButton = sender
-        
-        lastRequest.order = String(sender.tag)
-//        tableView.mj_header.beginRefreshing()
-    }
-    
     /// 发送搜索信息
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     func loadData() {
         
         errorView.hidden = true
-        
+        lastRequest.isLoadType = RecommendLoadType.TypeLabelAndImages
         lastRequest.fetchFirstPageModels {[weak self] (result, status) -> Void in
             //处理异常状态
             if RetCode.SUCCESS != status {
@@ -122,13 +119,6 @@ extension RecommendViewController {
     func refreshFromErrorView(sender: UIButton){
         errorView.hidden = true
         loadData()
-    }
-    
-    func loadHeaderImage(url: String?) {
-        if let url = url {
-            //从网络获取
-            headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: UIImage(named: "default_picture"))
-        }
     }
 
     func defaultPromptTextHidden(textFiled: UITextField) {
