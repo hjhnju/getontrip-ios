@@ -77,8 +77,8 @@ extension SearchViewController {
         NSThread.sleepForTimeInterval(0.2)
         view.endEditing(true)
         if indexPath.section != 1 {
-            searchBar.text = recordData[indexPath.row]
-            searchBar(searchBar, textDidChange: searchBar.text!)
+//            searchBar.text = recordData[indexPath.row]
+//            searchBar(searchBar, textDidChange: searchBar.text!)
             tableView.hidden = true
         }
     }

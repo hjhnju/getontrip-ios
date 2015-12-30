@@ -168,7 +168,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         let vc = parentViewController as? SearchViewController
-        vc?.searchBar.endEditing(true)
+//        vc?.searchBar.endEditing(true)
     }
     
     // MARK: 自定义方法

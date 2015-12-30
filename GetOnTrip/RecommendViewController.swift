@@ -110,7 +110,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }()
     
     /// 搜索控制器
-    lazy var searchController: SearchViewController! = SearchViewController()
+    lazy var searchController: SearchViewController = SearchViewController()
     
     var searchBarW: NSLayoutConstraint?
     var searchBarMaxX: NSLayoutConstraint?
@@ -118,26 +118,26 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var searchBarH: NSLayoutConstraint?
     
     /// 顶部搜索框提示
-    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: "  搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
+//    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: "  搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
     
     /// 搜索栏
-    var textfile: UITextField? {
-        didSet {
-            if #available(iOS 9.0, *) {
-                textfile?.font = UIFont(name: Font.defaultFont, size: 16)
-            } else {
-                textfile?.font = UIFont(name: Font.ios8Font, size: 16)
-            }
-            textfile?.textColor = UIColor.whiteColor()
-            textfile?.leftView = UIView(frame: CGRectMake(0, 0, 23, 35))
-            textfile?.placeholder = " "
-            textfile?.setValue(clearButton, forKey: "_clearButton")
-            textfile?.addTarget(self, action: "defaultPromptTextHidden:", forControlEvents: UIControlEvents.EditingChanged)
-            defaultPrompt.titleLabel?.hidden = true
-            textfile?.addSubview(defaultPrompt)
-            defaultPrompt.ff_AlignInner(.CenterLeft, referView: textfile ?? defaultPrompt, size: nil, offset: CGPointMake(9, 0))
-        }
-    }
+//    var textfile: UITextField? {
+//        didSet {
+//            if #available(iOS 9.0, *) {
+//                textfile?.font = UIFont(name: Font.defaultFont, size: 16)
+//            } else {
+//                textfile?.font = UIFont(name: Font.ios8Font, size: 16)
+//            }
+//            textfile?.textColor = UIColor.whiteColor()
+//            textfile?.leftView = UIView(frame: CGRectMake(0, 0, 23, 35))
+//            textfile?.placeholder = " "
+//            textfile?.setValue(clearButton, forKey: "_clearButton")
+//            textfile?.addTarget(self, action: "defaultPromptTextHidden:", forControlEvents: UIControlEvents.EditingChanged)
+//            defaultPrompt.titleLabel?.hidden = true
+//            textfile?.addSubview(defaultPrompt)
+//            defaultPrompt.ff_AlignInner(.CenterLeft, referView: textfile ?? defaultPrompt, size: nil, offset: CGPointMake(9, 0))
+//        }
+//    }
     
     /// 网络请求加载数据(添加)
     var lastRequest: RecommendRequest = RecommendRequest()
@@ -199,7 +199,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         hotContentVC.tableView.tag = 2
         hotSightVC.tableView.tag = 2
         hotContentVC.tableView.frame = Frame.screen
-        hotSightVC.tableView.frame = Frame.screen
+        hotSightVC.tableView.frame   = Frame.screen
     }
     
     /// 初始化 collectionview
@@ -252,36 +252,36 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     
     
     /// 初始化searchBar
-    /// 清除按钮
-    let clearButton = UIButton(image: "delete_searchBar", title: "", fontSize: 0)
     func initSearchBar() {
         
-        view.addSubview(searchController.searchBar)
-        definesPresentationContext = true
+        addChildViewController(searchController)
+        view.addSubview(searchController.view)
+        searchController.view.alpha = 0.0
         
+//        definesPresentationContext = true
+        
+        view.addSubview(searchController.searchBar)
         let cons = searchController.searchBar.ff_AlignInner(.TopCenter, referView: view, size: CGSizeMake(Frame.screen.width - 128, 35), offset: CGPointMake(0, 155))
         searchBarMaxX = searchController.searchBar.ff_Constraint(cons, attribute: .CenterX)
         searchBarTopY = searchController.searchBar.ff_Constraint(cons, attribute: .Top)
         searchBarW    = searchController.searchBar.ff_Constraint(cons, attribute: .Width)
         searchBarH    = searchController.searchBar.ff_Constraint(cons, attribute: .Height)
-        clearButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
-        clearButton.addTarget(searchController, action: "clearButtonAction", forControlEvents: .TouchUpInside)
-        searchController.searchBar.keyboardAppearance = .Default
-        searchController.searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
-        searchController.searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
-        searchController.searchBar.translucent = true
-        defaultPrompt.enabled = false
-        defaultPrompt.setImage(UIImage(named: "search_icon"), forState: UIControlState.Disabled)
+        
+//        searchController.searchBar.keyboardAppearance = .Default
+//        searchController.searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
+//        searchController.searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
+//        searchController.searchBar.translucent = true
+        
 
-        for item in (searchController.searchBar.subviews) ?? [] {
-            for it in item.subviews {
-                if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
-                    it.removeFromSuperview()
-                } else if it.isKindOfClass(NSClassFromString("UISearchBarTextField")!) {
-                    textfile = it as? UITextField
-                }
-            }
-        }
+//        for item in (searchController.searchBar.subviews) ?? [] {
+//            for it in item.subviews {
+//                if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
+//                    it.removeFromSuperview()
+//                } else if it.isKindOfClass(NSClassFromString("UISearchBarTextField")!) {
+////                    textfile = it as? UITextField
+//                }
+//            }
+//        }
     }
     
     /// 初始化设置
@@ -333,7 +333,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        defaultPrompt.titleLabel?.hidden = textfile?.text != "" ? true : false
+//        defaultPrompt.titleLabel?.hidden = textfile?.text != "" ? true : false
         refreshBar()
         leftRoundButton.hidden = headerImagesData.count > 1 ? false : true
         rightRoundButton.hidden = headerImagesData.count > 1 ? false : true

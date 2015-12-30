@@ -89,6 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func defaultViewController() -> UIViewController {
 //        return GuideViewController()
         return isNewUpdate() ? GuideViewController() : SlideMenuViewController()
+//        return TempViewController()
     }
 
     // 是否新版本

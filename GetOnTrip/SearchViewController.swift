@@ -17,10 +17,12 @@ struct SearchViewContant {
     static let recordLimit = 4
 }
 
-class SearchViewController: UISearchController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
+class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
     
     /// 搜索展示结果控制器
     let searchResultViewController =  SearchResultsViewController()
+    
+    lazy var searchBar: SearchBar = SearchBar(frame: CGRectMake(0, 0, Frame.screen.width, 35))
     
     /// 搜索记录TableView
     let recordTableView = UITableView()
@@ -47,41 +49,19 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     var searchBarH: CGFloat?
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
-        searchResultsUpdater = searchResultViewController
-    }
-    
-    init() {
-        super.init(searchResultsController: searchResultViewController)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     var searchBarContainerView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-//        for item in searchBar.superview?.subviews ?? [] {
-//            print(item)
-//        }
-//        for item in (searchBar.subviews) ?? [] {
-//            print(item)
-        
-////            for it in item.subviews {
-////                if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
-////                    
-////                }
-////            }
-//        }
-        
+        searchBar.textFile.delegate = self
+        searchBar.superController = self
+        view.addSubview(searchBar)
+        searchBar.frame = CGRectMake(0, 0, Frame.screen.width, 35)
+//        searchBar.hidden = true
         initView()
-        searchBar.delegate = self
+//        searchBar.delegate = self
         initProperty()
         initTableView()
         loadHotSearchLabel()
@@ -90,62 +70,43 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         isCancle = false
-        
-//        print(parentViewController)
-//        print(presentationController)
-//        print(presentedViewController)
-//        parentViewController
+
 //        searchBar.ff_AlignInner(.TopLeft, referView: searchBar.superview ?? searchBar, size: CGSizeMake(Frame.screen.width - 18, 35))
-        
+//        searchBar.backgroundColor = UIColor.randomColor()
 //        let vc = presentingViewController as? RecommendViewController
 //        vc?.searchBarMaxX?.constant = 9
-//        vc?.searchBarTopY?.constant = 10
+//        vc?.searchBarTopY?.constant = 50
 //        vc?.searchBarW?.constant    = Frame.screen.width - 18
 //        vc?.searchBarH?.constant    = 35
 //        
 //        UIView.animateWithDuration(0.5) { () -> Void in
-//            vc?.searchController.searchBar.layoutIfNeeded()
+////            vc?.searchController.searchBar.layoutIfNeeded()
+////            vc?.textfile?.frame = CGRectMake(0, 0, Frame.screen.width, 35)
 //        }
-        print(searchBar)
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-//        if isSearchFrame == true {
-//            searchBar.frame = CGRectMake(49, searchBarFrame.origin.y ?? 0, UIScreen.mainScreen().bounds.width - 49, searchBarFrame.height)
-//        }
-        // _UISearchBarContainerView
-        
-        
+        recordTableView.hidden = true
+        searchResultViewController.view.hidden = true
         
     }
     
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
 //        refreshSearchBarContaineView()
         
         
+       
     }
-    
-//    private func refreshSearchBarContaineView() {
-//        searchBar.superview?.frame = CGRectMake(0, 20, searchBarFrame.width, searchBarFrame.height)
-//        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, searchBarH ?? 0)
-//    }
     
     /// 初始化view
     private func initView() {
-        searchBar.delegate = self
         let imageV = UIImageView(image: UIImage(named: "search-bg")!)
         addChildViewController(searchResultViewController)
         automaticallyAdjustsScrollViewInsets = false
-        hidesNavigationBarDuringPresentation = false
         imageV.frame = UIScreen.mainScreen().bounds
         if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("recordData") as? [String] {
             recordData = userDefault
         }
-        dimsBackgroundDuringPresentation = false
         
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)
@@ -201,7 +162,7 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         if isCancle == true {
             searchBar.text = ""
             recordTableView.hidden = false
-            vc?.defaultPrompt.titleLabel?.hidden = false
+//            vc?.defaultPrompt.titleLabel?.hidden = false
             return
         }
     }
@@ -213,13 +174,13 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
         let vc = presentingViewController as? RecommendViewController
         
         if searchBar.text == "" { // 48 × 51
-            vc?.defaultPrompt.titleLabel?.hidden = false
+//            vc?.defaultPrompt.titleLabel?.hidden = false
             recordTableView.hidden = false
             locationButton.hidden = false
             recordTableView.reloadData()
             searchResultViewController.view.hidden = true
         } else {
-            vc?.defaultPrompt.titleLabel?.hidden = true
+//            vc?.defaultPrompt.titleLabel?.hidden = true
             locationButton.hidden = true
             recordTableView.hidden = true
             searchResultViewController.view.hidden = false
@@ -245,8 +206,44 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     
     /// 删除按钮方法
     func clearButtonAction() {
-        searchBar.text = ""
         searchResultViewController.filterString = ""
-        searchBar(searchBar, textDidChange: "")
+    }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        updateSearchBarDefaultFrame()
+        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
+            self?.view.alpha = 1.0
+            self?.searchBar.layoutIfNeeded()
+        }
+        
+        return true
+    }
+    
+    func updateSearchBarDefaultFrame() {
+        let vc = parentViewController as? RecommendViewController
+        searchBarTX = vc?.searchBarMaxX?.constant ?? 0
+        searchBarTY = vc?.searchBarTopY?.constant ?? 0
+        searchBarTW = vc?.searchBarW?.constant ?? 0
+        searchBarTH = vc?.searchBarH?.constant ?? 0
+        vc?.searchBarMaxX?.constant = 0
+        vc?.searchBarTopY?.constant = 36
+        vc?.searchBarW?.constant    = Frame.screen.width
+        vc?.searchBarH?.constant    = 35
+        searchBar.updateWidthFrame(Frame.screen.width - 18)
+    }
+    
+    /// 临时记录改变前的值
+    var searchBarTX: CGFloat = 0
+    var searchBarTY: CGFloat = 0
+    var searchBarTW: CGFloat = 0
+    var searchBarTH: CGFloat = 0
+    
+    func modificationSearchBarFrame() {
+        let vc = parentViewController as? RecommendViewController
+        vc?.searchBarMaxX?.constant = searchBarTX
+        vc?.searchBarTopY?.constant = searchBarTY
+        vc?.searchBarW?.constant    = searchBarTW
+        vc?.searchBarH?.constant    = searchBarTH
+        searchBar.updateWidthFrame(Frame.screen.width - 128)
     }
 }

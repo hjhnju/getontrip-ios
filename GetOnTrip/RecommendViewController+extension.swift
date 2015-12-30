@@ -75,6 +75,7 @@ extension RecommendViewController {
         
         if offsetY > -120 { // 变圆
             searchBarW?.constant = 50
+            searchController.searchBar.updateWidthFrame(50)
             searchBarMaxX?.constant = Frame.screen.width * 0.5 - 30
             searchBarTopY?.constant = 64 * 0.5 - 10
             UIView.animateWithDuration(0.5, animations: { () -> Void in
@@ -88,6 +89,7 @@ extension RecommendViewController {
         } else { // 变回去
             if isUpdataSearchBarFrame {
                 searchBarW?.constant = Frame.screen.width - 128
+                searchController.searchBar.updateWidthFrame(Frame.screen.width - 128)
                 self.searchBarMaxX?.constant = 0
                 self.searchBarTopY?.constant = newTop + 158
                 UIView.animateWithDuration(0.4, animations: { () -> Void in
@@ -153,11 +155,11 @@ extension RecommendViewController {
     }
 
     func defaultPromptTextHidden(textFiled: UITextField) {
-        if textFiled.text == "" || textFiled.text == nil {
-            defaultPrompt.titleLabel?.hidden = false
-        } else {
-            defaultPrompt.titleLabel?.hidden = true
-        }
+//        if textFiled.text == "" || textFiled.text == nil {
+//            defaultPrompt.titleLabel?.hidden = false
+//        } else {
+//            defaultPrompt.titleLabel?.hidden = true
+//        }
     }
     
     // MARK: - 自定义方法
