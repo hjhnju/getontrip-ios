@@ -51,15 +51,16 @@ class RecommendHotController: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
         
-        //上拉刷新
-        let tbFooterView = MJRefreshAutoNormalFooter { [weak self] () -> Void in
-            self?.loadMore()
-        }
+        //上拉刷新        
+        let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { [weak self] () -> Void in self?.loadMore() })
+        tableView.mj_footer = tbFooterView
+        tbFooterView.automaticallyHidden = false
         tbFooterView.automaticallyRefresh = true
         tbFooterView.automaticallyChangeAlpha = true
         tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
+        
         tableView.mj_footer = tbFooterView
     }
 
@@ -208,6 +209,12 @@ class RecommendHotController: UITableViewController {
                     self?.tableView.mj_footer.endRefreshing()
                 } else {
                     self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+                    UIView.animateWithDuration(2, animations: { [weak self] () -> Void in
+                        self?.tableView.mj_footer.alpha = 0.0
+                        }, completion: { (_) -> Void in
+                            self?.tableView.mj_footer.resetNoMoreData()
+                    })
+                    
                 }
             }
             self?.isLoading = false

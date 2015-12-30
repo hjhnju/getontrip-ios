@@ -66,6 +66,20 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+//        for item in searchBar.superview?.subviews ?? [] {
+//            print(item)
+//        }
+//        for item in (searchBar.subviews) ?? [] {
+//            print(item)
+        
+////            for it in item.subviews {
+////                if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
+////                    
+////                }
+////            }
+//        }
+        
         initView()
         searchBar.delegate = self
         initProperty()
@@ -76,26 +90,49 @@ class SearchViewController: UISearchController, UISearchBarDelegate, UITableView
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         isCancle = false
+        
+//        print(parentViewController)
+//        print(presentationController)
+//        print(presentedViewController)
+//        parentViewController
+//        searchBar.ff_AlignInner(.TopLeft, referView: searchBar.superview ?? searchBar, size: CGSizeMake(Frame.screen.width - 18, 35))
+        
+//        let vc = presentingViewController as? RecommendViewController
+//        vc?.searchBarMaxX?.constant = 9
+//        vc?.searchBarTopY?.constant = 10
+//        vc?.searchBarW?.constant    = Frame.screen.width - 18
+//        vc?.searchBarH?.constant    = 35
+//        
+//        UIView.animateWithDuration(0.5) { () -> Void in
+//            vc?.searchController.searchBar.layoutIfNeeded()
+//        }
+        print(searchBar)
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if isSearchFrame == true {
-            searchBar.frame = CGRectMake(49, searchBarFrame.origin.y ?? 0, UIScreen.mainScreen().bounds.width - 49, searchBarFrame.height)
-        }
+//        if isSearchFrame == true {
+//            searchBar.frame = CGRectMake(49, searchBarFrame.origin.y ?? 0, UIScreen.mainScreen().bounds.width - 49, searchBarFrame.height)
+//        }
+        // _UISearchBarContainerView
+        
+        
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        refreshSearchBarContaineView()
+//        refreshSearchBarContaineView()
+        
+        
     }
     
-    private func refreshSearchBarContaineView() {
-        searchBar.superview?.frame = CGRectMake(0, 20, searchBarFrame.width, searchBarFrame.height)
-        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, searchBarH ?? 0)
-    }
+//    private func refreshSearchBarContaineView() {
+//        searchBar.superview?.frame = CGRectMake(0, 20, searchBarFrame.width, searchBarFrame.height)
+//        searchBar.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, searchBarH ?? 0)
+//    }
     
     /// 初始化view
     private func initView() {

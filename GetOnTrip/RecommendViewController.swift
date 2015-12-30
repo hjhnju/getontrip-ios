@@ -115,6 +115,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var searchBarW: NSLayoutConstraint?
     var searchBarMaxX: NSLayoutConstraint?
     var searchBarTopY: NSLayoutConstraint?
+    var searchBarH: NSLayoutConstraint?
     
     /// 顶部搜索框提示
     var defaultPrompt: UIButton = UIButton(image: "search_icon", title: "  搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
@@ -262,6 +263,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         searchBarMaxX = searchController.searchBar.ff_Constraint(cons, attribute: .CenterX)
         searchBarTopY = searchController.searchBar.ff_Constraint(cons, attribute: .Top)
         searchBarW    = searchController.searchBar.ff_Constraint(cons, attribute: .Width)
+        searchBarH    = searchController.searchBar.ff_Constraint(cons, attribute: .Height)
         clearButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
         clearButton.addTarget(searchController, action: "clearButtonAction", forControlEvents: .TouchUpInside)
         searchController.searchBar.keyboardAppearance = .Default

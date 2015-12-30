@@ -90,7 +90,7 @@ extension RecommendViewController {
                 searchBarW?.constant = Frame.screen.width - 128
                 self.searchBarMaxX?.constant = 0
                 self.searchBarTopY?.constant = newTop + 158
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                UIView.animateWithDuration(0.4, animations: { () -> Void in
                     self.searchController.searchBar.layoutIfNeeded()
                     self.navTitleLabel.alpha = 0
                     }, completion: { (_) -> Void in
@@ -98,7 +98,6 @@ extension RecommendViewController {
                 })
             } else {
                 searchBarTopY?.constant = newTop + 158
-                searchController.searchBar.layoutIfNeeded()
             }
         }
     }
