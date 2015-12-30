@@ -26,11 +26,7 @@ extension SearchViewController {
             cell.superController = self
             cell.textLabel?.text = recordData[indexPath.row]
             cell.deleteButton.tag = indexPath.row
-            if indexPath.row == recordData.count - 1 {
-                cell.baseLine.hidden = true
-            } else {
-                cell.baseLine.hidden = false
-            }
+            cell.baseLine.hidden = indexPath.row == recordData.count - 1 ? true : false
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(SearchViewContant.hotwordCellId, forIndexPath: indexPath) as! SearchHotwordTableViewCell
@@ -79,6 +75,9 @@ extension SearchViewController {
         if indexPath.section != 1 {
             tableView.hidden = true
         }
+        
+        searchBar.textFile.text = recordData[indexPath.row]
+        textfileValueChangedAction(searchBar.textFile)
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -94,7 +93,8 @@ extension SearchViewController {
     
     func showSearchResultController(vc: UIViewController) {
         //采用push可手势返回
-        parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
+//        parentViewController?.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     /**

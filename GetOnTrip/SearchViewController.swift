@@ -36,7 +36,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     /// 搜索提示
     var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "暂无搜索结果", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCLight)
     
-    /// 定位城市
+    // TODO: 首页如果要定位，那这个就没啥意义了 定位城市
     var locationButton: UIButton = UIButton(image: "location_search", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor.whiteColor(), fontName: Font.PingFangSCLight)
     
     //位置管理器
@@ -61,7 +61,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        isCancle = false
+//        isCancle = false
     }
     
     /// 初始化view
@@ -125,21 +125,17 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     // 文本字段改变时需要调用搜索的方法
     func textfileValueChangedAction(textfiled: UITextField) {
+        
         if let text = textfiled.text {
-            print(text)
             if text != "" {
-//                if text.containsString(" ") {
-                    print(text)
-                    searchResultViewController.filterString = text
-//                }
+                recordTableView.hidden = true
+                searchResultViewController.tableView.hidden = false
+                searchResultViewController.filterString     = text
+            } else {
+                recordTableView.hidden = false
+                searchResultViewController.tableView.hidden = true
             }
         }
-    }
-    
-    
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        return true
     }
     
     ///  搜索栏结束编辑
@@ -149,51 +145,40 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        let vc = presentingViewController as? RecommendViewController
-        if isCancle == true {
-            searchBar.text = ""
-            recordTableView.hidden = false
-//            vc?.defaultPrompt.titleLabel?.hidden = false
-            return
-        }
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        
+//        searchBar.textFile.text = ""
+//        recordTableView.hidden = false
+        return true
     }
     
-    ///  搜索栏文字改变时调用的方法
-    var isCancle:Bool = false
     
-    
+    /// 这个方法不可能再过来了
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        recordTableView.hidden = true
         let vc = presentingViewController as? RecommendViewController
-        
         if searchBar.text == "" { // 48 × 51
-            recordTableView.hidden = false
             locationButton.hidden = false
             recordTableView.reloadData()
-            searchResultViewController.view.hidden = true
         } else {
             locationButton.hidden = true
-            recordTableView.hidden = true
-            searchResultViewController.view.hidden = false
         }
     }
     
     /// 点击取消调用的方法
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        isCancle = true
-        searchResultViewController.filterString = ""
-        searchResultViewController.view.hidden = true
-        recordTableView.hidden = false
-        locationButton.hidden = false
-        searchBarTextDidEndEditing(searchBar)
-        dismissViewControllerAnimated(true) { [weak self] () -> Void in
-            self?.searchResultViewController.dataSource = SearchInitData()
-            SearchAllRequest.sharedInstance.restoreDefaultData()
-            self?.searchResultViewController.filterString = ""
-            self?.searchResultViewController.lastSearchContent = ""
-        }
-    }
+//    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+//        isCancle = true
+//        searchResultViewController.filterString = ""
+//        searchResultViewController.view.hidden = true
+//        recordTableView.hidden = false
+//        locationButton.hidden = false
+//        searchBarTextDidEndEditing(searchBar)
+//        dismissViewControllerAnimated(true) { [weak self] () -> Void in
+//            self?.searchResultViewController.dataSource = SearchInitData()
+//            SearchAllRequest.sharedInstance.restoreDefaultData()
+//            self?.searchResultViewController.filterString = ""
+//            self?.searchResultViewController.lastSearchContent = ""
+//        }
+//    }
     
     /// 删除按钮方法
     func clearButtonAction() {

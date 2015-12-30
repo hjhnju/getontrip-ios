@@ -19,7 +19,7 @@ class RecommendTableViewCell: UITableViewCell {
     lazy var titleButton: UIButton = UIButton(title: "北京", fontSize: 16, radius: 0, titleColor: .whiteColor(), fontName: Font.PingFangTCMedium)
     
     //底部遮罩
-    lazy var shadeView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.5), alphaF: 0.7)
+    lazy var shadeView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.3), alphaF: 0.6)
     
     /// 收藏按钮
     lazy var collectButton: UIButton = UIButton()

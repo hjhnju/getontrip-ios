@@ -35,7 +35,7 @@ class SearchBar: UIView {
     /// 删除按钮
     lazy var deleteButton = UIButton(image: "delete_searchBar", title: "", fontSize: 0)
     /// 顶部提示
-    lazy var defaultPromptButton: UIButton = UIButton(image: "search_icon", title: "  搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
+    lazy var defaultPromptButton: UIButton = UIButton(image: "search_icon", title: "  搜索您想去的景点或城市", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
     /// 取消按钮
     lazy var clearTextButton: UIButton = UIButton(title: "取消", fontSize: 16, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7), fontName: Font.PingFangSCLight)
 
@@ -71,6 +71,7 @@ class SearchBar: UIView {
         textFile.rightView     = deleteButton
         textFile.rightViewMode = .Always
         textFile.returnKeyType = .Search
+        textFile.autocorrectionType = .Default
         textFile.addTarget(self, action: "textEditingDidBegin:", forControlEvents: UIControlEvents.EditingDidBegin)
         textFile.addTarget(self, action: "textValueChanged", forControlEvents: UIControlEvents.ValueChanged)
         
@@ -99,9 +100,10 @@ class SearchBar: UIView {
     }
     
     /// 值改变
-    func textValueChanged(textfiled: UITextField) {
-        defaultPromptButton.titleLabel?.hidden = textfiled.text == "" ? false : true
-    }
+//    func textValueChanged(textfiled: UITextField) {
+////        print(textFile.text)
+////        defaultPromptButton.titleLabel?.hidden = textfiled.text == "" ? false : true
+//    }
     
     func clearTextButtonAction() {
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in

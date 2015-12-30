@@ -67,7 +67,6 @@ class SearchRecordTableViewCell : UITableViewCell {
     }
     
     func deleteButtonAction() {
-        
         let index = superController?.recordData.indexOf(textLabel?.text ?? "") ?? 0
         self.superController?.recordData.removeAtIndex(index )
         self.superController?.recordTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
