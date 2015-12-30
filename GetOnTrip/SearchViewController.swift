@@ -48,16 +48,16 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         
         searchBar.textFile.delegate = self
-//        searchBar.textFile.delegate
         searchBar.superController = self
         view.addSubview(searchBar)
-        searchBar.textFile.addTarget(self, action: "textfileValueChangedAction:", forControlEvents: .ValueChanged)
+        searchBar.textFile.addTarget(self, action: "textfileValueChangedAction:", forControlEvents: .EditingChanged)
         
         initView()
         initProperty()
         initTableView()
         loadHotSearchLabel()
     }
+
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -125,11 +125,13 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     // 文本字段改变时需要调用搜索的方法
     func textfileValueChangedAction(textfiled: UITextField) {
-
         if let text = textfiled.text {
+            print(text)
             if text != "" {
-                print(text)
-                searchResultViewController.filterString = text
+//                if text.containsString(" ") {
+                    print(text)
+                    searchResultViewController.filterString = text
+//                }
             }
         }
     }
