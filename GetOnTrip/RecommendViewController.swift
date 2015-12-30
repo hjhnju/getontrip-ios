@@ -55,6 +55,9 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
     }
     
+    var navTitleLabel = UILabel(color: .whiteColor(), title: "热门内容", fontSize: 18, mutiLines: true, fontName: Font.ios8Font)
+    // title: "", titleColor: UIColor.whiteColor(), titleSize: 18
+    
     /// 搜索顶部
     var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight))
     
@@ -79,17 +82,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     /// 热门景点和热门内容view
     lazy var titleSelectView: RecommendHotView = { [weak self] in
         let v = RecommendHotView()
-        v.hotContentButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
-        v.hotSightButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
-        return v
-    }()
-    
-    lazy var navBarTitleSelectView: RecommendHotView = { [weak self] in
-        let v = RecommendHotView()
-        v.backgroundColor = .clearColor()
-        v.alpha = 0.0
-        v.topLine.removeFromSuperview()
-        v.selectView.removeFromSuperview()
         v.hotContentButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
         v.hotSightButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
         return v
@@ -295,9 +287,13 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         view.backgroundColor = SceneColor.bgBlack
         
         //nav bar
+        navTitleLabel.font = UIFont.systemFontOfSize(18)
         automaticallyAdjustsScrollViewInsets = false
         view.addSubview(navContainerView)
         navContainerView.addSubview(custNavView)
+        navContainerView.addSubview(navTitleLabel)
+        navTitleLabel.ff_AlignInner(.CenterCenter, referView: navContainerView, size: nil, offset: CGPointMake(0, 10))
+        navTitleLabel.alpha = 0
         
         //header
         headerView.clipsToBounds = true
@@ -316,9 +312,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         headerView.addSubview(titleImageView)
         titleImageView.alpha = 0.9
         titleImageView.ff_AlignInner(.CenterCenter, referView: headerView, size: nil, offset: CGPointMake(0, -20))
-        
-        navContainerView.addSubview(navBarTitleSelectView)
-        navBarTitleSelectView.frame = CGRectMake(45, 20, Frame.screen.width - 45 * 2, 44)
     }
     
     /// 初始化左右轮播按钮
@@ -340,13 +333,20 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         
         defaultPrompt.titleLabel?.hidden = textfile?.text != "" ? true : false
         refreshBar()
-        timer = NSTimer(timeInterval: 2.0, target: self, selector: "updatePhotoAction", userInfo: nil, repeats: true)
-        NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
+        leftRoundButton.hidden = headerImagesData.count > 1 ? false : true
+        rightRoundButton.hidden = headerImagesData.count > 1 ? false : true
+        if headerImagesData.count > 1 {
+            timer = NSTimer(timeInterval: 2.5, target: self, selector: "updatePhotoAction", userInfo: nil, repeats: true)
+            NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        timer!.invalidate()
+        
+        if timer != nil {
+            timer!.invalidate()
+        }
     }
     
     func refreshBar(){

@@ -30,7 +30,11 @@ class RecommendHotController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        refreshControl = UIRefreshControl()
+        initTableView()
+        initRefresh()
+    }
+    
+    private func initTableView() {
         lastRequest.isLoadType = RecommendLoadType.TypeContent
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: "RecommendTopicViewCell")
         tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: "RecommendTableViewCell")
@@ -38,7 +42,25 @@ class RecommendHotController: UITableViewController {
         tableView.contentInset = UIEdgeInsets(top: 255, left: 0, bottom: 0, right: 0)
         tableView.backgroundColor = .clearColor()
         tableView.separatorStyle = .None
+    }
+    
+    // TODO: - 下拉刷新用系统的上拉刷新用框架 
+    /// 初始化刷新控件
+    private func initRefresh() {
+        // 下拉刷新
+        refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
+        
+        //上拉刷新
+        let tbFooterView = MJRefreshAutoNormalFooter { [weak self] () -> Void in
+            self?.loadMore()
+        }
+        tbFooterView.automaticallyRefresh = true
+        tbFooterView.automaticallyChangeAlpha = true
+        tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
+        tbFooterView.stateLabel?.textColor = SceneColor.lightGray
+        tableView.mj_footer = tbFooterView
     }
 
     // MASKS: - tableView 数据源及代理方法
@@ -150,14 +172,11 @@ class RecommendHotController: UITableViewController {
         isLoading = true
         
         //清空footer的“加载完成”
-//        tableView.mj_footer.resetNoMoreData()
-        
         lastRequest.fetchFirstPageModels {[weak self] (result, status) -> Void in
             self?.refreshControl?.endRefreshing()
             //处理异常状态
             if RetCode.SUCCESS != status {
                     ProgressHUD.showErrorHUD(self?.view, text: "您的网络无法连接")
-//                self?.tableView.mj_header.endRefreshing()
                 self?.isLoading = false
                 return
             }
@@ -167,8 +186,6 @@ class RecommendHotController: UITableViewController {
                 self?.recommendCells = result?.contents ?? [RecommendCellData]()
                 self?.tableView.reloadData()
             }
-            
-//            self?.tableView.mj_header.endRefreshing()
             self?.isLoading = false
         }
     }
@@ -181,7 +198,6 @@ class RecommendHotController: UITableViewController {
         isLoading = true
         //请求下一页
         lastRequest.fetchNextPageModels { [weak self] (result, status) -> Void in
-            
             if let dataSource = result {
                 let newCells  = dataSource.contents
                 if newCells.count > 0 {
@@ -189,29 +205,12 @@ class RecommendHotController: UITableViewController {
                         self?.recommendCells = cells + newCells
                         self?.tableView.reloadData()
                     }
-//                    self?.tableView.mj_footer.endRefreshing()
+                    self?.tableView.mj_footer.endRefreshing()
                 } else {
-//                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
             }
             self?.isLoading = false
         }
     }
-    
-    /// 网络异常重现加载
-    func refreshFromErrorView(sender: UIButton){
-        tableView.hidden = false
-        //重新加载
-        if !tableView.mj_header.isRefreshing() {
-            tableView.mj_header.beginRefreshing()
-        }
-    }
-    
-//    func loadHeaderImage(url: String?) {
-//        if let url = url {
-//            //从网络获取
-//            headerImageView.sd_setImageWithURL(NSURL(string: url), placeholderImage: UIImage(named: "default_picture"))
-//        }
-//    }
-
 }

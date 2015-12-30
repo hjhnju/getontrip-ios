@@ -46,6 +46,7 @@ extension RecommendViewController {
             let isSelected = titleSelectView.selectView.center.x < Frame.screen.width * 0.5 ? true : false
             titleSelectView.hotContentButton.selected = isSelected
             titleSelectView.hotSightButton.selected   = !isSelected
+            navTitleLabel.text = isSelected ? "热门内容" : "推荐景点"
         }
         
         if scrollView.contentOffset.y == 0 { return }
@@ -67,6 +68,11 @@ extension RecommendViewController {
         let initTop: CGFloat = 0.0
         let newTop = min(-gap, initTop)
         headerViewTopConstraint?.constant = newTop
+
+        if offsetY < -64 && offsetY > -120 {
+            return
+        }
+        
         if offsetY > -120 { // 变圆
             searchBarW?.constant = 50
             searchBarMaxX?.constant = Frame.screen.width * 0.5 - 30
@@ -76,24 +82,22 @@ extension RecommendViewController {
                 }, completion: { (_) -> Void in
                     self.isUpdataSearchBarFrame = true
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        self.navBarTitleSelectView.alpha = 1
+                        self.navTitleLabel.alpha = 1.0
                     })
             })
         } else { // 变回去
             if isUpdataSearchBarFrame {
-                searchBarMaxX?.constant = 0
                 searchBarW?.constant = Frame.screen.width - 128
-                searchBarTopY?.constant = newTop + 155
-                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.searchBarMaxX?.constant = 0
+                self.searchBarTopY?.constant = newTop + 158
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
                     self.searchController.searchBar.layoutIfNeeded()
+                    self.navTitleLabel.alpha = 0
                     }, completion: { (_) -> Void in
                         self.isUpdataSearchBarFrame = false
-                        UIView.animateWithDuration(0.3, animations: { () -> Void in
-                            self.navBarTitleSelectView.alpha = 0
-                        })
                 })
             } else {
-                searchBarTopY?.constant = newTop + 155
+                searchBarTopY?.constant = newTop + 158
                 searchController.searchBar.layoutIfNeeded()
             }
         }
