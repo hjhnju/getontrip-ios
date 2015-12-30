@@ -14,7 +14,7 @@ struct SearchResultContant {
     static let SectionHeaderHeight: CGFloat = 38
 }
 
-class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate {
+class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
     /// 结果字段名
@@ -168,7 +168,7 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         let vc = parentViewController as? SearchViewController
-//        vc?.searchBar.endEditing(true)
+        vc?.searchBar.endEditing(true)
     }
     
     // MARK: 自定义方法
@@ -353,12 +353,6 @@ class SearchResultsViewController: UIViewController, UISearchBarDelegate, UISear
             break
         }
         return insertData!
-    }
-    
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        if searchController.searchBar.text != "" {
-            filterString = searchController.searchBar.text ?? ""
-        }
     }
     
     /// 组标题方法

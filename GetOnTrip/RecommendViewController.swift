@@ -266,22 +266,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         searchBarTopY = searchController.searchBar.ff_Constraint(cons, attribute: .Top)
         searchBarW    = searchController.searchBar.ff_Constraint(cons, attribute: .Width)
         searchBarH    = searchController.searchBar.ff_Constraint(cons, attribute: .Height)
-        
-//        searchController.searchBar.keyboardAppearance = .Default
-//        searchController.searchBar.setSearchFieldBackgroundImage(UIImage(named: "search_box"), forState: .Normal)
-//        searchController.searchBar.tintColor = UIColor(hex: 0xFFFFFF, alpha: 0.5)
-//        searchController.searchBar.translucent = true
-        
-
-//        for item in (searchController.searchBar.subviews) ?? [] {
-//            for it in item.subviews {
-//                if it.isKindOfClass(NSClassFromString("UISearchBarBackground")!) {
-//                    it.removeFromSuperview()
-//                } else if it.isKindOfClass(NSClassFromString("UISearchBarTextField")!) {
-////                    textfile = it as? UITextField
-//                }
-//            }
-//        }
     }
     
     /// 初始化设置
@@ -379,4 +363,5 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     /// 是否应该更新searchBar的frame
     var isUpdataSearchBarFrame: Bool = false
 }
+
 

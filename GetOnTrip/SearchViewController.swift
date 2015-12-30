@@ -42,26 +42,18 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     //位置管理器
     lazy var locationManager: CLLocationManager = CLLocationManager()
     
-    /// 是否重设搜索框
-    var isSearchFrame:Bool = false
-    
-    var searchBarFrame: CGRect = CGRectZero
-    
-    var searchBarH: CGFloat?
-    
     var searchBarContainerView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         searchBar.textFile.delegate = self
+//        searchBar.textFile.delegate
         searchBar.superController = self
         view.addSubview(searchBar)
-        searchBar.frame = CGRectMake(0, 0, Frame.screen.width, 35)
-//        searchBar.hidden = true
+        searchBar.textFile.addTarget(self, action: "textfileValueChangedAction:", forControlEvents: .ValueChanged)
+        
         initView()
-//        searchBar.delegate = self
         initProperty()
         initTableView()
         loadHotSearchLabel()
@@ -70,32 +62,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         isCancle = false
-
-//        searchBar.ff_AlignInner(.TopLeft, referView: searchBar.superview ?? searchBar, size: CGSizeMake(Frame.screen.width - 18, 35))
-//        searchBar.backgroundColor = UIColor.randomColor()
-//        let vc = presentingViewController as? RecommendViewController
-//        vc?.searchBarMaxX?.constant = 9
-//        vc?.searchBarTopY?.constant = 50
-//        vc?.searchBarW?.constant    = Frame.screen.width - 18
-//        vc?.searchBarH?.constant    = 35
-//        
-//        UIView.animateWithDuration(0.5) { () -> Void in
-////            vc?.searchController.searchBar.layoutIfNeeded()
-////            vc?.textfile?.frame = CGRectMake(0, 0, Frame.screen.width, 35)
-//        }
-        recordTableView.hidden = true
-        searchResultViewController.view.hidden = true
-        
-    }
-    
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-//        refreshSearchBarContaineView()
-        
-        
-       
     }
     
     /// 初始化view
@@ -147,17 +113,41 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    // MARK: - searchBar 代理方法
+    // MARK: - searchBar 中 textfiled 方法
     // 点击搜索之后调用保存方法
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        if searchBar.text != "" {
-            saveRecord(searchBar.text ?? "")
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField.text != "" {
+            saveRecord(textField.text ?? "")
+        }
+        searchBar.textFile.resignFirstResponder()
+        return true
+    }
+    
+    // 文本字段改变时需要调用搜索的方法
+    func textfileValueChangedAction(textfiled: UITextField) {
+
+        if let text = textfiled.text {
+            if text != "" {
+                print(text)
+                searchResultViewController.filterString = text
+            }
         }
     }
     
+    
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        return true
+    }
+    
     ///  搜索栏结束编辑
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+    func textFieldDidEndEditing(textField: UITextField) {
         NSUserDefaults.standardUserDefaults().setObject(recordData, forKey: "recordData")
+        
+    }
+    
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         let vc = presentingViewController as? RecommendViewController
         if isCancle == true {
             searchBar.text = ""
@@ -169,18 +159,18 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     ///  搜索栏文字改变时调用的方法
     var isCancle:Bool = false
+    
+    
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         recordTableView.hidden = true
         let vc = presentingViewController as? RecommendViewController
         
         if searchBar.text == "" { // 48 × 51
-//            vc?.defaultPrompt.titleLabel?.hidden = false
             recordTableView.hidden = false
             locationButton.hidden = false
             recordTableView.reloadData()
             searchResultViewController.view.hidden = true
         } else {
-//            vc?.defaultPrompt.titleLabel?.hidden = true
             locationButton.hidden = true
             recordTableView.hidden = true
             searchResultViewController.view.hidden = false
@@ -190,7 +180,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     /// 点击取消调用的方法
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         isCancle = true
-        isSearchFrame = true
         searchResultViewController.filterString = ""
         searchResultViewController.view.hidden = true
         recordTableView.hidden = false
@@ -237,6 +226,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     var searchBarTY: CGFloat = 0
     var searchBarTW: CGFloat = 0
     var searchBarTH: CGFloat = 0
+    var searchBarFW: CGFloat = 0
     
     func modificationSearchBarFrame() {
         let vc = parentViewController as? RecommendViewController
@@ -244,6 +234,5 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         vc?.searchBarTopY?.constant = searchBarTY
         vc?.searchBarW?.constant    = searchBarTW
         vc?.searchBarH?.constant    = searchBarTH
-        searchBar.updateWidthFrame(Frame.screen.width - 128)
     }
 }

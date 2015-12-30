@@ -83,7 +83,7 @@ extension SearchHotwordTableViewCell {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         endEditing(true)
-//        superController?.searchBar.text = dataSource?[indexPath.row] ?? ""
+        superController?.searchBar.textFile.text = dataSource?[indexPath.row] ?? ""
 //        superController?.searchBar(superController?.searchBar ?? UISearchBar(), textDidChange: dataSource?[indexPath.row] ?? "")
         superController?.recordTableView.hidden = true
     }

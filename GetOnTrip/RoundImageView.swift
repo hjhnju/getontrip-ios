@@ -19,7 +19,6 @@ class RoundImageView: UIView {
         didSet {
             orderImageViews()
             arrayM.enumerateObjectsUsingBlock { (obj, idx, stop) -> Void in
-                
                 let i = (self.arrayImage.count + idx - 1) % self.arrayImage.count
                 (obj as! UIImageView).sd_setImageWithURL(NSURL(string: self.arrayImage[i]), placeholderImage: PlaceholderImage.defaultSmall)
             }

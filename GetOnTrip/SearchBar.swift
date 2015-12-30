@@ -12,6 +12,8 @@ class SearchBar: UIView {
 
     weak var superController: SearchViewController?
     
+    var tempUpdateFrame: CGFloat = 0
+    
     func updateWidthFrame(w: CGFloat) {
         imageViewW?.constant = w - 9
         textfiledW?.constant = w - 9
@@ -68,6 +70,7 @@ class SearchBar: UIView {
         textFile.leftViewMode  = .Always
         textFile.rightView     = deleteButton
         textFile.rightViewMode = .Always
+        textFile.returnKeyType = .Search
         textFile.addTarget(self, action: "textEditingDidBegin:", forControlEvents: UIControlEvents.EditingDidBegin)
         textFile.addTarget(self, action: "textValueChanged", forControlEvents: UIControlEvents.ValueChanged)
         
@@ -91,7 +94,6 @@ class SearchBar: UIView {
     }
     
     func textEditingDidBegin(textfiled: UITextField) {
-        print("来到了吗")
         clearTextButton.hidden = false
         updateCancelButtonShow(true)
     }
@@ -101,16 +103,15 @@ class SearchBar: UIView {
         defaultPromptButton.titleLabel?.hidden = textfiled.text == "" ? false : true
     }
     
-    
     func clearTextButtonAction() {
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
             self?.superController?.view.alpha = 0
             self?.textFile.resignFirstResponder()
             self?.superController?.modificationSearchBarFrame()
+            self?.updateWidthFrame(self?.tempUpdateFrame ?? 0)
             }) { [weak self] (_) -> Void in
                 self?.updateCancelButtonShow(false)
                 self?.clearTextButton.hidden = true
         }
     }
-
 }
