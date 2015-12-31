@@ -18,7 +18,12 @@ class LocateToCity: NSObject {
     * @return json
     */
     
-    class func locate(city: String, handler: (result: AnyObject?, status: Int) -> Void) {
+    static let sharedLocateToCity = LocateToCity()
+    
+    var x: String = "0"
+    var y: String = "0"
+    
+    func locate(city: String, handler: (result: String?, status: Int) -> Void) {
         var post         = [String: String]()
         post["city"]     = String(city)
         

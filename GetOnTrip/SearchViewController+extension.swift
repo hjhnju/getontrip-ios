@@ -127,24 +127,16 @@ extension SearchViewController {
     /// 切换当前城市
     func switchCurrentCity(btn: UIButton) {
         
-        if currentCityId == "" {
-            /// 开始获取定位权限
-        }
-        
-        if currentCityId == "0" {
+        if currentCityId == "-1" {
+            ProgressHUD.showSuccessHUD(view, text: "您已拒绝定位，请到设置中打开定位")
+        } else if currentCityId == "0" {
             ProgressHUD.showSuccessHUD(view, text: "正在定位中")
-            return
-        }
-        
-        if currentCityId == "-2" {
+        } else if currentCityId == "-2" {
             ProgressHUD.showSuccessHUD(view, text: "当前城市未开通")
-        }
-        
-        if currentCityId != "-1" {
+        } else {
             let vcity = CityViewController()
             vcity.cityDataSource = City(id: currentCityId)
             searchResultViewController.showSearchResultController(vcity)
-            return
         }
     }
     

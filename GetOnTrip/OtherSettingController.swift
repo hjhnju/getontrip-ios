@@ -68,7 +68,6 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 2 { return 2 }
         return 1
     }
     
@@ -85,8 +84,8 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
             cell.left.text = "清除缓存"
             cell.contentView.addSubview(removeCacheLabel)
             removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell.contentView, size: nil, offset: CGPointMake(-9, 0))
-        } else if indexPath.section == 2 {
-            cell.left.text = indexPath.row == 0 ? "意见反馈" : "给我们评分"
+        } else if indexPath.section == 2 && indexPath.row == 0 {
+            cell.left.text = "给我们评分"
         } else if indexPath.section == 3 && indexPath.row == 0 {
             cell.left.text = "关于我们"
         }
@@ -106,11 +105,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         }
         
         if indexPath.section == 2{
-            if indexPath.row == 0 {
-                navigationController?.pushViewController(FeedBackViewController(), animated: true)
-            } else {//itunes.apple.com/app/id1059746773
-                UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1059746773")!)
-            }
+            UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/app/id1059746773")!)
         } else if indexPath.section == 3 && indexPath.row == 0 {
             let vc = GuideViewController()
             vc.numberPage = 3

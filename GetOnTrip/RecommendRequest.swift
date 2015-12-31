@@ -40,6 +40,8 @@ class RecommendRequest: NSObject {
         post["order"]    = String(order)
         post["page"]     = String(page)
         post["pageSize"] = String(pageSize)
+        post["x"]        = LocateToCity.sharedLocateToCity.x
+        post["y"]        = LocateToCity.sharedLocateToCity.y
         
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/search/label", post: post) { (data, status) -> () in

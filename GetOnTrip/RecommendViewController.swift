@@ -71,7 +71,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     lazy var leftRoundButton: SwitchRoundButton = SwitchRoundButton(image: "left_round", title: "", fontSize: 0)
     /// 右边侧滑按钮
     lazy var rightRoundButton: SwitchRoundButton = SwitchRoundButton(image: "right_round", title: "", fontSize: 0)
-    /// 标题了解景点背后的故事（无该字体，目前用图片代替）
+    /// 标题了解景点背后的故事（无该字体，目前用图片代替） 0.1616:1
     lazy var titleImageView = UIImageView(image: UIImage(named: "launch_title"))
     /// headerView的顶部约束
     var headerViewTopConstraint: NSLayoutConstraint?
@@ -270,7 +270,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         
         headerView.addSubview(titleImageView)
         titleImageView.alpha = 0.9
-        titleImageView.ff_AlignInner(.CenterCenter, referView: headerView, size: nil, offset: CGPointMake(0, -20))
+        titleImageView.ff_AlignInner(.TopCenter, referView: headerView, size: nil, offset: CGPointMake(0, (Frame.screen.width * 0.1616) + 25))
     }
     
     /// 初始化左右轮播按钮
@@ -286,8 +286,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         leftRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
         rightRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
     }
-    
-
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -335,7 +333,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     //MARK: ScrollViewDelegate
     var yOffset: CGFloat = 0.0
     /// 是否应该更新searchBar的frame
-    var isUpdataSearchBarFrame: Bool = false    
+    var isUpdataSearchBarFrame: Bool = false
 }
 
 

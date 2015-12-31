@@ -120,11 +120,12 @@ struct Regular {
 
 /// 字体
 struct Font {
-    static let defaultFont = "PingFangTC-Light"
-    static let PingFangTCThin = "PingFangTC-Thin"
+    static let defaultFont       = "PingFangTC-Light"
+    static let PingFangTCThin    = "PingFangTC-Thin"
     static let HelveticaNeueThin = "HelveticaNeue-Thin"
     static let PingFangSCRegular = "PingFangSC-Regular"
-    static let PingFangSCLight = "PingFangSC-Light"
-    static let ios8Font = ".HelveticaNeueInterface-Light"
-    static let PingFangTCMedium = "PingFangTC-Medium"
+    static let PingFangSCLight   = "PingFangSC-Light"
+    static let ios8Font          = ".HelveticaNeueInterface-Light"
+    static let PingFangTCMedium  = "PingFangTC-Medium"
+//    static let HelveticaNeueThin
 }

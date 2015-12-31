@@ -37,6 +37,10 @@ class RecommendCellData: ModelObject {
     //补充用于话题传景点id
     var param4: String = ""
     
+    var dis: String = ""
+    
+    var dis_unit: String = ""
+    
     //城市＝2，景点＝1
     var type: String = RecommendCellType.TypeSight
     

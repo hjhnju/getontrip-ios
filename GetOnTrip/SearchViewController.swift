@@ -159,7 +159,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
 //    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
 //        isCancle = true
 //        searchResultViewController.filterString = ""
-//        searchResultViewController.view.hidden = true
+//        searchResultViewController.view.hidden = true/Users/zk-pro/Desktop/getontrip-ios/GetOnTrip/RecommendViewController.swift
 //        recordTableView.hidden = false
 //        locationButton.hidden = false
 //        searchBarTextDidEndEditing(searchBar)
@@ -204,5 +204,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         vc?.searchBarTopY?.constant = searchBarTY
         vc?.searchBarW?.constant    = searchBarTW
         vc?.searchBarH?.constant    = searchBarTH
+    }
+    
+    deinit {
+        print("首页可以走不")
     }
 }

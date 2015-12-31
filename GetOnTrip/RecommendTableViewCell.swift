@@ -16,16 +16,18 @@ class RecommendTableViewCell: UITableViewCell {
     var cellImageView = ScrolledImageView()
     
     //中部标题
-    lazy var titleButton: UIButton = UIButton(title: "北京", fontSize: 16, radius: 0, titleColor: .whiteColor(), fontName: Font.PingFangTCMedium)
+    lazy var titleButton: UIButton = UIButton(title: "北京", fontSize: 20, radius: 0, titleColor: .whiteColor(), fontName: Font.PingFangTCMedium)
     
     //底部遮罩
-    lazy var shadeView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.3), alphaF: 0.6)
+    lazy var shadeView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.5), alphaF: 0.7)
     
     /// 收藏按钮
-    lazy var collectButton: UIButton = UIButton()
+    lazy var collectLabel: UILabel = UILabel()
+    lazy var collectImage: UIImageView = UIImageView(image: UIImage(named: "collect_hotSight"))
     
     /// 内容按钮
-    lazy var contentButton: UIButton = UIButton()
+    lazy var contentLabel: UILabel = UILabel()
+    lazy var contentImage: UIImageView = UIImageView(image: UIImage(named: "content_hotSight"))
     
     /// 当前位置 
     lazy var locationButton = UIButton(image: "location_search", title: "  0.0km", fontSize: 13, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
@@ -41,16 +43,11 @@ class RecommendTableViewCell: UITableViewCell {
                 }
                 
                 titleButton.setTitle(cellData.name, forState: UIControlState.Normal)
-                collectButton.setAttributedTitle(cellData.param3.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
-                contentButton.setAttributedTitle(cellData.param1.getAttributedStringHeadCharacterBig(), forState: UIControlState.Normal)
-
-                if cellData.isTypeCity() {
-                    collectButton.setImage(UIImage(named: "search_star"), forState: UIControlState.Normal)
-                    contentButton.setImage(UIImage(named: "search_sight"), forState: UIControlState.Normal)
-                } else {//
-                    collectButton.setImage(UIImage(named: "search_star"), forState: UIControlState.Normal)
-                    contentButton.setImage(UIImage(named: "search_topic"), forState: UIControlState.Normal)
-                }
+                let attr = NSMutableAttributedString(attributedString: cellData.param3.getAttributedStringHeadCharacterBig())
+                attr.appendAttributedString(NSAttributedString(string: "    |"))
+                collectLabel.attributedText = attr
+                contentLabel.attributedText = cellData.param1.getAttributedStringHeadCharacterBig()
+                locationButton.setTitle(data?.dis, forState: UIControlState.Normal)                
             }
         }
     }
@@ -64,21 +61,27 @@ class RecommendTableViewCell: UITableViewCell {
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
         let titleFont = UIFont(name: SceneFont.heiti, size: 8)
-        collectButton.titleLabel?.font = titleFont
-        contentButton.titleLabel?.font = titleFont
-        collectButton.titleLabel?.textColor = UIColor.whiteColor()
-        contentButton.titleLabel?.textColor = UIColor.whiteColor()
+        collectLabel.font = titleFont
+        contentLabel.font = titleFont
+        collectLabel.textColor = .whiteColor()
+        contentLabel.textColor = .whiteColor()
         
         //addSubview(iconView)
         contentView.addSubview(cellImageView)
         contentView.addSubview(shadeView)
         contentView.addSubview(titleButton)
-        contentView.addSubview(collectButton)
-        contentView.addSubview(contentButton)
+        contentView.addSubview(collectLabel)
+        contentView.addSubview(contentLabel)
         contentView.addSubview(locationButton)
+        contentView.addSubview(collectImage)
+        contentView.addSubview(contentImage)
+        
+//        collectLabel.backgroundColor = UIColor.randomColor()
+//        contentLabel.backgroundColor = UIColor.randomColor()
+//        collectImage.backgroundColor = UIColor.randomColor()
+//        contentImage.backgroundColor = UIColor.randomColor()
         
         cellImageView.userInteractionEnabled = false
-        //iconView.userInteractionEnabled = false
         shadeView.userInteractionEnabled = false
         titleButton.userInteractionEnabled = false
         cellImageView.clipsToBounds = true
@@ -91,9 +94,11 @@ class RecommendTableViewCell: UITableViewCell {
         cellImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight - 2), offset: CGPointMake(0, 2))
         shadeView.frame = CGRectMake(0, 0, Frame.screen.width, RecommendContant.rowHeight)
         locationButton.ff_AlignInner(.BottomLeft, referView: contentView, size: nil, offset: CGPointMake(9, -19))
-        contentButton.ff_AlignInner(.BottomRight, referView: contentView, size: nil, offset: CGPointMake(-9, -19))
-        collectButton.ff_AlignHorizontal(.CenterLeft, referView: contentButton, size: nil, offset: CGPointMake(-12, 0))
-        titleButton.ff_AlignVertical(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, -7))
+        contentLabel.ff_AlignInner(.BottomRight, referView: contentView, size: nil, offset: CGPointMake(-9, -19))
+        contentImage.ff_AlignHorizontal(.BottomLeft, referView: contentLabel, size: CGSizeMake(10, 12), offset: CGPointMake(-5, 0))
+        collectLabel.ff_AlignHorizontal(.BottomLeft, referView: contentImage, size: nil, offset: CGPointMake(-12, 0))
+        collectImage.ff_AlignHorizontal(.BottomLeft, referView: collectLabel, size: CGSizeMake(10, 12), offset: CGPointMake(-5, 0))
+        titleButton.ff_AlignVertical(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, 5))
     }
 
     required init?(coder aDecoder: NSCoder) {

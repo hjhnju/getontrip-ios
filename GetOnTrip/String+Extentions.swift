@@ -15,7 +15,6 @@ extension String {
     func getAttributedString(lineHeightMultiple:CGFloat = 0, lineSpacing: CGFloat = 0, breakMode:NSLineBreakMode = NSLineBreakMode.ByTruncatingTail, fontName: String? = Font.ios8Font, fontSize: CGFloat? = 12) -> NSAttributedString {
         
         let style = NSMutableParagraphStyle()
-//        style.firstLineHeadIndent = 24
         style.lineSpacing = lineSpacing
         style.lineHeightMultiple = lineHeightMultiple
         style.lineBreakMode = breakMode
@@ -47,8 +46,8 @@ extension String {
     }
     
     func getAttributedStringHeadCharacterBig() -> NSAttributedString{
-        let attr = NSMutableAttributedString(string: self)
         
+        let attr = NSMutableAttributedString(string: self)
         if self.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 3 {
             attr.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(10), range: NSMakeRange(0, attr.length - 3))
         }

@@ -116,15 +116,15 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
     }()
     
     //欢迎
-    lazy var welcomeButton = UIButton(title: "Welcome!", fontSize: 48, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.defaultFont)
+    lazy var welcomeButton = UIButton(title: "Welcome!", fontSize: 48, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.HelveticaNeueThin)
     //登录后，头像
     lazy var headerView: UIImageView = UIImageView(image: PlaceholderImage.defaultUser)
     //登录后，名称
     lazy var nameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
     /// 设置按钮
     lazy var settingButton: SettingButton = SettingButton(image: "setting_slideMenu", title: "    设置", fontSize: 12)
-    /// 点此登陆
-    lazy var loginPromptButton: UIButton = UIButton(title: "点此登陆", fontSize: 12, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.PingFangSCLight)
+    /// 点此登录
+    lazy var loginPromptButton: UIButton = UIButton(title: "点此登录", fontSize: 12, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.PingFangSCLight)
     
     //设置菜单的数据源
     let tableViewDataSource = ["首页", CityBrowseViewController.name, SettingDatumViewController.name, MessageViewController.name, FeedBackViewController.name]
@@ -200,7 +200,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.rowHeight = view.bounds.height * 0.45 * 0.2
+        tableView.rowHeight = view.bounds.height * 0.4 * 0.2
         tableView.registerClass(MenuSettingTableViewCell.self, forCellReuseIdentifier: SlideMenuOptions.MenuTableViewCellID)
         tableView.separatorStyle = .None
         tableView.scrollEnabled = false
@@ -232,12 +232,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
         //menu
         menuView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
         bgImageView.ff_Fill(menuView)
-        tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.45), offset: CGPointMake(0, 30))
+        tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.4), offset: CGPointMake(0, 0))
         
         // TODO: -在这里
-        settingButton.ff_AlignInner(.BottomRight, referView: menuView, size: nil, offset: CGPointMake(-9, -16))
+        settingButton.ff_AlignInner(.BottomRight, referView: menuView, size: nil, offset: CGPointMake(-13, -16))
         welcomeButton.ff_AlignInner(.TopCenter, referView: menuView, size: nil, offset: CGPointMake(0, Frame.screen.width * 0.14))
-        loginPromptButton.ff_AlignVertical(.BottomCenter, referView: welcomeButton, size: nil, offset: CGPointMake(0, -20))
+        loginPromptButton.ff_AlignVertical(.BottomCenter, referView: welcomeButton, size: nil, offset: CGPointMake(0, -10))
         headerView.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(93, 93), offset: CGPointMake(0, Frame.screen.width * 0.09))
         nameLabel.ff_AlignVertical(.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 5))
         
@@ -326,7 +326,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == 1 {
             ProgressHUD.showSuccessHUD(view, text: "您已拒绝定位，请到设置中打开定位")
-            currentCityId = ""
+            currentCityId = "-1"
         } else {
             ProgressHUD.showSuccessHUD(view, text: "开始定位")
             currentCityId = "0"
@@ -335,25 +335,27 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
     
     // MARK: - 地理定位代理方法
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("我倒要看看定位几次")
+        
         // 获取位置信息
         let coordinate = locations.first?.coordinate
         // 反地理编码
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
         
+        if LocateToCity.sharedLocateToCity.x == "\(coordinate!.latitude)" && LocateToCity.sharedLocateToCity.y == "\(coordinate!.longitude)" {
+            return
+        }
+        
+        LocateToCity.sharedLocateToCity.x = "\(coordinate!.latitude)"
+        LocateToCity.sharedLocateToCity.y = "\(coordinate!.longitude)"
+        
+        // coordinate.latitude, coordinate.longitude
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
             if let locality = placemarks?.first?.locality {
-
-                LocateToCity.locate(locality, handler: { (result, status) -> Void in
+                
+                LocateToCity.sharedLocateToCity.locate(locality, handler: { (result, status) -> Void in
                     if status == RetCode.SUCCESS {
-                        currentCityId = result as? String ?? "-2"
-                        if result != nil {
-                            //                                let vcity = CityViewController()
-                            //                                vcity.cityDataSource = City(id: currentCityId)
-                            //                                self?.searchResultViewController.showSearchResultController(vcity)
-                            return
-                        }
+                        currentCityId = result ?? "-2"
                     } else {
                         ProgressHUD.showSuccessHUD(self?.view, text: "网络连接失败，请检查网络")
                     }
