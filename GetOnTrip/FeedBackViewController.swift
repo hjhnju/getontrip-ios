@@ -152,6 +152,7 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     private func loadData() {
+        if globalUser == nil { return }
         if self.isLoading { return }
         self.isLoading = true
         
@@ -220,29 +221,19 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
             ProgressHUD.showErrorHUD(nil, text: "请先输入需要反馈的消息")
             return
         }
-        if globalUser != nil {
-            self.isLoginAction(content)
-        } else { /// 未登录时
-            sendContentText.resignFirstResponder()
-            LoginView.sharedLoginView.doAfterLogin() { [weak self] (success, error) -> () in
-                if success {
-                    self?.isLoginAction(content)
-                } else { /// 登录失败
-                    ProgressHUD.showErrorHUD(nil, text: "登录失败，请检查网络设置")
-                }
-            }
-        }
+        isLoginAction(content)
     }
     
     private func isLoginAction(content: String) {
+        sendContentText.text = ""
+        addReceivedInfo(content)
         lastRequest.fetchSendModels(content) { [weak self] (result, status) -> Void in
             if status == RetCode.SUCCESS {
-                ProgressHUD.showSuccessHUD(nil, text: "发送成功")
+                // TODO: - 需要将反馈的信息在这里显示
                 self?.sendContentText.text = ""
                 self?.addReceivedInfo(content)
                 return
             }
-            ProgressHUD.showErrorHUD(nil, text: "发送失败，请重新发送")
         }
     }
     
@@ -261,7 +252,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         fb.isShowTime = dataSource.last?.create_time == fb.create_time ? true : false
         dataSource.append(fb)
         tableView.reloadData()
-//        tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: dataSource.count ?? 0, inSection: 0)], withRowAnimation: .Fade)
     }
     
     // scrollerview delegate

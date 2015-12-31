@@ -348,7 +348,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
         LocateToCity.sharedLocateToCity.x = "\(coordinate!.longitude)"
         LocateToCity.sharedLocateToCity.y = "\(coordinate!.latitude)"
         
-        // coordinate.latitude, coordinate.longitude
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
             if let locality = placemarks?.first?.locality {
                 
@@ -361,6 +360,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
                 })
             }
         }
+        
     }
 
 }

@@ -48,6 +48,13 @@ class FeedBackMyTableViewCell: UITableViewCell {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+//        iconImageView.layer.cornerRadius = 35 * 0.5
+//        iconImageView.clipsToBounds = true
+    }
+    
     class func heightWithFeedBack(feedback: Feedback) -> CGFloat {
         
         let timeH: CGFloat = feedback.isShowTime ? 18 : 50
@@ -64,6 +71,8 @@ class FeedBackMyTableViewCell: UITableViewCell {
         initAutoLayout()
         contentLabel.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width - 98
         iconImageView.layer.cornerRadius = 35 * 0.5
+        iconImageView.clipsToBounds = true
+        iconImageView.contentMode = .ScaleAspectFill
     }
     
     private func initAutoLayout() {
