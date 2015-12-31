@@ -121,9 +121,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                 recordTableView.hidden = true
                 searchResultViewController.tableView.hidden = false
                 searchResultViewController.filterString     = text
+                searchBar.defaultPromptButton.titleLabel?.hidden = true
             } else {
                 recordTableView.hidden = false
                 searchResultViewController.tableView.hidden = true
+                searchBar.defaultPromptButton.titleLabel?.hidden = false
             }
         }
     }

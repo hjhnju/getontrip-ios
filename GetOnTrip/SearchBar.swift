@@ -34,9 +34,9 @@ class SearchBar: UIView {
     /// 文本框
     lazy var textFile = UITextField(alignment: .Left, sizeFout: 16, color: .whiteColor())
     /// 删除按钮
-    lazy var deleteButton = UIButton(image: "delete_searchBar", title: "", fontSize: 0)
+    lazy var deleteButton = UIButton(image: "delete_clear_hei", title: "", fontSize: 0)
     /// 顶部提示
-    lazy var defaultPromptButton: UIButton = UIButton(image: "search_icon", title: "  搜索您想去的景点或城市", fontSize: 12, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.8), fontName: Font.defaultFont)
+    lazy var defaultPromptButton: UIButton = UIButton(image: "search_icon", title: " 搜索您想去的景点或城市", fontSize: 12, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.8), fontName: Font.defaultFont)
     /// 取消按钮
     lazy var clearTextButton: UIButton = UIButton(title: "取消", fontSize: 16, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.7), fontName: Font.PingFangSCLight)
 
@@ -67,13 +67,14 @@ class SearchBar: UIView {
         // 文本框
         addSubview(textFile)
         textFile.borderStyle   = .None
-        textFile.leftView      = UIView(frame: CGRectMake(0, 0, 27, 35))
+        textFile.leftView      = UIView(frame: CGRectMake(0, 0, 31, 35))
         textFile.leftViewMode  = .Always
         textFile.rightView     = deleteButton
         textFile.rightViewMode = .Always
         textFile.returnKeyType = .Search
         textFile.autocorrectionType = .Default
-        textFile.alpha = 0.3
+        textFile.textColor     = .whiteColor()
+        textFile.clearButtonMode = .Always
         textFile.addTarget(self, action: "textEditingDidBegin:", forControlEvents: .EditingDidBegin)
         
         let ivcons = imageView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(bounds.width, 35), offset: CGPointMake(9, 0))
@@ -103,11 +104,13 @@ class SearchBar: UIView {
     /// 点击取消之后调用的方法
     func clearTextButtonAction() {
         clearTextButton.hidden = true
+        textFile.text = ""
+        superController?.textfileValueChangedAction(textFile)
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
             self?.superController?.view.alpha = 0
             self?.textFile.resignFirstResponder()
             self?.superController?.modificationSearchBarFrame()
-            self?.updateWidthFrame((self?.superController?.searchBarTW ?? 0) - 54)
+            self?.updateWidthFrame((self?.superController?.searchBarTW ?? 0) - 56)
             self?.imageViewW?.constant += 46
             self?.textfiledW?.constant += 46
             })
