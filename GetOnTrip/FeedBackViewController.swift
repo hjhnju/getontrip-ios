@@ -11,6 +11,8 @@ import MJRefresh
 
 class FeedBackViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate {
     
+    static let name = "反馈"
+    
     lazy var tableView: UITableView = UITableView()
     
     /// 反馈情况(历史)

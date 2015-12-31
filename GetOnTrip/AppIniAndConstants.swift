@@ -80,6 +80,7 @@ struct SceneColor {
     彩色系列
     */
     static let lightblue   = UIColor(hex: 0x2BB3E0, alpha: 1.0)
+    static let thinGreen   = UIColor(hex: 0x3E5C3A, alpha: 1.0)
     
     static func randomColor() -> UIColor {
         /*

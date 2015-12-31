@@ -11,29 +11,14 @@ import FFAutoLayout
 
 class MenuSettingTableViewCell: UITableViewCell {
 
-    lazy var titleLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 18, mutiLines: true)
-    
-    // 设置底线
-    lazy var baseline: UIView = UIView(color: UIColor.whiteColor(), alphaF: 0.3)
-    
-    var isBaseLineVisabled: Bool = true {
-        didSet {
-            baseline.hidden = !isBaseLineVisabled
-            setNeedsDisplay()
-        }
-    }
+    lazy var titleLabel: UILabel = UILabel(color: SceneColor.bgBlack, title: "", fontSize: 18, mutiLines: true, fontName: Font.PingFangSCLight)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addSubview(baseline)
-        addSubview(titleLabel)
-        
-        titleLabel.font = UIFont(name: Font.defaultFont, size: 18)
-        
-        backgroundColor = UIColor.clearColor()
-        baseline.ff_AlignInner(.BottomLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 0.5), offset: CGPointMake(0, 0))
-        titleLabel.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
+        contentView.addSubview(titleLabel)
+        backgroundColor = .clearColor()
+        titleLabel.ff_AlignInner(.CenterLeft, referView: contentView, size: nil, offset: CGPointMake(45, 0))
     }
     
     required init?(coder aDecoder: NSCoder) {

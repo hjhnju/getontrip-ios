@@ -90,12 +90,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             }
             
-            if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.RecommendViewController")!) {
-                let vc = mainViewController as! RecommendViewController
-                panGestureRecognizer.delegate = vc
-                panGestureRecognizer2.delegate = vc
-            }
-            
             mainViewController.view.addGestureRecognizer(panGestureRecognizer)
             mainViewController.slideDelegate = self
             refreshMask()
@@ -119,43 +113,30 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let tab = UITableView()
         tab.backgroundColor = UIColor.clearColor()
         return tab
-        }()
-    
-    //登录后，底view
-    lazy var loginAfter: UIView = UIView()
-    
-    //登录前，底view
-    lazy var loginBefore: UIView = UIView()
+    }()
     
     //欢迎
-    lazy var welcomeLabel = UILabel(color: UIColor.whiteColor(), fontSize: 36, mutiLines: true)
-    //说明
-    lazy var descLabel    = UILabel(color: UIColor.whiteColor(), fontSize: 12, mutiLines: true)
+    lazy var welcomeLabel = UILabel(color: SceneColor.thinGreen, title: "Welcome!", fontSize: 48, mutiLines: true, fontName: Font.defaultFont)
     //登录后，头像
     lazy var headerView: UIImageView = UIImageView(image: PlaceholderImage.defaultUser)
     //登录后，名称
     lazy var nameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
-    
-    /// 微信
-    lazy var wechatButton: UIButton = UIButton(icon: "icon_weixin", masksToBounds: true)
-    /// QQ
-    lazy var qqButton: UIButton = UIButton(icon: "icon_qq", masksToBounds: true)
-    /// 更多登录方式按钮
-    lazy var moreButton: UIButton = UIButton(icon: "more_white", masksToBounds: true)
+    /// 登陆按钮
+    lazy var loginButton: UIButton = UIButton(icon: "login_slideMenu", masksToBounds: true)
+    /// 设置按钮
+    lazy var settingButton: SettingButton = SettingButton(image: "setting_slideMenu", title: "", fontSize: 0)
     
     //设置菜单的数据源
-    let tableViewDataSource = ["首页", CityBrowseViewController.name, SettingDatumViewController.name, MessageViewController.name] // FeedBackViewController.name
+    let tableViewDataSource = ["首页", CityBrowseViewController.name, SettingDatumViewController.name, MessageViewController.name, FeedBackViewController.name]
     
     //菜单对应元类
-    let usingVCTypes: [AnyClass] = [RecommendViewController.self, CityBrowseViewController.self, SettingDatumViewController.self, MessageViewController.self]
+    let usingVCTypes: [AnyClass] = [RecommendViewController.self, CityBrowseViewController.self, SettingDatumViewController.self, MessageViewController.self, FeedBackViewController.self]
     
     //定义当前侧边栏的状态
     var slideMenuState: SlideMenuState = SlideMenuState.Closing
     
     //登录状态
     var logined: Bool = true
-    
-    lazy var settingButton: SettingButton = SettingButton(image: "setting_slideMenu", title: "", fontSize: 0)
     
     //滑动手势
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
@@ -168,7 +149,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action:"panGestureHandler:")
         return pan
-        }()
+    }()
     
     // MARK: - 初始化方法
     override func viewDidLoad() {
@@ -181,8 +162,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         setupAutoLayout()
         refreshLoginStatus()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userInfoDidChangeNotification:", name: UserInfoChangeNotification, object: nil)
-        
-        isInstallLoginClientSide()
     }
     
     //电池栏状态
@@ -196,9 +175,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         menuView.addSubview(bgImageView)
         menuView.sendSubviewToBack(bgImageView)
         menuView.addSubview(tableView)
-        menuView.addSubview(loginAfter)
-        menuView.addSubview(loginBefore)
         menuView.addSubview(settingButton)
+        
+        menuView.addSubview(welcomeLabel)
+        menuView.addSubview(headerView)
+        menuView.addSubview(nameLabel)
+        menuView.addSubview(loginButton)
         //初始菜单
         view.addSubview(menuView)
         
@@ -208,26 +190,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         //菜单subviews
         bgImageView.contentMode = .ScaleToFill
-        
-        loginAfter.addSubview(headerView)
-        loginAfter.addSubview(nameLabel)
-        loginBefore.addSubview(wechatButton)
-        loginBefore.addSubview(qqButton)
-        loginBefore.addSubview(moreButton)
-        loginBefore.addSubview(welcomeLabel)
-        loginBefore.addSubview(descLabel)
-        
-        welcomeLabel.text = "Hello!"
-        if #available(iOS 9.0, *) {
-            welcomeLabel.font = UIFont(name: Font.defaultFont, size: 36)
-        } else {
-            // Fallback on earlier versions
-        }
 
-        descLabel.text   = "登录/注册"
-        wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: .TouchUpInside)
-        moreButton.addTarget(self, action: "moreLogin", forControlEvents: .TouchUpInside)
-        qqButton.addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
+        loginButton.addTarget(self, action: "loginAction", forControlEvents: .TouchUpInside)
         settingButton.addTarget(self, action: "settingAction:", forControlEvents: .TouchUpInside)
         
         tableView.dataSource = self
@@ -243,30 +207,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
     }
     
-    private func isInstallLoginClientSide() {
-        
-        let wechaInstall = Device.isWeixinInstalled()
-        let qqInstall    = Device.isQQInstalled()
-        
-        if wechaInstall && qqInstall {
-            qqButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(0, 0))
-            wechatButton.ff_AlignHorizontal(.CenterLeft, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(-40,0))
-            moreButton.ff_AlignHorizontal(.CenterRight, referView: qqButton, size: CGSizeMake(42, 40), offset: CGPointMake(40,0))
-        } else if !wechaInstall && !qqInstall {
-            moreButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 42), offset: CGPointMake(0, 0))
-            wechatButton.hidden = true
-            qqButton.hidden = true
-        } else if !wechaInstall {
-            qqButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-40, 0))
-            moreButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(40, 0))
-            wechatButton.hidden = true
-        } else if !qqInstall {
-            wechatButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(-40, 0))
-            moreButton.ff_AlignInner(.BottomCenter, referView: loginBefore, size: CGSizeMake(42, 40), offset: CGPointMake(40, 0))
-            qqButton.hidden = true
-        }
-    }
-    
     func refreshMask() {
         let masked = self.slideMenuState == SlideMenuState.Opening ? true : false
         maskView.hidden = !masked
@@ -277,22 +217,14 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         //menu
         menuView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
         bgImageView.ff_Fill(menuView)
-        tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 50))
         settingButton.ff_AlignInner(.BottomLeft, referView: menuView, size: CGSizeMake(34, 39), offset: CGPointMake(0, 0))
+        tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 30))
+        // TODO: -在这里
+        loginButton.ff_AlignInner(.BottomRight, referView: menuView, size: nil, offset: CGPointMake(-13, -16))
+        welcomeLabel.ff_AlignInner(.TopCenter, referView: menuView, size: nil, offset: CGPointMake(0, Frame.screen.width * 0.14))
+        headerView.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(93, 93), offset: CGPointMake(0, Frame.screen.width * 0.09))
+        nameLabel.ff_AlignVertical(.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 5))
         
-        loginAfter.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(bgImageView.bounds.width * 0.6, view.bounds.height * 0.2), offset: CGPointMake(0, 54))
-        headerView.ff_AlignInner(.TopCenter, referView: loginAfter, size: CGSizeMake(60, 60), offset: CGPointMake(0, 0))
-        nameLabel.ff_AlignVertical(.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 8))
-        
-        if UIScreen.mainScreen().bounds.width == 320 {
-            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.2 + 10), offset: CGPointMake(0, 34))
-        } else {
-            loginBefore.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.17), offset: CGPointMake(0, 54))
-        }
-        
-        welcomeLabel.ff_AlignInner(.TopCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, 0))
-        descLabel.ff_AlignInner(.CenterCenter, referView: loginBefore, size: nil, offset: CGPointMake(0, -5))
-        //main
         maskView.ff_Fill(mainViewController.view)
     }
     
@@ -306,8 +238,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //MARK: - 刷新登录状态
     func refreshLoginStatus() {
         if let user = globalUser {
-            loginAfter.hidden = false
-            loginBefore.hidden = true
+            welcomeLabel.hidden = true
+            headerView.hidden = false
+            nameLabel.hidden = false
             if user.icon == "" {
                 headerView.image = PlaceholderImage.defaultUser
             } else {
@@ -323,8 +256,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
                 vc.refreshLoginStatus()
             }
         } else {
-            loginBefore.hidden = false
-            loginAfter.hidden = true
+            welcomeLabel.hidden = false
+            headerView.hidden = true
+            nameLabel.hidden = true
         }
     }
     
@@ -347,7 +281,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    
     /// 登录后的操作
     var loginFinishedHandler: UserLogin.LoginFinishedHandler = { (result, error) -> Void in
         if error != nil {
@@ -364,22 +297,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    // MARK: 支持第三方登录
-    //微信登录
-    func wechatLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.Weixin, finishHandler: loginFinishedHandler){ (_) -> Void in
-        }
-        
-    }
-    
-    //qq登录
-    func qqLogin() {
-        UserLogin.sharedInstance.thirdLogin(LoginType.QQ, finishHandler: loginFinishedHandler){ (_) -> Void in
-        }
-    }
-    
-    // 更多登录方式
-    func moreLogin() {
+    // MARK: 登录
+    func loginAction() {
         definesPresentationContext = true
         navigationController
         let lovc = LoginViewController()

@@ -266,7 +266,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         view.bringSubviewToFront(navContainerView)
         
         view.addSubview(slideView)
-        slideView.frame = CGRectMake(0, 0, 7, UIScreen.mainScreen().bounds.height)
+        slideView.frame = CGRectMake(-1, 0, 10, Frame.screen.height)
         
         headerView.addSubview(titleImageView)
         titleImageView.alpha = 0.9

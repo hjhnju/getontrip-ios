@@ -143,11 +143,6 @@ extension SlideMenuViewController {
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.titleLabel.text = tableViewDataSource[indexPath.row]
         
-        //最后一行无底部横线
-        if indexPath.row == tableViewDataSource.count - 1 {
-            cell.isBaseLineVisabled = false
-        }
-        
         return cell
     }
     
