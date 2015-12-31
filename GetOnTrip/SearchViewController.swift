@@ -57,12 +57,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         initTableView()
         loadHotSearchLabel()
     }
-
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-//        isCancle = false
-    }
     
     /// 初始化view
     private func initView() {
@@ -141,17 +135,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     ///  搜索栏结束编辑
     func textFieldDidEndEditing(textField: UITextField) {
         NSUserDefaults.standardUserDefaults().setObject(recordData, forKey: "recordData")
-        
     }
-    
-    
-    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
-        
-//        searchBar.textFile.text = ""
-//        recordTableView.hidden = false
-        return true
-    }
-    
     
     /// 这个方法不可能再过来了
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
@@ -162,6 +146,17 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             locationButton.hidden = true
         }
+    }
+    
+    /// 开始进入搜索控制器
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        updateSearchBarDefaultFrame()
+        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
+            self?.view.alpha = 1.0
+            self?.searchBar.layoutIfNeeded()
+        }
+        
+        return true
     }
     
     /// 点击取消调用的方法
@@ -185,15 +180,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         searchResultViewController.filterString = ""
     }
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        updateSearchBarDefaultFrame()
-        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
-            self?.view.alpha = 1.0
-            self?.searchBar.layoutIfNeeded()
-        }
-        
-        return true
-    }
+
     
     func updateSearchBarDefaultFrame() {
         let vc = parentViewController as? RecommendViewController

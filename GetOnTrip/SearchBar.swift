@@ -12,20 +12,21 @@ class SearchBar: UIView {
 
     weak var superController: SearchViewController?
     
+    /// 临时保存进入搜索之前的frame
     var tempUpdateFrame: CGFloat = 0
     
     func updateWidthFrame(w: CGFloat) {
-        imageViewW?.constant = w - 9
-        textfiledW?.constant = w - 9
+        imageViewW?.constant = w
+        textfiledW?.constant = w
         layoutIfNeeded()
     }
     
     func updateCancelButtonShow(isShow: Bool) {
         imageViewW?.constant = isShow ? imageViewW!.constant - 46 : imageViewW!.constant + 46
-        textfiledW?.constant = isShow ? imageViewW!.constant - 46 : imageViewW!.constant + 46
-        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
-            self?.layoutIfNeeded()
-        }
+        textfiledW?.constant = isShow ? textfiledW!.constant - 46 : textfiledW!.constant + 46
+//        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
+        layoutIfNeeded()
+//        }
     }
     
     /// 图片
@@ -72,8 +73,9 @@ class SearchBar: UIView {
         textFile.rightViewMode = .Always
         textFile.returnKeyType = .Search
         textFile.autocorrectionType = .Default
-        textFile.addTarget(self, action: "textEditingDidBegin:", forControlEvents: UIControlEvents.EditingDidBegin)
-        textFile.addTarget(self, action: "textValueChanged", forControlEvents: UIControlEvents.ValueChanged)
+        textFile.backgroundColor = UIColor.randomColor()
+        textFile.alpha = 0.3
+        textFile.addTarget(self, action: "textEditingDidBegin:", forControlEvents: .EditingDidBegin)
         
         let ivcons = imageView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(bounds.width, 35), offset: CGPointMake(9, 0))
         imageViewW = imageView.ff_Constraint(ivcons, attribute: .Width)
@@ -99,21 +101,16 @@ class SearchBar: UIView {
         updateCancelButtonShow(true)
     }
     
-    /// 值改变
-//    func textValueChanged(textfiled: UITextField) {
-////        print(textFile.text)
-////        defaultPromptButton.titleLabel?.hidden = textfiled.text == "" ? false : true
-//    }
-    
+    /// 点击取消之后调用的方法
     func clearTextButtonAction() {
+        clearTextButton.hidden = true
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
             self?.superController?.view.alpha = 0
             self?.textFile.resignFirstResponder()
             self?.superController?.modificationSearchBarFrame()
-            self?.updateWidthFrame(self?.tempUpdateFrame ?? 0)
-            }) { [weak self] (_) -> Void in
-                self?.updateCancelButtonShow(false)
-                self?.clearTextButton.hidden = true
-        }
+            self?.updateWidthFrame((self?.superController?.searchBarTW ?? 0) - 54)
+            self?.imageViewW?.constant += 46
+            self?.textfiledW?.constant += 46
+            })
     }
 }

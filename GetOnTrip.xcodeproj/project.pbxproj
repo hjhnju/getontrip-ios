@@ -152,8 +152,6 @@
 		AE4ECBCD1BB5305D00DC65F7 /* NSArray+Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4ECBCC1BB5305D00DC65F7 /* NSArray+Print.swift */; };
 		AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE553BB41B81E8D900C03737 /* GuideViewController.swift */; };
 		AE55967B1C33A4BD005A02EC /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55967A1C33A4BD005A02EC /* SearchBar.swift */; };
-		AE5596BD1C33A829005A02EC /* TempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5596BC1C33A829005A02EC /* TempViewController.swift */; };
-		AE5596BF1C33A8F3005A02EC /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5596BE1C33A8F3005A02EC /* DemoViewController.swift */; };
 		AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6079B41BB2612D00DB2955 /* MainViewController.swift */; };
 		AE6079B71BB2677C00DB2955 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6079B61BB2677C00DB2955 /* UIButton+Extension.swift */; };
 		AE6079B91BB26DCA00DB2955 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6079B81BB26DCA00DB2955 /* UIView+Extension.swift */; };
@@ -404,8 +402,6 @@
 		AE553BB01B81E8BA00C03737 /* GetOnTrip-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GetOnTrip-Bridging-Header.h"; sourceTree = "<group>"; };
 		AE553BB41B81E8D900C03737 /* GuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
 		AE55967A1C33A4BD005A02EC /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
-		AE5596BC1C33A829005A02EC /* TempViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempViewController.swift; sourceTree = "<group>"; };
-		AE5596BE1C33A8F3005A02EC /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		AE6079B41BB2612D00DB2955 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		AE6079B61BB2677C00DB2955 /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		AE6079B81BB26DCA00DB2955 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -685,8 +681,6 @@
 				72D86E081B65E82B004B72D0 /* Common */,
 				72D721301B6B83C0005BDE55 /* AppIniAndConstants.swift */,
 				72D86DE41B65D94D004B72D0 /* AppDelegate.swift */,
-				AE5596BC1C33A829005A02EC /* TempViewController.swift */,
-				AE5596BE1C33A8F3005A02EC /* DemoViewController.swift */,
 				72D86DE21B65D94D004B72D0 /* Supporting Files */,
 				AE553BB01B81E8BA00C03737 /* GetOnTrip-Bridging-Header.h */,
 			);
@@ -1277,7 +1271,6 @@
 				729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */,
 				AE4070111C2CF6EB007A1916 /* PleaseLoginButton.swift in Sources */,
 				7240C4601BF5D12F007C12C1 /* RecommendTopicViewCell.swift in Sources */,
-				AE5596BD1C33A829005A02EC /* TempViewController.swift in Sources */,
 				7216432A1B7DB18F009C292C /* String+Extentions.swift in Sources */,
 				AE406FF31C2CF6BF007A1916 /* CollectCityViewController.swift in Sources */,
 				AEA24B781B8644D200031FB8 /* VideoCell.swift in Sources */,
@@ -1312,7 +1305,6 @@
 				AE406FF91C2CF6BF007A1916 /* MenuViewController.swift in Sources */,
 				AE40700F1C2CF6EB007A1916 /* CollectContentVideoCell.swift in Sources */,
 				AE4070131C2CF6EB007A1916 /* SystemTableViewCell.swift in Sources */,
-				AE5596BF1C33A8F3005A02EC /* DemoViewController.swift in Sources */,
 				AE40700E1C2CF6EB007A1916 /* CollectContentBookCell.swift in Sources */,
 				AE8C0C151BE8A04F003C7942 /* ShareView.swift in Sources */,
 				AE406FF51C2CF6BF007A1916 /* LoginViewController.swift in Sources */,

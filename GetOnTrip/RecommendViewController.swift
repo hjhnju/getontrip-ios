@@ -7,9 +7,6 @@
 //
 
 import UIKit
-import FFAutoLayout
-import Alamofire
-import MJRefresh
 import ReachabilitySwift
 
 struct MainViewContant {
@@ -116,28 +113,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var searchBarMaxX: NSLayoutConstraint?
     var searchBarTopY: NSLayoutConstraint?
     var searchBarH: NSLayoutConstraint?
-    
-    /// 顶部搜索框提示
-//    var defaultPrompt: UIButton = UIButton(image: "search_icon", title: "  搜索城市、景点等内容", fontSize: 14, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.3), fontName: Font.defaultFont)
-    
-    /// 搜索栏
-//    var textfile: UITextField? {
-//        didSet {
-//            if #available(iOS 9.0, *) {
-//                textfile?.font = UIFont(name: Font.defaultFont, size: 16)
-//            } else {
-//                textfile?.font = UIFont(name: Font.ios8Font, size: 16)
-//            }
-//            textfile?.textColor = UIColor.whiteColor()
-//            textfile?.leftView = UIView(frame: CGRectMake(0, 0, 23, 35))
-//            textfile?.placeholder = " "
-//            textfile?.setValue(clearButton, forKey: "_clearButton")
-//            textfile?.addTarget(self, action: "defaultPromptTextHidden:", forControlEvents: UIControlEvents.EditingChanged)
-//            defaultPrompt.titleLabel?.hidden = true
-//            textfile?.addSubview(defaultPrompt)
-//            defaultPrompt.ff_AlignInner(.CenterLeft, referView: textfile ?? defaultPrompt, size: nil, offset: CGPointMake(9, 0))
-//        }
-//    }
     
     /// 网络请求加载数据(添加)
     var lastRequest: RecommendRequest = RecommendRequest()
@@ -257,11 +232,9 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         addChildViewController(searchController)
         view.addSubview(searchController.view)
         searchController.view.alpha = 0.0
-        
-//        definesPresentationContext = true
-        
         view.addSubview(searchController.searchBar)
-        let cons = searchController.searchBar.ff_AlignInner(.TopCenter, referView: view, size: CGSizeMake(Frame.screen.width - 128, 35), offset: CGPointMake(0, 155))
+        let cons = searchController.searchBar.ff_AlignInner(.TopCenter, referView: view, size: CGSizeMake(Frame.screen.width * 0.69, 35), offset: CGPointMake(0, 155))
+        searchController.searchBar.updateWidthFrame(Frame.screen.width * 0.69 - 9)
         searchBarMaxX = searchController.searchBar.ff_Constraint(cons, attribute: .CenterX)
         searchBarTopY = searchController.searchBar.ff_Constraint(cons, attribute: .Top)
         searchBarW    = searchController.searchBar.ff_Constraint(cons, attribute: .Width)
