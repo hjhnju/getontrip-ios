@@ -98,7 +98,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     }
     
     private func initTableView() {
-        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.backgroundColor = SceneColor.bgBlack
         tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
         tableView.dataSource = self
         tableView.delegate = self

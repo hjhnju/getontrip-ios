@@ -83,7 +83,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         myBjImageView.ff_Fill(headerView)
         headerButton.ff_Fill(headerView)
         let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 212), offset: CGPointMake(0, 44))
-        headerHeightConstraint = headerView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
+        headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
         loginIconButton.ff_AlignInner(.CenterCenter, referView: headerView, size: CGSizeMake(90, 90), offset: CGPointMake(0, -10))
         loginTitleButton.ff_AlignVertical(.BottomCenter, referView: loginIconButton, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 20), offset: CGPointMake(0, 12))
     }
@@ -182,6 +182,9 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
                 self?.loginIconButton.setImage(image, forState: .Highlighted)
             })
             loginTitleButton.setTitle(globalUser?.nickname, forState: UIControlState.Normal)
+            let str = NSMutableAttributedString(string: globalUser?.nickname ?? "")
+//            str.
+//            loginTitleButton.setAttributedTitle(NSAttributedString(string: <#T##String#>), forState: <#T##UIControlState#>)
         } else {
             loginIconButton.imageView?.image = UIImage(named: "icon_app")
             loginIconButton.setImage(UIImage(named: "icon_app"), forState: .Normal)
@@ -198,4 +201,17 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     func switchUserBackgroundPhotoAction() {
         photoVC.switchPhotoAction(self, sourceview: headerView, isBackground: true)
     }
+    
+    /*
+    NSMutableAttributedString *str=[[NSMutableAttributedString alloc] initWithString:@"fdsahfjdsafkdhafjkhadjksfhjk" attributes:nil];
+    
+    NSTextAttachment *attachment=[[NSTextAttachment alloc] initWithData:nil ofType:nil];
+    UIImage *img=[UIImage imageNamed:@"qrcode.png"];
+    attachment.image=img;
+    attachment.bounds=CGRectMake(0, -10, 20, 20);
+    NSAttributedString *text=[NSAttributedString attributedStringWithAttachment:attachment];
+    
+    [str insertAttributedString:text atIndex:2];
+    self.textView.attributedText=str;
+    */
 }
