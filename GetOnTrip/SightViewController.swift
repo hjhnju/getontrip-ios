@@ -209,6 +209,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     }
         
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        isPopGesture = indexPath.row == 0 ? true : false
         navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath)
         cell.addSubview(dataControllers[indexPath.row].tableView)
@@ -240,13 +241,10 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         }
         if nextLabel == nil { nextLabel = UILabel() }
         self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
-//        UIView.animateWithDuration(<#T##duration: NSTimeInterval##NSTimeInterval#>, animations: <#T##() -> Void#>, completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
-        
         UIView.animateWithDuration(0.5) { () -> Void in
             self.indicateView.center.x = (scrollView.contentOffset.x % self.view.bounds.width) / (nextLabel!.center.x - labCenter.center.x) + labCenter.center.x - offset
             self.indicateView.bounds = CGRectMake(0, 0, labCenter.bounds.width, 1.5)
         }
-        isPopGesture = indicateView.frame.origin.x < 5 ? true : false
     }
 
     // MARK: - 自定义方法
