@@ -43,6 +43,8 @@ class SearchBar: UIView {
     var imageViewW: NSLayoutConstraint?
     var textfiledW: NSLayoutConstraint?
     
+    var leftView = UIView(frame: CGRectMake(0, 0, 31, 35))
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -67,7 +69,7 @@ class SearchBar: UIView {
         // 文本框
         addSubview(textFile)
         textFile.borderStyle   = .None
-        textFile.leftView      = UIView(frame: CGRectMake(0, 0, 31, 35))
+        textFile.leftView      = leftView
         textFile.leftViewMode  = .Always
         textFile.rightView     = deleteButton
         textFile.rightViewMode = .Always
@@ -102,11 +104,13 @@ class SearchBar: UIView {
         superController?.textfileValueChangedAction(textFile)
         superController?.isRefreshSearchBar = true
         (superController?.parentViewController as? RecommendViewController)?.isRefreshNavBar = true
+        defaultPromptButton.clipsToBounds = true
+        defaultPromptButton.titleLabel?.hidden = searchBarTW < 60 ? true : false
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
             self?.superController?.view.alpha = 0
             self?.textFile.resignFirstResponder()
             self?.superController?.modificationSearchBarFrame()
-            self?.updateWidthFrame((searchBarTW ?? 0) - 56)
+            self?.updateWidthFrame((searchBarTW ?? 0) - 60)
             self?.imageViewW?.constant += 46
             self?.textfiledW?.constant += 46
             })

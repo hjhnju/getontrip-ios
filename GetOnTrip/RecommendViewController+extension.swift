@@ -78,6 +78,7 @@ extension RecommendViewController {
         
         if offsetY > -120 { // 变圆
             changeRound()
+            searchController.searchBar.leftView.hidden = true
         } else { // 变回去
             if isUpdataSearchBarFrame {
                changeSearchBar(newTop + 158)
