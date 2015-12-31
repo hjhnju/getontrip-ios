@@ -126,6 +126,10 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     /// 数据源 - 推荐标签
     var recommendLabels: [RecommendLabel] = [RecommendLabel]() {
         didSet{
+            if recommendLabels.count == 0 { return }
+            titleSelectView.hidden = false
+            titleSelectView.hotContentButton.setTitle(recommendLabels[0].name, forState: .Normal)
+            titleSelectView.hotSightButton.setTitle(recommendLabels[1].name, forState: .Normal)
             hotContentVC.order = recommendLabels[0].order ?? "0"
             hotSightVC.order = recommendLabels[1].order ?? "1"
             
@@ -259,6 +263,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         view.addSubview(headerView)
         headerView.addSubview(headerImageView)
         headerView.addSubview(titleSelectView)
+        titleSelectView.hidden = true
         
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.45)
         headerView.addSubview(maskView)
@@ -289,8 +294,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         refreshBar()
+        
         leftRoundButton.hidden = headerImagesData.count > 1 ? false : true
         rightRoundButton.hidden = headerImagesData.count > 1 ? false : true
         if headerImagesData.count > 1 {

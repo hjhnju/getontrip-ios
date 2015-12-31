@@ -328,7 +328,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
             ProgressHUD.showSuccessHUD(view, text: "您已拒绝定位，请到设置中打开定位")
             currentCityId = "-1"
         } else {
-            ProgressHUD.showSuccessHUD(view, text: "开始定位")
             currentCityId = "0"
         }
     }

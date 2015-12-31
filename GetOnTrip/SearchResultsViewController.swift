@@ -220,6 +220,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
     
     func showSearchResultController(vc: UIViewController) {
         parentViewController?.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+        (parentViewController as? SearchViewController)?.isRefreshSearchBar = false
     }
     
     /**

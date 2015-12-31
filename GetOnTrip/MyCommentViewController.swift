@@ -21,6 +21,7 @@ class MyCommentViewController: MenuViewController, UITableViewDataSource, UITabl
     
     var dataSource: [MyComment] = [MyComment]() {
         didSet {
+            promptLabel.hidden = dataSource.count == 0 ? false : true
             tableView.reloadData()
         }
     }
@@ -30,6 +31,9 @@ class MyCommentViewController: MenuViewController, UITableViewDataSource, UITabl
 
         initView()
         initTableView()
+        view.addSubview(promptLabel)
+        promptLabel.ff_AlignInner(.CenterCenter, referView: view, size: nil)
+        promptLabel.textAlignment = .Center
         initRefresh()
         loadData()
     }

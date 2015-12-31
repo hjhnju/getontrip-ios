@@ -23,8 +23,8 @@ class SettingDatumTableViewCell: UITableViewCell {
                 leftButton.setTitle("  我的评论", forState: .Normal)
                 baseLine.hidden = true
             } else if currentRow == 2 {
-                leftButton.setImage(UIImage(named: "photo_my"), forState: .Normal)
-                leftButton.setImage(UIImage(named: "photo_my"), forState: .Disabled)
+                leftButton.setImage(UIImage(named: "praise_my"), forState: .Normal)
+                leftButton.setImage(UIImage(named: "praise_my"), forState: .Disabled)
                 leftButton.setTitle("  我赞过的", forState: .Normal)
                 baseLine.hidden = true
             }

@@ -32,6 +32,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     /// 热门搜索词
     var hotwordData = [String]()
     
+    /// 是否刷新搜索
+    var isRefreshSearchBar: Bool = true
+    
     /// 搜索提示
     var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "暂无搜索结果", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCLight)
     
@@ -135,20 +138,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         NSUserDefaults.standardUserDefaults().setObject(recordData, forKey: "recordData")
     }
     
-    /// 这个方法不可能再过来了
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        let vc = presentingViewController as? RecommendViewController
-        if searchBar.text == "" { // 48 × 51
-            locationButton.hidden = false
-            recordTableView.reloadData()
-        } else {
-            locationButton.hidden = true
-        }
-    }
-    
     /// 开始进入搜索控制器
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        updateSearchBarDefaultFrame()
+        if isRefreshSearchBar {
+            updateSearchBarDefaultFrame()
+        }
         UIView.animateWithDuration(0.5) { [weak self] () -> Void in
             self?.view.alpha = 1.0
             self?.searchBar.layoutIfNeeded()
@@ -157,28 +151,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         return true
     }
     
-    /// 点击取消调用的方法
-//    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-//        isCancle = true
-//        searchResultViewController.filterString = ""
-//        searchResultViewController.view.hidden = true/Users/zk-pro/Desktop/getontrip-ios/GetOnTrip/RecommendViewController.swift
-//        recordTableView.hidden = false
-//        locationButton.hidden = false
-//        searchBarTextDidEndEditing(searchBar)
-//        dismissViewControllerAnimated(true) { [weak self] () -> Void in
-//            self?.searchResultViewController.dataSource = SearchInitData()
-//            SearchAllRequest.sharedInstance.restoreDefaultData()
-//            self?.searchResultViewController.filterString = ""
-//            self?.searchResultViewController.lastSearchContent = ""
-//        }
-//    }
-    
     /// 删除按钮方法
     func clearButtonAction() {
         searchResultViewController.filterString = ""
     }
-    
-
     
     func updateSearchBarDefaultFrame() {
         let vc = parentViewController as? RecommendViewController
@@ -194,21 +170,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     /// 临时记录改变前的值
-    var searchBarTX: CGFloat = 0
-    var searchBarTY: CGFloat = 0
-    var searchBarTW: CGFloat = 0
-    var searchBarTH: CGFloat = 0
-    var searchBarFW: CGFloat = 0
-    
     func modificationSearchBarFrame() {
         let vc = parentViewController as? RecommendViewController
         vc?.searchBarMaxX?.constant = searchBarTX
         vc?.searchBarTopY?.constant = searchBarTY
         vc?.searchBarW?.constant    = searchBarTW
         vc?.searchBarH?.constant    = searchBarTH
-    }
-    
-    deinit {
-        print("首页可以走不")
     }
 }

@@ -139,14 +139,13 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     func keyboardChanged(not: NSNotification) {
         
         let keyBoardFrame = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
-//        let time = not.userInfo![UIKeyboardAnimationDurationUserInfoKey]?.doubleValue ?? 0.0
         let keyBoardY = keyBoardFrame?.origin.y
         let transFromValue = keyBoardY! - view.bounds.height
         
         commentBottomView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
-//        tableView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
-//        let index = NSIndexPath(forRow: dataSource.count - 1, inSection: 0)
-        tableView.scrollToRowAtIndexPath(lastIndexPath ?? NSIndexPath(), atScrollPosition: .Top, animated: true)
+        if dataSource.count != 0 {
+            tableView.scrollToRowAtIndexPath(lastIndexPath ?? NSIndexPath(), atScrollPosition: .Top, animated: true)
+        }
     }
     
     /// 是否正在加载中

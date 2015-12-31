@@ -106,11 +106,12 @@ class SearchBar: UIView {
         clearTextButton.hidden = true
         textFile.text = ""
         superController?.textfileValueChangedAction(textFile)
+        superController?.isRefreshSearchBar = true
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
             self?.superController?.view.alpha = 0
             self?.textFile.resignFirstResponder()
             self?.superController?.modificationSearchBarFrame()
-            self?.updateWidthFrame((self?.superController?.searchBarTW ?? 0) - 56)
+            self?.updateWidthFrame((searchBarTW ?? 0) - 56)
             self?.imageViewW?.constant += 46
             self?.textfiledW?.constant += 46
             })

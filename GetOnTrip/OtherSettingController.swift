@@ -89,12 +89,8 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         } else if indexPath.section == 3 && indexPath.row == 0 {
             cell.left.text = "关于我们"
         }
-        
+        cell.baseline.hidden = false
         cell.getShadowWithView()
-        if (indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0) {
-            cell.baseline.hidden = false
-            cell.cancelShadowEffect()
-        }
         
         return cell
     }
