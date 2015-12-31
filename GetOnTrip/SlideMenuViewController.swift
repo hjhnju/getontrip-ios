@@ -9,6 +9,7 @@
 
 import UIKit
 import FFAutoLayout
+import CoreLocation
 import JGProgressHUD
 
 //定义侧边栏的两种状态（打开，关闭）枚举类型
@@ -45,7 +46,7 @@ protocol SlideMenuViewControllerDelegate {
 
 let UserInfoChangeNotification = "UserInfoChangeNotification"
 
-class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SlideMenuViewControllerDelegate {
+class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocationManagerDelegate, UITableViewDelegate, SlideMenuViewControllerDelegate {
     
     // MARK: Properties and Views
     
@@ -54,8 +55,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         didSet {
             if curVCType != oldValue {
                 if let vcType =  curVCType as? UIViewController.Type {
-                    let vc = vcType.init()
-                    mainViewController = vc as! MainViewController
+                    mainViewController = vcType.init() as! MainViewController
                 }
             }
             //关闭侧边栏
@@ -116,15 +116,15 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     }()
     
     //欢迎
-    lazy var welcomeLabel = UILabel(color: SceneColor.thinGreen, title: "Welcome!", fontSize: 48, mutiLines: true, fontName: Font.defaultFont)
+    lazy var welcomeButton = UIButton(title: "Welcome!", fontSize: 48, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.defaultFont)
     //登录后，头像
     lazy var headerView: UIImageView = UIImageView(image: PlaceholderImage.defaultUser)
     //登录后，名称
     lazy var nameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
-    /// 登陆按钮
-    lazy var loginButton: UIButton = UIButton(icon: "login_slideMenu", masksToBounds: true)
     /// 设置按钮
-    lazy var settingButton: SettingButton = SettingButton(image: "setting_slideMenu", title: "", fontSize: 0)
+    lazy var settingButton: SettingButton = SettingButton(image: "setting_slideMenu", title: "    设置", fontSize: 12)
+    /// 点此登陆
+    lazy var loginPromptButton: UIButton = UIButton(title: "点此登陆", fontSize: 12, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.PingFangSCLight)
     
     //设置菜单的数据源
     let tableViewDataSource = ["首页", CityBrowseViewController.name, SettingDatumViewController.name, MessageViewController.name, FeedBackViewController.name]
@@ -151,6 +151,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         return pan
     }()
     
+    //位置管理器
+    lazy var locationManager: CLLocationManager = CLLocationManager()
+    
     // MARK: - 初始化方法
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,6 +164,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         setupInit()
         setupAutoLayout()
         refreshLoginStatus()
+        initLocationManager()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userInfoDidChangeNotification:", name: UserInfoChangeNotification, object: nil)
     }
     
@@ -176,11 +180,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         menuView.sendSubviewToBack(bgImageView)
         menuView.addSubview(tableView)
         menuView.addSubview(settingButton)
-        
-        menuView.addSubview(welcomeLabel)
+        menuView.addSubview(welcomeButton)
         menuView.addSubview(headerView)
         menuView.addSubview(nameLabel)
-        menuView.addSubview(loginButton)
+        menuView.addSubview(loginPromptButton)
         //初始菜单
         view.addSubview(menuView)
         
@@ -190,21 +193,33 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         
         //菜单subviews
         bgImageView.contentMode = .ScaleToFill
-
-        loginButton.addTarget(self, action: "loginAction", forControlEvents: .TouchUpInside)
+        welcomeButton.addTarget(self, action: "loginAction", forControlEvents: .TouchUpInside)
+        loginPromptButton.addTarget(self, action: "loginAction", forControlEvents: .TouchUpInside)
         settingButton.addTarget(self, action: "settingAction:", forControlEvents: .TouchUpInside)
         
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.rowHeight = view.bounds.height * 0.5 * 0.2
+        tableView.rowHeight = view.bounds.height * 0.45 * 0.2
         tableView.registerClass(MenuSettingTableViewCell.self, forCellReuseIdentifier: SlideMenuOptions.MenuTableViewCellID)
         tableView.separatorStyle = .None
         tableView.scrollEnabled = false
         
         //添加手势
         menuView.addGestureRecognizer(panGestureRecognizer2)
-        
+    }
+    
+    /// 初始化定位
+    private func initLocationManager() {
+        /// 应用程序使用期间允许定位
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        /// 开始定位
+        locationManager.startUpdatingLocation()
+        /// 移动1000米再次定位
+        locationManager.distanceFilter = 1000
+        /// 精准度100米
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
     }
     
     func refreshMask() {
@@ -217,11 +232,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
         //menu
         menuView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height - 20), offset: CGPointMake(0, 20))
         bgImageView.ff_Fill(menuView)
-        settingButton.ff_AlignInner(.BottomLeft, referView: menuView, size: CGSizeMake(34, 39), offset: CGPointMake(0, 0))
-        tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.5), offset: CGPointMake(0, 30))
+        tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.45), offset: CGPointMake(0, 30))
+        
         // TODO: -在这里
-        loginButton.ff_AlignInner(.BottomRight, referView: menuView, size: nil, offset: CGPointMake(-13, -16))
-        welcomeLabel.ff_AlignInner(.TopCenter, referView: menuView, size: nil, offset: CGPointMake(0, Frame.screen.width * 0.14))
+        settingButton.ff_AlignInner(.BottomRight, referView: menuView, size: nil, offset: CGPointMake(-9, -16))
+        welcomeButton.ff_AlignInner(.TopCenter, referView: menuView, size: nil, offset: CGPointMake(0, Frame.screen.width * 0.14))
+        loginPromptButton.ff_AlignVertical(.BottomCenter, referView: welcomeButton, size: nil, offset: CGPointMake(0, -20))
         headerView.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(93, 93), offset: CGPointMake(0, Frame.screen.width * 0.09))
         nameLabel.ff_AlignVertical(.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 5))
         
@@ -238,25 +254,20 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     //MARK: - 刷新登录状态
     func refreshLoginStatus() {
         if let user = globalUser {
-            welcomeLabel.hidden = true
+            welcomeButton.hidden = true
+            loginPromptButton.hidden = true
             headerView.hidden = false
             nameLabel.hidden = false
-            if user.icon == "" {
-                headerView.image = PlaceholderImage.defaultUser
-            } else {
-                headerView.sd_setImageWithURL(NSURL(string: user.icon))
-            }
+            user.icon == "" ? headerView.image = PlaceholderImage.defaultUser : headerView.sd_setImageWithURL(NSURL(string: user.icon))
             nameLabel.text = user.nickname
             if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.SettingDatumViewController")!) {
                 let vc = mainViewController as! SettingDatumViewController
                 vc.isLoginStatus = true
             }
-            
-            if let vc = mainViewController as? OtherSettingController {
-                vc.refreshLoginStatus()
-            }
+            (mainViewController as? OtherSettingController)?.refreshLoginStatus()
         } else {
-            welcomeLabel.hidden = false
+            welcomeButton.hidden = false
+            loginPromptButton.hidden = false
             headerView.hidden = true
             nameLabel.hidden = true
         }
@@ -310,4 +321,45 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, UITableV
     func settingAction(sender: UIButton) {
         curVCType = OtherSettingController.self
     }
+    
+    // MARK: - 定位代理
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        if error.code == 1 {
+            ProgressHUD.showSuccessHUD(view, text: "您已拒绝定位，请到设置中打开定位")
+            currentCityId = ""
+        } else {
+            ProgressHUD.showSuccessHUD(view, text: "开始定位")
+            currentCityId = "0"
+        }
+    }
+    
+    // MARK: - 地理定位代理方法
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("我倒要看看定位几次")
+        // 获取位置信息
+        let coordinate = locations.first?.coordinate
+        // 反地理编码
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
+        
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
+            if let locality = placemarks?.first?.locality {
+
+                LocateToCity.locate(locality, handler: { (result, status) -> Void in
+                    if status == RetCode.SUCCESS {
+                        currentCityId = result as? String ?? "-2"
+                        if result != nil {
+                            //                                let vcity = CityViewController()
+                            //                                vcity.cityDataSource = City(id: currentCityId)
+                            //                                self?.searchResultViewController.showSearchResultController(vcity)
+                            return
+                        }
+                    } else {
+                        ProgressHUD.showSuccessHUD(self?.view, text: "网络连接失败，请检查网络")
+                    }
+                })
+            }
+        }
+    }
+
 }
