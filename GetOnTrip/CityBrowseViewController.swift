@@ -33,24 +33,9 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     /// 选择国内外背景按钮
     lazy var domesticBackgroundView: UIView = {
         let v = UIView(color: UIColor.whiteColor())
-//        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
-//        swipeLeft.direction = .Left
-//        v.addGestureRecognizer(swipeLeft)
-//        let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
-//        swipeRight.direction = .Right
-//        v.addGestureRecognizer(swipeRight)
         return v
     }()
     
-//    func swipeGesture(recognizer: UISwipeGestureRecognizer) {
-//
-//        if recognizer.direction == UISwipeGestureRecognizerDirection.Left {
-////            domesticButton
-//            domesticButtonAction(domesticButton)
-//        } else {
-//            domesticButtonAction(abroadButton)
-//        }
-//    }
     
     /// 是否是第一次刷新
     var isFirstRefreshBool: Bool = false
@@ -93,12 +78,12 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         title = "消息"
         automaticallyAdjustsScrollViewInsets = false
         navBar.setTitle(CityBrowseViewController.name)
-        view.backgroundColor = SceneColor.bgBlack
+        view.backgroundColor = SceneColor.greyWhite
         view.addSubview(tableView)
     }
     
     private func initTableView() {
-        tableView.backgroundColor = SceneColor.bgBlack
+        tableView.backgroundColor = SceneColor.greyWhite
         tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
         tableView.dataSource = self
         tableView.delegate = self

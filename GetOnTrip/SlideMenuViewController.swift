@@ -120,7 +120,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
     //登录后，头像
     lazy var headerView: UIImageView = UIImageView(image: PlaceholderImage.defaultUser)
     //登录后，名称
-    lazy var nameLabel: UILabel = UILabel(color: UIColor.whiteColor(), fontSize: 24, mutiLines: true)
+    lazy var nameLabel: UILabel = UILabel(color: SceneColor.thinGreen, fontSize: 24, mutiLines: true)
     /// 设置按钮
     lazy var settingButton: SettingButton = SettingButton(image: "setting_slideMenu", title: "    设置", fontSize: 12)
     /// 点此登录

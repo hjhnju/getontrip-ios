@@ -31,7 +31,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     lazy var navContainerView:UIView = UIView()
 
     /// 侧滑导航按钮
-    let slideNavButton: RecommendSlideButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: .whiteColor())
+    let slideNavButton: RecommendSlideButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: SceneColor.lightYellow)
     
     //自定义导航栏
     lazy var custNavView:UIView = { [weak self] in
@@ -53,7 +53,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     }
     
     var navTitleLabel = UILabel(color: .whiteColor(), title: "热门内容", fontSize: 18, mutiLines: true, fontName: Font.ios8Font)
-    // title: "", titleColor: UIColor.whiteColor(), titleSize: 18
     
     /// 搜索顶部
     var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight))
@@ -162,6 +161,10 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        slideNavButton.tintColor = SceneColor.lightYellow
+        slideNavButton.setImage(UIImage(named: "icon_hamburger")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        slideNavButton.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
         
         refreshReachable()
         initCollectionLayout()

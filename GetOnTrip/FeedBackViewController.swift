@@ -43,7 +43,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     private func initView() {
         navBar.titleLabel.text = "反馈"
         view.backgroundColor = .whiteColor()
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     

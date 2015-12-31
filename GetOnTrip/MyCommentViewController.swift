@@ -35,7 +35,7 @@ class MyCommentViewController: MenuViewController, UITableViewDataSource, UITabl
         promptLabel.ff_AlignInner(.CenterCenter, referView: view, size: nil)
         promptLabel.textAlignment = .Center
         initRefresh()
-        if globalUser {
+        if (globalUser != nil) {
             loadData()
         }
     }

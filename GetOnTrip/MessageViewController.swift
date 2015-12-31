@@ -40,6 +40,7 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         initProperty()
         if globalUser != nil {
             initRefresh()
+            loadData()
         }
     }
     
@@ -94,10 +95,6 @@ class MessageViewController: MenuViewController, UITableViewDataSource, UITableV
         
         self.tableView.mj_header = tbHeaderView
         self.tableView.mj_footer = tbFooterView
-        
-        if !tableView.mj_header.isRefreshing() {
-            tableView.mj_header.beginRefreshing()
-        }
     }
     
     var isGestureRecognizer: Bool = true
