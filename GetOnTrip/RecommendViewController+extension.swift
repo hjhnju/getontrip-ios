@@ -172,6 +172,8 @@ extension RecommendViewController {
         loadData()
     }
     
+
+    
     // MARK: - 自定义方法
     /// 点击热门推荐和推荐景点使collectionview转到相对应的位置
     func hotContentAndSightButtonAction(sender: UIButton) {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 import ReachabilitySwift
 
 struct MainViewContant {
@@ -25,7 +26,7 @@ struct RecommendContant {
     static let rowHeight:CGFloat = 192
 }
 
-class RecommendViewController: MainViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
+class RecommendViewController: MainViewController, CLLocationManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
         
     //导航栏容器，包含状态栏的高度
     lazy var navContainerView:UIView = UIView()
@@ -83,6 +84,9 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         v.hotSightButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
         return v
     }()
+    
+    //位置管理器
+    lazy var locationManager: CLLocationManager = CLLocationManager()
     
     /// 无网络提示view
     lazy var errorView: UIView = { [weak self] in
@@ -166,6 +170,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         loadData()
         initController()
         initSearchBar()
+        initLocationManager()
     }
     
     private func initController() {
@@ -286,11 +291,23 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         leftRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
         rightRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
     }
+    
+    /// 初始化定位
+    private func initLocationManager() {
+        /// 应用程序使用期间允许定位
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        /// 开始定位
+        locationManager.startUpdatingLocation()
+        /// 移动1000米再次定位
+        locationManager.distanceFilter = 1000
+        /// 精准度100米
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+    }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-//        defaultPrompt.titleLabel?.hidden = textfile?.text != "" ? true : false
         refreshBar()
         leftRoundButton.hidden = headerImagesData.count > 1 ? false : true
         rightRoundButton.hidden = headerImagesData.count > 1 ? false : true
@@ -335,6 +352,50 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var yOffset: CGFloat = 0.0
     /// 是否应该更新searchBar的frame
     var isUpdataSearchBarFrame: Bool = false
+    
+    // MARK: - 定位代理
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        if error.code == 1 {
+            ProgressHUD.showSuccessHUD(view, text: "您已拒绝定位，请到设置中打开定位")
+            currentCityId = ""
+        } else {
+            ProgressHUD.showSuccessHUD(view, text: "开始定位")
+            currentCityId = "0"
+        }
+    }
+    
+    // MARK: - 地理定位代理方法
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("我倒要看看定位几次")
+        // 获取位置信息
+        let coordinate = locations.first?.coordinate
+        // 反地理编码
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
+        
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
+            if let locality = placemarks?.first?.locality {
+//                struct Static {
+//                    static var onceToken: dispatch_once_t = 0
+//                }
+//                dispatch_once(&Static.onceToken, {
+                    LocateToCity.locate(locality, handler: { (result, status) -> Void in
+                        if status == RetCode.SUCCESS {
+                            currentCityId = result as? String ?? "-2"
+                            if result != nil {
+//                                let vcity = CityViewController()
+//                                vcity.cityDataSource = City(id: currentCityId)
+//                                self?.searchResultViewController.showSearchResultController(vcity)
+                                return
+                            }
+                        } else {
+                            ProgressHUD.showSuccessHUD(self?.view, text: "网络连接失败，请检查网络")
+                        }
+                    })
+//                })
+            }
+        }
+    }
 }
 
 

@@ -124,47 +124,11 @@ extension SearchViewController {
         }
     }
     
-    // MARK: - 地理定位代理方法
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        /// 只定位一次
-        locationManager.stopUpdatingLocation()
-        
-        // 获取位置信息
-        let coordinate = locations.first?.coordinate
-        // 反地理编码
-        let geocoder = CLGeocoder()
-        let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
-        
-        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
-            if let locality = placemarks?.first?.locality {
-                struct Static {
-                    static var onceToken: dispatch_once_t = 0
-                }
-                dispatch_once(&Static.onceToken, {
-                    LocateToCity.locate(locality, handler: { (result, status) -> Void in
-                        if status == RetCode.SUCCESS {
-                            currentCityId = result as? String ?? "-2"
-                            if result != nil {
-                                let vcity = CityViewController()
-                                vcity.cityDataSource = City(id: currentCityId)
-                                self?.searchResultViewController.showSearchResultController(vcity)
-                                return
-                            }
-                        } else {
-                            ProgressHUD.showSuccessHUD(self?.view, text: "网络连接失败，请检查网络")
-                        }
-                    })
-                })
-            }
-        }
-    }
-    
     /// 切换当前城市
     func switchCurrentCity(btn: UIButton) {
         
         if currentCityId == "" {
             /// 开始获取定位权限
-            initLocationManager()
         }
         
         if currentCityId == "0" {
@@ -184,24 +148,6 @@ extension SearchViewController {
         }
     }
     
-    /// 初始化定位
-    private func initLocationManager() {
-        // 应用程序使用期间允许定位
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
-        // 开始定位
-        locationManager.startUpdatingLocation()
-        currentCityId = "-1"
-    }
-    
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        if error.code == 1 {
-            ProgressHUD.showSuccessHUD(view, text: "您已拒绝定位，请到设置中打开定位")
-            currentCityId = ""
-        } else {
-            ProgressHUD.showSuccessHUD(view, text: "开始定位")
-            currentCityId = "0"
-        }
-    }
+
 
 }

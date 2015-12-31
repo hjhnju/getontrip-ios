@@ -8,7 +8,6 @@
 
 import UIKit
 import FFAutoLayout
-import CoreLocation
 
 struct SearchViewContant {
     static let hotwordCellId = "SearchHotwordTableViewCellID"
@@ -17,7 +16,7 @@ struct SearchViewContant {
     static let recordLimit = 4
 }
 
-class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
+class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     /// 搜索展示结果控制器
     let searchResultViewController =  SearchResultsViewController()
@@ -38,9 +37,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     // TODO: 首页如果要定位，那这个就没啥意义了 定位城市
     var locationButton: UIButton = UIButton(image: "location_search", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor.whiteColor(), fontName: Font.PingFangSCLight)
-    
-    //位置管理器
-    lazy var locationManager: CLLocationManager = CLLocationManager()
     
     var searchBarContainerView: UIView?
     
