@@ -73,7 +73,7 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     private func initTableView() {
         
         view.addSubview(tableView)
-        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64)
+        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 50)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .None
@@ -142,8 +142,11 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         let transFromValue = keyBoardY! - view.bounds.height
         
         commentBottomView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
+        tableView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
         if dataSource.count != 0 {
-            tableView.scrollToRowAtIndexPath(lastIndexPath ?? NSIndexPath(), atScrollPosition: .Top, animated: true)
+//            tableView.scrollToRowAtIndexPath(lastIndexPath ?? NSIndexPath(), atScrollPosition: .Top, animated: true)
+//            tableView.scrollRectToVisible(, animated: true)
+            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: dataSource.count - 1, inSection: 0), atScrollPosition: .None, animated: true)
         }
     }
     
