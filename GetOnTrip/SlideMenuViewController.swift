@@ -342,12 +342,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
         
-        if LocateToCity.sharedLocateToCity.x == "\(coordinate!.latitude)" && LocateToCity.sharedLocateToCity.y == "\(coordinate!.longitude)" {
+        if LocateToCity.sharedLocateToCity.y == "\(coordinate!.latitude)" && LocateToCity.sharedLocateToCity.x == "\(coordinate!.longitude)" {
             return
         }
         
-        LocateToCity.sharedLocateToCity.x = "\(coordinate!.latitude)"
-        LocateToCity.sharedLocateToCity.y = "\(coordinate!.longitude)"
+        LocateToCity.sharedLocateToCity.x = "\(coordinate!.longitude)"
+        LocateToCity.sharedLocateToCity.y = "\(coordinate!.latitude)"
         
         // coordinate.latitude, coordinate.longitude
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in

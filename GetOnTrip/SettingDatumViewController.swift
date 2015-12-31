@@ -182,9 +182,13 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
                 self?.loginIconButton.setImage(image, forState: .Highlighted)
             })
             loginTitleButton.setTitle(globalUser?.nickname, forState: UIControlState.Normal)
-            let str = NSMutableAttributedString(string: globalUser?.nickname ?? "")
-//            str.
-//            loginTitleButton.setAttributedTitle(NSAttributedString(string: <#T##String#>), forState: <#T##UIControlState#>)
+            let str = NSMutableAttributedString(string: ((globalUser?.nickname ?? "") + " " ))
+            let attachment = NSTextAttachment()
+            attachment.image = UIImage(named: "set_my")
+            attachment.bounds = CGRectMake(0, -2, 15, 15)
+            let text = NSAttributedString(attachment: attachment)
+            str.appendAttributedString(text)
+            loginTitleButton.setAttributedTitle(str, forState: .Normal)
         } else {
             loginIconButton.imageView?.image = UIImage(named: "icon_app")
             loginIconButton.setImage(UIImage(named: "icon_app"), forState: .Normal)
@@ -201,17 +205,4 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     func switchUserBackgroundPhotoAction() {
         photoVC.switchPhotoAction(self, sourceview: headerView, isBackground: true)
     }
-    
-    /*
-    NSMutableAttributedString *str=[[NSMutableAttributedString alloc] initWithString:@"fdsahfjdsafkdhafjkhadjksfhjk" attributes:nil];
-    
-    NSTextAttachment *attachment=[[NSTextAttachment alloc] initWithData:nil ofType:nil];
-    UIImage *img=[UIImage imageNamed:@"qrcode.png"];
-    attachment.image=img;
-    attachment.bounds=CGRectMake(0, -10, 20, 20);
-    NSAttributedString *text=[NSAttributedString attributedStringWithAttachment:attachment];
-    
-    [str insertAttributedString:text atIndex:2];
-    self.textView.attributedText=str;
-    */
 }
