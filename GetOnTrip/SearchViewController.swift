@@ -50,7 +50,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         searchBar.superController = self
         view.addSubview(searchBar)
         searchBar.textFile.addTarget(self, action: "textfileValueChangedAction:", forControlEvents: .EditingChanged)
-        
+        searchBar.textFile.addTarget(self, action: "textEditingDidBegin:", forControlEvents: .EditingDidBegin)
+
         initView()
         initProperty()
         initTableView()
@@ -136,6 +137,13 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     ///  搜索栏结束编辑
     func textFieldDidEndEditing(textField: UITextField) {
         NSUserDefaults.standardUserDefaults().setObject(recordData, forKey: "recordData")
+    }
+    
+    func textEditingDidBegin(textfiled: UITextField) {
+        searchBar.clearTextButton.hidden = false
+        if isRefreshSearchBar {
+            searchBar.updateCancelButtonShow(true)
+        }
     }
     
     /// 开始进入搜索控制器

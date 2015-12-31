@@ -75,7 +75,6 @@ class SearchBar: UIView {
         textFile.autocorrectionType = .Default
         textFile.textColor     = .whiteColor()
         textFile.clearButtonMode = .Always
-        textFile.addTarget(self, action: "textEditingDidBegin:", forControlEvents: .EditingDidBegin)
         
         let ivcons = imageView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(bounds.width, 35), offset: CGPointMake(9, 0))
         imageViewW = imageView.ff_Constraint(ivcons, attribute: .Width)
@@ -96,17 +95,13 @@ class SearchBar: UIView {
         
     }
     
-    func textEditingDidBegin(textfiled: UITextField) {
-        clearTextButton.hidden = false
-        updateCancelButtonShow(true)
-    }
-    
     /// 点击取消之后调用的方法
     func clearTextButtonAction() {
         clearTextButton.hidden = true
         textFile.text = ""
         superController?.textfileValueChangedAction(textFile)
         superController?.isRefreshSearchBar = true
+        (superController?.parentViewController as? RecommendViewController)?.isRefreshNavBar = true
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
             self?.superController?.view.alpha = 0
             self?.textFile.resignFirstResponder()

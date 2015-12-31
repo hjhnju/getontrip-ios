@@ -152,6 +152,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     
     var contentOffSet: CGPoint = CGPointMake(0, -RecommendContant.headerViewHeight)
     
+    var isRefreshNavBar:Bool = true
+    
     // MARK: - 初始化
     //电池栏状态
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -294,7 +296,10 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        refreshBar()
+        
+        if isRefreshNavBar {
+            refreshBar()
+        }
         
         leftRoundButton.hidden = headerImagesData.count > 1 ? false : true
         rightRoundButton.hidden = headerImagesData.count > 1 ? false : true

@@ -23,17 +23,9 @@ var currentCityId: String = ""
 
 var searchBarTX: CGFloat = 0
 var searchBarTY: CGFloat = 0
-var searchBarTW: CGFloat = 0 {
-didSet {
-    print("TW============>\(searchBarTW)")
-}
-}
+var searchBarTW: CGFloat = 0
 var searchBarTH: CGFloat = 0
-var searchBarFW: CGFloat = 0 {
-didSet {
-    print("FW===============>\(searchBarFW)")
-}
-}
+var searchBarFW: CGFloat = 0
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
