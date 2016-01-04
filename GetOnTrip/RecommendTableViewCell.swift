@@ -46,27 +46,27 @@ class RecommendTableViewCell: UITableViewCell {
                 }
                 
                 titleButton.setTitle(cellData.name, forState: UIControlState.Normal)
-                let attr = NSMutableAttributedString(attributedString: cellData.param3.getAttributedStringHeadCharacterBig())
-                attr.appendAttributedString(NSAttributedString(string: "    |"))
-                collectLabel.attributedText = attr
-                contentLabel.attributedText = cellData.param1.getAttributedStringHeadCharacterBig()
+                getCollectStyle(cellData)
                 locationButton.setTitle((" " + (data?.dis ?? "")), forState: UIControlState.Normal)
                 
-                if data?.dis == "" { // 说明没有获得地理位置
-                    locationButton.hidden = true
-                    locationUnitLabel.hidden = true
-                    titleButton.ff_AlignInner(.BottomLeft, referView: contentView, size: nil, offset: CGPointMake(9, -10))
-                } else { // 说明获得到了地理位置
-                    locationButton.hidden = false
-                    locationUnitLabel.hidden = false
-                    titleButton.ff_AlignVertical(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, 5))
-                    locationButton.ff_AlignInner(.BottomLeft, referView: contentView, size: nil, offset: CGPointMake(9, -19))
-                    locationUnitLabel.ff_AlignHorizontal(.CenterRight, referView: locationButton, size: nil)
-                    locationUnitLabel.text = data?.dis_unit
-                }
+                locationButton.hidden    = data?.dis == "" ? true : false
+                locationUnitLabel.hidden = data?.dis == "" ? true : false
 
+                let cons = titleButton.ff_AlignVertical(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, 5))
+                locationButton.ff_AlignInner(.BottomLeft, referView: contentView, size: nil, offset: CGPointMake(9, -19))
+                locationUnitLabel.ff_AlignHorizontal(.CenterRight, referView: locationButton, size: nil, offset: CGPointMake(0, 0.5))
+                locationUnitLabel.text = data?.dis_unit
+                let titleConBot = titleButton.ff_Constraint(cons, attribute: .Bottom)
+                titleConBot?.constant = data?.dis == "" ? 31 : 0
             }
         }
+    }
+    
+    private func getCollectStyle(cellData: RecommendCellData) {
+        let attr = NSMutableAttributedString(attributedString: cellData.param3.getAttributedStringHeadCharacterBig())
+        attr.appendAttributedString(NSAttributedString(string: "    |"))
+        collectLabel.attributedText = attr
+        contentLabel.attributedText = cellData.param1.getAttributedStringHeadCharacterBig()
     }
     
     // MARK: - 初始化相关
@@ -98,12 +98,12 @@ class RecommendTableViewCell: UITableViewCell {
         shadeView.userInteractionEnabled = false
         titleButton.userInteractionEnabled = false
         cellImageView.clipsToBounds = true
+        collectImage.contentMode = .ScaleAspectFill
         
         setupAutoLayout()
     }
     
     private func setupAutoLayout() {
-        //iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendTableViewCell.RowHeight-2), offset: CGPointMake(0, 2))
         cellImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight - 2), offset: CGPointMake(0, 2))
         shadeView.frame = CGRectMake(0, 0, Frame.screen.width, RecommendContant.rowHeight)
         contentLabel.ff_AlignInner(.BottomRight, referView: contentView, size: nil, offset: CGPointMake(-9, -19))

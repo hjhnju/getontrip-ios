@@ -68,10 +68,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
     //主窗体Controller
     var mainViewController: MainViewController! {
         didSet{
+            
             mainNavViewController.setViewControllers([mainViewController], animated: false)
             mainViewController.view.addSubview(maskView)
             mainViewController.view.bringSubviewToFront(maskView)
-            maskView.frame = mainViewController.view.bounds
+            maskView.ff_Fill(mainViewController.view)
+            
             //初始化蒙板
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureHandler:")
             maskView.addGestureRecognizer(tapGestureRecognizer)
@@ -79,6 +81,12 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
             if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.FavoriteViewController")!) {
                 let vc = mainViewController as! FavoriteViewController
                 vc.slideView.addGestureRecognizer(tapGestureRecognizer)
+            }
+            
+            if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.RecommendViewController")!) {
+                let vc = mainViewController as! RecommendViewController
+                panGestureRecognizer.delegate = vc
+                panGestureRecognizer2.delegate = vc
             }
             
             if globalUser != nil {                
@@ -361,5 +369,8 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
         }
         
     }
-
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
 }

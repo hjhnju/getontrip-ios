@@ -114,6 +114,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField.text != "" {
             saveRecord(textField.text ?? "")
+            recordTableView.reloadData()
         }
         searchBar.textFile.resignFirstResponder()
         return true
@@ -152,6 +153,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         isEnterSearchController = true
         openSearchControllerAction()
+        (parentViewController as? RecommendViewController)?.isSlideMenu = false
+        (parentViewController as? RecommendViewController)?.slideNavButton.hidden = true
         return true
     }
     

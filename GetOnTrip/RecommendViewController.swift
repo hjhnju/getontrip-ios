@@ -351,5 +351,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var yOffset: CGFloat = 0.0
     /// 是否应该更新searchBar的frame
     var isUpdataSearchBarFrame: Bool = false
-    
+    /// 是否可以滑动菜单
+    var isSlideMenu:Bool = true
 }

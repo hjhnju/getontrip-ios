@@ -186,4 +186,8 @@ extension RecommendViewController {
     func swipeAction(sender: UIButton) {
         sender.tag == 1 ? headerImageView.swipeLeftAction() : headerImageView.swipeRightActiona()
     }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        return isSlideMenu
+    }
 }
