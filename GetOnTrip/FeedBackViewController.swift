@@ -29,6 +29,8 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     
     var dataSource: [Feedback] = [Feedback]()
     
+    var tableViewConH: NSLayoutConstraint?
+    
     // MARK: - 初始化相关
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +75,9 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     private func initTableView() {
         
         view.addSubview(tableView)
-        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 50)
+//        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 50)
+        let cons = tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(Frame.screen.width, Frame.screen.height - 64 - 50), offset: CGPointMake(0, 64))
+        tableViewConH = tableView.ff_Constraint(cons, attribute: .Height)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .None
@@ -140,7 +144,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         let keyBoardFrame = not.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
         let keyBoardY = keyBoardFrame?.origin.y
         let transFromValue = keyBoardY! - view.bounds.height
-        
         commentBottomView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
         tableView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
         if dataSource.count != 0 {
@@ -158,7 +161,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         self.isLoading = true
         
         lastRequest.fetchListFirstPageModels {[weak self] (data, status) -> Void in
-            
             //处理异常状态
             if RetCode.SUCCESS != status {
                 ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
@@ -170,6 +172,9 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
             if let dataSource = data {
                 self?.tableView.mj_header.endRefreshing()
                 self?.dataSource = dataSource
+                self?.dataSource.sortInPlace({ (fb1, fb2) -> Bool in
+                    fb1.create_time < fb2.create_time
+                })
                 self?.tableView.reloadData()
             }
             self?.isLoading = false
@@ -185,24 +190,10 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
             
             if let data = result {
                 if data.count > 0 {
-                    // 总数量 - 最后一页
-//                    let count1 = ((self?.lastRequest.page)! * (self?.lastRequest.pageSize)!) - (self?.dataSource.count)!
-//                    let count = (self?.dataSource.count ?? 0) - (self?.dataSource.count ?? 0) % (self?.lastRequest.pageSize ?? 0)
-//                    // 找出最后一页多的
-//                    for _  in 0...count {
-//                        self?.dataSource.removeLast()
-//                    }
                     self?.dataSource.insertContentsOf(data, at: 0)
-//                    self?.dataSource.appendContentsOf(data)
-//                    self?.dataSource.insertContentsOf(data, at: 0)
-//                    self?.dataSource.insert(Feedback(dict: [String : AnyObject]()), atIndex: 0)
-                    //                        self?.dataSource.appendContentsOf(cells)
-//                    var indexPaths = [NSIndexPath]()
-//                    for _ in data {
-//                    indexPaths.append(NSIndexPath(forItem: 0, inSection: 0))
-////                        indexPaths.append(NSIndexPath(forItem: 1, inSection: 0))
-//                    }
-//                    self?.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+                    self?.dataSource.sortInPlace({ (fb1, fb2) -> Bool in
+                        fb1.create_time < fb2.create_time
+                    })
                     self?.tableView.reloadData()
                     //                        self?.dataSource = cells + dataSource
                     self?.tableView.mj_header.endRefreshing()
@@ -226,13 +217,15 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     }
     
     private func isLoginAction(content: String) {
-        sendContentText.text = ""
-        addReceivedInfo(content)
+        
         lastRequest.fetchSendModels(content) { [weak self] (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 // TODO: - 需要将反馈的信息在这里显示
                 self?.sendContentText.text = ""
+                self?.sendContentText.endEditing(true)
                 self?.addReceivedInfo(content)
+                self?.scrollToBottom()
+                self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: (self?.dataSource.count ?? 1) - 1, inSection: 0), atScrollPosition: .None, animated: true)
                 return
             }
         }
@@ -263,6 +256,14 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         
     }
     func scrollViewDidScroll(scrollView: UIScrollView) {
+    }
+    
+    private func scrollToBottom() {
+        var yOffset: CGFloat = 0
+        if tableView.contentSize.height > tableView.bounds.size.height {
+            yOffset = tableView.contentSize.height - tableView.bounds.size.height
+        }
+        tableView.setContentOffset(CGPointMake(0, yOffset), animated: false)
     }
     
     /// 注销通知

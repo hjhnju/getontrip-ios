@@ -48,13 +48,6 @@ class FeedBackMyTableViewCell: UITableViewCell {
         }
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-//        iconImageView.layer.cornerRadius = 35 * 0.5
-//        iconImageView.clipsToBounds = true
-    }
-    
     class func heightWithFeedBack(feedback: Feedback) -> CGFloat {
         
         let timeH: CGFloat = feedback.isShowTime ? 18 : 50
@@ -79,7 +72,7 @@ class FeedBackMyTableViewCell: UITableViewCell {
         timeLabel.ff_AlignInner(.TopCenter, referView: contentView, size: nil, offset: CGPointMake(0, 18))
         let iconCons = iconImageView.ff_AlignInner(.TopRight, referView: contentView, size: CGSizeMake(35, 35), offset: CGPointMake(-9, 50))
         let cons = contentImageView.ff_AlignHorizontal(.TopLeft, referView: iconImageView, size: CGSizeMake(100, 100), offset: CGPointMake(-12, 0))
-        contentLabel.ff_AlignInner(.CenterCenter, referView: contentImageView, size: nil)
+        contentLabel.ff_AlignInner(.CenterCenter, referView: contentImageView, size: nil, offset: CGPointMake(-3, 0))
         imageViewWidth = contentImageView.ff_Constraint(cons, attribute: .Width)
         imageViewHeight = contentImageView.ff_Constraint(cons, attribute: .Height)
         iconImageViewTop = iconImageView.ff_Constraint(iconCons, attribute: .Top)

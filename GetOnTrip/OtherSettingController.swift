@@ -64,11 +64,11 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
 
     // MARK: - tableview delegate and datasource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 4
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -76,21 +76,18 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        if indexPath.section == 1 && indexPath.row == 0 { return trafficModeCell(indexPath) }
+        if indexPath.section == 0 && indexPath.row == 1 { return trafficModeCell(indexPath) }
         let cell = tableView.dequeueReusableCellWithIdentifier("SettingTableViewCell", forIndexPath: indexPath) as! SettingTableViewCell
-        cell.baseline.hidden = true
+        cell.baseline.hidden = ((indexPath.section == 0 && indexPath.row == 0) || (indexPath.section == 1 && indexPath.row == 0)) ? false : true
+        
         if indexPath.section == 0 && indexPath.row == 0 {
             cell.left.text = "清除缓存"
             cell.contentView.addSubview(removeCacheLabel)
             removeCacheLabel.ff_AlignInner(.CenterRight, referView: cell.contentView, size: nil, offset: CGPointMake(-9, 0))
-        } else if indexPath.section == 2 && indexPath.row == 0 {
-            cell.left.text = "给我们评分"
-        } else if indexPath.section == 3 && indexPath.row == 0 {
-            cell.left.text = "关于我们"
+        } else {
+            cell.left.text = indexPath.row == 0 ? "给我们评分" : "关于我们"
+            if indexPath.row == 1 { cell.getShadowWithView() }
         }
-        cell.baseline.hidden = false
-        cell.getShadowWithView()
         
         return cell
     }
@@ -98,11 +95,9 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
             clearCacheSetting(indexPath)
-        }
-        
-        if indexPath.section == 2{
+        } else if indexPath.section == 1 && indexPath.row == 0 {
             UIApplication.sharedApplication().openURL(NSURL(string: "itms-apps://itunes.apple.com/app/id1059746773")!)
-        } else if indexPath.section == 3 && indexPath.row == 0 {
+        } else if indexPath.section == 1 && indexPath.row == 1 {
             let vc = GuideViewController()
             vc.numberPage = 3
             navigationController?.pushViewController(vc, animated: true)

@@ -127,7 +127,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
     //登录后，头像
     lazy var headerView: UIImageView = UIImageView(image: PlaceholderImage.defaultUser)
     //登录后，名称
-    lazy var nameLabel: UILabel = UILabel(color: SceneColor.thinGreen, fontSize: 24, mutiLines: true)
+    lazy var nameLabel: UILabel = UILabel(color: SceneColor.thinGreen, title: "途知", fontSize: 24, mutiLines: true, fontName: Font.PingFangSCLight)
     /// 设置按钮
     lazy var settingButton: SettingButton = SettingButton(image: "setting_slideMenu", title: "    设置", fontSize: 12)
     /// 点此登录
@@ -245,7 +245,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
         settingButton.ff_AlignInner(.BottomRight, referView: menuView, size: nil, offset: CGPointMake(-13, -16))
         welcomeButton.ff_AlignInner(.TopCenter, referView: menuView, size: nil, offset: CGPointMake(0, Frame.screen.width * 0.14))
         loginPromptButton.ff_AlignVertical(.BottomCenter, referView: welcomeButton, size: nil, offset: CGPointMake(0, -10))
-        headerView.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(93, 93), offset: CGPointMake(0, Frame.screen.width * 0.09))
+        headerView.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(93, 93), offset: CGPointMake(0, Frame.screen.width * 0.1))
         nameLabel.ff_AlignVertical(.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 5))
         
         maskView.ff_Fill(mainViewController.view)

@@ -46,10 +46,8 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
             
             let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
             swipeLeft.direction = .Left
-            
-            
             if isFirstRefreshBool {
-                UIView.transitionWithView(tableView, duration: 0.6, options: .TransitionCrossDissolve, animations: { () -> Void in
+                UIView.transitionWithView(tableView, duration: 0.8, options: .TransitionCrossDissolve, animations: { () -> Void in
                     self.tableView.reloadData()
                     }, completion: nil)
             } else {

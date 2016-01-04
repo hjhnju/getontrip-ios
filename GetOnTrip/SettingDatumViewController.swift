@@ -202,6 +202,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     /// 切换用户自己的背景图片
     lazy var photoVC: PhotographViewController = PhotographViewController()
     func switchUserBackgroundPhotoAction() {
+        if globalUser == nil { return }
         photoVC.switchPhotoAction(self, sourceview: headerView, isBackground: true)
     }
 }
