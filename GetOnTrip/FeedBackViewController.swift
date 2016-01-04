@@ -37,7 +37,7 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         initTableView()
         initCommentBottomView()
         initRefresh()
-        if globalUser != nil { loadData() }
+        loadData()
     }
     
     private func initView() {
@@ -144,8 +144,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         commentBottomView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
         tableView.transform = CGAffineTransformMakeTranslation(0, transFromValue)
         if dataSource.count != 0 {
-//            tableView.scrollToRowAtIndexPath(lastIndexPath ?? NSIndexPath(), atScrollPosition: .Top, animated: true)
-//            tableView.scrollRectToVisible(, animated: true)
             tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: dataSource.count - 1, inSection: 0), atScrollPosition: .None, animated: true)
         }
     }
@@ -155,12 +153,12 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     
     /// 注意：不能在loadData中进行beginRefreshing, beginRefreshing会自动调用loadData
     private func loadData() {
-        if globalUser == nil { return }
+
         if self.isLoading { return }
         self.isLoading = true
         
         lastRequest.fetchListFirstPageModels {[weak self] (data, status) -> Void in
-            print(data)
+            
             //处理异常状态
             if RetCode.SUCCESS != status {
                 ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)

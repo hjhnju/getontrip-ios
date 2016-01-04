@@ -25,8 +25,17 @@ struct RecommendContant {
     static let rowHeight:CGFloat = 192
 }
 
+
+var searchBarTX: CGFloat = 0
+var searchBarTY: CGFloat = 0
+var searchBarTW: CGFloat = 0
+var searchBarTH: CGFloat = 0
+var searchBarFW: CGFloat = 0
+
 class RecommendViewController: MainViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
-        
+    
+    static let sharedRecommendViewController = RecommendViewController()
+    
     //导航栏容器，包含状态栏的高度
     lazy var navContainerView:UIView = UIView()
 

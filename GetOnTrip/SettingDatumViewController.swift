@@ -62,7 +62,6 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         exitLogin.backgroundColor = .whiteColor()
         exitLogin.addTarget(self, action: "exitLoginAction", forControlEvents: .TouchUpInside)
         exitLogin.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
-        
     }
     
     private func initHeaderView() {
@@ -105,7 +104,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
             print(globalUser?.bakimg)
             myBjImageView.sd_setImageWithURL(NSURL(string: globalUser?.bakimg ?? ""))
         } else {
-            myBjImageView.sd_setImageWithURL(NSURL(string: "http://www.getontrip.cn/pic/my_background.jpg"))
+            myBjImageView.sd_setImageWithURL(NSURL(string: UIKitTools.sliceImageUrl("/pic/my_background.jpg", width: Int(Frame.screen.width), height: 212)))
         }
     }
     

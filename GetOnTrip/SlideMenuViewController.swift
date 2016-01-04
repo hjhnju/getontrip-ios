@@ -55,7 +55,9 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
         didSet {
             if curVCType != oldValue {
                 if let vcType =  curVCType as? UIViewController.Type {
-                    mainViewController = vcType.init() as! MainViewController
+                    mainViewController = vcType == RecommendViewController.self ?
+                        RecommendViewController.sharedRecommendViewController   :
+                        vcType.init() as! MainViewController
                 }
             }
             //关闭侧边栏
@@ -67,13 +69,10 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
     var mainViewController: MainViewController! {
         didSet{
             mainNavViewController.setViewControllers([mainViewController], animated: false)
-            
-            //初始化蒙板
-            maskView = UIView(color: UIColor.blackColor(), alphaF: 0.1)
             mainViewController.view.addSubview(maskView)
             mainViewController.view.bringSubviewToFront(maskView)
             maskView.frame = mainViewController.view.bounds
-            
+            //初始化蒙板
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureHandler:")
             maskView.addGestureRecognizer(tapGestureRecognizer)
             

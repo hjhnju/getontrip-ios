@@ -151,7 +151,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         if isRefreshSearchBar {
             updateSearchBarDefaultFrame()
         }
-        searchBar.defaultPromptButton.titleLabel?.hidden = false
+        searchBar.defaultPromptButton.titleLabel?.hidden = searchBar.textFile.text == "" ? false : true
         UIView.animateWithDuration(0.5) { [weak self] () -> Void in
             self?.view.alpha = 1.0
             self?.searchBar.layoutIfNeeded()

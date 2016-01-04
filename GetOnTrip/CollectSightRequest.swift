@@ -81,7 +81,8 @@ class CollectSight: NSObject {
 
     var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image
+            let w: Int = Int((Frame.screen.width - 57) / 3)
+            image = UIKitTools.sliceImageUrl(image, width: w, height: w)
         }
     }
     
@@ -147,7 +148,8 @@ class CollectCity: NSObject {
     /// 图片
     var image: String = "" {
         didSet {
-            image = AppIni.BaseUri + image
+            let w: Int = Int((Frame.screen.width - 57) / 3)
+            image = UIKitTools.sliceImageUrl(image, width: w, height: w)
         }
     }
     var name: String = ""
