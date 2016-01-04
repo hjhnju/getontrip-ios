@@ -25,31 +25,25 @@ struct RecommendContant {
     static let rowHeight:CGFloat = 192
 }
 
-
-var searchBarTX: CGFloat = 0
-var searchBarTY: CGFloat = 0
-var searchBarTW: CGFloat = 0
-var searchBarTH: CGFloat = 0
-var searchBarFW: CGFloat = 0
-
 class RecommendViewController: MainViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     
+    // 单例
     static let sharedRecommendViewController = RecommendViewController()
     
-    //导航栏容器，包含状态栏的高度
-    lazy var navContainerView:UIView = UIView()
-
-    /// 侧滑导航按钮
-    let slideNavButton: RecommendSlideButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: SceneColor.lightYellow)
+    /// 记录滚动位置
+    var searchBarTX: CGFloat = 0
+    var searchBarTY: CGFloat = 0
+    var searchBarTW: CGFloat = 0
+    var searchBarTH: CGFloat = 0
+    var searchBarFW: CGFloat = 0
     
-    //自定义导航栏
-    lazy var custNavView:UIView = { [weak self] in
-        let view = UIView()
-        self?.slideButton.removeFromSuperview()
-        self?.slideNavButton.addTarget(self, action: "toggleMenu", forControlEvents: .TouchUpInside)
-        view.addSubview(self?.slideNavButton ?? UIView())
-        return view
-    }()
+    /// 搜索框约束
+    var searchBarW   : NSLayoutConstraint?
+    var searchBarH   : NSLayoutConstraint?
+    var searchBarMaxX: NSLayoutConstraint?
+    var searchBarTopY: NSLayoutConstraint?
+    /// headerView的顶部约束
+    var headerViewTopConstraint: NSLayoutConstraint?
     
     //导航高度
     var navBarHeight:CGFloat = 0.0
@@ -61,28 +55,45 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
     }
     
+    // MARK: - 控件
+    /// 底部容器view
+    lazy var collectionView: UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.layout)
+    /// 左侧滑动view
+    lazy var slideView: UIView = UIView()
+    /// 流水布局
+    lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    /// 导航栏容器，包含状态栏的高度
+    lazy var navContainerView:UIView = UIView()
+    /// 侧滑导航按钮
+    let slideNavButton: RecommendSlideButton = RecommendSlideButton(image: "icon_hamburger", title: "", fontSize: 0, titleColor: SceneColor.lightYellow)
+    //自定义导航栏
+    lazy var custNavView:UIView = { [weak self] in
+        let view = UIView()
+        self?.slideButton.removeFromSuperview()
+        self?.slideNavButton.addTarget(self, action: "toggleMenu", forControlEvents: .TouchUpInside)
+        view.addSubview(self?.slideNavButton ?? UIView())
+        return view
+    }()
+    
+    /// 标题
     var navTitleLabel = UILabel(color: .whiteColor(), title: "热门内容", fontSize: 18, mutiLines: true, fontName: Font.ios8Font)
-    
     /// 搜索顶部
-    var headerView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight))
-    
+    var headerView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, RecommendContant.headerViewHeight))
     /// 搜索顶部图片
     var headerImageView: RoundImageView = RoundImageView(frame: CGRectMake(0, 0, Frame.screen.width, 211))
-    /// 搜索顶部图片数据源
-    var headerImagesData = [String]() {
-        didSet {
-            headerImageView.arrayImage = headerImagesData
-        }
-    }
-    
     /// 左边侧滑按钮
     lazy var leftRoundButton: SwitchRoundButton = SwitchRoundButton(image: "left_round", title: "", fontSize: 0)
     /// 右边侧滑按钮
     lazy var rightRoundButton: SwitchRoundButton = SwitchRoundButton(image: "right_round", title: "", fontSize: 0)
     /// 标题了解景点背后的故事（无该字体，目前用图片代替） 0.1616:1
     lazy var titleImageView = UIImageView(image: UIImage(named: "launch_title"))
-    /// headerView的顶部约束
-    var headerViewTopConstraint: NSLayoutConstraint?
+    /// 图片轮播定时器
+    var timer: NSTimer?
+    /// 内容偏移
+    var contentOffSet: CGPoint = CGPointMake(0, -RecommendContant.headerViewHeight)
+    /// 是否要刷新标题
+    var isRefreshNavBar:Bool = true
+    
     
     /// 热门景点和热门内容view
     lazy var titleSelectView: RecommendHotView = { [weak self] in
@@ -116,21 +127,14 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     
     /// 搜索控制器
     lazy var searchController: SearchViewController = SearchViewController()
-    
-    var searchBarW: NSLayoutConstraint?
-    var searchBarMaxX: NSLayoutConstraint?
-    var searchBarTopY: NSLayoutConstraint?
-    var searchBarH: NSLayoutConstraint?
-    
-    /// 网络请求加载数据(添加)
-    var lastRequest: RecommendRequest = RecommendRequest()
-    
     /// 热门内容推荐
     var hotContentVC = RecommendHotController()
-    
     /// 热门景点推荐
-    var hotSightVC = RecommendHotController()
+    var hotSightVC  = RecommendHotController()
     
+    //MARK: - 请求及数据源
+    /// 网络请求加载数据(添加)
+    var lastRequest: RecommendRequest = RecommendRequest()
     /// 数据源 - 推荐标签
     var recommendLabels: [RecommendLabel] = [RecommendLabel]() {
         didSet{
@@ -147,20 +151,12 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
     }
     
-    var timer: NSTimer?
-    
-    /// 底部容器view
-    lazy var collectionView: UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.layout)
-    
-    /// 左侧滑动view
-    lazy var slideView: UIView = UIView()
-        
-    /// 流水布局
-    lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    
-    var contentOffSet: CGPoint = CGPointMake(0, -RecommendContant.headerViewHeight)
-    
-    var isRefreshNavBar:Bool = true
+    /// 搜索顶部图片数据源
+    var headerImagesData = [String]() {
+        didSet {
+            headerImageView.arrayImage = headerImagesData
+        }
+    }
     
     // MARK: - 初始化
     //电池栏状态
@@ -170,10 +166,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        slideNavButton.tintColor = SceneColor.lightYellow
-        slideNavButton.setImage(UIImage(named: "icon_hamburger")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        slideNavButton.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
         
         refreshReachable()
         initCollectionLayout()
@@ -271,6 +263,9 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         navContainerView.addSubview(navTitleLabel)
         navTitleLabel.ff_AlignInner(.CenterCenter, referView: navContainerView, size: nil, offset: CGPointMake(0, 10))
         navTitleLabel.alpha = 0
+        slideNavButton.tintColor = SceneColor.lightYellow
+        slideNavButton.setImage(UIImage(named: "icon_hamburger")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        slideNavButton.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
         
         //header
         headerView.clipsToBounds = true
@@ -356,6 +351,5 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var yOffset: CGFloat = 0.0
     /// 是否应该更新searchBar的frame
     var isUpdataSearchBarFrame: Bool = false
+    
 }
-
-

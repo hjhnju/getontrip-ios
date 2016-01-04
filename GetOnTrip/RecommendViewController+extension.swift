@@ -16,7 +16,6 @@ extension RecommendViewController {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath)
         if indexPath.row == 0 {
             cell.addSubview(hotContentVC.tableView)
@@ -27,7 +26,6 @@ extension RecommendViewController {
             hotSightVC.view.ff_Fill(cell)
             hotSightVC.tableView.contentOffset = contentOffSet
         }
-        
         return cell
     }
     
@@ -41,15 +39,9 @@ extension RecommendViewController {
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.x != 0 { // 防止上下滑动
-            titleSelectView.selectView.frame.origin.x = scrollView.contentOffset.x * 0.5
-            let isSelected = titleSelectView.selectView.center.x < Frame.screen.width * 0.5 ? true : false
-            titleSelectView.hotContentButton.selected = isSelected
-            titleSelectView.hotSightButton.selected   = !isSelected
-            navTitleLabel.text = isSelected ? "热门内容" : "推荐景点"
-        }
-        
-        if scrollView.contentOffset.y == 0 { return }
+
+        if scrollView.contentOffset.x != 0 { switchHotLabelAction(scrollView) }
+        if scrollView.contentOffset.y == 0 || searchController.isEnterSearchController { return }
         
         //导航渐变
         let threshold:CGFloat = 198 - 64
@@ -70,9 +62,7 @@ extension RecommendViewController {
         headerViewTopConstraint?.constant = newTop
 
         if offsetY < -64 && offsetY > -120 {
-            if searchBarW?.constant < 51 {
-                changeSearchBar(64 * 0.5 - 10)
-            }
+            if searchBarW?.constant < 51 { changeSearchBar(64 * 0.5 - 10) }
             return
         }
         
@@ -86,6 +76,15 @@ extension RecommendViewController {
                 searchBarTopY?.constant = newTop + 158
             }
         }
+    }
+    
+    /// 切换热门标签方法
+    private func switchHotLabelAction(scrollView: UIScrollView) {
+        titleSelectView.selectView.frame.origin.x = scrollView.contentOffset.x * 0.5
+        let isSelected = titleSelectView.selectView.center.x < Frame.screen.width * 0.5 ? true : false
+        titleSelectView.hotContentButton.selected = isSelected
+        titleSelectView.hotSightButton.selected   = !isSelected
+        navTitleLabel.text = isSelected ? "热门内容" : "推荐景点"
     }
     
     /// 变搜索框
@@ -108,7 +107,7 @@ extension RecommendViewController {
     /// 变圆
     private func changeRound() {
         searchBarW?.constant = 50
-        searchController.searchBar.updateWidthFrame(50 - 13)
+        searchController.searchBar.updateWidthFrame(50 - 15)
         searchController.searchBar.tempUpdateFrame = 50
         searchBarMaxX?.constant = Frame.screen.width * 0.5 - 30
         searchController.searchBar.defaultPromptButton.titleLabel?.hidden = true
@@ -123,6 +122,7 @@ extension RecommendViewController {
         })
     }
     
+    
     private func calcFactor(frameY:CGFloat, yOffset: CGFloat) -> CGFloat {
         //以屏幕左上为原点的坐标
         let realY = frameY - yOffset
@@ -133,9 +133,7 @@ extension RecommendViewController {
         if gapToCenter < 0 {
             divider = UIScreen.mainScreen().bounds.height / 2 - RecommendContant.rowHeight / 2
         }
-        let factor: CGFloat = fmin(1.0, fmax(gapToCenter / divider, -1.0))
-        //print("gap=\(gapToCenter), offsetY=\(yOffset), frame.y=\(frameY), realY=\(realY), centerY=\(centerY), factor=\(factor)")
-        return factor
+        return fmin(1.0, fmax(gapToCenter / divider, -1.0))
     }
     
     //MARK: 加载数据方法
@@ -172,8 +170,6 @@ extension RecommendViewController {
         errorView.hidden = true
         loadData()
     }
-    
-
     
     // MARK: - 自定义方法
     /// 点击热门推荐和推荐景点使collectionview转到相对应的位置

@@ -34,6 +34,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     /// 是否刷新搜索
     var isRefreshSearchBar: Bool = true
+    /// 是否已经进入搜索控制器
+    var isEnterSearchController:Bool = false
     
     /// 搜索提示
     var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "暂无搜索结果", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCLight)
@@ -148,16 +150,22 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     /// 开始进入搜索控制器
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        isEnterSearchController = true
+        openSearchControllerAction()
+        return true
+    }
+    
+    /// 打开搜索控制器方法
+    func openSearchControllerAction() {
         if isRefreshSearchBar {
             updateSearchBarDefaultFrame()
         }
+        searchBar.deleteButton.hidden = isEnterSearchController ? false : true
         searchBar.defaultPromptButton.titleLabel?.hidden = searchBar.textFile.text == "" ? false : true
         UIView.animateWithDuration(0.5) { [weak self] () -> Void in
             self?.view.alpha = 1.0
             self?.searchBar.layoutIfNeeded()
         }
-        
-        return true
     }
     
     /// 删除按钮方法
@@ -167,10 +175,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     func updateSearchBarDefaultFrame() {
         let vc = parentViewController as? RecommendViewController
-        searchBarTX = vc?.searchBarMaxX?.constant ?? 0
-        searchBarTY = vc?.searchBarTopY?.constant ?? 0
-        searchBarTW = vc?.searchBarW?.constant ?? 0
-        searchBarTH = vc?.searchBarH?.constant ?? 0
+        vc?.searchBarTX = vc?.searchBarMaxX?.constant ?? 0
+        vc?.searchBarTY = vc?.searchBarTopY?.constant ?? 0
+        vc?.searchBarTW = vc?.searchBarW?.constant ?? 0
+        vc?.searchBarTH = vc?.searchBarH?.constant ?? 0
         vc?.searchBarMaxX?.constant = 0
         vc?.searchBarTopY?.constant = 36
         vc?.searchBarW?.constant    = Frame.screen.width
@@ -181,9 +189,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     /// 临时记录改变前的值
     func modificationSearchBarFrame() {
         let vc = parentViewController as? RecommendViewController
-        vc?.searchBarMaxX?.constant = searchBarTX
-        vc?.searchBarTopY?.constant = searchBarTY
-        vc?.searchBarW?.constant    = searchBarTW
-        vc?.searchBarH?.constant    = searchBarTH
+        vc?.searchBarMaxX?.constant = vc?.searchBarTX ?? 0
+        vc?.searchBarTopY?.constant = vc?.searchBarTY ?? 0
+        vc?.searchBarW?.constant    = vc?.searchBarTW ?? 0
+        vc?.searchBarH?.constant    = vc?.searchBarTH ?? 0
     }
 }

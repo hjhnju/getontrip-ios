@@ -148,6 +148,10 @@ class RecommendHotController: UITableViewController {
         }
     }
     
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+    }
+    
     
     private func calcFactor(frameY:CGFloat, yOffset: CGFloat) -> CGFloat {
         //以屏幕左上为原点的坐标

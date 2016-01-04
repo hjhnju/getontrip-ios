@@ -69,7 +69,6 @@ extension SearchViewController {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // TODO: 晓羽说让用户等一下看下效果
         NSThread.sleepForTimeInterval(0.2)
         view.endEditing(true)
         if indexPath.section != 1 {
@@ -110,9 +109,7 @@ extension SearchViewController {
      - parameter filterString: query
      */
     func saveRecord(filterString: String) {
-        if filterString == "" {
-            return
-        }
+        if filterString == "" { return }
         
         if let index = recordData.indexOf(filterString) {
             recordData.removeAtIndex(index)
@@ -139,7 +136,5 @@ extension SearchViewController {
             searchResultViewController.showSearchResultController(vcity)
         }
     }
-    
-
 
 }

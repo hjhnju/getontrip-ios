@@ -43,7 +43,7 @@ class SearchBar: UIView {
     var imageViewW: NSLayoutConstraint?
     var textfiledW: NSLayoutConstraint?
     
-    var leftView = UIView(frame: CGRectMake(0, 0, 31, 35))
+    var leftView = UIView(frame: CGRectMake(0, 0, 30, 35))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -65,6 +65,9 @@ class SearchBar: UIView {
         deleteButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
         textFile.rightView = deleteButton
         textFile.rightViewMode = .WhileEditing
+        deleteButton.bounds = CGRectMake(0, 0, 28, 20)
+        deleteButton.hidden = true
+        deleteButton.addTarget(self, action: "deleteTextFiledTextAction", forControlEvents: .TouchUpInside)
         
         // 文本框
         addSubview(textFile)
@@ -80,7 +83,7 @@ class SearchBar: UIView {
         
         let ivcons = imageView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(bounds.width, 35), offset: CGPointMake(9, 0))
         imageViewW = imageView.ff_Constraint(ivcons, attribute: .Width)
-        defaultPromptButton.ff_AlignInner(.CenterLeft, referView: self, size: nil, offset: CGPointMake(20, 0))
+        defaultPromptButton.ff_AlignInner(.CenterLeft, referView: self, size: nil, offset: CGPointMake(19, 0))
         clearTextButton.ff_AlignInner(.CenterRight, referView: self, size: nil, offset: CGPointMake(-11, 0))
         let tfcons = textFile.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(bounds.width, 35), offset: CGPointMake(9, 0))
         textfiledW = textFile.ff_Constraint(tfcons, attribute: .Width)
@@ -92,25 +95,27 @@ class SearchBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
+    func deleteTextFiledTextAction() {
+        textFile.text = ""
+        superController?.textfileValueChangedAction(textFile)
     }
     
     /// 点击取消之后调用的方法
     func clearTextButtonAction() {
         clearTextButton.hidden = true
+        deleteButton.hidden = true
         textFile.text = ""
         superController?.textfileValueChangedAction(textFile)
         superController?.isRefreshSearchBar = true
         (superController?.parentViewController as? RecommendViewController)?.isRefreshNavBar = true
+        superController?.isEnterSearchController = false
         defaultPromptButton.clipsToBounds = true
-        defaultPromptButton.titleLabel?.hidden = searchBarTW < 60 ? true : false
+        defaultPromptButton.titleLabel?.hidden = (superController?.parentViewController as? RecommendViewController)?.searchBarTW < 60 ? true : false
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
             self?.superController?.view.alpha = 0
             self?.textFile.resignFirstResponder()
             self?.superController?.modificationSearchBarFrame()
-            self?.updateWidthFrame((searchBarTW ?? 0) - 60)
+            self?.updateWidthFrame(((self?.superController?.parentViewController as? RecommendViewController)?.searchBarTW ?? 0) - 60)
             self?.imageViewW?.constant += 46
             self?.textfiledW?.constant += 46
             })

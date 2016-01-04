@@ -81,6 +81,7 @@ class SearchResultsViewController: UIViewController, UITableViewDataSource, UITa
         /// 保存搜索记录
         if let svc = parentViewController as? SearchViewController {
             svc.saveRecord(filterString)
+            svc.recordTableView.reloadData()
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
