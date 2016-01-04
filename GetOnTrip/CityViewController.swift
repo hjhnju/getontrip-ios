@@ -28,7 +28,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
     
     /// 城市背影图片
-    var headerImageView: UIImageView = UIImageView(image: PlaceholderImage.defaultLarge)
+    var headerImageView: UIImageView = UIImageView()
     
     //头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
