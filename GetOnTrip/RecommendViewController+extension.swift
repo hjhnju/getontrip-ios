@@ -92,7 +92,7 @@ extension RecommendViewController {
         searchBarW?.constant = Frame.screen.width * 0.69
         searchController.searchBar.updateWidthFrame(Frame.screen.width * 0.69 - 9)
         searchController.searchBar.tempUpdateFrame = Frame.screen.width * 0.69
-        searchController.searchBar.defaultPromptButton.titleLabel?.hidden = false
+        searchController.searchBar.defaultPromptButton.titleLabel?.alpha = 1
 
         self.searchBarMaxX?.constant = 0
         self.searchBarTopY?.constant = changeY
@@ -110,7 +110,7 @@ extension RecommendViewController {
         searchController.searchBar.updateWidthFrame(50 - 15)
         searchController.searchBar.tempUpdateFrame = 50
         searchBarMaxX?.constant = Frame.screen.width * 0.5 - 30
-        searchController.searchBar.defaultPromptButton.titleLabel?.hidden = true
+        searchController.searchBar.defaultPromptButton.titleLabel?.alpha = 0
         searchBarTopY?.constant = 64 * 0.5 - 10
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.searchController.searchBar.layoutIfNeeded()

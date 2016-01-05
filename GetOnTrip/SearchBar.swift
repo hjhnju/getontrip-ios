@@ -59,7 +59,7 @@ class SearchBar: UIView {
         // 取消按钮
         addSubview(clearTextButton)
         clearTextButton.hidden = true
-        clearTextButton.addTarget(self, action: "clearTextButtonAction", forControlEvents: UIControlEvents.TouchUpInside)
+        clearTextButton.addTarget(self, action: "clearTextButtonAction", forControlEvents: .TouchUpInside)
         
         // 删除按钮
         deleteButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
@@ -113,7 +113,7 @@ class SearchBar: UIView {
         vc?.slideNavButton.hidden = false
         superController?.isEnterSearchController = false
         print((superController?.parentViewController as? RecommendViewController)?.searchBarTW)
-        defaultPromptButton.titleLabel?.hidden = (superController?.parentViewController as? RecommendViewController)?.searchBarTW < 60 ? true : false
+        defaultPromptButton.titleLabel?.alpha = (superController?.parentViewController as? RecommendViewController)?.searchBarTW < 60 ? 0 : 1
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
             self?.superController?.view.alpha = 0
             self?.textFile.resignFirstResponder()

@@ -128,11 +128,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
                 recordTableView.hidden = true
                 searchResultViewController.tableView.hidden = false
                 searchResultViewController.filterString     = text
-                searchBar.defaultPromptButton.titleLabel?.hidden = true
+                searchBar.defaultPromptButton.titleLabel?.alpha = 0
             } else {
                 recordTableView.hidden = false
                 searchResultViewController.tableView.hidden = true
-                searchBar.defaultPromptButton.titleLabel?.hidden = false
+                searchBar.defaultPromptButton.titleLabel?.alpha = 1
             }
         }
     }
@@ -164,7 +164,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             updateSearchBarDefaultFrame()
         }
         searchBar.deleteButton.hidden = isEnterSearchController ? false : true
-        searchBar.defaultPromptButton.titleLabel?.hidden = searchBar.textFile.text == "" ? false : true
+        searchBar.defaultPromptButton.titleLabel?.alpha = searchBar.textFile.text == "" ? 1 : 0
         UIView.animateWithDuration(0.5) { [weak self] () -> Void in
             self?.view.alpha = 1.0
             self?.searchBar.layoutIfNeeded()
