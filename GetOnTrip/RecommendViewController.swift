@@ -324,6 +324,11 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+    }
+    
     func refreshBar(){
         //更新导航背景
         navContainerView.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)

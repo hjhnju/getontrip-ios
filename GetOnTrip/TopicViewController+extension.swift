@@ -86,8 +86,8 @@ extension TopicViewController {
             self.commentVC.tableViewConH?.constant = bound.height * 0.72 - 88
             self.commentVC.tableView.layoutIfNeeded()
         } else {
-            self.commentVC.view.frame = CGRectMake(0, 44, view.bounds.width, bound.height - keyBoardFrame!.height - 44)
-            self.commentVC.tableViewConH?.constant = bound.height - keyBoardFrame!.height - 44 - 88
+            self.commentVC.view.frame = CGRectMake(0, 64, view.bounds.width, bound.height - keyBoardFrame!.height - 64)
+            self.commentVC.tableViewConH?.constant = bound.height - keyBoardFrame!.height - 64 - 88
             if self.commentVC.reloadIndexPath.row != 0 {
                 self.commentVC.tableView.scrollToRowAtIndexPath(self.commentVC.reloadIndexPath, atScrollPosition: .Middle, animated: true)
             }

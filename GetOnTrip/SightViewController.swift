@@ -60,15 +60,17 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     }()
     
     /// 索引
-    var currentIndex: Int = 0
+    lazy var currentIndex: Int = 0
     
     /// 左滑手势是否生效
-    var isPopGesture: Bool = false
+    lazy var isPopGesture: Bool = false
     
     /// 更在加载中提示
-    var loadingView: LoadingView = LoadingView()
+    lazy var loadingView: LoadingView = LoadingView()
     
-    var dataControllers = [BaseTableViewController]()
+    lazy var dataControllers = [BaseTableViewController]()
+    /// 切换城市和收藏景点
+    lazy var menuSwitchView: MenuSwitchView = MenuSwitchView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +78,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         initView()
         setupAutlLayout()
         loadSightData()
+        initMenuSwitch()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -86,7 +89,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -109,7 +111,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         labelScrollView.layoutIfNeeded()
     }
     
-    func initView() {
+    private func initView() {
         view.backgroundColor = SceneColor.frontBlack
         automaticallyAdjustsScrollViewInsets = false
         view.addSubview(collectionView)
@@ -120,15 +122,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         view.bringSubviewToFront(navBar)
         view.addSubview(loadingView)
         
-        navBar.setTitle(sightDataSource.name)
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "bar_collect"), title: nil, target: self, action: "favoriteAction:")
-        navBar.rightButton.setImage(UIImage(named: "bar_collect_select"), forState: UIControlState.Selected)
-        navBar.setRight2BarButton(UIImage(named: "bar_city"), title: nil, target: self, action: "cityAction:")
-        navBar.setBlurViewEffect(false)
-        navBar.setButtonTintColor(UIColor.yellowColor())
-        navBar.backgroundColor = SceneColor.frontBlack
-        
+        initNavBar()
         labelScrollView.backgroundColor = SceneColor.bgBlack
         
         collectionView.dataSource = self
@@ -138,12 +132,25 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
     }
     
+    private func initNavBar() {
+        navBar.setTitle(sightDataSource.name)
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setRightBarButton(UIImage(named: "moreSelect_sight"), title: nil, target: self, action: "showMoreSelect")
+        navBar.setBlurViewEffect(false)
+        navBar.setButtonTintColor(UIColor.yellowColor())
+        navBar.backgroundColor = SceneColor.frontBlack
+    }
+    
     func setupAutlLayout() {
         labelNavView.frame = CGRectMake(0, 64, view.bounds.width, 36)
         labelScrollView.frame = labelNavView.bounds
         collectionView.ff_AlignVertical(.BottomLeft, referView: labelNavView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(labelNavView.frame)), offset: CGPointMake(0, 0))
         loadingView.ff_AlignInner(.CenterCenter, referView: view, size: loadingView.getSize(), offset: CGPointMake(0, 0))
         setupLayout()
+    }
+    
+    private func initMenuSwitch() {
+        menuSwitchView.initPoint = CGPointMake(Frame.screen.width - 23, 56)
     }
     
     ///  设置频道标签
@@ -156,15 +163,15 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         /// 间隔
         var x: CGFloat  = 0
         let h: CGFloat  = 36
-        var lW: CGFloat = UIScreen.mainScreen().bounds.width / CGFloat(labels.count)
+        var lW: CGFloat = Frame.screen.width / CGFloat(labels.count)
         var index: Int = 0
         for tag in labels {
             
             if labels.count >= 7 {
                 lW = tag.name.sizeofStringWithFount(UIFont.systemFontOfSize(14), maxSize: CGSize(width: CGFloat.max, height: 14)).width + 20
             }
-            if lW < UIScreen.mainScreen().bounds.width / CGFloat(7) {
-                lW = UIScreen.mainScreen().bounds.width / CGFloat(7)
+            if lW < Frame.screen.width / CGFloat(7) {
+                lW = Frame.screen.width / CGFloat(7)
             }
             let channelLabel      = UIChannelLabel.channelLabelWithTitle(tag.name, width: lW, height: h, fontSize: 14)
             channelLabel.adjustsFontSizeToFitWidth = true
@@ -175,10 +182,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             channelLabel.backgroundColor = UIColor.clearColor()
             x += channelLabel.bounds.width
             
-            if indicateW == nil {
-                indicateW = channelLabel.bounds.width
-            }
-            
+            if indicateW == nil { indicateW = channelLabel.bounds.width }
             index++
             labelScrollView.addSubview(channelLabel)
         }
@@ -309,6 +313,38 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         }
     }
     
+
+    
+
+    
+    /// 显示更多选择
+    func showMoreSelect() {
+        menuSwitchView.showSwitchAction()
+    }
+    
+    // 切换城市和收藏景点方法
+    func selectSwitchAction(sender: UIButton) {
+        if sender.tag == 1 {
+            cityAction()
+        } else if sender.tag == 2 {
+            for item in menuSwitchView.subviews {
+                if item.tag == 2 {
+                    if let btn = item as? UIButton {
+                        favoriteAction((btn))
+                    }
+                }
+            }
+        }
+    }
+    
+    /// 跳至城市页
+    func cityAction() {
+        let cityViewController = CityViewController()
+        let city = City(id: self.sightDataSource.cityid)
+        cityViewController.cityDataSource = city
+        navigationController?.pushViewController(cityViewController, animated: true)
+    }
+    
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
         
@@ -328,13 +364,5 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍后再试")
             }
         }
-    }
-    
-    /// 跳至城市页
-    func cityAction(sender: UIButton) {
-        let cityViewController = CityViewController()
-        let city = City(id: self.sightDataSource.cityid)
-        cityViewController.cityDataSource = city
-        navigationController?.pushViewController(cityViewController, animated: true)
     }
 }

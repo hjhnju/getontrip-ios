@@ -245,7 +245,7 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
         settingButton.ff_AlignInner(.BottomRight, referView: menuView, size: nil, offset: CGPointMake(-13, -16))
         welcomeButton.ff_AlignInner(.TopCenter, referView: menuView, size: nil, offset: CGPointMake(0, Frame.screen.width * 0.14))
         loginPromptButton.ff_AlignVertical(.BottomCenter, referView: welcomeButton, size: nil, offset: CGPointMake(0, -10))
-        headerView.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(93, 93), offset: CGPointMake(0, Frame.screen.width * 0.1))
+        headerView.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(93, 93), offset: CGPointMake(0, Frame.screen.width * 0.13))
         nameLabel.ff_AlignVertical(.BottomCenter, referView: headerView, size: nil, offset: CGPointMake(0, 5))
         
         maskView.ff_Fill(mainViewController.view)

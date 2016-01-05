@@ -44,6 +44,7 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     
     private func initView() {
         navBar.titleLabel.text = "反馈"
+        automaticallyAdjustsScrollViewInsets = true
         view.backgroundColor = .whiteColor()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
@@ -75,7 +76,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
     private func initTableView() {
         
         view.addSubview(tableView)
-//        tableView.frame = CGRectMake(0, 64, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 50)
         let cons = tableView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(Frame.screen.width, Frame.screen.height - 64 - 50), offset: CGPointMake(0, 64))
         tableViewConH = tableView.ff_Constraint(cons, attribute: .Height)
         tableView.dataSource = self
@@ -100,15 +100,6 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         tbHeaderView.arrowView?.image = UIImage()
         tableView.mj_header = tbHeaderView
     }
-    
-//    
-//    /*
-//    - (void)scrollToBottom {
-//    // 滚动到最后一行
-//    NSIndexPath *path = [NSIndexPath indexPathForRow:self.messages.count - 1 inSection:0];
-//    [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
-//    }
-//*/
     
     // MARK: - tableView dataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -222,10 +213,7 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
             if status == RetCode.SUCCESS {
                 // TODO: - 需要将反馈的信息在这里显示
                 self?.sendContentText.text = ""
-                self?.sendContentText.endEditing(true)
                 self?.addReceivedInfo(content)
-                self?.scrollToBottom()
-                self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: (self?.dataSource.count ?? 1) - 1, inSection: 0), atScrollPosition: .None, animated: true)
                 return
             }
         }
@@ -245,7 +233,8 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         fb.create_time = dest
         fb.isShowTime = dataSource.last?.create_time == fb.create_time ? true : false
         dataSource.append(fb)
-        tableView.reloadData()
+        tableView.insertRowsAtIndexPaths([NSIndexPath(forItem: dataSource.count - 1, inSection: 0)], withRowAnimation: .Bottom)
+        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: dataSource.count - 1, inSection: 0), atScrollPosition: .Bottom, animated: false)
     }
     
     // scrollerview delegate

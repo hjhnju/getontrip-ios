@@ -26,12 +26,12 @@ class Cache: NSObject {
     static let shareInstance: Cache = Cache()
     static let cacheCityListTime: NSTimeInterval = 60 * 60
     var cachekeys: [String: NSTimeInterval] = [
-        "/api/1.0/search/label?order=1&pageSize=15&page=1" : 60,
-        "/api/1.0/search/label?order=2&pageSize=15&page=1" : 60,
-        "/api/1.0/search/label?order=3&pageSize=15&page=1" : 60,
-        "/api/1.0/search/label?order=4&pageSize=15&page=1" : 60,
-        "/api/1.0/search/label?order=5&pageSize=15&page=1" : 60,
-        "/api/1.0/search/label?order=6&pageSize=15&page=1" : 60,
+//        "/api/1.0/search/label?order=1&pageSize=15&page=1" : 60,
+//        "/api/1.0/search/label?order=2&pageSize=15&page=1" : 60,
+//        "/api/1.0/search/label?order=3&pageSize=15&page=1" : 60,
+//        "/api/1.0/search/label?order=4&pageSize=15&page=1" : 60,
+//        "/api/1.0/search/label?order=5&pageSize=15&page=1" : 60,
+//        "/api/1.0/search/label?order=6&pageSize=15&page=1" : 60,
         "/api/1.0/city/list?type=0" : Cache.cacheCityListTime,
         "/api/1.0/city/list?type=1" : Cache.cacheCityListTime,
         "/api/1.0/city/hot?type=0"  : Cache.cacheCityListTime,
@@ -45,7 +45,7 @@ class Cache: NSObject {
     
     /// 正则缓存配置 name:config
     var cacheRegexConfs: [String: CacheRegexConfig] = [
-        //城市页缓存
+        //城市页缓存 // http://www.getontrip.cn/api/1.0/search/label?x=116.302930974834&page=1&order=2&pageSize=15&y=39.9799507498937, hasValidCache=false, hasDisplayCache=false
         "city": CacheRegexConfig(expr: "^/api/1\\.0/city\\?city=([0-9]+)$", buffer: 10, expire: 1),
         //景点缓存（标签等信息）
         "sight": CacheRegexConfig(expr: "^/api/1\\.0/sight\\?sightId=([0-9]+)$", buffer: 50, expire: 1),
@@ -57,9 +57,9 @@ class Cache: NSObject {
         "sight_books": CacheRegexConfig(expr: "^/api/1\\.0/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //视频列表缓存
         "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
-        // 城市一览页缓存
-        "city_list": CacheRegexConfig(expr: "^/api/1\\.0/city/list\\?type=([0-1]+)", buffer: 2, expire: 1),
-        "city_hot": CacheRegexConfig(expr: "^/api/1\\.0/city/hot\\?type=([0-1]+)", buffer: 2, expire: 1),
+        // 首页缓存
+        "seaarch_order1": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([d+.d*])&page=1$&order=1&pageSize=15$&y=([d+.d*])", buffer: 50, expire: 1),
+        "search_order2": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([d+.d*])&page=1$&order=2&pageSize=15$&y=([d+.d*])", buffer: 50, expire: 1),
     ]
     
     /**

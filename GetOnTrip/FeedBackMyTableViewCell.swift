@@ -71,7 +71,7 @@ class FeedBackMyTableViewCell: UITableViewCell {
     private func initAutoLayout() {
         timeLabel.ff_AlignInner(.TopCenter, referView: contentView, size: nil, offset: CGPointMake(0, 18))
         let iconCons = iconImageView.ff_AlignInner(.TopRight, referView: contentView, size: CGSizeMake(35, 35), offset: CGPointMake(-9, 50))
-        let cons = contentImageView.ff_AlignHorizontal(.TopLeft, referView: iconImageView, size: CGSizeMake(100, 100), offset: CGPointMake(-12, 0))
+        let cons = contentImageView.ff_AlignHorizontal(.TopLeft, referView: iconImageView, size: CGSizeMake(100, 100), offset: CGPointMake(-12, 5))
         contentLabel.ff_AlignInner(.CenterCenter, referView: contentImageView, size: nil, offset: CGPointMake(-3, 0))
         imageViewWidth = contentImageView.ff_Constraint(cons, attribute: .Width)
         imageViewHeight = contentImageView.ff_Constraint(cons, attribute: .Height)
@@ -92,8 +92,8 @@ class FeedBackSytemTableViewCell: FeedBackMyTableViewCell {
     private override func initAutoLayout() {
         timeLabel.ff_AlignInner(.TopCenter, referView: contentView, size: nil, offset: CGPointMake(0, 18))
         let iconCons = iconImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(35, 35), offset: CGPointMake(9, 50))
-        let cons = contentImageView.ff_AlignHorizontal(.TopRight, referView: iconImageView, size: CGSizeMake(100, 100), offset: CGPointMake(12, 0))
-        contentLabel.ff_AlignInner(.CenterCenter, referView: contentImageView, size: nil)
+        let cons = contentImageView.ff_AlignHorizontal(.TopRight, referView: iconImageView, size: CGSizeMake(100, 100), offset: CGPointMake(12, 5))
+        contentLabel.ff_AlignInner(.CenterCenter, referView: contentImageView, size: nil, offset: CGPointMake(0, 0))
         imageViewWidth = contentImageView.ff_Constraint(cons, attribute: .Width)
         imageViewHeight = contentImageView.ff_Constraint(cons, attribute: .Height)
         iconImageViewTop = iconImageView.ff_Constraint(iconCons, attribute: .Top)
