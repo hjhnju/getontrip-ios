@@ -20,7 +20,7 @@ class CityBrowseTableViewCell: UITableViewCell {
         didSet {
             if let data = dataSource {
                 titleLabel.text = data.name
-                subtitleLabel.text = "\(data.sight)个景点，\(data.topic)篇内容"
+                subtitleLabel.text = "\(data.sight)个景点，\(data.topic)个内容"
             }
         }
     }

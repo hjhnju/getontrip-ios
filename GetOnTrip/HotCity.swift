@@ -24,7 +24,7 @@ class HotCity: NSObject {
     /// 城市话题数量
     var topic = "" {
         didSet {
-            topic = "\(topic)篇内容"
+            topic = "\(topic)个内容"
         }
     }
     /// 城市名

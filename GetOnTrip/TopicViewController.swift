@@ -13,15 +13,14 @@ import WebKit
 struct TopicViewContant {
     static let headerViewHeight:CGFloat = 267
     static let toolBarHeight:CGFloat    = 47
-    static let commentViewHeight:CGFloat = UIScreen.mainScreen().bounds.height - UIScreen.mainScreen().bounds.height * 0.72 - 44
+    static let commentViewHeight:CGFloat = Frame.screen.height - Frame.screen.height * 0.72 - 44
 }
 
 class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigationDelegate {
     
     // MARK: 相关属性
-    
     /// 自定义导航
-    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 17, hasStatusBar: false)
+    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 17, hasStatusBar: true)
     
     /// 头部视图
     lazy var headerView       = UIView()
@@ -165,7 +164,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
    
     func initView() {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+        navBar.setStatusBarHidden(true)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         
         view.addSubview(webView)
         view.addSubview(headerView)
@@ -220,8 +220,9 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     }
     
     private func initNavBar() {
+        
         if #available(iOS 9.0, *) {
-            navBar.titleLabel.font = UIFont(name: Font.defaultFont, size: 17)
+            navBar.titleLabel.font = UIFont(name: Font.defaultFont , size: 17)
         } else {
             navBar.titleLabel.font = UIFont.systemFontOfSize(17)
         }
@@ -229,7 +230,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setRightBarButton(UIImage(named: "bar_sight"), title: nil, target: self, action: "sightAction:")
         navBar.setButtonTintColor(SceneColor.frontBlack)
-        navBar.setStatusBarHidden(true)
         navBar.rightButton.alpha = 0.75
     }
     
@@ -283,12 +283,14 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.webView.scrollView.delegate = self
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
+        UIApplication.sharedApplication().statusBarStyle = .Default
     }
+    
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -296,10 +298,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     override func viewDidDisappear(animated: Bool) {
         //还原
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
+//        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
         super.viewDidDisappear(animated)
         //避免webkit iOS回退bug https://bugs.webkit.org/show_bug.cgi?id=139662
         self.webView.scrollView.delegate = nil
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
     
     deinit {
@@ -377,7 +380,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
             } else {
                 ProgressHUD.showErrorHUD(self?.view, text: "网络无法连接")
             }
-            })
+        })
         loadingView.start()
     }
 }
