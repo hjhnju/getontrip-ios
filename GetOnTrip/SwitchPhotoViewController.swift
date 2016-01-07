@@ -60,7 +60,8 @@ class SwitchPhotoViewController: MenuViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        photoView.imgPhoto.transform = CGAffineTransformIdentity
+        let scale = Frame.screen.width / min(photoView.imgPhoto.image!.size.width, photoView.imgPhoto.image!.size.height)
+        photoView.imgPhoto.transform = CGAffineTransformMakeScale(scale, scale)
     }
     
     ///  取消按钮方法
@@ -70,8 +71,8 @@ class SwitchPhotoViewController: MenuViewController {
     
     ///  确定按钮方法
     func trueAction() {
-        
-        let imageData = UIImagePNGRepresentation(photoView.savePhotoAction().scaleImage(isSaveBackImageBool ? UIScreen.mainScreen().bounds.width : 200))
+        // TODO: - 如果是用户的个人背景图片，那就将图片使用双倍图
+        let imageData = UIImagePNGRepresentation(photoView.savePhotoAction().scaleImage(isSaveBackImageBool ? Frame.screen.width * 2: 200))
         
         ProgressHUD.sharedProgressHUD.showOperationPrompt(nil, text: "正在保存中", style: nil) { [weak self] (handler) -> Void in
             let fileName = self?.isSaveBackImageBool ?? true ? "backimg" : "file"

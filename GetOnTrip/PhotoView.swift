@@ -23,7 +23,6 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
             imgPhoto.image = img
             imgPhoto.bounds = CGRectMake(0, 0, img.size.width, img.size.height)
             imgPhoto.center = CGPointMake(UIScreen.mainScreen().bounds.width * 0.5, UIScreen.mainScreen().bounds.height * 0.5)
-//            imgPhoto.transform = cgaffinetransform CGAffineTransformTranslate(imgPhoto.transform, imgPhoto.transform.tx, imgPhoto.transform.tx)
         }
     }
     
@@ -108,9 +107,7 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
     func avatarSubtract(image: UIImage) -> UIImage {
         let w = UIScreen.mainScreen().bounds
         let tempImage = image.scaleImage(w.width)
-        
         let image1 = CGImageCreateWithImageInRect(tempImage.CGImage, CGRectMake(0, (tempImage.size.height * 0.5 - tempImage.size.width * 0.5), tempImage.size.width, tempImage.size.width))
-
         return UIImage(CGImage: image1!)
     }
     
@@ -122,10 +119,11 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         
         if recognizer.state == .Ended {
             let imgMin = min(imgPhoto.frame.width, imgPhoto.frame.height)
-            if imgMin < UIScreen.mainScreen().bounds.width {
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    let scale = UIScreen.mainScreen().bounds.width / self.imgPhoto.image!.size.width
+            if imgMin < Frame.screen.width {
+                UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
+                    let scale = Frame.screen.width / min(self?.imgPhoto.image!.size.width ?? 0, self?.imgPhoto.image!.size.height ?? 0)
                     recognizer.view?.transform = CGAffineTransformMakeScale(scale, scale)
+                    recognizer.view!.center = self?.center ?? CGPointZero
                 })
             }
         }
@@ -139,48 +137,29 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         
         let translation = recognizer.translationInView(recognizer.view)
         recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, translation.x, translation.y)
-        print(imgPhoto.frame.origin.x)
         recognizer.setTranslation(CGPointZero, inView: recognizer.view)
         
         if recognizer.state == .Ended {
-            let screen = UIScreen.mainScreen().bounds
-            
-            let screenWidthHalf = (screen.height - screen.width) * 0.5
-            
-//            if imgPhoto.frame.origin.x > 0 {
-//                recognizer.view?.transform = CGAffineTransformTranslate(recognizer.view!.transform, -imgPhoto.frame.origin.x, translation.y) //CGAffineTransformMakeTranslation(imgPhoto.frame.origin.x, <#T##ty: CGFloat##CGFloat#>)
-//            }
-            
-//            if imgPhoto.frame.origin.x > 0 {
-//                UIView.animateWithDuration(0.5, animations: { () -> Void in
-//                    self.imgPhoto.frame.origin.x = 0
-//                })
-//            } else if CGRectGetMaxX(imgPhoto.frame) < screen.width {
-//                UIView.animateWithDuration(0.5, animations: { () -> Void in
-//                    self.imgPhoto.frame.origin.x = UIScreen.mainScreen().bounds.width - self.imgPhoto.frame.width
-//                })
-//            } else if imgPhoto.frame.origin.y > screenWidthHalf {
-//                UIView.animateWithDuration(0.5, animations: { () -> Void in
-//                    self.imgPhoto.frame.origin.y = screenWidthHalf
-//                })
-//            } else if CGRectGetMaxY(imgPhoto.frame) < (screen.height - screenWidthHalf) {
-//                UIView.animateWithDuration(0.5, animations: { () -> Void in
-//                    self.imgPhoto.frame.origin.y = (screen.height - screenWidthHalf) - self.imgPhoto.frame.height
-//                })
-//            }
-            
-            if imgPhoto.frame.origin.x > 0 || CGRectGetMaxX(imgPhoto.frame) < screen.width ||
-            imgPhoto.frame.origin.y > screenWidthHalf || CGRectGetMaxY(imgPhoto.frame) < (screen.height - screenWidthHalf) {
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    let scale = UIScreen.mainScreen().bounds.width / self.imgPhoto.image!.size.width
-                    recognizer.view?.transform = CGAffineTransformMakeScale(scale, scale)
-                })
-            }
+            let screenWidthHalf = (Frame.screen.height - Frame.screen.width) * 0.5
+            UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
+                if self?.imgPhoto.frame.origin.x > 0 {
+                    recognizer.view!.frame.origin.x = 0
+                }
+                if CGRectGetMaxX(self?.imgPhoto.frame ?? CGRectZero) < Frame.screen.width {
+                    recognizer.view!.frame.origin.x = Frame.screen.width - recognizer.view!.frame.width
+                }
+                if self?.imgPhoto.frame.origin.y > screenWidthHalf {
+                    recognizer.view!.frame.origin.y = screenWidthHalf
+                }
+                if CGRectGetMaxY(self?.imgPhoto.frame ?? CGRectZero) < (Frame.screen.height - screenWidthHalf) {
+                    recognizer.view!.frame.origin.y = Frame.screen.height - recognizer.view!.frame.height - screenWidthHalf
+                }
+            })
         }
     }
     // 旋转
     func rotationGesture(recognizer: UIRotationGestureRecognizer) {
-        recognizer.view?.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)
-        recognizer.rotation = 0
+//        recognizer.view?.transform = CGAffineTransformRotate(recognizer.view!.transform, recognizer.rotation)
+//        recognizer.rotation = 0
     }
 }

@@ -61,8 +61,8 @@ class RecommendTableViewCell: UITableViewCell {
                 titleConBot = titleButton.ff_Constraint(cons, attribute: .Bottom)
                 if data?.dis == "" {
                     titleConBot?.constant = 31
+                    titleButton.layoutIfNeeded()
                 }
-                titleButton.layoutIfNeeded()
             }
         }
     }
