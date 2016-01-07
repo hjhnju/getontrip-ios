@@ -354,8 +354,6 @@ class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocati
         
         LocateToCity.sharedLocateToCity.x = "\(coordinate!.longitude)"
         LocateToCity.sharedLocateToCity.y = "\(coordinate!.latitude)"
-        Cache.shareInstance.locationX = "\(coordinate!.longitude)"
-        Cache.shareInstance.locationY = "\(coordinate!.latitude)"
         
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
             if let locality = placemarks?.first?.locality {

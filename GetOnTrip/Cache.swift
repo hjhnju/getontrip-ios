@@ -28,19 +28,6 @@ class Cache: NSObject {
     static let cacheCityListTime: NSTimeInterval = 60 * 60
 
     /// 用户当前的地理位置
-    var locationX: String = "0" {
-        didSet {
-           cachekeys["/api/1.0/search/label?x=\(locationX)&page=1&order=1&pageSize=15&y=\(locationY)"] = 60
-           cachekeys["/api/1.0/search/label?x=\(locationX)&page=1&order=2&pageSize=15&y=\(locationY)"] = 60
-        }
-    }
-    var locationY: String = "0" {
-        didSet {
-            cachekeys["/api/1.0/search/label?x=\(locationX)&page=1&order=1&pageSize=15&y=\(locationY)"] = 60
-            cachekeys["/api/1.0/search/label?x=\(locationX)&page=1&order=2&pageSize=15&y=\(locationY)"] = 60
-        }
-    }
-    
     var cachekeys: [String: NSTimeInterval] = [
         "/api/1.0/city/list?type=0" : Cache.cacheCityListTime,
         "/api/1.0/city/list?type=1" : Cache.cacheCityListTime,
@@ -55,7 +42,7 @@ class Cache: NSObject {
     
     /// 正则缓存配置 name:config
     var cacheRegexConfs: [String: CacheRegexConfig] = [
-        //城市页缓存 // http://www.getontrip.cn/api/1.0/search/label?x=116.302930974834&page=1&order=2&pageSize=15&y=39.9799507498937, hasValidCache=false, hasDisplayCache=false
+        //城市页缓存
         "city": CacheRegexConfig(expr: "^/api/1\\.0/city\\?city=([0-9]+)$", buffer: 10, expire: 1),
         //景点缓存（标签等信息）
         "sight": CacheRegexConfig(expr: "^/api/1\\.0/sight\\?sightId=([0-9]+)$", buffer: 50, expire: 1),
@@ -67,9 +54,9 @@ class Cache: NSObject {
         "sight_books": CacheRegexConfig(expr: "^/api/1\\.0/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //视频列表缓存
         "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
-        // 首页缓存 ^\\d+$\\.\\d
-//        "seaarch_order1": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=113.0&page=1$&order=1&pageSize=15&y=29.0", buffer: 50, expire: 1),
-//        "search_order2": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=^113.0&page=1$&order=2&pageSize=15&y=29.0", buffer: 50, expire: 1),
+        // 首页缓存
+        "recommend1" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=1&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
+        "recommend2" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=2&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
     ]
     
     /**
