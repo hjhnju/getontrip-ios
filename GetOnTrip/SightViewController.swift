@@ -35,6 +35,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         didSet {
             initBaseTableViewController(sightDataSource.tags)
             collectionView.reloadData()
+            collectButton.setTitle(sightDataSource.isFavorite() ? "     已收藏" : "   收藏景点", forState: .Normal)
         }
     }
     
@@ -69,6 +70,18 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     lazy var loadingView: LoadingView = LoadingView()
     
     lazy var dataControllers = [BaseTableViewController]()
+    /// 退出按钮
+    lazy var exitButton: UIButton = UIButton()
+    /// 容器view
+    lazy var containerView: UIView = UIView()
+    /// 底部图片
+    lazy var bottomImageView: UIImageView = UIImageView(image: UIImage(named: "spring_sight"))
+    /// 切换城市
+    lazy var switchCityButton: UIButton = UIButton(image: "", title: "", fontSize: 16, titleColor: SceneColor.fontGray, fontName: Font.PingFangSCLight)
+    /// 是否收藏
+    lazy var collectButton: UIButton = UIButton(image: "", title: "", fontSize: 16, titleColor: SceneColor.fontGray, fontName: Font.PingFangSCLight)
+    /// 基线
+    lazy var baseLine: UIView = UIView(color: SceneColor.greyThinWhite, alphaF: 0.5)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,11 +89,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         initView()
         setupAutlLayout()
         loadSightData()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
+        initSwtchCityAndCollect()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -91,14 +100,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.enabled = true
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     override func viewDidLayoutSubviews() {
@@ -127,6 +128,31 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         collectionView.bounces    = false
         collectionView.backgroundColor = .whiteColor()
         collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
+    }
+    
+    private func initSwtchCityAndCollect() {
+        view.addSubview(exitButton)
+        exitButton.ff_Fill(view)
+        exitButton.addTarget(self, action: "exitAction", forControlEvents: .TouchUpInside)
+        view.addSubview(containerView)
+        containerView.addSubview(bottomImageView)
+        bottomImageView.frame = CGRectMake(0, 0, 140, 104)
+        containerView.addSubview(switchCityButton)
+        containerView.addSubview(collectButton)
+        containerView.addSubview(baseLine)
+        switchCityButton.frame = CGRectMake(0, 10, 140, 46)
+        collectButton.frame = CGRectMake(0, 56, 140, 46)
+        baseLine.frame = CGRectMake(9, 46, 140 - 18, 0.5)
+        switchCityButton.tag = 1
+        collectButton.tag    = 2
+        exitButton.hidden = true
+        containerView.hidden = true
+        switchCityButton.setTitle("   转至城市", forState: .Normal)
+        switchCityButton.setImage(UIImage(named: "city_sight"), forState: .Normal)
+        collectButton.setTitle("   收藏景点", forState: .Normal)
+        collectButton.setImage(UIImage(named: "collect_sight"), forState: .Normal)
+        switchCityButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
+        collectButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
     }
     
     private func initNavBar() {
@@ -266,7 +292,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 if let sight = sight {
                     self?.sightDataSource = sight
                     self?.setupChannel(sight.tags)
-                    MenuSwitchView.sharedMenuSwitchView.collectButton.selected = sight.isFavorite()
+                    self?.collectButton.selected = sight.isFavorite()
                 }
             } else {
                 //不再浮层提示  TODO://空白页面提示"无法连接网络"，想法：往后只有用户手动更新才会浮层显示，其他都在页面提示
@@ -308,11 +334,12 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     /// 显示更多选择
     func showMoreSelect() {
-        
-        MenuSwitchView.sharedMenuSwitchView.dataSource = [MenuSwitchModel(dict: ["image" : "city_sight", "title": "   转至城市"]), MenuSwitchModel(dict: ["image" : "collect_sight", "title": "   收藏景点"])]
-        MenuSwitchView.sharedMenuSwitchView.showSwitchAction(self, initPoint: CGPointMake(Frame.screen.width - 23, 56))
-        MenuSwitchView.sharedMenuSwitchView.switchCityButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
-        MenuSwitchView.sharedMenuSwitchView.collectButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
+        exitButton.hidden = false
+        containerView.hidden = false
+        containerView.frame = CGRectMake(Frame.screen.width - 9, 46, 0, 0)
+        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
+            self?.containerView.frame = CGRectMake(Frame.screen.width - 149, 46, 140, 104)
+        }
     }
     
     // 切换城市和收藏景点方法
@@ -320,7 +347,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         if sender.tag == 1 {
             cityAction()
         } else if sender.tag == 2 {
-            favoriteAction(MenuSwitchView.sharedMenuSwitchView.collectButton)
+            favoriteAction(collectButton)
         }
     }
     
@@ -330,7 +357,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         let city = City(id: self.sightDataSource.cityid)
         cityViewController.cityDataSource = city
         navigationController?.pushViewController(cityViewController, animated: true)
-        MenuSwitchView.sharedMenuSwitchView.exitAction()
+        exitAction()
     }
     
     /// 收藏操作
@@ -339,20 +366,29 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         sender.selected = !sender.selected
         let type  = FavoriteContant.TypeSight
         let objid = self.sightDataSource.id
-        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) {
+        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) { [weak self]
             (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
-                    MenuSwitchView.sharedMenuSwitchView.exitAction()
+                    ProgressHUD.showSuccessHUD(self?.view, text: sender.selected ? "已收藏" : "已取消")
+                    self?.exitAction()
                 }
             } else {
                 sender.selected = !sender.selected
-                ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍后再试")
-                MenuSwitchView.sharedMenuSwitchView.exitAction()
+                ProgressHUD.showErrorHUD(self?.view, text: "操作未成功，请稍后再试")
+                self?.exitAction()
             }
+            self?.collectButton.setTitle(sender.selected ? "     已收藏" : "   收藏景点", forState: .Normal)
+        }
+    }
+    
+    func exitAction() {
+        exitButton.hidden = true
+        containerView.clipsToBounds = true
+        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
+            self?.containerView.frame = CGRectMake(Frame.screen.width - 9, 46, 0, 0)
         }
     }
 }
