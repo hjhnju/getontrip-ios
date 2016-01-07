@@ -54,15 +54,11 @@ class RecommendTableViewCell: UITableViewCell {
                 locationButton.hidden    = data?.dis == "" ? true : false
                 locationUnitLabel.hidden = data?.dis == "" ? true : false
 
-                let cons = titleButton.ff_AlignVertical(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, 5))
+                let cons = titleButton.ff_AlignVertical(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, data?.dis == "" ? 31 : 5))
                 locationButton.ff_AlignInner(.BottomLeft, referView: contentView, size: nil, offset: CGPointMake(9, -19))
-                locationUnitLabel.ff_AlignHorizontal(.CenterRight, referView: locationButton, size: nil, offset: CGPointMake(0, 0.5))
+                locationUnitLabel.ff_AlignHorizontal(.CenterRight, referView: locationButton, size: nil, offset: CGPointMake(1.5, 2))
                 locationUnitLabel.text = data?.dis_unit
                 titleConBot = titleButton.ff_Constraint(cons, attribute: .Bottom)
-                if data?.dis == "" {
-                    titleConBot?.constant = 31
-                    titleButton.layoutIfNeeded()
-                }
             }
         }
     }
@@ -112,9 +108,9 @@ class RecommendTableViewCell: UITableViewCell {
         cellImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight - 2), offset: CGPointMake(0, 2))
         shadeView.frame = CGRectMake(0, 0, Frame.screen.width, RecommendContant.rowHeight)
         contentLabel.ff_AlignInner(.BottomRight, referView: contentView, size: nil, offset: CGPointMake(-9, -19))
-        contentImage.ff_AlignHorizontal(.BottomLeft, referView: contentLabel, size: CGSizeMake(10, 12), offset: CGPointMake(-5, 0))
+        contentImage.ff_AlignHorizontal(.BottomLeft, referView: contentLabel, size: CGSizeMake(10, 12), offset: CGPointMake(-7, 0))
         collectLabel.ff_AlignHorizontal(.BottomLeft, referView: contentImage, size: nil, offset: CGPointMake(-12, 0))
-        collectImage.ff_AlignHorizontal(.BottomLeft, referView: collectLabel, size: CGSizeMake(10, 12), offset: CGPointMake(-5, 0))
+        collectImage.ff_AlignHorizontal(.BottomLeft, referView: collectLabel, size: CGSizeMake(10, 12), offset: CGPointMake(-7, -2))
     }
 
     required init?(coder aDecoder: NSCoder) {

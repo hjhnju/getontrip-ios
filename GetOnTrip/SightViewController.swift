@@ -35,7 +35,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         didSet {
             initBaseTableViewController(sightDataSource.tags)
             collectionView.reloadData()
-            collectButton.setTitle(sightDataSource.isFavorite() ? "     已收藏" : "   收藏景点", forState: .Normal)
+            collectButton.setTitle(sightDataSource.isFavorite() ? "      已收藏" : "   收藏景点", forState: .Normal)
         }
     }
     
@@ -144,7 +144,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         containerView.addSubview(baseLine)
         switchCityButton.frame = CGRectMake(0, 10, 140, 46)
         collectButton.frame = CGRectMake(0, 56, 140, 46)
-        baseLine.frame = CGRectMake(9, 46, 140 - 18, 0.5)
+        baseLine.frame = CGRectMake(9, 54, 140 - 18, 0.5)
         switchCityButton.tag = 1
         collectButton.tag    = 2
         exitButton.hidden = true
@@ -338,9 +338,9 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     func showMoreSelect() {
         exitButton.hidden = false
         containerView.hidden = false
-        containerView.frame = CGRectMake(Frame.screen.width - 9, 46, 0, 0)
-        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
-            self?.containerView.frame = CGRectMake(Frame.screen.width - 149, 46, 140, 104)
+        containerView.frame = CGRectMake(Frame.screen.width - 9, 50, 0, 0)
+        UIView.animateWithDuration(0.2) { [weak self] () -> Void in
+            self?.containerView.frame = CGRectMake(Frame.screen.width - 149, 50, 140, 104)
         }
     }
     
@@ -382,22 +382,22 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                     sender.selected = !sender.selected
                 } else {
                     ProgressHUD.showSuccessHUD(self?.view, text: sender.selected ? "已收藏" : "已取消")
-                    self?.exitAction()
+//                    self?.exitAction()
                 }
             } else {
                 sender.selected = !sender.selected
                 ProgressHUD.showErrorHUD(self?.view, text: "操作未成功，请稍后再试")
-                self?.exitAction()
+//                self?.exitAction()
             }
-            self?.collectButton.setTitle(sender.selected ? "     已收藏" : "   收藏景点", forState: .Normal)
+            self?.collectButton.setTitle(sender.selected ? "      已收藏" : "   收藏景点", forState: .Normal)
         }
     }
     
     func exitAction() {
         exitButton.hidden = true
         containerView.clipsToBounds = true
-        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
-            self?.containerView.frame = CGRectMake(Frame.screen.width - 9, 46, 0, 0)
+        UIView.animateWithDuration(0.2) { [weak self] () -> Void in
+            self?.containerView.frame = CGRectMake(Frame.screen.width - 9, 50, 0, 0)
         }
     }
 }

@@ -31,7 +31,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var headerImageView  = UIImageView()
     
     /// 文章标题
-    lazy var headerTitleLabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false)
+    lazy var headerTitleLabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false, fontName: Font.PingFangSCRegular)
     
     /// 标签 - 历史
     lazy var labelButton      = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
@@ -115,8 +115,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                 }
                 let attr = NSMutableAttributedString(string: topic.title)
                 let style = NSMutableParagraphStyle()
-            
-                let titleH = topic.title.sizeofStringWithFount(UIFont.systemFontOfSize(24), maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 24, CGFloat.max), lineSpacing: 4).height
+                let titleH = topic.title.sizeofStringWithFount(UIFont(name: Font.PingFangSCRegular, size: 24) ?? UIFont(name: Font.ios8Font, size: 24)!,
+                    maxSize: CGSizeMake(UIScreen.mainScreen().bounds.width - 24, CGFloat.max), lineSpacing: 4).height
                 if titleH < 35 {
                     style.maximumLineHeight = 32
                 } else {

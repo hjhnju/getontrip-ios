@@ -69,7 +69,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("recordData") as? [String] {
             recordData = userDefault
         }
-        
+        recordTableView.bounces = false
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)
         view.addSubview(recordTableView)

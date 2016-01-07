@@ -63,7 +63,7 @@ class TopicCell: UITableViewCell {
         titleLabel.preferredMaxLayoutWidth = w
         
         iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(133, 84), offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 19), offset: CGPointMake(6, 0))
+        subtitleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 19), offset: CGPointMake(6, -1.5))
         titleLabel.ff_AlignVertical(.BottomLeft, referView: subtitleLabel, size: nil, offset: CGPointMake(0, 0))
         praise.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
         preview.ff_AlignHorizontal(.CenterRight, referView: praise, size: nil, offset: CGPointMake(8, 0))

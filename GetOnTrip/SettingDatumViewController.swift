@@ -29,7 +29,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     lazy var loginIconButton: PleaseLoginButton = PleaseLoginButton(image: "icon_app", title: "", fontSize: 0)
     
     /// 登录文字
-    lazy var loginTitleButton = UIButton(title: "请登录", fontSize: 16, radius: 0, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
+    lazy var loginTitleButton = UIButton(title: "请登录", fontSize: 20, radius: 0, titleColor: .whiteColor(), fontName: Font.PingFangSCLight)
     
     /// 登录状态
     var isLoginStatus: Bool = false {
@@ -84,7 +84,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 212), offset: CGPointMake(0, 44))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
         loginIconButton.ff_AlignInner(.CenterCenter, referView: headerView, size: CGSizeMake(90, 90), offset: CGPointMake(0, -10))
-        loginTitleButton.ff_AlignVertical(.BottomCenter, referView: loginIconButton, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 20), offset: CGPointMake(0, 12))
+        loginTitleButton.ff_AlignVertical(.BottomCenter, referView: loginIconButton, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 20), offset: CGPointMake(0, 14))
     }
     
     private func initTableView() {

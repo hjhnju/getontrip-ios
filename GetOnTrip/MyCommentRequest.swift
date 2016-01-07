@@ -11,7 +11,7 @@ import UIKit
 class MyCommentRequest: NSObject {
     // 请求参数
     var page    : Int = 1
-    var pageSize: Int = 6
+    var pageSize: Int = 15
         
     func fetchNextPageModels(handler: ([MyComment]?, Int) -> Void) {
         page = page + 1

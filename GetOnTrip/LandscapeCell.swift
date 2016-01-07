@@ -31,7 +31,7 @@ class LandscapeCell1: UITableViewCell {
                 }
                 
                 titleLabel.text = landscape.name
-                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: NSLineBreakMode.ByTruncatingTail)
+                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 3, breakMode: .ByTruncatingTail)
             }
         }
     }
@@ -61,7 +61,7 @@ class LandscapeCell1: UITableViewCell {
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 119 - 15 - 6
         iconView.ff_AlignInner(.CenterRight, referView: self, size: CGSizeMake(119, 84), offset: CGPointMake(-9, 0))
         titleLabel.ff_AlignHorizontal(.TopLeft, referView: iconView, size: CGSizeMake(w, 21), offset: CGPointMake(0, 0))
-        subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: CGSizeMake(w - 10, 57), offset: CGPointMake(0, 5))
+        subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: CGSizeMake(w - 10, 57), offset: CGPointMake(0, 9))
         baseLine.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5), offset: CGPointMake(0, 0))
     }
     
@@ -114,7 +114,7 @@ class LandscapeCell: LandscapeCell1 {
     /// 初始化相关属性
     private func initProperty() {
         iconView.addSubview(coverView)
-        coverView.alpha = 0.4
+        coverView.alpha = 0.3
         clipsToBounds = true
         titleLabel.textColor    = UIColor.whiteColor()
         subtitleLabel.textColor = UIColor.whiteColor()

@@ -88,7 +88,8 @@ class MyCommentViewController: MenuViewController, UITableViewDataSource, UITabl
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MyCommentTableViewCell", forIndexPath: indexPath) as! MyCommentTableViewCell
-        cell.dataSource = dataSource[indexPath.row]        
+        cell.dataSource = dataSource[indexPath.row]
+        cell.baseLine.hidden = (indexPath.row == dataSource.count - 1) ? true : false
         return cell
     }
     
