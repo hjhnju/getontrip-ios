@@ -35,6 +35,8 @@ class RecommendTableViewCell: UITableViewCell {
     /// 位置单位
     lazy var locationUnitLabel = UILabel(color: .whiteColor(), title: "", fontSize: 10, mutiLines: true, fontName: Font.PingFangSCLight)
     
+    var titleConBot: NSLayoutConstraint?
+    
     var data: RecommendCellData? {
         didSet {
             if let cellData = data {
@@ -52,12 +54,15 @@ class RecommendTableViewCell: UITableViewCell {
                 locationButton.hidden    = data?.dis == "" ? true : false
                 locationUnitLabel.hidden = data?.dis == "" ? true : false
 
-//                let cons = titleButton.ff_AlignVertical(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, 5))
-//                locationButton.ff_AlignInner(.BottomLeft, referView: contentView, size: nil, offset: CGPointMake(9, -19))
-//                locationUnitLabel.ff_AlignHorizontal(.CenterRight, referView: locationButton, size: nil, offset: CGPointMake(0, 0.5))
+                let cons = titleButton.ff_AlignVertical(.TopLeft, referView: locationButton, size: nil, offset: CGPointMake(0, 5))
+                locationButton.ff_AlignInner(.BottomLeft, referView: contentView, size: nil, offset: CGPointMake(9, -19))
+                locationUnitLabel.ff_AlignHorizontal(.CenterRight, referView: locationButton, size: nil, offset: CGPointMake(0, 0.5))
                 locationUnitLabel.text = data?.dis_unit
-//                let titleConBot = titleButton.ff_Constraint(cons, attribute: .Bottom)
-//                titleConBot?.constant = data?.dis == "" ? 31 : 0
+                titleConBot = titleButton.ff_Constraint(cons, attribute: .Bottom)
+                if data?.dis == "" {
+                    titleConBot?.constant = 31
+                }
+                titleButton.layoutIfNeeded()
             }
         }
     }
