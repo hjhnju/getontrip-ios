@@ -5,7 +5,7 @@
 //  Created by 王振坤 on 16/1/7.
 //  Copyright © 2016年 Joshua. All rights reserved.
 //
-
+/*
 import UIKit
 import FFAutoLayout
 
@@ -263,3 +263,4 @@ extension PhotoBrowserViewController: UIViewControllerInteractiveTransitioning, 
     func initialFrameForViewController(vc: UIViewController) -> CGRect { return CGRectZero }
     func finalFrameForViewController(vc: UIViewController) -> CGRect { return CGRectZero }
 }
+*/

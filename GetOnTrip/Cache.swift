@@ -24,14 +24,24 @@ enum CacheType {
 class Cache: NSObject {
     
     static let shareInstance: Cache = Cache()
+    
     static let cacheCityListTime: NSTimeInterval = 60 * 60
+
+    /// 用户当前的地理位置
+    var locationX: String = "0" {
+        didSet {
+           cachekeys["/api/1.0/search/label?x=\(locationX)&page=1&order=1&pageSize=15&y=\(locationY)"] = 60
+           cachekeys["/api/1.0/search/label?x=\(locationX)&page=1&order=2&pageSize=15&y=\(locationY)"] = 60
+        }
+    }
+    var locationY: String = "0" {
+        didSet {
+            cachekeys["/api/1.0/search/label?x=\(locationX)&page=1&order=1&pageSize=15&y=\(locationY)"] = 60
+            cachekeys["/api/1.0/search/label?x=\(locationX)&page=1&order=2&pageSize=15&y=\(locationY)"] = 60
+        }
+    }
+    
     var cachekeys: [String: NSTimeInterval] = [
-//        "/api/1.0/search/label?order=1&pageSize=15&page=1" : 60,
-//        "/api/1.0/search/label?order=2&pageSize=15&page=1" : 60,
-//        "/api/1.0/search/label?order=3&pageSize=15&page=1" : 60,
-//        "/api/1.0/search/label?order=4&pageSize=15&page=1" : 60,
-//        "/api/1.0/search/label?order=5&pageSize=15&page=1" : 60,
-//        "/api/1.0/search/label?order=6&pageSize=15&page=1" : 60,
         "/api/1.0/city/list?type=0" : Cache.cacheCityListTime,
         "/api/1.0/city/list?type=1" : Cache.cacheCityListTime,
         "/api/1.0/city/hot?type=0"  : Cache.cacheCityListTime,
@@ -58,8 +68,8 @@ class Cache: NSObject {
         //视频列表缓存
         "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         // 首页缓存 ^\\d+$\\.\\d
-        "seaarch_order1": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=113.0&page=1$&order=1&pageSize=15&y=29.0", buffer: 50, expire: 1),
-        "search_order2": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=^113.0&page=1$&order=2&pageSize=15&y=29.0", buffer: 50, expire: 1),
+//        "seaarch_order1": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=113.0&page=1$&order=1&pageSize=15&y=29.0", buffer: 50, expire: 1),
+//        "search_order2": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=^113.0&page=1$&order=2&pageSize=15&y=29.0", buffer: 50, expire: 1),
     ]
     
     /**

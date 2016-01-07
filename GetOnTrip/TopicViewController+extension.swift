@@ -97,7 +97,7 @@ extension TopicViewController {
     
     /// 点赞方法
     func praisedAction(sender: UIButton) {
-        openDetailPhoto()
+
         sender.selected = !sender.selected
         praiseNum = topicDataSource?.praiseNum ?? "0"
         refreshPraisedButton(String(Int(topicDataSource?.praiseNum ?? "0")! + (sender.selected ? 1 : -1)))
@@ -175,7 +175,7 @@ extension TopicViewController {
         vc.modalPresentationStyle = UIModalPresentationStyle.Custom
         presentViewController(vc, animated: true, completion: nil)
     }
-    
+    /*
     func openDetailPhoto() {
         // 传递数据！- 图像的数组 & 用户选中的照片索引
         
@@ -206,9 +206,10 @@ extension TopicViewController {
         
         presentViewController(vc, animated: true, completion: nil)
     }
-
+*/
 }
 
+/*
 extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
     
     // 返回提供转场 Modal 动画的对象
@@ -293,3 +294,4 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
         }
     }
 }
+*/
