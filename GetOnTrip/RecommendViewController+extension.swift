@@ -84,7 +84,7 @@ extension RecommendViewController {
         let isSelected = titleSelectView.selectView.center.x < Frame.screen.width * 0.5 ? true : false
         titleSelectView.hotContentButton.selected = isSelected
         titleSelectView.hotSightButton.selected   = !isSelected
-        navTitleLabel.text = isSelected ? "热门内容" : "推荐景点"
+        navTitleLabel.text = isSelected ? recommendLabels[0].name : recommendLabels[1].name
     }
     
     /// 变搜索框
