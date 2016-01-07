@@ -13,10 +13,12 @@ class MenuSwitchView: UIView {
     // TODO: - 需要要使用该类必须实现selectSwitchAction:方法
     weak var superController: UIViewController?
     
+    static let sharedMenuSwitchView = MenuSwitchView()
+    
     /// 初始点
-    var initPoint: CGPoint = CGPointZero {
+    var originPoint: CGPoint = CGPointZero {
         didSet {
-            containerView.frame  = CGRectMake(initPoint.x, initPoint.y, 0, 0)
+            containerView.frame  = CGRectMake(originPoint.x, originPoint.y, 0, 0)
         }
     }
     /// 退出按钮
@@ -25,21 +27,19 @@ class MenuSwitchView: UIView {
     lazy var containerView: UIView = UIView()
     /// 底部图片
     lazy var bottomImageView: UIImageView = UIImageView(image: UIImage(named: "spring_sight"))
-    
+    /// 切换城市
+    lazy var switchCityButton: UIButton = UIButton(image: "", title: "", fontSize: 16, titleColor: SceneColor.fontGray, fontName: Font.PingFangSCLight)
+    /// 是否收藏
+    lazy var collectButton: UIButton = UIButton(image: "", title: "", fontSize: 16, titleColor: SceneColor.fontGray, fontName: Font.PingFangSCLight)
+    /// 基线
+    lazy var baseLine: UIView = UIView(color: SceneColor.greyThinWhite, alphaF: 0.5)
     /// 数据源
     var dataSource: [MenuSwitchModel] = [MenuSwitchModel]() {
         didSet {
-            var y: CGFloat = 15
-            var tag: Int = 1
-            for item in dataSource {
-                let btn = UIButton(image: item.image, title: item.title, fontSize: 16)
-                btn.addTarget(superController, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
-                btn.tag = tag
-                containerView.addSubview(btn)
-                btn.frame = CGRectMake(23, y, 140, 46)
-                y += 27
-                tag++
-            }
+            switchCityButton.setTitle(dataSource[0].title, forState: .Normal)
+            switchCityButton.setImage(UIImage(named: dataSource[0].image), forState: .Normal)
+            collectButton.setTitle(dataSource[1].title, forState: .Normal)
+            collectButton.setImage(UIImage(named: dataSource[1].image), forState: .Normal)
         }
     }
     
@@ -47,13 +47,19 @@ class MenuSwitchView: UIView {
         super.init(frame: frame)
         addSubview(exitButton)
         
-        exitButton.hidden = true
         exitButton.ff_Fill(self)
         exitButton.addTarget(self, action: "exitAction", forControlEvents: .TouchUpInside)
-        
-        containerView.hidden = true
+
+        addSubview(containerView)
         containerView.addSubview(bottomImageView)
         bottomImageView.ff_Fill(containerView)
+        
+        containerView.addSubview(switchCityButton)
+        containerView.addSubview(collectButton)
+        containerView.addSubview(baseLine)
+        baseLine.ff_AlignInner(.CenterCenter, referView: containerView, size: CGSizeMake(131, 0.5), offset: CGPointMake(0, 5))
+        switchCityButton.tag = 1
+        collectButton.tag    = 2
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -61,35 +67,53 @@ class MenuSwitchView: UIView {
     }
     
     /// 显示选择方法
-    func showSwitchAction() {
-        UIApplication.sharedApplication().keyWindow?.addSubview(self)
-        self.frame = UIScreen.mainScreen().bounds
-        containerView.backgroundColor = UIColor.randomColor()
-        containerView.hidden = false
-        exitButton.hidden    = false
-        UIView.animateWithDuration(0.5) { [weak self] () -> Void in
-            let w: CGFloat = 140
-            self?.containerView.frame = CGRectMake(Frame.screen.width - w - 9, self?.initPoint.y ?? 0, w, CGFloat(46 * (self?.dataSource.count ?? 0)))
+    func showSwitchAction(superViewController: UIViewController, initPoint: CGPoint) {
+        superController = superViewController
+        originPoint = initPoint
+        let mv = MenuSwitchView.sharedMenuSwitchView
+        mv.frame = Frame.screen
+        superViewController.view.addSubview(mv)
+        mv.containerView.frame = CGRectMake(originPoint.x, originPoint.y, 0, 0)
+        mv.containerView.clipsToBounds = true
+        UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
+            mv.containerView.frame = CGRectMake(Frame.screen.width - 149, self?.originPoint.y ?? 0, 140, 104)
+            self?.switchCityButton.frame = CGRectMake(0, 10, 140, 46)
+            self?.collectButton.frame = CGRectMake(0, 56, 140, 46)
+            }) { (_) -> Void in
+                 mv.containerView.clipsToBounds = false
         }
     }
     
     /// 退出方法
     func exitAction() {
+        MenuSwitchView.sharedMenuSwitchView.containerView.clipsToBounds = false
+        MenuSwitchView.sharedMenuSwitchView.containerView.frame = CGRectMake(Frame.screen.width - 80, originPoint.y, 140, 104)
+        MenuSwitchView.sharedMenuSwitchView.bottomImageView.frame = CGRectMake(Frame.screen.width - 80, originPoint.y, 140, 104)
         
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
-            self?.containerView.frame = CGRectMake(self?.initPoint.x ?? 0, self?.initPoint.y ?? 0, 0, 0)
+            MenuSwitchView.sharedMenuSwitchView.containerView.frame = CGRectMake(self?.originPoint.x ?? 0, self?.originPoint.y ?? 0, 0, 0)
+            MenuSwitchView.sharedMenuSwitchView.bottomImageView.frame = CGRectMake(self?.originPoint.x ?? 0, self?.originPoint.y ?? 0, 0, 0)
+            MenuSwitchView.sharedMenuSwitchView.switchCityButton.frame = CGRectMake(self?.originPoint.x ?? 0, self?.originPoint.y ?? 0, 0, 0)
+            MenuSwitchView.sharedMenuSwitchView.collectButton.frame = CGRectMake(self?.originPoint.x ?? 0, self?.originPoint.y ?? 0, 0, 0)
             }) { [weak self] (_) -> Void in
-                self?.exitButton.hidden    = true
-                self?.containerView.hidden = true
                 self?.removeFromSuperview()
         }
     }
     
 }
 
-class MenuSwitchModel {
+class MenuSwitchModel: NSObject {
     
     var image: String = ""
     
     var title: String = ""
+    
+    init(dict: [String : AnyObject]) {
+        super.init()
+        setValuesForKeysWithDictionary(dict)
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+    }
 }

@@ -370,7 +370,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     ///  tabview的行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 108 //indexPath.row == 0 ? CGRectGetMaxY(collectionView.frame) + 8 : 108
+        return 108
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

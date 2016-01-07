@@ -67,6 +67,7 @@ struct SceneColor {
     static let whiteGrey   = UIColor(hex: 0x7F7F7F, alpha: 0.5)
     static let greyThin    = UIColor(hex: 0xF0F0F0, alpha: 1.0)
     static let shallowWhiteGrey = UIColor(hex: 0x9F9F9F, alpha: 1.0)
+    static let greyThinWhite = UIColor(hex: 0xBDBDBD, alpha: 1.0)
     
     /**
     白色系列

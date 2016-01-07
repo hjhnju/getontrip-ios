@@ -330,6 +330,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         loadingView.stop()
     }
     
+    
+    
     /// 显示详情
     private func showTopicDetail() {
         if let topic =  topicDataSource {
@@ -383,4 +385,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         })
         loadingView.start()
     }
+    
+    var isPresented = false
+    
+    ///  1. 临时的图片视图
+    lazy var presentedImageView = UIImageView()
+    ///  2. 目标位置
+    var presentedFrame = CGRectZero
 }

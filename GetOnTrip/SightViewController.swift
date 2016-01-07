@@ -69,8 +69,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     lazy var loadingView: LoadingView = LoadingView()
     
     lazy var dataControllers = [BaseTableViewController]()
-    /// 切换城市和收藏景点
-    lazy var menuSwitchView: MenuSwitchView = MenuSwitchView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +76,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         initView()
         setupAutlLayout()
         loadSightData()
-        initMenuSwitch()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -147,10 +144,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         collectionView.ff_AlignVertical(.BottomLeft, referView: labelNavView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(labelNavView.frame)), offset: CGPointMake(0, 0))
         loadingView.ff_AlignInner(.CenterCenter, referView: view, size: loadingView.getSize(), offset: CGPointMake(0, 0))
         setupLayout()
-    }
-    
-    private func initMenuSwitch() {
-        menuSwitchView.initPoint = CGPointMake(Frame.screen.width - 23, 56)
     }
     
     ///  设置频道标签
@@ -273,7 +266,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 if let sight = sight {
                     self?.sightDataSource = sight
                     self?.setupChannel(sight.tags)
-                    self?.navBar.rightButton.selected = sight.isFavorite()
+                    MenuSwitchView.sharedMenuSwitchView.collectButton.selected = sight.isFavorite()
                 }
             } else {
                 //不再浮层提示  TODO://空白页面提示"无法连接网络"，想法：往后只有用户手动更新才会浮层显示，其他都在页面提示
@@ -313,13 +306,13 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         }
     }
     
-
-    
-
-    
     /// 显示更多选择
     func showMoreSelect() {
-        menuSwitchView.showSwitchAction()
+        
+        MenuSwitchView.sharedMenuSwitchView.dataSource = [MenuSwitchModel(dict: ["image" : "city_sight", "title": "   转至城市"]), MenuSwitchModel(dict: ["image" : "collect_sight", "title": "   收藏景点"])]
+        MenuSwitchView.sharedMenuSwitchView.showSwitchAction(self, initPoint: CGPointMake(Frame.screen.width - 23, 56))
+        MenuSwitchView.sharedMenuSwitchView.switchCityButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
+        MenuSwitchView.sharedMenuSwitchView.collectButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
     }
     
     // 切换城市和收藏景点方法
@@ -327,13 +320,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         if sender.tag == 1 {
             cityAction()
         } else if sender.tag == 2 {
-            for item in menuSwitchView.subviews {
-                if item.tag == 2 {
-                    if let btn = item as? UIButton {
-                        favoriteAction((btn))
-                    }
-                }
-            }
+            favoriteAction(MenuSwitchView.sharedMenuSwitchView.collectButton)
         }
     }
     
@@ -343,6 +330,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         let city = City(id: self.sightDataSource.cityid)
         cityViewController.cityDataSource = city
         navigationController?.pushViewController(cityViewController, animated: true)
+        MenuSwitchView.sharedMenuSwitchView.exitAction()
     }
     
     /// 收藏操作
@@ -358,10 +346,12 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                     sender.selected = !sender.selected
                 } else {
                     ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
+                    MenuSwitchView.sharedMenuSwitchView.exitAction()
                 }
             } else {
                 sender.selected = !sender.selected
                 ProgressHUD.showErrorHUD(self.view, text: "操作未成功，请稍后再试")
+                MenuSwitchView.sharedMenuSwitchView.exitAction()
             }
         }
     }

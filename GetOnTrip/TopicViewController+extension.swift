@@ -97,6 +97,7 @@ extension TopicViewController {
     
     /// 点赞方法
     func praisedAction(sender: UIButton) {
+        openDetailPhoto()
         sender.selected = !sender.selected
         praiseNum = topicDataSource?.praiseNum ?? "0"
         refreshPraisedButton(String(Int(topicDataSource?.praiseNum ?? "0")! + (sender.selected ? 1 : -1)))
@@ -174,5 +175,121 @@ extension TopicViewController {
         vc.modalPresentationStyle = UIModalPresentationStyle.Custom
         presentViewController(vc, animated: true, completion: nil)
     }
+    
+    func openDetailPhoto() {
+        // 传递数据！- 图像的数组 & 用户选中的照片索引
+        
+        var urls = [NSURL]()
+        urls.append(NSURL(string: "http://e.hiphotos.baidu.com/image/h%3D200/sign=9df930e1bc0e7bec3cda04e11f2cb9fa/314e251f95cad1c8037ed8c97b3e6709c83d5112.jpg")!)
+        urls.append(NSURL(string: "http://c.hiphotos.baidu.com/image/pic/item/0d338744ebf81a4cbbae871dd32a6059242da642.jpg")!)
+        urls.append(NSURL(string: "http://d.hiphotos.baidu.com/image/pic/item/8b82b9014a90f603d057f7933d12b31bb151ed7b.jpg")!)
+        urls.append(NSURL(string: "http://f.hiphotos.baidu.com/image/pic/item/8718367adab44aed8390d530b71c8701a08bfb0c.jpg")!)
+        urls.append(NSURL(string: "http://c.hiphotos.baidu.com/image/pic/item/e850352ac65c103851f8a024b6119313b17e8955.jpg")!)
+        urls.append(NSURL(string: "http://h.hiphotos.baidu.com/image/pic/item/c995d143ad4bd1130c0ee8e55eafa40f4afb0521.jpg")!)
+        urls.append(NSURL(string: "http://d.hiphotos.baidu.com/image/pic/item/4afbfbedab64034f5be93a20aac379310a551deb.jpg")!)
+        
+        let vc = PhotoBrowserViewController(urls: urls, index: 1)
+        
+        // 0. 准备转场的素材
+//        presentedImageView.sd_setImageWithURL(cell.status!.largePicURLs![photoIndex])
+//        presentedImageView.frame = cell.screenFrame(photoIndex)
+//        presentedImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        // 目标位置
+//        presentedFrame = cell.fullScreenFrame(photoIndex)
+        // 记录当前行
+//        selectedStatusCell = cell
+        
+        // 1. 设置转场代理
+        vc.transitioningDelegate = self
+        // 2. 设置转场的样式
+        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+        
+        presentViewController(vc, animated: true, completion: nil)
+    }
 
+}
+
+extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+    
+    // 返回提供转场 Modal 动画的对象
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        isPresented = true
+        return self
+    }
+    
+    // 返回提供转场 Dismiss 动画的对象
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        isPresented = false
+        return self
+    }
+    
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+        return 0.5
+    }
+    
+    // 一旦实现，需要程序员提供动画
+    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+        
+        // 1. 获取目标视图
+        let viewKey = isPresented ? UITransitionContextToViewKey : UITransitionContextFromViewKey
+        let targetView = transitionContext.viewForKey(viewKey)
+        
+        if targetView == nil {
+            return
+        }
+        
+        if isPresented {
+            // 2. 添加 toView
+            transitionContext.containerView()?.addSubview(targetView!)
+            targetView!.alpha = 0
+            // 2.1 添加临时的图片视图
+            transitionContext.containerView()?.addSubview(presentedImageView)
+            
+            // 3. 动画
+            UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
+                
+                self.presentedImageView.frame = self.presentedFrame
+                
+                }, completion: { (_) -> Void in
+                    // 删除临时图片视图
+                    self.presentedImageView.removeFromSuperview()
+                    
+                    targetView!.alpha = 1
+                    // *** 告诉动画完成
+                    transitionContext.completeTransition(true)
+            })
+        } else {
+            
+            // 0. 获取要缩放的图片
+            let targetVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! PhotoBrowserViewController
+            let iv = targetVC.currentImageView()
+            iv.contentMode = UIViewContentMode.ScaleAspectFill
+            
+            // 叠加形变
+            iv.transform = CGAffineTransformScale(iv.transform, targetView!.transform.a, targetView!.transform.a)
+            // 设置图像视图的中心点
+            iv.center = targetView!.center
+            
+            // 1. 添加到容器视图
+            transitionContext.containerView()?.addSubview(iv)
+            // 2. 将目标视图直接删除
+            targetView?.removeFromSuperview()
+            
+            // 3. 恢复的位置
+//            let targetFrame = selectedStatusCell!.screenFrame(targetVC.currentImageIndex())
+            let targetFrame = CGRectMake(100, 100, 100, 100)
+            
+            // 4. 动画
+            UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
+                
+                iv.frame = targetFrame
+                
+                }, completion: { (_) -> Void in
+                    iv.removeFromSuperview()
+                    transitionContext.completeTransition(true)
+            })
+        }
+    }
 }

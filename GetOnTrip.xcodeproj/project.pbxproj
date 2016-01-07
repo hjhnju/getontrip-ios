@@ -211,6 +211,8 @@
 		AED4B86B1C0487F300DAC9D3 /* BaseCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B86A1C0487F300DAC9D3 /* BaseCollectionCell.swift */; };
 		AED4B86D1C048AC100DAC9D3 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B86C1C048AC100DAC9D3 /* BaseTableViewCell.swift */; };
 		AEDF536D1C17DFCC00458586 /* SearchHotwordCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */; };
+		AEE21EE51C3DF3D700A59A58 /* PhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE21EE41C3DF3D700A59A58 /* PhotoBrowserViewController.swift */; };
+		AEE21EE71C3DF3FC00A59A58 /* PhotoViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE21EE61C3DF3FC00A59A58 /* PhotoViewerCell.swift */; };
 		AEEA552D1BBFD7F7009AF772 /* TopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA552C1BBFD7F7009AF772 /* TopicCell.swift */; };
 		AEEA552F1BC02363009AF772 /* LandscapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA552E1BC02363009AF772 /* LandscapeCell.swift */; };
 		AEEA553B1BC0F92C009AF772 /* SightLandscapesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA553A1BC0F92C009AF772 /* SightLandscapesRequest.swift */; };
@@ -465,6 +467,8 @@
 		AED4B86A1C0487F300DAC9D3 /* BaseCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionCell.swift; sourceTree = "<group>"; };
 		AED4B86C1C048AC100DAC9D3 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHotwordCollectionCell.swift; sourceTree = "<group>"; };
+		AEE21EE41C3DF3D700A59A58 /* PhotoBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoBrowserViewController.swift; sourceTree = "<group>"; };
+		AEE21EE61C3DF3FC00A59A58 /* PhotoViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewerCell.swift; sourceTree = "<group>"; };
 		AEEA552C1BBFD7F7009AF772 /* TopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicCell.swift; sourceTree = "<group>"; };
 		AEEA552E1BC02363009AF772 /* LandscapeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeCell.swift; sourceTree = "<group>"; };
 		AEEA553A1BC0F92C009AF772 /* SightLandscapesRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightLandscapesRequest.swift; sourceTree = "<group>"; };
@@ -1016,6 +1020,7 @@
 				AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */,
 				AE66012C1C055216007ED37A /* CommentButton.swift */,
 				AEA241031C0C6AA200049882 /* TopicSightListTableViewCell.swift */,
+				AEE21EE61C3DF3FC00A59A58 /* PhotoViewerCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1031,6 +1036,7 @@
 				AEC2318A1BCE48BD008C58C9 /* BookViewController.swift */,
 				AEA241011C0C3BE400049882 /* TopicEnterSightController.swift */,
 				AEC9D2BB1BD7ADE700B28464 /* SendPopoverAnimator.swift */,
+				AEE21EE41C3DF3D700A59A58 /* PhotoBrowserViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1264,6 +1270,7 @@
 				AE83251D1C3B71F700E76E95 /* MenuSwitchView.swift in Sources */,
 				725A62C61C033B1B00661555 /* CacheRegexConfig.swift in Sources */,
 				AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */,
+				AEE21EE51C3DF3D700A59A58 /* PhotoBrowserViewController.swift in Sources */,
 				727561841BD0F64A0089CB27 /* Sight.swift in Sources */,
 				AE406FF61C2CF6BF007A1916 /* NewUserRegisterViewController.swift in Sources */,
 				AE4ECBCD1BB5305D00DC65F7 /* NSArray+Print.swift in Sources */,
@@ -1283,6 +1290,7 @@
 				AE72F79F1C3020C6003457DE /* RecommendHotView.swift in Sources */,
 				726974771BE39F8A000C0ABF /* CommentAddRequest.swift in Sources */,
 				AE79EED01BBA89B4005A7709 /* MenuSettingTableViewCell.swift in Sources */,
+				AEE21EE71C3DF3FC00A59A58 /* PhotoViewerCell.swift in Sources */,
 				AE406FEE1C2CF6BF007A1916 /* SettingSexViewController.swift in Sources */,
 				AEA241041C0C6AA200049882 /* TopicSightListTableViewCell.swift in Sources */,
 				AE29B3601C25235F00FFA406 /* HotCity.swift in Sources */,

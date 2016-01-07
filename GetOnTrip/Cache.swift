@@ -57,9 +57,9 @@ class Cache: NSObject {
         "sight_books": CacheRegexConfig(expr: "^/api/1\\.0/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //视频列表缓存
         "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
-        // 首页缓存
-        "seaarch_order1": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([d+.d*])&page=1$&order=1&pageSize=15$&y=([d+.d*])", buffer: 50, expire: 1),
-        "search_order2": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([d+.d*])&page=1$&order=2&pageSize=15$&y=([d+.d*])", buffer: 50, expire: 1),
+        // 首页缓存 ^\\d+$\\.\\d
+        "seaarch_order1": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=113.0&page=1$&order=1&pageSize=15&y=29.0", buffer: 50, expire: 1),
+        "search_order2": CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=^113.0&page=1$&order=2&pageSize=15&y=29.0", buffer: 50, expire: 1),
     ]
     
     /**
