@@ -82,6 +82,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     lazy var collectButton: UIButton = UIButton(image: "", title: "", fontSize: 16, titleColor: SceneColor.fontGray, fontName: Font.PingFangSCLight)
     /// 基线
     lazy var baseLine: UIView = UIView(color: SceneColor.greyThinWhite, alphaF: 0.5)
+    /// 是否是由城市控制器跳转进来的
+    var isSuperCityController: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -353,6 +355,13 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     /// 跳至城市页
     func cityAction() {
+        
+        if isSuperCityController {
+            navigationController?.popViewControllerAnimated(true)
+            exitAction()
+            return
+        }
+        
         let cityViewController = CityViewController()
         let city = City(id: self.sightDataSource.cityid)
         cityViewController.cityDataSource = city

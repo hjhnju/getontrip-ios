@@ -295,7 +295,6 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CityConstant.citySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
-        
         cell.size = getIndexPathItemSize(indexPath)
         cell.data = collectionDataSource[indexPath.row]
         
@@ -303,7 +302,6 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
         return getIndexPathItemSize(indexPath)
     }
     
@@ -340,6 +338,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     ///  选中某一行
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let vc = SightViewController()
+        vc.isSuperCityController = true
         vc.sightDataSource = collectionDataSource[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
