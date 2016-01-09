@@ -74,11 +74,13 @@ class RecommendHotController: UITableViewController {
         
         var cell: UITableViewCell?
         if data.isTypeTopic() {
-            cell = tableView.dequeueReusableCellWithIdentifier("RecommendTopicViewCell", forIndexPath: indexPath) as! RecommendTopicViewCell
-            (cell as! RecommendTopicViewCell).data = recommendCells[indexPath.row]
+            let topicCell = tableView.dequeueReusableCellWithIdentifier("RecommendTopicViewCell", forIndexPath: indexPath) as! RecommendTopicViewCell
+            topicCell.data = recommendCells[indexPath.row]
+            cell = topicCell
         } else {
-            cell = tableView.dequeueReusableCellWithIdentifier("RecommendTableViewCell", forIndexPath: indexPath) as! RecommendTableViewCell
-            (cell as! RecommendTableViewCell).data = recommendCells[indexPath.row]
+            let sightCell = tableView.dequeueReusableCellWithIdentifier("RecommendTableViewCell", forIndexPath: indexPath) as! RecommendTableViewCell
+            sightCell.data = recommendCells[indexPath.row]
+            cell = sightCell
         }
         
         cell!.backgroundColor = UIColor.clearColor()
