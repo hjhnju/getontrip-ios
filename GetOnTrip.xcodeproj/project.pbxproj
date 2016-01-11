@@ -143,8 +143,6 @@
 		AE4DC3EB1C30E32900C43B03 /* RoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4DC3EA1C30E32900C43B03 /* RoundImageView.swift */; };
 		AE4DC3EF1C30F08500C43B03 /* RecommendHotController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4DC3EE1C30F08500C43B03 /* RecommendHotController.swift */; };
 		AE4E77A31BCB4346006480B1 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A21BCB4346006480B1 /* libicucore.tbd */; };
-		AE4E77A51BCB4350006480B1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A41BCB4350006480B1 /* libz.tbd */; };
-		AE4E77A71BCB435B006480B1 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A61BCB435B006480B1 /* libstdc++.tbd */; };
 		AE4E77A81BCB4363006480B1 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FC91B9B150E006D6998 /* JavaScriptCore.framework */; };
 		AE4E77A91BCB4391006480B1 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA94FCB1B9B153A006D6998 /* ImageIO.framework */; };
 		AE4E77AB1BCB439A006480B1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77AA1BCB439A006480B1 /* AdSupport.framework */; };
@@ -216,6 +214,8 @@
 		AEEA553B1BC0F92C009AF772 /* SightLandscapesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA553A1BC0F92C009AF772 /* SightLandscapesRequest.swift */; };
 		AEEDE1371BDB93E800843C2C /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEDE1361BDB93E800843C2C /* Favorite.swift */; };
 		AEF200F21C438FEE008DF72B /* BaseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF200F11C438FEE008DF72B /* BaseCollectionViewController.swift */; };
+		AEF200F81C43A79E008DF72B /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AEF200F71C43A79E008DF72B /* libz.1.1.3.tbd */; };
+		AEF200F91C43A7B9008DF72B /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77A61BCB435B006480B1 /* libstdc++.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -471,6 +471,8 @@
 		AEEA553A1BC0F92C009AF772 /* SightLandscapesRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightLandscapesRequest.swift; sourceTree = "<group>"; };
 		AEEDE1361BDB93E800843C2C /* Favorite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		AEF200F11C438FEE008DF72B /* BaseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewController.swift; sourceTree = "<group>"; };
+		AEF200F51C43A6B6008DF72B /* libMobileCheckpoint.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileCheckpoint.tbd; path = usr/lib/libMobileCheckpoint.tbd; sourceTree = SDKROOT; };
+		AEF200F71C43A79E008DF72B /* libz.1.1.3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.1.3.tbd; path = usr/lib/libz.1.1.3.tbd; sourceTree = SDKROOT; };
 		F7B4D58CAA793845FCC0F1A4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -479,6 +481,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEF200F91C43A7B9008DF72B /* libstdc++.tbd in Frameworks */,
+				AEF200F81C43A79E008DF72B /* libz.1.1.3.tbd in Frameworks */,
 				AEC421971BF5AA0C0063E27F /* ShareSDKConnector.framework in Frameworks */,
 				AE3CA1231C05638600669BA0 /* ShareSDKUI.framework in Frameworks */,
 				AE3CA1191C05638600669BA0 /* TencentOpenAPI.framework in Frameworks */,
@@ -491,9 +495,7 @@
 				AE4E77A91BCB4391006480B1 /* ImageIO.framework in Frameworks */,
 				AE4E77A81BCB4363006480B1 /* JavaScriptCore.framework in Frameworks */,
 				AE3CA11F1C05638600669BA0 /* ShareSDK.framework in Frameworks */,
-				AE4E77A71BCB435B006480B1 /* libstdc++.tbd in Frameworks */,
 				AE3CA1211C05638600669BA0 /* ShareSDKExtension.framework in Frameworks */,
-				AE4E77A51BCB4350006480B1 /* libz.tbd in Frameworks */,
 				AE4E77A31BCB4346006480B1 /* libicucore.tbd in Frameworks */,
 				72D86E341B678D51004B72D0 /* CoreLocation.framework in Frameworks */,
 				4D75D0E977137034F17C0222 /* Pods.framework in Frameworks */,
@@ -513,6 +515,8 @@
 		66637B5775E152B983D5D047 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AEF200F71C43A79E008DF72B /* libz.1.1.3.tbd */,
+				AEF200F51C43A6B6008DF72B /* libMobileCheckpoint.tbd */,
 				AEC421961BF5AA0C0063E27F /* ShareSDKConnector.framework */,
 				AEC421941BF5A95C0063E27F /* ShareSDKConnector */,
 				AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */,

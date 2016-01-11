@@ -63,8 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 注册key 并设置为程序启动时发送消息，默认为appstore渠道
         MobClick.startWithAppkey("568a1c6be0f55a3252000934", reportPolicy: BATCH, channelId: nil)
+        /** 设置是否对日志信息进行加密, 默认NO(不加密). */
+        MobClick.setEncryptEnabled(true)
         
-        //[MobClick profileSignInWithPUID:@"playerID"];
         
         return true
     }

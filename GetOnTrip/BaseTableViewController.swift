@@ -10,5 +10,17 @@ import UIKit
 
 class BaseTableViewController: UITableViewController {
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        MobClick.beginLogPageView("\(classForCoder)")
+    }
+    
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        MobClick.endLogPageView("\(classForCoder)")
+    }
 
 }

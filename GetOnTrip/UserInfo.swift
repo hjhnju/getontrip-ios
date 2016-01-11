@@ -12,6 +12,8 @@ import Foundation
 /// 用户信息类
 class UserInfo : NSObject {
     
+    var id: String = ""
+    
     lazy var nick_name: String = ""
     
     var image: String = "" {

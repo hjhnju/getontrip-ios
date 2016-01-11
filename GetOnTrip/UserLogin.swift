@@ -45,6 +45,13 @@ class UserLogin: NSObject {
         //当前无用户，先使用第三方用户信息
         globalUser = UserAccount(user: user, type: loginType)
         
+//        [MobClick profileSignInWithPUID:@"playerID" provider:@"WB"];
+//        if loginType == LoginType.QQ {
+//            
+//            MobClick.profileSignInWithPUID(<#T##puid: String!##String!#>, provider: "QQ")
+//        }
+        
+        
         //向服务端请求登录，并合并用户信息（以服务端字段为准，无则补充第三方字段）
         loginRequest.openId = user.uid
         loginRequest.type   = loginType
@@ -70,6 +77,8 @@ class UserLogin: NSObject {
     func exit() {
         globalUser = nil
         loginRequest.signout()
+        // TODO: - 退出登陆需调用此方法
+        MobClick.profileSignOff()
         NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
         do {
             try NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
@@ -87,7 +96,7 @@ class UserLogin: NSObject {
             globalUser = account
         }
         //同时请求更新服务端信息
-        self.infoRequest.get() {(userinfo, status) -> Void in
+        self.infoRequest.get() { [weak self] (userinfo, status) -> Void in
             if status == RetCode.SUCCESS {
                 //更新服务端用户最新信息
                 if let userinfo = userinfo {
@@ -95,19 +104,36 @@ class UserLogin: NSObject {
                     globalUser?.gender   = Int(userinfo.sex) ?? 0
                     globalUser?.icon     = userinfo.image
                     globalUser?.city     = userinfo.city
-                    globalUser?.bakimg  = userinfo.bakimg
+                    globalUser?.bakimg   = userinfo.bakimg
+                    
+                    self?.statisticsLoginAction(userinfo.id)
                 }
-                self.saveAccount()
+                self?.saveAccount()
                 handler?(userinfo, status)
             } else if status == RetCode.SESSION_NOT_LOGIN {
                 //确定的未登录状态
-                self.exit()
+                self?.exit()
                 handler?(nil, status)
             } else {
                 //其他情况不做处理，保留本地用户信息
                 handler?(nil, status)
             }
         }
+    }
+    
+    /// 统计账号方法
+    private func statisticsLoginAction(id: String) {
+        var loginType: String = ""
+        
+        if type == 1 {
+            loginType = "QQ"
+        } else if type == 2 {
+            loginType = "WeiXin"
+        } else if type == 3 {
+            loginType = "Weibo"
+        }
+        
+        MobClick.profileSignInWithPUID(id, provider: loginType)
     }
     
     /**
