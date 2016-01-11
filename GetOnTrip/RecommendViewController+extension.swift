@@ -161,6 +161,9 @@ extension RecommendViewController {
             if let data = result {
                 self?.recommendLabels = data.labels
                 self?.headerImagesData = data.images
+                self?.collectionView.reloadData()
+                self?.hotContentVC.loadData()
+                self?.hotSightVC.loadData()
             }
         }
     }

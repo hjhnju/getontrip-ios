@@ -142,12 +142,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
             titleSelectView.hidden = false
             titleSelectView.hotContentButton.setTitle(recommendLabels[0].name, forState: .Normal)
             titleSelectView.hotSightButton.setTitle(recommendLabels[1].name, forState: .Normal)
-            hotContentVC.order = recommendLabels[0].order ?? "0"
-            hotSightVC.order = recommendLabels[1].order ?? "1"
-            
-            collectionView.reloadData()
-            hotContentVC.loadData()
-            hotSightVC.loadData()
+            hotContentVC.order   = recommendLabels[0].order ?? "0"
+            hotSightVC.order     = recommendLabels[1].order ?? "1"
         }
     }
     

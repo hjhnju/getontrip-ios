@@ -370,11 +370,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/RecommendHotController.swift"
-            timestampString = "473139215.465578"
+            timestampString = "474179358.536243"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "initRefresh()"
             landmarkType = "5">
          </BreakpointContent>
@@ -386,11 +386,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/RecommendHotController.swift"
-            timestampString = "474008087.929606"
+            timestampString = "474179358.536243"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "loadData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -578,11 +578,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/RecommendViewController.swift"
-            timestampString = "473674789.63199"
+            timestampString = "474179358.536243"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316"
+            startingLineNumber = "312"
+            endingLineNumber = "312"
             landmarkName = "viewWillAppear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -738,11 +738,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/RecommendViewController.swift"
-            timestampString = "473678648.889011"
+            timestampString = "474179358.536243"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
             landmarkName = "viewDidDisappear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -792,6 +792,86 @@
             startingLineNumber = "349"
             endingLineNumber = "349"
             landmarkName = "selectSwitchAction(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GetOnTrip/RecommendHotController.swift"
+            timestampString = "474179358.536243"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "loadData()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GetOnTrip.RecommendHotController.loadData (GetOnTrip.RecommendHotController)() -&gt; ()"
+                  moduleName = "GetOnTrip"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zk-pro/Desktop/getontrip-ios/GetOnTrip/RecommendHotController.swift"
+                  timestampString = "474178816.258816"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "185"
+                  endingLineNumber = "185"
+                  offsetFromSymbolStart = "116">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GetOnTrip.RecommendHotController.(loadData (GetOnTrip.RecommendHotController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "GetOnTrip"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zk-pro/Desktop/getontrip-ios/GetOnTrip/RecommendHotController.swift"
+                  timestampString = "474178816.259062"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "186"
+                  endingLineNumber = "186"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GetOnTrip/RecommendHotController.swift"
+            timestampString = "474179358.536243"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
+            landmarkName = "loadData()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GetOnTrip/RecommendHotController.swift"
+            timestampString = "474179358.536243"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "loadData()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

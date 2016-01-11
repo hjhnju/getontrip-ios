@@ -11,12 +11,14 @@ import MJRefresh
 
 class RecommendHotController: UITableViewController {
     
-    var order = "1" {
+    var order = "" {
         didSet {
             lastRequest.order = order
-            loadData()
         }
     }
+    
+    /// 标签id
+    var labelId = ""
     
     /// 网络请求加载数据(添加)
     var lastRequest: RecommendRequest = RecommendRequest()
@@ -190,7 +192,31 @@ class RecommendHotController: UITableViewController {
             
             //处理返回数据
             if result?.contents.count > 0 {
+                
+                
+//                if self?.order == "0" {
+//                    if result?.labels[0].id != self?.labelId {
+//                        print("labelId ======== \(self?.labelId) ------------0000000 result.labelsid \(result?.labels[0].id)")
+//                        if let labels = result?.labels {
+//                            (self?.parentViewController as? RecommendViewController)?.recommendLabels = labels
+//                            return
+//                        }
+//                    }
+//                } else if self?.order == "1" {
+//                    if result?.labels[1].id != self?.labelId {
+//                        print("labelId ======== \(self?.labelId) ------------11111111 result.labelsid \(result?.labels[1].id)")
+//                        print("orider \(self?.order)")
+//                        if let labels = result?.labels {
+//                            (self?.parentViewController as? RecommendViewController)?.recommendLabels = labels
+//                            return
+//                        }
+//                    }
+//                }
+                if let labels = result?.labels {
+                    (self?.parentViewController as? RecommendViewController)?.recommendLabels = labels
+                }
                 self?.recommendCells = result?.contents ?? [RecommendCellData]()
+                
                 self?.tableView.reloadData()
             }
             self?.isLoading = false

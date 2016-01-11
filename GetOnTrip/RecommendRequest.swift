@@ -59,13 +59,8 @@ class RecommendRequest: NSObject {
         let searchModel = RecommendModel()
         
         if isLoadType == RecommendLoadType.TypeLabelAndImages {
-            for item in data["label"].arrayValue {
-                if let item = item.dictionaryObject {
-                    searchModel.labels.append(RecommendLabel(dict: item))
-                }
-            }
             for item in data["images"].arrayValue {
-                let url = UIKitTools.sliceImageUrl(item["url"].stringValue, width: Int(UIScreen.mainScreen().bounds.width), height: 244)
+                let url = UIKitTools.sliceImageUrl(item["url"].stringValue, width: Int(Frame.screen.width), height: 244)
                 print(url)
                 searchModel.images.append(url)
             }
@@ -74,6 +69,11 @@ class RecommendRequest: NSObject {
                 if let item = item.dictionaryObject {
                     searchModel.contents.append(RecommendCellData(dict: item))
                 }
+            }
+        }
+        for item in data["label"].arrayValue {
+            if let item = item.dictionaryObject {
+                searchModel.labels.append(RecommendLabel(dict: item))
             }
         }
         return searchModel
