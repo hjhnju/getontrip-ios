@@ -9,7 +9,7 @@
 import UIKit
 import MJRefresh
 
-class RecommendHotController: UITableViewController {
+class RecommendHotController: BaseTableViewController {
     
     var order = "" {
         didSet {

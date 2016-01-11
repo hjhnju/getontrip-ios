@@ -17,12 +17,23 @@ class BaseViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        MobClick.beginLogPageView("\(classForCoder)")
+    }
+    
+    
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+    
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        MobClick.endLogPageView("\(classForCoder)")
     }
     
     override func didReceiveMemoryWarning() {

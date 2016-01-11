@@ -14,7 +14,7 @@ let CollectContentVideoCellIdentifier = "CollectContentVideoCell"
 let CollectContentBookCellIdentifier  = "CollectContentBookCell"
 let CollectContentCellIdentifier      = "CollectContentCell"
 
-class CollectContentViewController: UITableViewController {
+class CollectContentViewController: BaseTableViewController {
 
     /// 网络请求加载数据
     var lastRequest: CollectSightRequest?

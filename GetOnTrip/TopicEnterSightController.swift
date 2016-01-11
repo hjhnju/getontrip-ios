@@ -9,7 +9,7 @@
 import UIKit
 
 // 从话题进入景点控制器
-class TopicEnterSightController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TopicEnterSightController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     
     /// 列表
     lazy var tableView  = UITableView()

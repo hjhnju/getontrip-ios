@@ -12,7 +12,7 @@ import MJRefresh
 
 let collectionSightViewIdentifier = "CollectionSightView_Cell"
 
-class CollectSightViewController: UICollectionViewController, UIAlertViewDelegate {
+class CollectSightViewController: BaseCollectionViewController, UIAlertViewDelegate {
     
     /// 网络请求加载数据
     var lastRequest: CollectSightRequest?

@@ -46,7 +46,7 @@ protocol SlideMenuViewControllerDelegate {
 
 let UserInfoChangeNotification = "UserInfoChangeNotification"
 
-class SlideMenuViewController: UIViewController, UITableViewDataSource, CLLocationManagerDelegate, UITableViewDelegate, SlideMenuViewControllerDelegate {
+class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLocationManagerDelegate, UITableViewDelegate, SlideMenuViewControllerDelegate {
     
     // MARK: Properties and Views
     

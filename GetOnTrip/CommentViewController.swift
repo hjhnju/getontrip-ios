@@ -10,7 +10,7 @@ import UIKit
 import FFAutoLayout
 import MJRefresh
 
-class CommentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,  UIActionSheetDelegate {
+class CommentViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate,  UIActionSheetDelegate {
     
     /// 评论列表请求
     var lastRequest: CommentListRequest?

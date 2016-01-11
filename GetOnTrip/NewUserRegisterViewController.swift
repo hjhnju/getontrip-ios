@@ -10,7 +10,7 @@
 import UIKit
 import FFAutoLayout
 
-class NewUserRegisterViewController: UIViewController {
+class NewUserRegisterViewController: BaseViewController {
 
     /// 邮箱
     lazy var emailTextField     = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())

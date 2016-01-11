@@ -11,7 +11,7 @@ import UIKit
 import FFAutoLayout
 import JGProgressHUD
 
-class RetrievePasswordController: UIViewController {
+class RetrievePasswordController: BaseViewController {
 
     /// 邮箱
     lazy var emailTextField = UITextField(alignment: NSTextAlignment.Left, sizeFout: 18, color: UIColor.blackColor())

@@ -11,7 +11,7 @@ import FFAutoLayout
 
 let reuseIdentifier = "Cell"
 
-class GuideViewController: UICollectionViewController {
+class GuideViewController: BaseCollectionViewController {
 
     lazy var numberPage: Int = 4
     

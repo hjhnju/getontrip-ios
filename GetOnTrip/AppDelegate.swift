@@ -61,6 +61,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 注册第三方登录分享应用相关信息
         registerAppInfo()
         
+        // 注册key 并设置为程序启动时发送消息，默认为appstore渠道
+        MobClick.startWithAppkey("568a1c6be0f55a3252000934", reportPolicy: BATCH, channelId: nil)
+        
+        //[MobClick profileSignInWithPUID:@"playerID"];
+        
         return true
     }
     

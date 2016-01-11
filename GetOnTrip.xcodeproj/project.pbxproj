@@ -200,7 +200,6 @@
 		AEB98F351BE1CAC400183261 /* SightVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */; };
 		AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F361BE1CAD700183261 /* SightBookViewController.swift */; };
 		AEB98F391BE1CAF300183261 /* SightLandscapeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */; };
-		AEBD856B1C1A6D5100C9A4B9 /* UISearchBar+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD856A1C1A6D5100C9A4B9 /* UISearchBar+extension.swift */; };
 		AEC2318B1BCE48BD008C58C9 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2318A1BCE48BD008C58C9 /* BookViewController.swift */; };
 		AEC2318D1BCE5519008C58C9 /* BookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2318C1BCE5519008C58C9 /* BookRequest.swift */; };
 		AEC421971BF5AA0C0063E27F /* ShareSDKConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC421961BF5AA0C0063E27F /* ShareSDKConnector.framework */; };
@@ -216,6 +215,7 @@
 		AEEA552F1BC02363009AF772 /* LandscapeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA552E1BC02363009AF772 /* LandscapeCell.swift */; };
 		AEEA553B1BC0F92C009AF772 /* SightLandscapesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA553A1BC0F92C009AF772 /* SightLandscapesRequest.swift */; };
 		AEEDE1371BDB93E800843C2C /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEDE1361BDB93E800843C2C /* Favorite.swift */; };
+		AEF200F21C438FEE008DF72B /* BaseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF200F11C438FEE008DF72B /* BaseCollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -454,7 +454,6 @@
 		AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightVideoViewController.swift; sourceTree = "<group>"; };
 		AEB98F361BE1CAD700183261 /* SightBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightBookViewController.swift; sourceTree = "<group>"; };
 		AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightLandscapeController.swift; sourceTree = "<group>"; };
-		AEBD856A1C1A6D5100C9A4B9 /* UISearchBar+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISearchBar+extension.swift"; sourceTree = "<group>"; };
 		AEC2318A1BCE48BD008C58C9 /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		AEC2318C1BCE5519008C58C9 /* BookRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookRequest.swift; sourceTree = "<group>"; };
 		AEC421941BF5A95C0063E27F /* ShareSDKConnector */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = ShareSDKConnector; path = libraries/ShareSDKConnector.framework/ShareSDKConnector; sourceTree = "<group>"; };
@@ -471,6 +470,7 @@
 		AEEA552E1BC02363009AF772 /* LandscapeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeCell.swift; sourceTree = "<group>"; };
 		AEEA553A1BC0F92C009AF772 /* SightLandscapesRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightLandscapesRequest.swift; sourceTree = "<group>"; };
 		AEEDE1361BDB93E800843C2C /* Favorite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
+		AEF200F11C438FEE008DF72B /* BaseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewController.swift; sourceTree = "<group>"; };
 		F7B4D58CAA793845FCC0F1A4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -618,7 +618,6 @@
 				728747281BF860A800EE36AA /* SearchHotwordTableViewCell.swift */,
 				AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */,
 				AE4772971C17F87500137E7A /* SearchHotwordLayout.swift */,
-				AEBD856A1C1A6D5100C9A4B9 /* UISearchBar+extension.swift */,
 				AE0261C71C1E8D8000A37FB1 /* SearchHeaderView.swift */,
 			);
 			name = View;
@@ -881,7 +880,6 @@
 				AE6079B41BB2612D00DB2955 /* MainViewController.swift */,
 				AE488D6C1BCBDDDB0032B78B /* RecommendViewController.swift */,
 				AE23DDF01C194592009A1B57 /* RecommendViewController+extension.swift */,
-				72550E881BE7A956004D4611 /* BaseViewController.swift */,
 				AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */,
 				AE4DC3EE1C30F08500C43B03 /* RecommendHotController.swift */,
 			);
@@ -1041,7 +1039,9 @@
 		AED4B8721C0492DC00DAC9D3 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AEF200F11C438FEE008DF72B /* BaseCollectionViewController.swift */,
 				AE6FC7AB1C23B415004ACA03 /* BaseTableViewController.swift */,
+				72550E881BE7A956004D4611 /* BaseViewController.swift */,
 				AED4B86A1C0487F300DAC9D3 /* BaseCollectionCell.swift */,
 				AED4B86C1C048AC100DAC9D3 /* BaseTableViewCell.swift */,
 				728E3DE91C2417AD00605FF0 /* ModelObject.swift */,
@@ -1294,7 +1294,6 @@
 				AE406FF21C2CF6BF007A1916 /* CollectSightViewController.swift in Sources */,
 				AEA241021C0C3BE400049882 /* TopicEnterSightController.swift in Sources */,
 				72FE63201BFB1B940037C7D6 /* Cache.swift in Sources */,
-				AEBD856B1C1A6D5100C9A4B9 /* UISearchBar+extension.swift in Sources */,
 				72550EA21BEA0D87004D4611 /* Book.swift in Sources */,
 				AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */,
 				AE7E8CC71BD8C05900E7D9EB /* CommentListRequest.swift in Sources */,
@@ -1394,6 +1393,7 @@
 				AE406FF81C2CF6BF007A1916 /* MessageViewController.swift in Sources */,
 				AEC2318B1BCE48BD008C58C9 /* BookViewController.swift in Sources */,
 				AEEDE1371BDB93E800843C2C /* Favorite.swift in Sources */,
+				AEF200F21C438FEE008DF72B /* BaseCollectionViewController.swift in Sources */,
 				AE55967B1C33A4BD005A02EC /* SearchBar.swift in Sources */,
 				AE40700B1C2CF6EB007A1916 /* CollectionSightViewCell.swift in Sources */,
 				AE2894521BDCCFF50099293F /* SearchRequest.swift in Sources */,

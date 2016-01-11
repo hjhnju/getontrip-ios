@@ -12,7 +12,7 @@ import MJRefresh
 
 let collectCityViewIdentifier = "CollectCity_Cell"
 
-class CollectCityViewController: UICollectionViewController, UIAlertViewDelegate {
+class CollectCityViewController: BaseCollectionViewController, UIAlertViewDelegate {
 
     /// 网络请求加载数据
     var lastRequest: CollectSightRequest?

@@ -12,7 +12,7 @@ import MJRefresh
 
 let sightListCityIdentifier = "SightListCity_Cell"
 
-class CitySightsViewController: UICollectionViewController {
+class CitySightsViewController: BaseCollectionViewController {
     
     /// 自定义导航
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)

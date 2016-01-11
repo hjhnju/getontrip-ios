@@ -16,7 +16,7 @@ struct SearchViewContant {
     static let recordLimit = 4
 }
 
-class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+class SearchViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     /// 搜索展示结果控制器
     let searchResultViewController =  SearchResultsViewController()

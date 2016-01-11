@@ -14,7 +14,7 @@ struct SearchResultContant {
     static let SectionHeaderHeight: CGFloat = 38
 }
 
-class SearchResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SearchResultsViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
     /// 结果字段名
