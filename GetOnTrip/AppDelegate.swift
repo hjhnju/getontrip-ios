@@ -61,6 +61,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LoginShare.shareLoginShare.registerLoginAndShareSetting()
         /// 注册统计相关
         Statistics.shareStatistics.registerStatisticsSetting()
+        /// 注册测试设备
+        Test().statisticsEquipmentRegister()
         
         return true
     }

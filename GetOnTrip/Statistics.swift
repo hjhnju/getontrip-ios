@@ -9,7 +9,7 @@
 import UIKit
 
 /// 统计相关
-class Statistics {
+class Statistics: NSObject {
     
     static let shareStatistics = Statistics()
     

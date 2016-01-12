@@ -32,3 +32,4 @@
 //#import <MobClick/MobClick.h>
 #import "MobClick.h"
 #import "MobClickSocialAnalytics.h"
+#import "Test.h"
