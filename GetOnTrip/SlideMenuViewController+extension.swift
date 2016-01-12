@@ -82,7 +82,7 @@ extension SlideMenuViewController {
         
         //将侧边栏的装填标记为打开状态
         slideMenuState = SlideMenuState.Opening
-        
+        Statistics.shareStatistics.event(Event.home_show_menuViewController_eid)
         refreshMask()
     }
     

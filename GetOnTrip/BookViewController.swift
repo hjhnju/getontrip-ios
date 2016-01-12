@@ -379,6 +379,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
+        Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "book")
         sender.selected = !sender.selected
         let type  = FavoriteContant.TypeBook
         let objid = bookId
@@ -400,7 +401,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     /// 点赞方法
     var praiseNum: String = ""
     func praisedAction(sender: UIButton) {
-        
+        Statistics.shareStatistics.event(Event.praise_eventid, labelStr: "book")
         sender.selected = !sender.selected
         praiseNum = bookDataSource?.praiseNum ?? "0"
         refreshPraisedButton(String(Int(bookDataSource?.praiseNum ?? "0")! + (sender.selected ? 1 : -1)))

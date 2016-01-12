@@ -155,6 +155,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
     
     /// 收藏视频方法
     func collectVideoAction(sender: UIButton) {
+        Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "video")
         sender.selected = !sender.selected
         let type  = FavoriteContant.TypeVideo
         let objid = video?.id ?? "0"

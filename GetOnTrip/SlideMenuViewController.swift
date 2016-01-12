@@ -55,6 +55,7 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
         didSet {
             if curVCType != oldValue {
                 if let vcType =  curVCType as? UIViewController.Type {
+                    Statistics.shareStatistics.event(Event.home_click_menuViewController_eid)
                     mainViewController = vcType == RecommendViewController.self ?
                         RecommendViewController.sharedRecommendViewController   :
                         vcType.init() as! MainViewController

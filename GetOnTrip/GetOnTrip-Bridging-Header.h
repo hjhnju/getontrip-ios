@@ -28,4 +28,7 @@
 
 #import <sqlite3.h>
 
-#import <MobClick.h>
+//#import <MobClick.h>
+//#import <MobClick/MobClick.h>
+#import "MobClick.h"
+#import "MobClickSocialAnalytics.h"

@@ -177,6 +177,7 @@ extension RecommendViewController {
     // MARK: - 自定义方法
     /// 点击热门推荐和推荐景点使collectionview转到相对应的位置
     func hotContentAndSightButtonAction(sender: UIButton) {
+
         collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: sender.tag == 3 ? 0 : 1, inSection: 0), atScrollPosition: .CenteredHorizontally, animated: true)
     }
     

@@ -104,6 +104,7 @@ class RecommendHotController: BaseTableViewController {
             sight.image = data.image
             sight.bgColor = data.bgColor
             vc.sightDataSource = sight
+            Statistics.shareStatistics.event(Event.home_click_sightViewController_eid, labelStr: data.id)
             navigationController?.pushViewController(vc, animated: true)
         } else if( data.isTypeCity()) {
             let vc = CityViewController()
@@ -112,6 +113,7 @@ class RecommendHotController: BaseTableViewController {
             city.image = data.image
             city.bgColor = data.bgColor
             vc.cityDataSource = city
+            Statistics.shareStatistics.event(Event.home_click_cityViewController_eid, labelStr: data.id)
             navigationController?.pushViewController(vc, animated: true)
         } else if( data.isTypeTopic()) {
             let vc = TopicViewController()
@@ -121,6 +123,7 @@ class RecommendHotController: BaseTableViewController {
             topic.sightid = data.param4
             topic.bgColor = data.bgColor
             vc.topicDataSource = topic
+            Statistics.shareStatistics.event(Event.home_click_topicViewController_eid, labelStr: data.id)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

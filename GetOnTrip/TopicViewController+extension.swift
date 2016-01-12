@@ -13,6 +13,7 @@ extension TopicViewController {
     // MARK: - 自定义方法
     /// 加载景点数据
     func doFavorite(sender: UIButton) {
+        Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "topic")
         sender.selected = !sender.selected
         if let topic = topicDataSource {
             let type  = FavoriteContant.TypeTopic
@@ -41,6 +42,8 @@ extension TopicViewController {
     
     /// 评论
     func doComment(sender: UIButton) {
+        
+        Statistics.shareStatistics.event(Event.comment_eventid, labelStr: "topic")
         let w = view.bounds.width
         let h = view.bounds.height
         commentVC.view.hidden = false
@@ -97,7 +100,7 @@ extension TopicViewController {
     
     /// 点赞方法
     func praisedAction(sender: UIButton) {
-
+        Statistics.shareStatistics.event(Event.praise_eventid, labelStr: "topic")
         sender.selected = !sender.selected
         praiseNum = topicDataSource?.praiseNum ?? "0"
         refreshPraisedButton(String(Int(topicDataSource?.praiseNum ?? "0")! + (sender.selected ? 1 : -1)))

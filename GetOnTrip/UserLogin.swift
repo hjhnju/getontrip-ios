@@ -45,13 +45,6 @@ class UserLogin: NSObject {
         //当前无用户，先使用第三方用户信息
         globalUser = UserAccount(user: user, type: loginType)
         
-//        [MobClick profileSignInWithPUID:@"playerID" provider:@"WB"];
-//        if loginType == LoginType.QQ {
-//            
-//            MobClick.profileSignInWithPUID(<#T##puid: String!##String!#>, provider: "QQ")
-//        }
-        
-        
         //向服务端请求登录，并合并用户信息（以服务端字段为准，无则补充第三方字段）
         loginRequest.openId = user.uid
         loginRequest.type   = loginType
@@ -78,7 +71,7 @@ class UserLogin: NSObject {
         globalUser = nil
         loginRequest.signout()
         // TODO: - 退出登陆需调用此方法
-        MobClick.profileSignOff()
+        Statistics.shareStatistics.profilesSignOff()
         NSNotificationCenter.defaultCenter().postNotificationName(UserInfoChangeNotification, object: true)
         do {
             try NSFileManager.defaultManager().removeItemAtPath(UserAccount.accountPath)
@@ -133,7 +126,7 @@ class UserLogin: NSObject {
             loginType = "Weibo"
         }
         
-        MobClick.profileSignInWithPUID(id, provider: loginType)
+        Statistics.shareStatistics.profilesSignInWithPuid(id, loginType: loginType)
     }
     
     /**

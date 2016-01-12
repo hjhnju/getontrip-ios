@@ -371,7 +371,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
-        
+        Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "sight")
         sender.selected = !sender.selected
         let type  = FavoriteContant.TypeSight
         let objid = self.sightDataSource.id

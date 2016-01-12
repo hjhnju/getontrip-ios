@@ -163,6 +163,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         if isRefreshSearchBar {
             updateSearchBarDefaultFrame()
         }
+        
+        Statistics.shareStatistics.event(Event.home_click_searchBar_eid)
         searchBar.deleteButton.hidden = isEnterSearchController ? false : true
         searchBar.defaultPromptButton.titleLabel?.alpha = searchBar.textFile.text == "" ? 1 : 0
         UIView.animateWithDuration(0.5) { [weak self] () -> Void in

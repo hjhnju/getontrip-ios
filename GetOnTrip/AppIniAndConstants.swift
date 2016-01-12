@@ -19,7 +19,7 @@ class AppIniDev {
     static let BaseResourceUri =  "http://123.57.46.229:8301" // 8301
 }
 
-class AppIni:AppIniDev {
+class AppIni:AppIniOnline {
     static let Domain:String      = "www.getontrip.cn"
     static let SecretKey: String  = "ahl93##41cfw!@23"
     static let ApiVersion: String = "1.0"
@@ -128,4 +128,25 @@ struct Font {
     static let ios8Font          = ".HelveticaNeueInterface-Light"
     static let PingFangTCMedium  = "PingFangTC-Medium"
 //    static let HelveticaNeueThin
+}
+
+struct Event {
+    /// 首页搜索框被点击
+    static let home_click_searchBar_eid           = "home_click_searchBar_eid"
+    /// 首页点击话题详情页
+    static let home_click_topicViewController_eid = "home_click_topicViewController_eid"
+    /// 首页点击城市页面
+    static let home_click_cityViewController_eid  = "home_click_cityViewController_eid"
+    /// 首页点击景点页面
+    static let home_click_sightViewController_eid = "home_click_sightViewController_eid"
+    /// 首页点击菜单按钮
+    static let home_click_menuViewController_eid  = "home_click_menuViewController_eid"
+    /// 首页菜单显示次数
+    static let home_show_menuViewController_eid    = "home_show_menuViewController_eid"
+    /// 点赞事件
+    static let praise_eventid  = "praise_eventid"
+    /// 收藏事件
+    static let collect_eventid = "collect_eventid"
+    /// 评论事件
+    static let comment_eventid = "comment_eventid"
 }

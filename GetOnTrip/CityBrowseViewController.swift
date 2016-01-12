@@ -254,6 +254,7 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
             let vc = CityViewController()
             let city = City(id: data[indexPath.row].id)
             vc.cityDataSource = city
+            Statistics.shareStatistics.event(Event.home_click_cityViewController_eid, labelStr: data[indexPath.row].id)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

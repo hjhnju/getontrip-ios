@@ -418,6 +418,7 @@ class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
+        Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "city")
         sender.selected = !sender.selected
         let type  = FavoriteContant.TypeCity
         let objid = self.cityId
