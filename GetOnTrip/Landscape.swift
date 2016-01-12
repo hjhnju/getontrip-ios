@@ -21,8 +21,8 @@ class Landscape: ModelObject {
     /// 图片
     var image: String = "" {
         didSet {
+            imageHeader = UIKitTools.sliceImageUrl(image, width: Int(Frame.screen.width), height: 200)
             image = UIKitTools.sliceImageUrl(image, width: 119, height: 84)
-            imageHeader = UIKitTools.sliceImageUrl(image, width: Int(UIScreen.mainScreen().bounds.width), height: 140)
         }
     }
     

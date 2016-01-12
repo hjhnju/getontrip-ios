@@ -220,6 +220,7 @@
 		AEF201001C43C27B008DF72B /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF200FF1C43C27B008DF72B /* Statistics.swift */; };
 		AEF201021C44B056008DF72B /* LoginShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF201011C44B056008DF72B /* LoginShare.swift */; };
 		AEF201071C44CAA3008DF72B /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF201061C44CAA3008DF72B /* Test.m */; };
+		AEF201841C45137F008DF72B /* CompulsoryPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF201831C45137F008DF72B /* CompulsoryPlayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -484,6 +485,7 @@
 		AEF201011C44B056008DF72B /* LoginShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginShare.swift; sourceTree = "<group>"; };
 		AEF201051C44CAA3008DF72B /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
 		AEF201061C44CAA3008DF72B /* Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
+		AEF201831C45137F008DF72B /* CompulsoryPlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompulsoryPlayView.swift; sourceTree = "<group>"; };
 		F7B4D58CAA793845FCC0F1A4 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -982,6 +984,7 @@
 				AEEA552E1BC02363009AF772 /* LandscapeCell.swift */,
 				AE87C2131B85F285004C0998 /* BookCell.swift */,
 				AEA24B771B8644D200031FB8 /* VideoCell.swift */,
+				AEF201831C45137F008DF72B /* CompulsoryPlayView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1308,6 +1311,7 @@
 				AE6079B71BB2677C00DB2955 /* UIButton+Extension.swift in Sources */,
 				72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */,
 				729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */,
+				AEF201841C45137F008DF72B /* CompulsoryPlayView.swift in Sources */,
 				AE4070111C2CF6EB007A1916 /* PleaseLoginButton.swift in Sources */,
 				7240C4601BF5D12F007C12C1 /* RecommendTopicViewCell.swift in Sources */,
 				7216432A1B7DB18F009C292C /* String+Extentions.swift in Sources */,
