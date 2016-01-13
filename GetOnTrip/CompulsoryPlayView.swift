@@ -17,7 +17,7 @@ class CompulsoryPlayView: UIView {
         CGContextAddLineToPoint(ctf, 23, 0)
         CGContextAddLineToPoint(ctf, 0, 23)
         CGContextClosePath(ctf)
-        UIColor.orangeColor().setFill()
+        SceneColor.originYellow.setFill()
         CGContextSetLineCap(ctf, CGLineCap.Round)
         CGContextDrawPath(ctf, CGPathDrawingMode.Fill)
     }

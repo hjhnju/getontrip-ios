@@ -36,7 +36,8 @@ struct SceneColor {
     static let lightYellow = UIColor(hex: 0xF3FD54, alpha: 1)
     /// 浅黄
     static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
-    static let darkYellows = UIColor(hex: 0xF3FC51, alpha: 1.0)
+    static let darkYellows   = UIColor(hex: 0xF3FC51, alpha: 1.0)
+    static let originYellow  = UIColor(hex: 0xF0A355, alpha: 1.0)
     
     /** 
     黑色系列
@@ -47,7 +48,7 @@ struct SceneColor {
     static let frontBlack   = UIColor(hex: 0x1C1C1C, alpha: 1)
     static let frontBlackFour = UIColor(hex: 0x1C1C1C, alpha: 0.4)
     /// 透明度为0.6
-    static let frontBlackSix   = UIColor(hex: 0x1C1C1C, alpha: 0.6)
+    static let frontBlackSix = UIColor(hex: 0x1C1C1C, alpha: 0.6)
     /**
     灰色系列 
     */

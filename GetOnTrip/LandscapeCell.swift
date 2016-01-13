@@ -24,9 +24,9 @@ class LandscapeCell1: UITableViewCell {
     /// 播放时长
     lazy var playLabel = UILabel(color: SceneColor.bgBlack, title: "01:13/4:36", fontSize: 10, mutiLines: true, fontName: Font.HelveticaNeueThin)
     /// 必玩文字
-//    var compulsoryLabel = UILabel
+    var compulsoryLabel = UILabel(color: .whiteColor(), title: "必玩", fontSize: 8, mutiLines: true, fontName: Font.PingFangSCRegular)
     /// 必玩底部
-//    var compulsoryView = CompulsoryPlayView()
+    var compulsoryView = CompulsoryPlayView(color: .clearColor())
     
     var superNavigation: UINavigationController?
     
@@ -37,7 +37,7 @@ class LandscapeCell1: UITableViewCell {
                 // 是否加载网络图片
                 if UserProfiler.instance.isShowImage() { iconView.sd_setImageWithURL(NSURL(string: landscape.image)) }
                 titleLabel.text = landscape.name
-                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 3, breakMode: .ByTruncatingTail)
+                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 7, breakMode: .ByTruncatingTail)
             }
         }
     }
@@ -58,6 +58,11 @@ class LandscapeCell1: UITableViewCell {
         contentView.addSubview(baseLine)
         contentView.addSubview(speechButton)
         contentView.addSubview(playLabel)
+        iconView.addSubview(compulsoryView)
+        iconView.addSubview(compulsoryLabel)
+        
+        let rotate: CGFloat = CGFloat(M_PI_2) * 0.5
+        compulsoryLabel.transform = CGAffineTransformMakeRotation(-rotate)
         
         subtitleLabel.numberOfLines  = 3
         subtitleLabel.preferredMaxLayoutWidth = Frame.screen.width - 139 - 90
@@ -74,6 +79,8 @@ class LandscapeCell1: UITableViewCell {
         baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(Frame.screen.width - 18, 0.5), offset: CGPointMake(0, 0))
         speechButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(49, 49), offset: CGPointMake(-18, 0))
         playLabel.ff_AlignVertical(.BottomCenter, referView: speechButton, size: nil, offset: CGPointMake(0, 0))
+        compulsoryView.ff_AlignInner(.TopLeft, referView: iconView, size: CGSizeMake(23, 23))
+        compulsoryLabel.ff_AlignInner(.TopLeft, referView: iconView, size: nil, offset: CGPointMake(0, 3))
     }
     
     required init?(coder aDecoder: NSCoder) {
