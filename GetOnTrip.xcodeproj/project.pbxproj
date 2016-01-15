@@ -75,6 +75,7 @@
 		AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */; };
 		AE2EEE941BCF58ED00ED0937 /* CitySightsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */; };
 		AE2EEE961BCF833E00ED0937 /* TopicRefreshRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */; };
+		AE309A111C48C07E00ACC5A0 /* PlayFrequencyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE309A101C48C07E00ACC5A0 /* PlayFrequencyRequest.swift */; };
 		AE3321DE1C06B92D00B95FA4 /* CommentViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3321DD1C06B92D00B95FA4 /* CommentViewController+extension.swift */; };
 		AE3321E01C06BAE500B95FA4 /* CommentPersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */; };
 		AE3B49001C297EDC00D0E59B /* PhotographViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */; };
@@ -156,6 +157,10 @@
 		AE62E2CC1BB3DED900B91D33 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62E2CB1BB3DED900B91D33 /* UITextField+Extension.swift */; };
 		AE62E2CE1BB3EF6500B91D33 /* UIPickerView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62E2CD1BB3EF6500B91D33 /* UIPickerView+Extension.swift */; };
 		AE66012D1C055216007ED37A /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE66012C1C055216007ED37A /* CommentButton.swift */; };
+		AE68B5D61C45FA9300FA4A05 /* SightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE68B5D51C45FA9300FA4A05 /* SightDetailViewController.swift */; };
+		AE68B5D81C46235200FA4A05 /* PlayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE68B5D71C46235100FA4A05 /* PlayProgressView.swift */; };
+		AE68B6521C474CB000FA4A05 /* PlayFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE68B6511C474CB000FA4A05 /* PlayFrequency.swift */; };
+		AE68B6561C47A13A00FA4A05 /* PlayPulsateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE68B6551C47A13A00FA4A05 /* PlayPulsateView.swift */; };
 		AE6D9FB11B84AE2A009A8A9D /* SightBooksRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB01B84AE2A009A8A9D /* SightBooksRequest.swift */; };
 		AE6D9FB31B84AE46009A8A9D /* SightVideosRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB21B84AE46009A8A9D /* SightVideosRequest.swift */; };
 		AE6DCC6A1BDF3AB800D817E9 /* SearchAllRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6DCC691BDF3AB800D817E9 /* SearchAllRequest.swift */; };
@@ -330,6 +335,7 @@
 		AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsViewController.swift; sourceTree = "<group>"; };
 		AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsRequest.swift; sourceTree = "<group>"; };
 		AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicRefreshRequest.swift; sourceTree = "<group>"; };
+		AE309A101C48C07E00ACC5A0 /* PlayFrequencyRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayFrequencyRequest.swift; sourceTree = "<group>"; };
 		AE3321DD1C06B92D00B95FA4 /* CommentViewController+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CommentViewController+extension.swift"; sourceTree = "<group>"; };
 		AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentPersonCell.swift; sourceTree = "<group>"; };
 		AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotographViewController.swift; sourceTree = "<group>"; };
@@ -415,6 +421,10 @@
 		AE62E2CB1BB3DED900B91D33 /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		AE62E2CD1BB3EF6500B91D33 /* UIPickerView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIPickerView+Extension.swift"; sourceTree = "<group>"; };
 		AE66012C1C055216007ED37A /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
+		AE68B5D51C45FA9300FA4A05 /* SightDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightDetailViewController.swift; sourceTree = "<group>"; };
+		AE68B5D71C46235100FA4A05 /* PlayProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayProgressView.swift; sourceTree = "<group>"; };
+		AE68B6511C474CB000FA4A05 /* PlayFrequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayFrequency.swift; sourceTree = "<group>"; };
+		AE68B6551C47A13A00FA4A05 /* PlayPulsateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayPulsateView.swift; sourceTree = "<group>"; };
 		AE6D9FB01B84AE2A009A8A9D /* SightBooksRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightBooksRequest.swift; sourceTree = "<group>"; };
 		AE6D9FB21B84AE46009A8A9D /* SightVideosRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightVideosRequest.swift; sourceTree = "<group>"; };
 		AE6DCC691BDF3AB800D817E9 /* SearchAllRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchAllRequest.swift; sourceTree = "<group>"; };
@@ -973,6 +983,7 @@
 				AE6D9FB21B84AE46009A8A9D /* SightVideosRequest.swift */,
 				727561831BD0F64A0089CB27 /* Sight.swift */,
 				7269746A1BE3924F000C0ABF /* Tag.swift */,
+				AE309A101C48C07E00ACC5A0 /* PlayFrequencyRequest.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -985,6 +996,8 @@
 				AE87C2131B85F285004C0998 /* BookCell.swift */,
 				AEA24B771B8644D200031FB8 /* VideoCell.swift */,
 				AEF201831C45137F008DF72B /* CompulsoryPlayView.swift */,
+				AE68B5D71C46235100FA4A05 /* PlayProgressView.swift */,
+				AE68B6551C47A13A00FA4A05 /* PlayPulsateView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -997,6 +1010,8 @@
 				AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */,
 				AEB98F361BE1CAD700183261 /* SightBookViewController.swift */,
 				AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */,
+				AE68B5D51C45FA9300FA4A05 /* SightDetailViewController.swift */,
+				AE68B6511C474CB000FA4A05 /* PlayFrequency.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1291,10 +1306,12 @@
 				AE79EED21BBA8A30005A7709 /* CityTopicTableViewCell.swift in Sources */,
 				AE4DC3EF1C30F08500C43B03 /* RecommendHotController.swift in Sources */,
 				AEA241141C0F0F7800049882 /* SlideMenuViewController+extension.swift in Sources */,
+				AE309A111C48C07E00ACC5A0 /* PlayFrequencyRequest.swift in Sources */,
 				727561821BD0F6240089CB27 /* City.swift in Sources */,
 				72D25A8F1BEB25C50044AE04 /* RecommendLabel.swift in Sources */,
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,
 				AE406FD91C2CF69B007A1916 /* OtherSettingController.swift in Sources */,
+				AE68B6561C47A13A00FA4A05 /* PlayPulsateView.swift in Sources */,
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE23DD7B1C1820E0009A1B57 /* SearchDeleteButton.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
@@ -1333,6 +1350,7 @@
 				72550EA21BEA0D87004D4611 /* Book.swift in Sources */,
 				AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */,
 				AE7E8CC71BD8C05900E7D9EB /* CommentListRequest.swift in Sources */,
+				AE68B6521C474CB000FA4A05 /* PlayFrequency.swift in Sources */,
 				AEF201001C43C27B008DF72B /* Statistics.swift in Sources */,
 				AE62E2CC1BB3DED900B91D33 /* UITextField+Extension.swift in Sources */,
 				AE406FEF1C2CF6BF007A1916 /* MyCommentViewController.swift in Sources */,
@@ -1353,6 +1371,7 @@
 				AE8C0C151BE8A04F003C7942 /* ShareView.swift in Sources */,
 				AE406FF51C2CF6BF007A1916 /* LoginViewController.swift in Sources */,
 				AEB720911C105C7700E0FBF3 /* VideoRequest.swift in Sources */,
+				AE68B5D81C46235200FA4A05 /* PlayProgressView.swift in Sources */,
 				AEF201071C44CAA3008DF72B /* Test.m in Sources */,
 				72C16AF31BEDCAB000161A77 /* ScrolledImageView.swift in Sources */,
 				AE29B3621C255DA600FFA406 /* HotCityTableViewHeaderView.swift in Sources */,
@@ -1372,6 +1391,7 @@
 				7269746B1BE3924F000C0ABF /* Tag.swift in Sources */,
 				728E3DEA1C2417AD00605FF0 /* ModelObject.swift in Sources */,
 				AE6DCC6A1BDF3AB800D817E9 /* SearchAllRequest.swift in Sources */,
+				AE68B5D61C45FA9300FA4A05 /* SightDetailViewController.swift in Sources */,
 				AE23DDF11C194592009A1B57 /* RecommendViewController+extension.swift in Sources */,
 				AE40702F1C2CF707007A1916 /* UserProfiler.swift in Sources */,
 				AE406FF01C2CF6BF007A1916 /* FavoriteViewController.swift in Sources */,

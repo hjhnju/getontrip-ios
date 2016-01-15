@@ -19,7 +19,7 @@ class AppIniDev {
     static let BaseResourceUri =  "http://123.57.46.229:8321" // 8301
 }
 
-class AppIni:AppIniOnline {
+class AppIni:AppIniDev {
     static let Domain:String      = "www.getontrip.cn"
     static let SecretKey: String  = "ahl93##41cfw!@23"
     static let ApiVersion: String = "1.0"
@@ -49,6 +49,7 @@ struct SceneColor {
     static let frontBlackFour = UIColor(hex: 0x1C1C1C, alpha: 0.4)
     /// 透明度为0.6
     static let frontBlackSix = UIColor(hex: 0x1C1C1C, alpha: 0.6)
+    static let clarityBlack  = UIColor(hex: 0x515151, alpha: 0.9)
     /**
     灰色系列 
     */

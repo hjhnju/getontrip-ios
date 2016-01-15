@@ -57,6 +57,8 @@ class Cache: NSObject {
         // 首页缓存
         "recommend1" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=1&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
         "recommend2" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=2&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
+        // 音频缓存 音频缓存3天
+        "play" : CacheRegexConfig(expr: "^/audio/([a-zA-Z0-9]+).mp3", buffer: 50, expire: 60 * 60 * 3)
     ]
     
     /**
@@ -89,6 +91,36 @@ class Cache: NSObject {
     }
     
     /**
+     获取缓存 obj类型
+     - parameter key: string
+     - parameter expireValid: bool 是否有效期生效
+     - returns: 不在配置内无缓存；
+     默认expireValid=false即使过期也返回（用于初始有数据的体验）
+     若设expireValid=true则超过时间的不返回（用于减少网络请求，但没有删除）
+     */
+    func getObjString(key: String, expireValid: Bool = true) -> AnyObject? {
+        if let expire = getCacheExpire(key)  {
+            if !expireValid {
+                let retOjb = globalKvStore?.getObjectById(key, fromTable: CacheContant.table)
+                return retOjb
+            }
+
+            if let item = globalKvStore?.getYTKKeyValueItemById(key, fromTable: CacheContant.table) {
+                let interval = NSDate().timeIntervalSinceDate(item.createdTime)
+                if interval <= expire {
+                    if let arrString = item.itemObject as? [AnyObject] {
+                        if arrString.count > 0 {
+                            return arrString[0]
+                        }
+                    }
+                }
+            }
+        }
+        return nil
+    }
+    
+    
+    /**
     获取缓存（用于初始有数据的体验）
     - parameter key: string
     - parameter expireValid: bool 是否有效期生效
@@ -98,6 +130,18 @@ class Cache: NSObject {
     */
     func getDisplayString(key: String) -> String? {
         return getString(key, expireValid: false)
+    }
+    
+    /**
+     获取缓存（用于初始有数据的体验） obj类型
+     - parameter key: string
+     - parameter expireValid: bool 是否有效期生效
+     - returns: 不在配置内无缓存；
+     默认expireValid=false即使过期也返回（用于初始有数据的体验）
+     若设expireValid=true则超过时间的不返回（用于减少网络请求，但没有删除）
+     */
+    func getDisplayObj(key: String) -> AnyObject? {
+        return getObjString(key, expireValid: false)//getString(key, expireValid: false)
     }
     
     /**
@@ -115,6 +159,31 @@ class Cache: NSObject {
             for (_,conf) in cacheRegexConfs {
                 if conf.isCacheKey(key) {
                     globalKvStore?.putString(value, withId: key, intoTable: CacheContant.table)
+                    if let overflowKey = conf.appendBuffer(key) {
+                        globalKvStore?.deleteObjectById(overflowKey, fromTable: CacheContant.table)
+                    }
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    /**
+     设置缓存 obj类型
+     - parameter key:   string
+     - parameter value: string
+     - returns: 是否被缓存成功，不在配置内不缓存
+     */
+    func setObjString(key: String, value:AnyObject) -> Bool {
+        if cachekeys.keys.contains(key) {
+            globalKvStore?.putObject(value, withId: key, intoTable: CacheContant.table)
+            return true
+        } else {
+            /// 缓存区溢出的key删除
+            for (_,conf) in cacheRegexConfs {
+                if conf.isCacheKey(key) {
+                    globalKvStore?.putObject(value, withId: key, intoTable: CacheContant.table)
                     if let overflowKey = conf.appendBuffer(key) {
                         globalKvStore?.deleteObjectById(overflowKey, fromTable: CacheContant.table)
                     }

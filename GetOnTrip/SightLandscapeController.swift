@@ -14,21 +14,25 @@ public let HistoryTableViewControllerSightCell1:String = "History_Cell1"
 
 class SightLandscapeController: BaseTableViewController {
 
+    /// 请求
     var lastRequest = SightLandscapesRequest()
-    
     /// 是否正在加载中
     var isLoading:Bool = false
-
+    /// 景点id
     var sightId: String = "" {
         didSet {
             lastRequest.sightId = sightId
         }
     }
-    
+    /// 数据源
     var dataSource = [Landscape]() {
         didSet {
             tableView.mj_header.endRefreshing()
             tableView.reloadData()
+            
+            var audios = [String]()
+            for item in dataSource { audios.append(item.audio) }
+            PlayFrequency.sharePlayFrequency.dataSource = audios
         }
     }
     
@@ -36,9 +40,8 @@ class SightLandscapeController: BaseTableViewController {
         super.viewDidLoad()
         
         tableView.registerClass(LandscapeCell.self, forCellReuseIdentifier : HistoryTableViewControllerSightCell)
-        tableView.registerClass(LandscapeCell1.self, forCellReuseIdentifier : HistoryTableViewControllerSightCell1)
+        tableView.registerClass(LandscapeCellHead.self, forCellReuseIdentifier : HistoryTableViewControllerSightCell1)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        
         
         let tbHeaderView = MJRefreshNormalHeader { () -> Void in self.refresh() }
         tableView.mj_header = tbHeaderView
@@ -94,30 +97,26 @@ class SightLandscapeController: BaseTableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell, forIndexPath: indexPath) as! LandscapeCell
-            cell.superNavigation = navigationController
-            cell.landscape = dataSource[indexPath.row]
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1, forIndexPath: indexPath) as! LandscapeCell1
-            cell.superNavigation = navigationController
-            cell.landscape = dataSource[indexPath.row]
-            if indexPath.row == dataSource.count - 1 {
-                cell.baseLine.hidden = true
-            } else {
-                cell.baseLine.hidden = false
-            }
-            return cell
-        }
+        let cell: LandscapeCell = indexPath.row == 0 ? tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1,
+            forIndexPath: indexPath) as! LandscapeCellHead : tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell,
+                forIndexPath: indexPath) as! LandscapeCell
+        cell.playAreaButton.tag = indexPath.row
+        cell.superNavigation = navigationController
+        cell.landscape = dataSource[indexPath.row]
+        cell.baseLine.hidden = indexPath.row == dataSource.count - 1 ? true : false
+        
+        return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let sc = DetailWebViewController()
-        let landscape = dataSource[indexPath.row]
-        sc.url = landscape.url
-        sc.title = landscape.name
-        navigationController?.pushViewController(sc, animated: true)
+//        let sc = DetailWebViewController()
+//        let landscape = dataSource[indexPath.row]
+//        sc.url = landscape.url
+//        sc.title = landscape.name
+        let vc = SightDetailViewController()
+        vc.dataSource = dataSource[indexPath.row]
+        vc.index = indexPath.row
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

@@ -14,13 +14,11 @@ class CompulsoryPlayView: UIView {
     override func drawRect(rect: CGRect) {
         let ctf = UIGraphicsGetCurrentContext()
         CGContextMoveToPoint(ctf, 0, 0)
-        CGContextAddLineToPoint(ctf, 23, 0)
-        CGContextAddLineToPoint(ctf, 0, 23)
+        CGContextAddLineToPoint(ctf, 25, 0)
+        CGContextAddLineToPoint(ctf, 0, 25)
         CGContextClosePath(ctf)
         SceneColor.originYellow.setFill()
         CGContextSetLineCap(ctf, CGLineCap.Round)
         CGContextDrawPath(ctf, CGPathDrawingMode.Fill)
     }
-    
-
 }
