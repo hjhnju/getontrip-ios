@@ -175,6 +175,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
         view.addSubview(coverButton)
+        view.addSubview(backUpImageView)
+        view.addSubview(backUpControl)
         view.addSubview(commentVC.view)
         commentVC.view.hidden = true
         addChildViewController(commentVC)
@@ -214,8 +216,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
      初始化一键向上按钮
      */
     private func initBackUpButton() {
-        view.addSubview(backUpImageView)
-        view.addSubview(backUpControl)
         backUpImageView.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(24, 24), offset: CGPointMake(-9, -22 - 47))
         backUpControl.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(33, 47), offset: CGPointMake(0, -47))
         backUpControl.addTarget(self, action: "backUpAction", forControlEvents: .TouchUpInside)
@@ -331,8 +331,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         loadingView.stop()
     }
-    
-    
     
     /// 显示详情
     private func showTopicDetail() {

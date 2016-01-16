@@ -113,6 +113,11 @@ extension TopicViewController {
                         sender.selected = !sender.selected
                         self.refreshPraisedButton(self.praiseNum)
                     } else {
+                        
+                        if self.topicDataSource?.praiseNum == "1" && sender.selected {
+                            ProgressHUD.showSuccessHUD(self.view, text: "恭喜您获得首赞")
+                            return
+                        }
                         ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已点赞" : "已取消")
                     }
                 } else {
