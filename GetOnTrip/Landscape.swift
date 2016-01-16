@@ -30,20 +30,24 @@ class Landscape: ModelObject {
     lazy var detailBackground: String = ""
     
     lazy var imageHeader: String = ""
-    
-    // TODO: 以下，后台暂时未添加
     /// 必玩标签
     lazy var desc = ""
     /// 音频
-    lazy var audio = "/audio/fd6f5bc4b4514c759ae44600f5b9580b.mp3"
+    var audio = "/audio/fd6f5bc4b4514c759ae44600f5b9580b.mp3" {
+        didSet {
+            audio = AppIni.BaseUri + audio
+        }
+    }
     /// 音频长度
     lazy var audio_len = "00:00"
-    /// 地理位置 
-    lazy var location = "666"
     /// 经度
     lazy var x = "0"
     /// 纬度
     lazy var y = "0"
+    /// 距离
+    lazy var dis = ""
+    /// 单位
+    lazy var dis_unit = ""
     
     override init() {
         super.init()
@@ -53,7 +57,7 @@ class Landscape: ModelObject {
         super.init()
         
         setValuesForKeysWithDictionary(dict)
-        audio = "/audio/fd6f5bc4b4514c759ae44600f5b9580b.mp3"
+        audio = AppIni.BaseUri + "/audio/fd6f5bc4b4514c759ae44600f5b9580b.mp3"
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

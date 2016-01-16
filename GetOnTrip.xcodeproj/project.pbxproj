@@ -75,7 +75,6 @@
 		AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */; };
 		AE2EEE941BCF58ED00ED0937 /* CitySightsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */; };
 		AE2EEE961BCF833E00ED0937 /* TopicRefreshRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */; };
-		AE309A111C48C07E00ACC5A0 /* PlayFrequencyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE309A101C48C07E00ACC5A0 /* PlayFrequencyRequest.swift */; };
 		AE3321DE1C06B92D00B95FA4 /* CommentViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3321DD1C06B92D00B95FA4 /* CommentViewController+extension.swift */; };
 		AE3321E01C06BAE500B95FA4 /* CommentPersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */; };
 		AE3B49001C297EDC00D0E59B /* PhotographViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */; };
@@ -335,7 +334,6 @@
 		AE2EEE911BCF540000ED0937 /* CitySightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsViewController.swift; sourceTree = "<group>"; };
 		AE2EEE931BCF58ED00ED0937 /* CitySightsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitySightsRequest.swift; sourceTree = "<group>"; };
 		AE2EEE951BCF833E00ED0937 /* TopicRefreshRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicRefreshRequest.swift; sourceTree = "<group>"; };
-		AE309A101C48C07E00ACC5A0 /* PlayFrequencyRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayFrequencyRequest.swift; sourceTree = "<group>"; };
 		AE3321DD1C06B92D00B95FA4 /* CommentViewController+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CommentViewController+extension.swift"; sourceTree = "<group>"; };
 		AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentPersonCell.swift; sourceTree = "<group>"; };
 		AE3B48FF1C297EDC00D0E59B /* PhotographViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotographViewController.swift; sourceTree = "<group>"; };
@@ -983,7 +981,6 @@
 				AE6D9FB21B84AE46009A8A9D /* SightVideosRequest.swift */,
 				727561831BD0F64A0089CB27 /* Sight.swift */,
 				7269746A1BE3924F000C0ABF /* Tag.swift */,
-				AE309A101C48C07E00ACC5A0 /* PlayFrequencyRequest.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1306,7 +1303,6 @@
 				AE79EED21BBA8A30005A7709 /* CityTopicTableViewCell.swift in Sources */,
 				AE4DC3EF1C30F08500C43B03 /* RecommendHotController.swift in Sources */,
 				AEA241141C0F0F7800049882 /* SlideMenuViewController+extension.swift in Sources */,
-				AE309A111C48C07E00ACC5A0 /* PlayFrequencyRequest.swift in Sources */,
 				727561821BD0F6240089CB27 /* City.swift in Sources */,
 				72D25A8F1BEB25C50044AE04 /* RecommendLabel.swift in Sources */,
 				AE233B431BB13D95002E6502 /* UILabel+Extension.swift in Sources */,

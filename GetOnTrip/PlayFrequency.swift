@@ -15,51 +15,63 @@ class PlayFrequency: NSObject {
     static let sharePlayFrequency = PlayFrequency()
     
     weak var playDetailViewController: SightDetailViewController?
-    
+    /// 播放动画按钮所在的cell
+    var playCell: LandscapeCell?
     /// 播放类
     var player = AVPlayer()
     /// 播放列表
     var dataSource: [String] = [String]()
-    
+    /// 资源管理
+    var playerItem: AVPlayerItem = AVPlayerItem(URL: NSURL())
+    /// 音频总长度
+    var duration: CMTime = CMTime() {
+        didSet {
+            print("总长度是多少\(duration.value)")
+        }
+    }
     /// 默认是首个
     var index = 0 {
         didSet {
-            loadPlayData(dataSource[index])
+            if let url = NSURL(string: dataSource[index]) {
+                print(dataSource[index])
+                
+                playerItem.removeObserver(self, forKeyPath: "status", context: nil)
+                playerItem.removeObserver(self, forKeyPath: "loadedTimeRanges", context: nil)
+                
+                playerItem = AVPlayerItem(asset: AVAsset(URL: url))
+                player = AVPlayer(playerItem: playerItem)
+                ProgressHUD.showSuccessHUD(nil, text: "正在缓冲中，请稍候")
+                
+                playerItem.addObserver(self, forKeyPath: "status", options: .New, context: nil)
+                playerItem.addObserver(self, forKeyPath: "loadedTimeRanges", options: .New, context: nil)
+                player.play()
+            }
         }
     }
-    
-    /// 资源管理
-    var playerItem: AVPlayerItem = AVPlayerItem(URL: NSURL())
-    
-    /// 数据体
-    var data = [NSData]() {
-        didSet {
-//            playerItem.replacementObjectForCoder(<#T##aCoder: NSCoder##NSCoder#>)
-        }
-    }
-    
-    /// 音频总长度
-    lazy var duration: CMTime = CMTime()
-    
     /// 缓冲进度
     var availableProgress: NSTimeInterval? {
         didSet {
-            
+            print(availableProgress)
         }
+    }
+
+    override init() {
+        super.init()
+        
+        
+        
     }
     
     var tempData = NSData() {
         didSet {
+//            tempData
             
-            playerItem = AVPlayerItem(URL: NSURL(string: "\(tempData)".URLString)!)
-            player = AVPlayer(playerItem: playerItem)
             
-            player.play()
-            playerItem.addObserver(self, forKeyPath: "status", options: .New, context: nil)
-            playerItem.addObserver(self, forKeyPath: "loadedTimeRanges", options: .New, context: nil)
+            
+//            player.play()
             
 //            [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "moviePlayDidEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "moviePlayDidEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
         }
     }
     
@@ -82,7 +94,7 @@ class PlayFrequency: NSObject {
     
     ///
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        let playerItem = object as? AVPlayerItem
+        let playerItem1: AVPlayerItem = object as! AVPlayerItem
         
 //        if ([keyPath isEqualToString:@"status"]) {
 //            if ([playerItem status] == AVPlayerStatusReadyToPlay) {
@@ -106,15 +118,22 @@ class PlayFrequency: NSObject {
 //        }
         
         if keyPath == "status" {
-            if playerItem?.status == .ReadyToPlay {
-                duration = playerItem!.duration  // 视频的总长度
+            if playerItem1.status == .ReadyToPlay {
+                duration = playerItem.duration  // 视频的总长度
 //                let totalSecond = CGFloat(playerItem!.duration.value) / CGFloat(playerItem!.duration.timescale) // 转换成秒
-                let progress = CGFloat(playerItem!.currentTime().value) / CGFloat(playerItem!.duration.value)
-//                let time = coverT
+                let progress = CGFloat(playerItem.currentTime().value) / CGFloat(playerItem.duration.value)
+                print("-----------------------")
                 
+                print(Double(progress))
+//                let time = coverT
+                /// 一旦准备好，就开始播放
+//                player.play()
+                print("什么时候会来到呢")
             }
         } else {
             availableProgress = availableDuration()
+//            print("========= \(playerItem1.duration)")
+            print("最终的进度是 \(Int(availableProgress! / NSTimeInterval(playerItem1.duration.value))))")
         }
         
     }
@@ -171,19 +190,6 @@ class PlayFrequency: NSObject {
             
 //            Alamofire.download(.GET, imageURL, destination).progress {(_, totalBytesRead, totalBytesExpectedToRead) indispatch_async(dispatch_get_main_queue()) {// 6progressIndicatorView.setProgress(Float(totalBytesRead) / Float(totalBytesExpectedToRead), animated: true)// 7if totalBytesRead == totalBytesExpectedToRead {progressIndicatorView.removeFromSuperview()}}}
             
-        }
-    }
-    
-    func loadPlayData(playUrl: String) {
-        PlayFrequencyRequest.fetchModels(playUrl) { [weak self] (data, status) -> () in
-            if status != RetCode.SUCCESS {
-                ProgressHUD.showErrorHUD(nil, text: "您的网络无法连接")
-                return
-            }
-            if let data = data {
-                print(data)
-                self?.tempData = data
-            }
         }
     }
     
@@ -245,4 +251,11 @@ class PlayFrequency: NSObject {
 ////        let progress = player.currentTime / player.duration
 //        
 //    }
+    
+    
+    deinit {
+        playerItem.removeObserver(self, forKeyPath: "status", context: nil)
+        playerItem.removeObserver(self, forKeyPath: "loadedTimeRanges", context: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+    }
 }

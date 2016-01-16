@@ -132,7 +132,8 @@ class LandscapeCell: UITableViewCell {
         speechImageView.hidden = !speechImageView.hidden
         pulsateView.playIconAction()
         PlayFrequency.sharePlayFrequency.index = sender.tag
-        PlayFrequency.sharePlayFrequency.play()
+        PlayFrequency.sharePlayFrequency.playCell = self
+//        PlayFrequency.sharePlayFrequency.play()
     }
 }
 
