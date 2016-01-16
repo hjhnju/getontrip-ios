@@ -65,13 +65,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 注册测试设备
         Test().statisticsEquipmentRegister()
         /// 设置后台播放
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayback)
-            try audioSession.setActive(true)
-        } catch {
-            print("不能后台播放")
-        }
+//        let audioSession = AVAudioSession.sharedInstance()
+//        do {
+//            try audioSession.setCategory(AVAudioSessionCategoryPlayback)
+//            try audioSession.setActive(true)
+//        } catch {
+//            print("不能后台播放")
+//        }
         
         return true
     }
