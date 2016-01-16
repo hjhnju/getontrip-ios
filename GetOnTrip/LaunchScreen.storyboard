@@ -18,17 +18,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_background" translatesAutoresizingMaskIntoConstraints="NO" id="fFz-J8-aZg">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="464.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="570" id="koe-jv-dCR"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="koe-jv-dCR"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="享  受  品  质  旅  行" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="byN-JT-TQR">
                                 <rect key="frame" x="256" y="532" width="88.5" height="12"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
@@ -36,24 +25,20 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_logo" translatesAutoresizingMaskIntoConstraints="NO" id="16u-YX-tnX">
-                                <rect key="frame" x="267" y="492.5" width="66" height="33"/>
+                                <rect key="frame" x="265" y="489" width="70" height="35"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_title" translatesAutoresizingMaskIntoConstraints="NO" id="jmN-9S-MC9">
-                                <rect key="frame" x="203.5" y="104" width="193" height="20"/>
+                                <rect key="frame" x="203" y="104" width="193" height="20"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="byN-JT-TQR" firstAttribute="top" secondItem="16u-YX-tnX" secondAttribute="bottom" constant="7" id="4sC-5Y-bXI"/>
-                            <constraint firstItem="fFz-J8-aZg" firstAttribute="top" secondItem="7la-vP-Dh1" secondAttribute="top" id="A60-HL-R3T"/>
-                            <constraint firstItem="fFz-J8-aZg" firstAttribute="height" secondItem="7la-vP-Dh1" secondAttribute="height" multiplier="0.774:1" id="FEN-Vh-3dw"/>
+                            <constraint firstItem="byN-JT-TQR" firstAttribute="top" secondItem="16u-YX-tnX" secondAttribute="bottom" constant="8" id="4sC-5Y-bXI"/>
                             <constraint firstItem="jmN-9S-MC9" firstAttribute="top" secondItem="a7P-G0-2Cv" secondAttribute="bottom" multiplier="0.1616:1" constant="101" id="I7G-5g-Wb8"/>
                             <constraint firstItem="16u-YX-tnX" firstAttribute="centerX" secondItem="7la-vP-Dh1" secondAttribute="centerX" id="K98-Mm-VHV"/>
                             <constraint firstItem="jmN-9S-MC9" firstAttribute="centerX" secondItem="7la-vP-Dh1" secondAttribute="centerX" id="NDF-ZP-7ch"/>
-                            <constraint firstAttribute="trailing" secondItem="fFz-J8-aZg" secondAttribute="trailing" id="ODe-CB-Ha9"/>
                             <constraint firstItem="byN-JT-TQR" firstAttribute="centerX" secondItem="7la-vP-Dh1" secondAttribute="centerX" id="RFd-8f-RXI"/>
                             <constraint firstItem="XkJ-kZ-Zhi" firstAttribute="top" secondItem="byN-JT-TQR" secondAttribute="bottom" constant="56" id="RpM-Lu-R57"/>
-                            <constraint firstItem="fFz-J8-aZg" firstAttribute="leading" secondItem="7la-vP-Dh1" secondAttribute="leading" id="hwF-P4-x2P"/>
                             <constraint firstItem="jmN-9S-MC9" firstAttribute="height" secondItem="7la-vP-Dh1" secondAttribute="height" id="wuu-JR-tsD"/>
                         </constraints>
                         <variation key="default">
@@ -69,8 +54,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launch_background" width="414" height="570"/>
-        <image name="launch_logo" width="66" height="33"/>
+        <image name="launch_logo" width="70" height="35"/>
         <image name="launch_title" width="193" height="20"/>
     </resources>
 </document>

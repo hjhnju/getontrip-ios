@@ -100,8 +100,8 @@ class SightLandscapeController: BaseTableViewController {
         let cell: LandscapeCell = indexPath.row == 0 ? tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1,
             forIndexPath: indexPath) as! LandscapeCellHead : tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell,
                 forIndexPath: indexPath) as! LandscapeCell
-        cell.playAreaButton.tag = indexPath.row
-        cell.superNavigation = navigationController
+//        cell.playAreaButton.tag = indexPath.row
+//        cell.superNavigation = navigationController
         cell.landscape = dataSource[indexPath.row]
         cell.baseLine.hidden = indexPath.row == dataSource.count - 1 ? true : false
         
@@ -109,14 +109,14 @@ class SightLandscapeController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        let sc = DetailWebViewController()
-//        let landscape = dataSource[indexPath.row]
-//        sc.url = landscape.url
-//        sc.title = landscape.name
-        let vc = SightDetailViewController()
-        vc.dataSource = dataSource[indexPath.row]
-        vc.index = indexPath.row
-        navigationController?.pushViewController(vc, animated: true)
+        let sc = DetailWebViewController()
+        let landscape = dataSource[indexPath.row]
+        sc.url = landscape.url
+        sc.title = landscape.name
+//        let vc = SightDetailViewController()
+//        vc.dataSource = dataSource[indexPath.row]
+//        vc.index = indexPath.row
+        navigationController?.pushViewController(sc, animated: true)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

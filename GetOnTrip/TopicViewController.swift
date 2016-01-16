@@ -24,48 +24,37 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     /// 头部视图
     lazy var headerView       = UIView()
-    
     /// 头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
-    
+    /// 顶图
     lazy var headerImageView  = UIImageView()
-    
     /// 文章标题
     lazy var headerTitleLabel = UILabel(color: UIColor.whiteColor(), title: "", fontSize: 24, mutiLines: false, fontName: Font.PingFangSCRegular)
-    
     /// 标签 - 历史
     lazy var labelButton      = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
-    
     /// 收藏数量标签
     lazy var favNumButton      = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
-
     /// 浏览标签
     lazy var visitNumButton    = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
-    
     //webView
     var webView               = WKWebView(color: UIColor.grayColor())
-    
     //底部工具栏
     lazy var toolbarView      = UIView()
-    
     /// 点赞按钮
     lazy var praisedButton    = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x5C5C5C, alpha: 0.4))
-    
     /// 底部评论按钮
     lazy var commentButton: CommentButton = CommentButton(image: "topic_comment", title: "123", fontSize: 12, titleColor: UIColor.whiteColor())
-
     /// 底部分享按钮
     lazy var shareButton      = UIButton(image: "topic_share", title: "", fontSize: 0)
-    
     /// 底部收藏按钮
     lazy var collectButton    = UIButton(image: "topic_star", title: "", fontSize: 0, titleColor: SceneColor.lightYellow)
-    
     /// 底部线
     lazy var bottomLineView   = UIView(color: SceneColor.lightGray)
-    
     /// 遮罩按钮
     lazy var coverButton: UIButton = UIButton(color: UIColor.blackColor(), alphaF: 0.0)
-      
+    /// 一键向上按钮
+    lazy var backUpImageView = UIImageView(image: UIImage(named: "icon_backUp"))
+    lazy var backUpControl = UIControl()
     /// 网络请求加载数据(添加)
     var lastRequest: TopicRequest?
     
@@ -160,6 +149,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         refreshHeader()
         loadSightData()
         setupAutoLayout()
+        initBackUpButton()
     }
     
    
@@ -217,6 +207,18 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         labelButton.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
         labelButton.backgroundColor   = UIColor(hex: 0x696969, alpha: 0.65)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    
+    /**
+     初始化一键向上按钮
+     */
+    private func initBackUpButton() {
+        view.addSubview(backUpImageView)
+        view.addSubview(backUpControl)
+        backUpImageView.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(24, 24), offset: CGPointMake(-9, -22 - 47))
+        backUpControl.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(33, 47), offset: CGPointMake(0, -47))
+        backUpControl.addTarget(self, action: "backUpAction", forControlEvents: .TouchUpInside)
     }
     
     private func initNavBar() {
@@ -392,4 +394,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var presentedImageView = UIImageView()
     ///  2. 目标位置
     var presentedFrame = CGRectZero
+    
+    /**
+     滑动到顶部的方法
+     */
+    func backUpAction() {
+        webView.scrollView.setContentOffset(CGPointMake(0, -TopicViewContant.headerViewHeight), animated: true)
+    }
 }

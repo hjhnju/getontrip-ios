@@ -55,8 +55,8 @@ class Cache: NSObject {
         //视频列表缓存
         "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         // 首页缓存
-        "recommend1" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=1&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60 * 2),
-        "recommend2" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=2&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60 * 2),
+        "recommend1" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=1&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
+        "recommend2" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=2&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
         // 音频缓存 音频缓存3天
 //        "play" : CacheRegexConfig(expr: "/audio/([a-zA-Z0-9]+).mp3", buffer: 50, expire: 60 * 60 * 3)
     ]

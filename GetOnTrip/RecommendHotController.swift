@@ -40,8 +40,8 @@ class RecommendHotController: BaseTableViewController {
         lastRequest.isLoadType = RecommendLoadType.TypeContent
         tableView.registerClass(RecommendTopicViewCell.self, forCellReuseIdentifier: "RecommendTopicViewCell")
         tableView.registerClass(RecommendTableViewCell.self, forCellReuseIdentifier: "RecommendTableViewCell")
-        tableView.rowHeight = 192
-        tableView.contentInset = UIEdgeInsets(top: 255, left: 0, bottom: 0, right: 0)
+        tableView.rowHeight = RecommendContant.rowHeight
+        tableView.contentInset = UIEdgeInsets(top: RecommendContant.headerViewHeight, left: 0, bottom: 0, right: 0)
         tableView.backgroundColor = .clearColor()
         tableView.separatorStyle = .None
     }
@@ -135,13 +135,14 @@ class RecommendHotController: BaseTableViewController {
     override func scrollViewDidScroll(scrollView: UIScrollView) {
 
         let vc = parentViewController as? RecommendViewController
-        if scrollView.contentOffset.y > -64 { // 禁止滚动
-            vc?.collectionView.scrollEnabled = false
-        } else { // 开始滚动
-            vc?.collectionView.scrollEnabled = true
-        }
+        vc?.collectionView.scrollEnabled = scrollView.contentOffset.y > -64 ? false : true
         vc?.contentOffSet = scrollView.contentOffset
         vc?.scrollViewDidScroll(scrollView)
+        
+        UIView.animateWithDuration(0.5) { () -> Void in
+            vc?.backUpImageView.alpha = scrollView.contentOffset.y > Frame.screen.height ? 1 : 0
+            vc?.backUpControl.alpha   = scrollView.contentOffset.y > Frame.screen.height ? 1 : 0
+        }
         
         let gap = RecommendContant.headerViewHeight + scrollView.contentOffset.y
         for vcell in tableView.visibleCells {
@@ -154,11 +155,6 @@ class RecommendHotController: BaseTableViewController {
             }
         }
     }
-    
-    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-    }
-    
     
     private func calcFactor(frameY:CGFloat, yOffset: CGFloat) -> CGFloat {
         //以屏幕左上为原点的坐标
@@ -195,26 +191,6 @@ class RecommendHotController: BaseTableViewController {
             
             //处理返回数据
             if result?.contents.count > 0 {
-                
-                
-//                if self?.order == "0" {
-//                    if result?.labels[0].id != self?.labelId {
-//                        print("labelId ======== \(self?.labelId) ------------0000000 result.labelsid \(result?.labels[0].id)")
-//                        if let labels = result?.labels {
-//                            (self?.parentViewController as? RecommendViewController)?.recommendLabels = labels
-//                            return
-//                        }
-//                    }
-//                } else if self?.order == "1" {
-//                    if result?.labels[1].id != self?.labelId {
-//                        print("labelId ======== \(self?.labelId) ------------11111111 result.labelsid \(result?.labels[1].id)")
-//                        print("orider \(self?.order)")
-//                        if let labels = result?.labels {
-//                            (self?.parentViewController as? RecommendViewController)?.recommendLabels = labels
-//                            return
-//                        }
-//                    }
-//                }
                 if let labels = result?.labels {
                     (self?.parentViewController as? RecommendViewController)?.recommendLabels = labels
                 }

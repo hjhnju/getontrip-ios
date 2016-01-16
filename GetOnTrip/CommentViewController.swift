@@ -255,7 +255,7 @@ class CommentViewController: BaseViewController, UITableViewDataSource, UITableV
                         let parentVC = self?.parentViewController as? TopicViewController
                         let topic: Topic = parentVC?.topicDataSource ?? Topic()
                         topic.commentNum = String((Int(parentVC?.topicDataSource?.commentNum ?? "0") ?? 0) + 1)
-                        parentVC?.topicDataSource = topic
+//                        parentVC?.topicDataSource = topic
                     } else {
                         ProgressHUD.showErrorHUD(self?.view, text: "评论发布失败")
                     }

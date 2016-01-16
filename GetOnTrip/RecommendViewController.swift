@@ -21,8 +21,9 @@ struct MainViewContant {
 }
 
 struct RecommendContant {
-    static let headerViewHeight:CGFloat = 255
-    static let rowHeight:CGFloat = 192
+    static let headerViewHeight:CGFloat = Device.isIPad() ? Frame.screen.height * 0.229619565 + 45 * 2 : 255
+    static let rowHeight:CGFloat = Device.isIPad() ? Frame.screen.height * 0.260869 : 199
+    static let searchBarTopY: CGFloat = RecommendContant.headerViewHeight - 45 - 20 - 35 // Frame.screen.height * 0.21195652
 }
 
 class RecommendViewController: MainViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
@@ -80,7 +81,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     /// 搜索顶部
     var headerView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, RecommendContant.headerViewHeight))
     /// 搜索顶部图片
-    var headerImageView: RoundImageView = RoundImageView(frame: CGRectMake(0, 0, Frame.screen.width, 211))
+    var headerImageView: RoundImageView = RoundImageView(frame: CGRectMake(0, 0, Frame.screen.width, RecommendContant.headerViewHeight))
     /// 左边侧滑按钮
     lazy var leftRoundButton: SwitchRoundButton = SwitchRoundButton(image: "left_round", title: "", fontSize: 0)
     /// 右边侧滑按钮
@@ -131,7 +132,9 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var hotContentVC = RecommendHotController()
     /// 热门景点推荐
     var hotSightVC  = RecommendHotController()
-    
+    /// 一键向上按钮
+    lazy var backUpImageView = UIImageView(image: UIImage(named: "icon_backUp"))
+    lazy var backUpControl = UIControl()
     //MARK: - 请求及数据源
     /// 网络请求加载数据(添加)
     var lastRequest: RecommendRequest = RecommendRequest()
@@ -172,6 +175,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         loadData()
         initController()
         initSearchBar()
+        initBackUpButton()
     }
     
     private func initController() {
@@ -239,7 +243,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         view.addSubview(searchController.view)
         searchController.view.alpha = 0.0
         view.addSubview(searchController.searchBar)
-        let cons = searchController.searchBar.ff_AlignInner(.TopCenter, referView: view, size: CGSizeMake(Frame.screen.width * 0.69, 35), offset: CGPointMake(0, 155))
+        let cons = searchController.searchBar.ff_AlignInner(.TopCenter, referView: view, size: CGSizeMake(Frame.screen.width * 0.69, 35), offset: CGPointMake(0, RecommendContant.searchBarTopY))
         searchController.searchBar.updateWidthFrame(Frame.screen.width * 0.69 - 9)
         searchBarMaxX = searchController.searchBar.ff_Constraint(cons, attribute: .CenterX)
         searchBarTopY = searchController.searchBar.ff_Constraint(cons, attribute: .Top)
@@ -272,7 +276,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         
         let maskView = UIView(color: SceneColor.bgBlack, alphaF: 0.45)
         headerView.addSubview(maskView)
-        maskView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(Frame.screen.width, 211))
+        maskView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(Frame.screen.width, RecommendContant.headerViewHeight - 45))
         view.bringSubviewToFront(navContainerView)
         
         view.addSubview(slideView)
@@ -280,7 +284,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         
         headerView.addSubview(titleImageView)
         titleImageView.alpha = 0.9
-        titleImageView.ff_AlignInner(.TopCenter, referView: headerView, size: nil, offset: CGPointMake(0, (Frame.screen.width * 0.1616) + 25))
+        titleImageView.ff_AlignInner(.CenterCenter, referView: headerView, size: nil, offset: CGPointMake(0, -(45 * 0.5)))
     }
     
     /// 初始化左右轮播按钮
@@ -295,6 +299,17 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         rightRoundButton.tag = 2
         leftRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
         rightRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
+    }
+    
+    /**
+     初始化一键向上按钮
+     */
+    private func initBackUpButton() {
+       view.addSubview(backUpImageView)
+        view.addSubview(backUpControl)
+        backUpImageView.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(24, 24), offset: CGPointMake(-9, -22))
+        backUpControl.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(33, 47))
+        backUpControl.addTarget(self, action: "backUpAction", forControlEvents: .TouchUpInside)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -340,12 +355,11 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         //导航布局
         slideButton.ff_AlignInner(.CenterLeft, referView: custNavView, size: CGSize(width: 21, height: 14), offset: CGPointMake(9, 0))        
         let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, RecommendContant.headerViewHeight))
-        titleSelectView.ff_AlignInner(.BottomLeft, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 45))
+        titleSelectView.ff_AlignInner(.BottomLeft, referView: headerView, size: CGSizeMake(Frame.screen.width, 45))
         headerViewTopConstraint = headerView.ff_Constraint(cons, attribute: .Top)
-        
         //表格
         collectionView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(Frame.screen.width, Frame.screen.height))
-        headerImageView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.headerViewHeight - 45))
+        headerImageView.ff_AlignInner(.TopLeft, referView: headerView, size: CGSizeMake(Frame.screen.width, RecommendContant.headerViewHeight + 20))
     }
     
     //MARK: ScrollViewDelegate
@@ -354,4 +368,15 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var isUpdataSearchBarFrame: Bool = false
     /// 是否可以滑动菜单
     var isSlideMenu:Bool = true
+    
+    /**
+     滑动到顶部的方法
+     */
+    func backUpAction() {
+        if collectionView.contentOffset.x == 0 {
+            hotContentVC.tableView.setContentOffset(CGPointMake(0, -RecommendContant.headerViewHeight), animated: true)
+        } else {
+            hotSightVC.tableView.setContentOffset(CGPointMake(0, -RecommendContant.headerViewHeight), animated: true)
+        }
+    }
 }

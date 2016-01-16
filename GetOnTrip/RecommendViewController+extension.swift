@@ -71,9 +71,9 @@ extension RecommendViewController {
             searchController.searchBar.leftView.hidden = true
         } else { // 变回去
             if isUpdataSearchBarFrame {
-               changeSearchBar(newTop + 158)
+               changeSearchBar(newTop + RecommendContant.searchBarTopY)
             } else {
-                searchBarTopY?.constant = newTop + 158
+                searchBarTopY?.constant = newTop + RecommendContant.searchBarTopY
             }
         }
     }
@@ -106,12 +106,12 @@ extension RecommendViewController {
     
     /// 变圆
     private func changeRound() {
-        searchBarW?.constant = 50
-        searchController.searchBar.updateWidthFrame(50 - 15)
-        searchController.searchBar.tempUpdateFrame = 50
+        searchBarW?.constant = 48
+        searchController.searchBar.updateWidthFrame(50 - 15.5)
+        searchController.searchBar.tempUpdateFrame = 48
         searchBarMaxX?.constant = Frame.screen.width * 0.5 - 30
         searchController.searchBar.defaultPromptButton.titleLabel?.alpha = 0
-        searchBarTopY?.constant = 64 * 0.5 - 10
+        searchBarTopY?.constant = 64 * 0.5 - 8
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.searchController.searchBar.layoutIfNeeded()
             }, completion: { (_) -> Void in

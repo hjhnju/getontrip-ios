@@ -69,7 +69,6 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         if let userDefault = NSUserDefaults.standardUserDefaults().valueForKey("recordData") as? [String] {
             recordData = userDefault
         }
-        recordTableView.bounces = false
         view.addSubview(imageV)
         view.addSubview(searchResultViewController.view)
         view.addSubview(recordTableView)
@@ -200,4 +199,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         vc?.searchBarH?.constant    = vc?.searchBarTH ?? 0
     }
     
+    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+        searchBar.textFile.resignFirstResponder()
+    }
 }
