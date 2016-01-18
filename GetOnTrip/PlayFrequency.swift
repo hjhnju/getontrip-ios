@@ -16,6 +16,7 @@ class PlayFrequency: NSObject {
     static let sharePlayFrequency = PlayFrequency()
     
     weak var playDetailViewController: SightDetailViewController?
+    weak var slide: UISlider?
     /// 播放动画按钮所在的cell
     var playCell: LandscapeCell?
     /// 播放类
@@ -24,109 +25,52 @@ class PlayFrequency: NSObject {
     var dataSource: [String] = [String]()
     /// 资源管理
     var playerItem: AVPlayerItem?
-    /// 音频总长度
-    var overallDuration: Int = Int() {
-        didSet {
-            print("总长度是多少\(overallDuration)")
-        }
-    }
-    /// 进度
-    var progressV: Float = 0 {
-        didSet {
-            print(NSNumber(float: progressV).integerValue)
-        }
-    }
-    /// 现在的播放的时间
-    var playCurrentTime: Float = 0 {
-        didSet {
-            /// 更新播放时间
-        }
-    }
+    /// 现在播放进度
+    var playCurrentProgress: Float = 0
+    /// 是否正在播放
+    var isPlay: Bool = false
     /// 是否正在加载
     var isLoading: Bool = false
+    /// 上一个选择的
+    var lastIndex: Int = -1
     /// 默认是首个
-    var index = 0 {
+    var index = -1 {
         didSet {
             if let url = NSURL(string: dataSource[index]) {
+                /// 如果相同就取消
+                if lastIndex == index { return }
                 
-                audioPlayer = try! AVAudioPlayer(contentsOfURL: url)
+                print(dataSource[index])
+                // 移除通知
+                removeNotification()
+                // 移除监听
+                if let playerIt = playerItem {
+                    removeObserverForPlayerItem(playerIt)
+                }
                 
-//                print(dataSource[index])
-//                
-//                // 移除通知
-//                removeNotification()
-//                // 移除监听
-//                if let playerIt = playerItem {
-//                    removeObserverForPlayerItem(playerIt)
-//                }
-//                playerItem = AVPlayerItem(URL: url)
-//                player = AVPlayer(playerItem: playerItem!)
-//                isLoading = true
-//                // 添加通知
-//                addNotification()
-//                // 添加更新
-//                addPlayerProgress()
-//                // 添加监听
-//                addObserverPlayerItem(playerItem!)
+                playerItem = AVPlayerItem(URL: NSURL(string: "http://123.57.46.229:8321/audio/f77f5072fe649e31.mp3")!)
+                // player = AVPlayer(playerItem: playerItem!)
+                player.replaceCurrentItemWithPlayerItem(playerItem)
+                
+                isLoading = true
+                addNotification()                  // 添加通知
+                addPlayerProgress()                // 添加更新
+                addObserverPlayerItem(playerItem!) // 添加监听
             }
         }
     }
-
     
-    /**
-     计算缓冲进度
-     
-     - returns: 缓冲进度
-     */
-    func availableDuration() -> NSTimeInterval {
-        let loadedTimeRanges = player.currentItem?.loadedTimeRanges
-        let timeRange = loadedTimeRanges?.first?.CMTimeRangeValue // 获取缓冲区域
-        let startSeconds = CMTimeGetSeconds(timeRange?.start ?? CMTime())
-        let durationSeconds = CMTimeGetSeconds(timeRange?.duration ?? CMTime())
-        return startSeconds + durationSeconds
-    }
-    
-
-
-    
-    /// 播放
-    func play() {
-        player.play()
-//        avtimer = NSTimer(timeInterval: 0.1, target: self, selector: "timer", userInfo: nil, repeats: true)
-//        NSRunLoop.mainRunLoop().addTimer(avtimer!, forMode: NSRunLoopCommonModes)
-    }
-    
-//    func timer() {
-////        progress = CMTimeGetSeconds(player.currentItem!.currentTime()) / CMTimeGetSeconds(player.currentItem!.duration)
-//    }
-    
-    /// 暂停
-    func pause() {
-        player.pause()
-    }
-    
-    
-    
-    deinit {
-        playerItem?.removeObserver(self, forKeyPath: "status", context: nil)
-        playerItem?.removeObserver(self, forKeyPath: "loadedTimeRanges", context: nil)
-//        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
-        
-    }
-    
-    func playerItemDuration() -> CMTime {
-        let playerItem: AVPlayerItem = player.currentItem!
-        if playerItem.status == .ReadyToPlay {
-            return playerItem.duration
+    /// 播放和暂时的切换方法
+    func switchPlayAndStopAction(sender: UIButton) {
+        if sender.selected {
+            player.pause()
+        } else {
+            player.play()
         }
-        
-        return kCMTimeInvalid
     }
     
     // MARK: - 通知、kvo
-    /**
-    去除通知
-    */
+    /// 去除通知
     private func removeNotification() {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemPlaybackStalledNotification, object: nil)
@@ -154,40 +98,28 @@ class PlayFrequency: NSObject {
     
     /// 监听响应
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        print("应该会来吧")
+
         let playerItem: AVPlayerItem = object as! AVPlayerItem
-        print(keyPath)
         if keyPath == "status" {
-            print(change)
-//            let status: AVPlayerStatus = change!["new"]! as? AVPlayerStatus ??  AVPlayerStatus(rawValue: 0)!
-            
 
             if change!["new"]?.intValue == 1 {
-                print("正在播放， 音频总长度是\(NSNumber(float: Float(playerItemDuration().value)))")
-                let total: Float = Float(CMTimeGetSeconds(playerItem.duration))
-                // 设置总显示时间
-                let tot: Int32 = NSNumber(float: total).intValue
-                
-                print("============\(NSNumber(float: total).intValue)")
-                print("\((tot/3600)):\((tot/60)):\((tot%60))")
+                isPlay = true
+                player.play()
             }
         } else if keyPath == "loadedTimeRanges" {
             let array = playerItem.loadedTimeRanges
-            print(array)
             let timeRange = array.first?.CMTimeRangeValue
             if timeRange == nil { return }
             // 本次缓冲时间范围
             print( timeRange!.duration.value)
             
-            
-            let startSeconds = CMTimeGetSeconds(CMTime(value: timeRange!.duration.value, timescale: CMTimeScale.init(1.0)))
-            let durationSeconds = CMTimeGetSeconds(playerItemDuration())
-            let totalBuffer = startSeconds / durationSeconds
+            let startSeconds = CMTimeGetSeconds(timeRange!.duration)
+            let totalBuffer = startSeconds / CMTimeGetSeconds(playerItem.duration)
             if totalBuffer * 100 > 2 && isLoading {
                 isLoading = false
                 player.play()
             }
-            print("共缓冲 \(Float(_builtinFloatLiteral: totalBuffer.value) * 100)")
+            print("共缓冲 \(totalBuffer * 100)")
         }
     }
     
@@ -195,15 +127,15 @@ class PlayFrequency: NSObject {
     /// 通知响应
     func playerCompleted() {
         let time = CMTimeMakeWithSeconds(0.5, 1)
-        player.seekToTime(time) { (_) -> Void in
+        player.seekToTime(time) { [weak self] (_) -> Void in
             print("音频播完了")
-            print(self.playerItem?.duration)
+            self?.isPlay = false
         }
     }
     
     func playerBackStall() {
         isLoading = true
-        
+        print("何时会调用")
     }
     
     /**
@@ -214,90 +146,83 @@ class PlayFrequency: NSObject {
         //        let item = playerItem!.currentTime()
         /// 设置进度更新每一秒
         player.addPeriodicTimeObserverForInterval(CMTimeMake(1, 1), queue: dispatch_get_main_queue()) { (time) -> Void in
+            
             let currentTime = CMTimeGetSeconds(time)
-            //            AVPlayerItem().duration
-            
-            let totalTime: Float = Float(CMTimeGetSeconds(self.playerItem!.duration))
-            self.overallDuration = NSNumber(float: Float(totalTime)).integerValue
-            // 设置进度条显示
-            if currentTime != 0.0 {
-                print(NSNumber(float: Float(totalTime)).integerValue)
-                self.progressV = Float(currentTime) / Float(totalTime)
+            let totalTime = CMTimeGetSeconds(self.playerItem!.duration)
+            if totalTime > 0.0 {
+                self.playCell?.playLabel.text = "\(Int(currentTime / 60)):\(Int(currentTime % 60))/\(Int(totalTime / 60)):\(Int(totalTime % 60))"
             }
-            let tot: Int = NSNumber(float: totalTime).integerValue
-            /// 现在的时间
-            print(tot / 3600,tot / 60,tot % 60)
-            self.playCurrentTime = Float(currentTime)
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    var audioPlayer = AVAudioPlayer()
-    var isPlaying = false
-    var timer:NSTimer!
-    
-    
-    
-    func playOrPauseMusic(sender: AnyObject) {
-        if isPlaying {
-            audioPlayer.pause()
-            isPlaying = false
-        } else {
-            audioPlayer.play()
-            isPlaying = true
             
-            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateTime", userInfo: nil, repeats: true)
+            self.playCurrentProgress = Float(currentTime/totalTime)
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.slide?.setValue(Float(currentTime/totalTime), animated: true)
+            })
         }
     }
     
-    func updateTime() {
-        var currentTime = Int(audioPlayer.currentTime)
-        var minutes = currentTime/60
-        var seconds = currentTime - minutes * 60
+    
+    // 播放音乐
+
+    
+    // 滑动选择时间
+    func currentValueSliderAction(sender: UISlider) {
+//        if index == -1 {
+//            ProgressHUD.showSuccessHUD(nil, text: "正在加载中，请稍候")
+//            index = playDetailViewController?.index ?? 0
+//            return
+//        }
+        let changedTime = Int64(Float64(sender.value) * CMTimeGetSeconds(self.playerItem!.duration))
+        if self.playerItem!.status == AVPlayerItemStatus.ReadyToPlay {
+            player.seekToTime(CMTimeMake(changedTime, 1), completionHandler: { (isSuccess: Bool) -> Void in
+                self.player.play()
+            })
+        }
+    }
+    
+    //播放和暂停
+    func playButtonAction(sender: UIButton) {
+        if isPlay == true {
+            self.paushMusic()
+        }else {
+            self.playMusic()
+        }
+    }
+    
+    //上一曲
+    func lastMusicButtonAction(sender: UIButton) {
+        index--
+        if self.index < 0 {
+            self.index = dataSource.count - 1
+        }
+        self.playMusic()
+    }
+    //下一曲
+    func nextMusicButonAction(sender: UIButton) {
+        index++
+        self.playMusic()
+    }
+    
+    
+    //暂停
+    func paushMusic() {
+        player.pause()
+        self.isPlay = false
+    }
+    //播放
+    func playMusic() {
         
-        playedTime.text = NSString(format: "%02d:%02d", minutes,seconds) as String
+        player.play()
+        self.isPlay = true
     }
     
-    func stopMusic(sender: AnyObject) {
-        audioPlayer.stop()
-        audioPlayer.currentTime = 0
-        isPlaying = false
+    /**
+     因为是单例，可能永远也不会执行到该方法，但为避免以后忘掉，还是写了
+     */
+    deinit {
+        playerItem?.removeObserver(self, forKeyPath: "status", context: nil)
+        playerItem?.removeObserver(self, forKeyPath: "loadedTimeRanges", context: nil)
+        //        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+        
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

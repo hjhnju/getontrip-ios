@@ -26,7 +26,8 @@ class PlayPulsateView: UIView {
         anim.toValue = 0.1
         anim.duration = 0.5
         anim.repeatCount = MAXFLOAT
-        
+        anim.removedOnCompletion = false
+        anim.fillMode = kCAFillModeForwards        
         anim.autoreverses = true
         layer1.addAnimation(anim, forKey: nil)
         repl.instanceCount = 4

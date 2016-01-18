@@ -207,6 +207,14 @@
 		AEC421971BF5AA0C0063E27F /* ShareSDKConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC421961BF5AA0C0063E27F /* ShareSDKConnector.framework */; };
 		AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC9D2B71BD7387E00B28464 /* UIImage+Extension.swift */; };
 		AEC9D2BC1BD7ADE700B28464 /* SendPopoverAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC9D2BB1BD7ADE700B28464 /* SendPopoverAnimator.swift */; };
+		AED320701C4D2E55001AB37D /* SightFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED3206F1C4D2E55001AB37D /* SightFoodViewController.swift */; };
+		AED320721C4D2E6F001AB37D /* SightSpecialtyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED320711C4D2E6F001AB37D /* SightSpecialtyViewController.swift */; };
+		AED320741C4D2F39001AB37D /* SightFoodRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED320731C4D2F39001AB37D /* SightFoodRequest.swift */; };
+		AED320781C4D2F6B001AB37D /* SightSpecialtyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED320771C4D2F6B001AB37D /* SightSpecialtyRequest.swift */; };
+		AED3207A1C4D358F001AB37D /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED320791C4D358F001AB37D /* Food.swift */; };
+		AED3207C1C4D370E001AB37D /* Specialty.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED3207B1C4D370E001AB37D /* Specialty.swift */; };
+		AED3207E1C4D37DF001AB37D /* FoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED3207D1C4D37DF001AB37D /* FoodCell.swift */; };
+		AED320801C4D4220001AB37D /* SpecialtyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED3207F1C4D4220001AB37D /* SpecialtyCell.swift */; };
 		AED4B8671C041B0200DAC9D3 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B8661C041B0200DAC9D3 /* Regex.swift */; };
 		AED4B86B1C0487F300DAC9D3 /* BaseCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B86A1C0487F300DAC9D3 /* BaseCollectionCell.swift */; };
 		AED4B86D1C048AC100DAC9D3 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B86C1C048AC100DAC9D3 /* BaseTableViewCell.swift */; };
@@ -473,6 +481,14 @@
 		AEC421961BF5AA0C0063E27F /* ShareSDKConnector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShareSDKConnector.framework; path = libraries/ShareSDKConnector.framework; sourceTree = "<group>"; };
 		AEC9D2B71BD7387E00B28464 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		AEC9D2BB1BD7ADE700B28464 /* SendPopoverAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendPopoverAnimator.swift; sourceTree = "<group>"; };
+		AED3206F1C4D2E55001AB37D /* SightFoodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightFoodViewController.swift; sourceTree = "<group>"; };
+		AED320711C4D2E6F001AB37D /* SightSpecialtyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightSpecialtyViewController.swift; sourceTree = "<group>"; };
+		AED320731C4D2F39001AB37D /* SightFoodRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightFoodRequest.swift; sourceTree = "<group>"; };
+		AED320771C4D2F6B001AB37D /* SightSpecialtyRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightSpecialtyRequest.swift; sourceTree = "<group>"; };
+		AED320791C4D358F001AB37D /* Food.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
+		AED3207B1C4D370E001AB37D /* Specialty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Specialty.swift; sourceTree = "<group>"; };
+		AED3207D1C4D37DF001AB37D /* FoodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCell.swift; sourceTree = "<group>"; };
+		AED3207F1C4D4220001AB37D /* SpecialtyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialtyCell.swift; sourceTree = "<group>"; };
 		AED4B8661C041B0200DAC9D3 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		AED4B86A1C0487F300DAC9D3 /* BaseCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionCell.swift; sourceTree = "<group>"; };
 		AED4B86C1C048AC100DAC9D3 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -981,6 +997,8 @@
 				AE6D9FB21B84AE46009A8A9D /* SightVideosRequest.swift */,
 				727561831BD0F64A0089CB27 /* Sight.swift */,
 				7269746A1BE3924F000C0ABF /* Tag.swift */,
+				AED320731C4D2F39001AB37D /* SightFoodRequest.swift */,
+				AED320771C4D2F6B001AB37D /* SightSpecialtyRequest.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -995,6 +1013,8 @@
 				AEF201831C45137F008DF72B /* CompulsoryPlayView.swift */,
 				AE68B5D71C46235100FA4A05 /* PlayProgressView.swift */,
 				AE68B6551C47A13A00FA4A05 /* PlayPulsateView.swift */,
+				AED3207D1C4D37DF001AB37D /* FoodCell.swift */,
+				AED3207F1C4D4220001AB37D /* SpecialtyCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1009,6 +1029,8 @@
 				AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */,
 				AE68B5D51C45FA9300FA4A05 /* SightDetailViewController.swift */,
 				AE68B6511C474CB000FA4A05 /* PlayFrequency.swift */,
+				AED3206F1C4D2E55001AB37D /* SightFoodViewController.swift */,
+				AED320711C4D2E6F001AB37D /* SightSpecialtyViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1039,6 +1061,8 @@
 				725A84761C00A0AD007623C9 /* ReplayButton.swift */,
 				725A84781C00A239007623C9 /* Comment.swift */,
 				AEB720901C105C7600E0FBF3 /* VideoRequest.swift */,
+				AED320791C4D358F001AB37D /* Food.swift */,
+				AED3207B1C4D370E001AB37D /* Specialty.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1294,6 +1318,7 @@
 				AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */,
 				725A84771C00A0AD007623C9 /* ReplayButton.swift in Sources */,
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,
+				AED320721C4D2E6F001AB37D /* SightSpecialtyViewController.swift in Sources */,
 				AE4070241C2CF707007A1916 /* UserLoginRequest.swift in Sources */,
 				AE4070261C2CF707007A1916 /* UserLogin.swift in Sources */,
 				AE40702D1C2CF707007A1916 /* MessageList.swift in Sources */,
@@ -1342,6 +1367,7 @@
 				AEA09BD91C1688C600E4F666 /* UIImageView+Extension.swift in Sources */,
 				AE406FF21C2CF6BF007A1916 /* CollectSightViewController.swift in Sources */,
 				AEA241021C0C3BE400049882 /* TopicEnterSightController.swift in Sources */,
+				AED3207C1C4D370E001AB37D /* Specialty.swift in Sources */,
 				72FE63201BFB1B940037C7D6 /* Cache.swift in Sources */,
 				72550EA21BEA0D87004D4611 /* Book.swift in Sources */,
 				AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */,
@@ -1367,6 +1393,8 @@
 				AE8C0C151BE8A04F003C7942 /* ShareView.swift in Sources */,
 				AE406FF51C2CF6BF007A1916 /* LoginViewController.swift in Sources */,
 				AEB720911C105C7700E0FBF3 /* VideoRequest.swift in Sources */,
+				AED320781C4D2F6B001AB37D /* SightSpecialtyRequest.swift in Sources */,
+				AED320801C4D4220001AB37D /* SpecialtyCell.swift in Sources */,
 				AE68B5D81C46235200FA4A05 /* PlayProgressView.swift in Sources */,
 				AEF201071C44CAA3008DF72B /* Test.m in Sources */,
 				72C16AF31BEDCAB000161A77 /* ScrolledImageView.swift in Sources */,
@@ -1391,6 +1419,7 @@
 				AE23DDF11C194592009A1B57 /* RecommendViewController+extension.swift in Sources */,
 				AE40702F1C2CF707007A1916 /* UserProfiler.swift in Sources */,
 				AE406FF01C2CF6BF007A1916 /* FavoriteViewController.swift in Sources */,
+				AED320701C4D2E55001AB37D /* SightFoodViewController.swift in Sources */,
 				7293A0401BF470F90070C64A /* SettingTableViewCell.swift in Sources */,
 				AE43E16E1C07FEB70021964E /* ControllerTools.swift in Sources */,
 				AE7F0AC21BB954730011F307 /* SightRequest.swift in Sources */,
@@ -1404,6 +1433,7 @@
 				AE6D9FB31B84AE46009A8A9D /* SightVideosRequest.swift in Sources */,
 				AE70C1991BCCB7EF00834130 /* CommentViewController.swift in Sources */,
 				AE4070091C2CF6EB007A1916 /* FavoriteCollectionViewCell.swift in Sources */,
+				AED3207E1C4D37DF001AB37D /* FoodCell.swift in Sources */,
 				AE4070251C2CF707007A1916 /* UserAccount.swift in Sources */,
 				AE406FEC1C2CF6BF007A1916 /* SettingViewController.swift in Sources */,
 				728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */,
@@ -1424,6 +1454,7 @@
 				AE9385F51C05D9CA00B80D31 /* CityBrowseViewController.swift in Sources */,
 				AE40700C1C2CF6EB007A1916 /* CollectionCityViewCell.swift in Sources */,
 				AE2894541BDCDDC20099293F /* SearchViewController.swift in Sources */,
+				AED320741C4D2F39001AB37D /* SightFoodRequest.swift in Sources */,
 				AE6D9FB11B84AE2A009A8A9D /* SightBooksRequest.swift in Sources */,
 				72550EA41BEA121C004D4611 /* HttpRequestProtocol.swift in Sources */,
 				728747321BFACC7300EE36AA /* CryptoAlgorithm.swift in Sources */,
@@ -1450,6 +1481,7 @@
 				AEF200F21C438FEE008DF72B /* BaseCollectionViewController.swift in Sources */,
 				AE55967B1C33A4BD005A02EC /* SearchBar.swift in Sources */,
 				AE40700B1C2CF6EB007A1916 /* CollectionSightViewCell.swift in Sources */,
+				AED3207A1C4D358F001AB37D /* Food.swift in Sources */,
 				AE2894521BDCCFF50099293F /* SearchRequest.swift in Sources */,
 				AE2EEE921BCF540000ED0937 /* CitySightsViewController.swift in Sources */,
 				AE3321DE1C06B92D00B95FA4 /* CommentViewController+extension.swift in Sources */,

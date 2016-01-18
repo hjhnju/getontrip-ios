@@ -28,15 +28,12 @@ class SightDetailViewController: BaseViewController {
     /// 播放开始按钮
     lazy var playBeginButton = UIButton(image: "icon_playBegin", title: "", fontSize: 0)
     /// 播放进度
-    lazy var playPView: PlayProgressView = PlayProgressView()
+//    lazy var playPView: PlayProgressView = PlayProgressView()
+    var slide = UISlider()
     /// 播放类
     
     /// 具体点击的是外界列表哪一个
-    var index: Int = 0 {
-        didSet {
-            PlayFrequency.sharePlayFrequency.index = index
-        }
-    }
+    var index: Int = 0
     /// 是否正在播放
     lazy var isPlay: Bool = false
     
@@ -63,6 +60,14 @@ class SightDetailViewController: BaseViewController {
         initNavBar()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        PlayFrequency.sharePlayFrequency.slide = slide
+        slide.value = PlayFrequency.sharePlayFrequency.playCurrentProgress
+        playBeginButton.selected = PlayFrequency.sharePlayFrequency.isPlay ? true : false
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -75,9 +80,9 @@ class SightDetailViewController: BaseViewController {
         view.addSubview(scrollView)
         view.addSubview(playBottomView)
         playBottomView.addSubview(playBeginButton)
-        view.addSubview(playPView)
+        view.addSubview(slide)
         
-        playBeginButton.setImage(UIImage(named: "icon_playStop"), forState: UIControlState.Selected)
+        playBeginButton.setImage(UIImage(named: "icon_playStop"), forState: .Selected)
         scrollView.backgroundColor = .clearColor()
         scrollView.addSubview(explainLabel)
         scrollView.addSubview(lookUpMoreButton)
@@ -87,6 +92,7 @@ class SightDetailViewController: BaseViewController {
         playBeginButton.addTarget(self, action: "playBeginButtonAction:", forControlEvents: .TouchUpInside)
         PlayFrequency.sharePlayFrequency.playDetailViewController = self
         
+        slide.addTarget(PlayFrequency.sharePlayFrequency, action: "currentValueSliderAction:", forControlEvents: .ValueChanged)
         lookUpMoreButton.addTarget(self, action: "lookUpMoreButtonAction", forControlEvents: .TouchUpInside)
     }
     
@@ -99,7 +105,7 @@ class SightDetailViewController: BaseViewController {
         lookUpMoreButton.ff_AlignVertical(.BottomCenter, referView: explainLabel, size: nil, offset: CGPointMake(0, 27))
         playBottomView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(Frame.screen.width, 66))
         playBeginButton.ff_AlignInner(.CenterLeft, referView: playBottomView, size: CGSizeMake(38, 38), offset: CGPointMake(24, 0))
-        playPView.ff_AlignInner(.CenterLeft, referView: playBottomView, size: CGSizeMake(Frame.screen.width - 83 - 24, 15), offset: CGPointMake(83, 0))
+        slide.ff_AlignInner(.CenterLeft, referView: playBottomView, size: CGSizeMake(Frame.screen.width - 83 - 24, 15), offset: CGPointMake(83, 0))
     }
 
     private func initNavBar() {
@@ -114,8 +120,10 @@ class SightDetailViewController: BaseViewController {
     
     /// 播放方法
     func playBeginButtonAction(sender: UIButton) {
-        
-        PlayFrequency.sharePlayFrequency.play()
+        PlayFrequency.sharePlayFrequency.index = index
+        PlayFrequency.sharePlayFrequency.lastIndex = index
+        sender.selected = !sender.selected
+        PlayFrequency.sharePlayFrequency.playButtonAction(sender)
     }
     
     func lookUpMoreButtonAction() {

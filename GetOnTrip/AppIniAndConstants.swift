@@ -19,7 +19,7 @@ class AppIniDev {
     static let BaseResourceUri =  "http://123.57.46.229:8321" // 8301
 }
 
-class AppIni:AppIniOnline {
+class AppIni:AppIniDev {
     static let Domain:String      = "www.getontrip.cn"
     static let SecretKey: String  = "ahl93##41cfw!@23"
     static let ApiVersion: String = "1.0"
@@ -38,6 +38,7 @@ struct SceneColor {
     static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
     static let darkYellows   = UIColor(hex: 0xF3FC51, alpha: 1.0)
     static let originYellow  = UIColor(hex: 0xF0A355, alpha: 1.0)
+    static let originShallow = UIColor(hex: 0xF0A355, alpha: 1.0)
     
     /** 
     黑色系列

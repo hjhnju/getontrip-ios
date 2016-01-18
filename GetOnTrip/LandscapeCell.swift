@@ -103,8 +103,6 @@ class LandscapeCell: UITableViewCell {
         speechView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(49, 49), offset: CGPointMake(-18, 0))
         
         speechImageView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(31, 31))
-        speechImageView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(31, 31), offset: CGPointMake(-18, 0))
-        
         
         playLabel.ff_AlignVertical(.BottomCenter, referView: speechView, size: nil, offset: CGPointMake(0, 3))
         compulsoryView.ff_AlignInner(.TopLeft, referView: iconView, size: CGSizeMake(24, 24), offset: CGPointMake(-1, -1))
@@ -133,7 +131,7 @@ class LandscapeCell: UITableViewCell {
         pulsateView.playIconAction()
         PlayFrequency.sharePlayFrequency.index = sender.tag
         PlayFrequency.sharePlayFrequency.playCell = self
-        PlayFrequency.sharePlayFrequency.play()
+        PlayFrequency.sharePlayFrequency.playButtonAction(sender)
     }
 }
 

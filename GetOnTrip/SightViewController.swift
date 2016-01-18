@@ -18,6 +18,10 @@ struct SightLabelType {
     static let Book  = "3"
     /// 视频
     static let Video = "4"
+    /// 美食
+    static let food  = "5"
+    /// 特产
+    static let specialty = "6"
 }
 
 class SightViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
@@ -325,6 +329,16 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 dataControllers.append(v)
             case SightLabelType.Video:
                 let v = SightVideoViewController()
+                v.sightId = obj.sightId
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.food:
+                let v = SightFoodViewController()
+                v.sightId = obj.sightId
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.specialty:
+                let v = SightSpecialtyViewController()
                 v.sightId = obj.sightId
                 addChildViewController(v)
                 dataControllers.append(v)

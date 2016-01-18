@@ -100,6 +100,7 @@ class SightLandscapeController: BaseTableViewController {
         let cell: LandscapeCell = indexPath.row == 0 ? tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1,
             forIndexPath: indexPath) as! LandscapeCellHead : tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell,
                 forIndexPath: indexPath) as! LandscapeCell
+        
 //        cell.playAreaButton.tag = indexPath.row
 //        cell.superNavigation = navigationController
         cell.landscape = dataSource[indexPath.row]
