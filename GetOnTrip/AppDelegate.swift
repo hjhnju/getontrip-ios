@@ -41,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //预先加载首页数据
 //        let lastRequest = RecommendRequest()
 //        lastRequest.fetchFirstPageModels {(data, status) -> Void in }
+        RecommendViewController.sharedRecommendViewController.lastRequest.fetchFirstPageModels { (_, _) -> Void in }
         
         // 初始化navbar
         initNavigationBar()
@@ -129,7 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        application.beginBackgroundTaskWithExpirationHandler(nil)
+//        application.beginBackgroundTaskWithExpirationHandler(nil)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

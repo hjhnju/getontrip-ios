@@ -166,13 +166,13 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadData()
         refreshReachable()
         initCollectionLayout()
         initCollectionView()
         initViewSetting()
         initRoundButton()
         setupAutoLayout()
-        loadData()
         initController()
         initSearchBar()
         initBackUpButton()

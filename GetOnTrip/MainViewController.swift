@@ -21,7 +21,7 @@ class MainViewController: BaseViewController {
         button.setBackgroundImage(UIImage(named: "icon_hamburger"), forState: UIControlState.Normal)
         button.addTarget(self, action: "toggleMenu", forControlEvents: UIControlEvents.TouchUpInside)
         return button
-        }()
+    }()
         
     // MASK: View Life Circle
     

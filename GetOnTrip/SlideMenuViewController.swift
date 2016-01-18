@@ -341,6 +341,9 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
     }
     
     // MARK: - 地理定位代理方法
+    var isLocationLoad: Bool = false
+    var lastLocationX = ""
+    var lastLocationY = ""
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         // 获取位置信息
@@ -358,14 +361,23 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
         
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) -> Void in
             if let locality = placemarks?.first?.locality {
-                
-                LocateToCity.sharedLocateToCity.locate(locality, handler: { (result, status) -> Void in
-                    if status == RetCode.SUCCESS {
-                        currentCityId = result ?? "-2"
-                    } else {
-                        ProgressHUD.showSuccessHUD(self?.view, text: "网络连接失败，请检查网络")
+                if !self!.isLocationLoad {
+                    self?.isLocationLoad = true
+                    if self?.lastLocationX == "\(coordinate!.longitude)" && self?.lastLocationY == "\(coordinate!.latitude)" {
+                        return
                     }
-                })
+                    
+                    LocateToCity.sharedLocateToCity.locate(locality, handler: { (result, status) -> Void in
+                        self?.lastLocationX = "\(coordinate!.longitude)"
+                        self?.lastLocationY = "\(coordinate!.latitude)"
+                        self?.isLocationLoad = false
+                        if status == RetCode.SUCCESS {
+                            currentCityId = result ?? "-2"
+                        } else {
+                            ProgressHUD.showSuccessHUD(self?.view, text: "网络连接失败，请检查网络")
+                        }
+                    })
+                }
             }
         }
         
