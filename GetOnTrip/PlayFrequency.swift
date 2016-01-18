@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import Alamofire
+import CoreMedia
 
 class PlayFrequency: NSObject {
     
@@ -22,120 +23,53 @@ class PlayFrequency: NSObject {
     /// 播放列表
     var dataSource: [String] = [String]()
     /// 资源管理
-    var playerItem: AVPlayerItem = AVPlayerItem(URL: NSURL())
+    var playerItem: AVPlayerItem?
     /// 音频总长度
-    var duration: CMTime = CMTime() {
+    var overallDuration: Int = Int() {
         didSet {
-            print("总长度是多少\(duration.value)")
+            print("总长度是多少\(overallDuration)")
         }
     }
+    /// 进度
+    var progressV: Float = 0 {
+        didSet {
+            print(NSNumber(float: progressV).integerValue)
+        }
+    }
+    /// 现在的播放的时间
+    var playCurrentTime: Float = 0 {
+        didSet {
+            /// 更新播放时间
+        }
+    }
+    /// 是否正在加载
+    var isLoading: Bool = false
     /// 默认是首个
     var index = 0 {
         didSet {
             if let url = NSURL(string: dataSource[index]) {
-                print(dataSource[index])
                 
-                playerItem.removeObserver(self, forKeyPath: "status", context: nil)
-                playerItem.removeObserver(self, forKeyPath: "loadedTimeRanges", context: nil)
+                audioPlayer = try! AVAudioPlayer(contentsOfURL: url)
                 
-                playerItem = AVPlayerItem(asset: AVAsset(URL: url))
-                player = AVPlayer(playerItem: playerItem)
-                ProgressHUD.showSuccessHUD(nil, text: "正在缓冲中，请稍候")
-                
-                playerItem.addObserver(self, forKeyPath: "status", options: .New, context: nil)
-                playerItem.addObserver(self, forKeyPath: "loadedTimeRanges", options: .New, context: nil)
-                player.play()
+//                print(dataSource[index])
+//                
+//                // 移除通知
+//                removeNotification()
+//                // 移除监听
+//                if let playerIt = playerItem {
+//                    removeObserverForPlayerItem(playerIt)
+//                }
+//                playerItem = AVPlayerItem(URL: url)
+//                player = AVPlayer(playerItem: playerItem!)
+//                isLoading = true
+//                // 添加通知
+//                addNotification()
+//                // 添加更新
+//                addPlayerProgress()
+//                // 添加监听
+//                addObserverPlayerItem(playerItem!)
             }
         }
-    }
-    /// 缓冲进度
-    var availableProgress: NSTimeInterval? {
-        didSet {
-            print(availableProgress)
-        }
-    }
-
-    override init() {
-        super.init()
-        
-        
-        
-    }
-    
-    var tempData = NSData() {
-        didSet {
-//            tempData
-            
-            
-            
-//            player.play()
-            
-//            [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
-//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "moviePlayDidEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
-        }
-    }
-    
-    
-//    - (void)monitoringPlayback:(AVPlayerItem *)playerItem {
-//    
-//    __weak typeof(self) weakSelf = self;
-//    self.playbackTimeObserver = [self.playerView.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
-//    CGFloat currentSecond = playerItem.currentTime.value/playerItem.currentTime.timescale;// 计算当前在第几秒
-//    [weakSelf.videoSlider setValue:currentSecond animated:YES];
-//    NSString *timeString = [self convertTime:currentSecond];
-//    weakSelf.timeLabel.text = [NSString stringWithFormat:@"%@/%@",timeString,_totalTime];
-//    }];
-//    }
-    
-    func monitoringPlayback(playerItem: AVPlayerItem) {
-        
-    }
-    
-    
-    ///
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        let playerItem1: AVPlayerItem = object as! AVPlayerItem
-        
-//        if ([keyPath isEqualToString:@"status"]) {
-//            if ([playerItem status] == AVPlayerStatusReadyToPlay) {
-//                NSLog(@"AVPlayerStatusReadyToPlay");
-//                self.stateButton.enabled = YES;
-//                CMTime duration = self.playerItem.duration;// 获取视频总长度
-//                CGFloat totalSecond = playerItem.duration.value / playerItem.duration.timescale;// 转换成秒
-//                _totalTime = [self convertTime:totalSecond];// 转换成播放时间
-//                [self customVideoSlider:duration];// 自定义UISlider外观
-//                NSLog(@"movie total duration:%f",CMTimeGetSeconds(duration));
-//                [self monitoringPlayback:self.playerItem];// 监听播放状态
-//            } else if ([playerItem status] == AVPlayerStatusFailed) {
-//                NSLog(@"AVPlayerStatusFailed");
-//            }
-//        } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
-//            NSTimeInterval timeInterval = [self availableDuration];// 计算缓冲进度
-//            NSLog(@"Time Interval:%f",timeInterval);
-//            CMTime duration = _playerItem.duration;
-//            CGFloat totalDuration = CMTimeGetSeconds(duration);
-//            [self.videoProgress setProgress:timeInterval / totalDuration animated:YES];
-//        }
-        
-        if keyPath == "status" {
-            if playerItem1.status == .ReadyToPlay {
-                duration = playerItem.duration  // 视频的总长度
-//                let totalSecond = CGFloat(playerItem!.duration.value) / CGFloat(playerItem!.duration.timescale) // 转换成秒
-                let progress = CGFloat(playerItem.currentTime().value) / CGFloat(playerItem.duration.value)
-                print("-----------------------")
-                
-                print(Double(progress))
-//                let time = coverT
-                /// 一旦准备好，就开始播放
-//                player.play()
-                print("什么时候会来到呢")
-            }
-        } else {
-            availableProgress = availableDuration()
-//            print("========= \(playerItem1.duration)")
-            print("最终的进度是 \(Int(availableProgress! / NSTimeInterval(playerItem1.duration.value))))")
-        }
-        
     }
 
     
@@ -152,54 +86,8 @@ class PlayFrequency: NSObject {
         return startSeconds + durationSeconds
     }
     
-    
-//    - (NSString *)convertTime:(CGFloat)second{
-//    NSDate *d = [NSDate dateWithTimeIntervalSince1970:second];
-//    if (second/3600 >= 1) {
-//    [[self dateFormatter] setDateFormat:@"HH:mm:ss"];
-//    } else {
-//    [[self dateFormatter] setDateFormat:@"mm:ss"];
-//    }
-//    NSString *showtimeNew = [[self dateFormatter] stringFromDate:d];
-//    return showtimeNew;
-//    }
-    
-//    func converTime(second: CGFloat) -> String {
-//        let d = NSDate(timeIntervalSince1970: Double(second))
-//        if second/3600 >= 1 {
-//            
-//        }
-//    }
-    
-    /// 监控时间
-    var avtimer: NSTimer?
-
-    var playUrl = "" {
-        didSet {
-            
-
-//            player = AVPlayer(URL: NSURL(string: "http://123.57.46.229:8301/audio/fd6f5bc4b4514c759ae44600f5b9580b.mp3")!)
 
 
-            //            print(progress.fractionCompleted.value)
-            
-//            player.prepareToPlay()
-//            player = AVAudioPlayer(contentsOfURL: NSURL(string: "http://123.57.46.229:8301/audio/fd6f5bc4b4514c759ae44600f5b9580b.mp3")!)
-//            player = try! AVAudioPlayer(contentsOfURL: NSURL(string: "http://123.57.46.229:8301/audio/fd6f5bc4b4514c759ae44600f5b9580b.mp3")!)
-            
-            
-//            Alamofire.download(.GET, imageURL, destination).progress {(_, totalBytesRead, totalBytesExpectedToRead) indispatch_async(dispatch_get_main_queue()) {// 6progressIndicatorView.setProgress(Float(totalBytesRead) / Float(totalBytesExpectedToRead), animated: true)// 7if totalBytesRead == totalBytesExpectedToRead {progressIndicatorView.removeFromSuperview()}}}
-            
-        }
-    }
-    
-    /// 播放进度
-    var progress: Float64 = 0 {
-        didSet {
-            
-        }
-    }
-    
     
     /// 播放
     func play() {
@@ -208,54 +96,208 @@ class PlayFrequency: NSObject {
 //        NSRunLoop.mainRunLoop().addTimer(avtimer!, forMode: NSRunLoopCommonModes)
     }
     
-    func timer() {
-        progress = CMTimeGetSeconds(player.currentItem!.currentTime()) / CMTimeGetSeconds(player.currentItem!.duration)
-    }
+//    func timer() {
+////        progress = CMTimeGetSeconds(player.currentItem!.currentTime()) / CMTimeGetSeconds(player.currentItem!.duration)
+//    }
     
     /// 暂停
     func pause() {
         player.pause()
     }
     
-//    #pragma mark === 主循环 ===
-//    
-//    - (void)mainLoop {
-//    //1.旋转唱片的图片
-//    CGFloat angle = [HMMusicTool sharedInstance].player.currentTime * 0.05 * M_PI;
-//    
-//    [self.discImage setTransform:CGAffineTransformMakeRotation(angle)];
-//    [self.discMask setTransform:CGAffineTransformMakeRotation(angle)];
-//    
-//    //2.计算进度条的进度
-//    CGFloat progress = [HMMusicTool sharedInstance].player.currentTime / [HMMusicTool sharedInstance].player.duration;
-//    
-//    CGFloat padding = (self.progressBg.bounds.size.width-67) * progress;
-//    
-//    [self.leftPadding setConstant:5-padding];
-//    
-//    //3.显示歌词
-//    // 如果当前秒数大于下一行的起始时间，那么就切换歌词到下一句
-//    HMLyric * next = [HMMusicTool sharedInstance].lyricList[[HMMusicTool sharedInstance].currentLyricIndex+1];
-//    NSLog(@"%f %f",[HMMusicTool sharedInstance].player.currentTime , next.beginTime);
-//    if ([HMMusicTool sharedInstance].player.currentTime > next.beginTime) {
-//    [HMMusicTool sharedInstance].currentLyricIndex +=1;
-//    [self.lyricLabel setText:next.contentText];
-//    }
-//    
-//    
-//    }
-    
-    
-//    func mainLoop {
-//        // 计算进度条的进度
-////        let progress = player.currentTime / player.duration
-//        
-//    }
     
     
     deinit {
-        playerItem.removeObserver(self, forKeyPath: "status", context: nil)
-        playerItem.removeObserver(self, forKeyPath: "loadedTimeRanges", context: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+        playerItem?.removeObserver(self, forKeyPath: "status", context: nil)
+        playerItem?.removeObserver(self, forKeyPath: "loadedTimeRanges", context: nil)
+//        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+        
     }
+    
+    func playerItemDuration() -> CMTime {
+        let playerItem: AVPlayerItem = player.currentItem!
+        if playerItem.status == .ReadyToPlay {
+            return playerItem.duration
+        }
+        
+        return kCMTimeInvalid
+    }
+    
+    // MARK: - 通知、kvo
+    /**
+    去除通知
+    */
+    private func removeNotification() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemPlaybackStalledNotification, object: nil)
+    }
+    
+    /// 添加通知
+    private func addNotification() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerCompleted", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerBackStall", name: AVPlayerItemPlaybackStalledNotification, object: nil)
+    }
+    
+    /// 添加监听
+    private func addObserverPlayerItem(item: AVPlayerItem) {
+        // 监听状态
+        item.addObserver(self, forKeyPath: "status", options: .New, context: nil)
+        // 监听网络加载情况
+        item.addObserver(self, forKeyPath: "loadedTimeRanges", options: .New, context: nil)
+    }
+    
+    /// 删除监听
+    func removeObserverForPlayerItem(item: AVPlayerItem) {
+        item.removeObserver(self, forKeyPath: "status")
+        item.removeObserver(self, forKeyPath: "loadedTimeRanges")
+    }
+    
+    /// 监听响应
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        print("应该会来吧")
+        let playerItem: AVPlayerItem = object as! AVPlayerItem
+        print(keyPath)
+        if keyPath == "status" {
+            print(change)
+//            let status: AVPlayerStatus = change!["new"]! as? AVPlayerStatus ??  AVPlayerStatus(rawValue: 0)!
+            
+
+            if change!["new"]?.intValue == 1 {
+                print("正在播放， 音频总长度是\(NSNumber(float: Float(playerItemDuration().value)))")
+                let total: Float = Float(CMTimeGetSeconds(playerItem.duration))
+                // 设置总显示时间
+                let tot: Int32 = NSNumber(float: total).intValue
+                
+                print("============\(NSNumber(float: total).intValue)")
+                print("\((tot/3600)):\((tot/60)):\((tot%60))")
+            }
+        } else if keyPath == "loadedTimeRanges" {
+            let array = playerItem.loadedTimeRanges
+            print(array)
+            let timeRange = array.first?.CMTimeRangeValue
+            if timeRange == nil { return }
+            // 本次缓冲时间范围
+            print( timeRange!.duration.value)
+            
+            
+            let startSeconds = CMTimeGetSeconds(CMTime(value: timeRange!.duration.value, timescale: CMTimeScale.init(1.0)))
+            let durationSeconds = CMTimeGetSeconds(playerItemDuration())
+            let totalBuffer = startSeconds / durationSeconds
+            if totalBuffer * 100 > 2 && isLoading {
+                isLoading = false
+                player.play()
+            }
+            print("共缓冲 \(Float(_builtinFloatLiteral: totalBuffer.value) * 100)")
+        }
+    }
+    
+    
+    /// 通知响应
+    func playerCompleted() {
+        let time = CMTimeMakeWithSeconds(0.5, 1)
+        player.seekToTime(time) { (_) -> Void in
+            print("音频播完了")
+            print(self.playerItem?.duration)
+        }
+    }
+    
+    func playerBackStall() {
+        isLoading = true
+        
+    }
+    
+    /**
+     添加播放进度
+     */
+    private func addPlayerProgress() {
+        if playerItem == nil { return }
+        //        let item = playerItem!.currentTime()
+        /// 设置进度更新每一秒
+        player.addPeriodicTimeObserverForInterval(CMTimeMake(1, 1), queue: dispatch_get_main_queue()) { (time) -> Void in
+            let currentTime = CMTimeGetSeconds(time)
+            //            AVPlayerItem().duration
+            
+            let totalTime: Float = Float(CMTimeGetSeconds(self.playerItem!.duration))
+            self.overallDuration = NSNumber(float: Float(totalTime)).integerValue
+            // 设置进度条显示
+            if currentTime != 0.0 {
+                print(NSNumber(float: Float(totalTime)).integerValue)
+                self.progressV = Float(currentTime) / Float(totalTime)
+            }
+            let tot: Int = NSNumber(float: totalTime).integerValue
+            /// 现在的时间
+            print(tot / 3600,tot / 60,tot % 60)
+            self.playCurrentTime = Float(currentTime)
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    var audioPlayer = AVAudioPlayer()
+    var isPlaying = false
+    var timer:NSTimer!
+    
+    
+    
+    func playOrPauseMusic(sender: AnyObject) {
+        if isPlaying {
+            audioPlayer.pause()
+            isPlaying = false
+        } else {
+            audioPlayer.play()
+            isPlaying = true
+            
+            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateTime", userInfo: nil, repeats: true)
+        }
+    }
+    
+    func updateTime() {
+        var currentTime = Int(audioPlayer.currentTime)
+        var minutes = currentTime/60
+        var seconds = currentTime - minutes * 60
+        
+        playedTime.text = NSString(format: "%02d:%02d", minutes,seconds) as String
+    }
+    
+    func stopMusic(sender: AnyObject) {
+        audioPlayer.stop()
+        audioPlayer.currentTime = 0
+        isPlaying = false
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

@@ -109,14 +109,15 @@ class SightLandscapeController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let sc = DetailWebViewController()
-        let landscape = dataSource[indexPath.row]
-        sc.url = landscape.url
-        sc.title = landscape.name
-//        let vc = SightDetailViewController()
-//        vc.dataSource = dataSource[indexPath.row]
-//        vc.index = indexPath.row
-        navigationController?.pushViewController(sc, animated: true)
+//        let sc = DetailWebViewController()
+//        let landscape = dataSource[indexPath.row]
+//        sc.url = landscape.url
+//        sc.title = landscape.name
+        
+        let vc = SightDetailViewController()
+        vc.dataSource = dataSource[indexPath.row]
+        vc.index = indexPath.row
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

@@ -50,7 +50,7 @@ class SightDetailViewController: BaseViewController {
             scrollView.contentSize = CGSizeMake(0, y)
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
             explainLabel.text = dataSource.content
-            PlayFrequency.sharePlayFrequency.playUrl = ""
+//            PlayFrequency.sharePlayFrequency.playUrl = ""
         }
     }
     
