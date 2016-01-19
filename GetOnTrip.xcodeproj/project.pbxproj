@@ -215,10 +215,20 @@
 		AED3207C1C4D370E001AB37D /* Specialty.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED3207B1C4D370E001AB37D /* Specialty.swift */; };
 		AED3207E1C4D37DF001AB37D /* FoodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED3207D1C4D37DF001AB37D /* FoodCell.swift */; };
 		AED320801C4D4220001AB37D /* SpecialtyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED3207F1C4D4220001AB37D /* SpecialtyCell.swift */; };
+		AED320821C4DC55F001AB37D /* FoodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED320811C4DC55F001AB37D /* FoodDetailViewController.swift */; };
+		AED320841C4DCCF0001AB37D /* SpecialtyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED320831C4DCCF0001AB37D /* SpecialtyDetailViewController.swift */; };
+		AED320861C4DCDAF001AB37D /* FoodRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED320851C4DCDAF001AB37D /* FoodRequest.swift */; };
 		AED4B8671C041B0200DAC9D3 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B8661C041B0200DAC9D3 /* Regex.swift */; };
 		AED4B86B1C0487F300DAC9D3 /* BaseCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B86A1C0487F300DAC9D3 /* BaseCollectionCell.swift */; };
 		AED4B86D1C048AC100DAC9D3 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4B86C1C048AC100DAC9D3 /* BaseTableViewCell.swift */; };
 		AEDF536D1C17DFCC00458586 /* SearchHotwordCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */; };
+		AEDF55981C4DD9B700C612AE /* FoodDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF55971C4DD9B700C612AE /* FoodDetail.swift */; };
+		AEDF559A1C4DE7D700C612AE /* FoodHeaderContentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF55991C4DE7D700C612AE /* FoodHeaderContentViewCell.swift */; };
+		AEDF559C1C4DFDFB00C612AE /* FoodHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF559B1C4DFDFB00C612AE /* FoodHeaderViewCell.swift */; };
+		AEDF559E1C4E01EA00C612AE /* FoodShopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF559D1C4E01EA00C612AE /* FoodShopTableViewCell.swift */; };
+		AEDF55A01C4E16DA00C612AE /* FoodTopicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF559F1C4E16DA00C612AE /* FoodTopicTableViewCell.swift */; };
+		AEDF55A21C4E457600C612AE /* SpecialtyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF55A11C4E457600C612AE /* SpecialtyRequest.swift */; };
+		AEDF55A41C4E539E00C612AE /* SpecialtyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF55A31C4E539E00C612AE /* SpecialtyTableViewCell.swift */; };
 		AEE21EE51C3DF3D700A59A58 /* PhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE21EE41C3DF3D700A59A58 /* PhotoBrowserViewController.swift */; };
 		AEE21EE71C3DF3FC00A59A58 /* PhotoViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE21EE61C3DF3FC00A59A58 /* PhotoViewerCell.swift */; };
 		AEEA552D1BBFD7F7009AF772 /* TopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEA552C1BBFD7F7009AF772 /* TopicCell.swift */; };
@@ -489,10 +499,20 @@
 		AED3207B1C4D370E001AB37D /* Specialty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Specialty.swift; sourceTree = "<group>"; };
 		AED3207D1C4D37DF001AB37D /* FoodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCell.swift; sourceTree = "<group>"; };
 		AED3207F1C4D4220001AB37D /* SpecialtyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialtyCell.swift; sourceTree = "<group>"; };
+		AED320811C4DC55F001AB37D /* FoodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodDetailViewController.swift; sourceTree = "<group>"; };
+		AED320831C4DCCF0001AB37D /* SpecialtyDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialtyDetailViewController.swift; sourceTree = "<group>"; };
+		AED320851C4DCDAF001AB37D /* FoodRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodRequest.swift; sourceTree = "<group>"; };
 		AED4B8661C041B0200DAC9D3 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		AED4B86A1C0487F300DAC9D3 /* BaseCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionCell.swift; sourceTree = "<group>"; };
 		AED4B86C1C048AC100DAC9D3 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		AEDF536C1C17DFCC00458586 /* SearchHotwordCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHotwordCollectionCell.swift; sourceTree = "<group>"; };
+		AEDF55971C4DD9B700C612AE /* FoodDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodDetail.swift; sourceTree = "<group>"; };
+		AEDF55991C4DE7D700C612AE /* FoodHeaderContentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodHeaderContentViewCell.swift; sourceTree = "<group>"; };
+		AEDF559B1C4DFDFB00C612AE /* FoodHeaderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodHeaderViewCell.swift; sourceTree = "<group>"; };
+		AEDF559D1C4E01EA00C612AE /* FoodShopTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodShopTableViewCell.swift; sourceTree = "<group>"; };
+		AEDF559F1C4E16DA00C612AE /* FoodTopicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodTopicTableViewCell.swift; sourceTree = "<group>"; };
+		AEDF55A11C4E457600C612AE /* SpecialtyRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialtyRequest.swift; sourceTree = "<group>"; };
+		AEDF55A31C4E539E00C612AE /* SpecialtyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialtyTableViewCell.swift; sourceTree = "<group>"; };
 		AEE21EE41C3DF3D700A59A58 /* PhotoBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoBrowserViewController.swift; sourceTree = "<group>"; };
 		AEE21EE61C3DF3FC00A59A58 /* PhotoViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewerCell.swift; sourceTree = "<group>"; };
 		AEEA552C1BBFD7F7009AF772 /* TopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicCell.swift; sourceTree = "<group>"; };
@@ -1063,6 +1083,9 @@
 				AEB720901C105C7600E0FBF3 /* VideoRequest.swift */,
 				AED320791C4D358F001AB37D /* Food.swift */,
 				AED3207B1C4D370E001AB37D /* Specialty.swift */,
+				AED320851C4DCDAF001AB37D /* FoodRequest.swift */,
+				AEDF55971C4DD9B700C612AE /* FoodDetail.swift */,
+				AEDF55A11C4E457600C612AE /* SpecialtyRequest.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1076,6 +1099,11 @@
 				AE66012C1C055216007ED37A /* CommentButton.swift */,
 				AEA241031C0C6AA200049882 /* TopicSightListTableViewCell.swift */,
 				AEE21EE61C3DF3FC00A59A58 /* PhotoViewerCell.swift */,
+				AEDF55991C4DE7D700C612AE /* FoodHeaderContentViewCell.swift */,
+				AEDF559B1C4DFDFB00C612AE /* FoodHeaderViewCell.swift */,
+				AEDF559D1C4E01EA00C612AE /* FoodShopTableViewCell.swift */,
+				AEDF559F1C4E16DA00C612AE /* FoodTopicTableViewCell.swift */,
+				AEDF55A31C4E539E00C612AE /* SpecialtyTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1092,6 +1120,8 @@
 				AEA241011C0C3BE400049882 /* TopicEnterSightController.swift */,
 				AEC9D2BB1BD7ADE700B28464 /* SendPopoverAnimator.swift */,
 				AEE21EE41C3DF3D700A59A58 /* PhotoBrowserViewController.swift */,
+				AED320811C4DC55F001AB37D /* FoodDetailViewController.swift */,
+				AED320831C4DCCF0001AB37D /* SpecialtyDetailViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1310,6 +1340,7 @@
 				AEEA553B1BC0F92C009AF772 /* SightLandscapesRequest.swift in Sources */,
 				AED4B8671C041B0200DAC9D3 /* Regex.swift in Sources */,
 				AE406FDA1C2CF69B007A1916 /* FeedBackViewController.swift in Sources */,
+				AEDF559E1C4E01EA00C612AE /* FoodShopTableViewCell.swift in Sources */,
 				7269746D1BE39434000C0ABF /* Video.swift in Sources */,
 				72D86DE71B65D94D004B72D0 /* ViewController.swift in Sources */,
 				AEA6108B1C241E1600307929 /* CityBrowseTableViewCell.swift in Sources */,
@@ -1320,6 +1351,7 @@
 				AEC9D2B81BD7387E00B28464 /* UIImage+Extension.swift in Sources */,
 				AED320721C4D2E6F001AB37D /* SightSpecialtyViewController.swift in Sources */,
 				AE4070241C2CF707007A1916 /* UserLoginRequest.swift in Sources */,
+				AEDF55981C4DD9B700C612AE /* FoodDetail.swift in Sources */,
 				AE4070261C2CF707007A1916 /* UserLogin.swift in Sources */,
 				AE40702D1C2CF707007A1916 /* MessageList.swift in Sources */,
 				AE7F0AC91BB95D3E0011F307 /* SightViewController.swift in Sources */,
@@ -1336,6 +1368,7 @@
 				AE233B1D1BB0F7A2002E6502 /* SlideMenuViewController.swift in Sources */,
 				AE23DD7B1C1820E0009A1B57 /* SearchDeleteButton.swift in Sources */,
 				AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */,
+				AED320861C4DCDAF001AB37D /* FoodRequest.swift in Sources */,
 				AE3321E01C06BAE500B95FA4 /* CommentPersonCell.swift in Sources */,
 				725A62C61C033B1B00661555 /* CacheRegexConfig.swift in Sources */,
 				AE78983F1BECDAF40073599E /* PhotoView.swift in Sources */,
@@ -1370,8 +1403,10 @@
 				AED3207C1C4D370E001AB37D /* Specialty.swift in Sources */,
 				72FE63201BFB1B940037C7D6 /* Cache.swift in Sources */,
 				72550EA21BEA0D87004D4611 /* Book.swift in Sources */,
+				AED320841C4DCCF0001AB37D /* SpecialtyDetailViewController.swift in Sources */,
 				AE233ADD1BB0E8D5002E6502 /* CityViewController.swift in Sources */,
 				AE7E8CC71BD8C05900E7D9EB /* CommentListRequest.swift in Sources */,
+				AED320821C4DC55F001AB37D /* FoodDetailViewController.swift in Sources */,
 				AE68B6521C474CB000FA4A05 /* PlayFrequency.swift in Sources */,
 				AEF201001C43C27B008DF72B /* Statistics.swift in Sources */,
 				AE62E2CC1BB3DED900B91D33 /* UITextField+Extension.swift in Sources */,
@@ -1390,6 +1425,7 @@
 				AE40700F1C2CF6EB007A1916 /* CollectContentVideoCell.swift in Sources */,
 				AE4070131C2CF6EB007A1916 /* SystemTableViewCell.swift in Sources */,
 				AE40700E1C2CF6EB007A1916 /* CollectContentBookCell.swift in Sources */,
+				AEDF55A41C4E539E00C612AE /* SpecialtyTableViewCell.swift in Sources */,
 				AE8C0C151BE8A04F003C7942 /* ShareView.swift in Sources */,
 				AE406FF51C2CF6BF007A1916 /* LoginViewController.swift in Sources */,
 				AEB720911C105C7700E0FBF3 /* VideoRequest.swift in Sources */,
@@ -1439,7 +1475,9 @@
 				728747271BF8606C00EE36AA /* SearchRecordTableViewCell.swift in Sources */,
 				AE4070291C2CF707007A1916 /* MessageListRequest.swift in Sources */,
 				AE488D691BCBDD8E0032B78B /* RecommendTableViewCell.swift in Sources */,
+				AEDF559C1C4DFDFB00C612AE /* FoodHeaderViewCell.swift in Sources */,
 				72D25A911BEB25E90044AE04 /* RecommendCellData.swift in Sources */,
+				AEDF559A1C4DE7D700C612AE /* FoodHeaderContentViewCell.swift in Sources */,
 				AEB98F391BE1CAF300183261 /* SightLandscapeController.swift in Sources */,
 				AE4070121C2CF6EB007A1916 /* MessageTableView.swift in Sources */,
 				AE4070271C2CF707007A1916 /* UserInfo.swift in Sources */,
@@ -1465,6 +1503,8 @@
 				AEA09BDD1C17010B00E4F666 /* SearchViewController+extension.swift in Sources */,
 				AE43E1711C082B980021964E /* ProgressHUD.swift in Sources */,
 				AE40700A1C2CF6EB007A1916 /* SettingDatumTableViewCell.swift in Sources */,
+				AEDF55A01C4E16DA00C612AE /* FoodTopicTableViewCell.swift in Sources */,
+				AEDF55A21C4E457600C612AE /* SpecialtyRequest.swift in Sources */,
 				AE40702C1C2CF707007A1916 /* MyCommentRequest.swift in Sources */,
 				AE2EEE941BCF58ED00ED0937 /* CitySightsRequest.swift in Sources */,
 				AE40700D1C2CF6EB007A1916 /* CollectContentCell.swift in Sources */,

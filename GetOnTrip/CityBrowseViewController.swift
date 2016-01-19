@@ -218,10 +218,11 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     
     /// 行高
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 1 {
-            return hotCityDataSource.count != 0 ? hotCityHeight : 0
-        }
-        return 43
+//        if indexPath.section == 1 {
+//            return hotCityDataSource.count != 0 ? hotCityHeight : 0
+//        }
+        return indexPath.section == 1 ? hotCityDataSource.count != 0 ? hotCityHeight : 0 : 43
+//        return 43
     }
     
     

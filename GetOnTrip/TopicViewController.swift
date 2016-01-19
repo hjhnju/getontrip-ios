@@ -21,7 +21,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     // MARK: 相关属性
     /// 自定义导航
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: SceneColor.frontBlack, titleSize: 17, hasStatusBar: true)
-    
     /// 头部视图
     lazy var headerView       = UIView()
     /// 头部视图高度约束
@@ -304,7 +303,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         super.viewDidDisappear(animated)
         //避免webkit iOS回退bug https://bugs.webkit.org/show_bug.cgi?id=139662
         self.webView.scrollView.delegate = nil
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
     
     deinit {

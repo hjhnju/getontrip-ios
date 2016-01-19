@@ -23,13 +23,13 @@ class FoodCell: UITableViewCell {
     /// 基线
     lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     /// 商家数量
-    lazy var shopNumLabel: UILabel = UILabel(color: SceneColor.originShallow, title: "12", fontSize: 12, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var shopNumLabel: UILabel = UILabel(color: SceneColor.originYellow, title: "12", fontSize: 12, mutiLines: true, fontName: Font.PingFangSCLight)
     /// 商家
-    lazy var shopLabel: UILabel = UILabel(color: SceneColor.originShallow, title: "家名店推荐，", fontSize: 9, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var shopLabel: UILabel = UILabel(color: SceneColor.originYellow, title: "家名店推荐，", fontSize: 9, mutiLines: true, fontName: Font.PingFangSCLight)
     /// 话题数量
-    lazy var topicNumLabel: UILabel = UILabel(color: SceneColor.originShallow, title: "12", fontSize: 12, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var topicNumLabel: UILabel = UILabel(color: SceneColor.originYellow, title: "12", fontSize: 12, mutiLines: true, fontName: Font.PingFangSCLight)
     /// 话题
-    lazy var topicLabel: UILabel = UILabel(color: SceneColor.originShallow, title: "个相关话题", fontSize: 9, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var topicLabel: UILabel = UILabel(color: SceneColor.originYellow, title: "个相关话题", fontSize: 9, mutiLines: true, fontName: Font.PingFangSCLight)
     
     var data: AnyObject? {
         didSet {

@@ -47,8 +47,9 @@ class PlayFrequency: NSObject {
                 if let playerIt = playerItem {
                     removeObserverForPlayerItem(playerIt)
                 }
-                
-                playerItem = AVPlayerItem(URL: NSURL(string: "http://123.57.46.229:8321/audio/f77f5072fe649e31.mp3")!)
+                // http://123.57.46.229:8321/audio/f77f5072fe649e31.mp3
+                //
+                playerItem = AVPlayerItem(URL: NSURL(string: "http://video.weibo.com/show?fid=1034:1012bb59b28c2d58e2e9f71968de8c01")!)
                 // player = AVPlayer(playerItem: playerItem!)
                 player.replaceCurrentItemWithPlayerItem(playerItem)
                 

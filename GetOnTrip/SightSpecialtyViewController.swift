@@ -99,10 +99,8 @@ class SightSpecialtyViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let vc: TopicViewController = TopicViewController()
-        vc.isEntranceSight = true
-//        let data = data[indexPath.row]
-//        vc.topicDataSource = Topic.fromBrief(topic)
+        let vc: SpecialtyDetailViewController = SpecialtyDetailViewController()
+        vc.specialtyId = data[indexPath.row].id
         navigationController?.pushViewController(vc, animated: true)
     }
     

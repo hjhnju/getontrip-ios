@@ -38,7 +38,6 @@ struct SceneColor {
     static let shallowYellows = UIColor(hex: 0xF3FD54, alpha: 1.0)
     static let darkYellows   = UIColor(hex: 0xF3FC51, alpha: 1.0)
     static let originYellow  = UIColor(hex: 0xF0A355, alpha: 1.0)
-    static let originShallow = UIColor(hex: 0xF0A355, alpha: 1.0)
     
     /** 
     黑色系列

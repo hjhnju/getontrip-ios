@@ -100,19 +100,20 @@ class SightFoodViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let vc: TopicViewController = TopicViewController()
-        vc.isEntranceSight = true
-        let topic = data[indexPath.row]
+        let vc: FoodDetailViewController = FoodDetailViewController()
+        vc.foodId = data[indexPath.row].id
+//        vc.isEntranceSight = true
+//        let topic = data[indexPath.row]
 //        vc.topicDataSource = Topic.fromBrief(topic)
         navigationController?.pushViewController(vc, animated: true)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 115
+        return 110
     }
     
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 115
+        return 110
     }
     
     /// 底部加载更多
