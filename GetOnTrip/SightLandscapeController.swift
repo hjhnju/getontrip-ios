@@ -101,7 +101,7 @@ class SightLandscapeController: BaseTableViewController {
             forIndexPath: indexPath) as! LandscapeCellHead : tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell,
                 forIndexPath: indexPath) as! LandscapeCell
         
-//        cell.playAreaButton.tag = indexPath.row
+        cell.playAreaButton.tag = indexPath.row
 //        cell.superNavigation = navigationController
         cell.landscape = dataSource[indexPath.row]
         cell.baseLine.hidden = indexPath.row == dataSource.count - 1 ? true : false
@@ -110,15 +110,20 @@ class SightLandscapeController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        let sc = DetailWebViewController()
-//        let landscape = dataSource[indexPath.row]
-//        sc.url = landscape.url
-//        sc.title = landscape.name
         
-        let vc = SightDetailViewController()
-        vc.dataSource = dataSource[indexPath.row]
-        vc.index = indexPath.row
-        navigationController?.pushViewController(vc, animated: true)
+        let data = dataSource[indexPath.row]
+        if data.audio_len == "" {
+            let sc = DetailWebViewController()
+            let landscape = data
+            sc.url = landscape.url
+            sc.title = landscape.name
+            navigationController?.pushViewController(sc, animated: true)
+        } else {
+            let vc = SightDetailViewController()
+            vc.dataSource = data
+            vc.index = indexPath.row
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

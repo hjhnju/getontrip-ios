@@ -47,15 +47,13 @@ class PlayFrequency: NSObject {
                 if let playerIt = playerItem {
                     removeObserverForPlayerItem(playerIt)
                 }
-                // http://123.57.46.229:8321/audio/f77f5072fe649e31.mp3
-                //
-                playerItem = AVPlayerItem(URL: NSURL(string: "http://video.weibo.com/show?fid=1034:1012bb59b28c2d58e2e9f71968de8c01")!)
+
+                playerItem = AVPlayerItem(URL: url)
                 // player = AVPlayer(playerItem: playerItem!)
                 player.replaceCurrentItemWithPlayerItem(playerItem)
                 
                 isLoading = true
                 addNotification()                  // 添加通知
-                addPlayerProgress()                // 添加更新
                 addObserverPlayerItem(playerItem!) // 添加监听
             }
         }
@@ -106,6 +104,8 @@ class PlayFrequency: NSObject {
             if change!["new"]?.intValue == 1 {
                 isPlay = true
                 player.play()
+                // 开始播放的同时添加进度更新
+                addPlayerProgress()
             }
         } else if keyPath == "loadedTimeRanges" {
             let array = playerItem.loadedTimeRanges
@@ -131,6 +131,8 @@ class PlayFrequency: NSObject {
         player.seekToTime(time) { [weak self] (_) -> Void in
             print("音频播完了")
             self?.isPlay = false
+            self?.playCell?.speechImageView.hidden = false
+            self?.playCell?.pulsateView.hidden = true
         }
     }
     
@@ -147,35 +149,41 @@ class PlayFrequency: NSObject {
         //        let item = playerItem!.currentTime()
         /// 设置进度更新每一秒
         player.addPeriodicTimeObserverForInterval(CMTimeMake(1, 1), queue: dispatch_get_main_queue()) { (time) -> Void in
-            
             let currentTime = CMTimeGetSeconds(time)
             let totalTime = CMTimeGetSeconds(self.playerItem!.duration)
             if totalTime > 0.0 {
-                self.playCell?.playLabel.text = "\(Int(currentTime / 60)):\(Int(currentTime % 60))/\(Int(totalTime / 60)):\(Int(totalTime % 60))"
+                self.playCell?.playLabel.text = String(format: "%02d:%02d/%02d:%02d", Int(currentTime / 60), Int(currentTime % 60), Int(totalTime / 60), Int(totalTime % 60))
+                self.playDetailViewController?.currentTimeLabel.text = String(format: "%02d:%02d", Int(currentTime / 60), Int(currentTime % 60))
+                self.playDetailViewController?.totalTimeLabel.text = String(format: "%02d:%02d", Int(totalTime / 60), Int(totalTime % 60))
             }
-            
+//            self.playDetailViewController?.playBeginButton.selected = true
             self.playCurrentProgress = Float(currentTime/totalTime)
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+
+//            UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.slide?.setValue(Float(currentTime/totalTime), animated: true)
-            })
+//            })
         }
     }
-    
-    
-    // 播放音乐
 
-    
     // 滑动选择时间
     func currentValueSliderAction(sender: UISlider) {
-//        if index == -1 {
-//            ProgressHUD.showSuccessHUD(nil, text: "正在加载中，请稍候")
-//            index = playDetailViewController?.index ?? 0
-//            return
-//        }
+        
+        print(index)
+        print(playDetailViewController?.index)
+        if playDetailViewController?.index != index {
+            ProgressHUD.showSuccessHUD(nil, text: "正在加载中，请稍候")
+            playDetailViewController?.playBeginButtonAction(playDetailViewController?.playBeginButton ?? UIButton())
+            return
+        }
+        if isLoading {
+            ProgressHUD.showSuccessHUD(nil, text: "正在加载中，请稍候")
+            return
+        }
         let changedTime = Int64(Float64(sender.value) * CMTimeGetSeconds(self.playerItem!.duration))
         if self.playerItem!.status == AVPlayerItemStatus.ReadyToPlay {
             player.seekToTime(CMTimeMake(changedTime, 1), completionHandler: { (isSuccess: Bool) -> Void in
-                self.player.play()
+//                self.playButtonAction(self.playDetailViewController?.playBeginButton ?? UIButton())
+                
             })
         }
     }
@@ -222,7 +230,7 @@ class PlayFrequency: NSObject {
     deinit {
         playerItem?.removeObserver(self, forKeyPath: "status", context: nil)
         playerItem?.removeObserver(self, forKeyPath: "loadedTimeRanges", context: nil)
-        //        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+        // NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
         
     }
 

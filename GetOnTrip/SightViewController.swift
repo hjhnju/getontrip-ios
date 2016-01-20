@@ -45,31 +45,23 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     /// 标签导航栏的主视图
     lazy var labelNavView: UIView = UIView()
-    
     /// 指示view
     lazy var indicateView: UIView = UIView(color: UIColor.yellowColor())
-    
     /// 标签导航栏的scrollView
     lazy var labelScrollView = UIScrollView()
-    
     /// 网络请求加载数据(添加)
     var lastRequest: SightRequest?
-    
     /// 流水布局
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    
     /// 底部容器view
     lazy var collectionView: UICollectionView = { [weak self] in
         let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
         return cv
     }()
-    
     /// 索引
     lazy var currentIndex: Int = 0
-    
     /// 左滑手势是否生效
     lazy var isPopGesture: Bool = false
-    
     /// 更在加载中提示
     lazy var loadingView: LoadingView = LoadingView()
     
@@ -88,6 +80,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     lazy var baseLine: UIView = UIView(color: SceneColor.greyThinWhite, alphaF: 0.5)
     /// 是否是由城市控制器跳转进来的
     var isSuperCityController: Bool = false
+    /// 播放图标
+    lazy var pulsateView: PlayPulsateView = PlayPulsateView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -168,6 +162,17 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = SceneColor.frontBlack
+        
+        navBar.addSubview(pulsateView)
+        pulsateView.frame = CGRectMake(50, 50, 100, 100)
+        pulsateView.backgroundColor = UIColor.randomColor()
+//        pulsateView.ff_AlignVertical(.CenterRight, referView: navBar.titleLabel, size: CGSizeMake(17, 17), offset: CGPointMake(7, 0))
+//        pulsateView.ff_AlignHorizontal(.CenterRight, referView: navBar.titleLabel, size: CGSizeMake(17, 17), offset: CGPointMake(0, 0))
+//        pulsateView.ff_AlignInner(.CenterCenter, referView: navBar, size: CGSizeMake(20, 20), offset: CGPointMake(0, -50))
+//        pulsateView.ff_AlignHorizontal(.CenterRight, referView: navBar.titleLabel, size: CGSizeMake(50, 50), offset: CGPointMake(7, 0))
+        pulsateView.ff_AlignHorizontal(.CenterCenter, referView: navBar, size: CGSizeMake(17, 17), offset:
+            CGPointMake((sightDataSource.name.sizeofStringWithFount(UIFont.systemFontOfSize(17), maxSize: CGSize(width: CGFloat.max, height: 17)).width ?? 0) * 0.5 , -70))
+        pulsateView.playIconAction()
     }
     
     func setupAutlLayout() {

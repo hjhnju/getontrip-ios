@@ -33,7 +33,7 @@ class Landscape: ModelObject {
     /// 必玩标签
     lazy var desc = ""
     /// 音频
-    var audio = "/audio/fd6f5bc4b4514c759ae44600f5b9580b.mp3" {
+    var audio = "" {
         didSet {
             audio = AppIni.BaseUri + audio
         }
@@ -57,7 +57,6 @@ class Landscape: ModelObject {
         super.init()
         
         setValuesForKeysWithDictionary(dict)
-        audio = AppIni.BaseUri + "/audio/fd6f5bc4b4514c759ae44600f5b9580b.mp3"
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

@@ -1,24 +1,21 @@
 //
-//  LandscapeCell.swift
+//  SightLandscapesHeaderCell.swift
 //  GetOnTrip
 //
-//  Created by 王振坤 on 10/3/15.
-//  Copyright © 2015 Joshua. All rights reserved.
+//  Created by 王振坤 on 16/1/20.
+//  Copyright © 2016年 Joshua. All rights reserved.
 //
 
 import UIKit
-import FFAutoLayout
 
-class LandscapeCell: UITableViewCell {
-    
+class SightLandscapesHeaderCell: UITableViewHeaderFooterView {
+
     /// 图片
     lazy var iconView: UIImageView = UIImageView()
     /// 标题
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 20, mutiLines: true, fontName: Font.PingFangSCRegular)
     /// 副标题
     lazy var subtitleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 12, mutiLines: true)
-    /// 底线
-    lazy var baseLine: UIView = UIView(color: SceneColor.shallowGrey, alphaF: 0.3)
     /// 语音播放底部
     lazy var speechView = UIView(color: SceneColor.lightYellow)
     // 语音image
@@ -30,9 +27,7 @@ class LandscapeCell: UITableViewCell {
     /// 必玩底部
     lazy var compulsoryView: CompulsoryPlayView = CompulsoryPlayView(color: .clearColor())
     /// 地理位置说明
-    lazy var locationButton: UIButton = UIButton(image: "icon_location_orange", title: "  888", fontSize: 13, titleColor: SceneColor.originYellow)
-    /// 地理位置单位
-    lazy var locationUnitLabel: UILabel = UILabel(color: SceneColor.originYellow, title: "Km", fontSize: 10)
+    lazy var locationButton: UIButton = UIButton(image: "icon_location_orange", title: "  888m", fontSize: 13, titleColor: SceneColor.originYellow)
     /// 播放图标
     lazy var pulsateView: PlayPulsateView = PlayPulsateView()
     // 点击区域放大
@@ -54,12 +49,11 @@ class LandscapeCell: UITableViewCell {
                 subtitleLabel.preferredMaxLayoutWidth = landscape.audio_len == "" ? Frame.screen.width - 139 - 9 : Frame.screen.width - 139 - 95
                 playLabel.text = "00:00/\(landscape.audio_len)"
                 
-                locationButton.setTitle(" " + landscape.dis, forState: .Normal)
                 let isHidden = landscape.audio_len == "" ? true : false
                 playAreaButton.hidden  = isHidden
-                pulsateView.alpha      = landscape.audio_len == "" ? 0 : 1
+                pulsateView.hidden     = isHidden
                 playLabel.hidden       = isHidden
-                speechImageView.alpha  = landscape.audio_len == "" ? 0 : 1
+                speechImageView.hidden = isHidden
                 speechView.hidden      = isHidden
                 
                 print(landscape.desc)
@@ -67,8 +61,8 @@ class LandscapeCell: UITableViewCell {
         }
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         
         initProperty()
         initAutoLayout()
@@ -80,7 +74,6 @@ class LandscapeCell: UITableViewCell {
         contentView.addSubview(iconView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
-        contentView.addSubview(baseLine)
         contentView.addSubview(speechView)
         contentView.addSubview(speechImageView)
         contentView.addSubview(playLabel)
@@ -89,11 +82,10 @@ class LandscapeCell: UITableViewCell {
         contentView.addSubview(locationButton)
         contentView.addSubview(pulsateView)
         contentView.addSubview(playAreaButton)
-        contentView.addSubview(locationUnitLabel)
         
         let rotate: CGFloat = CGFloat(M_PI_2) * 0.5
         compulsoryLabel.transform = CGAffineTransformMakeRotation(-rotate)
-        pulsateView.color = UIColor(hex: 0x3C3C3C, alpha: 1.0)
+        
         
         subtitleLabel.numberOfLines  = 3
         iconView.contentMode         = .ScaleAspectFill
@@ -113,7 +105,6 @@ class LandscapeCell: UITableViewCell {
         iconView.ff_AlignInner(.CenterLeft, referView: contentView, size: CGSizeMake(119, 84), offset: CGPointMake(9, 0))
         titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
-        baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(Frame.screen.width - 18, 0.5), offset: CGPointMake(0, 0))
         speechView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(49, 49), offset: CGPointMake(-18, 0))
         
         speechImageView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(31, 31))
@@ -122,7 +113,6 @@ class LandscapeCell: UITableViewCell {
         compulsoryView.ff_AlignInner(.TopLeft, referView: iconView, size: CGSizeMake(24, 24), offset: CGPointMake(-1, -1))
         compulsoryLabel.ff_AlignInner(.TopLeft, referView: iconView, size: nil, offset: CGPointMake(0, 3))
         locationButton.ff_AlignHorizontal(.CenterRight, referView: titleLabel, size: nil, offset: CGPointMake(6, 0))
-        locationUnitLabel.ff_AlignHorizontal(.BottomRight, referView: locationButton, size: nil, offset: CGPointMake(0, -1))
         pulsateView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(49, 49), offset: CGPointMake(-1, -10))
         playAreaButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(95, 115))
         playAreaButton.backgroundColor = UIColor.randomColor()
@@ -133,13 +123,7 @@ class LandscapeCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
-        
-    }
     
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
-        
-    }
     
     var isAddAnimate: Bool = false
     func playAreaButtonAction(sender: UIButton) {
@@ -158,61 +142,8 @@ class LandscapeCell: UITableViewCell {
             isAddAnimate = true
         }
         PlayFrequency.sharePlayFrequency.index = sender.tag
-        PlayFrequency.sharePlayFrequency.playCell = self
+//        PlayFrequency.sharePlayFrequency.playCell = self
     }
-}
 
-class LandscapeCellHead: LandscapeCell {
-    
-    
-    lazy var mapButton    = UIButton(image: "icon_map", title: "  切换地图", fontSize: 11, titleColor: .whiteColor(), fontName: Font.PingFangSCRegular)
-    
-    override var landscape: Landscape? {
-        didSet {
-            if let landscape = landscape {
-                iconView.contentMode = .ScaleAspectFill
-                iconView.backgroundColor = landscape.bgColor
-                //是否加载网络图片
-                if UserProfiler.instance.isShowImage() {
-                    iconView.sd_setImageWithURL(NSURL(string: landscape.imageHeader), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
-                        if image != nil {
-                            self.iconView.image = UIImageView.imageByApplyingImage(image, blurRadius: 0.3)
-                        }
-                    })
-                }
-                
-                titleLabel.text = landscape.name
-                subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 5, breakMode: .ByTruncatingTail, fontName: Font.defaultFont, fontSize: 14)
-            }
-        }
-    }
-    
-    /// 图片模糊
-    lazy var coverView = UIView(color: UIColor.blackColor())
-    
-    override func initAutoLayout() {
-        initProperty()
-        iconView.ff_AlignInner(.CenterCenter, referView: contentView, size: CGSizeMake(Frame.screen.width + 20, 200))
-        coverView.ff_AlignInner(.CenterCenter, referView: iconView, size: CGSizeMake(Frame.screen.width + 20, 190))
-        titleLabel.ff_AlignInner(.TopLeft, referView: contentView, size: nil, offset: CGPointMake(9, 25))
-        subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 15))
-        speechImageView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(49, 49), offset: CGPointMake(-18, 0))
-        mapButton.ff_AlignHorizontal(.CenterRight, referView: titleLabel, size: nil, offset: CGPointMake(7, 0))
-        playLabel.ff_AlignVertical(.BottomCenter, referView: speechImageView, size: nil, offset: CGPointMake(0, 0))
-    }
-    
-    /// 初始化相关属性
-    private override func initProperty() {
-        super.initProperty()
-        
-        iconView.addSubview(coverView)
-        coverView.alpha = 0.3
-        clipsToBounds = true
-        titleLabel.textColor    = .whiteColor()
-        subtitleLabel.textColor = .whiteColor()
-        subtitleLabel.preferredMaxLayoutWidth = Frame.screen.width - 18
-        baseLine.hidden = true
-        iconView.contentMode = .ScaleAspectFit
-        contentView.addSubview(mapButton)
-    }
+
 }

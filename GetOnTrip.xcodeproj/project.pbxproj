@@ -148,6 +148,7 @@
 		AE4E77AB1BCB439A006480B1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77AA1BCB439A006480B1 /* AdSupport.framework */; };
 		AE4ECBCB1BB4FE4B00DC65F7 /* CityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4ECBCA1BB4FE4B00DC65F7 /* CityRequest.swift */; };
 		AE4ECBCD1BB5305D00DC65F7 /* NSArray+Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4ECBCC1BB5305D00DC65F7 /* NSArray+Print.swift */; };
+		AE4F44DD1C4F606D00167418 /* SightLandscapesHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4F44DC1C4F606D00167418 /* SightLandscapesHeaderCell.swift */; };
 		AE553BB51B81E8D900C03737 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE553BB41B81E8D900C03737 /* GuideViewController.swift */; };
 		AE55967B1C33A4BD005A02EC /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE55967A1C33A4BD005A02EC /* SearchBar.swift */; };
 		AE6079B51BB2612D00DB2955 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6079B41BB2612D00DB2955 /* MainViewController.swift */; };
@@ -157,7 +158,6 @@
 		AE62E2CE1BB3EF6500B91D33 /* UIPickerView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE62E2CD1BB3EF6500B91D33 /* UIPickerView+Extension.swift */; };
 		AE66012D1C055216007ED37A /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE66012C1C055216007ED37A /* CommentButton.swift */; };
 		AE68B5D61C45FA9300FA4A05 /* SightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE68B5D51C45FA9300FA4A05 /* SightDetailViewController.swift */; };
-		AE68B5D81C46235200FA4A05 /* PlayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE68B5D71C46235100FA4A05 /* PlayProgressView.swift */; };
 		AE68B6521C474CB000FA4A05 /* PlayFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE68B6511C474CB000FA4A05 /* PlayFrequency.swift */; };
 		AE68B6561C47A13A00FA4A05 /* PlayPulsateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE68B6551C47A13A00FA4A05 /* PlayPulsateView.swift */; };
 		AE6D9FB11B84AE2A009A8A9D /* SightBooksRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6D9FB01B84AE2A009A8A9D /* SightBooksRequest.swift */; };
@@ -428,6 +428,7 @@
 		AE4E77AC1BCB43B0006480B1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		AE4ECBCA1BB4FE4B00DC65F7 /* CityRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityRequest.swift; sourceTree = "<group>"; };
 		AE4ECBCC1BB5305D00DC65F7 /* NSArray+Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSArray+Print.swift"; sourceTree = "<group>"; };
+		AE4F44DC1C4F606D00167418 /* SightLandscapesHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightLandscapesHeaderCell.swift; sourceTree = "<group>"; };
 		AE553BB01B81E8BA00C03737 /* GetOnTrip-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GetOnTrip-Bridging-Header.h"; sourceTree = "<group>"; };
 		AE553BB41B81E8D900C03737 /* GuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
 		AE55967A1C33A4BD005A02EC /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
@@ -438,7 +439,6 @@
 		AE62E2CD1BB3EF6500B91D33 /* UIPickerView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIPickerView+Extension.swift"; sourceTree = "<group>"; };
 		AE66012C1C055216007ED37A /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
 		AE68B5D51C45FA9300FA4A05 /* SightDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightDetailViewController.swift; sourceTree = "<group>"; };
-		AE68B5D71C46235100FA4A05 /* PlayProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayProgressView.swift; sourceTree = "<group>"; };
 		AE68B6511C474CB000FA4A05 /* PlayFrequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayFrequency.swift; sourceTree = "<group>"; };
 		AE68B6551C47A13A00FA4A05 /* PlayPulsateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayPulsateView.swift; sourceTree = "<group>"; };
 		AE6D9FB01B84AE2A009A8A9D /* SightBooksRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightBooksRequest.swift; sourceTree = "<group>"; };
@@ -1031,10 +1031,10 @@
 				AE87C2131B85F285004C0998 /* BookCell.swift */,
 				AEA24B771B8644D200031FB8 /* VideoCell.swift */,
 				AEF201831C45137F008DF72B /* CompulsoryPlayView.swift */,
-				AE68B5D71C46235100FA4A05 /* PlayProgressView.swift */,
 				AE68B6551C47A13A00FA4A05 /* PlayPulsateView.swift */,
 				AED3207D1C4D37DF001AB37D /* FoodCell.swift */,
 				AED3207F1C4D4220001AB37D /* SpecialtyCell.swift */,
+				AE4F44DC1C4F606D00167418 /* SightLandscapesHeaderCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1379,6 +1379,7 @@
 				729574001BCF345600343F8F /* UIKitTools.swift in Sources */,
 				725A84791C00A239007623C9 /* Comment.swift in Sources */,
 				AE29B35E1C25217800FFA406 /* HotCityCollectionViewCell.swift in Sources */,
+				AE4F44DD1C4F606D00167418 /* SightLandscapesHeaderCell.swift in Sources */,
 				AE6079B71BB2677C00DB2955 /* UIButton+Extension.swift in Sources */,
 				72A5BF321B73351400F3AB26 /* HttpRequest.swift in Sources */,
 				729573FC1BCE126100343F8F /* CitySightCollectionViewCell.swift in Sources */,
@@ -1431,7 +1432,6 @@
 				AEB720911C105C7700E0FBF3 /* VideoRequest.swift in Sources */,
 				AED320781C4D2F6B001AB37D /* SightSpecialtyRequest.swift in Sources */,
 				AED320801C4D4220001AB37D /* SpecialtyCell.swift in Sources */,
-				AE68B5D81C46235200FA4A05 /* PlayProgressView.swift in Sources */,
 				AEF201071C44CAA3008DF72B /* Test.m in Sources */,
 				72C16AF31BEDCAB000161A77 /* ScrolledImageView.swift in Sources */,
 				AE29B3621C255DA600FFA406 /* HotCityTableViewHeaderView.swift in Sources */,

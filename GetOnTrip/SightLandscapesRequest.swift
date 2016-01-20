@@ -40,6 +40,8 @@ class SightLandscapesRequest: NSObject {
         post["sightId"]  = sightId
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
+        post["x"]        = LocateToCity.sharedLocateToCity.x
+        post["y"]        = LocateToCity.sharedLocateToCity.y
         
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/landscape", post: post) { (result, status) -> () in

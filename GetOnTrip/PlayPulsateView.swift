@@ -10,6 +10,8 @@ import UIKit
 
 class PlayPulsateView: UIView {
 
+    var color: UIColor = UIColor.whiteColor()
+    
     func playIconAction() {
         let repl = CAReplicatorLayer()
         repl.frame = bounds
@@ -18,7 +20,7 @@ class PlayPulsateView: UIView {
         layer1.anchorPoint = CGPointMake(0.5, 1);
         layer1.position = CGPointMake(15, bounds.height);
         layer1.bounds = CGRectMake(0, 0, 2.15, 20);
-        layer1.backgroundColor = UIColor(hex: 0x3C3C3C, alpha: 1.0).CGColor
+        layer1.backgroundColor = color.CGColor
         
         repl.addSublayer(layer1)
         let anim = CABasicAnimation()

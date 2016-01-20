@@ -28,14 +28,15 @@ class SightDetailViewController: BaseViewController {
     /// 播放开始按钮
     lazy var playBeginButton = UIButton(image: "icon_playBegin", title: "", fontSize: 0)
     /// 播放进度
-//    lazy var playPView: PlayProgressView = PlayProgressView()
     var slide = UISlider()
-    /// 播放类
-    
     /// 具体点击的是外界列表哪一个
     var index: Int = 0
     /// 是否正在播放
     lazy var isPlay: Bool = false
+    /// 现在播放到的时间
+    lazy var currentTimeLabel = UILabel(color: SceneColor.frontBlack, title: "00:00", fontSize: 12, mutiLines: true, fontName: Font.PingFangTCThin)
+    /// 总时长
+    lazy var totalTimeLabel = UILabel(color: SceneColor.frontBlack, title: "00:00", fontSize: 12, mutiLines: true, fontName: Font.PingFangTCThin)
     
     var dataSource: Landscape = Landscape() {
         didSet {
@@ -47,7 +48,6 @@ class SightDetailViewController: BaseViewController {
             scrollView.contentSize = CGSizeMake(0, y)
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
             explainLabel.text = dataSource.content
-//            PlayFrequency.sharePlayFrequency.playUrl = ""
         }
     }
     
@@ -80,9 +80,16 @@ class SightDetailViewController: BaseViewController {
         view.addSubview(scrollView)
         view.addSubview(playBottomView)
         playBottomView.addSubview(playBeginButton)
+        view.addSubview(currentTimeLabel)
+        view.addSubview(totalTimeLabel)
         view.addSubview(slide)
         
+        slide.minimumTrackTintColor = UIColor(hex: 0x000000, alpha: 0.5)
+        slide.maximumTrackTintColor = UIColor(hex: 0xD5D5D5, alpha: 1.0)
+        slide.setThumbImage(UIImage(named: "sight_landscape_playProgress")!, forState: .Normal)
+        
         playBeginButton.setImage(UIImage(named: "icon_playStop"), forState: .Selected)
+        
         scrollView.backgroundColor = .clearColor()
         scrollView.addSubview(explainLabel)
         scrollView.addSubview(lookUpMoreButton)
@@ -105,7 +112,9 @@ class SightDetailViewController: BaseViewController {
         lookUpMoreButton.ff_AlignVertical(.BottomCenter, referView: explainLabel, size: nil, offset: CGPointMake(0, 27))
         playBottomView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(Frame.screen.width, 66))
         playBeginButton.ff_AlignInner(.CenterLeft, referView: playBottomView, size: CGSizeMake(38, 38), offset: CGPointMake(24, 0))
-        slide.ff_AlignInner(.CenterLeft, referView: playBottomView, size: CGSizeMake(Frame.screen.width - 83 - 24, 15), offset: CGPointMake(83, 0))
+        currentTimeLabel.ff_AlignInner(.CenterLeft, referView: playBottomView, size: nil, offset: CGPointMake(83, 0))
+        totalTimeLabel.ff_AlignInner(.CenterRight, referView: playBottomView, size: nil, offset: CGPointMake(-24, 0))
+        slide.ff_AlignHorizontal(.CenterRight, referView: currentTimeLabel, size: CGSizeMake(Frame.screen.width-113-75 , 15), offset: CGPointMake(9, 0))
     }
 
     private func initNavBar() {
