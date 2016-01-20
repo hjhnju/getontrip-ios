@@ -31,16 +31,40 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
     var data: FoodDetail = FoodDetail() {
         didSet {
             if UserProfiler.instance.isShowImage() { headerImageView.sd_setImageWithURL(NSURL(string: data.image)) }
-            shopData = data.shopDetails
-            topidData = data.topicDetails
+            
+            recommendShop[0] = data.shopDetails
+            recommendTopic[0] = data.topicDetails
+            
+            
+            if let shopDatas = recommendShop[0] {
+                shopData = shopDatas
+            }
+            if let topicDatas = recommendTopic[0] {
+                topicData = topicDatas
+            }
+            
             navBar.titleLabel.text = data.title
             tableView.reloadData()
         }
     }
+    
     /// 店铺数据源
     var shopData: [ShopDetail] = [ShopDetail]()
     /// 话题数据源
-    var topidData: [FoodTopicDetail] = [FoodTopicDetail]()
+    var topicData: [FoodTopicDetail] = [FoodTopicDetail]()
+    /// 推荐名店页数数据源
+    var recommendShop: [Int : [ShopDetail]] = [Int : [ShopDetail]]()
+    /// 推荐名店页数数据源
+    var recommendTopic: [Int : [FoodTopicDetail]] = [Int : [FoodTopicDetail]]()
+    /// 当前索引
+    var shopIndex: Int = 0
+    /// 当前话题索引
+    var topicIndex: Int = 0
+    
+    weak var shopUpButton    : UIButton?
+    weak var shopBottomButton: UIButton?
+    weak var topicUpButton   : UIButton?
+    weak var topicBottomButton: UIButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +81,6 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
         navBar.setStatusBarHidden(true)
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         view.backgroundColor = .whiteColor()
-        
     }
     
     private func initNavBar() {
@@ -132,9 +155,24 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
         }
         
         let v = tableView.dequeueReusableHeaderFooterViewWithIdentifier("FoodHeaderViewCell") as! FoodHeaderViewCell
+        v.upButton.addTarget(self, action: "upPageAction:", forControlEvents: .TouchUpInside)
+        v.BottomButton.addTarget(self, action: "BottomPageAction:", forControlEvents: .TouchUpInside)
         v.titleLabel.text = section == 1 ? "推荐名品" : "相关话题"
-        v.BottomButton.hidden = section == 1 ? false : true
-        v.upButton.hidden = section == 1 ? false : true
+        
+        v.upButton.tag = section == 1 ? 2 : 3
+        v.BottomButton.tag = section == 1 ? 2 : 3
+        if section == 1 {
+            shopUpButton = v.upButton
+            shopUpButton = v.BottomButton
+            v.upButton.hidden = Int(data.shopNum) > 4 ? false : true
+            v.BottomButton.hidden = Int(data.shopNum) > 4 ? false : true
+        } else if section == 2 {
+            topicUpButton = v.upButton
+            topicBottomButton = v.BottomButton
+            v.upButton.hidden = Int(data.topicNum) > 4 ? false : true
+            v.BottomButton.hidden = Int(data.topicNum) > 4 ? false : true
+        }
+        
         return v
     }
     
@@ -154,7 +192,7 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
             return cell
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCellWithIdentifier("FoodTopicTableViewCell", forIndexPath: indexPath) as! FoodTopicTableViewCell
-            cell.data = topidData[indexPath.row]
+            cell.data = topicData[indexPath.row]
             return cell
         }
         return UITableViewCell()
@@ -170,7 +208,7 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
             navigationController?.pushViewController(sc, animated: true)
         } else if indexPath.section == 2 {
             let vc = TopicViewController()
-            let col = topidData[indexPath.row]
+            let col = topicData[indexPath.row]
             let topic = Topic()
             topic.id       = col.id
             topic.image    = col.image
@@ -199,7 +237,70 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
         headerHeightConstraint?.constant = height
     }
     
+    /// 上一页方法
+    func upPageAction(sender: UIButton) {
+        if sender.tag == 2 { // 推荐名店的上一页
+            if let data = recommendShop[shopIndex-1] {
+                shopData = data
+                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
+                shopIndex--
+            }
+        } else { // 相关话题的下一页
+            if let data = recommendTopic[topicIndex-1] {
+                topicData = data
+                tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .None)
+                topicIndex--
+            }
+        }
+    }
+    /// 下一页方法
+    func BottomPageAction(sender: UIButton) {
+        if sender.tag == 2 { // 推荐名店的下一页
+            if let data = recommendShop[shopIndex+1] {
+                shopData = data
+                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
+                shopIndex++
+                return
+            }
+            lastRequest.foodFetchNextPageModels({ (result, status) -> Void in
+                print(result)
+                if status == RetCode.SUCCESS {
+                    if let data = result {
+                        print(data.count)
+                        if data.count > 0 {
+                            self.shopIndex++
+                            self.shopData = data
+                            self.recommendShop[self.shopIndex] = data
+                            self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
+                        } else {
+                            ProgressHUD.showSuccessHUD(nil, text: "已无更多名品")
+                            self.lastRequest.shopPage--
+                        }
+                    }
+                }
+            })
+        } else { // 相关话题的下一页
+            if let data = recommendTopic[topicIndex+1] {
+                topicData = data
+                tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .None)
+                topicIndex++
+                return
+            }
+            lastRequest.topicFetchNextPageModels({ (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if let data = result {
+                        if data.count > 0 {
+                            self.topicIndex++
+                            self.topicData = data
+                            self.recommendTopic[self.topicIndex] = data
+                            self.tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .None)
+                        } else {
+                            ProgressHUD.showSuccessHUD(nil, text: "已无更多话题")
+                            self.lastRequest.topicPage--
+                        }
+                    }
+                }
+            })
+        }
+    }
 }
-
-    
-

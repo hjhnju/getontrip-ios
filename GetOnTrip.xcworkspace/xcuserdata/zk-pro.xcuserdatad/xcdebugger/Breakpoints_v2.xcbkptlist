@@ -1086,12 +1086,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/SpecialtyRequest.swift"
-            timestampString = "474898590.252502"
+            timestampString = "474954050.35146"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "fetchModels(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GetOnTrip/SpecialtyDetailViewController.swift"
+            timestampString = "474956359.335762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
+            landmarkName = "BottomPageAction(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

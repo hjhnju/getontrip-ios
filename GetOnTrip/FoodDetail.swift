@@ -25,6 +25,8 @@ class FoodDetail: ModelObject {
     }
     /// 商店数量
     lazy var shopNum: String = ""
+    /// 话题详情数量
+    lazy var topicNum: String = ""
     /// 店铺详情模型
     var shopDetails: [ShopDetail] = [ShopDetail]()
     /// 话题详情模型
