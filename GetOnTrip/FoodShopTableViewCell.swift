@@ -48,7 +48,7 @@ class FoodShopTableViewCell: UITableViewCell {
                 for var i = 0; i<Int(scoreInt); i++ {
                    scoreSwitch(i, imageStr: "icon_star")
                 }
-                if Float(cellData.score ?? "0")! % 2 == 0.5 {
+                if Float(cellData.score ?? "0")! % Float(scoreInt) > 0 {
                     scoreSwitch(Int(scoreInt), imageStr: "icon_star_falf")
                 }
                 scoreLabel.text = cellData.score + "分"
@@ -78,7 +78,7 @@ class FoodShopTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = UIColor.clearColor()
+        contentView.backgroundColor = SceneColor.greyWhite
         
         contentView.addSubview(iconView)
         contentView.addSubview(titleLabel)
@@ -91,7 +91,6 @@ class FoodShopTableViewCell: UITableViewCell {
         contentView.addSubview(scoreLabel)
         contentView.addSubview(priceLabel)
         contentView.addSubview(baseLine)
-
         
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 133 - 24
         titleLabel.numberOfLines = 2

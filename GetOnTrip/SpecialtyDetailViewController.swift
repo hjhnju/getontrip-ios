@@ -151,7 +151,7 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("SpecialtyTableViewCell", forIndexPath: indexPath) as! SpecialtyTableViewCell
             cell.data = shopData[indexPath.row]
-            return UITableViewCell()
+            return cell
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCellWithIdentifier("FoodTopicTableViewCell", forIndexPath: indexPath) as! FoodTopicTableViewCell
             cell.data = topidData[indexPath.row]
@@ -162,12 +162,23 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        //        if indexPath.section == 0 {
-        //            navigationController?.pushViewController(indexPath.row == 0 ? FavoriteViewController() : MyCommentViewController(), animated: true)
-        //        } else if indexPath.section == 1 && indexPath.row == 0 {
-        //            navigationController?.pushViewController(MyPraiseViewController(), animated: true)
-        //        }
+        if indexPath.section == 1 {
+            let sc = DetailWebViewController()
+            let data = shopData[indexPath.row]
+            sc.url = data.url
+            sc.title = data.title
+            navigationController?.pushViewController(sc, animated: true)
+        } else if indexPath.section == 2 {
+            let vc = TopicViewController()
+            let col = topidData[indexPath.row]
+            let topic = Topic()
+            topic.id       = col.id
+            topic.image    = col.image
+            topic.title    = col.title
+            topic.subtitle = col.desc
+            vc.topicDataSource = topic
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     private func loadData() {

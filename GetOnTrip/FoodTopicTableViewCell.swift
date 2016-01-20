@@ -14,8 +14,10 @@ class FoodTopicTableViewCell: TopicCell {
         didSet {
             if let cellData = data as? FoodTopicDetail {
                 
-                titleLabel.font = UIFont(name: Font.PingFangSCLight ?? Font.ios8Font, size: 12)
-                subtitleLabel.font = UIFont(name: Font.PingFangSCLight ?? Font.ios8Font, size: 15)
+                contentView.backgroundColor = SceneColor.greyWhite
+                
+                titleLabel.font = UIFont(name: Font.PingFangSCLight ?? Font.ios8Font, size: 15)
+                subtitleLabel.font = UIFont(name: Font.PingFangSCLight ?? Font.ios8Font, size: 12)
                 
                 iconView.backgroundColor = cellData.bgColor
                 //是否加载网络图片

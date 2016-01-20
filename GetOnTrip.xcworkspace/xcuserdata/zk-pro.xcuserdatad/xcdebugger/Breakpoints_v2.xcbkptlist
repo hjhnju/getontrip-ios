@@ -1102,11 +1102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/SpecialtyRequest.swift"
-            timestampString = "474892816.300625"
+            timestampString = "474898590.252502"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "fetchModels(_:)"
             landmarkType = "5">
          </BreakpointContent>

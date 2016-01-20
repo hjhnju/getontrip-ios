@@ -31,7 +31,10 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     var data: FoodDetail = FoodDetail() {
         didSet {
             if UserProfiler.instance.isShowImage() { headerImageView.sd_setImageWithURL(NSURL(string: data.image)) }
-            shopData = data.shopDetails
+            recommendShop[1] = data.shopDetails
+            if let shopDatas = recommendShop[1] {
+                shopData = shopDatas
+            }
             topidData = data.topicDetails
             navBar.titleLabel.text = data.title
             tableView.reloadData()
@@ -41,6 +44,12 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     var shopData: [ShopDetail] = [ShopDetail]()
     /// 话题数据源
     var topidData: [FoodTopicDetail] = [FoodTopicDetail]()
+    /// 推荐名店页数数据源
+    var recommendShop: [Int : [ShopDetail]] = [Int : [ShopDetail]]() {
+        didSet {
+//            shopData = recommendShop[1]!
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +66,6 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         navBar.setStatusBarHidden(true)
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         view.backgroundColor = .whiteColor()
-        
     }
     
     func initNavBar() {
@@ -115,13 +123,8 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 0
-        } else if section == 1 {
-            return data.shopDetails.count
-        } else {
-            return data.topicDetails.count
-        }
+        if section == 0 { return 0 }
+        return section == 1 ? shopData.count : topidData.count
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -132,10 +135,51 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         }
         
         let v = tableView.dequeueReusableHeaderFooterViewWithIdentifier("FoodHeaderViewCell") as! FoodHeaderViewCell
+        v.upButton.addTarget(self, action: "upPageAction:", forControlEvents: .TouchUpInside)
+        v.BottomButton.addTarget(self, action: "BottomPageAction:", forControlEvents: .TouchUpInside)
         v.titleLabel.text = section == 1 ? "推荐名店" : "相关话题"
+        v.upButton.tag = section == 1 ? 2 : 3
+        v.BottomButton.tag = section == 1 ? 2 : 3
         v.BottomButton.hidden = section == 1 ? false : true
         v.upButton.hidden = section == 1 ? false : true
         return v
+    }
+    
+    /// 上一页方法
+    func upPageAction(sender: UIButton) {
+        if sender.tag == 2 { // 推荐名店的上一页
+            
+        } else { // 相关话题的下一页
+        
+        }
+    }
+    /// 下一页方法
+    func BottomPageAction(sender: UIButton) {
+        if sender.tag == 2 { // 推荐名店的下一页
+            lastRequest.foodFetchNextPageModels({ (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if let data = result {
+                        if data.count > 0 {
+                            self.recommendShop[self.lastRequest.shopPage] = data
+                        } else {
+                            ProgressHUD.showSuccessHUD(nil, text: "已无更多店铺")
+                        }
+                    }
+                }
+            })
+        } else { // 相关话题的下一页
+            lastRequest.topicFetchNextPageModels({ (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if let data = result {
+                        if data.count > 0 {
+                            self.recommendShop[self.lastRequest.shopPage] = data
+                        } else {
+                            ProgressHUD.showSuccessHUD(nil, text: "已无更多店铺")
+                        }
+                    }
+                }
+            })
+        }
     }
     
     /// 每行的行高
@@ -162,12 +206,23 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-//        if indexPath.section == 0 {
-//            navigationController?.pushViewController(indexPath.row == 0 ? FavoriteViewController() : MyCommentViewController(), animated: true)
-//        } else if indexPath.section == 1 && indexPath.row == 0 {
-//            navigationController?.pushViewController(MyPraiseViewController(), animated: true)
-//        }
+        if indexPath.section == 1 {
+//            let sc = DetailWebViewController()
+//            let data = shopData[indexPath.row]
+//            sc.url = data.url
+//            sc.title = data.title
+//            navigationController?.pushViewController(sc, animated: true)
+        } else if indexPath.section == 2 {
+            let vc = TopicViewController()
+            let col = topidData[indexPath.row]
+            let topic = Topic()
+            topic.id       = col.id
+            topic.image    = col.image
+            topic.title    = col.title
+            topic.subtitle = col.desc
+            vc.topicDataSource = topic
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     private func loadData() {
