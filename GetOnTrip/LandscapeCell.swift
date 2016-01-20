@@ -61,8 +61,6 @@ class LandscapeCell: UITableViewCell {
                 playLabel.hidden       = isHidden
                 speechImageView.alpha  = landscape.audio_len == "" ? 0 : 1
                 speechView.hidden      = isHidden
-                
-                print(landscape.desc)
             }
         }
     }
@@ -72,6 +70,7 @@ class LandscapeCell: UITableViewCell {
         
         initProperty()
         initAutoLayout()
+        playAreaButton.addTarget(self, action: "playAreaButtonAction:", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     private func initProperty() {
@@ -103,8 +102,6 @@ class LandscapeCell: UITableViewCell {
         speechView.layer.borderWidth = 0.5
         speechView.layer.borderColor = UIColor(hex: 0xE4E4E4, alpha: 0.5).CGColor
         
-        playAreaButton.addTarget(self, action: "playAreaButtonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        
         speechImageView.contentMode = .ScaleAspectFill
         speechImageView.clipsToBounds = true
     }
@@ -125,8 +122,6 @@ class LandscapeCell: UITableViewCell {
         locationUnitLabel.ff_AlignHorizontal(.BottomRight, referView: locationButton, size: nil, offset: CGPointMake(0, -1))
         pulsateView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(49, 49), offset: CGPointMake(-1, -10))
         playAreaButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(95, 115))
-        playAreaButton.backgroundColor = UIColor.randomColor()
-        playAreaButton.alpha = 0.2
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -143,6 +138,13 @@ class LandscapeCell: UITableViewCell {
     
     var isAddAnimate: Bool = false
     func playAreaButtonAction(sender: UIButton) {
+        PlayFrequency.sharePlayFrequency.playCell = self
+        if !isAddAnimate {
+            ProgressHUD.showSuccessHUD(nil, text: "缓冲中，请稍候")
+            pulsateView.playIconAction()
+            pulsateView.hidden = true
+            isAddAnimate = true
+        }
         
         if PlayFrequency.sharePlayFrequency.index == sender.tag {
             if !PlayFrequency.sharePlayFrequency.isLoading {
@@ -151,14 +153,7 @@ class LandscapeCell: UITableViewCell {
             return
         }
         
-        speechImageView.hidden = !speechImageView.hidden
-        if !isAddAnimate {
-            ProgressHUD.showSuccessHUD(nil, text: "缓冲中，请稍候")
-            pulsateView.playIconAction()
-            isAddAnimate = true
-        }
         PlayFrequency.sharePlayFrequency.index = sender.tag
-        PlayFrequency.sharePlayFrequency.playCell = self
     }
 }
 
@@ -181,6 +176,14 @@ class LandscapeCellHead: LandscapeCell {
                     })
                 }
                 
+                let isHidden = landscape.audio_len == "" ? true : false
+                playAreaButton.hidden  = isHidden
+                pulsateView.alpha      = landscape.audio_len == "" ? 0 : 1
+                playLabel.hidden       = isHidden
+                speechImageView.alpha  = landscape.audio_len == "" ? 0 : 1
+                speechView.hidden      = isHidden
+                
+                subtitleLabel.preferredMaxLayoutWidth = landscape.audio_len == "" ? Frame.screen.width - 18 : Frame.screen.width - 9 - 95
                 titleLabel.text = landscape.name
                 subtitleLabel.attributedText = landscape.content.getAttributedString(0, lineSpacing: 5, breakMode: .ByTruncatingTail, fontName: Font.defaultFont, fontSize: 14)
             }
@@ -196,9 +199,12 @@ class LandscapeCellHead: LandscapeCell {
         coverView.ff_AlignInner(.CenterCenter, referView: iconView, size: CGSizeMake(Frame.screen.width + 20, 190))
         titleLabel.ff_AlignInner(.TopLeft, referView: contentView, size: nil, offset: CGPointMake(9, 25))
         subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 15))
-        speechImageView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(49, 49), offset: CGPointMake(-18, 0))
+        speechView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(49, 49), offset: CGPointMake(-18, 0))
+        pulsateView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(49, 49), offset: CGPointMake(-1, -10))
+        speechImageView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(31, 31))
         mapButton.ff_AlignHorizontal(.CenterRight, referView: titleLabel, size: nil, offset: CGPointMake(7, 0))
-        playLabel.ff_AlignVertical(.BottomCenter, referView: speechImageView, size: nil, offset: CGPointMake(0, 0))
+        playLabel.ff_AlignVertical(.BottomCenter, referView: speechView, size: nil, offset: CGPointMake(0, 3))
+        playAreaButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(95, 115))
     }
     
     /// 初始化相关属性
@@ -210,9 +216,19 @@ class LandscapeCellHead: LandscapeCell {
         clipsToBounds = true
         titleLabel.textColor    = .whiteColor()
         subtitleLabel.textColor = .whiteColor()
-        subtitleLabel.preferredMaxLayoutWidth = Frame.screen.width - 18
         baseLine.hidden = true
         iconView.contentMode = .ScaleAspectFit
         contentView.addSubview(mapButton)
+        
+        subtitleLabel.numberOfLines  = 3
+        iconView.contentMode         = .ScaleAspectFill
+        iconView.clipsToBounds       = true
+        
+        speechView.layer.cornerRadius = 49 * 0.5
+        speechView.layer.borderWidth = 0.5
+        speechView.layer.borderColor = UIColor(hex: 0xE4E4E4, alpha: 0.5).CGColor
+        
+        speechImageView.contentMode = .ScaleAspectFill
+        speechImageView.clipsToBounds = true
     }
 }

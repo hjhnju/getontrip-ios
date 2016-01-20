@@ -26,7 +26,7 @@ class PlayPulsateView: UIView {
         let anim = CABasicAnimation()
         anim.keyPath = "transform.scale.y"
         anim.toValue = 0.1
-        anim.duration = 0.5
+        anim.duration = 0.4
         anim.repeatCount = MAXFLOAT
         anim.removedOnCompletion = false
         anim.fillMode = kCAFillModeForwards        
@@ -34,9 +34,8 @@ class PlayPulsateView: UIView {
         layer1.addAnimation(anim, forKey: nil)
         repl.instanceCount = 4
         repl.instanceTransform = CATransform3DMakeTranslation(8, 0, 0)
-        
         repl.instanceDelay = 0.1
-        repl.instanceGreenOffset = -0.3
+        repl.instanceGreenOffset = 0
     }
 
 }

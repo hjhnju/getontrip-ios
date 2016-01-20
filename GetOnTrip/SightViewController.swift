@@ -165,14 +165,13 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         
         navBar.addSubview(pulsateView)
         pulsateView.frame = CGRectMake(50, 50, 100, 100)
-        pulsateView.backgroundColor = UIColor.randomColor()
-//        pulsateView.ff_AlignVertical(.CenterRight, referView: navBar.titleLabel, size: CGSizeMake(17, 17), offset: CGPointMake(7, 0))
-//        pulsateView.ff_AlignHorizontal(.CenterRight, referView: navBar.titleLabel, size: CGSizeMake(17, 17), offset: CGPointMake(0, 0))
-//        pulsateView.ff_AlignInner(.CenterCenter, referView: navBar, size: CGSizeMake(20, 20), offset: CGPointMake(0, -50))
-//        pulsateView.ff_AlignHorizontal(.CenterRight, referView: navBar.titleLabel, size: CGSizeMake(50, 50), offset: CGPointMake(7, 0))
+        pulsateView.backgroundColor = UIColor.whiteColor()
+        pulsateView.color = .whiteColor()
         pulsateView.ff_AlignHorizontal(.CenterCenter, referView: navBar, size: CGSizeMake(17, 17), offset:
-            CGPointMake((sightDataSource.name.sizeofStringWithFount(UIFont.systemFontOfSize(17), maxSize: CGSize(width: CGFloat.max, height: 17)).width ?? 0) * 0.5 , -70))
+            CGPointMake((sightDataSource.name.sizeofStringWithFount(UIFont.systemFontOfSize(17), maxSize: CGSize(width: CGFloat.max, height: 17)).width ?? 0) * 0.5 , -73))
         pulsateView.playIconAction()
+        PlayFrequency.sharePlayFrequency.pulsateView = pulsateView
+        pulsateView.hidden = true
     }
     
     func setupAutlLayout() {

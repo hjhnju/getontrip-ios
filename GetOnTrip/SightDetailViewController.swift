@@ -64,8 +64,11 @@ class SightDetailViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         PlayFrequency.sharePlayFrequency.slide = slide
-        slide.value = PlayFrequency.sharePlayFrequency.playCurrentProgress
-        playBeginButton.selected = PlayFrequency.sharePlayFrequency.isPlay ? true : false
+        if index == PlayFrequency.sharePlayFrequency.index {            
+            slide.value = PlayFrequency.sharePlayFrequency.playCurrentProgress
+            playBeginButton.selected = PlayFrequency.sharePlayFrequency.isPlay ? true : false
+            PlayFrequency.sharePlayFrequency.playBeginBtn = playBeginButton
+        }
     }
     
     override func didReceiveMemoryWarning() {

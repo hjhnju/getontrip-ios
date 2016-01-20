@@ -17,6 +17,8 @@ class PlayFrequency: NSObject {
     
     weak var playDetailViewController: SightDetailViewController?
     weak var slide: UISlider?
+    weak var pulsateView: PlayPulsateView?
+    weak var playBeginBtn: UIButton?
     /// 播放动画按钮所在的cell
     var playCell: LandscapeCell?
     /// 播放类
@@ -28,7 +30,14 @@ class PlayFrequency: NSObject {
     /// 现在播放进度
     var playCurrentProgress: Float = 0
     /// 是否正在播放
-    var isPlay: Bool = false
+    var isPlay: Bool = false {
+        didSet {
+            pulsateView?.hidden = !isPlay
+            playCell?.speechImageView.hidden = isPlay
+            playCell?.pulsateView.hidden = !isPlay
+            playBeginBtn?.selected = isPlay
+        }
+    }
     /// 是否正在加载
     var isLoading: Bool = false
     /// 上一个选择的
@@ -59,15 +68,15 @@ class PlayFrequency: NSObject {
         }
     }
     
-    /// 播放和暂时的切换方法
-    func switchPlayAndStopAction(sender: UIButton) {
-        if sender.selected {
-            player.pause()
-        } else {
-            player.play()
-        }
-    }
-    
+//    /// 播放和暂时的切换方法
+//    func switchPlayAndStopAction(sender: UIButton) {
+//        if sender.selected {
+//            player.pause()
+//        } else {
+//            player.play()
+//        }
+//    }
+//    
     // MARK: - 通知、kvo
     /// 去除通知
     private func removeNotification() {
@@ -131,14 +140,14 @@ class PlayFrequency: NSObject {
         player.seekToTime(time) { [weak self] (_) -> Void in
             print("音频播完了")
             self?.isPlay = false
-            self?.playCell?.speechImageView.hidden = false
-            self?.playCell?.pulsateView.hidden = true
+//            self?.playCell?.speechImageView.hidden = false
+//            self?.playCell?.pulsateView.hidden = true
         }
     }
     
     func playerBackStall() {
         isLoading = true
-        print("何时会调用")
+        print("当音频播放时停顿会调用")
     }
     
     /**
