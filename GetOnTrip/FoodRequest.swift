@@ -12,9 +12,9 @@ class FoodRequest: NSObject {
     
     // 请求参数
     var foodId       : String = ""
-    var shopPage     :Int = 2
+    var shopPage     :Int = 1
     var shopPageSize :Int = 4
-    var topicPage    :Int = 2
+    var topicPage    :Int = 1
     var topicPageSize:Int = 4
     
     // 异步加载获取数据

@@ -31,11 +31,19 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     var data: FoodDetail = FoodDetail() {
         didSet {
             if UserProfiler.instance.isShowImage() { headerImageView.sd_setImageWithURL(NSURL(string: data.image)) }
-            recommendShop[1] = data.shopDetails
-            if let shopDatas = recommendShop[1] {
+            recommendShop[0] = data.shopDetails
+            recommendTopic[0] = data.topicDetails
+            
+            
+            if let shopDatas = recommendShop[0] {
                 shopData = shopDatas
+                shopUpButton?.enabled = false
             }
-            topidData = data.topicDetails
+            if let topicDatas = recommendTopic[0] {
+                topicData = topicDatas
+                topicUpButton?.enabled = false
+            }
+            
             navBar.titleLabel.text = data.title
             tableView.reloadData()
         }
@@ -43,13 +51,28 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     /// 店铺数据源
     var shopData: [ShopDetail] = [ShopDetail]()
     /// 话题数据源
-    var topidData: [FoodTopicDetail] = [FoodTopicDetail]()
+    var topicData: [FoodTopicDetail] = [FoodTopicDetail]()
     /// 推荐名店页数数据源
-    var recommendShop: [Int : [ShopDetail]] = [Int : [ShopDetail]]() {
+    var recommendShop: [Int : [ShopDetail]] = [Int : [ShopDetail]]()
+    /// 推荐名店页数数据源
+    var recommendTopic: [Int : [FoodTopicDetail]] = [Int : [FoodTopicDetail]]()
+    /// 当前索引
+    var shopIndex: Int = 0 {
         didSet {
-//            shopData = recommendShop[1]!
+//            up
+            if shopIndex != 0 {
+                
+            }
         }
     }
+    /// 当前话题索引
+    var topicIndex: Int = 0
+    
+    weak var shopUpButton    : UIButton?
+    weak var shopBottomButton: UIButton?
+    weak var topicUpButton   : UIButton?
+    weak var topicBottomButton: UIButton?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,7 +147,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 { return 0 }
-        return section == 1 ? shopData.count : topidData.count
+        return section == 1 ? shopData.count : topicData.count
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -142,44 +165,15 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         v.BottomButton.tag = section == 1 ? 2 : 3
         v.BottomButton.hidden = section == 1 ? false : true
         v.upButton.hidden = section == 1 ? false : true
-        return v
-    }
-    
-    /// 上一页方法
-    func upPageAction(sender: UIButton) {
-        if sender.tag == 2 { // 推荐名店的上一页
-            
-        } else { // 相关话题的下一页
         
+        if section == 1 {
+            shopUpButton = v.upButton
+            shopUpButton = v.BottomButton
+        } else if section == 2 {
+            topicUpButton = v.upButton
+            topicBottomButton = v.BottomButton
         }
-    }
-    /// 下一页方法
-    func BottomPageAction(sender: UIButton) {
-        if sender.tag == 2 { // 推荐名店的下一页
-            lastRequest.foodFetchNextPageModels({ (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    if let data = result {
-                        if data.count > 0 {
-                            self.recommendShop[self.lastRequest.shopPage] = data
-                        } else {
-                            ProgressHUD.showSuccessHUD(nil, text: "已无更多店铺")
-                        }
-                    }
-                }
-            })
-        } else { // 相关话题的下一页
-            lastRequest.topicFetchNextPageModels({ (result, status) -> Void in
-                if status == RetCode.SUCCESS {
-                    if let data = result {
-                        if data.count > 0 {
-                            self.recommendShop[self.lastRequest.shopPage] = data
-                        } else {
-                            ProgressHUD.showSuccessHUD(nil, text: "已无更多店铺")
-                        }
-                    }
-                }
-            })
-        }
+        return v
     }
     
     /// 每行的行高
@@ -198,7 +192,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
             return cell
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCellWithIdentifier("FoodTopicTableViewCell", forIndexPath: indexPath) as! FoodTopicTableViewCell
-            cell.data = topidData[indexPath.row]
+            cell.data = topicData[indexPath.row]
             return cell
         }
         return UITableViewCell()
@@ -207,14 +201,14 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 {
-//            let sc = DetailWebViewController()
-//            let data = shopData[indexPath.row]
-//            sc.url = data.url
-//            sc.title = data.title
-//            navigationController?.pushViewController(sc, animated: true)
+            let sc = DetailWebViewController()
+            let data = shopData[indexPath.row]
+            sc.url = data.url
+            sc.title = data.title
+            navigationController?.pushViewController(sc, animated: true)
         } else if indexPath.section == 2 {
             let vc = TopicViewController()
-            let col = topidData[indexPath.row]
+            let col = topicData[indexPath.row]
             let topic = Topic()
             topic.id       = col.id
             topic.image    = col.image
@@ -224,7 +218,15 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
             navigationController?.pushViewController(vc, animated: true)
         }
     }
+
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        var height = (-scrollView.contentOffset.y + 267)
+        if height < 44 { height = 44 }
+        headerHeightConstraint?.constant = height
+    }
+    
+    /// 加载
     private func loadData() {
         lastRequest.fetchModels {[weak self] (result, status) -> Void in
             if status == RetCode.SUCCESS {
@@ -235,12 +237,64 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         }
     }
     
-
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        var height = (-scrollView.contentOffset.y + 267)
-        if height < 44 { height = 44 }
-        headerHeightConstraint?.constant = height
+    /// 上一页方法
+    func upPageAction(sender: UIButton) {
+        if sender.tag == 2 { // 推荐名店的上一页
+            if let data = recommendShop[shopIndex-1] {
+                shopData = data
+                shopIndex--
+            }
+        } else { // 相关话题的下一页
+            if let data = recommendTopic[topicIndex-1] {
+                topicData = data
+                topicIndex--
+            }
+        }
     }
-    
+    /// 下一页方法
+    func BottomPageAction(sender: UIButton) {
+        if sender.tag == 2 { // 推荐名店的下一页
+            if let data = recommendShop[shopIndex+1] {
+                shopData = data
+                return
+            }
+            lastRequest.foodFetchNextPageModels({ (result, status) -> Void in
+                print(result)
+                if status == RetCode.SUCCESS {
+                    if let data = result {
+                        print(data.count)
+                        if data.count > 0 {
+                            self.shopIndex++
+                            self.shopData = data
+                            self.recommendShop[self.lastRequest.shopPage] = data
+                            self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
+                        } else {
+                            ProgressHUD.showSuccessHUD(nil, text: "已无更多店铺")
+                            self.lastRequest.shopPage--
+                        }
+                    }
+                }
+            })
+        } else { // 相关话题的下一页
+            if let data = recommendTopic[topicIndex+1] {
+                topicData = data
+                return
+            }
+            lastRequest.topicFetchNextPageModels({ (result, status) -> Void in
+                if status == RetCode.SUCCESS {
+                    if let data = result {
+                        if data.count > 0 {
+                            self.topicIndex++
+                            self.topicData = data
+                            self.recommendTopic[self.lastRequest.topicPage] = data
+                            self.tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .None)
+                        } else {
+                            ProgressHUD.showSuccessHUD(nil, text: "已无更多话题")
+                            self.lastRequest.topicPage--
+                        }
+                    }
+                }
+            })
+        }
+    }
 }
