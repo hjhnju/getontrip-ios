@@ -78,7 +78,7 @@ class FoodCell: UITableViewCell {
         subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
         baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
         compulsoryView.ff_AlignInner(.TopLeft, referView: iconView, size: CGSizeMake(24, 24), offset: CGPointMake(-1, -1))
-        compulsoryLabel.ff_AlignInner(.TopLeft, referView: iconView, size: nil, offset: CGPointMake(-0.5, 1))
+        compulsoryLabel.ff_AlignInner(.TopLeft, referView: iconView, size: nil, offset: CGPointMake(0, 2))
         shopNumLabel.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(5, 3))
         shopLabel.ff_AlignHorizontal(.CenterRight, referView: shopNumLabel, size: nil)
         topicNumLabel.ff_AlignHorizontal(.CenterRight, referView: shopLabel, size: nil)
