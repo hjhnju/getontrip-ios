@@ -32,12 +32,12 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     /// 标签 - 历史
     lazy var labelButton      = UIButton(title: "", fontSize: 9, radius: 3, titleColor: UIColor.whiteColor())
     /// 收藏数量标签
-    lazy var favNumButton      = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
+    lazy var favNumButton     = UIButton(image: "icon_star_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
     /// 浏览标签
-    lazy var visitNumButton    = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
-    //webView
+    lazy var visitNumButton   = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
+    //  webView
     var webView               = WKWebView(color: UIColor.grayColor())
-    //底部工具栏
+    //  底部工具栏
     lazy var toolbarView      = UIView()
     /// 点赞按钮
     lazy var praisedButton    = UIButton(image: "dotLike_no", title: "", fontSize: 18, titleColor: UIColor(hex: 0x5C5C5C, alpha: 0.4))
@@ -56,24 +56,18 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var backUpControl = UIControl()
     /// 网络请求加载数据(添加)
     var lastRequest: TopicRequest?
-    
     //导航背景，用于完成渐变
     weak var navUnderlayView:UIView?
-    
     //导航透明度
     var headerAlpha:CGFloat = 1.0
-    
     //原导航底图
     var oldBgImage: UIImage?
     
     var oldNavTintColor: UIColor?
-    
     /// 评论控制器
     lazy var commentVC: CommentViewController = CommentViewController()
-    
     /// 记录点赞数量
     var praiseNum: String = ""
-    
     /// 跳至景点页动画
     let sendPopoverAnimator = SendPopoverAnimator()
     
@@ -186,8 +180,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         visitNumButton.alpha = 0.8
         favNumButton.alpha = 0.8
         
-        headerView.userInteractionEnabled = true
-        headerImageView.userInteractionEnabled = true
+        headerView.userInteractionEnabled = false
+        headerImageView.userInteractionEnabled = false
         labelButton.hidden          = true
         favNumButton.hidden          = true
         visitNumButton.hidden        = true

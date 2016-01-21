@@ -82,6 +82,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     var isSuperCityController: Bool = false
     /// 播放图标
     lazy var pulsateView: PlayPulsateView = PlayPulsateView()
+    /// 切换播放控制器
+    lazy var switchPlayControl: UIControl = UIControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -172,6 +174,23 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         pulsateView.playIconAction()
         PlayFrequency.sharePlayFrequency.pulsateView = pulsateView
         pulsateView.hidden = true
+        
+        navBar.addSubview(switchPlayControl)
+        switchPlayControl.backgroundColor = UIColor.clearColor()
+        switchPlayControl.addTarget(self, action: "switchPlayControllerAction", forControlEvents: .TouchUpInside)
+        switchPlayControl.ff_AlignInner(.CenterCenter, referView: navBar, size: CGSizeMake(200, 40))
+    }
+    
+    func switchPlayControllerAction() {
+        print("确实来到了")
+//        LocateToCity.sharedLocateToCity.x = "\(arc4random_uniform(40))"
+        LocateToCity.sharedLocateToCity.y = "\(arc4random_uniform(115))"
+        if PlayFrequency.sharePlayFrequency.isPlay {
+            let vc = SightDetailViewController()
+            vc.dataSource = PlayFrequency.sharePlayFrequency.landscape ?? Landscape()
+            vc.index = PlayFrequency.sharePlayFrequency.index
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func setupAutlLayout() {

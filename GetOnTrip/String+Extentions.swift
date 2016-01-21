@@ -16,6 +16,7 @@ extension String {
         
         let style = NSMutableParagraphStyle()
         style.lineSpacing = lineSpacing
+        style.alignment = .Justified
         style.lineHeightMultiple = lineHeightMultiple
         style.lineBreakMode = breakMode
         let attributedString = NSMutableAttributedString(string: self)

@@ -124,7 +124,7 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
     }()
     
     //欢迎
-    lazy var welcomeButton = UIButton(title: "Welcome!", fontSize: 48, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.HelveticaNeueThin)
+    lazy var welcomeButton = UIButton(title: "Welcome", fontSize: 48, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.HelveticaNeueThin)
     //登录后，头像
     lazy var headerView: UIImageView = UIImageView(image: PlaceholderImage.defaultUser)
     //登录后，名称

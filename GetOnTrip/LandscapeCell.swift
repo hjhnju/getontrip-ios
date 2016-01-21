@@ -52,7 +52,7 @@ class LandscapeCell: UITableViewCell {
                 compulsoryLabel.hidden = landscape.desc == "" ? true : false
                 compulsoryLabel.text   = landscape.desc
                 subtitleLabel.preferredMaxLayoutWidth = landscape.audio_len == "" ? Frame.screen.width - 139 - 9 : Frame.screen.width - 139 - 95
-                playLabel.text = "00:00/\(landscape.audio_len)"
+                playLabel.text = "\(landscape.audio_len)"
                 
                 locationButton.setTitle(" " + landscape.dis, forState: .Normal)
                 let isHidden = landscape.audio_len == "" ? true : false
@@ -70,7 +70,7 @@ class LandscapeCell: UITableViewCell {
         
         initProperty()
         initAutoLayout()
-        playAreaButton.addTarget(self, action: "playAreaButtonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        playAreaButton.addTarget(self, action: "playAreaButtonAction:", forControlEvents: .TouchUpInside)
     }
     
     private func initProperty() {
@@ -138,6 +138,7 @@ class LandscapeCell: UITableViewCell {
     var isAddAnimate: Bool = false
     func playAreaButtonAction(sender: UIButton) {
         PlayFrequency.sharePlayFrequency.playCell = self
+        PlayFrequency.sharePlayFrequency.landscape = landscape ?? Landscape()
         if !isAddAnimate {
             ProgressHUD.showSuccessHUD(nil, text: "缓冲中，请稍候")
             pulsateView.playIconAction()
@@ -151,7 +152,7 @@ class LandscapeCell: UITableViewCell {
             }
             return
         }
-        
+        print(sender.tag)
         PlayFrequency.sharePlayFrequency.index = sender.tag
     }
 }

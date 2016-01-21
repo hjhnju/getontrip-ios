@@ -9,7 +9,7 @@
 import UIKit
 
 class PlayPulsateView: UIView {
-
+    
     var color: UIColor = UIColor.whiteColor()
     
     func playIconAction() {

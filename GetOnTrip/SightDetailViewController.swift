@@ -24,7 +24,7 @@ class SightDetailViewController: BaseViewController {
     /// 查看更看
     lazy var lookUpMoreButton = UIButton(title: "查看更多", fontSize: 14, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.5), fontName: Font.PingFangSCRegular)
     /// 播放底部view
-    lazy var playBottomView = UIView(color: .whiteColor(), alphaF: 0.9)
+    lazy var playBottomView = UIView()
     /// 播放开始按钮
     lazy var playBeginButton = UIButton(image: "icon_playBegin", title: "", fontSize: 0)
     /// 播放进度
@@ -47,13 +47,13 @@ class SightDetailViewController: BaseViewController {
                 UIFont(name: Font.ios8Font, size: 17)!, maxSize: CGSizeMake(Frame.screen.width - 56, CGFloat.max), lineSpacing: 0).height
             scrollView.contentSize = CGSizeMake(0, y)
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
-            explainLabel.attributedText = dataSource.content.getAttributedString(0, lineSpacing: 7, breakMode: .ByTruncatingTail, fontName: Font.PingFangSCLight, fontSize: 17)
+            explainLabel.attributedText = dataSource.content.getAttributedString(0, lineSpacing: 8, breakMode: .ByTruncatingTail, fontName: Font.PingFangSCLight, fontSize: 17)
+            totalTimeLabel.text = "\(dataSource.audio_len)"
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         initView()
         initAutoLayout()
@@ -76,7 +76,14 @@ class SightDetailViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
     private func initView() {
+        
+        playBottomView.addSubview(blurView)
+        blurView.contentView.backgroundColor = UIColor.whiteColor()
+        blurView.contentView.alpha = 0.8
+        blurView.ff_Fill(playBottomView)
+        
         view.backgroundColor = .blackColor()
         view.clipsToBounds = true
         view.addSubview(backgroundImageView)
@@ -86,7 +93,7 @@ class SightDetailViewController: BaseViewController {
         view.addSubview(currentTimeLabel)
         view.addSubview(totalTimeLabel)
         view.addSubview(slide)
-        
+
         slide.minimumTrackTintColor = UIColor(hex: 0x000000, alpha: 0.5)
         slide.maximumTrackTintColor = UIColor(hex: 0xD5D5D5, alpha: 1.0)
         slide.setThumbImage(UIImage(named: "sight_landscape_playProgress")!, forState: .Normal)
@@ -117,7 +124,7 @@ class SightDetailViewController: BaseViewController {
         playBeginButton.ff_AlignInner(.CenterLeft, referView: playBottomView, size: CGSizeMake(38, 38), offset: CGPointMake(24, 0))
         currentTimeLabel.ff_AlignInner(.CenterLeft, referView: playBottomView, size: nil, offset: CGPointMake(83, 0))
         totalTimeLabel.ff_AlignInner(.CenterRight, referView: playBottomView, size: nil, offset: CGPointMake(-24, 0))
-        slide.ff_AlignHorizontal(.CenterRight, referView: currentTimeLabel, size: CGSizeMake(Frame.screen.width-113-75 , 15), offset: CGPointMake(9, 0))
+        slide.ff_AlignInner(.CenterRight, referView: playBottomView, size: CGSizeMake(Frame.screen.width-113-75, 15), offset: CGPointMake(-66, 0))
     }
 
     private func initNavBar() {
@@ -133,8 +140,11 @@ class SightDetailViewController: BaseViewController {
     
     /// 播放方法
     func playBeginButtonAction(sender: UIButton) {
-        PlayFrequency.sharePlayFrequency.index = index
-        PlayFrequency.sharePlayFrequency.lastIndex = index
+        PlayFrequency.sharePlayFrequency.landscape = dataSource ?? Landscape()
+        if PlayFrequency.sharePlayFrequency.index != index {
+            PlayFrequency.sharePlayFrequency.index == index
+            PlayFrequency.sharePlayFrequency.lastIndex = index
+        }
         sender.selected = !sender.selected
         PlayFrequency.sharePlayFrequency.playButtonAction(sender)
     }

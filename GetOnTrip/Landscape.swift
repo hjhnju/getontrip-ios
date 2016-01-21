@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 /// 景点景观Cell数据
 class Landscape: ModelObject {
@@ -41,13 +42,17 @@ class Landscape: ModelObject {
     /// 音频长度
     lazy var audio_len = "00:00"
     /// 经度
-    lazy var x = "0"
+    var x = "0"
     /// 纬度
-    lazy var y = "0"
+    var y = "0"
     /// 距离
     lazy var dis = ""
     /// 单位
     lazy var dis_unit = ""
+    /// 位置
+    var location: CLLocation = CLLocation(latitude: CLLocationDegrees(0), longitude: CLLocationDegrees(0))
+    /// 相距位置 用此排序
+    var apartLocation: CLLocationDistance = 0
     
     override init() {
         super.init()
@@ -57,6 +62,7 @@ class Landscape: ModelObject {
         super.init()
         
         setValuesForKeysWithDictionary(dict)
+        location = CLLocation(latitude: CLLocationDegrees(x) ?? 0, longitude: CLLocationDegrees(y) ?? 0)
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

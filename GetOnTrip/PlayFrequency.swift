@@ -19,12 +19,14 @@ class PlayFrequency: NSObject {
     weak var slide: UISlider?
     weak var pulsateView: PlayPulsateView?
     weak var playBeginBtn: UIButton?
+    weak var landscape: Landscape?
     /// 播放动画按钮所在的cell
     var playCell: LandscapeCell? {
         willSet {
             if newValue != nil {
                 if !newValue!.isAddAnimate {
                     newValue?.pulsateView.playIconAction()
+                    newValue?.pulsateView.hidden = true
                 }
             }
         }
@@ -54,6 +56,8 @@ class PlayFrequency: NSObject {
     var isLoading: Bool = false
     /// 上一个选择的
     var lastIndex: Int = -1
+    /// 总时长
+    var totalTimeString: String = ""
     /// 默认是首个
     var index = -1 {
         didSet {
@@ -70,7 +74,6 @@ class PlayFrequency: NSObject {
                 }
 
                 playerItem = AVPlayerItem(URL: url)
-                // player = AVPlayer(playerItem: playerItem!)
                 player.replaceCurrentItemWithPlayerItem(playerItem)
                 
                 isLoading = true
@@ -142,9 +145,8 @@ class PlayFrequency: NSObject {
         let time = CMTimeMakeWithSeconds(0.5, 1)
         player.seekToTime(time) { [weak self] (_) -> Void in
             print("音频播完了")
+            self?.playCell?.playLabel.text = self?.totalTimeString
             self?.isPlay = false
-//            self?.playCell?.speechImageView.hidden = false
-//            self?.playCell?.pulsateView.hidden = true
         }
     }
     
@@ -164,7 +166,7 @@ class PlayFrequency: NSObject {
             let currentTime = CMTimeGetSeconds(time)
             let totalTime = CMTimeGetSeconds(self.playerItem!.duration)
             if totalTime > 0.0 {
-                
+                self.totalTimeString = String(format: "%02d:%02d", Int(totalTime / 60), Int(totalTime % 60))
                 self.playCell?.playLabel.text = String(format: "%02d:%02d/%02d:%02d", Int(currentTime / 60), Int(currentTime % 60), Int(totalTime / 60), Int(totalTime % 60))
                 if self.playDetailViewController?.index == self.index {
                     self.playDetailViewController?.currentTimeLabel.text = String(format: "%02d:%02d", Int(currentTime / 60), Int(currentTime % 60))
@@ -172,11 +174,7 @@ class PlayFrequency: NSObject {
                     self.slide?.setValue(Float(currentTime/totalTime), animated: true)
                 }
             }
-//            self.playDetailViewController?.playBeginButton.selected = true
             self.playCurrentProgress = Float(currentTime/totalTime)
-
-//            UIView.animateWithDuration(0.5, animations: { () -> Void in
-//            })
         }
     }
 
@@ -198,7 +196,6 @@ class PlayFrequency: NSObject {
         if self.playerItem!.status == AVPlayerItemStatus.ReadyToPlay {
             player.seekToTime(CMTimeMake(changedTime, 1), completionHandler: { (isSuccess: Bool) -> Void in
 //                self.playButtonAction(self.playDetailViewController?.playBeginButton ?? UIButton())
-                
             })
         }
     }
