@@ -13,9 +13,9 @@ class FoodShopTableViewCell: UITableViewCell {
     /// 图片
     lazy var iconView: UIImageView = UIImageView()
     ///  标题
-    lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 18, mutiLines: false)
+    lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 15, mutiLines: false, fontName: Font.PingFangSCRegular)
     ///  地扯
-    lazy var addrLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 14, mutiLines: false)
+    lazy var addrLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 11, mutiLines: false, fontName: Font.PingFangSCLight)
     /// 星一
     lazy var starOne = UIImageView(image: UIImage(named: "icon_not_star")!)
     /// 星二
@@ -42,13 +42,13 @@ class FoodShopTableViewCell: UITableViewCell {
                     iconView.sd_setImageWithURL(NSURL(string: cellData.image))
                 }
                 titleLabel.text = cellData.title
-                addrLabel.text = cellData.addr
+                addrLabel.text = "地址: " + cellData.addr
                 let scoreInt = Float(cellData.score) ?? 0
                 
                 for var i = 0; i<Int(scoreInt); i++ {
                    scoreSwitch(i, imageStr: "icon_star")
                 }
-                if Float(cellData.score ?? "0")! % Float(scoreInt) > 0 {
+                if Float(cellData.score ?? "0")! % Float(Int(scoreInt)) > 0 {
                     scoreSwitch(Int(scoreInt), imageStr: "icon_star_falf")
                 }
                 scoreLabel.text = cellData.score + "分"
@@ -95,6 +95,7 @@ class FoodShopTableViewCell: UITableViewCell {
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 133 - 24
         titleLabel.numberOfLines = 2
         titleLabel.preferredMaxLayoutWidth = w
+        addrLabel.numberOfLines = 2
         
         iconView.ff_AlignInner(.CenterLeft, referView: contentView, size: CGSizeMake(124, 84), offset: CGPointMake(9, 0))
         titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 19), offset: CGPointMake(6, -1.5))

@@ -19,6 +19,8 @@ class Food: ModelObject {
     var title: String = ""
     /// 描述
     var desc: String = ""
+    /// 内容
+    var content: String = ""
     /// 所在景点
     var sightid = ""
     /// 图片

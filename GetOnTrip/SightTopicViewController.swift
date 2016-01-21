@@ -96,6 +96,7 @@ class SightTopicViewController: BaseTableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerElseCell, forIndexPath: indexPath) as! TopicCell
         cell.data = topics[indexPath.row]
+        cell.baseLine.hidden = indexPath.row == topics.count - 1 ? true : false
         return cell
     }
     

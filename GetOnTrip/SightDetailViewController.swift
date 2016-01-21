@@ -47,7 +47,7 @@ class SightDetailViewController: BaseViewController {
                 UIFont(name: Font.ios8Font, size: 17)!, maxSize: CGSizeMake(Frame.screen.width - 56, CGFloat.max), lineSpacing: 0).height
             scrollView.contentSize = CGSizeMake(0, y)
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
-            explainLabel.text = dataSource.content
+            explainLabel.attributedText = dataSource.content.getAttributedString(0, lineSpacing: 7, breakMode: .ByTruncatingTail, fontName: Font.PingFangSCLight, fontSize: 17)
         }
     }
     
@@ -123,6 +123,7 @@ class SightDetailViewController: BaseViewController {
     private func initNavBar() {
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
+        navBar.titleLabel.font = UIFont(name: Font.PingFangSCRegular, size: 22)
         navBar.setTitle(dataSource.name)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
         navBar.setBlurViewEffect(false)

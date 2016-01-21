@@ -185,10 +185,12 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("FoodShopTableViewCell", forIndexPath: indexPath) as! FoodShopTableViewCell
             cell.data = shopData[indexPath.row]
+            cell.baseLine.hidden = indexPath.row == shopData.count - 1 ? true : false
             return cell
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCellWithIdentifier("FoodTopicTableViewCell", forIndexPath: indexPath) as! FoodTopicTableViewCell
             cell.data = topicData[indexPath.row]
+            cell.baseLine.hidden = indexPath.row == topicData.count - 1 ? true : false
             return cell
         }
         return UITableViewCell()

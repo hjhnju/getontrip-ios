@@ -13,9 +13,9 @@ class FoodCell: UITableViewCell {
     /// 图片
     lazy var iconView: UIImageView = UIImageView()
     ///  标题
-    lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 16, mutiLines: false)
+    lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "炒肝儿", fontSize: 18, mutiLines: false, fontName: Font.PingFangSCRegular)
     ///  副标题
-    lazy var subtitleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 14, mutiLines: false)
+    lazy var subtitleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "炒肝儿是北京地区著名的汉族传统", fontSize: 14, mutiLines: false, fontName: Font.PingFangSCLight)
     /// 必玩文字
     lazy var compulsoryLabel = UILabel(color: .whiteColor(), title: "必吃", fontSize: 8, mutiLines: true, fontName: Font.PingFangSCRegular)
     /// 必玩底部
@@ -42,9 +42,10 @@ class FoodCell: UITableViewCell {
                 
                 compulsoryView.hidden  = cellData.desc == "" ? true : false
                 compulsoryLabel.hidden = cellData.desc == "" ? true : false
+                compulsoryLabel.text   = cellData.desc
                 
-                subtitleLabel.text = cellData.desc
-                titleLabel.text = cellData.title
+                subtitleLabel.attributedText = cellData.content.getAttributedString(0, lineSpacing: 1, breakMode: .ByTruncatingTail, fontName: Font.PingFangSCLight, fontSize: 14)
+                titleLabel.text        = cellData.title
             }
         }
     }
@@ -66,19 +67,19 @@ class FoodCell: UITableViewCell {
         contentView.addSubview(topicNumLabel)
         contentView.addSubview(topicLabel)
 
-        let w: CGFloat = UIScreen.mainScreen().bounds.width - 133 - 24
-        titleLabel.numberOfLines = 2
-        titleLabel.preferredMaxLayoutWidth = w
+        let w: CGFloat = Frame.screen.width - 133 - 24
+        subtitleLabel.numberOfLines = 2
+        subtitleLabel.preferredMaxLayoutWidth = w
         let rotate: CGFloat = CGFloat(M_PI_2) * 0.5
         compulsoryLabel.transform = CGAffineTransformMakeRotation(-rotate)
         
         iconView.ff_AlignInner(.CenterLeft, referView: contentView, size: CGSizeMake(133, 84), offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 19), offset: CGPointMake(6, -1.5))
-        titleLabel.ff_AlignVertical(.BottomLeft, referView: subtitleLabel, size: nil, offset: CGPointMake(0, 0))
+        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 19), offset: CGPointMake(6, -2))
+        subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
         baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))
         compulsoryView.ff_AlignInner(.TopLeft, referView: iconView, size: CGSizeMake(24, 24), offset: CGPointMake(-1, -1))
-        compulsoryLabel.ff_AlignInner(.TopLeft, referView: iconView, size: nil, offset: CGPointMake(0, 3))
-        shopNumLabel.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(5, 0))
+        compulsoryLabel.ff_AlignInner(.TopLeft, referView: iconView, size: nil, offset: CGPointMake(-0.5, 1))
+        shopNumLabel.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(5, 3))
         shopLabel.ff_AlignHorizontal(.CenterRight, referView: shopNumLabel, size: nil)
         topicNumLabel.ff_AlignHorizontal(.CenterRight, referView: shopLabel, size: nil)
         topicLabel.ff_AlignHorizontal(.CenterRight, referView: topicNumLabel, size: nil)

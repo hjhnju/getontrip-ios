@@ -108,13 +108,12 @@ class LandscapeCell: UITableViewCell {
     
     private func initAutoLayout() {
         iconView.ff_AlignInner(.CenterLeft, referView: contentView, size: CGSizeMake(119, 84), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, 0))
-        subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
+        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(9, -3))
+//        subtitleLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 5))
+        subtitleLabel.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(9, 3))
         baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(Frame.screen.width - 18, 0.5), offset: CGPointMake(0, 0))
         speechView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(49, 49), offset: CGPointMake(-18, 0))
-        
         speechImageView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(31, 31))
-        
         playLabel.ff_AlignVertical(.BottomCenter, referView: speechView, size: nil, offset: CGPointMake(0, 3))
         compulsoryView.ff_AlignInner(.TopLeft, referView: iconView, size: CGSizeMake(24, 24), offset: CGPointMake(-1, -1))
         compulsoryLabel.ff_AlignInner(.TopLeft, referView: iconView, size: nil, offset: CGPointMake(0, 3))
@@ -219,7 +218,7 @@ class LandscapeCellHead: LandscapeCell {
         baseLine.hidden = true
         iconView.contentMode = .ScaleAspectFit
         contentView.addSubview(mapButton)
-        
+        playLabel.textColor = .whiteColor()
         subtitleLabel.numberOfLines  = 3
         iconView.contentMode         = .ScaleAspectFill
         iconView.clipsToBounds       = true

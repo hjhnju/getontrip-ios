@@ -15,9 +15,11 @@ class SpecialtyTableViewCell: UITableViewCell {
     ///  标题
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 15, mutiLines: false, fontName: Font.PingFangSCRegular)
     /// 价格
-    lazy var priceLabel: UILabel = UILabel(color: SceneColor.originYellow, title: "¥ 98", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var priceLabel: UILabel = UILabel(color: SceneColor.originYellow, title: "¥ 98", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCRegular)
     /// 购买链接
     lazy var buyButton: UIButton = UIButton(title: "   购买链接   ", fontSize: 12, radius: 15, titleColor: SceneColor.frontBlack, fontName: Font.PingFangSCLight)
+    /// 基线
+    lazy var baseLine: UIView = UIView(color: UIColor(hex: 0x979797, alpha: 0.3))
     
     var data: ShopDetail? {
         didSet {
@@ -41,6 +43,7 @@ class SpecialtyTableViewCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(priceLabel)
         contentView.addSubview(buyButton)
+        contentView.addSubview(baseLine)
         
         titleLabel.numberOfLines = 2
         titleLabel.preferredMaxLayoutWidth = Frame.screen.width - 139
@@ -49,9 +52,10 @@ class SpecialtyTableViewCell: UITableViewCell {
         buyButton.userInteractionEnabled = false
         
         iconView.ff_AlignInner(.CenterLeft, referView: contentView, size: CGSizeMake(124, 80), offset: CGPointMake(9, 0))
-        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
-        priceLabel.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
+        titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: nil, offset: CGPointMake(6, -2))
+        priceLabel.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 2))
         buyButton.ff_AlignInner(.BottomRight, referView: contentView, size: CGSizeMake(91, 34), offset: CGPointMake(-9, -15))
+        baseLine.ff_AlignInner(.BottomCenter, referView: contentView, size: CGSizeMake(Frame.screen.width - 18, 0.5))
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -96,6 +96,7 @@ class SightFoodViewController: BaseTableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerFoodCell, forIndexPath: indexPath) as! FoodCell
         cell.data = data[indexPath.row]
+        cell.baseLine.hidden = indexPath.row == data.count - 1 ? true : false
         return cell
     }
     

@@ -20,7 +20,19 @@ class PlayFrequency: NSObject {
     weak var pulsateView: PlayPulsateView?
     weak var playBeginBtn: UIButton?
     /// 播放动画按钮所在的cell
-    var playCell: LandscapeCell?
+    var playCell: LandscapeCell? {
+        willSet {
+            if newValue != nil {
+                if !newValue!.isAddAnimate {
+                    newValue?.pulsateView.playIconAction()
+                }
+            }
+        }
+        didSet {
+            oldValue?.pulsateView.hidden = true
+            oldValue?.speechImageView.hidden = false
+        }
+    }
     /// 播放类
     var player = AVPlayer()
     /// 播放列表
@@ -68,15 +80,6 @@ class PlayFrequency: NSObject {
         }
     }
     
-//    /// 播放和暂时的切换方法
-//    func switchPlayAndStopAction(sender: UIButton) {
-//        if sender.selected {
-//            player.pause()
-//        } else {
-//            player.play()
-//        }
-//    }
-//    
     // MARK: - 通知、kvo
     /// 去除通知
     private func removeNotification() {
@@ -161,15 +164,18 @@ class PlayFrequency: NSObject {
             let currentTime = CMTimeGetSeconds(time)
             let totalTime = CMTimeGetSeconds(self.playerItem!.duration)
             if totalTime > 0.0 {
+                
                 self.playCell?.playLabel.text = String(format: "%02d:%02d/%02d:%02d", Int(currentTime / 60), Int(currentTime % 60), Int(totalTime / 60), Int(totalTime % 60))
-                self.playDetailViewController?.currentTimeLabel.text = String(format: "%02d:%02d", Int(currentTime / 60), Int(currentTime % 60))
-                self.playDetailViewController?.totalTimeLabel.text = String(format: "%02d:%02d", Int(totalTime / 60), Int(totalTime % 60))
+                if self.playDetailViewController?.index == self.index {
+                    self.playDetailViewController?.currentTimeLabel.text = String(format: "%02d:%02d", Int(currentTime / 60), Int(currentTime % 60))
+                    self.playDetailViewController?.totalTimeLabel.text = String(format: "%02d:%02d", Int(totalTime / 60), Int(totalTime % 60))
+                    self.slide?.setValue(Float(currentTime/totalTime), animated: true)
+                }
             }
 //            self.playDetailViewController?.playBeginButton.selected = true
             self.playCurrentProgress = Float(currentTime/totalTime)
 
 //            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.slide?.setValue(Float(currentTime/totalTime), animated: true)
 //            })
         }
     }

@@ -94,6 +94,7 @@ class SightSpecialtyViewController: BaseTableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSpecialtyCell, forIndexPath: indexPath) as! SpecialtyCell
         cell.data = data[indexPath.row]
+        cell.baseLine.hidden = indexPath.row == data.count - 1 ? true : false
         return cell
     }
     

@@ -57,10 +57,14 @@ class TopicCell: UITableViewCell {
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 133 - 24
         titleLabel.numberOfLines = 2
         titleLabel.preferredMaxLayoutWidth = w
-        
+        initAutoLayout()
+    }
+    
+    func initAutoLayout() {
+        let w: CGFloat = UIScreen.mainScreen().bounds.width - 133 - 24
         iconView.ff_AlignInner(.CenterLeft, referView: self, size: CGSizeMake(133, 84), offset: CGPointMake(9, 0))
         subtitleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 19), offset: CGPointMake(6, -1.5))
-        titleLabel.ff_AlignVertical(.BottomLeft, referView: subtitleLabel, size: nil, offset: CGPointMake(0, 0))
+        titleLabel.ff_AlignVertical(.BottomLeft, referView: subtitleLabel, size: nil, offset: CGPointMake(0, 3))
         praise.ff_AlignHorizontal(.BottomRight, referView: iconView, size: nil, offset: CGPointMake(6, 0))
         preview.ff_AlignHorizontal(.CenterRight, referView: praise, size: nil, offset: CGPointMake(8, 0))
         baseLine.ff_AlignInner(.BottomCenter, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 0.5))

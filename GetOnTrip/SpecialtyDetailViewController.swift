@@ -189,10 +189,12 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("SpecialtyTableViewCell", forIndexPath: indexPath) as! SpecialtyTableViewCell
             cell.data = shopData[indexPath.row]
+            cell.baseLine.hidden = indexPath.row == shopData.count - 1 ? true : false
             return cell
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCellWithIdentifier("FoodTopicTableViewCell", forIndexPath: indexPath) as! FoodTopicTableViewCell
             cell.data = topicData[indexPath.row]
+            cell.baseLine.hidden = indexPath.row == topicData.count - 1 ? true : false
             return cell
         }
         return UITableViewCell()

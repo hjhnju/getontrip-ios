@@ -102,7 +102,6 @@ class SightLandscapeController: BaseTableViewController {
                 forIndexPath: indexPath) as! LandscapeCell
         
         cell.playAreaButton.tag = indexPath.row
-//        cell.superNavigation = navigationController
         cell.landscape = dataSource[indexPath.row]
         cell.baseLine.hidden = indexPath.row == dataSource.count - 1 ? true : false
         
@@ -112,6 +111,7 @@ class SightLandscapeController: BaseTableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let data = dataSource[indexPath.row]
+        PlayFrequency.sharePlayFrequency.playCell = tableView.cellForRowAtIndexPath(indexPath) as? LandscapeCell
         if data.audio_len == "" {
             let sc = DetailWebViewController()
             let landscape = data
