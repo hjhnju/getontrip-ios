@@ -63,12 +63,12 @@ class SightDetailViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        PlayFrequency.sharePlayFrequency.slide = slide
-        if index == PlayFrequency.sharePlayFrequency.index {            
-            slide.value = PlayFrequency.sharePlayFrequency.playCurrentProgress
-            playBeginButton.selected = PlayFrequency.sharePlayFrequency.isPlay ? true : false
-            PlayFrequency.sharePlayFrequency.playBeginBtn = playBeginButton
-        }
+//        PlayFrequency.sharePlayFrequency.slide = slide
+//        if index == PlayFrequency.sharePlayFrequency.index {            
+//            slide.value = PlayFrequency.sharePlayFrequency.playCurrentProgress
+//            playBeginButton.selected = PlayFrequency.sharePlayFrequency.isPlay ? true : false
+//            PlayFrequency.sharePlayFrequency.playBeginBtn = playBeginButton
+//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -107,9 +107,9 @@ class SightDetailViewController: BaseViewController {
         backgroundImageView.contentMode = .ScaleAspectFill
         explainLabel.preferredMaxLayoutWidth = Frame.screen.width - 56
         playBeginButton.addTarget(self, action: "playBeginButtonAction:", forControlEvents: .TouchUpInside)
-        PlayFrequency.sharePlayFrequency.playDetailViewController = self
+//        PlayFrequency.sharePlayFrequency.playDetailViewController = self
         
-        slide.addTarget(PlayFrequency.sharePlayFrequency, action: "currentValueSliderAction:", forControlEvents: .ValueChanged)
+//        slide.addTarget(PlayFrequency.sharePlayFrequency, action: "currentValueSliderAction:", forControlEvents: .ValueChanged)
         lookUpMoreButton.addTarget(self, action: "lookUpMoreButtonAction", forControlEvents: .TouchUpInside)
     }
     
@@ -140,13 +140,13 @@ class SightDetailViewController: BaseViewController {
     
     /// 播放方法
     func playBeginButtonAction(sender: UIButton) {
-        PlayFrequency.sharePlayFrequency.landscape = dataSource ?? Landscape()
-        if PlayFrequency.sharePlayFrequency.index != index {
-            PlayFrequency.sharePlayFrequency.index == index
-            PlayFrequency.sharePlayFrequency.lastIndex = index
-        }
-        sender.selected = !sender.selected
-        PlayFrequency.sharePlayFrequency.playButtonAction(sender)
+//        PlayFrequency.sharePlayFrequency.landscape = dataSource ?? Landscape()
+//        if PlayFrequency.sharePlayFrequency.index != index {
+//            PlayFrequency.sharePlayFrequency.index == index
+//            PlayFrequency.sharePlayFrequency.lastIndex = index
+//        }
+//        sender.selected = !sender.selected
+//        PlayFrequency.sharePlayFrequency.playButtonAction(sender)
     }
     
     func lookUpMoreButtonAction() {

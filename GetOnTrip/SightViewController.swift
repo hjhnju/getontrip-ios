@@ -96,15 +96,50 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         initSwtchCityAndCollect()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.enabled = true
+        
+        playController.timer?.invalidate()
+        playController.timer = nil
+        UIApplication.sharedApplication().endReceivingRemoteControlEvents()
     }
+    
+    override func remoteControlReceivedWithEvent(event: UIEvent?) {
+//        if event?.type == UIEventType.RemoteControl {
+//            switch event?.subtype {
+//            case UIEventSubtype.RemoteControlPlay:
+//                print("RemoteControlPlay")
+//            case UIEventSubtype.RemoteControlPause:
+//                print("RemoteControlPause")
+//            case UIEventSubtype.RemoteControlTogglePlayPause:
+//                print("RemoteControlTogglePlayPause")
+//                
+//            }
+//        }
+    }
+    
+//    override func canBecomeFirstResponder() -> Bool {
+//        return true
+//    }
+    
+    /// 当出现内存警告时，清空缓存
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        playController.cache.removeAllObjects()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+    }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -174,7 +209,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         pulsateView.ff_AlignHorizontal(.CenterCenter, referView: navBar, size: CGSizeMake(17, 17), offset:
             CGPointMake((sightDataSource.name.sizeofStringWithFount(UIFont.systemFontOfSize(17), maxSize: CGSize(width: CGFloat.max, height: 17)).width ?? 0) * 0.5 , -73))
         pulsateView.playIconAction()
-        PlayFrequency.sharePlayFrequency.pulsateView = pulsateView
+//        PlayFrequency.sharePlayFrequency.pulsateView = pulsateView
         pulsateView.hidden = true
         
         navBar.addSubview(switchPlayControl)
@@ -187,12 +222,12 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         print("确实来到了")
         LocateToCity.sharedLocateToCity.x = "\(arc4random_uniform(40))"
         LocateToCity.sharedLocateToCity.y = "\(arc4random_uniform(115))"
-        if PlayFrequency.sharePlayFrequency.isPlay {
+//        if PlayFrequency.sharePlayFrequency.isPlay {
             let vc = SightDetailViewController()
-            vc.dataSource = PlayFrequency.sharePlayFrequency.landscape ?? Landscape()
-            vc.index = PlayFrequency.sharePlayFrequency.index
+//            vc.dataSource = PlayFrequency.sharePlayFrequency.landscape ?? Landscape()
+//            vc.index = PlayFrequency.sharePlayFrequency.index
             navigationController?.pushViewController(vc, animated: true)
-        }
+//        }
     }
     
     func setupAutlLayout() {

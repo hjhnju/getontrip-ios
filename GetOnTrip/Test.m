@@ -7,6 +7,7 @@
 //
 
 #import "Test.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @implementation Test
 

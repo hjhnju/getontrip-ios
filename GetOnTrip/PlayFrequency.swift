@@ -10,240 +10,189 @@ import UIKit
 import AVFoundation
 import Alamofire
 import CoreMedia
+import UIKit
+import MediaPlayer
 
 class PlayFrequency: NSObject {
-    
-//    static let sharePlayFrequency = PlayFrequency()
-    
-//    weak var playDetailViewController: SightDetailViewController?
-//    weak var slide: UISlider?
-//    weak var pulsateView: PlayPulsateView?
-//    weak var playBeginBtn: UIButton?
-//    weak var landscape: Landscape?
-    /// 播放动画按钮所在的cell
-//    var playCell: LandscapeCell? {
-//        willSet {
-//            if newValue != nil {
-//                if !newValue!.isAddAnimate {
-//                    newValue?.pulsateView.playIconAction()
-//                    newValue?.pulsateView.hidden = true
-//                }
-//            }
-//        }
-//        didSet {
-//            oldValue?.pulsateView.hidden = true
-//            oldValue?.speechImageView.hidden = false
-//        }
-//    }
-    /// 播放类
-    var player = AVPlayer()
+
     /// 播放列表
     var dataSource: [String] = [String]()
-    /// 资源管理
-    var playerItem: AVPlayerItem?
-    /// 现在播放进度
-    var playCurrentProgress: Float = 0
-    /// 是否正在播放
-    var isPlay: Bool = false {
+    /// 缓存
+    var cache: NSCache = NSCache()
+    /// 播放类
+    var player: AVAudioPlayer?
+    /// 父控制器
+    weak var superViewController: SightViewController?
+    /// 定时器
+    var timer: NSTimer?
+    /// 播放cell
+    weak var playCell: LandscapeCell? {
+        willSet {
+            
+        }
         didSet {
-//            pulsateView?.hidden = !isPlay
-//            playCell?.speechImageView.hidden = isPlay
-//            playCell?.pulsateView.hidden = !isPlay
-//            playBeginBtn?.selected = isPlay
+            
         }
     }
-    /// 是否正在加载
-    var isLoading: Bool = false
-    /// 上一个选择的
-    var lastIndex: Int = -1
-    /// 总时长
-    var totalTimeString: String = ""
+    
+    /// 此歌总时长
+    var songDuration: String = "" {
+        didSet {
+            print(songDuration)
+
+        }
+    }
+    /// 景观数据源
+    var dataLandscape = [Landscape]() {
+        didSet {
+            (parentViewController as? SightViewController)?.playController.dataSource = audios
+        }
+    }
+
+    /// 现在播放的时间
+    var currentTime: String = "" {
+        didSet {
+            print(currentTime)
+        }
+    }
     /// 默认是首个
     var index = -1 {
         didSet {
-            if let url = NSURL(string: dataSource[index]) {
-                /// 如果相同就取消
-//                if lastIndex == index { return }
-//                
-//                print(dataSource[index])
-//                // 移除通知
-//                removeNotification()
-//                // 移除监听
-//                if let playerIt = playerItem {
-//                    removeObserverForPlayerItem(playerIt)
-//                }
-//                AVAudioPlayer(data: <#T##NSData#>)
-//                playerItem = AVPlayerItem(URL: url)
-                player.replaceCurrentItemWithPlayerItem(playerItem)
-                
-                isLoading = true
-                addNotification()                  // 添加通知
-                addObserverPlayerItem(playerItem!) // 添加监听
+            let url = dataSource[index]
+            if url != ""  {
+                loadData(url)
+            }
+        }
+    }
+    /// 音频数据
+    var data: NSData? {
+        didSet {
+            if let avData = data {
+                do {
+                    player = try AVAudioPlayer(data: avData)
+                    player?.prepareToPlay()
+                    songDuration = "\(player?.duration)"
+                    if timer == nil {
+                        timer = NSTimer(timeInterval: 1, target: self, selector: "mainLoop", userInfo: nil, repeats: true)
+                        NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
+                    }
+                    // 配置UI界面
+                    
+                    
+                    // 设置音频支持后台播放
+                    audio2SupportBackgroundPlay()
+                    setupLockScreenSongInfos()
+                    player?.play()
+
+                } catch {
+                    print(error)
+                }
             }
         }
     }
     
-    // MARK: - 通知、kvo
-    /// 去除通知
-//    private func removeNotification() {
-//        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemPlaybackStalledNotification, object: nil)
-//    }
-//    
-//    /// 添加通知
-//    private func addNotification() {
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerCompleted", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerBackStall", name: AVPlayerItemPlaybackStalledNotification, object: nil)
-//    }
-//    
-//    /// 添加监听
-//    private func addObserverPlayerItem(item: AVPlayerItem) {
-//        // 监听状态
-//        item.addObserver(self, forKeyPath: "status", options: .New, context: nil)
-//        // 监听网络加载情况
-//        item.addObserver(self, forKeyPath: "loadedTimeRanges", options: .New, context: nil)
-//    }
-//    
-//    /// 删除监听
-//    func removeObserverForPlayerItem(item: AVPlayerItem) {
-//        item.removeObserver(self, forKeyPath: "status")
-//        item.removeObserver(self, forKeyPath: "loadedTimeRanges")
-//    }
-//    
-//    /// 监听响应
-//    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-//
-//        let playerItem: AVPlayerItem = object as! AVPlayerItem
-//        if keyPath == "status" {
-//
-//            if change!["new"]?.intValue == 1 {
-//                isPlay = true
-//                player.play()
-//                // 开始播放的同时添加进度更新
-//                addPlayerProgress()
-//            }
-//        } else if keyPath == "loadedTimeRanges" {
-//            let array = playerItem.loadedTimeRanges
-//            let timeRange = array.first?.CMTimeRangeValue
-//            if timeRange == nil { return }
-//            // 本次缓冲时间范围
-//            print( timeRange!.duration.value)
-//            
-//            let startSeconds = CMTimeGetSeconds(timeRange!.duration)
-//            let totalBuffer = startSeconds / CMTimeGetSeconds(playerItem.duration)
-//            if totalBuffer * 100 > 2 && isLoading {
-//                isLoading = false
-//                player.play()
-//            }
-//            print("共缓冲 \(totalBuffer * 100)")
-//        }
-//    }
-//    
-//    
-//    /// 通知响应
-//    func playerCompleted() {
-//        let time = CMTimeMakeWithSeconds(0.5, 1)
-//        player.seekToTime(time) { [weak self] (_) -> Void in
-//            print("音频播完了")
-//            self?.playCell?.playLabel.text = self?.totalTimeString
-//            self?.isPlay = false
-//        }
-//    }
-//    
-//    func playerBackStall() {
-//        isLoading = true
-//        print("当音频播放时停顿会调用")
-//    }
-//    
-//    /**
-//     添加播放进度
-//     */
-//    private func addPlayerProgress() {
-//        if playerItem == nil { return }
-//        //        let item = playerItem!.currentTime()
-//        /// 设置进度更新每一秒
-//        player.addPeriodicTimeObserverForInterval(CMTimeMake(1, 1), queue: dispatch_get_main_queue()) { (time) -> Void in
-//            let currentTime = CMTimeGetSeconds(time)
-//            let totalTime = CMTimeGetSeconds(self.playerItem!.duration)
-//            if totalTime > 0.0 {
-//                self.totalTimeString = String(format: "%02d:%02d", Int(totalTime / 60), Int(totalTime % 60))
-//                self.playCell?.playLabel.text = String(format: "%02d:%02d/%02d:%02d", Int(currentTime / 60), Int(currentTime % 60), Int(totalTime / 60), Int(totalTime % 60))
-//                if self.playDetailViewController?.index == self.index {
-//                    self.playDetailViewController?.currentTimeLabel.text = String(format: "%02d:%02d", Int(currentTime / 60), Int(currentTime % 60))
-//                    self.playDetailViewController?.totalTimeLabel.text = String(format: "%02d:%02d", Int(totalTime / 60), Int(totalTime % 60))
-//                    self.slide?.setValue(Float(currentTime/totalTime), animated: true)
-//                }
-//            }
-//            self.playCurrentProgress = Float(currentTime/totalTime)
-//        }
-//    }
-//
-//    // 滑动选择时间
-//    func currentValueSliderAction(sender: UISlider) {
-//        
-//        print(index)
-//        print(playDetailViewController?.index)
-//        if playDetailViewController?.index != index {
-//            ProgressHUD.showSuccessHUD(nil, text: "正在加载中，请稍候")
-//            playDetailViewController?.playBeginButtonAction(playDetailViewController?.playBeginButton ?? UIButton())
-//            return
-//        }
-//        if isLoading {
-//            ProgressHUD.showSuccessHUD(nil, text: "正在加载中，请稍候")
-//            return
-//        }
-//        let changedTime = Int64(Float64(sender.value) * CMTimeGetSeconds(self.playerItem!.duration))
-//        if self.playerItem!.status == AVPlayerItemStatus.ReadyToPlay {
-//            player.seekToTime(CMTimeMake(changedTime, 1), completionHandler: { (isSuccess: Bool) -> Void in
-////                self.playButtonAction(self.playDetailViewController?.playBeginButton ?? UIButton())
-//            })
-//        }
-//    }
-//    
-//    //播放和暂停
-//    func playButtonAction(sender: UIButton) {
-//        if isPlay == true {
-//            self.paushMusic()
-//        }else {
-//            self.playMusic()
-//        }
-//    }
-//    
-//    //上一曲
-//    func lastMusicButtonAction(sender: UIButton) {
-//        index--
-//        if self.index < 0 {
-//            self.index = dataSource.count - 1
-//        }
-//        self.playMusic()
-//    }
-//    //下一曲
-//    func nextMusicButonAction(sender: UIButton) {
-//        index++
-//        self.playMusic()
-//    }
-//    
-//    
-//    //暂停
-//    func paushMusic() {
-//        player.pause()
-//        self.isPlay = false
-//    }
-//    //播放
-//    func playMusic() {
-//        
-//        player.play()
-//        self.isPlay = true
-//    }
-//    
-//    /**
-//     因为是单例，可能永远也不会执行到该方法，但为避免以后忘掉，还是写了
-//     */
-//    deinit {
-//        playerItem?.removeObserver(self, forKeyPath: "status", context: nil)
-//        playerItem?.removeObserver(self, forKeyPath: "loadedTimeRanges", context: nil)
-//        // NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
-//        
-//    }
+    func playOrPause(sender: UIButton) {
+        if player == nil { return }
+        // 播放速率调为1
+//        player!.rate = 1
+        if player!.playing { // 如果是正在播放就暂停
+            player?.pause()
+            updatePlayOrPauseBtn(false)
+        } else { // 如果是暂停就播放
+//            superViewController?.timer?.fireDate = NSDate() // 设定定时器时间为现在
+//            superViewController?.timer?.fire()
+        }
+    }
 
+    
+    func updatePlayOrPauseBtn(isPlaying: Bool) {
+        if isPlaying { // 播放
+            player?.pause()
+        } else { // 停止播放
+            player?.play()
+        }
+    }
+    
+    /// 设置允许进行后台播放
+    func audio2SupportBackgroundPlay() {
+
+        let device = UIDevice.currentDevice()
+        if device.respondsToSelector("multitaskingSupported") {
+            print("Unsupported device!")
+            return
+        }
+        
+        if !device.multitaskingSupported {
+            print("Unsupported multiTasking!")
+            return
+        }
+        let session = AVAudioSession.sharedInstance()
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayback)
+        } catch {
+            print(error)
+            return
+        }
+        
+        do {
+            try session.setActive(true)
+        } catch {
+            print(error)
+            return
+        }
+    }
+    
+    
+    
+    func setupLockScreenSongInfos() {
+        
+        let art = MPMediaItemArtwork(image: UIImage(named: "icon_app")!)
+
+        MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [
+            MPMediaItemPropertyPlaybackDuration : player?.duration,
+            MPMediaItemPropertyTitle : "北京",
+            MPMediaItemPropertyArtist : "天安门广场",
+            MPMediaItemPropertyArtwork : art,
+            MPNowPlayingInfoPropertyPlaybackRate : 1.0
+        ]
+    }
+    
+    
+    func loadData(url: String) {
+        if let tempData = cache.objectForKey(url) {
+            print("来到了")
+            data = tempData as? NSData
+            return
+        }
+        
+        HttpRequest.download(url) { (result, status) -> () in
+            if let tempData = result {
+                self.data = tempData
+                self.cache.setObject(tempData, forKey: url)
+                return
+            }
+            if status != RetCode.SUCCESS {
+                ProgressHUD.showErrorHUD(nil, text: "网络无法连接")
+            }
+        }
+    }
+    
+    override init() {
+        super.init()
+
+        cache.totalCostLimit = 30 * 1024 * 1024
+        cache.countLimit     = 20
+    }
+    
+    // MARK: - 主循环
+    func mainLoop() {
+        print("每次都来吧")
+        // 进算进度条进度
+    }
+    
+    deinit {
+        timer?.invalidate()
+        timer = nil
+        print("======================================会走吧")
+    }
 }

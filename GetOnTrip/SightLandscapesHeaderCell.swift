@@ -128,12 +128,12 @@ class SightLandscapesHeaderCell: UITableViewHeaderFooterView {
     var isAddAnimate: Bool = false
     func playAreaButtonAction(sender: UIButton) {
         
-        if PlayFrequency.sharePlayFrequency.index == sender.tag {
-            if !PlayFrequency.sharePlayFrequency.isLoading {
-                PlayFrequency.sharePlayFrequency.playButtonAction(sender)
-            }
-            return
-        }
+//        if PlayFrequency.sharePlayFrequency.index == sender.tag {
+//            if !PlayFrequency.sharePlayFrequency.isLoading {
+//                PlayFrequency.sharePlayFrequency.playButtonAction(sender)
+//            }
+//            return
+//        }
         
         speechImageView.hidden = !speechImageView.hidden
         if !isAddAnimate {
@@ -141,7 +141,7 @@ class SightLandscapesHeaderCell: UITableViewHeaderFooterView {
             pulsateView.playIconAction()
             isAddAnimate = true
         }
-        PlayFrequency.sharePlayFrequency.index = sender.tag
+//        PlayFrequency.sharePlayFrequency.index = sender.tag
 //        PlayFrequency.sharePlayFrequency.playCell = self
     }
 

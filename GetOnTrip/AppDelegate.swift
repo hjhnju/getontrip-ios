@@ -66,14 +66,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 注册测试设备
         Test().statisticsEquipmentRegister()
         /// 设置后台播放
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayback)
-            try audioSession.setActive(true)
-        } catch {
-            print("不能后台播放")
-        }
-        
+//        let audioSession = AVAudioSession.sharedInstance()
+//        do {
+//            try audioSession.setCategory(AVAudioSessionCategoryPlayback)
+//            try audioSession.setActive(true)
+//        } catch {
+//            print("不能后台播放")
+//        }
+//        
         return true
     }
     
@@ -130,7 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        application.beginBackgroundTaskWithExpirationHandler(nil)
+//        application.beginBackgroundTaskWithExpirationHandler(nil)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

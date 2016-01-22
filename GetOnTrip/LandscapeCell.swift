@@ -37,6 +37,8 @@ class LandscapeCell: UITableViewCell {
     lazy var pulsateView: PlayPulsateView = PlayPulsateView()
     // 点击区域放大
     lazy var playAreaButton: UIButton = UIButton()
+    /// 父控制器
+    weak var superViewController: SightLandscapeController?
     
     var superNavigation: UINavigationController?
     
@@ -136,23 +138,25 @@ class LandscapeCell: UITableViewCell {
     
     var isAddAnimate: Bool = false
     func playAreaButtonAction(sender: UIButton) {
-        PlayFrequency.sharePlayFrequency.playCell = self
-        PlayFrequency.sharePlayFrequency.landscape = landscape ?? Landscape()
-        if !isAddAnimate {
-            ProgressHUD.showSuccessHUD(nil, text: "缓冲中，请稍候")
-            pulsateView.playIconAction()
-            pulsateView.hidden = true
-            isAddAnimate = true
-        }
+        (superViewController?.parentViewController as? SightViewController)?.playController.index = sender.tag
         
-        if PlayFrequency.sharePlayFrequency.index == sender.tag {
-            if !PlayFrequency.sharePlayFrequency.isLoading {
-                PlayFrequency.sharePlayFrequency.playButtonAction(sender)
-            }
-            return
-        }
+//        PlayFrequency.sharePlayFrequency.playCell = self
+//        PlayFrequency.sharePlayFrequency.landscape = landscape ?? Landscape()
+//        if !isAddAnimate {
+//            ProgressHUD.showSuccessHUD(nil, text: "缓冲中，请稍候")
+//            pulsateView.playIconAction()
+//            pulsateView.hidden = true
+//            isAddAnimate = true
+//        }
+        
+//        if PlayFrequency.sharePlayFrequency.index == sender.tag {
+//            if !PlayFrequency.sharePlayFrequency.isLoading {
+//                PlayFrequency.sharePlayFrequency.playButtonAction(sender)
+//            }
+//            return
+//        }
         print(sender.tag)
-        PlayFrequency.sharePlayFrequency.index = sender.tag
+//        PlayFrequency.sharePlayFrequency.index = sender.tag
     }
 }
 

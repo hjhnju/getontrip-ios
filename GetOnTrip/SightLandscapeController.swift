@@ -34,7 +34,7 @@ class SightLandscapeController: BaseTableViewController {
             
             var audios = [String]()
             for item in dataSource { audios.append(item.audio) }
-            (parentViewController as? SightViewController)?.playController.dataSource = audios
+            (parentViewController as? SightViewController)?.playController.dataLandscape = dataSource
         }
     }
     
@@ -42,31 +42,31 @@ class SightLandscapeController: BaseTableViewController {
         super.viewDidLoad()
         
         initTableView()
-        LocateToCity.sharedLocateToCity.addObserver(self, forKeyPath: "location", options: NSKeyValueObservingOptions.New, context: nil)
+//        LocateToCity.sharedLocateToCity.addObserver(self, forKeyPath: "location", options: NSKeyValueObservingOptions.New, context: nil)
         refresh()
     }
 
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        print("会来到吗")
-       
-        // 我的坐标点
-        let location1 = LocateToCity.sharedLocateToCity.location ?? CLLocation()
-        // 景观坐标点
-        for item in dataSource {
-            item.apartLocation = location1.distanceFromLocation(item.location)
-        }
-        dataSource.sortInPlace { (obj1, obj2) -> Bool in
-            obj1.apartLocation < obj2.apartLocation
-        }
-        for item in dataSource {
-            print(item.apartLocation)
-        }
-        
-        tableView.reloadData()
-    }
+//    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+//        print("会来到吗")
+//       
+//        // 我的坐标点
+//        let location1 = LocateToCity.sharedLocateToCity.location ?? CLLocation()
+//        // 景观坐标点
+//        for item in dataSource {
+//            item.apartLocation = location1.distanceFromLocation(item.location)
+//        }
+//        dataSource.sortInPlace { (obj1, obj2) -> Bool in
+//            obj1.apartLocation < obj2.apartLocation
+//        }
+//        for item in dataSource {
+//            print(item.apartLocation)
+//        }
+//        
+//        tableView.reloadData()
+//    }
     
     deinit {
-        LocateToCity.sharedLocateToCity.removeObserver(self, forKeyPath: "location", context: nil)
+//        LocateToCity.sharedLocateToCity.removeObserver(self, forKeyPath: "location", context: nil)
     }
     
     private func initTableView() {
@@ -129,7 +129,7 @@ class SightLandscapeController: BaseTableViewController {
         let cell: LandscapeCell = indexPath.row == 0 ? tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1,
             forIndexPath: indexPath) as! LandscapeCellHead : tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell,
                 forIndexPath: indexPath) as! LandscapeCell
-        
+        cell.superViewController = self
         cell.playAreaButton.tag = indexPath.row
         cell.landscape = dataSource[indexPath.row]
         cell.baseLine.hidden = indexPath.row == dataSource.count - 1 ? true : false
@@ -140,7 +140,7 @@ class SightLandscapeController: BaseTableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let data = dataSource[indexPath.row]
-        PlayFrequency.sharePlayFrequency.playCell = tableView.cellForRowAtIndexPath(indexPath) as? LandscapeCell
+//        PlayFrequency.sharePlayFrequency.playCell = tableView.cellForRowAtIndexPath(indexPath) as? LandscapeCell
         if data.audio_len == "" {
             let sc = DetailWebViewController()
             let landscape = data

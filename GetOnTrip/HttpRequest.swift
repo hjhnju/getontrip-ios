@@ -121,6 +121,28 @@ class HttpRequest {
         }
     }
     
+    
+    // MARK: - 下载音频
+    /**
+    下载音频
+    
+    - parameter url:     音频url
+    - parameter handler: 回调数据及错误
+    */
+    class func download(url: String?, handler: RequestDataCallBack) {
+        
+        
+        
+        HttpRequest.sharedManager.request(.GET, url!).responseData { (response) -> Void in
+            if response.result.isFailure {
+                print(response.result.error)
+                return
+            }
+            handler(result: response.result.value, status: RetCode.SUCCESS)
+        }
+    }
+    
+    
     /// 上传文件
     ///
     /// - parameter urlString:  urlString
