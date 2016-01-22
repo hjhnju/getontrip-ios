@@ -63,6 +63,7 @@ class Landscape: ModelObject {
         
         setValuesForKeysWithDictionary(dict)
         location = CLLocation(latitude: CLLocationDegrees(x) ?? 0, longitude: CLLocationDegrees(y) ?? 0)
+        print("=============\(location)")
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

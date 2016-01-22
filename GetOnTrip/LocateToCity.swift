@@ -23,16 +23,16 @@ class LocateToCity: NSObject {
     
     var x: String = "0" {
         didSet {
-//           location = CLLocation(latitude: CLLocationDegrees(x) ?? 0, longitude: CLLocationDegrees(y) ?? 0)
+           location = CLLocation(latitude: CLLocationDegrees(x) ?? 0, longitude: CLLocationDegrees(y) ?? 0)
         }
     }
     var y: String = "0" {
         didSet {
-//            location = CLLocation(latitude: CLLocationDegrees(x) ?? 0, longitude: CLLocationDegrees(y) ?? 0)
+            location = CLLocation(latitude: CLLocationDegrees(x) ?? 0, longitude: CLLocationDegrees(y) ?? 0)
         }
     }
     
-//    var location: CLLocation?
+    dynamic var location: CLLocation?
     
     func locate(city: String, handler: (result: String?, status: Int) -> Void) {
         var post         = [String: String]()

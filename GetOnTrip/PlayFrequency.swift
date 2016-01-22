@@ -63,17 +63,17 @@ class PlayFrequency: NSObject {
         didSet {
             if let url = NSURL(string: dataSource[index]) {
                 /// 如果相同就取消
-                if lastIndex == index { return }
-                
-                print(dataSource[index])
-                // 移除通知
-                removeNotification()
-                // 移除监听
-                if let playerIt = playerItem {
-                    removeObserverForPlayerItem(playerIt)
-                }
-
-                playerItem = AVPlayerItem(URL: url)
+//                if lastIndex == index { return }
+//                
+//                print(dataSource[index])
+//                // 移除通知
+//                removeNotification()
+//                // 移除监听
+//                if let playerIt = playerItem {
+//                    removeObserverForPlayerItem(playerIt)
+//                }
+                AVAudioPlayer(data: <#T##NSData#>)
+//                playerItem = AVPlayerItem(URL: url)
                 player.replaceCurrentItemWithPlayerItem(playerItem)
                 
                 isLoading = true

@@ -183,7 +183,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     func switchPlayControllerAction() {
         print("确实来到了")
-//        LocateToCity.sharedLocateToCity.x = "\(arc4random_uniform(40))"
+        LocateToCity.sharedLocateToCity.x = "\(arc4random_uniform(40))"
         LocateToCity.sharedLocateToCity.y = "\(arc4random_uniform(115))"
         if PlayFrequency.sharePlayFrequency.isPlay {
             let vc = SightDetailViewController()
