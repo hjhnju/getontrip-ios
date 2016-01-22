@@ -40,7 +40,6 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
     /// 搜索提示
     var noSearchResultLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.6), title: "暂无搜索结果", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCLight)
     
-    // TODO: 首页如果要定位，那这个就没啥意义了 定位城市
     var locationButton: UIButton = UIButton(image: "location_search", title: " 即刻定位当前城市", fontSize: 12, titleColor: UIColor.whiteColor(), fontName: Font.PingFangSCLight)
     
     var searchBarContainerView: UIView?

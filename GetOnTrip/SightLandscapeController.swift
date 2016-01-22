@@ -34,7 +34,7 @@ class SightLandscapeController: BaseTableViewController {
             
             var audios = [String]()
             for item in dataSource { audios.append(item.audio) }
-            PlayFrequency.sharePlayFrequency.dataSource = audios
+            (parentViewController as? SightViewController)?.playController.dataSource = audios
         }
     }
     

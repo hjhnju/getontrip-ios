@@ -84,6 +84,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     lazy var pulsateView: PlayPulsateView = PlayPulsateView()
     /// 切换播放控制器
     lazy var switchPlayControl: UIControl = UIControl()
+    /// 播放器控制器
+    var playController = PlayFrequency()
     
     override func viewDidLoad() {
         super.viewDidLoad()
