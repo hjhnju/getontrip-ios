@@ -8,19 +8,24 @@
 
 import UIKit
 import AVFoundation
-import Alamofire
 import CoreMedia
 import UIKit
 import MediaPlayer
 
 class PlayFrequency: NSObject, AVAudioPlayerDelegate {
 
+    /// 标题
+    var title = ""
+    /// 副标题
+    var subtitle = ""
     /// 播放列表
     var dataSource: [String] = [String]()
     /// 缓存
     var cache: NSCache = NSCache()
     /// 播放类
     var player: AVAudioPlayer?
+    /// 外面景点的播放view
+    var pulsateView: PlayPulsateView?
     /// 父控制器
     weak var superViewController: SightViewController?
     /// 景观详情控制器
@@ -53,6 +58,7 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
                     newValue?.pulsateView.playIconAction()
                 }
                 newValue?.pulsateView.hidden = true
+                subtitle = playCell?.landscape?.name ?? ""
             }
         }
         didSet {
@@ -64,9 +70,13 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     /// 是否正在播放
     var isPlay: Bool = false {
         didSet {
+            pulsateView?.hidden = isPlay ? false : true
             playCell?.speechImageView.hidden = isPlay ? true : false
             playCell?.pulsateView.hidden = isPlay ? false : true
             sightDetailController?.playBeginButton.selected = isPlay ? true : false
+            if index == sightDetailController?.index {
+                sightDetailController?.playBeginButton.selected = isPlay ? true : false
+            }
         }
     }
     
@@ -99,6 +109,7 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     var index = -1 {
         didSet {
             let url = dataSource[index]
+            print(url)
             if url != ""  {
                 loadData(url)
             }
@@ -151,9 +162,11 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
         if isPlaying { // 播放
             stopTimer()
             player?.pause()
+            isPlay = false
         } else { // 停止播放
             startTimer()
             player?.play()
+            isPlay = true
         }
     }
     
@@ -189,13 +202,17 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     
     
     func setupLockScreenSongInfos() {
-
-        let art = MPMediaItemArtwork(image: UIImage(named: "guide1")!)
-
+        var image: UIImage = UIImage()
+        if sightDetailController != nil {
+            image = sightDetailController!.backgroundImageView.image ?? UIImage()
+        } else {
+            image = playCell?.iconView.image ?? UIImage()
+        }
+        let art = MPMediaItemArtwork(image: image ?? UIImage())
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [
             MPMediaItemPropertyPlaybackDuration : (player?.duration ?? 0),
-            MPMediaItemPropertyTitle : "北京",
-            MPMediaItemPropertyArtist : "天安门广场",
+            MPMediaItemPropertyTitle : title,
+            MPMediaItemPropertyArtist : subtitle,
             MPMediaItemPropertyArtwork : art,
             MPNowPlayingInfoPropertyPlaybackRate : 1.0
         ]
@@ -229,7 +246,12 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     
     // MARK: - 自定义方法
     func adjustDuration(sender: UISlider) {
-        player?.currentTime = Double(sender.value)
+        if index != sightDetailController?.index {
+            playCell = sightDetailController?.playCell
+            index = sightDetailController?.index ?? -1
+            return
+        }
+        player?.currentTime = Double(sender.value) * (player?.duration ?? 0)
     }
     
     func playBeginButtonAction(sender: UIButton) {
@@ -243,7 +265,7 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
             return
         }
         updatePlayOrPauseBtn(sender.selected)
-        sender.selected = !sender.selected
+//        sender.selected = !sender.selected
     }
     
     // MARK: - 主循环
@@ -267,7 +289,6 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     }
     
     deinit {
-        print("======================================会走吧")
     }
     
     // MARK: - avaudio代理方法
@@ -277,5 +298,6 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
         currentTime = "0"
         sightDetailController?.playBeginButton.selected = false
         isPlay = false
+        playCell?.restoreDefault()
     }
 }

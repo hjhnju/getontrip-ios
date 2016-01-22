@@ -94,8 +94,6 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     var contentOffSet: CGPoint = CGPointMake(0, -RecommendContant.headerViewHeight)
     /// 是否要刷新标题
     var isRefreshNavBar:Bool = true
-    
-    
     /// 热门景点和热门内容view
     lazy var titleSelectView: RecommendHotView = { [weak self] in
         let v = RecommendHotView()

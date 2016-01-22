@@ -39,6 +39,9 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         didSet {
             initBaseTableViewController(sightDataSource.tags)
             collectionView.reloadData()
+            if landscape != nil {
+                labelDidSelected(landscape!)
+            }
             collectButton.setTitle(sightDataSource.isFavorite() ? "      已收藏" : "   收藏景点", forState: .Normal)
         }
     }
@@ -110,22 +113,20 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     }
     
     override func remoteControlReceivedWithEvent(event: UIEvent?) {
-//        if event?.type == UIEventType.RemoteControl {
-//            switch event?.subtype {
-//            case UIEventSubtype.RemoteControlPlay:
-//                print("RemoteControlPlay")
-//            case UIEventSubtype.RemoteControlPause:
-//                print("RemoteControlPause")
-//            case UIEventSubtype.RemoteControlTogglePlayPause:
-//                print("RemoteControlTogglePlayPause")
-//                
-//            }
-//        }
+        
+        if event!.type == UIEventType.RemoteControl {
+            if event!.subtype == UIEventSubtype.RemoteControlPlay {
+                print("received remote play")
+                playController.updatePlayOrPauseBtn(false)
+            } else if event!.subtype == UIEventSubtype.RemoteControlPause {
+                print("received remote pause")
+                playController.updatePlayOrPauseBtn(true)
+            } else if event!.subtype == UIEventSubtype.RemoteControlTogglePlayPause {
+                print("received toggle")
+            }
+        }
+
     }
-    
-//    override func canBecomeFirstResponder() -> Bool {
-//        return true
-//    }
     
     /// 当出现内存警告时，清空缓存
     override func didReceiveMemoryWarning() {
@@ -207,25 +208,28 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         pulsateView.ff_AlignHorizontal(.CenterCenter, referView: navBar, size: CGSizeMake(17, 17), offset:
             CGPointMake((sightDataSource.name.sizeofStringWithFount(UIFont.systemFontOfSize(17), maxSize: CGSize(width: CGFloat.max, height: 17)).width ?? 0) * 0.5 , -73))
         pulsateView.playIconAction()
-//        PlayFrequency.sharePlayFrequency.pulsateView = pulsateView
+        playController.pulsateView = pulsateView
         pulsateView.hidden = true
         
         navBar.addSubview(switchPlayControl)
         switchPlayControl.backgroundColor = UIColor.clearColor()
         switchPlayControl.addTarget(self, action: "switchPlayControllerAction", forControlEvents: .TouchUpInside)
         switchPlayControl.ff_AlignInner(.CenterCenter, referView: navBar, size: CGSizeMake(200, 40))
+        playController.title = sightDataSource.name
     }
     
     func switchPlayControllerAction() {
         print("确实来到了")
-        LocateToCity.sharedLocateToCity.x = "\(arc4random_uniform(40))"
-        LocateToCity.sharedLocateToCity.y = "\(arc4random_uniform(115))"
-//        if PlayFrequency.sharePlayFrequency.isPlay {
+//        LocateToCity.sharedLocateToCity.x = "\(arc4random_uniform(40))"
+//        LocateToCity.sharedLocateToCity.y = "\(arc4random_uniform(115))"
+        if playController.isPlay {
             let vc = SightDetailViewController()
-//            vc.dataSource = PlayFrequency.sharePlayFrequency.landscape ?? Landscape()
-//            vc.index = PlayFrequency.sharePlayFrequency.index
+            vc.playViewController = playController
+            vc.dataSource = playController.playCell?.landscape ?? Landscape()
+            vc.playCell = playController.playCell
+            vc.index = playController.index
             navigationController?.pushViewController(vc, animated: true)
-//        }
+        }
     }
     
     func setupAutlLayout() {
@@ -236,9 +240,13 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         setupLayout()
     }
     
+    deinit {
+        playController.stopTimer()
+    }
+    
     ///  设置频道标签
     var indicateW: CGFloat?
-    
+    var landscape: UIChannelLabel?
     func setupChannel(labels: [Tag]) {
         if labels.count == 0 || labelScrollView.subviews.count > 2 {
             return
@@ -268,6 +276,9 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             if indicateW == nil { indicateW = channelLabel.bounds.width }
             index++
             labelScrollView.addSubview(channelLabel)
+            if tag.type == SightLabelType.Landscape {
+                landscape = channelLabel
+            }
         }
         
         indicateView.bounds = CGRectMake(0, 0, lW, 1.5)

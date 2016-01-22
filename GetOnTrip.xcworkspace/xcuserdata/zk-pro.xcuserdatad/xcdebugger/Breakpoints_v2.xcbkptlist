@@ -562,11 +562,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/SightViewController.swift"
-            timestampString = "475159442.017093"
+            timestampString = "475178060.94733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "422"
-            endingLineNumber = "422"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "selectSwitchAction(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -578,11 +578,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/RecommendViewController.swift"
-            timestampString = "474773846.260405"
+            timestampString = "475178576.554267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
             landmarkName = "viewWillAppear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -738,11 +738,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/RecommendViewController.swift"
-            timestampString = "474773846.260405"
+            timestampString = "475178576.554267"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "336"
-            endingLineNumber = "336"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
             landmarkName = "viewDidDisappear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -754,11 +754,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/SightViewController.swift"
-            timestampString = "475159442.017093"
+            timestampString = "475178060.94733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "435"
-            endingLineNumber = "435"
+            startingLineNumber = "446"
+            endingLineNumber = "446"
             landmarkName = "cityAction()"
             landmarkType = "5">
          </BreakpointContent>
@@ -770,11 +770,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/SightViewController.swift"
-            timestampString = "475159442.017093"
+            timestampString = "475178060.94733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "420"
-            endingLineNumber = "420"
+            startingLineNumber = "431"
+            endingLineNumber = "431"
             landmarkName = "selectSwitchAction(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -786,11 +786,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/SightViewController.swift"
-            timestampString = "475159442.017093"
+            timestampString = "475178060.94733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "419"
-            endingLineNumber = "419"
+            startingLineNumber = "430"
+            endingLineNumber = "430"
             landmarkName = "SightViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -1198,11 +1198,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/PlayFrequency.swift"
-            timestampString = "475165012.167264"
+            timestampString = "475176576.316712"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "loadData(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1214,11 +1214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/PlayFrequency.swift"
-            timestampString = "475165012.167264"
+            timestampString = "475176576.316712"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
             landmarkName = "loadData(_:)"
             landmarkType = "5">
             <Locations>
@@ -1262,11 +1262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/PlayFrequency.swift"
-            timestampString = "475165012.167264"
+            timestampString = "475176576.316712"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
             landmarkName = "mainLoop()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1278,11 +1278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/PlayFrequency.swift"
-            timestampString = "475165012.167264"
+            timestampString = "475176576.316712"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
             landmarkName = "mainLoop()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1294,28 +1294,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/PlayFrequency.swift"
-            timestampString = "475165012.167264"
+            timestampString = "475176576.316712"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "mainLoop()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GetOnTrip/PlayFrequency.swift"
-            timestampString = "475165012.167264"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
-            landmarkName = "adjustDuration(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
