@@ -12,7 +12,10 @@ class PlayPulsateView: UIView {
     
     var color: UIColor = UIColor.whiteColor()
     
+    var isAddAnimation: Bool = false
+    
     func playIconAction() {
+        isAddAnimation = true
         let repl = CAReplicatorLayer()
         repl.frame = bounds
         layer.addSublayer(repl)
@@ -29,7 +32,7 @@ class PlayPulsateView: UIView {
         anim.duration = 0.4
         anim.repeatCount = MAXFLOAT
         anim.removedOnCompletion = false
-        anim.fillMode = kCAFillModeForwards        
+        anim.fillMode = kCAFillModeForwards
         anim.autoreverses = true
         layer1.addAnimation(anim, forKey: nil)
         repl.instanceCount = 4

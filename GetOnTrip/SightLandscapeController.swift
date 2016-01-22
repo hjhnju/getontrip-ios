@@ -140,19 +140,13 @@ class SightLandscapeController: BaseTableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let data = dataSource[indexPath.row]
-//        PlayFrequency.sharePlayFrequency.playCell = tableView.cellForRowAtIndexPath(indexPath) as? LandscapeCell
-        if data.audio_len == "" {
-            let sc = DetailWebViewController()
-            let landscape = data
-            sc.url = landscape.url
-            sc.title = landscape.name
-            navigationController?.pushViewController(sc, animated: true)
-        } else {
-            let vc = SightDetailViewController()
-            vc.dataSource = data
-            vc.index = indexPath.row
-            navigationController?.pushViewController(vc, animated: true)
-        }
+        
+        let vc = SightDetailViewController()
+        vc.playViewController = (parentViewController as? SightViewController)?.playController
+        vc.playCell = tableView.cellForRowAtIndexPath(indexPath) as? LandscapeCell
+        vc.dataSource = data
+        vc.index = indexPath.row
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

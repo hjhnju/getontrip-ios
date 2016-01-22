@@ -29,34 +29,34 @@ class Cache: NSObject {
 
     /// 用户当前的地理位置
     var cachekeys: [String: NSTimeInterval] = [
-        "/api/1.0/city/list?type=0" : Cache.cacheCityListTime,
-        "/api/1.0/city/list?type=1" : Cache.cacheCityListTime,
-        "/api/1.0/city/hot?type=0"  : Cache.cacheCityListTime,
-        "/api/1.0/city/hot?type=1"  : Cache.cacheCityListTime,
+        "/api/1.1/city/list?type=0" : Cache.cacheCityListTime,
+        "/api/1.1/city/list?type=1" : Cache.cacheCityListTime,
+        "/api/1.1/city/hot?type=0"  : Cache.cacheCityListTime,
+        "/api/1.1/city/hot?type=1"  : Cache.cacheCityListTime,
         //一秒的有效缓存，主要用于显示
-        "/api/1.0/collect/list?page=1&pageSize=6&type=1"   : 1,
-        "/api/1.0/collect/list?page=1&pageSize=6&type=2"   : 1,
-        "/api/1.0/collect/list?page=1&pageSize=6&type=3"   : 1,
-        "/api/1.0/msg/list?pageSize=10&page=1"             : 1,
+        "/api/1.1/collect/list?page=1&pageSize=6&type=1"   : 1,
+        "/api/1.1/collect/list?page=1&pageSize=6&type=2"   : 1,
+        "/api/1.1/collect/list?page=1&pageSize=6&type=3"   : 1,
+        "/api/1.1/msg/list?pageSize=10&page=1"             : 1,
     ]
     
     /// 正则缓存配置 name:config
     var cacheRegexConfs: [String: CacheRegexConfig] = [
         //城市页缓存
-        "city": CacheRegexConfig(expr: "^/api/1\\.0/city\\?city=([0-9]+)$", buffer: 10, expire: 1),
+        "city": CacheRegexConfig(expr: "^/api/1\\.1/city\\?city=([0-9]+)$", buffer: 10, expire: 1),
         //景点缓存（标签等信息）
-        "sight": CacheRegexConfig(expr: "^/api/1\\.0/sight\\?sightId=([0-9]+)$", buffer: 50, expire: 1),
+        "sight": CacheRegexConfig(expr: "^/api/1\\.1/sight\\?sightId=([0-9]+)$", buffer: 50, expire: 1),
         //景点话题列表缓存
-        "sight_topics": CacheRegexConfig(expr: "^/api/1\\.0/sight/topic\\?tags=([0-9]+)&page=1&sightId=([0-9]+)&pageSize=10$", buffer: 100, expire: 1),
+        "sight_topics": CacheRegexConfig(expr: "^/api/1\\.1/sight/topic\\?tags=([0-9]+)&page=1&sightId=([0-9]+)&pageSize=10$", buffer: 100, expire: 1),
         //景观列表缓存
-        "sight_landscapes": CacheRegexConfig(expr: "^/api/1\\.0/sight/landscape\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        "sight_landscapes": CacheRegexConfig(expr: "^/api/1\\.1/sight/landscape\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //书籍列表缓存
-        "sight_books": CacheRegexConfig(expr: "^/api/1\\.0/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        "sight_books": CacheRegexConfig(expr: "^/api/1\\.1/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //视频列表缓存
-        "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.0/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.1/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         // 首页缓存
-        "recommend1" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=1&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
-        "recommend2" : CacheRegexConfig(expr: "^/api/1\\.0/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=2&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
+        "recommend1" : CacheRegexConfig(expr: "^/api/1\\.1/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=1&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
+        "recommend2" : CacheRegexConfig(expr: "^/api/1\\.1/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=2&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
         // 音频缓存 音频缓存3天
 //        "play" : CacheRegexConfig(expr: "/audio/([a-zA-Z0-9]+).mp3", buffer: 50, expire: 60 * 60 * 3)
     ]
@@ -133,10 +133,10 @@ class Cache: NSObject {
         var delkeys = [String]()
         switch type {
             case CacheType.City:
-                let delkey: String = "/api/1.0/city?city=" + id
+                let delkey: String = "/api/1.1/city?city=" + id
                 delkeys.append(delkey)
             case CacheType.Sight:
-                let delkey: String = "/api/1.0/sight?sightId=" + id
+                let delkey: String = "/api/1.1/sight?sightId=" + id
                 delkeys.append(delkey)
             default:
                 break

@@ -105,9 +105,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.enabled = true
-        
-        playController.timer?.invalidate()
-        playController.timer = nil
+    
         UIApplication.sharedApplication().endReceivingRemoteControlEvents()
     }
     
@@ -456,12 +454,10 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                     sender.selected = !sender.selected
                 } else {
                     ProgressHUD.showSuccessHUD(self?.view, text: sender.selected ? "已收藏" : "已取消")
-//                    self?.exitAction()
                 }
             } else {
                 sender.selected = !sender.selected
                 ProgressHUD.showErrorHUD(self?.view, text: "操作未成功，请稍后再试")
-//                self?.exitAction()
             }
             self?.collectButton.setTitle(sender.selected ? "      已收藏" : "   收藏景点", forState: .Normal)
         }

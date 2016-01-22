@@ -12,7 +12,10 @@ class SightDetailViewController: BaseViewController {
 
     /// 自定义导航
     lazy var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: .whiteColor(), titleSize: 22)
-    
+    /// 播放控制器
+    weak var playViewController: PlayFrequency?
+    /// 播放cell
+    weak var playCell: LandscapeCell?
     /// 景观详情页面背景图
     lazy var backgroundImageView = UIImageView()
     /// 遮罩
@@ -62,13 +65,13 @@ class SightDetailViewController: BaseViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        PlayFrequency.sharePlayFrequency.slide = slide
-//        if index == PlayFrequency.sharePlayFrequency.index {            
-//            slide.value = PlayFrequency.sharePlayFrequency.playCurrentProgress
-//            playBeginButton.selected = PlayFrequency.sharePlayFrequency.isPlay ? true : false
-//            PlayFrequency.sharePlayFrequency.playBeginBtn = playBeginButton
-//        }
+
+        playViewController?.sightDetailController = self
+        let isHidden = dataSource.audio_len == "" ? true : false
+        currentTimeLabel.hidden = isHidden
+        playBottomView.hidden   = isHidden
+        slide.hidden            = isHidden
+        totalTimeLabel.hidden   = isHidden
     }
     
     override func didReceiveMemoryWarning() {
@@ -94,6 +97,12 @@ class SightDetailViewController: BaseViewController {
         view.addSubview(totalTimeLabel)
         view.addSubview(slide)
 
+        let blurV =  UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+        backgroundImageView.addSubview(blurV)
+        blurV.ff_Fill(backgroundImageView)
+        
+        
+        
         slide.minimumTrackTintColor = UIColor(hex: 0x000000, alpha: 0.5)
         slide.maximumTrackTintColor = UIColor(hex: 0xD5D5D5, alpha: 1.0)
         slide.setThumbImage(UIImage(named: "sight_landscape_playProgress")!, forState: .Normal)

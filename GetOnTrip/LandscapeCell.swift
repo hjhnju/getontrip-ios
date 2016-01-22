@@ -136,27 +136,15 @@ class LandscapeCell: UITableViewCell {
         
     }
     
-    var isAddAnimate: Bool = false
+    /// 播放方法
     func playAreaButtonAction(sender: UIButton) {
-        (superViewController?.parentViewController as? SightViewController)?.playController.index = sender.tag
-        
-//        PlayFrequency.sharePlayFrequency.playCell = self
-//        PlayFrequency.sharePlayFrequency.landscape = landscape ?? Landscape()
-//        if !isAddAnimate {
-//            ProgressHUD.showSuccessHUD(nil, text: "缓冲中，请稍候")
-//            pulsateView.playIconAction()
-//            pulsateView.hidden = true
-//            isAddAnimate = true
-//        }
-        
-//        if PlayFrequency.sharePlayFrequency.index == sender.tag {
-//            if !PlayFrequency.sharePlayFrequency.isLoading {
-//                PlayFrequency.sharePlayFrequency.playButtonAction(sender)
-//            }
-//            return
-//        }
-        print(sender.tag)
-//        PlayFrequency.sharePlayFrequency.index = sender.tag
+        (superViewController?.parentViewController as? SightViewController)?.playController.playOrPause(self)
+    }
+    
+    // 还原默认值
+    func restoreDefault() {
+        pulsateView.hidden = true
+        playLabel.text = landscape?.audio_len
     }
 }
 
