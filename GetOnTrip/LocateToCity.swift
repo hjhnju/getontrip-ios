@@ -21,18 +21,14 @@ class LocateToCity: NSObject {
     
     static let sharedLocateToCity = LocateToCity()
     
-    var x: String = "0" {
+    var x: String = "0"
+    var y: String = "0"
+    weak var sightLandscapeController: SightLandscapeController?
+    var location: CLLocation? {
         didSet {
-           location = CLLocation(latitude: CLLocationDegrees(x) ?? 0, longitude: CLLocationDegrees(y) ?? 0)
+            sightLandscapeController?.refreshLocationAndList()
         }
     }
-    var y: String = "0" {
-        didSet {
-            location = CLLocation(latitude: CLLocationDegrees(x) ?? 0, longitude: CLLocationDegrees(y) ?? 0)
-        }
-    }
-    
-    dynamic var location: CLLocation?
     
     func locate(city: String, handler: (result: String?, status: Int) -> Void) {
         var post         = [String: String]()

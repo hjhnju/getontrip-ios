@@ -74,6 +74,7 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
             playCell?.speechImageView.hidden = isPlay ? true : false
             playCell?.pulsateView.hidden = isPlay ? false : true
             sightDetailController?.playBeginButton.selected = isPlay ? true : false
+            setupLockScreenSongInfos()
             if index == sightDetailController?.index {
                 sightDetailController?.playBeginButton.selected = isPlay ? true : false
             }
@@ -129,7 +130,6 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
                     
                     // 设置音频支持后台播放
                     audio2SupportBackgroundPlay()
-                    setupLockScreenSongInfos()
                     player?.play()
                     isPlay = true
                     
@@ -203,11 +203,8 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     
     func setupLockScreenSongInfos() {
         var image: UIImage = UIImage()
-        if sightDetailController != nil {
-            image = sightDetailController!.backgroundImageView.image ?? UIImage()
-        } else {
-            image = playCell?.iconView.image ?? UIImage()
-        }
+        
+        image = playCell?.iconView.image ?? UIImage()
         let art = MPMediaItemArtwork(image: image ?? UIImage())
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [
             MPMediaItemPropertyPlaybackDuration : (player?.duration ?? 0),

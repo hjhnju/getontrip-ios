@@ -351,7 +351,7 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
         // 反地理编码
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: coordinate!.latitude, longitude: coordinate!.longitude)
-        
+        LocateToCity.sharedLocateToCity.location = location
         if LocateToCity.sharedLocateToCity.y == "\(coordinate!.latitude)" && LocateToCity.sharedLocateToCity.x == "\(coordinate!.longitude)" {
             return
         }

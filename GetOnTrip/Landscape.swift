@@ -36,7 +36,7 @@ class Landscape: ModelObject {
     /// 音频
     var audio = "" {
         didSet {
-            audio = AppIni.BaseUri + audio
+            audio = AppIni.BaseResourceUri + audio
         }
     }
     /// 音频长度
@@ -50,7 +50,7 @@ class Landscape: ModelObject {
     /// 单位
     lazy var dis_unit = ""
     /// 位置
-    var location: CLLocation = CLLocation(latitude: CLLocationDegrees(0), longitude: CLLocationDegrees(0))
+    var location: CLLocation?// = CLLocation(latitude: CLLocationDegrees(0), longitude: CLLocationDegrees(0))
     /// 相距位置 用此排序
     var apartLocation: CLLocationDistance = 0
     
@@ -62,8 +62,7 @@ class Landscape: ModelObject {
         super.init()
         
         setValuesForKeysWithDictionary(dict)
-        location = CLLocation(latitude: CLLocationDegrees(x) ?? 0, longitude: CLLocationDegrees(y) ?? 0)
-        print("=============\(location)")
+        location = CLLocation(latitude: CLLocationDegrees(Double(y) ?? 0), longitude: CLLocationDegrees(Double(x) ?? 0))
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

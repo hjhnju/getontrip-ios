@@ -151,7 +151,7 @@ class LandscapeCell: UITableViewCell {
 class LandscapeCellHead: LandscapeCell {
     
     
-    lazy var mapButton    = UIButton(image: "icon_map", title: "  切换地图", fontSize: 11, titleColor: .whiteColor(), fontName: Font.PingFangSCRegular)
+//    lazy var mapButton    = UIButton(image: "icon_map", title: "  切换地图", fontSize: 11, titleColor: .whiteColor(), fontName: Font.PingFangSCRegular)
     
     override var landscape: Landscape? {
         didSet {
@@ -193,7 +193,7 @@ class LandscapeCellHead: LandscapeCell {
         speechView.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(49, 49), offset: CGPointMake(-18, 0))
         pulsateView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(49, 49), offset: CGPointMake(-1, -10))
         speechImageView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(31, 31))
-        mapButton.ff_AlignHorizontal(.CenterRight, referView: titleLabel, size: nil, offset: CGPointMake(7, 0))
+//        mapButton.ff_AlignHorizontal(.CenterRight, referView: titleLabel, size: nil, offset: CGPointMake(7, 0))
         playLabel.ff_AlignVertical(.BottomCenter, referView: speechView, size: nil, offset: CGPointMake(0, 3))
         playAreaButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(95, 115))
     }
@@ -209,7 +209,7 @@ class LandscapeCellHead: LandscapeCell {
         subtitleLabel.textColor = .whiteColor()
         baseLine.hidden = true
         iconView.contentMode = .ScaleAspectFit
-        contentView.addSubview(mapButton)
+//        contentView.addSubview(mapButton)
         playLabel.textColor = .whiteColor()
         subtitleLabel.numberOfLines  = 3
         iconView.contentMode         = .ScaleAspectFill

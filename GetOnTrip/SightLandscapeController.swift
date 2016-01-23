@@ -42,31 +42,27 @@ class SightLandscapeController: BaseTableViewController {
         super.viewDidLoad()
         
         initTableView()
-//        LocateToCity.sharedLocateToCity.addObserver(self, forKeyPath: "location", options: NSKeyValueObservingOptions.New, context: nil)
         refresh()
+        LocateToCity.sharedLocateToCity.sightLandscapeController = self
     }
 
-//    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-//        print("会来到吗")
-//       
-//        // 我的坐标点
-//        let location1 = LocateToCity.sharedLocateToCity.location ?? CLLocation()
-//        // 景观坐标点
-//        for item in dataSource {
-//            item.apartLocation = location1.distanceFromLocation(item.location)
-//        }
-//        dataSource.sortInPlace { (obj1, obj2) -> Bool in
-//            obj1.apartLocation < obj2.apartLocation
-//        }
-//        for item in dataSource {
-//            print(item.apartLocation)
-//        }
-//        
-//        tableView.reloadData()
-//    }
-    
-    deinit {
-//        LocateToCity.sharedLocateToCity.removeObserver(self, forKeyPath: "location", context: nil)
+    func refreshLocationAndList() {
+        // 景观坐标点
+        dataSource.first?.location = LocateToCity.sharedLocateToCity.location ?? CLLocation()
+        for item in dataSource {
+            item.apartLocation = (LocateToCity.sharedLocateToCity.location ?? CLLocation()).distanceFromLocation(item.location ?? CLLocation())
+            if item.apartLocation/1000 > 1 {
+                item.dis = "\(Int(item.apartLocation/1000))"
+                item.dis_unit = "km"
+            } else {
+                item.dis = "\(Int(item.apartLocation/100))"
+                item.dis_unit = "m"
+            }
+        }
+        dataSource.sortInPlace { (obj1, obj2) -> Bool in
+            obj1.apartLocation < obj2.apartLocation
+        }
+        tableView.reloadData()
     }
     
     private func initTableView() {

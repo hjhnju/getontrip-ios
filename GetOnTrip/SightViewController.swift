@@ -8,6 +8,7 @@
 
 import UIKit
 import FFAutoLayout
+import CoreLocation
 
 struct SightLabelType {
     /// 话题
@@ -38,10 +39,10 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     var sightDataSource = Sight(id: "") {
         didSet {
             initBaseTableViewController(sightDataSource.tags)
-            collectionView.reloadData()
             if landscape != nil {
                 labelDidSelected(landscape!)
             }
+            collectionView.reloadData()
             collectButton.setTitle(sightDataSource.isFavorite() ? "      已收藏" : "   收藏景点", forState: .Normal)
         }
     }
@@ -219,9 +220,12 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     }
     
     func switchPlayControllerAction() {
-        print("确实来到了")
+//        print("确实来到了")
 //        LocateToCity.sharedLocateToCity.x = "\(arc4random_uniform(40))"
 //        LocateToCity.sharedLocateToCity.y = "\(arc4random_uniform(115))"
+//        
+//        LocateToCity.sharedLocateToCity.location = CLLocation(latitude: CLLocationDegrees(arc4random_uniform(40)), longitude: CLLocationDegrees(arc4random_uniform(115)))
+        
         if playController.isPlay {
             let vc = SightDetailViewController()
             vc.playViewController = playController
@@ -339,6 +343,8 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         }
         if nextLabel == nil { nextLabel = UILabel() }
         self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
+        
+        
         UIView.animateWithDuration(0.5) { () -> Void in
             self.indicateView.center.x = (scrollView.contentOffset.x % self.view.bounds.width) / (nextLabel!.center.x - labCenter.center.x) + labCenter.center.x - offset
             self.indicateView.bounds = CGRectMake(0, 0, labCenter.bounds.width, 1.5)
