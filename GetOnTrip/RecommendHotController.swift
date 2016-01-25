@@ -82,6 +82,7 @@ class RecommendHotController: BaseTableViewController {
         } else {
             let sightCell = tableView.dequeueReusableCellWithIdentifier("RecommendTableViewCell", forIndexPath: indexPath) as! RecommendTableViewCell
             sightCell.data = recommendCells[indexPath.row]
+            sightCell.superViewController = self
             cell = sightCell
         }
         

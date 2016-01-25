@@ -43,6 +43,10 @@ class RecommendCellData: ModelObject {
     
     //城市＝2，景点＝1
     var type: String = RecommendCellType.TypeSight
+    /// 城市id
+    lazy var cityid: String = ""
+    /// 城市名
+    lazy var cityname: String = ""
     
     init(dict: [String: AnyObject]) {
         super.init()

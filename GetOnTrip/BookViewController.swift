@@ -11,8 +11,8 @@ import FFAutoLayout
 import WebKit
 
 struct BookViewContant {
-    static let headerViewHeight:CGFloat      = 267 + 82
-    static let headerImageViewHeight:CGFloat = 267
+    static let headerViewHeight:CGFloat      = (Device.isIphone4() ? 267 : Frame.screen.height * 0.3627717) + 82
+    static let headerImageViewHeight:CGFloat = Device.isIphone4() ? 267 : Frame.screen.height * 0.3627717
     static let bookViewHeight:CGFloat   = 181
     static let toolBarHeight:CGFloat    = 47
 }
@@ -30,28 +30,20 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
     var bookId: String {
         return bookDataSource?.id ?? ""
     }
-    
     /// headerView的顶部约束
     var headerViewTopConstraint: NSLayoutConstraint?
-    
     /// headerView图片高度约束
     var headerViewHeightConstraint: NSLayoutConstraint?
-    
     /// 顶部视图
     //var headerView: UIView = UIView(color: UIColor.brownColor())
-    
     /// 顶部底图
     lazy var headerImageView: UIImageView = UIImageView()
-    
     /// 书籍图片
     lazy var bookImageView: UIImageView = UIImageView()
-    
     /// 图片模糊
     lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
-    
     /// 书籍标题 - "解读颐和园"
     lazy var titleLabel: UILabel = UILabel(color: UIColor.blackColor(), title: "", fontSize: 24, mutiLines: true)
-    
     /// "张加冕/黄山书社出版社/2015-5/ISBN:345566743566"
     lazy var authorLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "", fontSize: 12, mutiLines: true)
     
@@ -146,6 +138,7 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         bookImageView.contentMode = UIViewContentMode.ScaleAspectFill
         bookImageView.clipsToBounds = true
         blurView.alpha = 1
+        headerImageView.userInteractionEnabled = false
         
         toolbarView.addSubview(collectBtn)
         toolbarView.addSubview(shareBtn)
@@ -162,7 +155,6 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         let w = view.bounds.width - 18
         titleLabel.preferredMaxLayoutWidth = w
         authorLabel.preferredMaxLayoutWidth = w
-        
     }
     
     override func viewWillAppear(animated: Bool) {
