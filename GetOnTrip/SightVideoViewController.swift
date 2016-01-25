@@ -9,7 +9,7 @@
 import UIKit
 import MJRefresh
 
-struct HistoryViewContant {
+struct SightVideoViewContant {
     static let headerViewHeight:CGFloat = Device.isIphone4() ? 200 : Frame.screen.height * 0.2717391
 }
 
@@ -119,11 +119,11 @@ class SightVideoViewController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return HistoryViewContant.headerViewHeight
+        return SightVideoViewContant.headerViewHeight
     }
     
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return HistoryViewContant.headerViewHeight
+        return SightVideoViewContant.headerViewHeight
     }
     
     /// 底部加载更多

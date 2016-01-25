@@ -8,6 +8,10 @@
 
 import UIKit
 
+struct  SettingDatumViewControllerHeight {
+    static let headerViewHeight:CGFloat = Device.isIphone4() ? 212 : Frame.screen.height * 0.2880434
+}
+
 class SettingDatumViewController: MenuViewController, UITableViewDataSource, UITableViewDelegate {
 
     static let name = "我的"
@@ -81,7 +85,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         
         myBjImageView.ff_Fill(headerView)
         headerButton.ff_Fill(headerView)
-        let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, 212), offset: CGPointMake(0, 44))
+        let cons = headerView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, SettingDatumViewControllerHeight.headerViewHeight), offset: CGPointMake(0, 44))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
         loginIconButton.ff_AlignInner(.CenterCenter, referView: headerView, size: CGSizeMake(90, 90), offset: CGPointMake(0, -10))
         loginTitleButton.ff_AlignVertical(.BottomCenter, referView: loginIconButton, size: CGSizeMake(UIScreen.mainScreen().bounds.width, 20), offset: CGPointMake(0, 14))
@@ -94,7 +98,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         tableView.backgroundColor = SceneColor.greyWhite
         tableView.registerClass(SettingDatumTableViewCell.self, forCellReuseIdentifier: "SettingDatumTableViewCell")
         tableView.frame = CGRectMake(0, 44, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 44)
-        tableView.contentInset = UIEdgeInsets(top: 212, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: SettingDatumViewControllerHeight.headerViewHeight, left: 0, bottom: 0, right: 0)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -104,7 +108,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
             print(globalUser?.bakimg)
             myBjImageView.sd_setImageWithURL(NSURL(string: globalUser?.bakimg ?? ""))
         } else {
-            myBjImageView.sd_setImageWithURL(NSURL(string: UIKitTools.sliceImageUrl("/pic/my_background.jpg", width: Int(Frame.screen.width), height: 212)))
+            myBjImageView.sd_setImageWithURL(NSURL(string: UIKitTools.sliceImageUrl("/pic/my_background.jpg", width: Int(Frame.screen.width), height: Int(SettingDatumViewControllerHeight.headerViewHeight))))
         }
     }
     

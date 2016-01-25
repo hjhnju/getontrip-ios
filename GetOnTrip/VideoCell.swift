@@ -9,10 +9,6 @@
 import UIKit
 import FFAutoLayout
 
-struct VideoCellContant {
-    static let CellHeight:CGFloat = 200
-}
-
 class VideoCell: UITableViewCell {
 
     lazy var iconView: UIImageView = UIImageView()
@@ -77,8 +73,7 @@ class VideoCell: UITableViewCell {
     }
     
     private func setupAutoLayout() {
-        
-        iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, VideoCellContant.CellHeight - 1))
+        iconView.ff_AlignInner(.TopLeft, referView: self, size: CGSizeMake(UIScreen.mainScreen().bounds.width, SightVideoViewContant.headerViewHeight - 1))
         timeLabel.ff_AlignInner(.TopLeft, referView: self, size: nil, offset: CGPointMake(19, 9))
         titleLabel.ff_AlignInner(.CenterCenter, referView: self, size: nil, offset: CGPointMake(0, 0))
         watchBtn.ff_AlignVertical(.BottomCenter, referView: titleLabel, size: CGSizeMake(83, 28), offset: CGPointMake(0, 7))
