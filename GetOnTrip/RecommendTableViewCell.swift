@@ -30,7 +30,11 @@ class RecommendTableViewCell: UITableViewCell {
     lazy var locationUnitLabel = UILabel(color: .whiteColor(), title: "", fontSize: 10, mutiLines: true, fontName: Font.PingFangSCLight)
     /// 所在城市
     lazy var cityNameButton: UIButton = UIButton(title: "北京", fontSize: 12, radius: 0, titleColor: SceneColor.lightYellow, fontName: Font.PingFangSCRegular)
+    lazy var cityNButton: UIButton = UIButton()
     var titleConBot: NSLayoutConstraint?
+    var cityName1: NSLayoutConstraint?
+    var cityName2: NSLayoutConstraint?
+    /// 城市点击区域
     /// 父控制器
     weak var superViewController: RecommendHotController?
     
@@ -56,7 +60,13 @@ class RecommendTableViewCell: UITableViewCell {
                 locationUnitLabel.ff_AlignHorizontal(.CenterRight, referView: locationButton, size: nil, offset: CGPointMake(1.5, 2))
                 locationUnitLabel.text = data?.dis_unit
                 titleConBot = titleButton.ff_Constraint(cons, attribute: .Bottom)
-                cityNameButton.setTitle(" " + cellData.cityname, forState: .Normal)
+                let cityName = "  " + cellData.cityname + " "
+                cityNameButton.setTitle(cityName, forState: .Normal)
+                
+                let w: CGFloat = cityName.sizeofStringWithFount1(UIFont(name: Font.PingFangSCRegular, size: 12) ?? UIFont.systemFontOfSize(12),
+                    maxSize: CGSizeMake(CGFloat.max, 12)).width
+                cityName1?.constant = w
+                cityName2?.constant = w
             }
         }
     }
@@ -93,7 +103,7 @@ class RecommendTableViewCell: UITableViewCell {
         contentView.addSubview(contentImage)
         contentView.addSubview(locationUnitLabel)
         contentView.addSubview(cityNameButton)
-        
+        contentView.addSubview(cityNButton)
         
         cellImageView.userInteractionEnabled = false
         shadeView.userInteractionEnabled = false
@@ -101,11 +111,12 @@ class RecommendTableViewCell: UITableViewCell {
         cellImageView.clipsToBounds = true
         collectImage.contentMode = .ScaleAspectFill
         cityNameButton.backgroundColor = SceneColor.bgBlack
-        cityNameButton.addTarget(self, action: "cityNameButtonAction", forControlEvents: .TouchUpInside)
-        
+//        cityNameButton.addTarget(self, action: "cityNameButtonAction", forControlEvents: .TouchUpInside)
+        cityNButton.addTarget(self, action: "cityNameButtonAction", forControlEvents: .TouchUpInside)
         
         setupAutoLayout()
     }
+    
     
     private func setupAutoLayout() {
         cellImageView.ff_AlignInner(.TopLeft, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width, RecommendContant.rowHeight - 2), offset: CGPointMake(0, 2))
@@ -114,7 +125,10 @@ class RecommendTableViewCell: UITableViewCell {
         contentImage.ff_AlignHorizontal(.BottomLeft, referView: contentLabel, size: CGSizeMake(10, 12), offset: CGPointMake(-7, 0))
         collectLabel.ff_AlignHorizontal(.BottomLeft, referView: contentImage, size: nil, offset: CGPointMake(-12, 0))
         collectImage.ff_AlignHorizontal(.BottomLeft, referView: collectLabel, size: CGSizeMake(10, 12), offset: CGPointMake(-7, -2))
-        cityNameButton.ff_AlignInner(.TopRight, referView: contentView, size: CGSizeMake(43, 21), offset: CGPointMake(0, 19))
+        let cons1 = cityNameButton.ff_AlignInner(.TopRight, referView: contentView, size: CGSizeMake(43, 21), offset: CGPointMake(0, 19))
+        let cons2 = cityNButton.ff_AlignInner(.TopRight, referView: contentView, size: CGSizeMake(43, 40))
+        cityName1 = cityNameButton.ff_Constraint(cons1, attribute: .Width)
+        cityName2 = cityNButton.ff_Constraint(cons2, attribute: .Width)
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -26,7 +26,6 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     
     lazy var headerButton: UIButton  = UIButton()
     lazy var myBjImageView: UIImageView = UIImageView()
-    
     /// 退出登录按钮
     lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 16, radius: 0, titleColor: SceneColor.frontBlack)
     /// 请登录图片
