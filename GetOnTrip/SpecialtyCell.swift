@@ -13,7 +13,7 @@ class SpecialtyCell: FoodCell {
    override var data: AnyObject? {
         didSet {
             if let cellData = data as? Specialty {
-                shopLabel.text = "家名店推荐"
+                shopLabel.text = "家名品推荐，"
                 iconView.backgroundColor = cellData.bgColor
                 //是否加载网络图片
                 if UserProfiler.instance.isShowImage() {

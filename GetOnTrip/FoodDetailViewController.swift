@@ -27,10 +27,14 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
             lastRequest.foodId = foodId
         }
     }
+    /// 临时背景图片
+    lazy var tempBackgroundImage = UIImage()
     
     var data: FoodDetail = FoodDetail() {
         didSet {
-            if UserProfiler.instance.isShowImage() { headerImageView.sd_setImageWithURL(NSURL(string: data.image)) }
+            if UserProfiler.instance.isShowImage() {
+                headerImageView.sd_setImageWithURL(NSURL(string: data.headerImage), placeholderImage: tempBackgroundImage)
+            }
             recommendShop[0] = data.shopDetails
             recommendTopic[0] = data.topicDetails
             
@@ -63,7 +67,6 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     weak var shopBottomButton: UIButton?
     weak var topicUpButton   : UIButton?
     weak var topicBottomButton: UIButton?
-
     
     override func viewDidLoad() {
         super.viewDidLoad()

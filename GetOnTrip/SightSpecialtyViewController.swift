@@ -101,6 +101,7 @@ class SightSpecialtyViewController: BaseTableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let vc: SpecialtyDetailViewController = SpecialtyDetailViewController()
         vc.specialtyId = data[indexPath.row].id
+        vc.tempBackgroundImage = (tableView.cellForRowAtIndexPath(indexPath) as? SpecialtyCell)?.iconView.image ?? UIImage()
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -126,7 +126,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
                 print("received toggle")
             }
         }
-
     }
     
     /// 当出现内存警告时，清空缓存

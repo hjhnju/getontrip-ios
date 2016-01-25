@@ -96,6 +96,7 @@ class SightFoodViewController: BaseTableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let vc: FoodDetailViewController = FoodDetailViewController()
         vc.foodId = data[indexPath.row].id
+        vc.tempBackgroundImage = (tableView.cellForRowAtIndexPath(indexPath) as? FoodCell)?.iconView.image ?? UIImage()
 //        vc.isEntranceSight = true
 //        let topic = data[indexPath.row]
 //        vc.topicDataSource = Topic.fromBrief(topic)

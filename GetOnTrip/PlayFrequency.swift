@@ -203,7 +203,6 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     
     func setupLockScreenSongInfos() {
         var image: UIImage = UIImage()
-        
         image = playCell?.iconView.image ?? UIImage()
         let art = MPMediaItemArtwork(image: image ?? UIImage())
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [

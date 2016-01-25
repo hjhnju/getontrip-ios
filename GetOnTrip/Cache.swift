@@ -43,7 +43,7 @@ class Cache: NSObject {
     /// 正则缓存配置 name:config
     var cacheRegexConfs: [String: CacheRegexConfig] = [
         //城市页缓存
-        "city": CacheRegexConfig(expr: "^/api/1\\.1/city\\?city=([0-9]+)$", buffer: 10, expire: 1),
+        "city": CacheRegexConfig(expr: "^/api/1\\.0/city\\?city=([0-9]+)$", buffer: 10, expire: 1),
         //景点缓存（标签等信息）
         "sight": CacheRegexConfig(expr: "^/api/1\\.1/sight\\?sightId=([0-9]+)$", buffer: 50, expire: 1),
         //景点话题列表缓存

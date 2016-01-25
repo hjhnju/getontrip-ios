@@ -19,10 +19,12 @@ class FoodDetail: ModelObject {
     /// 图片
     var image: String = "" {
         didSet {
+            headerImage = UIKitTools.sliceImageUrl(image, width: Int(Frame.screen.width), height: 267)
             image = UIKitTools.sliceImageUrl(image, width: 133, height: 84)
-
         }
     }
+    /// 详情图
+    var headerImage: String = ""
     /// 商店数量
     lazy var shopNum: String = ""
     /// 话题详情数量

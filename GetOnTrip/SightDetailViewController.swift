@@ -72,12 +72,30 @@ class SightDetailViewController: BaseViewController {
         playBottomView.hidden   = isHidden
         slide.hidden            = isHidden
         totalTimeLabel.hidden   = isHidden
+        playViewController?.setupLockScreenSongInfos()
+        UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().endReceivingRemoteControlEvents()
     }
+    
+    override func remoteControlReceivedWithEvent(event: UIEvent?) {
+        
+        if event!.type == UIEventType.RemoteControl {
+            if event!.subtype == UIEventSubtype.RemoteControlPlay {
+                print("received remote play")
+                playViewController?.updatePlayOrPauseBtn(false)
+            } else if event!.subtype == UIEventSubtype.RemoteControlPause {
+                print("received remote pause")
+                playViewController?.updatePlayOrPauseBtn(true)
+            } else if event!.subtype == UIEventSubtype.RemoteControlTogglePlayPause {
+                print("received toggle")
+            }
+        }
+    }
+    
     
     lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
     private func initView() {
@@ -115,10 +133,6 @@ class SightDetailViewController: BaseViewController {
         backgroundImageView.addSubview(coverView)
         backgroundImageView.contentMode = .ScaleAspectFill
         explainLabel.preferredMaxLayoutWidth = Frame.screen.width - 56
-        playBeginButton.addTarget(self, action: "playBeginButtonAction:", forControlEvents: .TouchUpInside)
-//        PlayFrequency.sharePlayFrequency.playDetailViewController = self
-        
-//        slide.addTarget(PlayFrequency.sharePlayFrequency, action: "currentValueSliderAction:", forControlEvents: .ValueChanged)
         lookUpMoreButton.addTarget(self, action: "lookUpMoreButtonAction", forControlEvents: .TouchUpInside)
     }
     
@@ -145,17 +159,6 @@ class SightDetailViewController: BaseViewController {
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = UIColor.clearColor()
-    }
-    
-    /// 播放方法
-    func playBeginButtonAction(sender: UIButton) {
-//        PlayFrequency.sharePlayFrequency.landscape = dataSource ?? Landscape()
-//        if PlayFrequency.sharePlayFrequency.index != index {
-//            PlayFrequency.sharePlayFrequency.index == index
-//            PlayFrequency.sharePlayFrequency.lastIndex = index
-//        }
-//        sender.selected = !sender.selected
-//        PlayFrequency.sharePlayFrequency.playButtonAction(sender)
     }
     
     func lookUpMoreButtonAction() {

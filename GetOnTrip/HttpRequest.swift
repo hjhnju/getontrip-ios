@@ -58,7 +58,13 @@ class HttpRequest {
             urlPath += "?" + params.joinWithSeparator("&")
         }
         if let range = urlPath.rangeOfString("/api/") {
-            urlPath.replaceRange(range, with: "/api/\(AppIni.ApiVersion)/")
+            
+            // TODP: - 临时先使用，待新城市页做完再删掉
+            var apiversion = AppIni.ApiVersion
+            if path == "/api/city" {
+                apiversion = "1.0"
+            }
+            urlPath.replaceRange(range, with: "/api/\(apiversion)/")
         }
         
         //完整url

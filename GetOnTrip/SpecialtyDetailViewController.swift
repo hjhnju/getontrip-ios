@@ -21,6 +21,8 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
     lazy var headerImageView: UIImageView = UIImageView()
     /// 网络请求加载数据(添加)
     var lastRequest: SpecialtyRequest = SpecialtyRequest()
+    /// 临时背景图片
+    lazy var tempBackgroundImage = UIImage()
     /// 美食id
     var specialtyId = "" {
         didSet {
@@ -30,7 +32,9 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
     
     var data: FoodDetail = FoodDetail() {
         didSet {
-            if UserProfiler.instance.isShowImage() { headerImageView.sd_setImageWithURL(NSURL(string: data.image)) }
+            if UserProfiler.instance.isShowImage() {
+                headerImageView.sd_setImageWithURL(NSURL(string: data.headerImage), placeholderImage: tempBackgroundImage)
+            }
             
             recommendShop[0] = data.shopDetails
             recommendTopic[0] = data.topicDetails
