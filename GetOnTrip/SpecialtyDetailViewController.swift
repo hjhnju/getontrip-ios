@@ -15,7 +15,7 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
     /// tableview
     lazy var tableView = UITableView()
     /// 头部视图
-    lazy var headerView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, 267))
+    lazy var headerView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, FoodDetailViewContant.headerViewHeight))
     /// 头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
     lazy var headerImageView: UIImageView = UIImageView()
@@ -38,7 +38,6 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
             
             recommendShop[0] = data.shopDetails
             recommendTopic[0] = data.topicDetails
-            
             
             if let shopDatas = recommendShop[0] {
                 shopData = shopDatas
@@ -107,8 +106,8 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
         headerView.clipsToBounds = true
         headerImageView.contentMode = .ScaleAspectFill
         headerImageView.ff_Fill(headerView)
-        //        headerView.frame = CGRectMake(0, 267, Frame.screen.width, 267)
-        let cons = headerView.ff_AlignInner(.TopLeft, referView: tableView, size: CGSizeMake(Frame.screen.width, 267))
+        //        headerView.frame = CGRectMake(0, FoodDetailViewContant.headerViewHeight, Frame.screen.width, FoodDetailViewContant.headerViewHeight)
+        let cons = headerView.ff_AlignInner(.TopLeft, referView: tableView, size: CGSizeMake(Frame.screen.width, FoodDetailViewContant.headerViewHeight))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
     }
     
@@ -122,7 +121,7 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
         tableView.registerClass(FoodTopicTableViewCell.self, forCellReuseIdentifier: "FoodTopicTableViewCell")
         tableView.registerClass(SpecialtyTableViewCell.self, forCellReuseIdentifier: "SpecialtyTableViewCell")
         tableView.ff_AlignInner(.TopLeft, referView: view, size: Frame.screen.size)
-        tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, 267))
+        tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, FoodDetailViewContant.headerViewHeight))
         tableView.sectionHeaderHeight = 40
     }
     
@@ -254,7 +253,7 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
     
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        var height = (-scrollView.contentOffset.y + 267)
+        var height = (-scrollView.contentOffset.y + FoodDetailViewContant.headerViewHeight)
         if height < 44 { height = 44 }
         headerHeightConstraint?.constant = height
     }

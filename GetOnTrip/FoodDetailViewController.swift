@@ -8,6 +8,10 @@
 
 import UIKit
 
+struct FoodDetailViewContant {
+    static let headerViewHeight:CGFloat = Device.isIphone4() ? 267 : Frame.screen.height * 0.3627717
+}
+
 class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     /// 自定义导航
@@ -15,7 +19,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     /// tableview
     lazy var tableView = UITableView()
     /// 头部视图
-    lazy var headerView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, 267))
+    lazy var headerView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, FoodDetailViewContant.headerViewHeight))
     /// 头部视图高度约束
     var headerHeightConstraint: NSLayoutConstraint?
     lazy var headerImageView: UIImageView = UIImageView()
@@ -106,7 +110,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         headerImageView.contentMode = .ScaleAspectFill
         headerImageView.ff_Fill(headerView)
         headerView.userInteractionEnabled = false
-        let cons = headerView.ff_AlignInner(.TopLeft, referView: tableView, size: CGSizeMake(Frame.screen.width, 267))
+        let cons = headerView.ff_AlignInner(.TopLeft, referView: tableView, size: CGSizeMake(Frame.screen.width, FoodDetailViewContant.headerViewHeight))
         headerHeightConstraint = headerView.ff_Constraint(cons, attribute: .Height)
     }
     
@@ -120,7 +124,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.registerClass(FoodTopicTableViewCell.self, forCellReuseIdentifier: "FoodTopicTableViewCell")
         tableView.registerClass(FoodShopTableViewCell.self, forCellReuseIdentifier: "FoodShopTableViewCell")
         tableView.ff_AlignInner(.TopLeft, referView: view, size: Frame.screen.size)
-        tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, 267))
+        tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, Frame.screen.width, FoodDetailViewContant.headerViewHeight))
         tableView.sectionHeaderHeight = 40
     }
     
@@ -241,7 +245,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
 
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        var height = (-scrollView.contentOffset.y + 267)
+        var height = (-scrollView.contentOffset.y + FoodDetailViewContant.headerViewHeight)
         if height < 44 { height = 44 }
         headerHeightConstraint?.constant = height
     }

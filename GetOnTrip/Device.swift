@@ -32,4 +32,11 @@ class Device {
         }
         return false
     }
+    
+    class func isIphone4() -> Bool {
+        if UIScreen.mainScreen().bounds.width == 320 {
+            return true
+        }
+        return false
+    }
 }

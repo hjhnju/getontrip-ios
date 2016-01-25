@@ -11,7 +11,7 @@ import FFAutoLayout
 import WebKit
 
 struct TopicViewContant {
-    static let headerViewHeight:CGFloat = 267
+    static let headerViewHeight:CGFloat = Device.isIphone4() ? 267 : Frame.screen.height * 0.3627717
     static let toolBarHeight:CGFloat    = 47
     static let commentViewHeight:CGFloat = Frame.screen.height - Frame.screen.height * 0.72 - 44
 }
