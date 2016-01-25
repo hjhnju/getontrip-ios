@@ -13,8 +13,12 @@ class Specialty: ModelObject {
     var id: String = ""
     /// 详情数量
     var topicNum: String = ""
+    /// 产品数量
+    var productNum: String = ""
     /// 标题
     var title: String = ""
+    /// 内容
+    var content: String = ""
     /// 描述
     var desc: String = ""
     /// 所在景点

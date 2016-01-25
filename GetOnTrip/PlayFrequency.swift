@@ -221,7 +221,6 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
             data = tempData as? NSData
             return
         }
-        ProgressHUD.showSuccessHUD(nil, text: "正在缓冲，请稍候")
         HttpRequest.download(url) { (result, status) -> () in
             if let tempData = result {
                 self.data = tempData

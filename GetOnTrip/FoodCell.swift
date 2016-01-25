@@ -40,6 +40,8 @@ class FoodCell: UITableViewCell {
                     iconView.sd_setImageWithURL(NSURL(string: cellData.image))
                 }
                 
+                shopNumLabel.text = cellData.shopNum
+                topicNumLabel.text = cellData.topicNum
                 compulsoryView.hidden  = cellData.desc == "" ? true : false
                 compulsoryLabel.hidden = cellData.desc == "" ? true : false
                 compulsoryLabel.text   = cellData.desc

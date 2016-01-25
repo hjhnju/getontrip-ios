@@ -44,7 +44,7 @@ class SightDetailViewController: BaseViewController {
     var dataSource: Landscape = Landscape() {
         didSet {
             if UserProfiler.instance.isShowImage() {
-                backgroundImageView.sd_setImageWithURL(NSURL(string: dataSource.detailBackground), placeholderImage: PlaceholderImage.defaultSmall)
+                backgroundImageView.sd_setImageWithURL(NSURL(string: dataSource.image), placeholderImage: PlaceholderImage.defaultSmall)
             }
             let y: CGFloat = dataSource.content.sizeofStringWithFount(UIFont(name: Font.PingFangSCLight, size: 17) ??
                 UIFont(name: Font.ios8Font, size: 17)!, maxSize: CGSizeMake(Frame.screen.width - 56, CGFloat.max), lineSpacing: 0).height

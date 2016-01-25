@@ -22,13 +22,11 @@ class Landscape: ModelObject {
     /// 图片
     var image: String = "" {
         didSet {
-            detailBackground = UIKitTools.sliceImageUrl(image, width: Int(Frame.screen.width), height: Int(Frame.screen.height))
             imageHeader      = UIKitTools.sliceImageUrl(image, width: Int(Frame.screen.width), height: 200)
             image            = UIKitTools.sliceImageUrl(image, width: 119, height: 84)
         }
     }
     
-    lazy var detailBackground: String = ""
     
     lazy var imageHeader: String = ""
     /// 必玩标签

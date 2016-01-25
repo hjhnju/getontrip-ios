@@ -339,10 +339,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     // MARK: ScrollViewDelegate
     ///  改变背景及图片下拉变大
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
+
         UIView.animateWithDuration(0.5) { () -> Void in
-            self.backUpImageView.alpha = scrollView.contentOffset.y > Frame.screen.height ? 1 : 0
-            self.backUpControl.alpha   = scrollView.contentOffset.y > Frame.screen.height ? 1 : 0
+            self.backUpImageView.alpha = scrollView.contentOffset.y > 0 ? 1 : 0
+            self.backUpControl.alpha   = scrollView.contentOffset.y > 0 ? 1 : 0
         }
         
         //headerView高度动态变化

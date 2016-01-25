@@ -56,14 +56,7 @@ class SightFoodViewController: BaseTableViewController {
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
         
-        if data.count == 0 {
-            refresh()
-        }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
+        if data.count == 0 { refresh() }
     }
     
     // MARK: - 刷新方法

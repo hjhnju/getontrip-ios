@@ -133,12 +133,23 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     
     // MARK: - tableview delegate
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        if shopData.count == 0 && topicData.count == 0 {
+            return 1
+        } else if shopData.count != 0 && topicData.count != 0 {
+            return 3
+        } else {
+            return 2
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 { return 0 }
-        return section == 1 ? shopData.count : topicData.count
+        if section == 1 && shopData.count != 0 {
+            return shopData.count
+        } else if topicData.count != 0 {
+            return topicData.count
+        }
+        return 0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -151,18 +162,26 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         let v = tableView.dequeueReusableHeaderFooterViewWithIdentifier("FoodHeaderViewCell") as! FoodHeaderViewCell
         v.upButton.addTarget(self, action: "upPageAction:", forControlEvents: .TouchUpInside)
         v.BottomButton.addTarget(self, action: "BottomPageAction:", forControlEvents: .TouchUpInside)
-        v.titleLabel.text = section == 1 ? "推荐名店" : "相关话题"
-        v.upButton.tag = section == 1 ? 2 : 3
-        v.BottomButton.tag = section == 1 ? 2 : 3
-        v.BottomButton.hidden = section == 1 ? false : true
-        v.upButton.hidden = section == 1 ? false : true
+        if section == 1 && shopData.count != 0 {
+            v.titleLabel.text  = "推荐名店"
+            v.upButton.tag     = 2
+            v.BottomButton.tag = 2
+            v.upButton.hidden  = false
+            v.BottomButton.hidden = false
+        } else if topicData.count != 0 {
+            v.titleLabel.text  = "相关话题"
+            v.upButton.tag     = 3
+            v.BottomButton.tag = 3
+            v.upButton.hidden  = true
+            v.BottomButton.hidden = true
+        }
         
-        if section == 1 {
+        if section == 1 && shopData.count != 0 {
             shopUpButton = v.upButton
             shopUpButton = v.BottomButton
             v.upButton.hidden = Int(data.shopNum) > 4 ? false : true
             v.BottomButton.hidden = Int(data.shopNum) > 4 ? false : true
-        } else if section == 2 {
+        } else if topicData.count != 0 {
             topicUpButton = v.upButton
             topicBottomButton = v.BottomButton
             v.upButton.hidden = Int(data.topicNum) > 4 ? false : true
@@ -182,12 +201,12 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 1 {
+        if indexPath.section == 1 && shopData.count != 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("FoodShopTableViewCell", forIndexPath: indexPath) as! FoodShopTableViewCell
             cell.data = shopData[indexPath.row]
             cell.baseLine.hidden = indexPath.row == shopData.count - 1 ? true : false
             return cell
-        } else if indexPath.section == 2 {
+        } else if topicData.count != 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("FoodTopicTableViewCell", forIndexPath: indexPath) as! FoodTopicTableViewCell
             cell.data = topicData[indexPath.row]
             cell.baseLine.hidden = indexPath.row == topicData.count - 1 ? true : false
@@ -198,13 +217,13 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 1 {
+        if indexPath.section == 1 && shopData.count != 0 {
             let sc = DetailWebViewController()
             let data = shopData[indexPath.row]
             sc.url = data.url
             sc.title = data.title
             navigationController?.pushViewController(sc, animated: true)
-        } else if indexPath.section == 2 {
+        } else if topicData.count != 0 {
             let vc = TopicViewController()
             let col = topicData[indexPath.row]
             let topic = Topic()
@@ -246,7 +265,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         } else { // 相关话题的下一页
             if let data = recommendTopic[topicIndex-1] {
                 topicData = data
-                tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .None)
+                tableView.reloadSections(NSIndexSet(index: self.shopData.count == 0 ? 1 : 2), withRowAnimation: .None)
                 topicIndex--
             }
         }
@@ -280,7 +299,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         } else { // 相关话题的下一页
             if let data = recommendTopic[topicIndex+1] {
                 topicData = data
-                tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .None)
+                tableView.reloadSections(NSIndexSet(index: self.shopData.count == 0 ? 1 : 2), withRowAnimation: .None)
                 topicIndex++
                 return
             }
@@ -291,7 +310,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
                             self.topicIndex++
                             self.topicData = data
                             self.recommendTopic[self.topicIndex] = data
-                            self.tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .None)
+                            self.tableView.reloadSections(NSIndexSet(index: self.shopData.count == 0 ? 1 : 2), withRowAnimation: .None)
                         } else {
                             ProgressHUD.showSuccessHUD(nil, text: "已无更多话题")
                             self.lastRequest.topicPage--

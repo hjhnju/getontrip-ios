@@ -138,10 +138,10 @@ class RecommendHotController: BaseTableViewController {
         vc?.collectionView.scrollEnabled = scrollView.contentOffset.y > -64 ? false : true
         vc?.contentOffSet = scrollView.contentOffset
         vc?.scrollViewDidScroll(scrollView)
-        
+
         UIView.animateWithDuration(0.5) { () -> Void in
-            vc?.backUpImageView.alpha = scrollView.contentOffset.y > Frame.screen.height ? 1 : 0
-            vc?.backUpControl.alpha   = scrollView.contentOffset.y > Frame.screen.height ? 1 : 0
+            vc?.backUpImageView.alpha = scrollView.contentOffset.y > 0 ? 1 : 0
+            vc?.backUpControl.alpha   = scrollView.contentOffset.y > 0 ? 1 : 0
         }
         
         let gap = RecommendContant.headerViewHeight + scrollView.contentOffset.y

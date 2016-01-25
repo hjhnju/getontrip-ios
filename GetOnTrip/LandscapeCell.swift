@@ -160,7 +160,7 @@ class LandscapeCellHead: LandscapeCell {
                 iconView.backgroundColor = landscape.bgColor
                 //是否加载网络图片
                 if UserProfiler.instance.isShowImage() {
-                    iconView.sd_setImageWithURL(NSURL(string: landscape.imageHeader), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
+                    iconView.sd_setImageWithURL(NSURL(string: landscape.image), placeholderImage: PlaceholderImage.defaultSmall, completed: { (image, error, cacheType, url) -> Void in
                         if image != nil {
                             self.iconView.image = UIImageView.imageByApplyingImage(image, blurRadius: 0.3)
                         }

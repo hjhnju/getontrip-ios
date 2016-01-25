@@ -105,6 +105,8 @@ class SearchBar: UIView {
         clearTextButton.hidden = true
         deleteButton.hidden = true
         textFile.text = ""
+//        textfileValueChangedAction()
+        
         superController?.textfileValueChangedAction(textFile)
         superController?.isRefreshSearchBar = true
         let vc = superController?.parentViewController as? RecommendViewController
@@ -112,7 +114,6 @@ class SearchBar: UIView {
         vc?.isSlideMenu = true
         vc?.slideNavButton.hidden = false
         superController?.isEnterSearchController = false
-        print((superController?.parentViewController as? RecommendViewController)?.searchBarTW)
         defaultPromptButton.titleLabel?.alpha = (superController?.parentViewController as? RecommendViewController)?.searchBarTW < 60 ? 0 : 1
         UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
             self?.superController?.view.alpha = 0
