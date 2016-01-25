@@ -66,7 +66,7 @@ class RecommendTableViewCell: UITableViewCell {
                 let w: CGFloat = cityName.sizeofStringWithFount1(UIFont(name: Font.PingFangSCRegular, size: 12) ?? UIFont.systemFontOfSize(12),
                     maxSize: CGSizeMake(CGFloat.max, 12)).width
                 cityName1?.constant = w
-                cityName2?.constant = w
+                cityName2?.constant = w + 20
             }
         }
     }
@@ -126,7 +126,7 @@ class RecommendTableViewCell: UITableViewCell {
         collectLabel.ff_AlignHorizontal(.BottomLeft, referView: contentImage, size: nil, offset: CGPointMake(-12, 0))
         collectImage.ff_AlignHorizontal(.BottomLeft, referView: collectLabel, size: CGSizeMake(10, 12), offset: CGPointMake(-7, -2))
         let cons1 = cityNameButton.ff_AlignInner(.TopRight, referView: contentView, size: CGSizeMake(43, 21), offset: CGPointMake(0, 19))
-        let cons2 = cityNButton.ff_AlignInner(.TopRight, referView: contentView, size: CGSizeMake(43, 40))
+        let cons2 = cityNButton.ff_AlignInner(.TopRight, referView: contentView, size: CGSizeMake(43, 60))
         cityName1 = cityNameButton.ff_Constraint(cons1, attribute: .Width)
         cityName2 = cityNButton.ff_Constraint(cons2, attribute: .Width)
     }
