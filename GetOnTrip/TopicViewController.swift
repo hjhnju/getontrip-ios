@@ -16,7 +16,7 @@ struct TopicViewContant {
     static let commentViewHeight:CGFloat = Frame.screen.height - Frame.screen.height * 0.72 - 44
 }
 
-class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigationDelegate {
+class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigationDelegate, UIGestureRecognizerDelegate, WKUIDelegate {
     
     // MARK: 相关属性
     /// 自定义导航
@@ -36,7 +36,15 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     /// 浏览标签
     lazy var visitNumButton   = UIButton(image: "icon_visit_light", title: "", fontSize: 12, titleColor: SceneColor.white.colorWithAlphaComponent(0.7))
     //  webView
-    var webView               = WKWebView(color: UIColor.grayColor())
+    lazy var webView: WKWebView = {
+        let v = WKWebView(color: UIColor.grayColor())
+        v.navigationDelegate = self
+        v.UIDelegate = self
+        let tap = UITapGestureRecognizer(target: self, action: "tapWebView:")
+        tap.delegate = self
+        v.addGestureRecognizer(tap)
+        return v
+    }()
     //  底部工具栏
     lazy var toolbarView      = UIView()
     /// 点赞按钮
@@ -70,9 +78,14 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     var praiseNum: String = ""
     /// 跳至景点页动画
     let sendPopoverAnimator = SendPopoverAnimator()
+    /// js图片数组
+    lazy var JSimageData: [NSURL] = [NSURL]()
+    /// 当前选中图片的frame
+    lazy var currentSelectFrame: CGRect = CGRectZero
+    /// 当前选中图片的索引
+    lazy var currentImageIndex: Int = 0
     
     // MARK: DataSource of Controller
-
     var topicId: String? {
         return self.topicDataSource?.id ?? ""
     }
@@ -304,27 +317,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    // MARK: UIWebView
-    
-    var loadingView: LoadingView = LoadingView()
-    
-    /// 页面加载失败时调用
-    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
-        print("[DetailWebViewController]webView error \(error.localizedDescription)")
-        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">网络内容加载失败</div></body></html>"
-        webView.loadHTMLString(errorHTML, baseURL: nil)
-    }
-    
-    /// 页面开始加载时调用
-    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        loadingView.start()
-    }
-    
-    /// 页面加载完成之后调用
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
-        loadingView.stop()
-    }
-    
+
     /// 显示详情
     private func showTopicDetail() {
         if let topic =  topicDataSource {
@@ -397,5 +390,56 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
      */
     func backUpAction() {
         webView.scrollView.setContentOffset(CGPointMake(0, -TopicViewContant.headerViewHeight), animated: true)
+    }
+    
+    // MARK: - wkwebview 代理方法
+    func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
+        print(navigationAction.request)
+        //        WKNavigationActionPolicy
+        print(navigationAction.request)
+        decisionHandler(WKNavigationActionPolicy.Allow)
+    }
+    
+    var loadingView: LoadingView = LoadingView()
+    /// 页面加载失败时调用
+    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        print("[DetailWebViewController]webView error \(error.localizedDescription)")
+        let errorHTML = "<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">网络内容加载失败</div></body></html>"
+        webView.loadHTMLString(errorHTML, baseURL: nil)
+    }
+    
+    /// 页面开始加载时调用
+    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        loadingView.start()
+    }
+    
+    /// 页面加载完成之后调用
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+        loadingView.stop()
+        
+        if let url = NSBundle.mainBundle().URLForResource("tools.js", withExtension: nil) {
+            if let jsString = try? String(contentsOfURL: url) {
+                webView.evaluateJavaScript(jsString, completionHandler: { (result, error) -> Void in
+                    print(result)
+                    self.checkJsWithCompletion({ (_) -> Void in
+                        print("js注入成功")
+                    })
+                    self.getImageDataSource({ (_) -> Void in
+                        print("获取图片成功")
+                    })
+                })
+            }
+        }
+    }
+    
+    func webView(webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: () -> Void) {
+        print(message)
+        currentSelectFrame = CGRectFromString(message)
+        completionHandler()
+    }
+    
+    // MARK: - 手势代理
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

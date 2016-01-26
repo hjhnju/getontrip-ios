@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Joshua. All rights reserved.
 //
 
-/*
+
 import UIKit
 import SDWebImage
 import FFAutoLayout
@@ -162,4 +162,4 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
     lazy private var scrollView = UIScrollView()
     lazy private var indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
 }
-*/
+

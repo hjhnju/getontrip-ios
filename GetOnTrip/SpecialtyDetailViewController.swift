@@ -133,6 +133,7 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         UIApplication.sharedApplication().statusBarStyle = .LightContent
+        tableView.setContentOffset(CGPointZero, animated: false)
     }
     
     // MARK: - tableview delegate

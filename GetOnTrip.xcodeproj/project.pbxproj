@@ -202,6 +202,7 @@
 		AEB98F351BE1CAC400183261 /* SightVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */; };
 		AEB98F371BE1CAD700183261 /* SightBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F361BE1CAD700183261 /* SightBookViewController.swift */; };
 		AEB98F391BE1CAF300183261 /* SightLandscapeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */; };
+		AEBD6C5B1C573DC50017A8D3 /* tools.js in Resources */ = {isa = PBXBuildFile; fileRef = AEBD6C5A1C573DC50017A8D3 /* tools.js */; };
 		AEC2318B1BCE48BD008C58C9 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2318A1BCE48BD008C58C9 /* BookViewController.swift */; };
 		AEC2318D1BCE5519008C58C9 /* BookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC2318C1BCE5519008C58C9 /* BookRequest.swift */; };
 		AEC421971BF5AA0C0063E27F /* ShareSDKConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC421961BF5AA0C0063E27F /* ShareSDKConnector.framework */; };
@@ -485,6 +486,7 @@
 		AEB98F341BE1CAC400183261 /* SightVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightVideoViewController.swift; sourceTree = "<group>"; };
 		AEB98F361BE1CAD700183261 /* SightBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightBookViewController.swift; sourceTree = "<group>"; };
 		AEB98F381BE1CAF300183261 /* SightLandscapeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SightLandscapeController.swift; sourceTree = "<group>"; };
+		AEBD6C5A1C573DC50017A8D3 /* tools.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = tools.js; sourceTree = "<group>"; };
 		AEC2318A1BCE48BD008C58C9 /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		AEC2318C1BCE5519008C58C9 /* BookRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookRequest.swift; sourceTree = "<group>"; };
 		AEC421941BF5A95C0063E27F /* ShareSDKConnector */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = ShareSDKConnector; path = libraries/ShareSDKConnector.framework/ShareSDKConnector; sourceTree = "<group>"; };
@@ -1093,6 +1095,7 @@
 		AEAB95151BC7C38800B6EE62 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AEBD6C5A1C573DC50017A8D3 /* tools.js */,
 				AEAB95931BC8D82700B6EE62 /* BookDetail.css */,
 				AE012D9B1BFB5E6E00D84C9C /* CommentTableViewCell.swift */,
 				AE3321DF1C06BAE500B95FA4 /* CommentPersonCell.swift */,
@@ -1251,6 +1254,7 @@
 				AEA241081C0D526B00049882 /* LaunchScreen.storyboard in Resources */,
 				AEAB95941BC8D82700B6EE62 /* BookDetail.css in Resources */,
 				AE3CA1221C05638600669BA0 /* ShareSDKUI.bundle in Resources */,
+				AEBD6C5B1C573DC50017A8D3 /* tools.js in Resources */,
 				72D86DEC1B65D94D004B72D0 /* Images.xcassets in Resources */,
 				AE3CA11E1C05638600669BA0 /* ShareSDK.bundle in Resources */,
 				AE3CA11C1C05638600669BA0 /* read_me.txt in Resources */,

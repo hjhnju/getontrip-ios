@@ -1102,11 +1102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/SpecialtyDetailViewController.swift"
-            timestampString = "475393322.898293"
+            timestampString = "475478482.599918"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "309"
-            endingLineNumber = "309"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
             landmarkName = "BottomPageAction(_:)"
             landmarkType = "5">
          </BreakpointContent>

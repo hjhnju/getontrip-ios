@@ -183,27 +183,65 @@ extension TopicViewController {
         vc.modalPresentationStyle = UIModalPresentationStyle.Custom
         presentViewController(vc, animated: true, completion: nil)
     }
-    /*
+    
+    // MARK: - webview相关
+    func tapWebView(gesture: UITapGestureRecognizer) {
+        let point = gesture.locationInView(webView)
+        let js = "imageSourceFromPoint(\(point.x), \(point.y - TopicViewContant.headerViewHeight))"
+        checkJsWithCompletion { (_) -> Void in
+            self.webView.evaluateJavaScript(js, completionHandler: { (result, error) -> Void in
+                print("========>   \(result)")
+                if let url = NSURL(string: (result as? String) ?? "") {
+                    self.currentImageIndex = self.JSimageData.indexOf(url) ?? 0
+                    self.openDetailPhoto()
+                }
+            })
+        }
+    }
+    
+    func checkJsWithCompletion(completion:(Void)->Void) {
+        let js = "typeof imageSourceFromPoint;"
+        webView.evaluateJavaScript(js) { (result, error) -> Void in
+            print(result)
+            if error != nil {
+                print(error)
+                return
+            }
+            completion()
+        }
+    }
+
+
+    func getImageDataSource(completion:(Void)->Void) {
+        let js = "getImageSource();"
+        webView.evaluateJavaScript(js) { (result, error) -> Void in
+            print(result)
+            if let imageData = result?.componentsSeparatedByString("|") {
+                for item in imageData {
+                    if let url = NSURL(string: item) {
+                        self.JSimageData.append(url)
+                    }
+                }
+            }
+            
+            if error != nil {
+                print(error)
+                return;
+            }
+            completion();
+        }
+    }
+    
     func openDetailPhoto() {
         // 传递数据！- 图像的数组 & 用户选中的照片索引
-        
-        var urls = [NSURL]()
-        urls.append(NSURL(string: "http://e.hiphotos.baidu.com/image/h%3D200/sign=9df930e1bc0e7bec3cda04e11f2cb9fa/314e251f95cad1c8037ed8c97b3e6709c83d5112.jpg")!)
-        urls.append(NSURL(string: "http://c.hiphotos.baidu.com/image/pic/item/0d338744ebf81a4cbbae871dd32a6059242da642.jpg")!)
-        urls.append(NSURL(string: "http://d.hiphotos.baidu.com/image/pic/item/8b82b9014a90f603d057f7933d12b31bb151ed7b.jpg")!)
-        urls.append(NSURL(string: "http://f.hiphotos.baidu.com/image/pic/item/8718367adab44aed8390d530b71c8701a08bfb0c.jpg")!)
-        urls.append(NSURL(string: "http://c.hiphotos.baidu.com/image/pic/item/e850352ac65c103851f8a024b6119313b17e8955.jpg")!)
-        urls.append(NSURL(string: "http://h.hiphotos.baidu.com/image/pic/item/c995d143ad4bd1130c0ee8e55eafa40f4afb0521.jpg")!)
-        urls.append(NSURL(string: "http://d.hiphotos.baidu.com/image/pic/item/4afbfbedab64034f5be93a20aac379310a551deb.jpg")!)
-        
-        let vc = PhotoBrowserViewController(urls: urls, index: 1)
+        let vc = PhotoBrowserViewController(urls: JSimageData, index: currentImageIndex)
         
         // 0. 准备转场的素材
 //        presentedImageView.sd_setImageWithURL(cell.status!.largePicURLs![photoIndex])
 //        presentedImageView.frame = cell.screenFrame(photoIndex)
 //        presentedImageView.contentMode = UIViewContentMode.ScaleAspectFill
         // 目标位置
-//        presentedFrame = cell.fullScreenFrame(photoIndex)
+//        presentedFrame = currentSelectFrame//cell.fullScreenFrame(photoIndex)
         // 记录当前行
 //        selectedStatusCell = cell
         
@@ -214,10 +252,10 @@ extension TopicViewController {
         
         presentViewController(vc, animated: true, completion: nil)
     }
-*/
+
 }
 
-/*
+
 extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
     
     // 返回提供转场 Modal 动画的对象
@@ -302,4 +340,3 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
         }
     }
 }
-*/
