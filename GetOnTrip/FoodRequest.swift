@@ -48,9 +48,9 @@ class FoodRequest: NSObject {
     // 将数据回调外界
     func foodFetchModels(handler: ([ShopDetail]?, Int) -> Void) {
         var post         = [String: String]()
+        post["id"]       = String(foodId)
         post["pageSize"] = String(shopPageSize)
         post["page"]     = String(shopPage)
-        post["id"]       = String(foodId)
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/food/shop", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
@@ -81,9 +81,9 @@ class FoodRequest: NSObject {
     // 将数据回调外界
     func topicFetchModels(handler: ([FoodTopicDetail]?, Int) -> Void) {
         var post         = [String: String]()
+        post["id"]       = String(foodId)
         post["pageSize"] = String(topicPageSize)
         post["page"]     = String(topicPage)
-        post["id"]       = String(foodId)
         
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/food/topic", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {

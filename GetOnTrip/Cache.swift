@@ -54,6 +54,18 @@ class Cache: NSObject {
         "sight_books": CacheRegexConfig(expr: "^/api/1\\.1/sight/book\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //视频列表缓存
         "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.1/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        //美食列表缓存
+        "sight_foods": CacheRegexConfig(expr: "^/api/1\\.1/sight/food\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        //美食商店缓存
+        "sight_foods_shop": CacheRegexConfig(expr: "^/api/1\\.1/food/shop\\?id=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        //美食详情缓存
+        "sight_foods_topic": CacheRegexConfig(expr: "^/api/1\\.1/food/topic\\?id=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        //特产列表缓存
+        "sight_specialty": CacheRegexConfig(expr: "^/api/1\\.1/sight/specialty\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        //特产名品缓存
+        "sight_specialty_product": CacheRegexConfig(expr: "^/api/1\\.1/specialty/product\\?id=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        //特产详情缓存
+        "sight_specialty_topic": CacheRegexConfig(expr: "^/api/1\\.1/specialty/topic\\?id=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         // 首页缓存
         "recommend1" : CacheRegexConfig(expr: "^/api/1\\.1/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=1&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
         "recommend2" : CacheRegexConfig(expr: "^/api/1\\.1/search/label\\?x=([0-9]+\\.[0-9]+)&page=1&order=2&pageSize=15&y=([0-9]+\\.[0-9]+)$", buffer: 5, expire: 60),
