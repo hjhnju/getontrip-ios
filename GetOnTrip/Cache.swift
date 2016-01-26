@@ -56,12 +56,16 @@ class Cache: NSObject {
         "sight_vedios":CacheRegexConfig(expr: "^/api/1\\.1/sight/video\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //美食列表缓存
         "sight_foods": CacheRegexConfig(expr: "^/api/1\\.1/sight/food\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        //美食详情页
+        "sight_food": CacheRegexConfig(expr: "^/api/1\\.1/food\\?id=([0-9]+)", buffer: 50, expire: 1),
         //美食商店缓存
         "sight_foods_shop": CacheRegexConfig(expr: "^/api/1\\.1/food/shop\\?id=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //美食详情缓存
         "sight_foods_topic": CacheRegexConfig(expr: "^/api/1\\.1/food/topic\\?id=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //特产列表缓存
-        "sight_specialty": CacheRegexConfig(expr: "^/api/1\\.1/sight/specialty\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        "sight_specialtys": CacheRegexConfig(expr: "^/api/1\\.1/sight/specialty\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
+        //特产页缓存
+        "sight_specialty": CacheRegexConfig(expr: "^/api/1\\.1/specialty\\?id=([0-9]+)", buffer: 50, expire: 1),
         //特产名品缓存
         "sight_specialty_product": CacheRegexConfig(expr: "^/api/1\\.1/specialty/product\\?id=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //特产详情缓存
