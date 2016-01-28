@@ -80,8 +80,10 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     let sendPopoverAnimator = SendPopoverAnimator()
     /// js图片数组
 //    lazy var JSimageData: [NSURL] = [NSURL]()
+    var photoBrowserVC: PhotoBrowserViewController?
     lazy var jsImageStr: [String] = [String]()
     lazy var descs: [String] = [String]()
+    lazy var enterPictureY: CGFloat = 0
     /// jsImage
     var jsImages: [JSImageData] = [JSImageData]() {
         didSet {
@@ -438,10 +440,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
                     self.getImageDataSource({ (_) -> Void in
                         print("获取图片成功")
                     })
-                    /// 获取图片数据
-                    self.getImageData({ (_) -> Void in
-                        print("获取图片二进制数据成功")
-                    })
                 })
             }
         }
@@ -450,6 +448,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     func webView(webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: () -> Void) {
         print(message)
         currentSelectFrame = CGRectFromString(message)
+        let v1 = view.convertRect(currentSelectFrame, toCoordinateSpace: UIApplication.sharedApplication().keyWindow!)
+        enterPictureY = v1.origin.y
         completionHandler()
     }
     

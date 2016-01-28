@@ -28,10 +28,6 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
     lazy private var scrollView = UIScrollView()
     /// 刷新控件
     lazy private var indicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-    /// 描述
-    lazy var descLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "将近拉山", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCRegular)
-    /// 蒙版
-    lazy var descScrollView: UIScrollView = UIScrollView(color: UIColor(hex: 0x2A2D2E, alpha: 0.5))
     
     var imageStr: String = "" {
         didSet {
@@ -128,19 +124,16 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
         scrollView.maximumZoomScale = 2.0
         scrollView.addSubview(imageView)
         
+        let tap1 = UITapGestureRecognizer(target: self, action: "clickImage")
+        scrollView.addGestureRecognizer(tap1)
         let tap = UITapGestureRecognizer(target: self, action: "clickImage")
         imageView.addGestureRecognizer(tap)
         imageView.userInteractionEnabled = true
         
         addSubview(indicator)
-        addSubview(descScrollView)
-        descScrollView.addSubview(descLabel)
-        backgroundColor = UIColor.clearColor()
-        descLabel.preferredMaxLayoutWidth = Frame.screen.width - 18
-        indicator.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil)
-        descScrollView.ff_AlignInner(.BottomLeft, referView: self, size: CGSizeMake(Frame.screen.width, 133), offset: CGPointMake(0, -24))
-        descLabel.ff_AlignInner(.TopLeft, referView: descScrollView, size: nil, offset: CGPointMake(9, 7))
         
+        backgroundColor = UIColor.clearColor()
+        indicator.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil)
     }
     
     required init(coder aDecoder: NSCoder) {

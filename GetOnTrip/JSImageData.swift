@@ -28,5 +28,8 @@ class JSImageData: NSObject {
         h = dict["h"] as! Int
         desc = (dict["desc"] as? String) ?? ""
         src = (dict["src"] as? String) ?? ""
+        
+        let str = "{{\(x), \(y)}, {\(w), \(h)}}"
+        frame = CGRectFromString(str)
     }
 }

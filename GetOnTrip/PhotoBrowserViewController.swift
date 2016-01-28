@@ -19,7 +19,7 @@ class PhotoBrowserViewController: UIViewController {
     /// layout
     lazy private var layout = UICollectionViewFlowLayout()
     /// collectionview
-    lazy private var collectionView: UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.layout)
+    lazy var collectionView: UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.layout)
     // 照片的选择属性
     private var photoScale: CGFloat = 0
     /// 图标
@@ -30,6 +30,10 @@ class PhotoBrowserViewController: UIViewController {
     lazy var pageNumLabel: UILabel = UILabel(color: .whiteColor(), title: "/4", fontSize: 13, mutiLines: true, fontName: Font.PingFangSCRegular)
     /// 页数
     lazy var pageLabel: UILabel = UILabel(color: .whiteColor(), title: "3", fontSize: 16, mutiLines: true, fontName: Font.PingFangSCRegular)
+    /// 描述
+    lazy var descLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "将近拉山", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCRegular)
+    /// 蒙版
+    lazy var descScrollView: UIScrollView = UIScrollView(color: UIColor(hex: 0x2A2D2E, alpha: 0.5))
     // MARK: -  初始化加载方法
     override func loadView() {
         // 将视图的大小`设大`
@@ -47,11 +51,17 @@ class PhotoBrowserViewController: UIViewController {
         view.addSubview(promptLabel)
         view.addSubview(pageNumLabel)
         view.addSubview(pageLabel)
+        view.addSubview(descScrollView)
+        descScrollView.addSubview(descLabel)
+        
+        descLabel.preferredMaxLayoutWidth = Frame.screen.width - 18
         
         iconView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(25, 26), offset: CGPointMake(10, 17))
         promptLabel.ff_AlignHorizontal(.CenterRight, referView: iconView, size: nil, offset: CGPointMake(10, 0))
         pageNumLabel.ff_AlignInner(.TopRight, referView: view, size: nil, offset: CGPointMake(-22, 21))
         pageLabel.ff_AlignHorizontal(.BottomLeft, referView: pageNumLabel, size: nil, offset: CGPointMake(0, 0))
+        descScrollView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(Frame.screen.width, 133), offset: CGPointMake(0, -24))
+        descLabel.ff_AlignInner(.TopLeft, referView: descScrollView, size: nil, offset: CGPointMake(9, 7))
         collectionView.ff_Fill(view)
         prepareCollectionView()
     }
@@ -60,15 +70,14 @@ class PhotoBrowserViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        
         prepareLayout()
         // 跳转到用户选定的页面
         if isScroll {
             let indexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
             collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+            scrollViewDidEndDecelerating(collectionView)
             isScroll = false
         }
-        
     }
     
     // MARK: - 自定义方法
@@ -86,6 +95,13 @@ class PhotoBrowserViewController: UIViewController {
         let indexPath = collectionView.indexPathsForVisibleItems().last
         let cell = collectionView.cellForItemAtIndexPath(indexPath!) as! PhotoViewerCell
         return cell.imageView
+    }
+    
+    ///  获得当前显示的 图像视图
+    func currentImageViewFrame() -> CGRect {
+        let indexPath = collectionView.indexPathsForVisibleItems().last
+        let cell = collectionView.cellForItemAtIndexPath(indexPath!) as! PhotoViewerCell
+        return cell.imageView.frame
     }
     
     private func prepareLayout() {
@@ -117,12 +133,6 @@ class PhotoBrowserViewController: UIViewController {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    var temp: Int = 0 {
-        didSet {
-            self.pageLabel.text = "\(temp)"
-        }
-    }
 }
 
 private let HMPhotoBrowserCellReuseIdentifier = "HMPhotoBrowserCellReuseIdentifier"
@@ -138,14 +148,19 @@ extension PhotoBrowserViewController: UICollectionViewDataSource, UICollectionVi
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(HMPhotoBrowserCellReuseIdentifier, forIndexPath: indexPath) as! PhotoViewerCell
         
         cell.imageStr = imageStrs[indexPath.item]
-        cell.descLabel.attributedText = describes[indexPath.item].getAttributedString(0, lineSpacing: 7, breakMode: .ByTruncatingTail, fontName: Font.PingFangSCRegular, fontSize: 14)
-        let h: CGFloat = describes[indexPath.item].sizeofStringWithFount(UIFont(name: Font.PingFangSCRegular, size: 14) ?? UIFont(name: Font.ios8Font, size: 14)!,
-            maxSize: CGSizeMake(Frame.screen.width - 18, CGFloat.max), lineSpacing: 7).height
-        cell.descScrollView.contentSize = CGSizeMake(Frame.screen.width - 18, h + 13)
-        cell.descScrollView.hidden = describes[indexPath.item] == "" ? true : false
+        descLabel.attributedText = describes[indexPath.item].getAttributedString(0, lineSpacing: 7, breakMode: .ByTruncatingTail, fontName: Font.PingFangSCRegular, fontSize: 14)
         cell.photoDelegate = self
-        pageLabel.text = "\(indexPath.row + 1)"
         return cell
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        let item = Int(scrollView.contentOffset.x/(Frame.screen.width+20))
+        descScrollView.hidden = describes[item] == "" ? true : false
+        let h: CGFloat = describes[item].sizeofStringWithFount(UIFont(name: Font.PingFangSCRegular, size: 14) ?? UIFont(name: Font.ios8Font, size: 14)!,
+            maxSize: CGSizeMake(Frame.screen.width - 18, CGFloat.max), lineSpacing: 7).height
+        descScrollView.contentSize = CGSizeMake(Frame.screen.width - 18, h + 13)
+        pageLabel.text = "\(item + 1)"
+        
     }
     
     // 点击关闭
@@ -156,7 +171,6 @@ extension PhotoBrowserViewController: UICollectionViewDataSource, UICollectionVi
     
     ///  缩放进行中
     func photoViewerDidZooming(scale: CGFloat) {
-        print(scale)
         // 交互式转场
         // 记录缩放比例
         photoScale = scale

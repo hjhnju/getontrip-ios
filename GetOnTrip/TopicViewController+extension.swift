@@ -187,7 +187,10 @@ extension TopicViewController {
     
     // MARK: - webview相关
     func tapWebView(gesture: UITapGestureRecognizer) {
-        
+        /// 获取图片数据
+        getImageData({ (_) -> Void in
+            print("获取图片二进制数据成功")
+        })
         let point = gesture.locationInView(webView)
         let js = "imageSourceFromPoint(\(point.x), \(point.y - TopicViewContant.headerViewHeight))"
         webView.evaluateJavaScript(js, completionHandler: { (result, error) -> Void in
@@ -211,11 +214,6 @@ extension TopicViewController {
                     if item != "" {
                         let item = item + "@e\(Frame.screen.width)w_e\(Frame.screen.height)h"
                         self.jsImageStr.append(item)
-//                        if let url = NSURL(string: item) {
-////                            if url.absoluteString != "" {
-//////                                self.JSimageData.append(url)
-////                            }
-//                        }
                     }
                 }
             }
@@ -232,11 +230,9 @@ extension TopicViewController {
     func getImageData(completion:(Void)->Void) {
         let js = "getImgList();"
         webView.evaluateJavaScript(js) { (result, error) -> Void in
-            print(result)
            let array = JSON(arrayLiteral: result!)
             for item in array.arrayValue ?? [] {
                 for item in item.arrayValue {
-                    print(item)
                     if let item = item.dictionaryObject {
                         self.jsImages.append(JSImageData(dict: item))
                         self.descs.append((item["desc"] ?? "") as! String)
@@ -250,37 +246,26 @@ extension TopicViewController {
         }
     }
     
-    
     func openDetailPhoto() {
         // 传递数据！- 图像的数组 & 用户选中的照片索引
-        for item in jsImageStr {
-            print(item)
-        }
-        let vc = PhotoBrowserViewController(urls: jsImageStr, descs: descs, index: currentImageIndex)
+        photoBrowserVC = PhotoBrowserViewController(urls: jsImageStr, descs: descs, index: currentImageIndex)
         // 0. 准备转场的素材
         let str = jsImageStr[currentImageIndex]
         presentedImageView.frame = currentSelectFrame
         presentedImageView.contentMode = .ScaleAspectFill
         presentedImageView.clipsToBounds = true
-
         presentedImageView.sd_setImageWithURL(NSURL(string: str)!, completed: { (image, error, cache, url) -> Void in
-            self.presentedFrame = self.fullScreenFrame(0)
-            // 记录当前行
-            //        selectedStatusCell = cell
-            vc.transitioningDelegate = self
-            vc.modalPresentationStyle = UIModalPresentationStyle.Custom
-            self.presentViewController(vc, animated: true, completion: nil)
+            self.presentedFrame = self.fullScreenFrame()
+            self.photoBrowserVC?.transitioningDelegate = self
+            self.photoBrowserVC?.modalPresentationStyle = .Custom
+            self.presentViewController(self.photoBrowserVC!, animated: true, completion: nil)
         })
     }
     
-    
-    func fullScreenFrame(photoIndex: Int) -> CGRect {
-        
+    func fullScreenFrame() -> CGRect {
         let image = presentedImageView.image
-        
         let scale = image!.size.height / image!.size.width
         let screenSize = UIScreen.mainScreen().bounds.size
-        
         let w = screenSize.width
         let h = w * scale
         var y: CGFloat = 0
@@ -296,14 +281,12 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
     
     // 返回提供转场 Modal 动画的对象
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
         isPresented = true
         return self
     }
     
     // 返回提供转场 Dismiss 动画的对象
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
         isPresented = false
         return self
     }
@@ -350,8 +333,9 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
             let targetVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! PhotoBrowserViewController
             let iv = targetVC.currentImageView()
             iv.contentMode = UIViewContentMode.ScaleAspectFill
-            
+            iv.clipsToBounds = true
             // 叠加形变
+            let a = targetView!.transform.a
             iv.transform = CGAffineTransformScale(iv.transform, targetView!.transform.a, targetView!.transform.a)
             // 设置图像视图的中心点
             iv.center = targetView!.center
@@ -362,14 +346,13 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
             targetView?.removeFromSuperview()
             
             // 3. 恢复的位置
-//            let targetFrame = selectedStatusCell!.screenFrame(targetVC.currentImageIndex())
-            let targetFrame = currentSelectFrame
+//            let targetFrame = currentSelectFrame//screenFrame(targetVC.currentImageIndex())
+            let targetFrame = a == 1 ? CGRectMake(currentSelectFrame.origin.x, currentSelectFrame.origin.y, iv.frame.width - 40, iv.frame.height) : currentSelectFrame
+            webView.scrollView.contentOffset = CGPointMake(0, CGFloat(jsImages[targetVC.currentImageIndex()].y) - enterPictureY)
             
             // 4. 动画
             UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
-                
                 iv.frame = targetFrame
-                
                 }, completion: { (_) -> Void in
                     iv.removeFromSuperview()
                     transitionContext.completeTransition(true)
