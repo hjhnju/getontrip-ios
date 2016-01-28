@@ -178,6 +178,7 @@
 		AE87C2141B85F285004C0998 /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87C2131B85F285004C0998 /* BookCell.swift */; };
 		AE8C0C151BE8A04F003C7942 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8C0C141BE8A04F003C7942 /* ShareView.swift */; };
 		AE8C15711C327C0A00EB8942 /* SwitchRoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8C15701C327C0A00EB8942 /* SwitchRoundButton.swift */; };
+		AE9160C01C589CBC009CFE74 /* JSImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9160BF1C589CBC009CFE74 /* JSImageData.swift */; };
 		AE926FF71BF078E000F316C0 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE4E77AC1BCB43B0006480B1 /* libsqlite3.tbd */; };
 		AE926FF91BF078EE00F316C0 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */; };
 		AE9385F51C05D9CA00B80D31 /* CityBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */; };
@@ -461,6 +462,7 @@
 		AE8C0C141BE8A04F003C7942 /* ShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		AE8C15701C327C0A00EB8942 /* SwitchRoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchRoundButton.swift; sourceTree = "<group>"; };
 		AE8D54A41B9A9EFA009F26DE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		AE9160BF1C589CBC009CFE74 /* JSImageData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSImageData.swift; sourceTree = "<group>"; };
 		AE926FF81BF078EE00F316C0 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		AE9385F41C05D9CA00B80D31 /* CityBrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseViewController.swift; sourceTree = "<group>"; };
 		AE9385F61C05DD7C00B80D31 /* CityBrowseRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBrowseRequest.swift; sourceTree = "<group>"; };
@@ -1088,6 +1090,7 @@
 				AED320851C4DCDAF001AB37D /* FoodRequest.swift */,
 				AEDF55971C4DD9B700C612AE /* FoodDetail.swift */,
 				AEDF55A11C4E457600C612AE /* SpecialtyRequest.swift */,
+				AE9160BF1C589CBC009CFE74 /* JSImageData.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1423,6 +1426,7 @@
 				AE406FED1C2CF6BF007A1916 /* SettingNicknameController.swift in Sources */,
 				AE406FEB1C2CF6BF007A1916 /* SettingDatumViewController.swift in Sources */,
 				AE6FC7AC1C23B415004ACA03 /* BaseTableViewController.swift in Sources */,
+				AE9160C01C589CBC009CFE74 /* JSImageData.swift in Sources */,
 				AE4070101C2CF6EB007A1916 /* LoginView.swift in Sources */,
 				728747231BF8583000EE36AA /* SearchContentResult.swift in Sources */,
 				72D721311B6B83C0005BDE55 /* AppIniAndConstants.swift in Sources */,

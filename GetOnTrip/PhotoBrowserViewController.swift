@@ -10,18 +10,70 @@ import UIKit
 import FFAutoLayout
 
 class PhotoBrowserViewController: UIViewController {
-    
-    func close() {
-        dismissViewControllerAnimated(true, completion: nil)
+    // MARK: - 属性
+    /// 数据源
+    private var imageStrs: [String]
+    private var describes: [String]
+    /// 查看图片的索引
+    private var currentIndex: Int
+    /// layout
+    lazy private var layout = UICollectionViewFlowLayout()
+    /// collectionview
+    lazy private var collectionView: UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.layout)
+    // 照片的选择属性
+    private var photoScale: CGFloat = 0
+    /// 图标
+    lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "icon_app_rote"))
+    /// 读图提示
+    lazy var promptLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "| 读图", fontSize: 20, mutiLines: true, fontName: Font.PingFangSCLight)
+    /// 页码
+    lazy var pageNumLabel: UILabel = UILabel(color: .whiteColor(), title: "/4", fontSize: 13, mutiLines: true, fontName: Font.PingFangSCRegular)
+    /// 页数
+    lazy var pageLabel: UILabel = UILabel(color: .whiteColor(), title: "3", fontSize: 16, mutiLines: true, fontName: Font.PingFangSCRegular)
+    // MARK: -  初始化加载方法
+    override func loadView() {
+        // 将视图的大小`设大`
+        initView()
     }
     
-    func save() {
+    private func initView() {
+        var screenBounds = Frame.screen
+        screenBounds.size.width += 20
+        view = UIView(frame: screenBounds)
+        view.backgroundColor = UIColor.blackColor()
         
-        // 1. 拿到图像
-        let image = currentImageView().image!
+        view.addSubview(collectionView)
+        view.addSubview(iconView)
+        view.addSubview(promptLabel)
+        view.addSubview(pageNumLabel)
+        view.addSubview(pageLabel)
         
-        // 2. 保存图像 - 回调方法的参数格式是固定的
-        UIImageWriteToSavedPhotosAlbum(image, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        iconView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(25, 26), offset: CGPointMake(10, 17))
+        promptLabel.ff_AlignHorizontal(.CenterRight, referView: iconView, size: nil, offset: CGPointMake(10, 0))
+        pageNumLabel.ff_AlignInner(.TopRight, referView: view, size: nil, offset: CGPointMake(-22, 21))
+        pageLabel.ff_AlignHorizontal(.BottomLeft, referView: pageNumLabel, size: nil, offset: CGPointMake(0, 0))
+        collectionView.ff_Fill(view)
+        prepareCollectionView()
+    }
+    
+    var isScroll:Bool = true
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        
+        prepareLayout()
+        // 跳转到用户选定的页面
+        if isScroll {
+            let indexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
+            collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+            isScroll = false
+        }
+        
+    }
+    
+    // MARK: - 自定义方法
+    func close() {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     ///  返回当前显示图片的索引
@@ -31,95 +83,17 @@ class PhotoBrowserViewController: UIViewController {
     
     ///  获得当前显示的 图像视图
     func currentImageView() -> UIImageView {
-        // 0. 拿到当前的cell
         let indexPath = collectionView.indexPathsForVisibleItems().last
         let cell = collectionView.cellForItemAtIndexPath(indexPath!) as! PhotoViewerCell
-        
-        // 1. 拿到图像
         return cell.imageView
     }
     
-    // - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo;
-    func image(image :UIImage, didFinishSavingWithError error:NSError?, contextInfo :AnyObject) {
-        
-//        if error != nil {
-//            SVProgressHUD.showErrorWithStatus("保存出错")
-//        } else {
-//            SVProgressHUD.showSuccessWithStatus("保存成功")
-//        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        print(imageURLs)
-    }
-    
-    // 将要出现，视图 OK，collectionView 不 OK
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        print("\(__FUNCTION__) \(view.frame) \(collectionView.frame)")
-    }
-    
-    // 将要布局，视图 OK，collectionView 不 OK
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        print("\(__FUNCTION__) \(view.frame) \(collectionView.frame)")
-    }
-    
-    // 完成子视图，视图 OK，collectionView OK
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        print("\(__FUNCTION__) \(view.frame) \(collectionView.frame)")
-        
-        prepareLayout()
-        
-        // 跳转到用户选定的页面
-        let indexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
-        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
-    }
-    
-    // 提示：滚动到指定位置，不要写在此方法中
-    //    override func viewDidAppear(animated: Bool) {
-    //        super.viewDidAppear(animated)
-    //
-    //        // 跳转到用户选定的页面
-    //        let indexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
-    //        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
-    //    }
-    
     private func prepareLayout() {
-        // 设定所有的 item 的尺寸
         layout.itemSize = collectionView.bounds.size
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
-        
         collectionView.pagingEnabled = true
-    }
-    
-    override func loadView() {
-        // 将视图的大小`设大`
-        var screenBounds = UIScreen.mainScreen().bounds
-        screenBounds.size.width += 20
-        view = UIView(frame: screenBounds)
-        
-        view.backgroundColor = UIColor.blackColor()
-        view.addSubview(collectionView)
-        view.addSubview(saveButton)
-        view.addSubview(closeButton)
-        
-        collectionView.ff_Fill(view)
-        saveButton.ff_AlignInner(ff_AlignType.BottomRight, referView: view, size: CGSize(width: 60, height: 30), offset: CGPoint(x: -12, y: -12))
-        closeButton.ff_AlignInner(ff_AlignType.BottomLeft, referView: view, size: CGSize(width: 60, height: 30), offset: CGPoint(x: 12, y: -12))
-        
-        saveButton.addTarget(self, action: "save", forControlEvents: UIControlEvents.TouchUpInside)
-        closeButton.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        prepareCollectionView()
     }
     
     private func prepareCollectionView() {
@@ -130,9 +104,10 @@ class PhotoBrowserViewController: UIViewController {
         collectionView.registerClass(PhotoViewerCell.self, forCellWithReuseIdentifier: HMPhotoBrowserCellReuseIdentifier)
     }
     
-    init(urls: [NSURL], index: Int) {
+    init(urls: [String], descs: [String], index: Int) {
         // 先初始化本类的属性
-        imageURLs = urls
+        imageStrs = urls
+        describes = descs
         currentIndex = index
         
         // `再`调用系统提供的 `父类` 构造函数
@@ -143,19 +118,11 @@ class PhotoBrowserViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// 图像的数组
-    private var imageURLs: [NSURL]
-    /// 用户选中的照片索引
-    private var currentIndex: Int
-    
-    // MARK: － 控件懒加载
-    lazy private var layout = UICollectionViewFlowLayout()
-    lazy private var collectionView: UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.layout)
-    lazy private var saveButton: UIButton = UIButton(title: "保存", fontSize: 14, radius: 0)
-    lazy private var closeButton: UIButton = UIButton(title: "关闭", fontSize: 14, radius: 0)
-    
-    /// 照片的缩放比例，与 OC 类似，分类中同样不能包含存储性属性
-    private var photoScale: CGFloat = 0
+    var temp: Int = 0 {
+        didSet {
+            self.pageLabel.text = "\(temp)"
+        }
+    }
 }
 
 private let HMPhotoBrowserCellReuseIdentifier = "HMPhotoBrowserCellReuseIdentifier"
@@ -163,24 +130,22 @@ private let HMPhotoBrowserCellReuseIdentifier = "HMPhotoBrowserCellReuseIdentifi
 extension PhotoBrowserViewController: UICollectionViewDataSource, UICollectionViewDelegate, PhotoViewerCellDelegate {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageURLs.count
+        pageNumLabel.text = "/\(imageStrs.count)"
+        return imageStrs.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(HMPhotoBrowserCellReuseIdentifier, forIndexPath: indexPath) as! PhotoViewerCell
         
-        cell.backgroundColor = UIColor.clearColor()
-        cell.imageURL = imageURLs[indexPath.item]
-        
+        cell.imageStr = imageStrs[indexPath.item]
+        cell.descLabel.attributedText = describes[indexPath.item].getAttributedString(0, lineSpacing: 7, breakMode: .ByTruncatingTail, fontName: Font.PingFangSCRegular, fontSize: 14)
+        let h: CGFloat = describes[indexPath.item].sizeofStringWithFount(UIFont(name: Font.PingFangSCRegular, size: 14) ?? UIFont(name: Font.ios8Font, size: 14)!,
+            maxSize: CGSizeMake(Frame.screen.width - 18, CGFloat.max), lineSpacing: 7).height
+        cell.descScrollView.contentSize = CGSizeMake(Frame.screen.width - 18, h + 13)
+        cell.descScrollView.hidden = describes[indexPath.item] == "" ? true : false
         cell.photoDelegate = self
-        
+        pageLabel.text = "\(indexPath.row + 1)"
         return cell
-    }
-    
-    // 全屏状态下，此方法不会被触发
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print(__FUNCTION__)
     }
     
     // 点击关闭
@@ -227,8 +192,6 @@ extension PhotoBrowserViewController: UICollectionViewDataSource, UICollectionVi
     ///  隐藏控件
     private func hideControl(isHidden: Bool) {
         view.backgroundColor = isHidden ? UIColor.clearColor() : UIColor.blackColor()
-        saveButton.hidden = isHidden
-        closeButton.hidden = isHidden
     }
 }
 
@@ -242,7 +205,6 @@ extension PhotoBrowserViewController: UIViewControllerInteractiveTransitioning, 
         view.alpha = photoScale
     }
     
-    ///  转场动画中，这个函数很重要，告诉转场动画结束
     func completeTransition(didComplete: Bool) {
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -255,11 +217,9 @@ extension PhotoBrowserViewController: UIViewControllerInteractiveTransitioning, 
     func updateInteractiveTransition(percentComplete: CGFloat) {}
     func finishInteractiveTransition() {}
     func cancelInteractiveTransition() {}
-    
     func viewControllerForKey(key: String) -> UIViewController? { return self }
     func viewForKey(key: String) -> UIView? { return self.view }
     func targetTransform() -> CGAffineTransform { return CGAffineTransformIdentity }
-    
     func initialFrameForViewController(vc: UIViewController) -> CGRect { return CGRectZero }
     func finalFrameForViewController(vc: UIViewController) -> CGRect { return CGRectZero }
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 extension TopicViewController {
     
@@ -186,40 +187,35 @@ extension TopicViewController {
     
     // MARK: - webview相关
     func tapWebView(gesture: UITapGestureRecognizer) {
+        
         let point = gesture.locationInView(webView)
         let js = "imageSourceFromPoint(\(point.x), \(point.y - TopicViewContant.headerViewHeight))"
-        checkJsWithCompletion { (_) -> Void in
-            self.webView.evaluateJavaScript(js, completionHandler: { (result, error) -> Void in
-                print("========>   \(result)")
-                if let url = NSURL(string: (result as? String) ?? "") {
-                    self.currentImageIndex = self.JSimageData.indexOf(url) ?? 0
+        webView.evaluateJavaScript(js, completionHandler: { (result, error) -> Void in
+            if let url = result as? String {
+                if (url.rangeOfString(".jpg") != nil) {
+                    let range = Range(start: url.startIndex, end: url.rangeOfString(".jpg")!.endIndex)
+                    let s1 = url.substringWithRange(range) + "@e\(Frame.screen.width)w_e\(Frame.screen.height)h"
+                    self.currentImageIndex = self.jsImageStr.indexOf(s1) ?? 0
                     self.openDetailPhoto()
                 }
-            })
-        }
-    }
-    
-    func checkJsWithCompletion(completion:(Void)->Void) {
-        let js = "typeof imageSourceFromPoint;"
-        webView.evaluateJavaScript(js) { (result, error) -> Void in
-            print(result)
-            if error != nil {
-                print(error)
-                return
             }
-            completion()
-        }
+        })
     }
 
 
     func getImageDataSource(completion:(Void)->Void) {
         let js = "getImageSource();"
         webView.evaluateJavaScript(js) { (result, error) -> Void in
-            print(result)
             if let imageData = result?.componentsSeparatedByString("|") {
                 for item in imageData {
-                    if let url = NSURL(string: item) {
-                        self.JSimageData.append(url)
+                    if item != "" {
+                        let item = item + "@e\(Frame.screen.width)w_e\(Frame.screen.height)h"
+                        self.jsImageStr.append(item)
+//                        if let url = NSURL(string: item) {
+////                            if url.absoluteString != "" {
+//////                                self.JSimageData.append(url)
+////                            }
+//                        }
                     }
                 }
             }
@@ -232,27 +228,67 @@ extension TopicViewController {
         }
     }
     
+    
+    func getImageData(completion:(Void)->Void) {
+        let js = "getImgList();"
+        webView.evaluateJavaScript(js) { (result, error) -> Void in
+            print(result)
+           let array = JSON(arrayLiteral: result!)
+            for item in array.arrayValue ?? [] {
+                for item in item.arrayValue {
+                    print(item)
+                    if let item = item.dictionaryObject {
+                        self.jsImages.append(JSImageData(dict: item))
+                        self.descs.append((item["desc"] ?? "") as! String)
+                    }
+                }
+            }
+            if error != nil {
+                print(error)
+                return;
+            }
+        }
+    }
+    
+    
     func openDetailPhoto() {
         // 传递数据！- 图像的数组 & 用户选中的照片索引
-        let vc = PhotoBrowserViewController(urls: JSimageData, index: currentImageIndex)
-        
+        for item in jsImageStr {
+            print(item)
+        }
+        let vc = PhotoBrowserViewController(urls: jsImageStr, descs: descs, index: currentImageIndex)
         // 0. 准备转场的素材
-//        presentedImageView.sd_setImageWithURL(cell.status!.largePicURLs![photoIndex])
-//        presentedImageView.frame = cell.screenFrame(photoIndex)
-//        presentedImageView.contentMode = UIViewContentMode.ScaleAspectFill
-        // 目标位置
-//        presentedFrame = currentSelectFrame//cell.fullScreenFrame(photoIndex)
-        // 记录当前行
-//        selectedStatusCell = cell
-        
-        // 1. 设置转场代理
-        vc.transitioningDelegate = self
-        // 2. 设置转场的样式
-        vc.modalPresentationStyle = UIModalPresentationStyle.Custom
-        
-        presentViewController(vc, animated: true, completion: nil)
-    }
+        let str = jsImageStr[currentImageIndex]
+        presentedImageView.frame = currentSelectFrame
+        presentedImageView.contentMode = .ScaleAspectFill
+        presentedImageView.clipsToBounds = true
 
+        presentedImageView.sd_setImageWithURL(NSURL(string: str)!, completed: { (image, error, cache, url) -> Void in
+            self.presentedFrame = self.fullScreenFrame(0)
+            // 记录当前行
+            //        selectedStatusCell = cell
+            vc.transitioningDelegate = self
+            vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+            self.presentViewController(vc, animated: true, completion: nil)
+        })
+    }
+    
+    
+    func fullScreenFrame(photoIndex: Int) -> CGRect {
+        
+        let image = presentedImageView.image
+        
+        let scale = image!.size.height / image!.size.width
+        let screenSize = UIScreen.mainScreen().bounds.size
+        
+        let w = screenSize.width
+        let h = w * scale
+        var y: CGFloat = 0
+        if h < screenSize.height {
+            y = (screenSize.height - h) * 0.5
+        }
+        return CGRect(x: 0, y: y, width: w, height: h)
+    }
 }
 
 
@@ -300,6 +336,7 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
                 self.presentedImageView.frame = self.presentedFrame
                 
                 }, completion: { (_) -> Void in
+                    
                     // 删除临时图片视图
                     self.presentedImageView.removeFromSuperview()
                     
@@ -326,7 +363,7 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
             
             // 3. 恢复的位置
 //            let targetFrame = selectedStatusCell!.screenFrame(targetVC.currentImageIndex())
-            let targetFrame = CGRectMake(100, 100, 100, 100)
+            let targetFrame = currentSelectFrame
             
             // 4. 动画
             UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in

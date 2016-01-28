@@ -22,20 +22,29 @@ protocol PhotoViewerCellDelegate: NSObjectProtocol {
 class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
     
     weak var photoDelegate: PhotoViewerCellDelegate?
+    // MARK: - 懒加载控件
+    lazy var imageView = UIImageView()
+    /// scrollview
+    lazy private var scrollView = UIScrollView()
+    /// 刷新控件
+    lazy private var indicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    /// 描述
+    lazy var descLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "将近拉山", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCRegular)
+    /// 蒙版
+    lazy var descScrollView: UIScrollView = UIScrollView(color: UIColor(hex: 0x2A2D2E, alpha: 0.5))
     
-    var imageURL: NSURL? {
+    var imageStr: String = "" {
         didSet {
             // 重设 scrollView
             resetScrollView()
-            
-            // 显示菊花
             indicator.startAnimating()
-            
-            imageView.sd_setImageWithURL(imageURL!, placeholderImage: nil) { (image, error, _, _) in
-                
-                // 隐藏菊花
-                self.indicator.stopAnimating()
-                self.imagePostion(image)
+            if let url = NSURL(string: imageStr) {
+                imageView.sd_setImageWithURL(url, completed: { (image, error, cacheType, url) -> Void in
+                    self.indicator.stopAnimating()
+                    if image != nil {
+                        self.imagePostion(image)
+                    }
+                })
             }
         }
     }
@@ -78,38 +87,19 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
         photoDelegate?.photoViewerDidEndZoom()
     }
     
-    ///  缩放过程中，会频繁调用
-    /**
-    var a: CGFloat  缩放
-    var b: CGFloat
-    var c: CGFloat
-    var d: CGFloat  缩放
-    var tx: CGFloat 位移
-    var ty: CGFloat 位移
-    
-    a, b, c, d, 共同决定旋转
-    */
     func scrollViewDidZoom(scrollView: UIScrollView) {
-        // 拿到缩放比例
         let scale = imageView.transform.a
         photoDelegate?.photoViewerDidZooming(scale)
     }
     
     /// 设置位置
     private func imagePostion(image: UIImage) {
-        
-        // 计算 y 值
         let size = displaySize(image)
-        
-        // 判断是否是长图
-        if bounds.height < size.height {
+        if bounds.height < size.height { // 长图
             imageView.frame = CGRect(origin: CGPointZero, size: size)
             scrollView.contentSize = size
-        } else {
-            // 短图
+        } else { // 短图
             let y = (bounds.height - size.height) * 0.5
-            //            imageView.frame = CGRect(origin: CGPoint(x: 0, y: y), size: size)
-            // 设置 scrollView 的边距
             imageView.frame = CGRect(origin: CGPointZero, size: size)
             scrollView.contentInset = UIEdgeInsets(top: y, left: 0, bottom: 0, right: 0)
         }
@@ -117,10 +107,8 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
     
     ///  根据图像计算显示的尺寸
     private func displaySize(image: UIImage) -> CGSize {
-        
         let scale = image.size.height / image.size.width
         let h = scrollView.bounds.width * scale
-        
         return CGSize(width: scrollView.bounds.width, height: h)
     }
     
@@ -132,34 +120,31 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        print("Cell 的大小 \(frame)")
-        
         scrollView.frame = UIScreen.mainScreen().bounds
         addSubview(scrollView)
         scrollView.backgroundColor = UIColor.clearColor()
-        
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.5
         scrollView.maximumZoomScale = 2.0
-        
         scrollView.addSubview(imageView)
         
-        // 设置 imageView 的手势监听
         let tap = UITapGestureRecognizer(target: self, action: "clickImage")
         imageView.addGestureRecognizer(tap)
         imageView.userInteractionEnabled = true
         
         addSubview(indicator)
+        addSubview(descScrollView)
+        descScrollView.addSubview(descLabel)
+        backgroundColor = UIColor.clearColor()
+        descLabel.preferredMaxLayoutWidth = Frame.screen.width - 18
         indicator.ff_AlignInner(ff_AlignType.CenterCenter, referView: self, size: nil)
+        descScrollView.ff_AlignInner(.BottomLeft, referView: self, size: CGSizeMake(Frame.screen.width, 133), offset: CGPointMake(0, -24))
+        descLabel.ff_AlignInner(.TopLeft, referView: descScrollView, size: nil, offset: CGPointMake(9, 7))
+        
     }
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - 懒加载控件
-    lazy var imageView = UIImageView()
-    lazy private var scrollView = UIScrollView()
-    lazy private var indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
 }
 

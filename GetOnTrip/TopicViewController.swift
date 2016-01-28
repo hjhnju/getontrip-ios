@@ -79,9 +79,24 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     /// 跳至景点页动画
     let sendPopoverAnimator = SendPopoverAnimator()
     /// js图片数组
-    lazy var JSimageData: [NSURL] = [NSURL]()
+//    lazy var JSimageData: [NSURL] = [NSURL]()
+    lazy var jsImageStr: [String] = [String]()
+    lazy var descs: [String] = [String]()
+    /// jsImage
+    var jsImages: [JSImageData] = [JSImageData]() {
+        didSet {
+            print(jsImages.last?.src)
+            
+        }
+    }
     /// 当前选中图片的frame
-    lazy var currentSelectFrame: CGRect = CGRectZero
+    var currentSelectFrame: CGRect = CGRectZero {
+        didSet {
+//            currentSelectFrame.origin.y += TopicViewContant.headerViewHeight
+            currentSelectFrame = CGRectMake(currentSelectFrame.origin.x, currentSelectFrame.origin.y+TopicViewContant.headerViewHeight,
+                currentSelectFrame.width - 20, currentSelectFrame.height)
+        }
+    }
     /// 当前选中图片的索引
     lazy var currentImageIndex: Int = 0
     
@@ -420,12 +435,12 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         if let url = NSBundle.mainBundle().URLForResource("tools.js", withExtension: nil) {
             if let jsString = try? String(contentsOfURL: url) {
                 webView.evaluateJavaScript(jsString, completionHandler: { (result, error) -> Void in
-                    print(result)
-                    self.checkJsWithCompletion({ (_) -> Void in
-                        print("js注入成功")
-                    })
                     self.getImageDataSource({ (_) -> Void in
                         print("获取图片成功")
+                    })
+                    /// 获取图片数据
+                    self.getImageData({ (_) -> Void in
+                        print("获取图片二进制数据成功")
                     })
                 })
             }
