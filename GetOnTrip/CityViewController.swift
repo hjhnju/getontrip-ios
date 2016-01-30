@@ -68,18 +68,6 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
     lazy var loadingView: LoadingView = LoadingView()
     
     lazy var dataControllers = [BaseTableViewController]()
-    /// 退出按钮
-    lazy var exitButton: UIButton = UIButton()
-    /// 容器view
-    lazy var containerView: UIView = UIView()
-    /// 底部图片
-    lazy var bottomImageView: UIImageView = UIImageView(image: UIImage(named: "spring_sight"))
-    /// 切换城市
-    lazy var switchCityButton: UIButton = UIButton(image: "", title: "", fontSize: 16, titleColor: SceneColor.fontGray, fontName: Font.PingFangSCLight)
-    /// 是否收藏
-    lazy var collectButton: UIButton = UIButton(image: "", title: "", fontSize: 16, titleColor: SceneColor.fontGray, fontName: Font.PingFangSCLight)
-    /// 基线
-    lazy var baseLine: UIView = UIView(color: SceneColor.greyThinWhite, alphaF: 0.5)
     /// 是否是由城市控制器跳转进来的
     var isSuperCityController: Bool = false
     /// 播放图标
@@ -95,7 +83,6 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
         initView()
         setupAutlLayout()
         loadSightData()
-        initSwtchCityAndCollect()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -162,31 +149,6 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
         collectionView.bounces    = false
         collectionView.backgroundColor = .whiteColor()
         collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
-    }
-    
-    private func initSwtchCityAndCollect() {
-        view.addSubview(exitButton)
-        exitButton.ff_Fill(view)
-        exitButton.addTarget(self, action: "exitAction", forControlEvents: .TouchUpInside)
-        view.addSubview(containerView)
-        containerView.addSubview(bottomImageView)
-        bottomImageView.frame = CGRectMake(0, 0, 140, 104)
-        containerView.addSubview(switchCityButton)
-        containerView.addSubview(collectButton)
-        containerView.addSubview(baseLine)
-        switchCityButton.frame = CGRectMake(0, 10, 140, 46)
-        collectButton.frame = CGRectMake(0, 56, 140, 46)
-        baseLine.frame = CGRectMake(9, 54, 140 - 18, 0.5)
-        switchCityButton.tag = 1
-        collectButton.tag    = 2
-        exitButton.hidden = true
-        containerView.hidden = true
-        switchCityButton.setTitle("   转至城市", forState: .Normal)
-        switchCityButton.setImage(UIImage(named: "city_sight"), forState: .Normal)
-        collectButton.setTitle("   收藏景点", forState: .Normal)
-        collectButton.setImage(UIImage(named: "collect_sight"), forState: .Normal)
-        switchCityButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
-        collectButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
     }
     
     private func initNavBar() {
@@ -362,7 +324,6 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
                     }
                     self?.sightDataSource = sight
                     self?.setupChannel(sight.tags)
-                    self?.collectButton.selected = sight.isFavorite()
                 }
             } else {
                 //不再浮层提示  TODO://空白页面提示"无法连接网络"，想法：往后只有用户手动更新才会浮层显示，其他都在页面提示
@@ -415,25 +376,6 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
             default:
                 break
             }
-        }
-    }
-    
-    /// 显示更多选择
-    func showMoreSelect() {
-        exitButton.hidden = false
-        containerView.hidden = false
-        containerView.frame = CGRectMake(Frame.screen.width - 9, 50, 0, 0)
-        UIView.animateWithDuration(0.2) { [weak self] () -> Void in
-            self?.containerView.frame = CGRectMake(Frame.screen.width - 149, 50, 140, 104)
-        }
-    }
-    
-    // 切换城市和收藏景点方法
-    func selectSwitchAction(sender: UIButton) {
-        if sender.tag == 1 {
-//            cityAction()
-        } else if sender.tag == 2 {
-            favoriteAction(collectButton)
         }
     }
     

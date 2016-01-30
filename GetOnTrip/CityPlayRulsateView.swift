@@ -12,6 +12,7 @@ import CoreMedia
 import UIKit
 import MediaPlayer
 
+weak var cityPlay: CityPlayRulsateView?
 class CityPlayRulsateView: NSObject, AVAudioPlayerDelegate {
     /// 标题
     var title = ""
@@ -129,6 +130,9 @@ class CityPlayRulsateView: NSObject, AVAudioPlayerDelegate {
                     
                     // 设置音频支持后台播放
                     audio2SupportBackgroundPlay()
+                    if sightPlay != nil {
+                        if sightPlay!.isPlay { sightPlay?.updatePlayOrPauseBtn(true) }
+                    }
                     player?.play()
                     isPlay = true
                     
@@ -198,8 +202,6 @@ class CityPlayRulsateView: NSObject, AVAudioPlayerDelegate {
         }
     }
     
-    
-    
     func setupLockScreenSongInfos() {
         var image: UIImage = UIImage()
         image = playCell?.iconView.image ?? UIImage()
@@ -233,7 +235,7 @@ class CityPlayRulsateView: NSObject, AVAudioPlayerDelegate {
     
     override init() {
         super.init()
-        
+        cityPlay = self
         cache.totalCostLimit = 30 * 1024 * 1024
         cache.countLimit     = 20
     }

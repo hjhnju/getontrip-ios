@@ -12,6 +12,7 @@ import CoreMedia
 import UIKit
 import MediaPlayer
 
+weak var sightPlay: PlayFrequency?
 class PlayFrequency: NSObject, AVAudioPlayerDelegate {
 
     /// 标题
@@ -130,6 +131,9 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
                     
                     // 设置音频支持后台播放
                     audio2SupportBackgroundPlay()
+                    if cityPlay != nil {
+                        if cityPlay!.isPlay { cityPlay?.updatePlayOrPauseBtn(true) }
+                    }
                     player?.play()
                     isPlay = true
                     
@@ -234,7 +238,7 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     
     override init() {
         super.init()
-
+        sightPlay = self
         cache.totalCostLimit = 30 * 1024 * 1024
         cache.countLimit     = 20
     }
