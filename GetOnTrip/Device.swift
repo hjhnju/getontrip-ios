@@ -39,4 +39,10 @@ class Device {
         }
         return false
     }
+    class func isIphone6() -> Bool {
+        if UIScreen.mainScreen().bounds.width == 375 {
+            return true
+        }
+        return false
+    }
 }

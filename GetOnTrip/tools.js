@@ -63,11 +63,22 @@ function getDesc(img) {
     var desc = '';
     var next = img.nextSibling;
     var parent_next = img.parentNode.nextSibling;
-    if (next && next.tagName == 'P' && next.className=='imagedesc') {
-        return next.textContent;
-    } else if (parent_next && parent_next.tagName == 'P' && parent_next.className=='imagedesc') {
-        return parent_next.textContent;
-    } else {
-        return '';
+    if (next) {
+        desc = getDescByNode(next);
+    } else if (parent_next) {
+        desc = getDescByNode(parent_next);
     }
+    return desc;
+}
+
+function getDescByNode(next) {
+    var desc = '';
+    if (next && next.tagName == 'P' && next.className == 'imagedesc') {
+        desc = next.textContent;
+        ot_next = next.nextSibling;
+        if (ot_next) {
+            desc = desc + "\n" + getDescByNode(ot_next);
+        }
+    }
+    return desc;
 }

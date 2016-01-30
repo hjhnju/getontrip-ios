@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
+        print(Frame.screen.width)
 //        NSThread.sleepForTimeInterval(2)
         print(UIScreen.mainScreen().bounds.width)
         //加载缓存(最早，否则config无法获取

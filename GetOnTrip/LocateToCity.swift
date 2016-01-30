@@ -24,9 +24,11 @@ class LocateToCity: NSObject {
     var x: String = "0"
     var y: String = "0"
     weak var sightLandscapeController: SightLandscapeController?
+    weak var cityLandscapeController : CityLandscapeController?
     var location: CLLocation? {
         didSet {
             sightLandscapeController?.refreshLocationAndList()
+            cityLandscapeController?.refreshLocationAndList()
         }
     }
     

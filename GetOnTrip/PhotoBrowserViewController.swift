@@ -25,7 +25,7 @@ class PhotoBrowserViewController: UIViewController {
     /// 图标
     lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "icon_app_rote"))
     /// 读图提示
-    lazy var promptLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "看 | ", fontSize: 20, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var promptLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "看  |  ", fontSize: 20, mutiLines: true, fontName: Font.PingFangSCLight)
     /// 页码
     lazy var pageNumLabel: UILabel = UILabel(color: .whiteColor(), title: "/4", fontSize: 13, mutiLines: true, fontName: Font.PingFangSCRegular)
     /// 页数

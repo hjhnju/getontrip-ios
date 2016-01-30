@@ -43,7 +43,7 @@ class Cache: NSObject {
     /// 正则缓存配置 name:config
     var cacheRegexConfs: [String: CacheRegexConfig] = [
         //城市页缓存
-        "city": CacheRegexConfig(expr: "^/api/1\\.1/city\\?city=([0-9]+)$", buffer: 10, expire: 1),
+        "city": CacheRegexConfig(expr: "^/api/1\\.1/city\\?city=([0-9]+)$", buffer: 10, expire: 2),
         //景点缓存（标签等信息）
         "sight": CacheRegexConfig(expr: "^/api/1\\.1/sight\\?sightId=([0-9]+)$", buffer: 50, expire: 1),
         //景点话题列表缓存
@@ -58,12 +58,20 @@ class Cache: NSObject {
         "sight_foods": CacheRegexConfig(expr: "^/api/1\\.1/sight/food\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //美食详情页
         "sight_food": CacheRegexConfig(expr: "^/api/1\\.1/food\\?id=([0-9]+)", buffer: 50, expire: 1),
+        //书籍列表缓存
+        "city_books": CacheRegexConfig(expr: "^/api/1\\.1/city/book\\?cityId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 2),
+        //视频列表缓存
+        "city_vedios":CacheRegexConfig(expr: "^/api/1\\.1/city/video\\?cityId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 2),
+        //美食列表缓存
+        "city_foods": CacheRegexConfig(expr: "^/api/1\\.1/city/food\\?cityId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 2),
+        //特产列表缓存
+        "city_specialtys": CacheRegexConfig(expr: "^/api/1\\.1/city/specialty\\?cityId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 2),
+        //城市景点缓存
+        "city_sights": CacheRegexConfig(expr: "^/api/1\\.1/city/landscape\\?cityId=([0-9]+)&x=([0-9]+\\.[0-9]+)&page=1&y=([0-9]+\\.[0-9]+)&pageSize=100$", buffer: 50, expire: 2),
         //美食商店缓存
         "sight_foods_shop": CacheRegexConfig(expr: "^/api/1\\.1/food/shop\\?id=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //美食详情缓存
         "sight_foods_topic": CacheRegexConfig(expr: "^/api/1\\.1/food/topic\\?id=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
-        //特产列表缓存
-        "sight_specialtys": CacheRegexConfig(expr: "^/api/1\\.1/sight/specialty\\?sightId=([0-9]+)&pageSize=10&page=1$", buffer: 50, expire: 1),
         //特产页缓存
         "sight_specialty": CacheRegexConfig(expr: "^/api/1\\.1/specialty\\?id=([0-9]+)", buffer: 50, expire: 1),
         //特产名品缓存

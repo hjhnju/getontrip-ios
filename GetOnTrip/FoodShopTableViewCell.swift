@@ -74,7 +74,6 @@ class FoodShopTableViewCell: UITableViewCell {
         }
     }
     
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -95,7 +94,8 @@ class FoodShopTableViewCell: UITableViewCell {
         let w: CGFloat = UIScreen.mainScreen().bounds.width - 133 - 24
         titleLabel.numberOfLines = 2
         titleLabel.preferredMaxLayoutWidth = w
-        addrLabel.numberOfLines = 2
+        addrLabel.numberOfLines = 3
+        addrLabel.preferredMaxLayoutWidth = Frame.screen.width - 139 - 9
         
         iconView.ff_AlignInner(.CenterLeft, referView: contentView, size: CGSizeMake(124, 84), offset: CGPointMake(9, 0))
         titleLabel.ff_AlignHorizontal(.TopRight, referView: iconView, size: CGSizeMake(w, 19), offset: CGPointMake(6, -1.5))

@@ -119,6 +119,29 @@ class CityLandscapeController: BaseTableViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    
+    /**
+     离线刷新地再位置排序
+     */
+    func refreshLocationAndList() {
+        // 景观坐标点
+        for item in data {
+            item.apartLocation = (LocateToCity.sharedLocateToCity.location ?? CLLocation()).distanceFromLocation(item.location ?? CLLocation())
+            if item.apartLocation/1000 > 1 {
+                item.dis = "\(Int(item.apartLocation/1000))"
+                item.dis_unit = "km"
+            } else {
+                item.dis = "\(Int(item.apartLocation/100))"
+                item.dis_unit = "m"
+            }
+        }
+        data.sortInPlace { (obj1, obj2) -> Bool in
+            obj1.apartLocation < obj2.apartLocation
+        }
+        tableView.reloadData()
+    }
+    
+    
     // MARK: - 刷新方法
     func refresh() {
         if self.isLoading {

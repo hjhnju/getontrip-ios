@@ -169,7 +169,7 @@ class SpecialtyDetailViewController: BaseViewController, UITableViewDelegate, UI
         v.BottomButton.addTarget(self, action: "BottomPageAction:", forControlEvents: .TouchUpInside)
 
         if section == 1 && shopData.count != 0 {
-            v.titleLabel.text  = "推荐名店"
+            v.titleLabel.text  = "推荐名品"
             v.upButton.tag     = 2
             v.BottomButton.tag = 2
             v.upButton.hidden  = false

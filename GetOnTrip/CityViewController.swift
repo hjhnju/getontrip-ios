@@ -110,7 +110,7 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
             }
         }
     }
-    
+
     /// 当出现内存警告时，清空缓存
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
