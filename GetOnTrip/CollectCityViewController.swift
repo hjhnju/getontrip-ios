@@ -114,7 +114,10 @@ class CollectCityViewController: BaseCollectionViewController, UIAlertViewDelega
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let ct = collectCity[indexPath.row] as CollectCity
         let vc = CityViewController()
-        vc.cityDataSource = City(id: ct.id)
+        let sight: Sight = Sight(id: "")
+        sight.cityid = ct.id
+        sight.name = ct.name ?? ""
+        vc.sightDataSource = sight
         navigationController?.pushViewController(vc, animated: true)
     }
     

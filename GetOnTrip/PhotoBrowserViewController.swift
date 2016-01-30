@@ -31,9 +31,9 @@ class PhotoBrowserViewController: UIViewController {
     /// 页数
     lazy var pageLabel: UILabel = UILabel(color: .whiteColor(), title: "3", fontSize: 16, mutiLines: true, fontName: Font.PingFangSCRegular)
     /// 描述
-    lazy var descLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "将近拉山", fontSize: 14, mutiLines: true, fontName: Font.PingFangSCRegular)
+    lazy var descLabel: UILabel = UILabel(color: UIColor.whiteColor(), title: "将近拉山", fontSize: 15, mutiLines: true, fontName: Font.PingFangSCRegular)
     /// 蒙版
-    lazy var descScrollView: UIScrollView = UIScrollView(color: UIColor(hex: 0x2A2D2E, alpha: 0.5))
+    lazy var descScrollView: UIScrollView = UIScrollView(color: UIColor(hex: 0x2A2D2E, alpha: 0.3))
     // MARK: -  初始化加载方法
     override func loadView() {
         // 将视图的大小`设大`
@@ -53,17 +53,28 @@ class PhotoBrowserViewController: UIViewController {
         view.addSubview(pageLabel)
         view.addSubview(descScrollView)
         descScrollView.addSubview(descLabel)
-        
+        descScrollView.showsHorizontalScrollIndicator = false
+        descScrollView.showsVerticalScrollIndicator   = true
         descLabel.preferredMaxLayoutWidth = Frame.screen.width - 18
         
-        iconView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(25, 26), offset: CGPointMake(10, 17))
+        iconView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(25, 26), offset: CGPointMake(23, 21))
         promptLabel.ff_AlignHorizontal(.CenterRight, referView: iconView, size: nil, offset: CGPointMake(10, 0))
-        pageNumLabel.ff_AlignInner(.TopRight, referView: view, size: nil, offset: CGPointMake(-22, 21))
+        pageNumLabel.ff_AlignInner(.TopRight, referView: view, size: nil, offset: CGPointMake(-30, 21))
         pageLabel.ff_AlignHorizontal(.BottomLeft, referView: pageNumLabel, size: nil, offset: CGPointMake(0, 0))
-        descScrollView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(Frame.screen.width, 133), offset: CGPointMake(0, -24))
+        descScrollView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(Frame.screen.width, 133))
         descLabel.ff_AlignInner(.TopLeft, referView: descScrollView, size: nil, offset: CGPointMake(9, 7))
         collectionView.ff_Fill(view)
         prepareCollectionView()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.sharedApplication().statusBarHidden = true
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIApplication.sharedApplication().statusBarHidden = false
     }
     
     var isScroll:Bool = true
@@ -156,7 +167,7 @@ extension PhotoBrowserViewController: UICollectionViewDataSource, UICollectionVi
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let item = Int(scrollView.contentOffset.x/(Frame.screen.width+20))
         descScrollView.hidden = describes[item] == "" ? true : false
-        let h: CGFloat = describes[item].sizeofStringWithFount(UIFont(name: Font.PingFangSCRegular, size: 14) ?? UIFont(name: Font.ios8Font, size: 14)!,
+        let h: CGFloat = describes[item].sizeofStringWithFount(UIFont(name: Font.PingFangSCRegular, size: 15) ?? UIFont(name: Font.ios8Font, size: 15)!,
             maxSize: CGSizeMake(Frame.screen.width - 18, CGFloat.max), lineSpacing: 7).height
         descScrollView.contentSize = CGSizeMake(Frame.screen.width - 18, h + 13)
         pageLabel.text = "\(item + 1)"
@@ -174,17 +185,17 @@ extension PhotoBrowserViewController: UICollectionViewDataSource, UICollectionVi
         // 交互式转场
         // 记录缩放比例
         photoScale = scale
-        
+
         // 隐藏控件
-        hideControl(photoScale < 1.0)
+//        hideControl(photoScale < 1.0)
         
         // 判断如果缩放比例小于 1，开始交互式转场
         if photoScale < 1.0 {
-            startInteractiveTransition(self)
+//            startInteractiveTransition(self)
         } else {
             // 恢复形变
             view.transform = CGAffineTransformIdentity
-            view.alpha = 1.0
+//            view.alpha = 1.0
         }
     }
     
@@ -192,14 +203,13 @@ extension PhotoBrowserViewController: UICollectionViewDataSource, UICollectionVi
         // 判断当前的缩放比例
         if photoScale < 0.8 {
             // 直接关闭 － 告诉转场动画结束
-            completeTransition(true)
+//            completeTransition(true)
         } else {
             // 恢复控件
-            hideControl(false)
-            
+//            hideControl(false)
             // 恢复形变
             view.transform = CGAffineTransformIdentity
-            view.alpha = 1.0
+//            view.alpha = 1.0
         }
     }
     

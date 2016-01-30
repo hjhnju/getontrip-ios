@@ -61,31 +61,10 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
         return imageView
     }
     
-    ///  缩放结束，会执行一次
-    func scrollViewDidEndZooming(scrollView: UIScrollView, withView view: UIView?, atScale scale: CGFloat) {
-        
-        // 如果 scale < 0.8 直接解除转场
-        if scale >= 0.8 {
-            // 重新计算边距
-            var offsetX = (scrollView.bounds.width - view!.frame.width) * 0.5
-            if offsetX < 0 {
-                offsetX = 0
-            }
-            var offsetY = (scrollView.bounds.height - view!.frame.height) * 0.5
-            if offsetY < 0 {
-                offsetY = 0
-            }
-            // 重新设置边距
-            scrollView.contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
-        }
-        
-        // 通知代理完成缩放
-        photoDelegate?.photoViewerDidEndZoom()
-    }
-    
     func scrollViewDidZoom(scrollView: UIScrollView) {
-        let scale = imageView.transform.a
-        photoDelegate?.photoViewerDidZooming(scale)
+        let offsetX = (scrollView.bounds.width - imageView.frame.width) * 0.5
+        let offsetY = (scrollView.bounds.height - imageView.frame.height) * 0.5
+        scrollView.contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
     }
     
     /// 设置位置
@@ -93,10 +72,13 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
         let size = displaySize(image)
         if bounds.height < size.height { // 长图
             imageView.frame = CGRect(origin: CGPointZero, size: size)
-            scrollView.contentSize = size
+            scrollView.contentSize = CGSizeMake(size.width, size.height)// size
+//            scrollView.contentInset.top += 68
+//            scrollView.contentOffset.y = -68
         } else { // 短图
             let y = (bounds.height - size.height) * 0.5
             imageView.frame = CGRect(origin: CGPointZero, size: size)
+//            imageView.center = scrollView.center
             scrollView.contentInset = UIEdgeInsets(top: y, left: 0, bottom: 0, right: 0)
         }
     }
@@ -118,12 +100,12 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
         
         scrollView.frame = UIScreen.mainScreen().bounds
         addSubview(scrollView)
+//        scrollView.ff_Fill(self)
         scrollView.backgroundColor = UIColor.clearColor()
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.5
         scrollView.maximumZoomScale = 2.0
         scrollView.addSubview(imageView)
-        
         let tap1 = UITapGestureRecognizer(target: self, action: "clickImage")
         scrollView.addGestureRecognizer(tap1)
         let tap = UITapGestureRecognizer(target: self, action: "clickImage")

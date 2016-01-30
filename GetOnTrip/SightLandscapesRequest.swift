@@ -23,6 +23,7 @@ class SightLandscapesRequest: NSObject {
     var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 10
+    var enterInfo:String = "sight"
     
     func fetchNextPageModels(handler: ([Landscape]?, Int) -> Void) {
         page = page + 1
@@ -37,14 +38,18 @@ class SightLandscapesRequest: NSObject {
     // 异步加载获取数据
     func fetchModels(handler: ([Landscape]?, Int) -> Void) {
         var post         = [String: String]()
-        post["sightId"]  = sightId
+        if enterInfo == "sight" {
+            post["sightId"]  = sightId
+        } else {
+            post["cityId"]   = sightId
+        }
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
         post["x"]        = LocateToCity.sharedLocateToCity.x
         post["y"]        = LocateToCity.sharedLocateToCity.y
         
         // 发送网络请求加载数据
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/landscape", post: post) { (result, status) -> () in
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/\(enterInfo)/landscape", post: post) { (result, status) -> () in
 
             if status == RetCode.SUCCESS {
                 var land = [Landscape]()

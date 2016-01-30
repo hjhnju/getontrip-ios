@@ -124,15 +124,15 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
     }()
     
     //欢迎
-    lazy var welcomeButton = UIButton(title: "Welcome", fontSize: 48, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.HelveticaNeueThin)
+    lazy var welcomeButton = UIButton(title: "Welcome", fontSize: 48, radius: 0, titleColor: SceneColor.whiteBlue, fontName: Font.HelveticaNeueThin)
     //登录后，头像
     lazy var headerView: UIImageView = UIImageView(image: PlaceholderImage.defaultUser)
     //登录后，名称
-    lazy var nameLabel: UILabel = UILabel(color: SceneColor.thinGreen, title: "途知", fontSize: 24, mutiLines: true, fontName: Font.PingFangTCThin)
+    lazy var nameLabel: UILabel = UILabel(color: SceneColor.whiteBlue, title: "途知", fontSize: 24, mutiLines: true, fontName: Font.PingFangTCThin)
     /// 设置按钮
     lazy var settingButton: SettingButton = SettingButton(image: "setting_slideMenu", title: "    设置", fontSize: 12)
     /// 点此登录
-    lazy var loginPromptButton: UIButton = UIButton(title: "点此登录", fontSize: 12, radius: 0, titleColor: SceneColor.thinGreen, fontName: Font.PingFangSCLight)
+    lazy var loginPromptButton: UIButton = UIButton(title: "点此登录", fontSize: 12, radius: 0, titleColor: SceneColor.whiteBlue, fontName: Font.PingFangSCLight)
     
     //设置菜单的数据源
     let tableViewDataSource = ["首页", CityBrowseViewController.name, SettingDatumViewController.name, MessageViewController.name, FeedBackViewController.name]
@@ -243,7 +243,7 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
         tableView.ff_AlignInner(.CenterCenter, referView: menuView, size: CGSizeMake(SlideMenuOptions.DrawerWidth, view.bounds.height * 0.4), offset: CGPointMake(0, 0))
         
         // TODO: -在这里
-        settingButton.ff_AlignInner(.BottomRight, referView: menuView, size: nil, offset: CGPointMake(-13, -16))
+        settingButton.ff_AlignInner(.BottomLeft, referView: menuView, size: nil, offset: CGPointMake(13, -16))
         welcomeButton.ff_AlignInner(.TopCenter, referView: menuView, size: nil, offset: CGPointMake(0, Frame.screen.width * 0.14))
         loginPromptButton.ff_AlignVertical(.BottomCenter, referView: welcomeButton, size: nil, offset: CGPointMake(0, -10))
         headerView.ff_AlignInner(.TopCenter, referView: menuView, size: CGSizeMake(93, 93), offset: CGPointMake(0, Frame.screen.width * 0.13))
@@ -257,6 +257,8 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
         
         headerView.layer.cornerRadius = min(headerView.bounds.width, headerView.bounds.height) * 0.5
         headerView.clipsToBounds = true
+        headerView.layer.borderWidth = 1.0
+        headerView.layer.borderColor = SceneColor.whiteBlue.CGColor
     }
     
     //MARK: - 刷新登录状态

@@ -179,8 +179,10 @@ class SearchResultsViewController: BaseViewController, UITableViewDataSource, UI
         switch searchType {
         case ContentType.city:
             let vc = CityViewController()
-            let city = City(id: rowData.id)
-            vc.cityDataSource = city
+            let sight: Sight = Sight(id: "")
+            sight.cityid = rowData.id
+            sight.name = rowData.title ?? ""
+            vc.sightDataSource = sight
             showSearchResultController(vc)
         case ContentType.sight:
             let vc = SightViewController()

@@ -19,13 +19,10 @@ class RecommendHotController: BaseTableViewController {
     
     /// 标签id
     var labelId = ""
-    
     /// 网络请求加载数据(添加)
     var lastRequest: RecommendRequest = RecommendRequest()
-    
     /// 是否正在加载中
     var isLoading:Bool = false
-    
     /// 数据源 - 推荐列表数据
     var recommendCells  = [RecommendCellData]()
     
@@ -109,11 +106,10 @@ class RecommendHotController: BaseTableViewController {
             navigationController?.pushViewController(vc, animated: true)
         } else if( data.isTypeCity()) {
             let vc = CityViewController()
-            let city = City(id: data.id)
-            city.name = data.name
-            city.image = data.image
-            city.bgColor = data.bgColor
-            vc.cityDataSource = city
+            let sight: Sight = Sight(id: "")
+            sight.cityid = data.id
+            sight.name = data.name ?? ""
+            vc.sightDataSource = sight
             Statistics.shareStatistics.event(Event.home_click_cityViewController_eid, labelStr: data.id)
             navigationController?.pushViewController(vc, animated: true)
         } else if( data.isTypeTopic()) {

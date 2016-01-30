@@ -94,8 +94,11 @@ extension HotCityTableViewCell {
         
         let data = dataSource[indexPath.row]
         let vc = CityViewController()
-        let city = City(id: data.id)
-        vc.cityDataSource = city
+        let sight: Sight = Sight(id: "")
+        sight.cityid = data.id
+        sight.name = data.name ?? ""
+        vc.sightDataSource = sight
+        
         Statistics.shareStatistics.event(Event.home_click_cityViewController_eid, labelStr: data.id)
         superController?.navigationController?.pushViewController(vc, animated: true)
     }

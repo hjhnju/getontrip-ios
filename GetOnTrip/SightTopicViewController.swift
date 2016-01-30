@@ -13,7 +13,7 @@ public let HistoryTableViewControllerElseCell : String = "History_Cell"
 
 class SightTopicViewController: BaseTableViewController {
 
-    var lastRequest:SightTopicsRequest?
+    var lastRequest:SightTopicsRequest = SightTopicsRequest()
         
     /// 是否正在加载中
     var isLoading:Bool = false
@@ -65,15 +65,12 @@ class SightTopicViewController: BaseTableViewController {
         if self.isLoading {
             return
         }
-        if lastRequest == nil {
-            lastRequest = SightTopicsRequest()
-        }
         
-        lastRequest?.sightId = tagData.sightId
-        lastRequest?.tagId   = tagData.id
+        lastRequest.sightId = tagData.sightId
+        lastRequest.tagId   = tagData.id
         
         self.isLoading = true
-        lastRequest?.fetchFirstPageModels({ [weak self] (topics, status) -> Void in
+        lastRequest.fetchFirstPageModels({ [weak self] (topics, status) -> Void in
             if status != RetCode.SUCCESS {
                 ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
             }
@@ -118,7 +115,7 @@ class SightTopicViewController: BaseTableViewController {
     
     /// 底部加载更多
     func loadMore(){
-        lastRequest?.fetchNextPageModels({ (topics, status) -> Void in
+        lastRequest.fetchNextPageModels({ (topics, status) -> Void in
             if status != RetCode.SUCCESS {
                 ProgressHUD.showErrorHUD(self.view, text: "您的网络不给力！")
                 self.tableView.mj_footer.endRefreshing()

@@ -15,7 +15,8 @@ class SightTopicsRequest: NSObject {
     var page    :Int = 1
     var pageSize:Int = 10
     var tagId   :String = ""
-    
+    var enterInfo:String = "sight"
+
     func fetchNextPageModels(handler: (([TopicBrief]?, Int) -> Void)) {
         page = page + 1
         return fetchModels(handler)
@@ -29,13 +30,17 @@ class SightTopicsRequest: NSObject {
     // 将数据回调外界
     func fetchModels(handler: ([TopicBrief]?, Int) -> Void) {
         var post         = [String: String]()
-        post["sightId"]  = sightId
+        if enterInfo == "sight" {
+            post["sightId"]  = sightId
+        } else {
+            post["cityId"]   = sightId
+        }
         post["tags"]     = String(tagId)
         post["pageSize"] = String(pageSize)
         post["page"]     = String(page)
         // 发送网络请求加载数据
         
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/topic", post: post) { (result, status) -> () in
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/\(enterInfo)/topic", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 var topics = [TopicBrief]()
                 for item in result.arrayValue {

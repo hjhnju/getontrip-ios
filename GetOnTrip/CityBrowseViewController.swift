@@ -253,15 +253,11 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         if indexPath.section > 2 {
             let data = dataSource.values[indexPath.section - 3]
             let vc = CityViewController()
-            let city = City(id: data[indexPath.row].id)
-            vc.cityDataSource = city
-            Statistics.shareStatistics.event(Event.home_click_cityViewController_eid, labelStr: data[indexPath.row].id)
+            let sight: Sight = Sight(id: "")
+            sight.cityid = data[indexPath.row].id
+            sight.name = data[indexPath.row].name ?? ""
+            vc.sightDataSource = sight
             navigationController?.pushViewController(vc, animated: true)
-//            let sightViewController = SightViewController()
-//            let sight: Sight = Sight(id: data[indexPath.row].id ?? "")
-//            sight.name = data[indexPath.row].name ?? ""
-//            sightViewController.sightDataSource = sight
-//            navigationController?.pushViewController(sightViewController, animated: true)
         }
     }
     

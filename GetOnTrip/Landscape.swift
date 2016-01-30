@@ -26,8 +26,7 @@ class Landscape: ModelObject {
             image            = UIKitTools.sliceImageUrl(image, width: 119, height: 84)
         }
     }
-    
-    
+    /// 图片头
     lazy var imageHeader: String = ""
     /// 必玩标签
     lazy var desc = ""
@@ -51,6 +50,14 @@ class Landscape: ModelObject {
     var location: CLLocation?// = CLLocation(latitude: CLLocationDegrees(0), longitude: CLLocationDegrees(0))
     /// 相距位置 用此排序
     var apartLocation: CLLocationDistance = 0
+    
+    // MARK: - 城市模型数据
+    /// 内容数
+    lazy var contentNum: String = ""
+    /// 收藏数量
+    lazy var collectNum: String = ""
+    /// 景观id
+    lazy var landscape_id: String = ""
     
     override init() {
         super.init()

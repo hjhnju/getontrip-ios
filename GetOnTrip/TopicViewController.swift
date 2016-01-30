@@ -85,12 +85,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     lazy var descs: [String] = [String]()
     lazy var enterPictureY: CGFloat = 0
     /// jsImage
-    var jsImages: [JSImageData] = [JSImageData]() {
-        didSet {
-            print(jsImages.last?.src)
-            
-        }
-    }
+    var jsImages: [JSImageData] = [JSImageData]()
     /// 当前选中图片的frame
     var currentSelectFrame: CGRect = CGRectZero {
         didSet {
@@ -384,6 +379,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         }
         
         lastRequest?.fetchModels({[weak self] (result, status) -> Void in
+            
             if status == RetCode.SUCCESS {
                 if let topic = result {
                     self?.topicDataSource = topic
@@ -446,7 +442,6 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     }
     
     func webView(webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: () -> Void) {
-        print(message)
         currentSelectFrame = CGRectFromString(message)
         let v1 = view.convertRect(currentSelectFrame, toCoordinateSpace: UIApplication.sharedApplication().keyWindow!)
         enterPictureY = v1.origin.y

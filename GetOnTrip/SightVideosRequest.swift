@@ -14,6 +14,7 @@ class SightVideosRequest: NSObject {
     var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 10
+    var enterInfo:String = "sight"
     
     func fetchNextPageModels(handler: ([Video]?, Int) -> Void) {
         page = page + 1
@@ -28,11 +29,15 @@ class SightVideosRequest: NSObject {
     // 异步加载获取数据
     func fetchVideoListModels(handler: ([Video]?, Int) -> Void) {
         var post         = [String: String]()
-        post["sightId"]  = sightId
+        if enterInfo == "sight" {
+            post["sightId"]  = sightId
+        } else {
+            post["cityId"]   = sightId
+        }
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
         
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/video", post: post) { (result, status) -> () in
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/\(enterInfo)/video", post: post) { (result, status) -> () in
             
             if status == RetCode.SUCCESS {
                 var sightVideo = [Video]()

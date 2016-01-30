@@ -24,6 +24,7 @@ class SightSpecialtyViewController: BaseTableViewController {
     var sightId = "" {
         didSet {
            lastRequest.sightId = sightId
+            if data.count == 0 { refresh() }
         }
     }
     
@@ -54,15 +55,6 @@ class SightSpecialtyViewController: BaseTableViewController {
         tbFooterView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         tbFooterView.stateLabel?.font = UIFont.systemFontOfSize(12)
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
-        
-        if data.count == 0 {
-            refresh()
-        }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
     }
     
     // MARK: - 刷新方法

@@ -11,7 +11,7 @@ import FFAutoLayout
 
 class MenuSettingTableViewCell: UITableViewCell {
 
-    lazy var titleLabel: UILabel = UILabel(color: SceneColor.bgBlack, title: "", fontSize: 18, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var titleLabel: UILabel = UILabel(color: SceneColor.whiteBlue, title: "", fontSize: 18, mutiLines: true, fontName: Font.PingFangSCLight)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

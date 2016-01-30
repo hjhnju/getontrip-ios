@@ -27,9 +27,10 @@ struct SightLabelType {
 
 class SightViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
     
+    /// 网络请求加载数据(添加)
+    var lastRequest: SightRequest?
     /// 自定义导航
     var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
-    
     /// 景点id
     var sightId: String {
         return sightDataSource.id
@@ -53,8 +54,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     lazy var indicateView: UIView = UIView(color: UIColor.yellowColor())
     /// 标签导航栏的scrollView
     lazy var labelScrollView = UIScrollView()
-    /// 网络请求加载数据(添加)
-    var lastRequest: SightRequest?
     /// 流水布局
     lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     /// 底部容器view
@@ -219,12 +218,6 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     }
     
     func switchPlayControllerAction() {
-//        print("确实来到了")
-//        LocateToCity.sharedLocateToCity.x = "\(arc4random_uniform(40))"
-//        LocateToCity.sharedLocateToCity.y = "\(arc4random_uniform(115))"
-//        
-//        LocateToCity.sharedLocateToCity.location = CLLocation(latitude: CLLocationDegrees(arc4random_uniform(40)), longitude: CLLocationDegrees(arc4random_uniform(115)))
-        
         if playController.isPlay {
             let vc = SightDetailViewController()
             vc.playViewController = playController
@@ -450,10 +443,12 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             return
         }
         
-        let cityViewController = CityViewController()
-        let city = City(id: self.sightDataSource.cityid)
-        cityViewController.cityDataSource = city
-        navigationController?.pushViewController(cityViewController, animated: true)
+        let vc = CityViewController()
+        let sight: Sight = Sight(id: "")
+        sight.cityid = sightDataSource.cityid
+//        sight.name = sightDataSource.name//data?.name ?? ""
+        vc.sightDataSource = sight
+        navigationController?.pushViewController(vc, animated: true)
         exitAction()
     }
     

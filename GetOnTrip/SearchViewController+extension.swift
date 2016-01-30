@@ -131,9 +131,12 @@ extension SearchViewController {
         } else if currentCityId == "-2" {
             ProgressHUD.showSuccessHUD(view, text: "当前城市未开通")
         } else {
-            let vcity = CityViewController()
-            vcity.cityDataSource = City(id: currentCityId)
-            searchResultViewController.showSearchResultController(vcity)
+//            vcity.cityDataSource = City(id: currentCityId)
+            let vc = CityViewController()
+            let sight: Sight = Sight(id: "")
+            sight.cityid = currentCityId
+            vc.sightDataSource = sight
+            searchResultViewController.showSearchResultController(vc)
         }
     }
 

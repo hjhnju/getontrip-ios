@@ -13,37 +13,22 @@ class CityRequest {
     // 请求参数
     var cityId: String     = ""
     
-    // 异步加载获取数据
-    func fetchModels(handler: NSDictionary -> Void) {
-        var post         = [String: String]()
-        post["city"]     = String(cityId)
-
+    // 将数据回调外界
+    func fetchModels(handler: (Sight?, Int) -> Void) {
+        var post      = [String: String]()
+        post["city"]  = cityId
+        
         // 发送网络请求加载数据
         HttpRequest.ajax2(AppIni.BaseUri, path: "/api/city", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
-                let dictData = NSMutableDictionary()
-                if let item = result["city"].dictionaryObject {
-                    let city   = City(dict: item)
-                    dictData.setValue(city, forKey: "city")
+                if let dict = result.dictionaryObject {
+                    let sight = Sight(dict: dict)
+                    print(result)
+                    handler(sight, status)
                 }
-                var sights = [Sight]()
-                var topics = [TopicBrief]()
-                for item in result["sight"].arrayValue {
-                    if let dict = item.dictionaryObject {
-                        sights.append(Sight(dict: dict))
-                    }
-                }
-                for item in result["topic"].arrayValue {
-                    if let dict = item.dictionaryObject {
-                        topics.append(TopicBrief(dict: dict))
-                    }
-                }
-                dictData.setValue(sights, forKey: "sights")
-                dictData.setValue(topics, forKey: "topics")
-                dictData.setValue(result["page_num"].intValue, forKey: "pageNum")
-                // 回调
-                handler(dictData)
+                return
             }
+            handler(nil, status)
         }
     }
 }

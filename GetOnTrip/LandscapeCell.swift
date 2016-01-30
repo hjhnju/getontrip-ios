@@ -39,7 +39,15 @@ class LandscapeCell: UITableViewCell {
     lazy var playAreaButton: UIButton = UIButton()
     /// 父控制器
     weak var superViewController: SightLandscapeController?
-    
+    /// 内容数量
+    lazy var topicNumLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "1", fontSize: 10, mutiLines: true, fontName: Font.PingFangSCLight)
+    /// 内容
+    lazy var topicLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "个内容 | ", fontSize: 8, mutiLines: true, fontName: Font.PingFangSCLight)
+    /// 收藏数量
+    lazy var collectNumLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "8", fontSize: 10, mutiLines: true, fontName: Font.PingFangSCLight)
+    /// 收藏
+    lazy var collectLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "人收藏", fontSize: 8, mutiLines: true, fontName: Font.PingFangSCLight)
+
     var superNavigation: UINavigationController?
     
     var landscape: Landscape? {
@@ -63,6 +71,15 @@ class LandscapeCell: UITableViewCell {
                 playLabel.hidden       = isHidden
                 speechImageView.alpha  = landscape.audio_len == "" ? 0 : 1
                 speechView.hidden      = isHidden
+                
+                let cityHidden: CGFloat = landscape.contentNum == "" ? CGFloat(0) : CGFloat(1)
+                topicNumLabel.text    = landscape.contentNum
+                collectNumLabel.text  = landscape.collectNum
+                topicNumLabel.alpha   = cityHidden
+                topicLabel.alpha      = cityHidden
+                collectNumLabel.alpha = cityHidden
+                collectLabel.alpha    = cityHidden
+                subtitleLabel.alpha   = landscape.contentNum == "" ? CGFloat(1) : CGFloat(0)
             }
         }
     }
@@ -91,6 +108,10 @@ class LandscapeCell: UITableViewCell {
         contentView.addSubview(pulsateView)
         contentView.addSubview(playAreaButton)
         contentView.addSubview(locationUnitLabel)
+        contentView.addSubview(topicNumLabel)
+        contentView.addSubview(topicLabel)
+        contentView.addSubview(collectNumLabel)
+        contentView.addSubview(collectLabel)
         
         let rotate: CGFloat = CGFloat(M_PI_2) * 0.5
         compulsoryLabel.transform = CGAffineTransformMakeRotation(-rotate)
@@ -122,6 +143,10 @@ class LandscapeCell: UITableViewCell {
         locationUnitLabel.ff_AlignHorizontal(.BottomRight, referView: locationButton, size: nil, offset: CGPointMake(0, -1))
         pulsateView.ff_AlignInner(.CenterCenter, referView: speechView, size: CGSizeMake(49, 49), offset: CGPointMake(-1, -10))
         playAreaButton.ff_AlignInner(.CenterRight, referView: contentView, size: CGSizeMake(95, 115))
+        topicNumLabel.ff_AlignVertical(.BottomLeft, referView: titleLabel, size: nil, offset: CGPointMake(0, 10))
+        topicLabel.ff_AlignHorizontal(.BottomRight, referView: topicNumLabel, size: nil)
+        collectNumLabel.ff_AlignHorizontal(.BottomRight, referView: topicLabel, size: nil)
+        collectLabel.ff_AlignHorizontal(.BottomRight, referView: collectNumLabel, size: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -113,7 +113,6 @@ class RecommendTableViewCell: UITableViewCell {
         cityNameButton.backgroundColor = SceneColor.bgBlack
 //        cityNameButton.addTarget(self, action: "cityNameButtonAction", forControlEvents: .TouchUpInside)
         cityNButton.addTarget(self, action: "cityNameButtonAction", forControlEvents: .TouchUpInside)
-        
         setupAutoLayout()
     }
     
@@ -138,8 +137,10 @@ class RecommendTableViewCell: UITableViewCell {
     /// 城市名称标签方法
     func cityNameButtonAction() {
         let vc = CityViewController()
-        let city = City(id: data?.cityid ?? "0")
-        vc.cityDataSource = city
+        let sight: Sight = Sight(id: "")
+        sight.cityid = data?.cityid ?? ""
+        sight.name = data?.cityname ?? ""
+        vc.sightDataSource = sight
         Statistics.shareStatistics.event(Event.home_click_cityViewController_eid, labelStr: data?.cityid ?? "0")
         superViewController?.navigationController?.pushViewController(vc, animated: true)
     }

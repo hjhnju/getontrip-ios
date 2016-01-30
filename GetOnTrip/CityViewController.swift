@@ -20,420 +20,474 @@ struct CityConstant {
 }
 
 /// 城市中间页
-class CityViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    //MARK: Properties and Outlets
-    
-    /// 自定义导航
-    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
-    
-    /// 城市背影图片
-    var headerImageView: UIImageView = UIImageView()
-    
-    //头部视图高度约束
-    var headerHeightConstraint: NSLayoutConstraint?
-    
-    /// collectionview及imageView底部的view
-    lazy var tableHeaderView: UIView = UIView()
-    
-    /// 热门景点＋热门内容
-    lazy var tableView: UITableView = UITableView()
-    
-    /// 城市名
-    lazy var cityNameLabel: UILabel = UILabel(color: SceneColor.white, fontSize: 26, mutiLines: true)
-    /// 收藏按钮
-    lazy var favTextBtn: UIButton = UIButton(title: "收藏", fontSize: 12, radius: 0)
-    /// 收藏按钮
-    lazy var favIconBtn: UIButton = UIButton(icon: "city_star", masksToBounds: false)
-    
-    /// 界面布局
-    let layout = UICollectionViewFlowLayout()
-    
-    /// 热门景点内容
-    lazy var collectionView: UICollectionView =  { [weak self] in
-        let collect = UICollectionView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, CityConstant.collectionViewHeight), collectionViewLayout: (self?.layout)!)
-        return collect
-    }()
-    
-    /// 热门景点
-    lazy var moreSightsButton: homeSightButton = homeSightButton(image: "city_more", title: "热门景点", fontSize: 17, titleColor: SceneColor.white)
-    
-    /// 热门话题标题
-    lazy var hotTopBarButton: UIButton = UIButton(title: "热门内容", fontSize: 17, radius: 0, titleColor: SceneColor.white)
-
-    /// 热门话题图标
-    lazy var refreshTopicButton: UIButton = UIButton(icon: "city_refresh", masksToBounds: false)
+class CityViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIChannelLabelDelegate {
     
     /// 网络请求加载数据(添加)
-    var lastRequest: CityRequest?
-    
-    /// 刷新话题请求
-    var refreshTopicRequest: TopicRefreshRequest?
-    
-    var pageNumber: Int = 1
-    
-    // MARK: 数据源
-
-    var cityId: String {
-        return cityDataSource?.id ?? ""
-    }
-    
-    var cityDataSource : City? {
+    var lastRequest: CityRequest = CityRequest()
+    /// 自定义导航
+    var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: UIColor.whiteColor(), titleSize: 18)
+    /// 景点id
+    var cityId: String = "" {
         didSet {
-            if let city = cityDataSource {
-                //用已有image占位，这样转场传递小图不会被默认图覆盖
-                headerImageView.sd_setImageWithURL(NSURL(string: city.image), placeholderImage:headerImageView.image)
-                cityNameLabel.text = city.name
-                navBar.titleLabel.text = city.name
-                favIconBtn.selected = city.collected == "" ? false : true
+            lastRequest.cityId = cityId
+        }
+    }
+    /// 数据
+    var sightDataSource = Sight(id: "") {
+        didSet {
+            print(sightDataSource.cityid)
+            if sightDataSource.cityid != "" {
+                cityId = sightDataSource.cityid
             }
-        }
-    }
-    
-    var tableViewContentOffset: CGPoint = CGPointZero
-    var tableViewDataSource = [TopicBrief]() {
-        didSet {
-            tableViewContentOffset = tableView.contentOffset
-            tableView.reloadData()
-            tableView.setContentOffset(tableViewContentOffset, animated: false)
-        }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-//        tableViewContentOffset = tableView.contentOffset
-    }
-    
-    var collectionDataSource = [Sight]() {
-        didSet {
+            initBaseTableViewController(sightDataSource.tags)
+            if landscape != nil {
+                labelDidSelected(landscape!)
+            }
             collectionView.reloadData()
+            collectButton.setTitle(sightDataSource.isFavorite() ? "      已收藏" : "   收藏景点", forState: .Normal)
         }
     }
     
-    //导航透明度
-    var navBarAlpha:CGFloat = 0.0
+    /// 标签导航栏的主视图
+    lazy var labelNavView: UIView = UIView()
+    /// 指示view
+    lazy var indicateView: UIView = UIView(color: UIColor.yellowColor())
+    /// 标签导航栏的scrollView
+    lazy var labelScrollView = UIScrollView()
+    /// 流水布局
+    lazy var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    /// 底部容器view
+    lazy var collectionView: UICollectionView = { [weak self] in
+        let cv = UICollectionView(frame: CGRectZero, collectionViewLayout: self!.layout)
+        return cv
+        }()
+    /// 索引
+    lazy var currentIndex: Int = 0
+    /// 左滑手势是否生效
+    lazy var isPopGesture: Bool = false
+    /// 更在加载中提示
+    lazy var loadingView: LoadingView = LoadingView()
     
-    // MARK: - 初始化相关内容
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
+    lazy var dataControllers = [BaseTableViewController]()
+    /// 退出按钮
+    lazy var exitButton: UIButton = UIButton()
+    /// 容器view
+    lazy var containerView: UIView = UIView()
+    /// 底部图片
+    lazy var bottomImageView: UIImageView = UIImageView(image: UIImage(named: "spring_sight"))
+    /// 切换城市
+    lazy var switchCityButton: UIButton = UIButton(image: "", title: "", fontSize: 16, titleColor: SceneColor.fontGray, fontName: Font.PingFangSCLight)
+    /// 是否收藏
+    lazy var collectButton: UIButton = UIButton(image: "", title: "", fontSize: 16, titleColor: SceneColor.fontGray, fontName: Font.PingFangSCLight)
+    /// 基线
+    lazy var baseLine: UIView = UIView(color: SceneColor.greyThinWhite, alphaF: 0.5)
+    /// 是否是由城市控制器跳转进来的
+    var isSuperCityController: Bool = false
+    /// 播放图标
+    lazy var pulsateView: PlayPulsateView = PlayPulsateView()
+    /// 切换播放控制器
+    lazy var switchPlayControl: UIControl = UIControl()
+    /// 播放器控制器
+    var playController = PlayFrequency()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initView()
-        setupAutoLayout()
-        loadCityData()
         
+        initView()
+        setupAutlLayout()
+        loadSightData()
+        initSwtchCityAndCollect()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        refreshBar()
+        
+        UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
     }
     
-    func refreshBar(){
-        //设置导航样式
-        navBar.titleLabel.alpha = navBarAlpha
-        if navBarAlpha > 0.2 {
-            navBar.titleLabel.hidden = false //设置alpha=0会有Fade Out
-        } else {
-            navBar.titleLabel.hidden = true
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = true
+        
+        UIApplication.sharedApplication().endReceivingRemoteControlEvents()
+    }
+    
+    override func remoteControlReceivedWithEvent(event: UIEvent?) {
+        
+        if event!.type == UIEventType.RemoteControl {
+            if event!.subtype == UIEventSubtype.RemoteControlPlay {
+                print("received remote play")
+                playController.updatePlayOrPauseBtn(false)
+            } else if event!.subtype == UIEventSubtype.RemoteControlPause {
+                print("received remote pause")
+                playController.updatePlayOrPauseBtn(true)
+            } else if event!.subtype == UIEventSubtype.RemoteControlTogglePlayPause {
+                print("received toggle")
+            }
         }
-        
-        //headerImage标题
-        cityNameLabel.alpha = 1 - navBarAlpha
-        favIconBtn.alpha = 1 - navBarAlpha
-        favTextBtn.alpha = 1 - navBarAlpha
-        
-        //navBar.setBlurViewEffectColor(SceneColor.frontBlack, alpha: navBarAlpha)
-        navBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)
     }
     
-    /// 添加控件
+    /// 当出现内存警告时，清空缓存
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        playController.cache.removeAllObjects()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+    }
+    
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        labelNavView.layoutIfNeeded()
+        labelScrollView.layoutIfNeeded()
+    }
+    
     private func initView() {
-        view.backgroundColor = SceneColor.bgBlack
+        view.backgroundColor = SceneColor.frontBlack
         automaticallyAdjustsScrollViewInsets = false
-        view.addSubview(headerImageView)
-        view.addSubview(tableView)
-        view.bringSubviewToFront(headerImageView)
+        view.addSubview(collectionView)
+        view.addSubview(labelNavView)
+        labelNavView.addSubview(labelScrollView)
+        labelNavView.addSubview(indicateView)
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
+        view.addSubview(loadingView)
         
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setBlurViewEffect(false)
-        navBar.setButtonTintColor(UIColor.yellowColor())
-        navBar.backgroundColor = SceneColor.frontBlack.colorWithAlphaComponent(navBarAlpha)
-        navBar.titleLabel.hidden = true
-        
-        
-        headerImageView.userInteractionEnabled = true
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.bounces = false
-        collectionView.contentSize = CGSizeMake(200, 100)
-        
-        headerImageView.contentMode = UIViewContentMode.ScaleAspectFill
-        headerImageView.clipsToBounds = true
-        headerImageView.addSubview(cityNameLabel)
-        headerImageView.addSubview(favTextBtn)
-        headerImageView.addSubview(favIconBtn)
-        
-        tableHeaderView.addSubview(moreSightsButton)
-        tableHeaderView.addSubview(collectionView)
-        tableHeaderView.addSubview(hotTopBarButton)
-        hotTopBarButton.addSubview(refreshTopicButton)
-
-        moreSightsButton.backgroundColor = SceneColor.frontBlack
-        hotTopBarButton.backgroundColor = SceneColor.frontBlack
-        moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
-
-        favIconBtn.addTarget(self, action: "favoriteAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        favIconBtn.setImage(UIImage(named: "collect_yellow"), forState: UIControlState.Selected)
-        
-        tableView.tableHeaderView = tableHeaderView
-        tableView.backgroundColor = UIColor.clearColor()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        tableView.registerClass(CityTopicTableViewCell.self, forCellReuseIdentifier: CityConstant.cityTopicTableViewCellID)
-        
-        //内容初始位置偏移
-        tableView.frame = CGRectMake(0, 0, view.frame.width, view.frame.height)
-        tableView.contentInset = UIEdgeInsets(top: CityConstant.headerViewHeight, left: 0, bottom: 0, right: 0)
-        
-        moreSightsButton.backgroundColor = SceneColor.frontBlack
-        hotTopBarButton.backgroundColor = SceneColor.frontBlack
-        moreSightsButton.addTarget(self, action: "sightButtonClick:", forControlEvents: UIControlEvents.TouchUpInside)
-        hotTopBarButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        refreshTopicButton.addTarget(self, action: "topicRefreshButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        initNavBar()
+        labelScrollView.backgroundColor = SceneColor.bgBlack
         
         collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = UIColor.clearColor()
-        collectionView.registerClass(CitySightCollectionViewCell.self, forCellWithReuseIdentifier: CityConstant.citySightCollectionViewCellID)
-        collectionView.userInteractionEnabled = true
+        collectionView.delegate   = self
+        collectionView.bounces    = false
+        collectionView.backgroundColor = .whiteColor()
+        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "UICollectionViewCell")
+    }
+    
+    private func initSwtchCityAndCollect() {
+        view.addSubview(exitButton)
+        exitButton.ff_Fill(view)
+        exitButton.addTarget(self, action: "exitAction", forControlEvents: .TouchUpInside)
+        view.addSubview(containerView)
+        containerView.addSubview(bottomImageView)
+        bottomImageView.frame = CGRectMake(0, 0, 140, 104)
+        containerView.addSubview(switchCityButton)
+        containerView.addSubview(collectButton)
+        containerView.addSubview(baseLine)
+        switchCityButton.frame = CGRectMake(0, 10, 140, 46)
+        collectButton.frame = CGRectMake(0, 56, 140, 46)
+        baseLine.frame = CGRectMake(9, 54, 140 - 18, 0.5)
+        switchCityButton.tag = 1
+        collectButton.tag    = 2
+        exitButton.hidden = true
+        containerView.hidden = true
+        switchCityButton.setTitle("   转至城市", forState: .Normal)
+        switchCityButton.setImage(UIImage(named: "city_sight"), forState: .Normal)
+        collectButton.setTitle("   收藏景点", forState: .Normal)
+        collectButton.setImage(UIImage(named: "collect_sight"), forState: .Normal)
+        switchCityButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
+        collectButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
+    }
+    
+    private func initNavBar() {
+        navBar.setTitle(sightDataSource.name)
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setRightBarButton(UIImage(named: "moreSelect_sight"), title: nil, target: self, action: "showMoreSelect")
+        navBar.setBlurViewEffect(false)
+        navBar.setButtonTintColor(UIColor.yellowColor())
+        navBar.backgroundColor = SceneColor.frontBlack
         
-        // 每个item的大小
-        layout.itemSize = CGSizeMake(186, CityConstant.collectionViewHeight)
-        layout.minimumInteritemSpacing = 8
-        layout.minimumLineSpacing = 8
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-        layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
-    }
-    
-    ///  话题刷新
-    func topicRefreshButton(btn: UIButton) {
-        refreshSightListData()
-        let anim = CABasicAnimation(keyPath: "transform.rotation")
-        anim.toValue = -CGFloat(M_PI * 2);
-        anim.removedOnCompletion = false
-        anim.fillMode = kCAFillModeBackwards;
-        anim.duration = 2;
-        anim.repeatCount = MAXFLOAT
-        refreshTopicButton.layer.addAnimation(anim, forKey: "transform.rotation")
-    }
-    
-    /// 设置布局
-    private func setupAutoLayout() {
-        let cons = headerImageView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(view.bounds.width, CityConstant.headerViewHeight), offset: CGPointMake(0, 0))
-        headerHeightConstraint = headerImageView.ff_Constraint(cons, attribute: NSLayoutAttribute.Height)
-        cityNameLabel.ff_AlignInner(.BottomLeft, referView: headerImageView, size: nil, offset: CGPointMake(9, -13))
-        favTextBtn.ff_AlignInner(.BottomRight, referView: headerImageView, size: CGSizeMake(24, 14), offset: CGPointMake(-9, -14))
-        favIconBtn.ff_AlignVertical(.TopCenter, referView: favTextBtn, size: CGSizeMake(21, 20), offset:CGPointMake(0, -5))
+        navBar.addSubview(pulsateView)
+        pulsateView.frame = CGRectMake(50, 50, 100, 100)
+        pulsateView.backgroundColor = UIColor.whiteColor()
+        pulsateView.color = .whiteColor()
+        pulsateView.ff_AlignHorizontal(.CenterCenter, referView: navBar, size: CGSizeMake(17, 17), offset:
+            CGPointMake((sightDataSource.name.sizeofStringWithFount(UIFont.systemFontOfSize(17), maxSize: CGSize(width: CGFloat.max, height: 17)).width ?? 0) * 0.5 , -73))
+        pulsateView.playIconAction()
+        playController.pulsateView = pulsateView
+        pulsateView.hidden = true
         
-        moreSightsButton.ff_AlignInner(.TopLeft, referView: tableHeaderView, size: CGSizeMake(view.bounds.width, CityConstant.subtitleButtonHeight), offset: CGPointMake(0, 8))
-        collectionView.ff_AlignVertical(.BottomLeft, referView: moreSightsButton, size: CGSizeMake(view.bounds.width, CityConstant.collectionViewHeight), offset: CGPointMake(0, 8))
-        hotTopBarButton.ff_AlignVertical(.BottomLeft, referView: collectionView, size: CGSizeMake(view.bounds.width, CityConstant.subtitleButtonHeight), offset: CGPointMake(0, 8))
-        refreshTopicButton.ff_AlignInner(.CenterRight, referView: hotTopBarButton, size: CGSizeMake(15, 15), offset: CGPointMake(-9, 0))
+        navBar.addSubview(switchPlayControl)
+        switchPlayControl.backgroundColor = UIColor.clearColor()
+        switchPlayControl.addTarget(self, action: "switchPlayControllerAction", forControlEvents: .TouchUpInside)
+        switchPlayControl.ff_AlignInner(.CenterCenter, referView: navBar, size: CGSizeMake(200, 40))
+        playController.title = sightDataSource.name
     }
     
-    //请求数据
-    private func loadCityData() {
-        if lastRequest == nil {
-            lastRequest = CityRequest()
-            lastRequest?.cityId = cityId
+    func switchPlayControllerAction() {
+        if playController.isPlay {
+            let vc = SightDetailViewController()
+            vc.playViewController = playController
+            vc.dataSource = playController.playCell?.landscape ?? Landscape()
+            vc.playCell = playController.playCell
+            vc.index = playController.index
+            navigationController?.pushViewController(vc, animated: true)
         }
-
-        lastRequest?.fetchModels { [weak self]
-            (handler: NSDictionary) -> Void in
-            self?.cityDataSource = handler.valueForKey("city") as? City
-            if let sights = handler.valueForKey("sights") as? [Sight] {
-                self?.collectionDataSource = sights
+    }
+    
+    func setupAutlLayout() {
+        labelNavView.frame = CGRectMake(0, 64, view.bounds.width, 36)
+        labelScrollView.frame = labelNavView.bounds
+        collectionView.ff_AlignVertical(.BottomLeft, referView: labelNavView, size: CGSizeMake(view.bounds.width, view.bounds.height - CGRectGetMaxY(labelNavView.frame)), offset: CGPointMake(0, 0))
+        loadingView.ff_AlignInner(.CenterCenter, referView: view, size: loadingView.getSize(), offset: CGPointMake(0, 0))
+        setupLayout()
+    }
+    
+    deinit {
+        playController.stopTimer()
+    }
+    
+    ///  设置频道标签
+    var indicateW: CGFloat?
+    var landscape: UIChannelLabel?
+    func setupChannel(labels: [Tag]) {
+        if labels.count == 0 || labelScrollView.subviews.count > 2 {
+            return
+        }
+        /// 间隔
+        var x: CGFloat  = 0
+        let h: CGFloat  = 36
+        var lW: CGFloat = Frame.screen.width / CGFloat(labels.count)
+        var index: Int = 0
+        for tag in labels {
+            
+            if labels.count >= 7 {
+                lW = tag.name.sizeofStringWithFount(UIFont.systemFontOfSize(14), maxSize: CGSize(width: CGFloat.max, height: 14)).width + 20
             }
-            if let topics = handler.valueForKey("topics") as? [TopicBrief] {
-                self?.tableViewDataSource = topics
+            if lW < Frame.screen.width / CGFloat(7) {
+                lW = Frame.screen.width / CGFloat(7)
             }
-            self?.pageNumber = handler.valueForKey("pageNum")?.integerValue ?? 0
+            let channelLabel      = UIChannelLabel.channelLabelWithTitle(tag.name, width: lW, height: h, fontSize: 14)
+            channelLabel.adjustsFontSizeToFitWidth = true
+            channelLabel.delegate = self
+            channelLabel.tag      = index
+            channelLabel.frame    = CGRectMake(x, 0, channelLabel.bounds.width, h)
+            channelLabel.textColor       = UIColor.whiteColor()
+            channelLabel.backgroundColor = UIColor.clearColor()
+            x += channelLabel.bounds.width
+            
+            if indicateW == nil { indicateW = channelLabel.bounds.width }
+            index++
+            labelScrollView.addSubview(channelLabel)
+            if tag.type == SightLabelType.Landscape {
+                landscape = channelLabel
+            }
         }
+        
+        indicateView.bounds = CGRectMake(0, 0, lW, 1.5)
+        indicateView.center = CGPointMake(lW * 0.5, CGRectGetMaxY(labelScrollView.frame) - 1.5)
+        labelScrollView.contentSize  = CGSizeMake(x, 0)
+        labelScrollView.contentInset = UIEdgeInsetsZero
+        labelScrollView.bounces = false
+        labelScrollView.showsHorizontalScrollIndicator = false
+        collectionView.contentSize   = CGSizeMake(view.bounds.width * CGFloat(labels.count), view.bounds.height - h)
+        
+        currentIndex = 0
     }
     
-    private func refreshSightListData() {
-        
-        refreshTopicRequest?.page++
-        if refreshTopicRequest?.page > pageNumber {
-            refreshTopicRequest?.page = 1
-        }
-        
-        if refreshTopicRequest == nil {
-            refreshTopicRequest = TopicRefreshRequest()
-            refreshTopicRequest?.city = cityId
-        }
-        
-        refreshTopicRequest?.fetchModels { [weak self] (handler: [TopicBrief]) -> Void in
-            self?.tableViewDataSource = handler
-           self!.refreshTopicButton.layer.removeAllAnimations()
-
-        }
+    private func setupLayout() {
+        layout.itemSize = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 64 - 36)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing      = 0
+        layout.scrollDirection         = UICollectionViewScrollDirection.Horizontal
+        collectionView.pagingEnabled   = true
+        collectionView.showsHorizontalScrollIndicator = false
     }
     
-    // MARK: - collectionView代理及数据源方法
+    // MARK: - collectionView 数据源方法
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionDataSource.count
+        return sightDataSource.tags.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CityConstant.citySightCollectionViewCellID, forIndexPath: indexPath) as! CitySightCollectionViewCell
-        cell.size = getIndexPathItemSize(indexPath)
-        cell.data = collectionDataSource[indexPath.row]
-        
+        isPopGesture = indexPath.row == 0 ? true : false
+        navigationController?.interactivePopGestureRecognizer?.enabled = isPopGesture
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UICollectionViewCell", forIndexPath: indexPath)
+        cell.addSubview(dataControllers[indexPath.row].tableView)
+        dataControllers[indexPath.row].tableView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - 90)
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return getIndexPathItemSize(indexPath)
-    }
-    
-    /// 获取对应行的size大小
-    private func getIndexPathItemSize(indexPath: NSIndexPath) -> CGSize {
-        let width:CGFloat = collectionView.bounds.width
-        let height:CGFloat = collectionView.bounds.height
-        
-        switch collectionDataSource.count {
-        case 0: return CGSizeZero
-        case 1:
-            return CGSizeMake(width - 16, height)
-        case 2:
-            return CGSizeMake((width - 24) * 0.5, height)
-        case 3:
-            if indexPath.row == 0 {
-                return CGSizeMake((width - 24) * 0.5, height)
-            } else {
-                return CGSizeMake((width - 24) * 0.5, (height - 8) * 0.5)
-            }
-        default:
-            var size = CGSizeZero
-            if indexPath.row % 3 == 0 {
-                size = CGSizeMake((width - 24) * 0.5, height)
-            } else if indexPath.row % 3 == 1 {
-                size = CGSizeMake(113, (height - 8) * 0.5 + 8)
-            } else {
-                size = CGSizeMake(113, (height - 8) * 0.5 - 8)
-            }
-            return size
-        }
-    }
-    
-    ///  选中某一行
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let vc = SightViewController()
-        vc.isSuperCityController = true
-        vc.sightDataSource = collectionDataSource[indexPath.row]
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    // MARK: - tableView代理及数据源
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return tableHeaderView
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CityConstant.collectionViewHeight + 2 * CityConstant.subtitleButtonHeight + 3 * 8
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return tableViewDataSource.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(CityConstant.cityTopicTableViewCellID, forIndexPath: indexPath) as! CityTopicTableViewCell
-        
-        //cell无选中效果
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
-        cell.topic = tableViewDataSource[indexPath.row]
-//        tableViewScrollToIndex = indexPath
-        return cell
-    }
-    
-    ///  tabview的行高
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 108
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let topic = tableViewDataSource[indexPath.row]
-        let vc    = TopicViewController()
-        vc.topicDataSource = Topic.fromBrief(topic)
-        navigationController?.pushViewController(vc, animated: true)
-
-    }
-    
-    //MARK: ScrollViewDelegate
-    
+    // MARK: - scrollerView 代理方法
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        let offsetY = scrollView.contentOffset.y
-        if offsetY != 0 { //防止collectionView 左右滑动
-            
-            //导航变化
-            let gap = CityConstant.headerViewHeight + offsetY
-            if gap > 0 {
-                let threshold = CityConstant.headerViewHeight - 64 - 40
-                navBarAlpha = gap / threshold
-                if navBarAlpha > 0.8 {
-                    navBarAlpha = 1
-                } else if navBarAlpha < 0.2 {
-                    navBarAlpha = 0
-                }
+        currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
+        let labCenter: UILabel = (labelScrollView.subviews[currentIndex] as? UILabel) ?? UILabel()
+        
+        // 计算当前选中标签的中心点
+        var offset: CGFloat    = labCenter.center.x - labelScrollView.bounds.width * 0.5
+        let maxOffset: CGFloat = labelScrollView.contentSize.width - labelScrollView.bounds.width
+        if (offset < 0) {
+            offset = 0
+        } else if (offset > maxOffset) {
+            offset = maxOffset
+        }
+        
+        var nextLabel: UILabel?
+        let array = collectionView.indexPathsForVisibleItems()
+        for path in array {
+            if path.item != currentIndex {
+                nextLabel = labelScrollView.subviews[path.item] as? UILabel
             }
-            refreshBar()
-            
-            //headerView高度动态变化
-            let navigationBarHeight: CGFloat = 64
-            let height = max(-offsetY, navigationBarHeight)
-            headerHeightConstraint?.constant = height
+        }
+        if nextLabel == nil { nextLabel = UILabel() }
+        self.labelScrollView.setContentOffset(CGPointMake(offset, 0), animated: true)
+        
+        
+        UIView.animateWithDuration(0.5) { () -> Void in
+            self.indicateView.center.x = (scrollView.contentOffset.x % self.view.bounds.width) / (nextLabel!.center.x - labCenter.center.x) + labCenter.center.x - offset
+            self.indicateView.bounds = CGRectMake(0, 0, labCenter.bounds.width, 1.5)
         }
     }
     
-    // MARK: 景点列表页
-    func sightButtonClick(btn: UIButton) {
-        let vc    = CitySightsViewController()
-        vc.cityDataSource = cityDataSource
-        navigationController?.pushViewController(vc, animated: true)
+    // MARK: - 自定义方法
+    
+    ///  标签选中方法
+    func labelDidSelected(label: UIChannelLabel) {
+        currentIndex  = label.tag
+        let indexPath = NSIndexPath(forItem: label.tag, inSection: 0)
+        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+    }
+    
+    //获取数据
+    private func loadSightData() {
+        loadingView.start()
+        lastRequest.fetchModels({ [weak self] (sight, status) -> Void in
+            self?.loadingView.stop()
+            if status == RetCode.SUCCESS {
+                if let sight = sight {
+                    if self?.navBar.titleLabel.text == "" {
+                        self?.navBar.setTitle(sight.name)
+                    }
+                    self?.sightDataSource = sight
+                    self?.setupChannel(sight.tags)
+                    self?.collectButton.selected = sight.isFavorite()
+                }
+            } else {
+                //不再浮层提示  TODO://空白页面提示"无法连接网络"，想法：往后只有用户手动更新才会浮层显示，其他都在页面提示
+                // ProgressHUD.showErrorHUD(self?.view, text: MessageInfo.NetworkError)
+            }
+            })
+
+    }
+    
+    /// 初始化所需控制器
+    private func initBaseTableViewController(tags: [Tag]) {
+        for obj in tags {
+            obj.sightId = cityId
+            switch obj.type {
+            case SightLabelType.Topic:
+                let v = SightTopicViewController()
+                v.lastRequest.enterInfo = "city"
+                v.tagData = obj
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.Landscape:
+                let v = CityLandscapeController()
+                v.cityId = obj.sightId
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.Book:
+                let v = SightBookViewController()
+                v.lastRequest.enterInfo = "city"
+                v.sightId = obj.sightId
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.Video:
+                let v = SightVideoViewController()
+                v.lastVideoRequest.enterInfo = "city"
+                v.sightId = obj.sightId
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.food:
+                let v = SightFoodViewController()
+                v.lastRequest.enterInfo = "city"
+                v.sightId = obj.sightId
+                addChildViewController(v)
+                dataControllers.append(v)
+            case SightLabelType.specialty:
+                let v = SightSpecialtyViewController()
+                v.lastRequest.enterInfo = "city"
+                v.sightId = obj.sightId
+                addChildViewController(v)
+                dataControllers.append(v)
+            default:
+                break
+            }
+        }
+    }
+    
+    /// 显示更多选择
+    func showMoreSelect() {
+        exitButton.hidden = false
+        containerView.hidden = false
+        containerView.frame = CGRectMake(Frame.screen.width - 9, 50, 0, 0)
+        UIView.animateWithDuration(0.2) { [weak self] () -> Void in
+            self?.containerView.frame = CGRectMake(Frame.screen.width - 149, 50, 140, 104)
+        }
+    }
+    
+    // 切换城市和收藏景点方法
+    func selectSwitchAction(sender: UIButton) {
+        if sender.tag == 1 {
+            cityAction()
+        } else if sender.tag == 2 {
+            favoriteAction(collectButton)
+        }
+    }
+    
+    /// 跳至城市页
+    func cityAction() {
+        
+        if isSuperCityController {
+            navigationController?.popViewControllerAnimated(true)
+            exitAction()
+            return
+        }
+        
+        let cityViewController = CityViewController()
+        let city = City(id: self.sightDataSource.cityid)
+//        cityViewController.cityDataSource = city
+        
+        
+        
+        
+        navigationController?.pushViewController(cityViewController, animated: true)
+        exitAction()
     }
     
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
-        Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "city")
+        Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "sight")
         sender.selected = !sender.selected
-        let type  = FavoriteContant.TypeCity
-        let objid = self.cityId
-        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) {
+        let type  = FavoriteContant.TypeSight
+        let objid = self.sightDataSource.id
+        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) { [weak self]
             (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self?.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
-                ProgressHUD.showSuccessHUD(self.view, text: "操作未成功，请稍候再试!")
                 sender.selected = !sender.selected
+                ProgressHUD.showErrorHUD(self?.view, text: "操作未成功，请稍后再试")
             }
+            self?.collectButton.setTitle(sender.selected ? "      已收藏" : "   收藏景点", forState: .Normal)
         }
     }
+    
+    func exitAction() {
+        exitButton.hidden = true
+        containerView.clipsToBounds = true
+        UIView.animateWithDuration(0.2) { [weak self] () -> Void in
+            self?.containerView.frame = CGRectMake(Frame.screen.width - 9, 50, 0, 0)
+        }
+    }
+
+
 }

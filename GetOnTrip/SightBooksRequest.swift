@@ -23,6 +23,7 @@ class SightBooksRequest: NSObject {
     var sightId :String = ""
     var page    :Int = 1
     var pageSize:Int = 10
+    var enterInfo:String = "sight"
     
     // 将数据回调外界
     func fetchNextPageModels(handler: ([Book]?, Int) -> Void) {
@@ -37,12 +38,17 @@ class SightBooksRequest: NSObject {
     
     // 异步加载获取数据
     func fetchModels(handler: ([Book]?, Int) -> Void) {
-        var post         = [String: String]()
-        post["sightId"]  = sightId
+        var post = [String: String]()
+        if enterInfo == "sight" {
+            post["sightId"]  = sightId
+        } else {
+            post["cityId"]   = sightId
+        }
+        
         post["page"]     = String(self.page)
         post["pageSize"] = String(self.pageSize)
         
-        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/sight/book", post: post) { (result, status) -> () in
+        HttpRequest.ajax2(AppIni.BaseUri, path: "/api/\(enterInfo)/book", post: post) { (result, status) -> () in
             if status == RetCode.SUCCESS {
                 var sightBook = [Book]()
                 for item in result.arrayValue {

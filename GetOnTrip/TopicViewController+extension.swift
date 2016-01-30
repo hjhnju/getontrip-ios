@@ -189,7 +189,6 @@ extension TopicViewController {
     func tapWebView(gesture: UITapGestureRecognizer) {
         /// 获取图片数据
         getImageData({ (_) -> Void in
-            print("获取图片二进制数据成功")
         })
         let point = gesture.locationInView(webView)
         let js = "imageSourceFromPoint(\(point.x), \(point.y - TopicViewContant.headerViewHeight))"
@@ -315,11 +314,8 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
             
             // 3. 动画
             UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
-                
                 self.presentedImageView.frame = self.presentedFrame
-                
                 }, completion: { (_) -> Void in
-                    
                     // 删除临时图片视图
                     self.presentedImageView.removeFromSuperview()
                     
@@ -347,8 +343,13 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
             
             // 3. 恢复的位置
 //            let targetFrame = currentSelectFrame//screenFrame(targetVC.currentImageIndex())
-            let targetFrame = a == 1 ? CGRectMake(currentSelectFrame.origin.x, currentSelectFrame.origin.y, iv.frame.width - 40, iv.frame.height) : currentSelectFrame
-            webView.scrollView.contentOffset = CGPointMake(0, CGFloat(jsImages[targetVC.currentImageIndex()].y) - enterPictureY)
+            print(a)
+            let targetFrame = a == 1.0 ? CGRectMake(currentSelectFrame.origin.x, currentSelectFrame.origin.y, CGFloat(jsImages[targetVC.currentImageIndex()].w),
+                CGFloat(jsImages[targetVC.currentImageIndex()].h)) : currentSelectFrame
+//            let targetFrame = jsImages[targetVC.currentImageIndex()].frame
+            if currentImageIndex != targetVC.currentImageIndex() {
+                webView.scrollView.contentOffset = CGPointMake(0, CGFloat(jsImages[targetVC.currentImageIndex()].y) - enterPictureY)
+            }
             
             // 4. 动画
             UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
