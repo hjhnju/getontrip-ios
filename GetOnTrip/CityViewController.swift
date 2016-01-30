@@ -88,7 +88,7 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
     /// 切换播放控制器
     lazy var switchPlayControl: UIControl = UIControl()
     /// 播放器控制器
-    var playController = PlayFrequency()
+    var playController = CityPlayRulsateView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,14 +101,12 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.enabled = true
-        
         UIApplication.sharedApplication().endReceivingRemoteControlEvents()
     }
     
@@ -220,7 +218,7 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
     func switchPlayControllerAction() {
         if playController.isPlay {
             let vc = SightDetailViewController()
-            vc.playViewController = playController
+            vc.cityPlayViewController = playController
             vc.dataSource = playController.playCell?.landscape ?? Landscape()
             vc.playCell = playController.playCell
             vc.index = playController.index
@@ -433,38 +431,19 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
     // 切换城市和收藏景点方法
     func selectSwitchAction(sender: UIButton) {
         if sender.tag == 1 {
-            cityAction()
+//            cityAction()
         } else if sender.tag == 2 {
             favoriteAction(collectButton)
         }
     }
     
-    /// 跳至城市页
-    func cityAction() {
-        
-        if isSuperCityController {
-            navigationController?.popViewControllerAnimated(true)
-            exitAction()
-            return
-        }
-        
-        let cityViewController = CityViewController()
-        let city = City(id: self.sightDataSource.cityid)
-//        cityViewController.cityDataSource = city
-        
-        
-        
-        
-        navigationController?.pushViewController(cityViewController, animated: true)
-        exitAction()
-    }
     
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
-        Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "sight")
+        Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "city")
         sender.selected = !sender.selected
-        let type  = FavoriteContant.TypeSight
-        let objid = self.sightDataSource.id
+        let type  = FavoriteContant.TypeCity
+        let objid = self.sightDataSource.cityid
         Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) { [weak self]
             (result, status) -> Void in
             if status == RetCode.SUCCESS {
@@ -480,14 +459,4 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
             self?.collectButton.setTitle(sender.selected ? "      已收藏" : "   收藏景点", forState: .Normal)
         }
     }
-    
-    func exitAction() {
-        exitButton.hidden = true
-        containerView.clipsToBounds = true
-        UIView.animateWithDuration(0.2) { [weak self] () -> Void in
-            self?.containerView.frame = CGRectMake(Frame.screen.width - 9, 50, 0, 0)
-        }
-    }
-
-
 }

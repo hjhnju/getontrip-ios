@@ -49,9 +49,9 @@ class CityLandscapeController: BaseTableViewController {
 //            cell.baseLine.hidden = indexPath.row == data.count - 1 ? true : false
             
             tableView.tableHeaderView = cell
-//            var audios = [String]()
-//            for item in dataSource { audios.append(item.audio) }
-//            (parentViewController as? SightViewController)?.playController.dataLandscape = dataSource
+            var audios = [String]()
+            for item in dataSource.sights { audios.append(item.audio) }
+            (parentViewController as? CityViewController)?.playController.dataLandscape = dataSource.sights
         }
     }
     
@@ -125,7 +125,7 @@ class CityLandscapeController: BaseTableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell: LandscapeCell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell, forIndexPath: indexPath) as! LandscapeCell
-//        cell.superViewController = self
+        cell.superCityViewController = self
         cell.playAreaButton.tag = indexPath.row
         cell.landscape = data[indexPath.row]
         cell.baseLine.hidden = indexPath.row == data.count - 1 ? true : false

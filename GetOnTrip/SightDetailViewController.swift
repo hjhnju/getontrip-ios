@@ -14,6 +14,8 @@ class SightDetailViewController: BaseViewController {
     lazy var navBar: CustomNavigationBar = CustomNavigationBar(title: "", titleColor: .whiteColor(), titleSize: 22)
     /// 播放控制器
     weak var playViewController: PlayFrequency?
+    weak var cityPlayViewController: CityPlayRulsateView?
+
     /// 播放cell
     weak var playCell: LandscapeCell?
     /// 景观详情页面背景图

@@ -39,6 +39,8 @@ class LandscapeCell: UITableViewCell {
     lazy var playAreaButton: UIButton = UIButton()
     /// 父控制器
     weak var superViewController: SightLandscapeController?
+    /// 父控制器
+    weak var superCityViewController: CityLandscapeController?
     /// 内容数量
     lazy var topicNumLabel: UILabel = UILabel(color: SceneColor.frontBlack, title: "1", fontSize: 10, mutiLines: true, fontName: Font.PingFangSCLight)
     /// 内容
@@ -164,6 +166,7 @@ class LandscapeCell: UITableViewCell {
     /// 播放方法
     func playAreaButtonAction(sender: UIButton) {
         (superViewController?.parentViewController as? SightViewController)?.playController.playOrPause(self)
+        (superCityViewController?.parentViewController as? CityViewController)?.playController.playOrPause(self)
     }
     
     // 还原默认值
