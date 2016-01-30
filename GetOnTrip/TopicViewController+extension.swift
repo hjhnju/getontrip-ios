@@ -346,7 +346,6 @@ extension TopicViewController: UIViewControllerTransitioningDelegate, UIViewCont
             
             // 3. 恢复的位置
 //            let targetFrame = currentSelectFrame//screenFrame(targetVC.currentImageIndex())
-            print(a)
             let targetFrame = a == 1.0 ? CGRectMake(currentSelectFrame.origin.x, currentSelectFrame.origin.y, CGFloat(jsImages[targetVC.currentImageIndex()].w),
                 CGFloat(jsImages[targetVC.currentImageIndex()].h)) : currentSelectFrame
 //            let targetFrame = jsImages[targetVC.currentImageIndex()].frame

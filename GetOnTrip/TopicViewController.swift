@@ -409,9 +409,13 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     // MARK: - wkwebview 代理方法
     func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
-        print(navigationAction.request)
+        print(navigationAction.request.URLString)
+        if !navigationAction.request.URLString.containsString("http://www.getontrip.cn/") {
+            if let url = navigationAction.request.URL {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
         //        WKNavigationActionPolicy
-        print(navigationAction.request)
         decisionHandler(WKNavigationActionPolicy.Allow)
     }
     

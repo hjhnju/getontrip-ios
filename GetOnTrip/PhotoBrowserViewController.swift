@@ -52,9 +52,11 @@ class PhotoBrowserViewController: UIViewController {
         view.addSubview(pageNumLabel)
         view.addSubview(pageLabel)
         view.addSubview(descScrollView)
+        
         descScrollView.addSubview(descLabel)
         descScrollView.showsHorizontalScrollIndicator = false
         descScrollView.showsVerticalScrollIndicator   = true
+        descScrollView.indicatorStyle = .White
         descLabel.preferredMaxLayoutWidth = Frame.screen.width - 18
         
         promptLabel.ff_AlignInner(.TopLeft, referView: view, size: nil, offset: CGPointMake(23, 21))
