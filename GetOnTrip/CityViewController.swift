@@ -35,7 +35,6 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
     /// 数据
     var sightDataSource = Sight(id: "") {
         didSet {
-            print(sightDataSource.cityid)
             if sightDataSource.cityid != "" {
                 cityId = sightDataSource.cityid
             }
@@ -44,7 +43,7 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
                 labelDidSelected(landscape!)
             }
             collectionView.reloadData()
-            collectButton.setTitle(sightDataSource.isFavorite() ? "      已收藏" : "   收藏景点", forState: .Normal)
+            navBar.rightButton.selected = sightDataSource.isFavorite() ? true : false
         }
     }
     
@@ -193,7 +192,8 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
     private func initNavBar() {
         navBar.setTitle(sightDataSource.name)
         navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "moreSelect_sight"), title: nil, target: self, action: "showMoreSelect")
+        navBar.setRightBarButton(UIImage(named: "collect_sight"), title: nil, target: self, action: "favoriteAction:")
+        navBar.rightButton.setImage(UIImage(named: "collect_yellow")!, forState: UIControlState.Selected)
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = SceneColor.frontBlack

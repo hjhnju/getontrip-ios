@@ -31,27 +31,7 @@ class CityLandscapeController: BaseTableViewController {
     var dataSource = CityLandscape() {
         didSet {
             data = dataSource.sights
-            
-            let cell: LandscapeCell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1) as! LandscapeCellHead
-            let landsc = Landscape()
-            landsc.id = dataSource.id
-            landsc.name = dataSource.name
-            landsc.image = dataSource.image
-            landsc.content = dataSource.des
-            landsc.dis = dataSource.dis
-            landsc.audio = dataSource.audio
-            landsc.audio_len = dataSource.audio_len
-            landsc.landscape_id = dataSource.landscape_id
-            //        cell.superViewController = self
-            cell.landscape = landsc
-            let h: CGFloat = Device.isIPad() ? Frame.screen.width * 0.2296195 : 169
-            cell.bounds = CGRectMake(0, 0, Frame.screen.width, h)
-//            cell.baseLine.hidden = indexPath.row == data.count - 1 ? true : false
-            
-            tableView.tableHeaderView = cell
-            var audios = [String]()
-            for item in dataSource.sights { audios.append(item.audio) }
-            (parentViewController as? CityViewController)?.playController.dataLandscape = dataSource.sights
+            addTableViewHeaderView()
         }
     }
     
@@ -96,6 +76,33 @@ class CityLandscapeController: BaseTableViewController {
         tbFooterView.stateLabel?.textColor = SceneColor.lightGray
     }
     
+    /// 添加组标题方法
+    func addTableViewHeaderView() {
+        let cell: LandscapeCell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1) as! LandscapeCellHead
+        let landsc = Landscape()
+        landsc.id = dataSource.id
+        landsc.name = dataSource.name
+        landsc.image = dataSource.image
+        landsc.content = dataSource.des
+        landsc.dis = dataSource.dis
+        landsc.audio = dataSource.audio
+        landsc.audio_len = dataSource.audio_len
+        landsc.landscape_id = dataSource.landscape_id
+        cell.superCityViewController = self
+        cell.landscape = landsc
+        let h: CGFloat = Device.isIPad() ? Frame.screen.width * 0.2296195 : 169
+        cell.bounds = CGRectMake(0, 0, Frame.screen.width, h)
+        cell.baseLine.hidden = data.count != 0 ? true : false
+        
+        tableView.tableHeaderView = cell
+        var audios = [String]()
+        for item in dataSource.sights { audios.append(item.audio) }
+        var tempsight = [Landscape]()
+        tempsight.append(landsc)
+        tempsight.appendContentsOf(dataSource.sights)
+        (parentViewController as? CityViewController)?.playController.dataLandscape = tempsight
+    }
+    
     // MARK: - 刷新方法
     func refresh() {
         if self.isLoading {
@@ -126,7 +133,7 @@ class CityLandscapeController: BaseTableViewController {
         
         let cell: LandscapeCell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell, forIndexPath: indexPath) as! LandscapeCell
         cell.superCityViewController = self
-        cell.playAreaButton.tag = indexPath.row
+        cell.playAreaButton.tag = indexPath.row + 1
         cell.landscape = data[indexPath.row]
         cell.baseLine.hidden = indexPath.row == data.count - 1 ? true : false
         

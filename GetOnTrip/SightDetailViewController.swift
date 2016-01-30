@@ -15,7 +15,6 @@ class SightDetailViewController: BaseViewController {
     /// 播放控制器
     weak var playViewController: PlayFrequency?
     weak var cityPlayViewController: CityPlayRulsateView?
-
     /// 播放cell
     weak var playCell: LandscapeCell?
     /// 景观详情页面背景图
@@ -69,12 +68,14 @@ class SightDetailViewController: BaseViewController {
         super.viewWillAppear(animated)
 
         playViewController?.sightDetailController = self
+        cityPlayViewController?.sightDetailController = self
         let isHidden = dataSource.audio_len == "" ? true : false
         currentTimeLabel.hidden = isHidden
         playBottomView.hidden   = isHidden
         slide.hidden            = isHidden
         totalTimeLabel.hidden   = isHidden
         playViewController?.setupLockScreenSongInfos()
+        cityPlayViewController?.setupLockScreenSongInfos()
         UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
     }
     
@@ -120,8 +121,6 @@ class SightDetailViewController: BaseViewController {
         let blurV =  UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
         backgroundImageView.addSubview(blurV)
         blurV.ff_Fill(backgroundImageView)
-        
-        
         
         slide.minimumTrackTintColor = UIColor(hex: 0x000000, alpha: 0.5)
         slide.maximumTrackTintColor = UIColor(hex: 0xD5D5D5, alpha: 1.0)
@@ -170,5 +169,4 @@ class SightDetailViewController: BaseViewController {
         sc.title = landscape.name
         navigationController?.pushViewController(sc, animated: true)
     }
-
 }

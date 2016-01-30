@@ -866,11 +866,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/SightDetailViewController.swift"
-            timestampString = "475825640.626898"
+            timestampString = "475827706.538398"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "initNavBar()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1390,7 +1390,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/CityViewController.swift"
-            timestampString = "475825640.626898"
+            timestampString = "475826755.715739"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "405"

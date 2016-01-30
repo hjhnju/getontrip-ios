@@ -103,7 +103,7 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
 //        scrollView.ff_Fill(self)
         scrollView.backgroundColor = UIColor.clearColor()
         scrollView.delegate = self
-        scrollView.minimumZoomScale = 0.5
+        scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 2.0
         scrollView.addSubview(imageView)
         let tap1 = UITapGestureRecognizer(target: self, action: "clickImage")

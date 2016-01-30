@@ -23,7 +23,6 @@ class CityRequest {
             if status == RetCode.SUCCESS {
                 if let dict = result.dictionaryObject {
                     let sight = Sight(dict: dict)
-                    print(result)
                     handler(sight, status)
                 }
                 return
