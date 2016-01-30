@@ -25,7 +25,7 @@ class PhotoBrowserViewController: UIViewController {
     /// 图标
     lazy var iconView: UIImageView = UIImageView(image: UIImage(named: "icon_app_rote"))
     /// 读图提示
-    lazy var promptLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "| 读图", fontSize: 20, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var promptLabel: UILabel = UILabel(color: UIColor(hex: 0xFFFFFF, alpha: 0.7), title: "看 | ", fontSize: 20, mutiLines: true, fontName: Font.PingFangSCLight)
     /// 页码
     lazy var pageNumLabel: UILabel = UILabel(color: .whiteColor(), title: "/4", fontSize: 13, mutiLines: true, fontName: Font.PingFangSCRegular)
     /// 页数
@@ -44,7 +44,7 @@ class PhotoBrowserViewController: UIViewController {
         var screenBounds = Frame.screen
         screenBounds.size.width += 20
         view = UIView(frame: screenBounds)
-        view.backgroundColor = UIColor.blackColor()
+        view.backgroundColor = SceneColor.frontBlack
         
         view.addSubview(collectionView)
         view.addSubview(iconView)
@@ -57,8 +57,8 @@ class PhotoBrowserViewController: UIViewController {
         descScrollView.showsVerticalScrollIndicator   = true
         descLabel.preferredMaxLayoutWidth = Frame.screen.width - 18
         
-        iconView.ff_AlignInner(.TopLeft, referView: view, size: CGSizeMake(25, 26), offset: CGPointMake(23, 21))
-        promptLabel.ff_AlignHorizontal(.CenterRight, referView: iconView, size: nil, offset: CGPointMake(10, 0))
+        promptLabel.ff_AlignInner(.TopLeft, referView: view, size: nil, offset: CGPointMake(23, 21))
+        iconView.ff_AlignHorizontal(.CenterRight, referView: promptLabel, size: CGSizeMake(25, 26))
         pageNumLabel.ff_AlignInner(.TopRight, referView: view, size: nil, offset: CGPointMake(-30, 21))
         pageLabel.ff_AlignHorizontal(.BottomLeft, referView: pageNumLabel, size: nil, offset: CGPointMake(0, 0))
         descScrollView.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(Frame.screen.width, 133))
@@ -215,7 +215,7 @@ extension PhotoBrowserViewController: UICollectionViewDataSource, UICollectionVi
     
     ///  隐藏控件
     private func hideControl(isHidden: Bool) {
-        view.backgroundColor = isHidden ? UIColor.clearColor() : UIColor.blackColor()
+        view.backgroundColor = isHidden ? UIColor.clearColor() : SceneColor.frontBlack
     }
 }
 

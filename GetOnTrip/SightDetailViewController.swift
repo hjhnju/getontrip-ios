@@ -24,7 +24,7 @@ class SightDetailViewController: BaseViewController {
     /// 容器
     lazy var scrollView = UIScrollView()
     /// 说明
-    lazy var explainLabel = UILabel(color: .whiteColor(), title: "圆明园是少有的奇迹", fontSize: 17, mutiLines: true, fontName: Font.PingFangSCLight)
+    lazy var explainLabel = UILabel(color: .whiteColor(), title: "圆明园是少有", fontSize: 17, mutiLines: true, fontName: Font.PingFangSCLight)
     /// 查看更看
     lazy var lookUpMoreButton = UIButton(title: "查看更多", fontSize: 14, radius: 0, titleColor: UIColor(hex: 0xFFFFFF, alpha: 0.5), fontName: Font.PingFangSCRegular)
     /// 播放底部view
@@ -48,7 +48,7 @@ class SightDetailViewController: BaseViewController {
                 backgroundImageView.sd_setImageWithURL(NSURL(string: dataSource.image), placeholderImage: PlaceholderImage.defaultSmall)
             }
             let y: CGFloat = dataSource.content.sizeofStringWithFount(UIFont(name: Font.PingFangSCLight, size: 17) ??
-                UIFont(name: Font.ios8Font, size: 17)!, maxSize: CGSizeMake(Frame.screen.width - 56, CGFloat.max), lineSpacing: 0).height
+                UIFont(name: Font.ios8Font, size: 17)!, maxSize: CGSizeMake(Frame.screen.width - 56, CGFloat.max), lineSpacing: 8).height
             scrollView.contentSize = CGSizeMake(0, y)
             scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
             explainLabel.attributedText = dataSource.content.getAttributedString(0, lineSpacing: 8, breakMode: .ByTruncatingTail, fontName: Font.PingFangSCLight, fontSize: 17)

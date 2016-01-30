@@ -26,7 +26,10 @@ class CityLandscapeController: BaseTableViewController {
     }
     
     var headerCell: LandscapeCellHead?
-    
+    var headerButton = UIButton()
+    /// 组标题数据源
+    var sectionData: Landscape = Landscape()
+
     /// 数据源
     var dataSource = CityLandscape() {
         didSet {
@@ -78,7 +81,7 @@ class CityLandscapeController: BaseTableViewController {
     
     /// 添加组标题方法
     func addTableViewHeaderView() {
-        let cell: LandscapeCell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1) as! LandscapeCellHead
+        headerCell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerSightCell1) as? LandscapeCellHead
         let landsc = Landscape()
         landsc.id = dataSource.id
         landsc.name = dataSource.name
@@ -88,19 +91,32 @@ class CityLandscapeController: BaseTableViewController {
         landsc.audio = dataSource.audio
         landsc.audio_len = dataSource.audio_len
         landsc.landscape_id = dataSource.landscape_id
-        cell.superCityViewController = self
-        cell.landscape = landsc
+        landsc.url = dataSource.url
+        headerCell!.superCityViewController = self
+        headerCell!.landscape = landsc
         let h: CGFloat = Device.isIPad() ? Frame.screen.width * 0.2296195 : 169
-        cell.bounds = CGRectMake(0, 0, Frame.screen.width, h)
-        cell.baseLine.hidden = data.count != 0 ? true : false
+        headerCell!.bounds = CGRectMake(0, 0, Frame.screen.width, h)
+        headerCell!.baseLine.hidden = data.count != 0 ? true : false
+        headerCell?.addSubview(headerButton)
+        let w: CGFloat = dataSource.audio == "" ? Frame.screen.width : 95
+        headerButton.frame = CGRectMake(0, 0, w, h)
+        headerButton.addTarget(self, action: "cityDetailAction", forControlEvents: .TouchUpInside)
+        sectionData = landsc
+        tableView.tableHeaderView = headerCell!
         
-        tableView.tableHeaderView = cell
         var audios = [String]()
         for item in dataSource.sights { audios.append(item.audio) }
         var tempsight = [Landscape]()
         tempsight.append(landsc)
         tempsight.appendContentsOf(dataSource.sights)
         (parentViewController as? CityViewController)?.playController.dataLandscape = tempsight
+    }
+    
+    /// 进入城市详情页方法
+    func cityDetailAction() {
+        let vc = SightDetailViewController()
+        vc.dataSource = sectionData
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - 刷新方法
@@ -185,5 +201,4 @@ class CityLandscapeController: BaseTableViewController {
             }
         })
     }
-    
 }

@@ -96,15 +96,14 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     }
     /// 当前选中图片的索引
     lazy var currentImageIndex: Int = 0
-    
+    /// 刷新控件
+    lazy var indicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
     // MARK: DataSource of Controller
     var topicId: String? {
         return self.topicDataSource?.id ?? ""
     }
-    
     /// 遮罩
     lazy var coverView: UIView = UIView(color: UIColor(hex: 0x686868, alpha: 0.3), alphaF: 0.6)
-        
     /// 进入的样式
     var isEntranceSight: Bool = false
     
@@ -198,6 +197,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         view.addSubview(commentVC.view)
         commentVC.view.hidden = true
         addChildViewController(commentVC)
+        view.addSubview(indicator)
         praisedButton.setImage(UIImage(named: "dotLike_no"), forState: .Normal)
         praisedButton.setImage(UIImage(named: "dotLike_yes"), forState: .Selected)
         
@@ -297,6 +297,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         collectButton .ff_AlignHorizontal(.CenterLeft, referView: shareButton, size: CGSizeMake(28, 28), offset: CGPointMake(-28, 0))
         bottomLineView.ff_AlignInner(.TopCenter, referView: toolbarView, size: CGSizeMake(view.bounds.width, 0.5), offset: CGPointMake(0, 0))
         loadingView   .ff_AlignInner(.TopCenter, referView: webView, size: loadingView.getSize(), offset: CGPointMake(0, (view.bounds.height + th)/2 - 2*tt))
+        
+        indicator.ff_AlignInner(ff_AlignType.CenterCenter, referView: view, size: nil)
     }
 
     // MARK: - 系统方法

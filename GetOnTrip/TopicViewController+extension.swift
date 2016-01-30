@@ -253,7 +253,10 @@ extension TopicViewController {
         presentedImageView.frame = currentSelectFrame
         presentedImageView.contentMode = .ScaleAspectFill
         presentedImageView.clipsToBounds = true
+        
+        indicator.startAnimating()
         presentedImageView.sd_setImageWithURL(NSURL(string: str)!, completed: { (image, error, cache, url) -> Void in
+            self.indicator.stopAnimating()
             self.presentedFrame = self.fullScreenFrame()
             self.photoBrowserVC?.transitioningDelegate = self
             self.photoBrowserVC?.modalPresentationStyle = .Custom

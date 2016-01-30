@@ -1278,11 +1278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GetOnTrip/TopicViewController+extension.swift"
-            timestampString = "475723183.565437"
+            timestampString = "475832386.224095"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "297"
-            endingLineNumber = "297"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "TopicViewController"
             landmarkType = "3">
          </BreakpointContent>

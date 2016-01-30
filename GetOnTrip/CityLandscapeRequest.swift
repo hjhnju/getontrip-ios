@@ -68,6 +68,8 @@ class CityLandscape: ModelObject {
     lazy var audio_len: String = ""
     /// 景点id
     lazy var landscape_id = ""
+    /// url
+    lazy var url = ""
     /// 景观
     lazy var sights: [Landscape] = [Landscape]()
     
