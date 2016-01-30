@@ -437,26 +437,24 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    
     /// 收藏操作
     func favoriteAction(sender: UIButton) {
         Statistics.shareStatistics.event(Event.collect_eventid, labelStr: "city")
         sender.selected = !sender.selected
         let type  = FavoriteContant.TypeCity
-        let objid = self.sightDataSource.cityid
-        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) { [weak self]
+        let objid = self.cityId
+        Favorite.doFavorite(type, objid: objid, isFavorite: sender.selected) {
             (result, status) -> Void in
             if status == RetCode.SUCCESS {
                 if result == nil {
                     sender.selected = !sender.selected
                 } else {
-                    ProgressHUD.showSuccessHUD(self?.view, text: sender.selected ? "已收藏" : "已取消")
+                    ProgressHUD.showSuccessHUD(self.view, text: sender.selected ? "已收藏" : "已取消")
                 }
             } else {
+                ProgressHUD.showSuccessHUD(self.view, text: "操作未成功，请稍候再试!")
                 sender.selected = !sender.selected
-                ProgressHUD.showErrorHUD(self?.view, text: "操作未成功，请稍后再试")
             }
-            self?.collectButton.setTitle(sender.selected ? "      已收藏" : "   收藏景点", forState: .Normal)
         }
     }
 }
