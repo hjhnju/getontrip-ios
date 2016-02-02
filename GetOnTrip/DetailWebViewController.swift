@@ -105,7 +105,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
     
     // MARK: webView Delegate
     private func loadingWeb() {
-        print("[DetailWebViewController]PreLoading: \(url)")
+//        print("[DetailWebViewController]PreLoading: \(url)")
         //分割＃部分
         var section = ""
         if let sectionIndex = url?.rangeOfString("#")?.startIndex {
@@ -117,7 +117,7 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
             //合并回＃
             url = url + section
             if let nsurl = NSURL(string: url) {
-                print("[DetailWebViewController]:RealLoading=\(nsurl)")
+//                print("[DetailWebViewController]:RealLoading=\(nsurl)")
                 webView.loadRequest(NSURLRequest(URL: nsurl))
             }
         }

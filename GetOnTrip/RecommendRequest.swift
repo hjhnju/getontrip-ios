@@ -61,7 +61,6 @@ class RecommendRequest: NSObject {
         if isLoadType == RecommendLoadType.TypeLabelAndImages {
             for item in data["images"].arrayValue {
                 let url = UIKitTools.sliceImageUrl(item["url"].stringValue, width: Int(Frame.screen.width), height: 244)
-                print(url)
                 searchModel.images.append(url)
             }
         } else if isLoadType == RecommendLoadType.TypeContent {

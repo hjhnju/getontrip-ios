@@ -84,7 +84,7 @@ class HttpRequest {
         }
         
         //loging
-        print("[HttpRequest]:url=\(url), hasValidCache=\(hasValidCache), hasDisplayCache=\(hasDisplayCache)")
+//        print("[HttpRequest]:url=\(url), hasValidCache=\(hasValidCache), hasDisplayCache=\(hasDisplayCache)")
         
         if hasValidCache && AppIni.UseValidCache {
             return
@@ -155,7 +155,7 @@ class HttpRequest {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
         let urlStr = AppIni.BaseUri + urlString
-        print(urlStr)
+
         Alamofire.upload(.POST,
             urlStr,
             multipartFormData: { (multipartFormData) in

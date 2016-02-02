@@ -335,7 +335,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     /// 显示详情
     private func showTopicDetail() {
         if let topic =  topicDataSource {
-            print("[WebView]Loading: \(topic.contenturl)")
+//            print("[WebView]Loading: \(topic.contenturl)")
             if let requestURL = NSURL(string: topic.contenturl) {
                 let request = NSURLRequest(URL: requestURL)
                 webView.loadRequest(request)
@@ -409,7 +409,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     
     // MARK: - wkwebview 代理方法
     func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
-        print(navigationAction.request.URLString)
+
         if !navigationAction.request.URLString.containsString("http://www.getontrip.cn/") {
             if let url = navigationAction.request.URL {
                 UIApplication.sharedApplication().openURL(url)
@@ -440,7 +440,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
             if let jsString = try? String(contentsOfURL: url) {
                 webView.evaluateJavaScript(jsString, completionHandler: { (result, error) -> Void in
                     self.getImageDataSource({ (_) -> Void in
-                        print("获取图片成功")
+                        print("js代码注入")
                     })
                 })
             }
