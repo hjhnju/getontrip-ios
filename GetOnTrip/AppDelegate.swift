@@ -28,9 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        print(Frame.screen.width)
-//        NSThread.sleepForTimeInterval(2)
-        print(UIScreen.mainScreen().bounds.width)
+
+        //        NSThread.sleepForTimeInterval(2)
         //加载缓存(最早，否则config无法获取
         globalKvStore = YTKKeyValueStore(DBWithName: "getontrip")
         globalKvStore?.createTableWithName("ApiCache")
@@ -64,16 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /// 注册统计相关
         Statistics.shareStatistics.registerStatisticsSetting()
         /// 注册测试设备
-        Test().statisticsEquipmentRegister()
-        /// 设置后台播放
-//        let audioSession = AVAudioSession.sharedInstance()
-//        do {
-//            try audioSession.setCategory(AVAudioSessionCategoryPlayback)
-//            try audioSession.setActive(true)
-//        } catch {
-//            print("不能后台播放")
-//        }
-//        
+//        Test().statisticsEquipmentRegister()
         return true
     }
     

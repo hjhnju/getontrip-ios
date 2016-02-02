@@ -11,8 +11,8 @@ import FFAutoLayout
 import WebKit
 
 struct BookViewContant {
-    static let headerViewHeight:CGFloat      = ((Device.isIphone4() ? 267 : Frame.screen.height * 0.3627717) + 82) + (Device.isIphone6() ? 20 : 0)
-    static let headerImageViewHeight:CGFloat = (Device.isIphone4() ? 267 : Frame.screen.height * 0.3627717) + (Device.isIphone6() ? 20 : 0)
+    static let headerViewHeight:CGFloat      = 267//((Device.isIphone4() ? 267 : Frame.screen.height * 0.3627717) + 82) + (Device.isIphone6() ? 20 : 0)
+    static let headerImageViewHeight:CGFloat = 267//(Device.isIphone4() ? 267 : Frame.screen.height * 0.3627717) + (Device.isIphone6() ? 20 : 0)
     static let bookViewHeight:CGFloat   = 181
     static let toolBarHeight:CGFloat    = 47
 }
