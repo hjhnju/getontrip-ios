@@ -34,4 +34,5 @@ class SearchHotwordCollectionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
 }

@@ -18,7 +18,7 @@ class SearchHeaderView: UITableViewHeaderFooterView {
     
     /// 基线
     lazy var baseLine: UIView = UIView(color: UIColor(hex: 0xBDBDBD, alpha: 0.15))
-    
+
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         
