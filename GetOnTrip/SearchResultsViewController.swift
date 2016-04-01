@@ -327,7 +327,7 @@ class SearchResultsViewController: BaseViewController, UITableViewDataSource, UI
                             break
                         }
                     }
-                    i++
+                    i += 1
                 }
                 if self!.dataSource.iSunfold[self!.dataSource.sectionTag] {
                     self?.tableView.insertRowsAtIndexPaths(indexPath, withRowAnimation: .None)
@@ -367,7 +367,7 @@ class SearchResultsViewController: BaseViewController, UITableViewDataSource, UI
         groupTitle.backgroundView?.alpha = 0.0
         groupTitle.recordLabel.text = text
         groupTitle.recordDelButton.setTitle(dataSource.iSunfold[group] ? "    收起" : "展开全部" , forState: .Normal)
-        groupTitle.recordDelButton.addTarget(self, action: "refreshGroupContentAction:", forControlEvents: .TouchUpInside)
+        groupTitle.recordDelButton.addTarget(self, action: #selector(SearchResultsViewController.refreshGroupContentAction(_:)), forControlEvents: .TouchUpInside)
         groupTitle.recordDelButton.tag = group
         groupTitle.recordDelButton.hidden = allHidden
         return groupTitle

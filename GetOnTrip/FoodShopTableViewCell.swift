@@ -45,7 +45,7 @@ class FoodShopTableViewCell: UITableViewCell {
                 addrLabel.text = "地址: " + cellData.addr
                 let scoreInt = Float(cellData.score) ?? 0
                 
-                for var i = 0; i<Int(scoreInt); i++ {
+                for (var i = 0; i<Int(scoreInt); i++) {
                    scoreSwitch(i, imageStr: "icon_star")
                 }
                 if Float(cellData.score ?? "0")! % Float(Int(scoreInt)) > 0 {

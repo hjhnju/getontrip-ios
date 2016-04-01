@@ -35,7 +35,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
         view.backgroundColor = .whiteColor()
         removeCacheLabel.text = getUsedCache()
         automaticallyAdjustsScrollViewInsets = false
-        trafficSwitch.addTarget(self, action: "trafficSwitchAction:", forControlEvents: .ValueChanged)
+        trafficSwitch.addTarget(self, action: #selector(OtherSettingController.trafficSwitchAction(_:)), forControlEvents: .ValueChanged)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -47,7 +47,7 @@ class OtherSettingController: MenuViewController, UITableViewDelegate, UITableVi
     private func initExitLogin() {
         view.addSubview(exitLogin)
         exitLogin.backgroundColor = .whiteColor()
-        exitLogin.addTarget(self, action: "exitLoginAction", forControlEvents: .TouchUpInside)
+        exitLogin.addTarget(self, action: #selector(OtherSettingController.exitLoginAction), forControlEvents: .TouchUpInside)
         exitLogin.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
     }
     

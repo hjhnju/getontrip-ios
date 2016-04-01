@@ -59,16 +59,16 @@ class DetailWebViewController: BaseViewController, WKNavigationDelegate, UIScrol
     
     private func initNavBar() {
         
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: "途知", target: self, action: "popViewAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: "途知", target: self, action: #selector(DetailWebViewController.popViewAction(_:)))
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.setBlurViewEffect(false)
         navBar.backgroundColor = SceneColor.frontBlack
         navBar.rightButton.setImage(UIImage(named: "bar_collect"), forState: .Normal)
         navBar.rightButton.setImage(UIImage(named: "bar_collect_select"), forState: .Selected)
-        navBar.rightButton.addTarget(self, action: "collectVideoAction:", forControlEvents: .TouchUpInside)
+        navBar.rightButton.addTarget(self, action: #selector(DetailWebViewController.collectVideoAction(_:)), forControlEvents: .TouchUpInside)
         navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Normal)
         navBar.rightButton2.setImage(UIImage(named: "share_yellow"), forState: .Selected)
-        navBar.rightButton2.addTarget(self, action: "shareVideoAction:", forControlEvents: .TouchUpInside)
+        navBar.rightButton2.addTarget(self, action: #selector(DetailWebViewController.collectVideoAction(_:)), forControlEvents: .TouchUpInside)
         navBar.rightButton.hidden = video == nil ? true : false
         navBar.rightButton2.hidden = video == nil ? true : false
         let rightCon = navBar.rightButton.ff_Constraint(navBar.rightCons!, attribute: NSLayoutAttribute.Right)

@@ -98,7 +98,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
             navBar.titleLabel.font = UIFont.systemFontOfSize(17)
         }
         navBar.titleLabel.textColor = UIColor(hex: 0x424242, alpha: 1.0)
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(FoodDetailViewController.popViewAction(_:)))
         navBar.setButtonTintColor(SceneColor.frontBlack)
     }
     
@@ -168,8 +168,8 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
         }
         
         let v = tableView.dequeueReusableHeaderFooterViewWithIdentifier("FoodHeaderViewCell") as! FoodHeaderViewCell
-        v.upButton.addTarget(self, action: "upPageAction:", forControlEvents: .TouchUpInside)
-        v.BottomButton.addTarget(self, action: "BottomPageAction:", forControlEvents: .TouchUpInside)
+        v.upButton.addTarget(self, action: #selector(FoodDetailViewController.upPageAction(_:)), forControlEvents: .TouchUpInside)
+        v.BottomButton.addTarget(self, action: #selector(FoodDetailViewController.BottomPageAction(_:)), forControlEvents: .TouchUpInside)
         if section == 1 && shopData.count != 0 {
             v.titleLabel.text  = "推荐名店"
             v.upButton.tag     = 2
@@ -268,13 +268,13 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
             if let data = recommendShop[shopIndex-1] {
                 shopData = data
                 tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
-                shopIndex--
+                shopIndex -= 1
             }
         } else { // 相关话题的下一页
             if let data = recommendTopic[topicIndex-1] {
                 topicData = data
                 tableView.reloadSections(NSIndexSet(index: self.shopData.count == 0 ? 1 : 2), withRowAnimation: .None)
-                topicIndex--
+                topicIndex -= 1
             }
         }
     }
@@ -284,7 +284,7 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
             if let data = recommendShop[shopIndex+1] {
                 shopData = data
                 tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
-                shopIndex++
+                shopIndex += 1
                 return
             }
             lastRequest.foodFetchNextPageModels({ (result, status) -> Void in
@@ -293,13 +293,13 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
                     if let data = result {
                         print(data.count)
                         if data.count > 0 {
-                            self.shopIndex++
+                            self.shopIndex += 1
                             self.shopData = data
                             self.recommendShop[self.shopIndex] = data
                             self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
                         } else {
                             ProgressHUD.showSuccessHUD(nil, text: "已无更多名店")
-                            self.lastRequest.shopPage--
+                            self.lastRequest.shopPage -= 1
                         }
                     }
                 }
@@ -308,20 +308,20 @@ class FoodDetailViewController: BaseViewController, UITableViewDataSource, UITab
             if let data = recommendTopic[topicIndex+1] {
                 topicData = data
                 tableView.reloadSections(NSIndexSet(index: self.shopData.count == 0 ? 1 : 2), withRowAnimation: .None)
-                topicIndex++
+                topicIndex += 1
                 return
             }
             lastRequest.topicFetchNextPageModels({ (result, status) -> Void in
                 if status == RetCode.SUCCESS {
                     if let data = result {
                         if data.count > 0 {
-                            self.topicIndex++
+                            self.topicIndex += 1
                             self.topicData = data
                             self.recommendTopic[self.topicIndex] = data
                             self.tableView.reloadSections(NSIndexSet(index: self.shopData.count == 0 ? 1 : 2), withRowAnimation: .None)
                         } else {
                             ProgressHUD.showSuccessHUD(nil, text: "已无更多话题")
-                            self.lastRequest.topicPage--
+                            self.lastRequest.topicPage -= 1
                         }
                     }
                 }

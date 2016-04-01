@@ -33,7 +33,7 @@ class GuideViewController: BaseCollectionViewController {
         var pageC = UIPageControl()
         pageC.numberOfPages = self?.numberPage ?? 0
         pageC.currentPage = 0
-        pageC.addTarget(self, action: "pageChanged", forControlEvents: .ValueChanged)
+//        pageC.addTarget(self, action: "pageChanged", forControlEvents: .ValueChanged)
         pageC.userInteractionEnabled = false
         pageC.pageIndicatorTintColor = UIColor(hex: 0xA9A9A9, alpha: 1.0)
         pageC.currentPageIndicatorTintColor = UIColor(hex: 0x1C1C1C, alpha: 1.0)
@@ -54,7 +54,7 @@ class GuideViewController: BaseCollectionViewController {
         view.addSubview(pagecontrol)
         view.addSubview(exitButton)
         exitButton.hidden = numberPage != 4 ? false : true
-        exitButton.addTarget(self, action: "exitButtonAction", forControlEvents: .TouchUpInside)
+        exitButton.addTarget(self, action: #selector(GuideViewController.exitButtonAction), forControlEvents: .TouchUpInside)
         automaticallyAdjustsScrollViewInsets = false
         exitButton.ff_AlignInner(.TopRight, referView: view, size: nil, offset: CGPointMake(-20, 40))
         pagecontrol.ff_AlignInner(.BottomCenter, referView: view, size: nil, offset: CGPointMake(0, -20))
@@ -157,7 +157,7 @@ class NewFeatureCell: UICollectionViewCell {
         contentView.backgroundColor = SceneColor.greyWhite
         
         pictureView.contentMode = .ScaleAspectFill
-        startButton.addTarget(self, action: "startButtonClicked", forControlEvents: .TouchUpInside)
+        startButton.addTarget(self, action: #selector(NewFeatureCell.startButtonClicked), forControlEvents: .TouchUpInside)
 //        startButton.layer.borderWidth = 1.0
 //        startButton.layer.borderColor = UIColor.whiteColor().CGColor
         startButton.backgroundColor = UIColor(hex: 0xFFDB00, alpha: 1.0)

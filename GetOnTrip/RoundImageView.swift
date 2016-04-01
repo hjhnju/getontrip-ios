@@ -60,8 +60,8 @@ class RoundImageView: UIView {
     }
     
     private func initGesture() {
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeLeftAction")
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: "swipeRightActiona")
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(RoundImageView.swipeLeftAction))
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(RoundImageView.swipeRightActiona))
         swipeLeft.direction = .Left
         swipeRight.direction = .Right
         addGestureRecognizer(swipeLeft)
@@ -74,7 +74,7 @@ class RoundImageView: UIView {
     
     func swipeLeftAction() {
         if moving { return }
-        index++
+        index += 1
         arrayM.exchangeObjectAtIndex(0, withObjectAtIndex: 1)
         arrayM.exchangeObjectAtIndex(1, withObjectAtIndex: 2)
         index = (index + arrayImage.count) % arrayImage.count
@@ -91,7 +91,7 @@ class RoundImageView: UIView {
     func swipeRightActiona() {
         if moving { return }
         moving = true
-        index--
+        index -= 1
         arrayM.exchangeObjectAtIndex(1, withObjectAtIndex: 2)
         arrayM.exchangeObjectAtIndex(0, withObjectAtIndex: 1)
         index = (index + arrayImage.count) % arrayImage.count

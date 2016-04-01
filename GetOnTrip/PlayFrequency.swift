@@ -32,8 +32,8 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     /// 景观详情控制器
     weak var sightDetailController: SightDetailViewController? {
         didSet {
-            sightDetailController?.slide.addTarget(self, action: "adjustDuration:", forControlEvents: .ValueChanged)
-            sightDetailController?.playBeginButton.addTarget(self, action: "playBeginButtonAction:", forControlEvents: .TouchUpInside)
+            sightDetailController?.slide.addTarget(self, action: #selector(PlayFrequency.adjustDuration(_:)), forControlEvents: .ValueChanged)
+            sightDetailController?.playBeginButton.addTarget(self, action: #selector(PlayFrequency.playBeginButtonAction(_:)), forControlEvents: .TouchUpInside)
             if index == sightDetailController?.index {
                 sightDetailController?.playBeginButton.selected = isPlay ? true : false
             }
@@ -277,7 +277,7 @@ class PlayFrequency: NSObject, AVAudioPlayerDelegate {
     
     /// 开启定时器
     func startTimer() {
-        timer = NSTimer(timeInterval: 1, target: self, selector: "mainLoop", userInfo: nil, repeats: true)
+        timer = NSTimer(timeInterval: 1, target: self, selector: #selector(PlayFrequency.mainLoop), userInfo: nil, repeats: true)
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
     }
     

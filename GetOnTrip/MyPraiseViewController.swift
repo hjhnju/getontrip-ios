@@ -49,7 +49,7 @@ class MyPraiseViewController: MenuViewController, UITableViewDelegate, UITableVi
         tableView.addSubview(collectPrompt)
         collectPrompt.ff_AlignInner(.TopCenter, referView: tableView, size: nil, offset: CGPointMake(0, 135))
         collectPrompt.textAlignment = .Center
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(MyPraiseViewController.popViewAction(_:)))
         
         tableView.separatorStyle = .None
         tableView.dataSource = self

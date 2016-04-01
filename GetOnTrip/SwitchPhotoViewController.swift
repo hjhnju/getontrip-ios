@@ -36,7 +36,7 @@ class SwitchPhotoViewController: MenuViewController {
         navBar.titleLabel.text = "选择照片"
         navBar.rightButton.removeFromSuperview()
         navBar.rightButton2.removeFromSuperview()
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(SwitchPhotoViewController.popViewAction(_:)))
         
         view.backgroundColor = SceneColor.bgBlack
         shade.userInteractionEnabled = true
@@ -53,8 +53,8 @@ class SwitchPhotoViewController: MenuViewController {
         cancelBtn.ff_AlignInner(.CenterLeft, referView: bottomView, size: CGSizeMake(50, 44), offset: CGPointMake(0, 0))
         trueBtn.ff_AlignInner(.CenterRight, referView: bottomView, size: CGSizeMake(50, 44), offset: CGPointMake(0, 0))
         
-        cancelBtn.addTarget(self, action: "cancelAction:", forControlEvents: .TouchUpInside)
-        trueBtn.addTarget(self, action: "trueAction", forControlEvents: .TouchUpInside)
+        cancelBtn.addTarget(self, action: #selector(SwitchPhotoViewController.cancelAction(_:)), forControlEvents: .TouchUpInside)
+        trueBtn.addTarget(self, action: #selector(SwitchPhotoViewController.trueAction), forControlEvents: .TouchUpInside)
     }
     
     override func viewWillAppear(animated: Bool) {

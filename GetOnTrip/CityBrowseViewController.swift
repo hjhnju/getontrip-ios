@@ -44,8 +44,8 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
     var dataSource: CityList = CityList() {
         didSet {
             
-            let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
-            swipeLeft.direction = .Left
+//            let swipeLeft = UISwipeGestureRecognizer(target: self, action: "swipeGesture:")
+//            swipeLeft.direction = .Left
             if isFirstRefreshBool {
                 UIView.transitionWithView(tableView, duration: 0.8, options: .TransitionCrossDissolve, animations: { () -> Void in
                     self.tableView.reloadData()
@@ -116,8 +116,8 @@ class CityBrowseViewController: MenuViewController, UITableViewDataSource, UITab
         domesticButton.backgroundColor = SceneColor.bgBlack
         abroadButton.backgroundColor = UIColor.clearColor()
         
-        domesticButton.addTarget(self, action: "domesticButtonAction:", forControlEvents: .TouchUpInside)
-        abroadButton.addTarget(self, action: "domesticButtonAction:", forControlEvents: .TouchUpInside)
+        domesticButton.addTarget(self, action: #selector(CityBrowseViewController.domesticButtonAction(_:)), forControlEvents: .TouchUpInside)
+        abroadButton.addTarget(self, action: #selector(CityBrowseViewController.domesticButtonAction(_:)), forControlEvents: .TouchUpInside)
         domesticButton.tag = 1
         abroadButton.tag = 0
         

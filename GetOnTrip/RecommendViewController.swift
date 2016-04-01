@@ -71,7 +71,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     lazy var custNavView:UIView = { [weak self] in
         let view = UIView()
         self?.slideButton.removeFromSuperview()
-        self?.slideNavButton.addTarget(self, action: "toggleMenu", forControlEvents: .TouchUpInside)
+        self?.slideNavButton.addTarget(self, action: #selector(MainViewController.toggleMenu), forControlEvents: .TouchUpInside)
         view.addSubview(self?.slideNavButton ?? UIView())
         return view
     }()
@@ -97,8 +97,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
     /// 热门景点和热门内容view
     lazy var titleSelectView: RecommendHotView = { [weak self] in
         let v = RecommendHotView()
-        v.hotContentButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
-        v.hotSightButton.addTarget(self, action: "hotContentAndSightButtonAction:", forControlEvents: .TouchUpInside)
+        v.hotContentButton.addTarget(self, action: #selector(RecommendViewController.hotContentAndSightButtonAction(_:)), forControlEvents: .TouchUpInside)
+        v.hotSightButton.addTarget(self, action: #selector(RecommendViewController.hotContentAndSightButtonAction(_:)), forControlEvents: .TouchUpInside)
         return v
     }()
     
@@ -117,7 +117,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         refreshHint2.ff_AlignVertical(.BottomCenter, referView: refreshHint1, size: nil, offset: CGPointMake(0, 0))
         
         //add target
-        refreshButton.addTarget(self, action: "refreshFromErrorView:", forControlEvents: UIControlEvents.TouchUpInside)
+        refreshButton.addTarget(self, action: #selector(RecommendViewController.refreshFromErrorView(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self?.view.addSubview(view)
         self?.view.sendSubviewToBack(view)
         view.hidden = true
@@ -214,10 +214,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
             return
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self,
-            selector: "reachabilityChanged:",
-            name: ReachabilityChangedNotification,
-            object: reachability)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(RecommendViewController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
         
         do {
             try reachability.startNotifier()
@@ -295,8 +292,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         rightRoundButton.imageViewFrame = CGRectMake(0, 0, 9, 14)
         leftRoundButton.tag = 1
         rightRoundButton.tag = 2
-        leftRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
-        rightRoundButton.addTarget(self, action: "swipeAction:", forControlEvents: .TouchUpInside)
+        leftRoundButton.addTarget(self, action: #selector(RecommendViewController.swipeAction(_:)), forControlEvents: .TouchUpInside)
+        rightRoundButton.addTarget(self, action: #selector(RecommendViewController.swipeAction(_:)), forControlEvents: .TouchUpInside)
     }
     
     /**
@@ -307,7 +304,8 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         view.addSubview(backUpControl)
         backUpImageView.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(24, 24), offset: CGPointMake(-9, -22))
         backUpControl.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(33, 47))
-        backUpControl.addTarget(self, action: "backUpAction", forControlEvents: .TouchUpInside)
+//        "backUpAction"
+        backUpControl.addTarget(self, action: #selector(RecommendViewController.backUpAction), forControlEvents: .TouchUpInside)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -320,7 +318,7 @@ class RecommendViewController: MainViewController, UICollectionViewDataSource, U
         leftRoundButton.hidden = headerImagesData.count > 1 ? false : true
         rightRoundButton.hidden = headerImagesData.count > 1 ? false : true
         if headerImagesData.count > 1 {
-            timer = NSTimer(timeInterval: 2.5, target: self, selector: "updatePhotoAction", userInfo: nil, repeats: true)
+            timer = NSTimer(timeInterval: 2.5, target: self, selector: #selector(RecommendViewController.updatePhotoAction), userInfo: nil, repeats: true)
             NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
         }
     }

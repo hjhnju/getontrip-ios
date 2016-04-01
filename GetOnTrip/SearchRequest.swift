@@ -62,7 +62,7 @@ class SearchRequest: NSObject {
                             if data["city_num"]?.intValue > 0 {
                                 rows.groupTitleName.append("城市")
                                 rows.sectionRows.append(data["city_num"]?.intValue ?? 0)
-                                groupNum++
+                                groupNum += 1
                             }
                         }
                     case "sight":
@@ -83,7 +83,7 @@ class SearchRequest: NSObject {
                             if data["sight_num"]?.intValue > 0 {
                                 rows.groupTitleName.append("景点")
                                 rows.sectionRows.append(data["sight_num"]?.intValue ?? 0)
-                                groupNum++
+                                groupNum += 1
                             }
                         }
                     case "content":
@@ -102,7 +102,7 @@ class SearchRequest: NSObject {
                             if data["content_num"]?.intValue > 0 {
                                 rows.groupTitleName.append("内容")
                                 rows.sectionRows.append(data["content_num"]?.intValue ?? 0)
-                                groupNum++
+                                groupNum += 1
                             }
                         }
                     case "landscape":
@@ -123,7 +123,7 @@ class SearchRequest: NSObject {
                             if data["landscape_num"]?.intValue > 0 {
                                 rows.groupTitleName.append("景观")
                                 rows.sectionRows.append(data["landscape_num"]?.intValue ?? 0)
-                                groupNum++
+                                groupNum += 1
                             }
                         }
                     case "book":
@@ -142,7 +142,7 @@ class SearchRequest: NSObject {
                             if data["book_num"]?.intValue > 0 {
                                 rows.groupTitleName.append("书籍")
                                 rows.sectionRows.append(data["book_num"]?.intValue ?? 0)
-                                groupNum++
+                                groupNum += 1
                             }
                         }
                     case "video":
@@ -161,7 +161,7 @@ class SearchRequest: NSObject {
                             if data["video_num"]?.intValue > 0 {
                                 rows.groupTitleName.append("视频")
                                 rows.sectionRows.append(data["video_num"]?.intValue ?? 0)
-                                groupNum++
+                                groupNum += 1
                             }
                         }
                     default:

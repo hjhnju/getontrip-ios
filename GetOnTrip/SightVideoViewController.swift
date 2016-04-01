@@ -43,7 +43,7 @@ class SightVideoViewController: BaseTableViewController {
         let tbHeaderView = MJRefreshNormalHeader { [weak self] () -> Void in self?.refresh() }
     
         let vc = parentViewController as? SightViewController
-        vc?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: "")
+        vc?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "途知", style: .Plain, target: "", action: nil)
         let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { [weak self] () -> Void in self?.loadMore() })
 
         tableView.mj_header = tbHeaderView
@@ -104,7 +104,7 @@ class SightVideoViewController: BaseTableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(HistoryTableViewControllerVideoCell, forIndexPath: indexPath) as! VideoCell
-        cell.watchBtn.addTarget(self, action: "watchClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        cell.watchBtn.addTarget(self, action: #selector(SightVideoViewController.watchClick(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         cell.watchBtn.tag = indexPath.row
         cell.video = dataSource[indexPath.row]
         return cell

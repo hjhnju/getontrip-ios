@@ -31,8 +31,8 @@ class CityPlayRulsateView: NSObject, AVAudioPlayerDelegate {
     /// 景观详情控制器
     weak var sightDetailController: SightDetailViewController? {
         didSet {
-            sightDetailController?.slide.addTarget(self, action: "adjustDuration:", forControlEvents: .ValueChanged)
-            sightDetailController?.playBeginButton.addTarget(self, action: "playBeginButtonAction:", forControlEvents: .TouchUpInside)
+            sightDetailController?.slide.addTarget(self, action: #selector(CityPlayRulsateView.adjustDuration(_:)), forControlEvents: .ValueChanged)
+            sightDetailController?.playBeginButton.addTarget(self, action: #selector(CityPlayRulsateView.playBeginButtonAction(_:)), forControlEvents: .TouchUpInside)
             if index == sightDetailController?.index {
                 sightDetailController?.playBeginButton.selected = isPlay ? true : false
             }

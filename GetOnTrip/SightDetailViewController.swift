@@ -134,7 +134,7 @@ class SightDetailViewController: BaseViewController {
         backgroundImageView.addSubview(coverView)
         backgroundImageView.contentMode = .ScaleAspectFill
         explainLabel.preferredMaxLayoutWidth = Frame.screen.width - 56
-        lookUpMoreButton.addTarget(self, action: "lookUpMoreButtonAction", forControlEvents: .TouchUpInside)
+        lookUpMoreButton.addTarget(self, action: #selector(SightDetailViewController.lookUpMoreButtonAction), forControlEvents: .TouchUpInside)
     }
     
     private func initAutoLayout() {
@@ -156,7 +156,7 @@ class SightDetailViewController: BaseViewController {
         view.bringSubviewToFront(navBar)
         navBar.titleLabel.font = UIFont(name: Font.PingFangSCRegular, size: 22)
         navBar.setTitle(dataSource.name)
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(SightDetailViewController.popViewAction(_:)))
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = UIColor.clearColor()

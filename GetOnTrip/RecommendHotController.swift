@@ -48,7 +48,7 @@ class RecommendHotController: BaseTableViewController {
     private func initRefresh() {
         // 下拉刷新
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: "loadData", forControlEvents: .ValueChanged)
+        refreshControl?.addTarget(self, action: #selector(RecommendHotController.loadData), forControlEvents: .ValueChanged)
         
         //上拉刷新        
         let tbFooterView = MJRefreshAutoNormalFooter(refreshingBlock: { [weak self] () -> Void in self?.loadMore() })

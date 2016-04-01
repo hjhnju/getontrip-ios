@@ -59,7 +59,7 @@ class SearchBar: UIView {
         // 取消按钮
         addSubview(clearTextButton)
         clearTextButton.hidden = true
-        clearTextButton.addTarget(self, action: "clearTextButtonAction", forControlEvents: .TouchUpInside)
+        clearTextButton.addTarget(self, action: #selector(SearchBar.clearTextButtonAction), forControlEvents: .TouchUpInside)
         
         // 删除按钮
         deleteButton.setImage(UIImage(named: "delete_clear_hei"), forState: .Highlighted)
@@ -67,7 +67,7 @@ class SearchBar: UIView {
         textFile.rightViewMode = .WhileEditing
         deleteButton.bounds = CGRectMake(0, 0, 28, 20)
         deleteButton.hidden = true
-        deleteButton.addTarget(self, action: "deleteTextFiledTextAction", forControlEvents: .TouchUpInside)
+        deleteButton.addTarget(self, action: #selector(SearchBar.deleteTextFiledTextAction), forControlEvents: .TouchUpInside)
         
         // 文本框
         addSubview(textFile)

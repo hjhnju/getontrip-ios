@@ -76,7 +76,7 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
             maskView.ff_Fill(mainViewController.view)
             
             //初始化蒙板
-            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGestureHandler:")
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SlideMenuViewController.tapGestureHandler(_:)))
             maskView.addGestureRecognizer(tapGestureRecognizer)
             
             if mainViewController.isKindOfClass(NSClassFromString("GetOnTrip.FavoriteViewController")!) {
@@ -149,13 +149,13 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
     //滑动手势
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let pan = UIPanGestureRecognizer()
-        pan.addTarget(self, action:"panGestureHandler:")
+        pan.addTarget(self, action:#selector(SlideMenuViewController.panGestureHandler(_:)))
         return pan
     }()
     
     lazy var panGestureRecognizer2: UIPanGestureRecognizer = {
         let pan = UIPanGestureRecognizer()
-        pan.addTarget(self, action:"panGestureHandler:")
+        pan.addTarget(self, action:#selector(SlideMenuViewController.panGestureHandler(_:)))
         return pan
     }()
     
@@ -201,9 +201,9 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
         
         //菜单subviews
         bgImageView.contentMode = .ScaleToFill
-        welcomeButton.addTarget(self, action: "loginAction", forControlEvents: .TouchUpInside)
-        loginPromptButton.addTarget(self, action: "loginAction", forControlEvents: .TouchUpInside)
-        settingButton.addTarget(self, action: "settingAction:", forControlEvents: .TouchUpInside)
+        welcomeButton.addTarget(self, action: #selector(SlideMenuViewController.loginAction), forControlEvents: .TouchUpInside)
+        loginPromptButton.addTarget(self, action: #selector(SlideMenuViewController.loginAction), forControlEvents: .TouchUpInside)
+        settingButton.addTarget(self, action: #selector(SlideMenuViewController.settingAction(_:)), forControlEvents: .TouchUpInside)
         
         tableView.dataSource = self
         tableView.delegate   = self

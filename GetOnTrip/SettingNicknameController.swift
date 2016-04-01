@@ -42,17 +42,17 @@ class SettingNicknameController: MenuViewController, UITableViewDataSource, UITa
         userNameTextField.autocapitalizationType = .None
         userNameTextField.returnKeyType       = .Done
         userNameTextField.clearButtonMode     = .Always
-        userNameTextField.addTarget(self, action: "nickNameTextFieldTextDidChangeNotification:", forControlEvents: .EditingChanged)
+        userNameTextField.addTarget(self, action: #selector(SettingNicknameController.nickNameTextFieldTextDidChangeNotification(_:)), forControlEvents: .EditingChanged)
     }
     
     ///  初始化导航
     private func setupBarButtonItem() {
         
-        navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserName:")
+        navBar.setRightBarButton(nil, title: "保存", target: self, action: #selector(SettingNicknameController.saveUserName(_:)))
         navBar.rightButton.selected = false
         navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: .Normal)
         navBar.rightButton.setTitleColor(UIColor.yellowColor(), forState: .Selected)
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(SettingNicknameController.popViewAction(_:)))
     }
     
     override func viewWillAppear(animated: Bool) {

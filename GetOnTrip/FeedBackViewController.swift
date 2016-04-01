@@ -46,7 +46,7 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         navBar.titleLabel.text = "反馈"
         automaticallyAdjustsScrollViewInsets = true
         view.backgroundColor = .whiteColor()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedBackViewController.keyboardChanged(_:)), name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
     /// 初始化底部
@@ -61,7 +61,7 @@ class FeedBackViewController: MenuViewController, UITableViewDataSource, UITable
         sendContentText.frame = CGRectMake(8, 8, UIScreen.mainScreen().bounds.width - 119, 34)
         sendButton.frame = CGRectMake(UIScreen.mainScreen().bounds.width - 100, 8, 91, 34)
         sendButton.backgroundColor = SceneColor.shallowYellows
-        sendButton.addTarget(self, action: "sendFeedBackMessage", forControlEvents: .TouchUpInside)
+        sendButton.addTarget(self, action: #selector(FeedBackViewController.sendFeedBackMessage), forControlEvents: .TouchUpInside)
         
         sendContentText.borderStyle = .None
         sendContentText.layer.borderWidth = 0.5

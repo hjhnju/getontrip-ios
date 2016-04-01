@@ -90,11 +90,11 @@ class CommentViewController: BaseViewController, UITableViewDataSource, UITableV
         issueCommentView.addSubview(issueCommentTopLine)
         issueCommentBtn.backgroundColor = SceneColor.shallowYellows
         issueCommentBtn.setTitle("发布中...", forState: UIControlState.Selected)
-        issueCommentBtn.addTarget(self, action: "publishAction:", forControlEvents: .TouchUpInside)
+        issueCommentBtn.addTarget(self, action: #selector(CommentViewController.publishAction(_:)), forControlEvents: .TouchUpInside)
         
         commentTitleButton.addSubview(commentTitle)
         commentTitleButton.addSubview(commentBottomLine)
-        commentTitleButton.addTarget(self, action: "commentTitleButtonAction", forControlEvents: .TouchUpInside)
+        commentTitleButton.addTarget(self, action: #selector(CommentViewController.commentTitleButtonAction), forControlEvents: .TouchUpInside)
         
         commentTitle.textAlignment = NSTextAlignment.Center
         commentTitle.backgroundColor = SceneColor.white.colorWithAlphaComponent(0.4)

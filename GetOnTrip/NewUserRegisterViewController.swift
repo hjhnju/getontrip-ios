@@ -68,14 +68,14 @@ class NewUserRegisterViewController: BaseViewController {
         view.addSubview(keyboardTakebackBtn)
         backgroundImageView.frame = UIScreen.mainScreen().bounds
         keyboardTakebackBtn.frame = UIScreen.mainScreen().bounds
-        keyboardTakebackBtn.addTarget(self, action: "keyboardTakebackBtnAction:", forControlEvents: .TouchUpInside)
+        keyboardTakebackBtn.addTarget(self, action: #selector(NewUserRegisterViewController.keyboardTakebackBtnAction(_:)), forControlEvents: .TouchUpInside)
         userAgreeButton.selected = true
         userAgreeButton.setImage(UIImage(named: "userProtocol_true"), forState: .Selected)
-        userAgreeButton.addTarget(self, action: "userAgreeAction:", forControlEvents: .TouchUpInside)
-        userProtocolButton.addTarget(self, action: "userProtocolAction:", forControlEvents: .TouchUpInside)
-        backButton.addTarget(self, action: "backAction", forControlEvents: .TouchUpInside)
-        nextButton.addTarget(self, action: "nexButtonAction", forControlEvents: .TouchUpInside)
-        passwordEyeButton.addTarget(self, action: "passwordEyeButton:", forControlEvents: .TouchUpInside)
+        userAgreeButton.addTarget(self, action: #selector(NewUserRegisterViewController.userAgreeAction(_:)), forControlEvents: .TouchUpInside)
+        userProtocolButton.addTarget(self, action: #selector(NewUserRegisterViewController.userProtocolAction(_:)), forControlEvents: .TouchUpInside)
+        backButton.addTarget(self, action: #selector(NewUserRegisterViewController.backAction), forControlEvents: .TouchUpInside)
+        nextButton.addTarget(self, action: #selector(NewUserRegisterViewController.nexButtonAction), forControlEvents: .TouchUpInside)
+        passwordEyeButton.addTarget(self, action: #selector(NewUserRegisterViewController.passwordEyeButton(_:)), forControlEvents: .TouchUpInside)
         nextButton.backgroundColor = SceneColor.lightblue
         userProtocolButton.setAttributedTitle("我已阅读并同意《用户注册协议》"
         .getAttributedStringColor("《用户注册协议》", normalColor: UIColor(hex: 0xFFFFFF, alpha: 0.7), differentColor: SceneColor.lightblue), forState: .Normal)
@@ -132,7 +132,7 @@ class NewUserRegisterViewController: BaseViewController {
         let vc = DetailWebViewController()
         vc.url = "http://www.getontrip.cn/privacy"
         vc.navBar.backButton.setTitle("注册", forState: .Normal)
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "注册", style: .Plain, target: "", action: "")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "注册", style: .Plain, target: "", action: nil)
         vc.navBar.titleLabel.text = "用户注册协议"
         navigationController?.pushViewController(vc, animated: true)
     }

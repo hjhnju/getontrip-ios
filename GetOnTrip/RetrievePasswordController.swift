@@ -48,10 +48,10 @@ class RetrievePasswordController: BaseViewController {
         let backgroundImageView = UIImageView(image: UIImage(named: "login_background"))
         view.addSubview(backgroundImageView)
         view.addSubview(keyboardTakebackBtn)
-        keyboardTakebackBtn.addTarget(self, action: "keyboardTakebackBtnAction:", forControlEvents: .TouchUpInside)
+        keyboardTakebackBtn.addTarget(self, action: #selector(RetrievePasswordController.keyboardTakebackBtnAction(_:)), forControlEvents: .TouchUpInside)
         backgroundImageView.frame = UIScreen.mainScreen().bounds
-        backButton.addTarget(self, action: "backAction", forControlEvents: .TouchUpInside)
-        sendButton.addTarget(self, action: "sendButtonAction", forControlEvents: .TouchUpInside)
+        backButton.addTarget(self, action: #selector(RetrievePasswordController.backAction), forControlEvents: .TouchUpInside)
+        sendButton.addTarget(self, action: #selector(RetrievePasswordController.sendButtonAction), forControlEvents: .TouchUpInside)
         navTitleLabel.font = UIFont(name: Font.defaultFont, size: 18)
         sendButton.titleLabel?.font = UIFont(name: Font.defaultFont, size: 18)
         navTitleLabel.font = UIFont(name: Font.defaultFont, size: 24)

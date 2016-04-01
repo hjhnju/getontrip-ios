@@ -46,8 +46,8 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
     
     private func initView() {
         view.backgroundColor = .whiteColor()
-        manSwitch.addTarget(self, action: "sexSwitchAction:", forControlEvents: .ValueChanged)
-        womanSwitch.addTarget(self, action: "sexSwitchAction:", forControlEvents: .ValueChanged)
+        manSwitch.addTarget(self, action: #selector(SettingSexViewController.sexSwitchAction(_:)), forControlEvents: .ValueChanged)
+        womanSwitch.addTarget(self, action: #selector(SettingSexViewController.sexSwitchAction(_:)), forControlEvents: .ValueChanged)
         view.addSubview(tableView)
         view.backgroundColor      = UIColor(hex: 0xF7F5F3, alpha: 1.0)
         tableView.delegate        = self
@@ -62,11 +62,11 @@ class SettingSexViewController: MenuViewController, UITableViewDelegate, UITable
     ///  初始化导航
     private func setupBarButtonItem() {
         navBar.setTitle("性别")
-        navBar.setRightBarButton(nil, title: "保存", target: self, action: "saveUserSexAction:")
+        navBar.setRightBarButton(nil, title: "保存", target: self, action: #selector(SettingSexViewController.saveUserSexAction(_:)))
         navBar.rightButton.selected = false
         navBar.rightButton.setTitleColor(SceneColor.thinGray, forState: .Normal)
         navBar.rightButton.setTitleColor(.yellowColor(), forState: .Selected)
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(SettingSexViewController.popViewAction(_:)))
     }
 
     

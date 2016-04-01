@@ -35,21 +35,21 @@ class PhotoView: UIView, UIGestureRecognizerDelegate {
         imgPhoto.userInteractionEnabled = true
         imgPhoto.multipleTouchEnabled   = true
         /// 旋转
-        let rotation = UIRotationGestureRecognizer(target: self, action: "rotationGesture:")
+        let rotation = UIRotationGestureRecognizer(target: self, action: #selector(PhotoView.rotationGesture(_:)))
         rotation.delegate = self
         imgPhoto.addGestureRecognizer(rotation)
         
         /// 捏合手势, 缩放
-        let pinch = UIPinchGestureRecognizer(target: self, action: "pinchGesture:")
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(PhotoView.pinchGesture(_:)))
         pinch.delegate = self
         imgPhoto.addGestureRecognizer(pinch)
         
         /// 拖拽手势, 平移
-        let pan = UIPanGestureRecognizer(target: self, action: "panGesture:")
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(PhotoView.panGesture(_:)))
         imgPhoto.addGestureRecognizer(pan)
         
         /// 长按手势
-        let longPress = UILongPressGestureRecognizer(target: self, action: "longPressGesture:")
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(PhotoView.longPressGesture(_:)))
         imgPhoto.addGestureRecognizer(longPress)
     }
     

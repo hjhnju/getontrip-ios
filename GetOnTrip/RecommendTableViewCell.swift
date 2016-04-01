@@ -112,7 +112,7 @@ class RecommendTableViewCell: UITableViewCell {
         collectImage.contentMode = .ScaleAspectFill
         cityNameButton.backgroundColor = SceneColor.bgBlack
 //        cityNameButton.addTarget(self, action: "cityNameButtonAction", forControlEvents: .TouchUpInside)
-        cityNButton.addTarget(self, action: "cityNameButtonAction", forControlEvents: .TouchUpInside)
+        cityNButton.addTarget(self, action: #selector(RecommendTableViewCell.cityNameButtonAction), forControlEvents: .TouchUpInside)
         setupAutoLayout()
     }
     

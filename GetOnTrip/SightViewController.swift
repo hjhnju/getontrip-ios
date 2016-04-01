@@ -170,7 +170,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
     private func initSwtchCityAndCollect() {
         view.addSubview(exitButton)
         exitButton.ff_Fill(view)
-        exitButton.addTarget(self, action: "exitAction", forControlEvents: .TouchUpInside)
+        exitButton.addTarget(self, action: #selector(SightViewController.exitAction), forControlEvents: .TouchUpInside)
         view.addSubview(containerView)
         containerView.addSubview(bottomImageView)
         bottomImageView.frame = CGRectMake(0, 0, 140, 104)
@@ -188,14 +188,14 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         switchCityButton.setImage(UIImage(named: "city_sight"), forState: .Normal)
         collectButton.setTitle("   收藏景点", forState: .Normal)
         collectButton.setImage(UIImage(named: "collect_sight"), forState: .Normal)
-        switchCityButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
-        collectButton.addTarget(self, action: "selectSwitchAction:", forControlEvents: .TouchUpInside)
+        switchCityButton.addTarget(self, action: #selector(SightViewController.selectSwitchAction(_:)), forControlEvents: .TouchUpInside)
+        collectButton.addTarget(self, action: #selector(SightViewController.selectSwitchAction(_:)), forControlEvents: .TouchUpInside)
     }
     
     private func initNavBar() {
         navBar.setTitle(sightDataSource.name)
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "moreSelect_sight"), title: nil, target: self, action: "showMoreSelect")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(SightViewController.popViewAction(_:)))
+        navBar.setRightBarButton(UIImage(named: "moreSelect_sight"), title: nil, target: self, action: #selector(SightViewController.showMoreSelect))
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.backgroundColor = SceneColor.frontBlack
@@ -212,7 +212,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
         
         navBar.addSubview(switchPlayControl)
         switchPlayControl.backgroundColor = UIColor.clearColor()
-        switchPlayControl.addTarget(self, action: "switchPlayControllerAction", forControlEvents: .TouchUpInside)
+        switchPlayControl.addTarget(self, action: #selector(SightViewController.switchPlayControllerAction), forControlEvents: .TouchUpInside)
         switchPlayControl.ff_AlignInner(.CenterCenter, referView: navBar, size: CGSizeMake(200, 40))
         playController.title = sightDataSource.name
     }
@@ -270,7 +270,7 @@ class SightViewController: BaseViewController, UICollectionViewDataSource, UICol
             x += channelLabel.bounds.width
             
             if indicateW == nil { indicateW = channelLabel.bounds.width }
-            index++
+            index += 1
             labelScrollView.addSubview(channelLabel)
             if tag.type == SightLabelType.Landscape {
                 landscape = channelLabel

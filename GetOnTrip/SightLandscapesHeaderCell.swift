@@ -95,7 +95,7 @@ class SightLandscapesHeaderCell: UITableViewHeaderFooterView {
         speechView.layer.borderWidth = 0.5
         speechView.layer.borderColor = UIColor(hex: 0xE4E4E4, alpha: 0.5).CGColor
         
-        playAreaButton.addTarget(self, action: "playAreaButtonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        playAreaButton.addTarget(self, action: #selector(SightLandscapesHeaderCell.playAreaButtonAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         speechImageView.contentMode = .ScaleAspectFill
         speechImageView.clipsToBounds = true

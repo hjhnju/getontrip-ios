@@ -78,9 +78,9 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         addChildViewController(contentController)
         addChildViewController(sightViewController)
         
-        cityBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: .TouchUpInside)
-        sightBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: .TouchUpInside)
-        contentBtn.addTarget(self, action: "switchCollectButtonClick:", forControlEvents: .TouchUpInside)
+        cityBtn.addTarget(self, action: #selector(FavoriteViewController.switchCollectButtonClick(_:)), forControlEvents: .TouchUpInside)
+        sightBtn.addTarget(self, action: #selector(FavoriteViewController.switchCollectButtonClick(_:)), forControlEvents: .TouchUpInside)
+        contentBtn.addTarget(self, action: #selector(FavoriteViewController.switchCollectButtonClick(_:)), forControlEvents: .TouchUpInside)
         
         contentBtn.tag = 0
         sightBtn.tag   = 1

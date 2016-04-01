@@ -40,7 +40,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         let v = WKWebView(color: UIColor.grayColor())
         v.navigationDelegate = self
         v.UIDelegate = self
-        let tap = UITapGestureRecognizer(target: self, action: "tapWebView:")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(TopicViewController.tapWebView(_:)))
         tap.delegate = self
         v.addGestureRecognizer(tap)
         return v
@@ -213,11 +213,11 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         coverButton.backgroundColor = UIColor.blackColor()
         
         collectButton.setImage(UIImage(named: "topic_star_select"), forState: .Selected)
-        shareButton  .addTarget(self, action: "doSharing:", forControlEvents: .TouchUpInside)
-        collectButton.addTarget(self, action: "doFavorite:", forControlEvents: .TouchUpInside)
-        commentButton.addTarget(self, action: "doComment:", forControlEvents: .TouchUpInside)
-        coverButton  .addTarget(self, action: "coverClick:", forControlEvents: .TouchUpInside)
-        praisedButton.addTarget(self, action: "praisedAction:", forControlEvents: .TouchUpInside)
+        shareButton  .addTarget(self, action: #selector(TopicViewController.doSharing(_:)), forControlEvents: .TouchUpInside)
+        collectButton.addTarget(self, action: #selector(TopicViewController.doFavorite(_:)), forControlEvents: .TouchUpInside)
+        commentButton.addTarget(self, action: #selector(TopicViewController.doComment(_:)), forControlEvents: .TouchUpInside)
+        coverButton  .addTarget(self, action: #selector(TopicViewController.coverClick(_:)), forControlEvents: .TouchUpInside)
+        praisedButton.addTarget(self, action:  #selector(TopicViewController.praisedAction(_:)), forControlEvents: .TouchUpInside)
         
         headerTitleLabel.numberOfLines = 2
         headerTitleLabel.preferredMaxLayoutWidth = view.bounds.width - 20
@@ -226,7 +226,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
         labelButton.layer.borderWidth = 0.5
         labelButton.layer.borderColor = UIColor(hex: 0xFFFFFF, alpha: 0.8).CGColor
         labelButton.backgroundColor   = UIColor(hex: 0x696969, alpha: 0.65)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardChanged:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TopicViewController.keyboardChanged(_:)), name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
     
@@ -236,7 +236,7 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
     private func initBackUpButton() {
         backUpImageView.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(24, 24), offset: CGPointMake(-9, -22 - 47))
         backUpControl.ff_AlignInner(.BottomRight, referView: view, size: CGSizeMake(33, 47), offset: CGPointMake(0, -47))
-        backUpControl.addTarget(self, action: "backUpAction", forControlEvents: .TouchUpInside)
+        backUpControl.addTarget(self, action: #selector(TopicViewController.backUpAction), forControlEvents: .TouchUpInside)
     }
     
     private func initNavBar() {
@@ -247,8 +247,8 @@ class TopicViewController: BaseViewController, UIScrollViewDelegate, WKNavigatio
             navBar.titleLabel.font = UIFont.systemFontOfSize(17)
         }
         navBar.titleLabel.textColor = UIColor(hex: 0x424242, alpha: 1.0)
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "bar_sight"), title: nil, target: self, action: "sightAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(TopicViewController.popViewAction(_:)))
+        navBar.setRightBarButton(UIImage(named: "bar_sight"), title: nil, target: self, action: #selector(TopicViewController.sightAction(_:)))
         navBar.setButtonTintColor(SceneColor.frontBlack)
         navBar.rightButton.alpha = 0.75
     }

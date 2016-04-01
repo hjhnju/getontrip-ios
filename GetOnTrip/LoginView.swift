@@ -51,11 +51,11 @@ class LoginView: UIView {
         loginBackground.backgroundColor = UIColor.blackColor()
         loginBackground.alpha = 0.7
         
-        loginBackground.addTarget(self, action: "dismissFloating", forControlEvents: .TouchUpInside)
-        wechatButton   .addTarget(self, action: "wechatLogin", forControlEvents: .TouchUpInside)
-        sinaweiButton  .addTarget(self, action: "moreLogin", forControlEvents: .TouchUpInside)
-        qqButton       .addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
-        emailButton    .addTarget(self, action: "emailButtonAction", forControlEvents: .TouchUpInside)
+        loginBackground.addTarget(self, action: #selector(LoginView.dismissFloating), forControlEvents: .TouchUpInside)
+        wechatButton   .addTarget(self, action: #selector(LoginView.wechatLogin), forControlEvents: .TouchUpInside)
+        sinaweiButton  .addTarget(self, action: #selector(LoginView.moreLogin), forControlEvents: .TouchUpInside)
+        qqButton       .addTarget(self, action: #selector(LoginView.qqLogin), forControlEvents: .TouchUpInside)
+        emailButton    .addTarget(self, action: #selector(LoginView.emailButtonAction), forControlEvents: .TouchUpInside)
         let attr = "或使用邮箱密码 登录".getAttributedStringColor("登录", normalColor: UIColor.whiteColor(), differentColor: SceneColor.lightblue)
         emailButton.setAttributedTitle(attr, forState: .Normal)
     }

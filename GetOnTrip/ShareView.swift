@@ -80,13 +80,13 @@ class ShareView: UIView {
         shareCancle.backgroundColor = SceneColor.lightYellow
         shareCancle.setTitleColor(SceneColor.bgBlack, forState: UIControlState.Normal)
         
-        shareCancle.addTarget(self, action: "shareCancleAction", forControlEvents: .TouchUpInside)
-        shareBtn1.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
-        shareBtn2.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
-        shareBtn3.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
-        shareBtn4.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
-        shareBtn5.addTarget(self, action: "shareAction:", forControlEvents: .TouchUpInside)
-        exitShareButton.addTarget(self, action: "exitShareAction:", forControlEvents: .TouchUpInside)
+        shareCancle.addTarget(self, action: #selector(ShareView.shareCancleAction), forControlEvents: .TouchUpInside)
+        shareBtn1.addTarget(self, action: #selector(ShareView.shareAction(_:)), forControlEvents: .TouchUpInside)
+        shareBtn2.addTarget(self, action: #selector(ShareView.shareAction(_:)), forControlEvents: .TouchUpInside)
+        shareBtn3.addTarget(self, action: #selector(ShareView.shareAction(_:)), forControlEvents: .TouchUpInside)
+        shareBtn4.addTarget(self, action: #selector(ShareView.shareAction(_:)), forControlEvents: .TouchUpInside)
+        shareBtn5.addTarget(self, action: #selector(ShareView.shareAction(_:)), forControlEvents: .TouchUpInside)
+        exitShareButton.addTarget(self, action: #selector(ShareView.exitShareAction(_:)), forControlEvents: .TouchUpInside)
     }
     
     ///  初始化自动布局

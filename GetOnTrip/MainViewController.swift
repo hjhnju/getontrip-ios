@@ -19,7 +19,7 @@ class MainViewController: BaseViewController {
     lazy var slideButton: UIButton = {
         let button = UIButton(type: UIButtonType.Custom)
         button.setBackgroundImage(UIImage(named: "icon_hamburger"), forState: UIControlState.Normal)
-        button.addTarget(self, action: "toggleMenu", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(MainViewController.toggleMenu), forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
         

@@ -16,7 +16,7 @@ class SendPresentationController: UIPresentationController {
     lazy var dummyView: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor(hex: 0x1B1B1B, alpha: 0.7)
-        let tap = UITapGestureRecognizer(target: self, action: "close")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SendPresentationController.close))
         v.addGestureRecognizer(tap)
         
         return v

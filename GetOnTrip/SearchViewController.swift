@@ -50,8 +50,8 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         searchBar.textFile.delegate = self
         searchBar.superController = self
         view.addSubview(searchBar)
-        searchBar.textFile.addTarget(self, action: "textfileValueChangedAction:", forControlEvents: .EditingChanged)
-        searchBar.textFile.addTarget(self, action: "textEditingDidBegin:", forControlEvents: .EditingDidBegin)
+        searchBar.textFile.addTarget(self, action: #selector(SearchViewController.textfileValueChangedAction(_:)), forControlEvents: .EditingChanged)
+        searchBar.textFile.addTarget(self, action: #selector(SearchViewController.textEditingDidBegin(_:)), forControlEvents: .EditingDidBegin)
 
         initView()
         initProperty()

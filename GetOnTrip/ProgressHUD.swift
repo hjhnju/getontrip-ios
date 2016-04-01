@@ -16,13 +16,9 @@ class ProgressHUD: NSObject {
     static let sharedProgressHUD = ProgressHUD()
     
     /// 显示错误提示
-    class func showErrorHUD(view: UIView?, text: String, var style: JGProgressHUDStyle? = .Dark) {
+    class func showErrorHUD(view: UIView?, text: String, style: JGProgressHUDStyle? = .Dark) {
         
-        if style == nil {
-            style = .Dark
-        }
-        
-        let hud = JGProgressHUD(style: style!)
+        let hud = JGProgressHUD(style: style ?? .Dark)
         hud.textLabel.text = text
         hud.indicatorView = nil
         // 允许用户进行操作
@@ -39,13 +35,9 @@ class ProgressHUD: NSObject {
     }
     
     // 显示成功提示
-    class func showSuccessHUD(view: UIView?, text: String, var style: JGProgressHUDStyle? = .Dark) {
+    class func showSuccessHUD(view: UIView?, text: String, style: JGProgressHUDStyle? = .Dark) {
         
-        if style == nil {
-            style = .Dark
-        }
-        
-        let hud = JGProgressHUD(style: style!)
+        let hud = JGProgressHUD(style: style ?? .Dark)
         hud.textLabel.text = text
         hud.indicatorView = nil
         // 允许用户进行操作
@@ -64,13 +56,9 @@ class ProgressHUD: NSObject {
     }
     
     /// 显示操作提示
-    func showOperationPrompt(view: UIView?, text: String, var style: JGProgressHUDStyle?, handler: ((handler:(Void) -> Void) -> Void)? = nil) {
+    func showOperationPrompt(view: UIView?, text: String, style: JGProgressHUDStyle?, handler: ((handler:(Void) -> Void) -> Void)? = nil) {
         
-        if style == nil {
-            style = .Dark
-        }
-        
-        let hud = JGProgressHUD(style: style!)
+        let hud = JGProgressHUD(style: style ?? .Dark)
         hud.textLabel.text = text
         // 注释图标
         hud.indicatorView = nil

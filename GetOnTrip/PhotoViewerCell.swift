@@ -106,9 +106,9 @@ class PhotoViewerCell: UICollectionViewCell, UIScrollViewDelegate {
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 2.0
         scrollView.addSubview(imageView)
-        let tap1 = UITapGestureRecognizer(target: self, action: "clickImage")
+        let tap1 = UITapGestureRecognizer(target: self, action: #selector(PhotoViewerCell.clickImage))
         scrollView.addGestureRecognizer(tap1)
-        let tap = UITapGestureRecognizer(target: self, action: "clickImage")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(PhotoViewerCell.clickImage))
         imageView.addGestureRecognizer(tap)
         imageView.userInteractionEnabled = true
         

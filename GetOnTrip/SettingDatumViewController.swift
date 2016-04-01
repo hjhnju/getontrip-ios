@@ -26,8 +26,6 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
     
     lazy var headerButton: UIButton  = UIButton()
     lazy var myBjImageView: UIImageView = UIImageView()
-    /// 退出登录按钮
-    lazy var exitLogin: UIButton = UIButton(title: "退出登录", fontSize: 16, radius: 0, titleColor: SceneColor.frontBlack)
     /// 请登录图片
     lazy var loginIconButton: PleaseLoginButton = PleaseLoginButton(image: "icon_app", title: "", fontSize: 0)
     
@@ -59,12 +57,8 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         view.backgroundColor = .whiteColor()
         
         isLoginStatus = globalUser != nil ? true : false
-        loginIconButton.addTarget(self, action: "pleaseLoginButtonAction", forControlEvents: .TouchUpInside)
-        loginTitleButton.addTarget(self, action: "pleaseLoginButtonAction", forControlEvents: .TouchUpInside)
-        
-        exitLogin.backgroundColor = .whiteColor()
-        exitLogin.addTarget(self, action: "exitLoginAction", forControlEvents: .TouchUpInside)
-        exitLogin.ff_AlignInner(.BottomLeft, referView: view, size: CGSizeMake(view.bounds.width, 50), offset: CGPointMake(0, 0))
+        loginIconButton.addTarget(self, action: #selector(SettingDatumViewController.pleaseLoginButtonAction), forControlEvents: .TouchUpInside)
+        loginTitleButton.addTarget(self, action: #selector(SettingDatumViewController.pleaseLoginButtonAction), forControlEvents: .TouchUpInside)
     }
     
     private func initHeaderView() {
@@ -77,7 +71,7 @@ class SettingDatumViewController: MenuViewController, UITableViewDataSource, UIT
         headerView.clipsToBounds = true
         myBjImageView.contentMode = .ScaleAspectFill
 
-        headerButton.addTarget(self, action: "switchUserBackgroundPhotoAction", forControlEvents: .TouchUpInside)
+        headerButton.addTarget(self, action: #selector(SettingDatumViewController.switchUserBackgroundPhotoAction), forControlEvents: .TouchUpInside)
         loginIconButton.layer.cornerRadius = 45
         loginIconButton.layer.borderWidth = 1.0
         loginIconButton.layer.borderColor = UIColor.whiteColor().CGColor

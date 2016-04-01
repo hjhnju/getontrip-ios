@@ -118,8 +118,8 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         view.addSubview(navBar)
         view.bringSubviewToFront(navBar)
         
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: "", target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: "searchAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: "", target: self, action: #selector(BookViewController.popViewAction(_:)))
+        navBar.setRightBarButton(UIImage(named: "search"), title: nil, target: self, action: #selector(BookViewController.searchAction(_:)))
         navBar.setButtonTintColor(UIColor.yellowColor())
         navBar.setBlurViewEffect(false)
         navBar.backgroundColor = SceneColor.frontBlack
@@ -148,9 +148,9 @@ class BookViewController: BaseViewController, UIScrollViewDelegate, WKNavigation
         praisedBUtton.setImage(UIImage(named: "dotLike_no"), forState: .Normal)
         praisedBUtton.setImage(UIImage(named: "dotLike_yes"), forState: .Selected)
         collectBtn.setImage(UIImage(named: "topic_star_select"), forState: .Selected)
-        collectBtn.addTarget(self, action: "favoriteAction:", forControlEvents: .TouchUpInside)
-        shareBtn.addTarget(self, action: "clickShareButton:", forControlEvents: .TouchUpInside)
-        praisedBUtton.addTarget(self, action: "praisedAction:", forControlEvents: .TouchUpInside)
+        collectBtn.addTarget(self, action: #selector(BookViewController.favoriteAction(_:)), forControlEvents: .TouchUpInside)
+        shareBtn.addTarget(self, action: #selector(BookViewController.clickShareButton(_:)), forControlEvents: .TouchUpInside)
+        praisedBUtton.addTarget(self, action: #selector(BookViewController.praisedAction(_:)), forControlEvents: .TouchUpInside)
         
         let w = view.bounds.width - 18
         titleLabel.preferredMaxLayoutWidth = w

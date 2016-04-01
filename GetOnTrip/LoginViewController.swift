@@ -79,7 +79,7 @@ class LoginViewController: MainViewController {
         view.addSubview(keyboardTakebackBtn)
         backgroundImageView.frame = UIScreen.mainScreen().bounds
         keyboardTakebackBtn.frame = UIScreen.mainScreen().bounds
-        keyboardTakebackBtn.addTarget(self, action: "keyboardTakebackBtnAction:", forControlEvents: .TouchUpInside)
+        keyboardTakebackBtn.addTarget(self, action: #selector(LoginViewController.keyboardTakebackBtnAction(_:)), forControlEvents: .TouchUpInside)
         
         view.addSubview(welcomeLabel)
         view.addSubview(emailTextField)
@@ -98,15 +98,15 @@ class LoginViewController: MainViewController {
         cancleButton.backgroundColor = SceneColor.lightgrey
         loginButton.backgroundColor  = SceneColor.lightblue
         welcomeLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 44)
-        passwordEyeButton.addTarget(self, action: "passwordEyeButton:", forControlEvents: .TouchUpInside)
-        retrievePwButton.addTarget(self, action: "retrievePasswordAction", forControlEvents: .TouchUpInside)
-        loginButton .addTarget(self, action: "loginButtonAction", forControlEvents: .TouchUpInside)
-        registerButton .addTarget(self, action: "newUserRegisterAction", forControlEvents: .TouchUpInside)
-        cancleButton.addTarget(self, action: "cancleAction", forControlEvents: .TouchUpInside)
-        wechatButton.addTarget(self, action: "wechatLogin", forControlEvents: .TouchUpInside)
-        weiboButton .addTarget(self, action: "weiboLogin", forControlEvents: .TouchUpInside)
-        qqButton    .addTarget(self, action: "qqLogin", forControlEvents: .TouchUpInside)
-        exitButton  .addTarget(self, action: "exitButtonAction", forControlEvents: .TouchUpInside)
+        passwordEyeButton.addTarget(self, action: #selector(LoginViewController.passwordEyeButton(_:)), forControlEvents: .TouchUpInside)
+        retrievePwButton.addTarget(self, action: #selector(LoginViewController.retrievePasswordAction), forControlEvents: .TouchUpInside)
+        loginButton .addTarget(self, action: #selector(LoginViewController.loginButtonAction), forControlEvents: .TouchUpInside)
+        registerButton .addTarget(self, action: #selector(LoginViewController.newUserRegisterAction), forControlEvents: .TouchUpInside)
+        cancleButton.addTarget(self, action: #selector(LoginViewController.cancleAction), forControlEvents: .TouchUpInside)
+        wechatButton.addTarget(self, action: #selector(LoginViewController.wechatLogin), forControlEvents: .TouchUpInside)
+        weiboButton .addTarget(self, action: #selector(LoginViewController.weiboLogin), forControlEvents: .TouchUpInside)
+        qqButton    .addTarget(self, action: #selector(LoginViewController.qqLogin), forControlEvents: .TouchUpInside)
+        exitButton  .addTarget(self, action: #selector(LoginViewController.exitButtonAction), forControlEvents: .TouchUpInside)
         emailLabel.font = UIFont(name: Font.defaultFont, size: 18)
         passwLabel.font = UIFont(name: Font.defaultFont, size: 18)
         loginButton.titleLabel?.font = UIFont(name: Font.defaultFont, size: 18)

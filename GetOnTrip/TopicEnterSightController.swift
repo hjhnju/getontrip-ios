@@ -62,7 +62,7 @@ class TopicEnterSightController: BaseViewController, UITableViewDelegate, UITabl
         tableView.registerClass(TopicSightListTableViewCell.self, forCellReuseIdentifier: "TopicSightListTableViewCell")
         
         exitButton.ff_AlignInner(.BottomCenter, referView: view, size: CGSizeMake(34, 34))
-        exitButton.addTarget(self, action: "exitButtonAction", forControlEvents: .TouchUpInside)
+        exitButton.addTarget(self, action: #selector(TopicEnterSightController.exitButtonAction), forControlEvents: .TouchUpInside)
     }
     
 

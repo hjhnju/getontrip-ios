@@ -153,8 +153,8 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
     
     private func initNavBar() {
         navBar.setTitle(sightDataSource.name)
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
-        navBar.setRightBarButton(UIImage(named: "collect_sight"), title: nil, target: self, action: "favoriteAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(CityViewController.popViewAction(_:)))
+        navBar.setRightBarButton(UIImage(named: "collect_sight"), title: nil, target: self, action: #selector(CityViewController.favoriteAction(_:)))
         navBar.rightButton.setImage(UIImage(named: "collect_yellow")!, forState: UIControlState.Selected)
         navBar.setBlurViewEffect(false)
         navBar.setButtonTintColor(UIColor.yellowColor())
@@ -172,7 +172,7 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
         
         navBar.addSubview(switchPlayControl)
         switchPlayControl.backgroundColor = UIColor.clearColor()
-        switchPlayControl.addTarget(self, action: "switchPlayControllerAction", forControlEvents: .TouchUpInside)
+        switchPlayControl.addTarget(self, action: #selector(CityViewController.switchPlayControllerAction), forControlEvents: .TouchUpInside)
         switchPlayControl.ff_AlignInner(.CenterCenter, referView: navBar, size: CGSizeMake(200, 40))
         playController.title = sightDataSource.name
     }
@@ -230,7 +230,7 @@ class CityViewController: BaseViewController, UICollectionViewDataSource, UIColl
             x += channelLabel.bounds.width
             
             if indicateW == nil { indicateW = channelLabel.bounds.width }
-            index++
+            index += 1
             labelScrollView.addSubview(channelLabel)
             if tag.type == SightLabelType.Landscape {
                 landscape = channelLabel
