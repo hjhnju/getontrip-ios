@@ -38,7 +38,6 @@ class CityBrowseRequest: NSObject {
                 })
                 
                     for (k, v) in data {
-                        
                         var city = [CityContent]()
                         for item in v.arrayValue {
                             if let item = item.dictionaryObject {

@@ -206,7 +206,8 @@ class ShareView: UIView {
         }
         
         if type == SSDKPlatformType.TypeSinaWeibo {
-            ShareSDK.showShareEditor(SSDKPlatformType.TypeSinaWeibo, otherPlatformTypes: nil, shareParams: shareParame) { (state :SSDKResponseState, platformType : SSDKPlatformType, userData: [NSObject : AnyObject]!, contentEntity : SSDKContentEntity!, error : NSError!, Bool end) -> Void in
+            ShareSDK.showShareEditor(SSDKPlatformType.TypeSinaWeibo, otherPlatformTypes: nil, shareParams: shareParame, onShareStateChanged: { (state, platformType, userData, contentEntity, error, end) in
+                
                 switch state{
                 case SSDKResponseState.Success:
                     let alert = UIAlertView(title: "分享成功", message: "", delegate: self, cancelButtonTitle: "确定")
@@ -223,7 +224,9 @@ class ShareView: UIView {
                 default:
                     break
                 }
-            }
+            })
+//            ShareSDK.showShareEditor(SSDKPlatformType.TypeSinaWeibo, otherPlatformTypes: nil, shareParams: shareParame) { (state :SSDKResponseState, platformType : SSDKPlatformType, userData: [NSObject : AnyObject]!, contentEntity : SSDKContentEntity!, error : NSError!, Bool end) -> Void in
+//            }
         } else {
             ShareSDK.share(type, parameters: shareParame)
                 { (state : SSDKResponseState, userData : [NSObject : AnyObject]!, contentEntity :SSDKContentEntity!, error : NSError!) -> Void in

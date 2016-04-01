@@ -8,7 +8,7 @@
 
 import UIKit
 import AVFoundation
-import CoreMedia
+//import CoreMedia
 import UIKit
 import MediaPlayer
 
