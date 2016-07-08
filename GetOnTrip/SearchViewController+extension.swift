@@ -49,7 +49,7 @@ extension SearchViewController {
         headerView.baseLine.hidden = false
         headerView.backgroundView?.alpha = 0
         if section == 0 {
-            headerView.recordDelButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
+            headerView.recordDelButton.addTarget(self, action: #selector(SearchViewController.deleteButtonAction), forControlEvents: .TouchUpInside)
             headerView.recordLabel.text = "搜索历史"
             headerView.recordDelButton.setTitle("清除历史", forState: .Normal)
             headerView.recordDelButton.hidden = false

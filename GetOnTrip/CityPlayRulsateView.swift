@@ -274,7 +274,7 @@ class CityPlayRulsateView: NSObject, AVAudioPlayerDelegate {
     
     /// 开启定时器
     func startTimer() {
-        timer = NSTimer(timeInterval: 1, target: self, selector: "mainLoop", userInfo: nil, repeats: true)
+        timer = NSTimer(timeInterval: 1, target: self, selector: #selector(CityPlayRulsateView.mainLoop), userInfo: nil, repeats: true)
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
     }
     

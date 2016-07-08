@@ -100,7 +100,7 @@ class CityLandscapeController: BaseTableViewController {
         headerCell?.addSubview(headerButton)
         let w: CGFloat = dataSource.audio == "" ? Frame.screen.width : 95
         headerButton.frame = CGRectMake(0, 0, w, h)
-        headerButton.addTarget(self, action: "cityDetailAction", forControlEvents: .TouchUpInside)
+        headerButton.addTarget(self, action: #selector(CityLandscapeController.cityDetailAction), forControlEvents: .TouchUpInside)
         sectionData = landsc
         tableView.tableHeaderView = headerCell!
         

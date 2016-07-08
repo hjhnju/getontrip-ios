@@ -91,7 +91,7 @@ class SearchViewController: BaseViewController, UITableViewDataSource, UITableVi
         locationButton.ff_AlignInner(.TopCenter, referView: view, size: nil, offset: CGPointMake(0, 93))
         noSearchResultLabel.ff_AlignVertical(.BottomCenter, referView: locationButton, size: nil, offset: CGPointMake(0, 141))
         recordTableView.registerClass(SearchHotwordTableViewCell.self, forCellReuseIdentifier: SearchViewContant.hotwordCellId)
-        locationButton.addTarget(self, action: "switchCurrentCity:", forControlEvents: UIControlEvents.TouchUpInside)
+        locationButton.addTarget(self, action: #selector(SearchViewController.switchCurrentCity(_:)), forControlEvents: .TouchUpInside)
         noSearchResultLabel.hidden = true
     }
     

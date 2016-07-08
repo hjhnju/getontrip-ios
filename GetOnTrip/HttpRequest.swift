@@ -84,7 +84,7 @@ class HttpRequest {
         }
         
         //loging
-//        print("[HttpRequest]:url=\(url), hasValidCache=\(hasValidCache), hasDisplayCache=\(hasDisplayCache)")
+        print("[HttpRequest]:url=\(url), hasValidCache=\(hasValidCache), hasDisplayCache=\(hasDisplayCache)")
         
         if hasValidCache && AppIni.UseValidCache {
             return
@@ -130,8 +130,6 @@ class HttpRequest {
     - parameter handler: 回调数据及错误
     */
     class func download(url: String?, handler: RequestDataCallBack) {
-        
-        
         
         HttpRequest.sharedManager.request(.GET, url!).responseData { (response) -> Void in
             if response.result.isFailure {

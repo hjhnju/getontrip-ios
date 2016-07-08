@@ -39,7 +39,7 @@ class SearchRecordTableViewCell : UITableViewCell {
             textLabel?.font = UIFont(name: Font.ios8Font, size: 16)
         }
         
-        deleteButton.addTarget(self, action: "deleteButtonAction", forControlEvents: .TouchUpInside)
+        deleteButton.addTarget(self, action: #selector(SearchRecordTableViewCell.deleteButtonAction), forControlEvents: .TouchUpInside)
         
         selectBackgroundView.hidden = true
         selectBackgroundView.ff_AlignInner(.CenterCenter, referView: contentView, size: CGSizeMake(UIScreen.mainScreen().bounds.width - 18, 47), offset: CGPointMake(0, 0))

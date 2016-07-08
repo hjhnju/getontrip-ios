@@ -91,7 +91,7 @@ class LandscapeCell: UITableViewCell {
         
         initProperty()
         initAutoLayout()
-        playAreaButton.addTarget(self, action: "playAreaButtonAction:", forControlEvents: .TouchUpInside)
+        playAreaButton.addTarget(self, action: #selector(LandscapeCell.playAreaButtonAction(_:)), forControlEvents: .TouchUpInside)
     }
     
     private func initProperty() {

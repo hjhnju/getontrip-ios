@@ -173,7 +173,7 @@ class SlideMenuViewController: BaseViewController, UITableViewDataSource, CLLoca
         setupAutoLayout()
         refreshLoginStatus()
         initLocationManager()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userInfoDidChangeNotification:", name: UserInfoChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SlideMenuViewController.userInfoDidChangeNotification(_:)), name: UserInfoChangeNotification, object: nil)
     }
     
     //电池栏状态

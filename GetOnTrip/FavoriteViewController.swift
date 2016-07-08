@@ -62,7 +62,7 @@ class FavoriteViewController: MenuViewController, UIScrollViewDelegate, UICollec
         view.backgroundColor = SceneColor.bgBlack
         titleBackground.backgroundColor = SceneColor.bgBlack
         navBar.setTitle(FavoriteViewController.name)
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(FavoriteViewController.popViewAction(_:)))
         
         view.addSubview(titleBackground)
         view.addSubview(collectionView)

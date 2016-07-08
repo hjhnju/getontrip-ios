@@ -55,7 +55,7 @@ class SettingViewController: MenuViewController, UITableViewDataSource, UITableV
         view.addSubview(tableView)
         view.backgroundColor = .whiteColor()
         navBar.titleLabel.text = SettingViewController.name
-        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: "popViewAction:")
+        navBar.setBackBarButton(UIImage(named: "icon_back"), title: nil, target: self, action: #selector(SettingViewController.popViewAction(_:)))
         addChildViewController(nicknameController)
         
         tableView.bounces    = false
